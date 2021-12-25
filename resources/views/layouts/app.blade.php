@@ -1,12 +1,4 @@
 <!doctype html>
-<?php
-
-//use \Illuminate\Support\Facades\App;
-//use \Illuminate\Support\Facades\Storage;
-//use \Illuminate\Support\Facades\Auth;
-//use \Illuminate\Support\Facades\Route;
-
-?>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
     <meta charset="utf-8">
