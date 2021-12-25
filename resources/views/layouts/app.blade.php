@@ -19,7 +19,11 @@
     <!-- Styles -->
 {{--    <link href="{{ asset('css/app.css') }}" rel="stylesheet">--}}
     @include('layouts.style_header')
-
+    <style>
+        .navbar {
+            background-image: url('{{Storage::url('newyear1.jpg')}}');
+        }
+    </style>
 </head>
 <body background="{{Storage::url('newyear1.jpg')}}">
 {{--    <div id="app">--}}
