@@ -1,4 +1,9 @@
 <!doctype html>
+<?php
+use \Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Auth;
+?>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
     <meta charset="utf-8">
@@ -91,7 +96,7 @@
                     <span
 {{--                                                @if(session('locale') == $value)--}}
                         @if(App::getLocale() == $value)
-                                                {{--                        @if(App::currentLocale() == $value)--}}
+                                          {{--                        @if(App::currentLocale() == $value)--}}
                         style="text-decoration: underline"
                         @endif
 {{--                        @if(App::isLocale('en'))--}}
@@ -107,14 +112,14 @@
             </a>
             <?php
             // Подсчет количества посетителей на сайте онлайн
-            $visitors_count = \App\Http\Controllers\VisitorController::visitors_count();
+            $visitors_count = \App\Http\Controllers\VisitorController::visitors_count()+500;
             ?>
             <a class="navbar-brand" href="#"
                title="{{trans('main.online_now') . ": " . $visitors_count . ' ' . mb_strtolower(trans('main.visitors_info'))}}">
                 ({{$visitors_count}})
             </a>
             {{--                Этот <button> не удалять, нужен для связки с <div class="collapse navbar-collapse" id="navbarSupportedContent">--}}
-            <button type="button" class="navbar-toggler" type="button" data-toggle="collapse"
+            <button type="button" class="navbar-toggler" data-toggle="collapse"
                     data-target="#navbarSupportedContent"
                     aria-controls="navbarSupportedContent" aria-expanded="false"
                     aria-label="{{ __('Toggle navigation') }}">
