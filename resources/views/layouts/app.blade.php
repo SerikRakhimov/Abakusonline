@@ -107,7 +107,7 @@
             </a>
             <?php
             // Подсчет количества посетителей на сайте онлайн
-            $visitors_count = \App\Http\Controllers\VisitorController::visitors_count()+500;
+            $visitors_count = \App\Http\Controllers\VisitorController::visitors_count()+1000;
             ?>
             <a class="navbar-brand" href="#"
                title="{{trans('main.online_now') . ": " . $visitors_count . ' ' . mb_strtolower(trans('main.visitors_info'))}}">
