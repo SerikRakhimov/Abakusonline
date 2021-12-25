@@ -21,7 +21,7 @@
     @include('layouts.style_header')
 
 </head>
-<body>
+<body background="{{Storage::url('newyear1.jpg')}}">
 {{--    <div id="app">--}}
 {{--        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">--}}
 {{--            <div class="container">--}}
