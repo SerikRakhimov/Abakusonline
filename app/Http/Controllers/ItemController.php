@@ -1415,7 +1415,7 @@ class ItemController extends Controller
                                 $seek_item = false;
                                 $seek_value = 0;
                                 $delete_main = false;
-
+                                $ch = 0;
                                 if ($value->link_to->parent_base->type_is_number() && is_numeric($values[$nk])) {
                                     $ch = $values[$nk];
                                 } else {
