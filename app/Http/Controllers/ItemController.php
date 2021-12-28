@@ -1521,10 +1521,11 @@ class ItemController extends Controller
                         }
                         $item_seek->save();
 
+                        // Не использовать: возможны ошибки, "лишние" операции
                         // Вызов обработки присваиваний вложенных
                         // false - без реверса
                         // "$this->save_info_sets()" выполнять перед проверкой на удаление
-                        $this->save_info_sets($item_seek, false);
+                        // $this->save_info_sets($item_seek, false);
 
                         // Если links->"Удалить запись с нулевым значением при обновлении" == true и значение равно нулю,
                         // то удалить запись
