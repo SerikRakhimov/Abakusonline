@@ -183,7 +183,7 @@
             {{--                                                            <a href="{{route('item.item_index', ['item'=>$item_find, 'role'=>$role,'par_link'=>$link])}}">--}}
             {{--                                                                @endif--}}
             {{--            Не удалять--}}
-            @if(1==2)
+            @if(1==1)
                 <button type="button" class="btn btn-dreamer mb-1 mb-sm-0"
                         onclick='document.location="{{route('item.item_index', ['item'=>$item, 'role'=>$role])}}"'
                         title="{{trans('main.space')}}">
