@@ -196,20 +196,24 @@ class SetController extends Controller
             }
         }
         // Родительские основы должны быть одинаковыми
-        // Кроме Расчет Средний(), Расчет Количество(), Расчет Сумма()
-        if (!(($request->forwhat == 3) && ($request->updaction >= 7) && ($request->updaction <= 9))) {
-            if ($link_from) {
-                if ($link_to) {
-                    // Проверка "Ссылка на Основу" = false
-                    // Для расчета количества нужна эта проверка
-                    if ($link_from->parent_is_base_link == false) {
-                        if ($link_from->parent_base_id != $link_to->parent_base_id) {
-                            $message = trans('main.parent_bases_must_be_the_same')
-                                . ' ("' . $link_from->parent_base->name() . '" ' . mb_strtolower(trans('main.and')) .
-                                ' "' . $link_to->parent_base->name() . '")!';;
-                            $array_mess['link_from_id'] = $message;
-                            $array_mess['link_to_id'] = $message;
-                            return;
+        // Кроме Прибавить Количество(), Отнять Количество()
+        if (!(($request->forwhat == 3) && ($request->updaction >= 0) && ($request->updaction <= 1))) {
+            // Родительские основы должны быть одинаковыми
+            // Кроме Расчет Средний(), Расчет Количество(), Расчет Сумма()
+            if (!(($request->forwhat == 3) && ($request->updaction >= 7) && ($request->updaction <= 9))) {
+                if ($link_from) {
+                    if ($link_to) {
+                        // Проверка "Ссылка на Основу" = false
+                        // Для расчета количества нужна эта проверка
+                        if ($link_from->parent_is_base_link == false) {
+                            if ($link_from->parent_base_id != $link_to->parent_base_id) {
+                                $message = trans('main.parent_bases_must_be_the_same')
+                                    . ' ("' . $link_from->parent_base->name() . '" ' . mb_strtolower(trans('main.and')) .
+                                    ' "' . $link_to->parent_base->name() . '")!';;
+                                $array_mess['link_from_id'] = $message;
+                                $array_mess['link_to_id'] = $message;
+                                return;
+                            }
                         }
                     }
                 }
@@ -229,18 +233,22 @@ class SetController extends Controller
                 }
             }
         }
-        //Родительские основы должны быть Число
-        // Обновление
-        if ($request->forwhat == 3) {
-            // Добавить, Отнять, Расчет Средний(), Расчет Сумма()
-            if ((($request->updaction >= 0) && ($request->updaction <= 3)) || ($request->updaction == 7) || ($request->updaction == 9)) {
-                if (($link_from->parent_base->type_is_number() == false) || ($link_to->parent_base->type_is_number() == false)) {
-                    $message = trans('main.parent_bases_must_be_number')
-                        . ' ("' . $link_from->parent_base->name() . '" ' . mb_strtolower(trans('main.and')) .
-                        ' "' . $link_to->parent_base->name() . '")!';;
-                    $array_mess['link_from_id'] = $message;
-                    $array_mess['link_to_id'] = $message;
-                    return;
+        // Родительские основы должны быть Число
+        // Кроме Прибавить Количество(), Отнять Количество()
+        if (!(($request->forwhat == 3) && ($request->updaction >= 0) && ($request->updaction <= 1))) {
+            //Родительские основы должны быть Число
+            // Обновление
+            if ($request->forwhat == 3) {
+                // Добавить, Отнять, Расчет Средний(), Расчет Сумма()
+                if ((($request->updaction >= 0) && ($request->updaction <= 3)) || ($request->updaction == 7) || ($request->updaction == 9)) {
+                    if (($link_from->parent_base->type_is_number() == false) || ($link_to->parent_base->type_is_number() == false)) {
+                        $message = trans('main.parent_bases_must_be_number')
+                            . ' ("' . $link_from->parent_base->name() . '" ' . mb_strtolower(trans('main.and')) .
+                            ' "' . $link_to->parent_base->name() . '")!';;
+                        $array_mess['link_from_id'] = $message;
+                        $array_mess['link_to_id'] = $message;
+                        return;
+                    }
                 }
             }
         }

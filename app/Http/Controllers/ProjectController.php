@@ -1091,6 +1091,18 @@ class ProjectController extends Controller
                 // Нужно "->where('sets.is_savesets_enabled', '=', true)"
                 // Это условие 'where('bf.is_calculated_lst', '=', false)->where('bt.is_calculated_lst', '=', true)' означает
                 // исключить sets, когда link_from->child_base и link_to->child_base являются вычисляемыми (base->is_calculated_lst=true)
+//                $bases_from = Set::select(DB::Raw('lf.child_base_id as base_id'))
+//                    ->join('links as lf', 'sets.link_from_id', '=', 'lf.id')
+//                    ->join('links as lt', 'sets.link_to_id', '=', 'lt.id')
+//                    ->join('bases as bf', 'lf.child_base_id', '=', 'bf.id')
+//                    ->join('bases as bt', 'lt.child_base_id', '=', 'bt.id')
+//                    ->where('bf.template_id', $project->template_id)
+//                    ->where('sets.is_savesets_enabled', '=', true)
+//                    ->where('bf.is_calculated_lst', '=', false)
+//                    ->where('bt.is_calculated_lst', '=', true)
+//                    ->distinct()
+//                    ->orderBy('lf.child_base_id')
+//                    ->get();
                 $bases_from = Set::select(DB::Raw('lf.child_base_id as base_id'))
                     ->join('links as lf', 'sets.link_from_id', '=', 'lf.id')
                     ->join('links as lt', 'sets.link_to_id', '=', 'lt.id')
@@ -1100,6 +1112,7 @@ class ProjectController extends Controller
                     ->where('sets.is_savesets_enabled', '=', true)
                     ->where('bf.is_calculated_lst', '=', false)
                     ->where('bt.is_calculated_lst', '=', true)
+                    ->where('sets.is_calcsort', '=', false)
                     ->distinct()
                     ->orderBy('lf.child_base_id')
                     ->get();

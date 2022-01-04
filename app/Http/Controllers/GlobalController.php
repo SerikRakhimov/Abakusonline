@@ -294,6 +294,7 @@ class GlobalController extends Controller
             $is_list_link_enable = false;
             $is_show_link_enable = false;
             $is_edit_link_read = false;
+            //$is_edit_link_update = false;
             $is_hier_base_enable = false;
             $is_hier_link_enable = false;
             // При корректировке в форме ставится пометка hidden

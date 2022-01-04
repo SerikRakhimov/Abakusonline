@@ -33,9 +33,11 @@ use App\Models\Item;
         </div>
         <div class="col-sm-4">
             <input type="file"
+                                      accept=".xls, .xlsx, .pdf, .doc, .docx, .rtf, .txt"
+{{--                   accept="application/excel, application/pdf, application/msword, application/rtf, text/plain"--}}
                    name="{{$name}}" id="{{$id}}"
                    class="@error("$name") is-invalid @enderror"
-                   accept=".xls, .xlsx, .pdf, .doc, .docx, .rtf, .txt">
+            >
             @error($name)
             <div class="text-danger">
                 {{$message}}

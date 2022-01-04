@@ -16,6 +16,7 @@ use App\Models\Role;
 use App\Models\Text;
 use App\Models\Level;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -1284,6 +1285,7 @@ class ItemController extends Controller
                 // Поиск $item_seek в цикле
                 // Цикл по группировке данных
                 foreach ($set_is_group as $key => $value) {
+//                    Log::info('value - '.$value);
 //                проверка, если link - вычисляемое поле
                     //if ($link->parent_is_parent_related == true || $link->parent_is_numcalc == true)
                     if ($value->link_from->parent_is_parent_related == true) {
@@ -1297,15 +1299,18 @@ class ItemController extends Controller
                                 break;
                             }
                         }
-
                         if ($nk != -1) {
                             $set_to = $set_is_group->where('link_from_id', $value['link_from_id'])->first();
+                            Log::info('set_to - '.$set_to);
                             if ($set_to) {
                                 $nt = $set_to->link_to_id;
-                                $nv = $values[$nk];
+                                //$nv = $values[$nk];
+                                // Получить item->id
+                                $nv = $valits[$nk];
                                 $items = $items->whereHas('child_mains', function ($query) use ($nt, $nv) {
                                     $query->where('link_id', $nt)->where('parent_item_id', $nv);
                                 });
+                                // Поиск по item
                                 // похожие строки чуть ниже
                                 $item_seek = $items->first();
                                 $error = false;
@@ -1393,7 +1398,7 @@ class ItemController extends Controller
                             }
                             if ($nk != -1) {
                                 $nt = $value->link_to_id;
-                                $nv = $values[$nk];
+                                //$nv = $values[$nk];
                                 $main = Main::where('link_id', $nt)->where('child_item_id', $item_seek->id)->first();
                                 $error = false;
                                 $vl = 0;
@@ -1519,6 +1524,7 @@ class ItemController extends Controller
                             $item_seek->name_lang_2 = $rs['calc_lang_2'];
                             $item_seek->name_lang_3 = $rs['calc_lang_3'];
                         }
+
                         $item_seek->save();
 
                         // Не использовать: возможны ошибки, "лишние" операции
