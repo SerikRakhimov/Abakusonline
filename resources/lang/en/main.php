@@ -372,6 +372,6 @@ return [
     'parent_is_base_link'=>'Link to the base',
     'code_not_found'=>'Code not found',
     'parent_is_delete_child_base_record_with_zero_value'=>'Delete Child_Base record when equal to zero (Child_Base-calculated, for numeric fields)',
-    'parent_is_enabled_boolean_value' => 'Enabled from the Boolean field value',
+    'parent_is_enabled_boolean_value' => 'Enabled when viewed from the Boolean field value',
     'parent_enabled_boolean_value_link_id' => 'Dependent field Boolean',
     ];

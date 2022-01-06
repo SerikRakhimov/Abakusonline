@@ -372,6 +372,6 @@ return [
     'parent_is_base_link'=>'Ссылка на основу',
     'code_not_found'=>'Код не найден',
     'parent_is_delete_child_base_record_with_zero_value'=>'Удалить запись Ребенок_Основа при равенству нулю (Ребенок_Основа-вычисляемое, для числовых полей)',
-    'parent_is_enabled_boolean_value' => 'Доступно от значения поля Логический',
+    'parent_is_enabled_boolean_value' => 'Доступно при просмотре от значения поля Логический',
     'parent_enabled_boolean_value_link_id' => 'Зависимое поле Логический',
     ];

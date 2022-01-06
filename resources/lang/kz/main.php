@@ -372,6 +372,6 @@ return [
     'parent_is_base_link'=>'Негізге сілтеме',
     'code_not_found'=>'Код табылмады',
     'parent_is_delete_child_base_record_with_zero_value'=>'Жазуды жою Бала_Нөлге тең болған кезде негіз (Бала_Негіз-есептелетін, сандық өрістер үшін)',
-    'parent_is_enabled_boolean_value' => 'Логикалық өріс мәнінен қолжетімді',
+    'parent_is_enabled_boolean_value' => 'Логикалық өріс мәнінен қараған кезде қолжетімді',
     'parent_enabled_boolean_value_link_id' => 'Тәуелді өріс логикалық',
 ];
