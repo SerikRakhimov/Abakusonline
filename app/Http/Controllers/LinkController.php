@@ -140,6 +140,7 @@ class LinkController extends Controller
         $link->parent_is_primary_image = isset($request->parent_is_primary_image) ? true : false;
         $link->parent_is_delete_child_base_record_with_zero_value = isset($request->parent_is_delete_child_base_record_with_zero_value) ? true : false;
         $link->parent_is_small_calcname = isset($request->parent_is_small_calcname) ? true : false;
+        $link->parent_is_enabled_boolean_value = isset($request->parent_is_enabled_boolean_value) ? true : false;
         $link->parent_is_setup_project_logo_img = isset($request->parent_is_setup_project_logo_img) ? true : false;
         $link->parent_is_setup_project_external_description_txt = isset($request->parent_is_setup_project_external_description_txt) ? true : false;
         $link->parent_is_setup_project_internal_description_txt = isset($request->parent_is_setup_project_internal_description_txt) ? true : false;
@@ -325,6 +326,15 @@ class LinkController extends Controller
             }
         }
 
+        if ($link->parent_is_enabled_boolean_value) {
+            $link->parent_enabled_boolean_value_link_id = $request->parent_enabled_boolean_value_link_id;
+            if ($request->parent_enabled_boolean_value_link_id == 0) {
+                $link->parent_is_enabled_boolean_value = false;
+            }
+        } else {
+            $link->parent_enabled_boolean_value_link_id = 0;
+        }
+
         $link->save();
 
         return redirect()->route('link.base_index', ['base' => $link->child_base, 'links' => Link::where('child_base_id', $link->child_base_id)->orderBy('parent_base_number')->get()]);
@@ -386,6 +396,7 @@ class LinkController extends Controller
         $link->parent_is_primary_image = isset($request->parent_is_primary_image) ? true : false;
         $link->parent_is_delete_child_base_record_with_zero_value = isset($request->parent_is_delete_child_base_record_with_zero_value) ? true : false;
         $link->parent_is_small_calcname = isset($request->parent_is_small_calcname) ? true : false;
+        $link->parent_is_enabled_boolean_value = isset($request->parent_is_enabled_boolean_value) ? true : false;
         $link->parent_is_setup_project_logo_img = isset($request->parent_is_setup_project_logo_img) ? true : false;
         $link->parent_is_setup_project_external_description_txt = isset($request->parent_is_setup_project_external_description_txt) ? true : false;
         $link->parent_is_setup_project_internal_description_txt = isset($request->parent_is_setup_project_internal_description_txt) ? true : false;
@@ -570,6 +581,20 @@ class LinkController extends Controller
                 $link->parent_is_setup_project_internal_description_txt = false;
             }
         }
+        if ($link->parent_is_enabled_boolean_value) {
+            $link->parent_enabled_boolean_value_link_id = $request->parent_enabled_boolean_value_link_id;
+//            Проверка '$request->parent_enabled_boolean_value_link_id == $link->id'
+//            + команда '$link->parent_enabled_boolean_value_link_id = 0'
+//            используются только в процедуре update() (в store() не используется)
+            if ($request->parent_enabled_boolean_value_link_id == 0
+                || $request->parent_enabled_boolean_value_link_id == $link->id) {
+                $link->parent_is_enabled_boolean_value = false;
+                $link->parent_enabled_boolean_value_link_id = 0;
+            }
+        } else {
+            $link->parent_enabled_boolean_value_link_id = 0;
+        }
+
         $link->save();
 
         return redirect()->route('link.base_index', ['base' => $link->child_base, 'links' => Link::where('child_base_id', $link->child_base_id)->orderBy('parent_base_number')->get()]);
@@ -725,7 +750,8 @@ class LinkController extends Controller
                 ->where('lf.child_base_id', $base->id)
                 ->orderBy('sets.serial_number')
                 ->orderBy('sets.link_from_id')
-                ->orderBy('sets.link_to_id')->get();
+                ->orderBy('sets.link_to_id')
+                ->get();
 
             foreach ($sets as $set) {
                 $result_parent_output_calculated_table_set_id_options = $result_parent_output_calculated_table_set_id_options
@@ -739,6 +765,32 @@ class LinkController extends Controller
         }
         return [
             'result_parent_output_calculated_table_set_id_options' => $result_parent_output_calculated_table_set_id_options,
+        ];
+    }
+
+    // Выводить список полей links в зависимости от $base
+    // Возвращает список для выбора
+    static function get_parent_enabled_boolean_value_link_id(Base $base)
+    {
+        $result_parent_enabled_boolean_value_link_id_options = "<option value='0'>" . trans('main.no_information') . "!</option>";
+        if ($base != null) {
+            // Так правильно 'where('sets.is_savesets_enabled', '=', false)'
+            $links = Link::select(DB::Raw('links.*'))
+                ->where('child_base_id', $base->id)
+                ->orderBy('parent_base_number')
+                ->get();
+            foreach ($links as $link) {
+                // Если тип $link->parent_base Логический
+                if ($link->parent_base->type_is_boolean()) {
+                    $result_parent_enabled_boolean_value_link_id_options = $result_parent_enabled_boolean_value_link_id_options
+                        . "<option value='" . $link->id . "'>"
+                        . $link->parent_label() . ' (' . $link->parent_base->name() . ')'
+                        . "</option>";
+                }
+            }
+        }
+        return [
+            'result_parent_enabled_boolean_value_link_id_options' => $result_parent_enabled_boolean_value_link_id_options,
         ];
     }
 

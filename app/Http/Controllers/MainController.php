@@ -246,17 +246,33 @@ class MainController extends Controller
     // вывод объекта по имени главного $item и $link
     static function view_info($child_item_id, $link_id)
     {
+        // Нужно
         $item = null;
         $item_find = Item::find($child_item_id);
         $link_find = Link::find($link_id);
+        $view_enable = false;
         //
         if ($item_find && $link_find) {
-//            if ($link_find->id == 300) {
-//                //dd($item_find);
-//                //$set = Set::find($link_find->parent_output_calculated_table_set_id);
-//                $set = Set::find(77);
-//                $item = ItemController::get_item_from_parent_output_calculated_firstlast_table2($item_find, $set, 'first');
-//            } else {
+            // Если установлено 'Доступно от значения поля Логический'
+            if ($link_find->parent_is_enabled_boolean_value) {
+                $link_bool = Link::find($link_find->parent_enabled_boolean_value_link_id);
+                if ($link_bool) {
+                    // Находим $item_bool
+                    $item_bool = self::get_parent_item_from_main($child_item_id, $link_bool->id);
+                    if ($item_bool) {
+                        // Если checked, то показывать поле
+                        if ($item_bool->boolval()['value']) {
+                            $view_enable = true;
+                        } else {
+                            $view_enable = false;
+                        }
+                    }
+                }
+            } else {
+                $view_enable = true;
+            }
+            // Иначе возвращается $item = null
+            if ($view_enable == true) {
                 // Выводить связанное поле
                 if ($link_find->parent_is_parent_related == true) {
                     $link_related_result = Link::find($link_find->parent_parent_related_result_link_id);
@@ -270,7 +286,7 @@ class MainController extends Controller
                 } else {
                     $item = self::get_parent_item_from_main($child_item_id, $link_id);
                 }
-//            }
+            }
         }
         return $item;
     }

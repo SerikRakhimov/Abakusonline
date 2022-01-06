@@ -439,6 +439,38 @@
             </div>
         </div>
 
+{{--        'Доступно от значения поля Логический'--}}
+        <div class="form-group" id="parent_is_enabled_boolean_value_form_group">
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" name="parent_is_enabled_boolean_value"
+                       id="parent_is_enabled_boolean_value"
+                       {{--            "false" - значение по умолчанию --}}
+                       @if ((old('parent_is_enabled_boolean_value') ?? ($link->parent_is_enabled_boolean_value ?? false)) ==  true)
+                       checked
+                    @endif
+                       onclick="parent_enabled_boolean_value_link_id_show_or_hide(this)">
+                <label class="form-check-label"
+                       for="parent_is_enabled_boolean_value">{{trans('main.parent_is_enabled_boolean_value')}}</label>
+            </div>
+        </div>
+
+{{--        'Зависимое поле Логический'--}}
+        <div class="form-group"  id="parent_enabled_boolean_value_link_id_form_group">
+            <label for="parent_enabled_boolean_value_link_id">{{trans('main.parent_enabled_boolean_value_link_id')}}<span
+                    class="text-danger">*</span></label>
+            <select class="form-control"
+                    name="parent_enabled_boolean_value_link_id"
+                    id="parent_enabled_boolean_value_link_id"
+                    class="form-control @error('parent_enabled_boolean_value_link_id') is-invalid @enderror">
+                <option value="0">0</option>
+            </select>
+            @error('parent_enabled_boolean_value_link_id')
+            <div class="text-danger">
+                {{$message}}
+            </div>
+            @enderror
+        </div>
+
         <div class="form-group" id="parent_is_setup_project_logo_img_form_group">
             <div class="form-check form-check-inline">
                 <input class="form-check-input" type="checkbox" name="parent_is_setup_project_logo_img"
@@ -763,6 +795,12 @@
         var parent_child_related_result_link_id_form_group = document.getElementById('parent_child_related_result_link_id_form_group');
         var parent_child_related_result_link_id = form.parent_child_related_result_link_id;
 
+        // Доступно от значения поля Логический
+        var parent_is_enabled_boolean_value = form.parent_is_enabled_boolean_value;
+        var parent_is_enabled_boolean_value_form_group = document.getElementById('parent_is_enabled_boolean_value_form_group');
+        var parent_enabled_boolean_value_link_id_form_group = document.getElementById('parent_enabled_boolean_value_link_id_form_group');
+        var parent_enabled_boolean_value_link_id = form.parent_enabled_boolean_value_link_id;
+
         // Изменение child_base_id
         function child_base_id_changeOption(first) {
             // В списке выбора использовать поле вычисляемой таблицы
@@ -962,6 +1000,53 @@
                 }
                 parent_child_show_or_hide(parent_is_child_related);
                 parent_child_related_start_link_id_changeOption(first);
+            });
+            // Доступно от значения поля Логический
+            axios.get('/link/get_parent_enabled_boolean_value_link_id/'
+                + child_base_id.options[child_base_id.selectedIndex].value
+            ).then(function (res) {
+                //alert(child_base_id.options[child_base_id.selectedIndex].value);
+                // если запуск функции не при загрузке страницы
+                if (first != true) {
+                    // сохранить текущие значения
+                    var parent_enabled_boolean_value_link_id_value =
+                        parent_enabled_boolean_value_link_id.options[parent_enabled_boolean_value_link_id.selectedIndex].value;
+                }
+
+                if (res.data['result_parent_enabled_boolean_value_link_id_options'] == "") {
+                    parent_is_enabled_boolean_value.disabled = true;
+                    parent_is_enabled_boolean_value_form_group.style.display = "none";
+                    parent_enabled_boolean_value_link_id.innerHTML = '<option value = "0">{{trans('main.no_information_on')}} "' + child_base_id.options[child_base_id.selectedIndex].text + '"!</option>';
+                } else {
+                    parent_is_enabled_boolean_value.disabled = false;
+                    parent_is_enabled_boolean_value_form_group.style.display = "block";
+                    parent_enabled_boolean_value_link_id.innerHTML = res.data['result_parent_enabled_boolean_value_link_id_options'];
+                }
+                // только если запуск функции при загрузке страницы
+                if (first == true) {
+                    // нужно чтобы при первом вызове формы корректировки записи значения полей соответствовали значениям из базы данных
+                    @if ($update)  // при корректировке записи
+                    // child
+                    for (let i = 0; i < parent_enabled_boolean_value_link_id.length; i++) {
+                        // если элемент списка = текущему значению из базы данных
+                        if (parent_enabled_boolean_value_link_id[i].value == {{$link->parent_enabled_boolean_value_link_id}}) {
+                            // установить selected на true
+                            parent_enabled_boolean_value_link_id[i].selected = true;
+                        }
+                    }
+                    @endif
+                } else {
+                    // нужно чтобы после обновления списка сохранить текущий выбор если соответствующий(child/parent) base не поменялся (при добавлении/корректировке записи)
+                    // child
+                    for (let i = 0; i < parent_enabled_boolean_value_link_id.length; i++) {
+                        // если элемент списка = предыдущему(текущему) значению из базы данных
+                        if (parent_enabled_boolean_value_link_id[i].value == parent_enabled_boolean_value_link_id_value) {
+                            // установить selected на true
+                            parent_enabled_boolean_value_link_id[i].selected = true;
+                        }
+                    }
+                }
+                parent_enabled_boolean_value_link_id_show_or_hide(parent_is_enabled_boolean_value);
             });
         }
 
@@ -1408,6 +1493,22 @@
             }
         }
 
+        // Доступно от значения поля Логический
+        function parent_enabled_boolean_value_link_id_show_or_hide(box) {
+
+            var vis = "";
+            var logval = false;
+            if (box.checked) {
+                vis = "block";
+                logval = true;
+            } else {
+                vis = "none";
+                logval = false;
+            }
+            parent_enabled_boolean_value_link_id_form_group.style.display = vis;
+            parent_enabled_boolean_value_link_id.disabled = !logval;  // "!logval" используется
+        }
+
         function parent_output_calculated_table_set_id_changeOption(first) {
             axios.get('/link/get_parent_base_id_from_set_id/'
                 + parent_output_calculated_table_set_id.options[parent_output_calculated_table_set_id.selectedIndex].value
@@ -1602,6 +1703,7 @@
             parent_calculated_table_show_or_hide(parent_is_output_calculated_table_field);
             parent_output_calculated_table_set_id_changeOption(true);
             parent_child_show_or_hide(parent_is_child_related);
+            parent_enabled_boolean_value_link_id_show_or_hide(parent_is_enabled_boolean_value);
             parent_child_related_start_link_id_changeOption(true);
             parent_child_related_result_link_id_changeOption(true);
         };

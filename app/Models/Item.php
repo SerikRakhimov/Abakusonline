@@ -392,4 +392,22 @@ class Item extends Model
         return ['result' => $result, 'value' => $value];
     }
 
+// Для типа полей Число
+    function boolval()
+    {
+        $value = null;
+        $result = false;
+        if ($this->base->type_is_boolean()) {
+            $result = true;
+            if ($this->name_lang_0 == "1") {
+                $value = true;
+            } elseif ($this->name_lang_0 == "0") {
+                $value = false;
+            } else {
+                $value = null;
+            }
+        }
+        return ['result' => $result, 'value' => $value];
+    }
+
 }

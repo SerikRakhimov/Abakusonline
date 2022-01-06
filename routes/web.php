@@ -719,6 +719,10 @@ Route::get('/link/get_parent_output_calculated_table_set_id/{base}', [LinkContro
     ->name('link.get_parent_output_calculated_table_set_id')
     ->middleware('auth');
 
+Route::get('/link/get_parent_enabled_boolean_value_link_id/{base}', [LinkController::class, 'get_parent_enabled_boolean_value_link_id'])
+    ->name('link.get_parent_enabled_boolean_value_link_id')
+    ->middleware('auth');
+
 Route::get('/link/get_parent_selection_calculated_table_set_id/{base}', [LinkController::class, 'get_parent_selection_calculated_table_set_id'])
     ->name('link.get_parent_selection_calculated_table_set_id')
     ->middleware('auth');
