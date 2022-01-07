@@ -58,11 +58,6 @@ if ($item){
     $i = 0;
     ?>
     @if($tile_view['result'] == true)
-        <h1>true</h1>
-        @else
-        <h1>false</h1>
-        @endif
-    @if($tile_view['result'] == true)
         <div class="row">
             <div class="col text-center text-label">
                 {{trans('main.sort_by')}}:

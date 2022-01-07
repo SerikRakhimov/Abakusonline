@@ -154,6 +154,15 @@ class Item extends Model
         return $result;
     }
 
+    function cdnm($fullname = false, $numcat = false, $rightnull = false)
+    {
+        $result = self::name($fullname, $numcat, $rightnull);
+        if ($this->base->is_code_needed == true) {
+            $result = $this->code . ', ' . $result;
+        }
+        return $result;
+    }
+
     // "\~" - символ перевода каретки (используется также в Item.php: функции name() nmbr())
     // "\~" - символ перевода каретки (используется также в ItemController.php: функция calc_value_func())
     // $numcat = true/false - вывод числовых полей с разрядом тысячи/миллионы/миллиарды
