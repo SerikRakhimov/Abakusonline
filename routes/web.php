@@ -176,6 +176,39 @@ Route::delete('/template/delete/{template}', [TemplateController::class, 'delete
     ->name('template.delete')
     ->middleware('auth');
 
+// Relits
+Route::get('/relit/index/{template}', [RelitController::class, 'index'])
+    ->name('relit.index')
+    ->middleware('auth');
+
+Route::get('/relit/show/{relit}', [RelitController::class, 'show'])
+    ->name('relit.show')
+    ->middleware('auth');
+
+Route::get('/relit/create/{template}', [RelitController::class, 'create'])
+    ->name('relit.create')
+    ->middleware('auth');
+
+Route::get('/relit/edit/{relit}', [RelitController::class, 'edit'])
+    ->name('relit.edit')
+    ->middleware('auth');
+
+Route::post('/relit/store', [RelitController::class, 'store'])
+    ->name('relit.store')
+    ->middleware('auth');
+
+Route::put('/relit/edit/{relit}', [RelitController::class, 'update'])
+    ->name('relit.update')
+    ->middleware('auth');
+
+Route::get('/relit/delete_question/{relit}', [RelitController::class, 'delete_question'])
+    ->name('relit.delete_question')
+    ->middleware('auth');
+
+Route::delete('/relit/delete/{relit}', [RelitController::class, 'delete'])
+    ->name('relit.delete')
+    ->middleware('auth');
+
 // Moderations
 Route::get('/moderation/index', [ModerationController::class, 'index'])
     ->name('moderation.index')

@@ -178,7 +178,7 @@
                         @foreach ($users as $user)
                             <option value="{{$user->id}}"
                             @if ($update)
-                                "(int) 0" нужно
+{{--                                "(int) 0" нужно--}}
                                 {{--                                @if ((old('user_id') ?? ($key ?? (int) 0)) ==  $project->user_id)--}}
                                 @if ((old('user_id') ?? ($project->user_id ?? (int) 0)) ==  $user->id)
                                     selected

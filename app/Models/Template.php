@@ -34,6 +34,11 @@ class Template extends Model
         return $this->hasMany(Set::class, 'template_id');
     }
 
+    function relits()
+    {
+        return $this->hasMany(Relit::class, 'child_template_id');
+    }
+
     function name()
     {
         $result = "";  // нужно, не удалять

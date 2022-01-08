@@ -18,8 +18,10 @@
     @endforeach
 
     <p>{{trans('main.is_test')}}: <b>{{GlobalController::name_is_boolean($template->is_test)}}</b></p>
-    <p>{{trans('main.is_closed_default_value')}}: <b>{{GlobalController::name_is_boolean($template->is_closed_default_value)}}</b></p>
-    <p>{{trans('main.is_closed_default_value_fixed')}}: <b>{{GlobalController::name_is_boolean($template->is_closed_default_value_fixed)}}</b></p>
+    <p>{{trans('main.is_closed_default_value')}}:
+        <b>{{GlobalController::name_is_boolean($template->is_closed_default_value)}}</b></p>
+    <p>{{trans('main.is_closed_default_value_fixed')}}:
+        <b>{{GlobalController::name_is_boolean($template->is_closed_default_value_fixed)}}</b></p>
 
     @foreach (config('app.locales') as $key=>$value)
         {{--        <p>{{trans('main.desc')}} ({{trans('main.' . $value)}}): <b>{{$template['desc_lang_' . $key]}}</b></p>--}}
@@ -78,6 +80,11 @@
                     onclick="document.location='{{route('set.index', $template)}}'">
                 <i class="fas fa-equals"></i>
                 {{trans('main.sets')}}
+            </button>
+            <button type="button" class="btn btn-dreamer  mb-1 mb-sm-0" title="{{trans('main.relit')}}"
+                    onclick="document.location='{{route('relit.index', $template)}}'">
+                <i class="fas fa-file"></i><i class="fas fa-file-alt"></i>
+                {{trans('main.relit')}}
             </button>
         </p>
         <p>

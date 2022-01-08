@@ -37,6 +37,7 @@
             <th class="text-center">{{trans('main.levels')}}</th>
             <th class="text-center">{{trans('main.bases')}}</th>
             <th class="text-center">{{trans('main.sets')}}</th>
+            <th class="text-center">{{trans('main.relit')}}</th>
         </tr>
         </thead>
         <tbody>
@@ -97,6 +98,11 @@
                 <td class="text-center">
                     <a href="{{route('set.index', $template)}}" title="{{trans('main.sets')}}">
                         <i class="fas fa-equals"></i> ({{$template->sets_count}})
+                    </a>
+                </td>
+                <td class="text-center">
+                    <a href="{{route('relit.index', $template)}}" title="{{trans('main.relit')}}">
+                        <i class="fas fa-file"></i> ({{count($template->relits)}})
                     </a>
                 </td>
             </tr>
