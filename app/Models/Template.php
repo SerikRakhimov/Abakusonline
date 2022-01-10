@@ -34,9 +34,10 @@ class Template extends Model
         return $this->hasMany(Set::class, 'template_id');
     }
 
-    function relits()
+    function child_relits()
     {
-        return $this->hasMany(Relit::class, 'child_template_id');
+        // Сортировка 'orderBy('serial_number')' нужна
+        return $this->hasMany(Relit::class, 'child_template_id')->orderBy('serial_number');
     }
 
     function name()

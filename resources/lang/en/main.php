@@ -80,7 +80,7 @@ return [
     'projects' => 'Projects',
     'project' => 'Project',
     'relit' => 'Relationship with other templates',
-    'relit' => 'Relationships with other templates',
+    'relits' => 'Relationships with other templates',
     'relip' => 'Relationship to other projects',
     'relips' => 'Relationships with other projects',
     'my_projects' => 'My projects',
@@ -114,6 +114,7 @@ return [
     'names' => 'Names',
     'child' => 'Child',
     'parent' => 'Parent',
+    'parents' => 'Parents',
     'child_label' => 'Child_Label',
     'child_labels' => 'Child_Labels',
     'parent_label' => 'Parent_Label',
@@ -379,4 +380,5 @@ return [
     'parent_is_enabled_boolean_value' => 'Enabled when viewed from the Boolean field value',
     'parent_enabled_boolean_value_link_id' => 'Dependent field Boolean',
     'is_equality_of_templates_rule' =>"Templates don't have to be equal to each other",
+    'no_projects_found_with_this_template' => 'No projects found with this template',
     ];

@@ -832,7 +832,12 @@ class ProjectController extends Controller
         })->where('id', $template->id)->exists();
         if ($exists) {
             $users = User::orderBy('name')->get();
-            return view('project/edit', ['template' => $template, 'users' => $users]);
+            $child_relits_info = $this->child_relits_info($template);
+            if ($child_relits_info['error_message'] != '') {
+                return view('message', ['message' => $child_relits_info['error_message']]);
+            } else {
+                return view('project/edit', ['template' => $template, 'users' => $users, 'child_relits_info' => $child_relits_info]);
+            }
         } else {
             return view('message', ['message' => trans('main.role_author_not_found')]);
         }
@@ -863,7 +868,12 @@ class ProjectController extends Controller
             $query->where('is_author', true);
         })->where('id', $template->id)->exists();
         if ($exists) {
-            return view('project/edit', ['template' => $template, 'user' => $user]);
+            $child_relits_info = $this->child_relits_info($template);
+            if ($child_relits_info['error_message'] != '') {
+                return view('message', ['message' => $child_relits_info['error_message']]);
+            } else {
+                   return view('project/edit', ['template' => $template, 'user' => $user, 'child_relits_info' => $child_relits_info]);
+            }
         } else {
             return view('message', ['message' => trans('main.role_author_not_found')]);
         }
@@ -1007,20 +1017,26 @@ class ProjectController extends Controller
 
         $template = Template::findOrFail($project->template_id);
         $users = User::orderBy('name')->get();
-        return view('project/edit', ['template' => $template, 'project' => $project, 'users' => $users]);
-    }
-
-    function edit_user(Project $project)
-    {
-        $user = User::findOrFail($project->user_id);
-        if (!Auth::user()->isAdmin()) {
-            if (GlobalController::glo_user_id() != $user->id) {
-                return redirect()->route('project.all_index');
-            }
+        $child_relits_info = $this->child_relits_info($template, $project);
+        if ($child_relits_info['error_message'] != '') {
+            return view('message', ['message' => $child_relits_info['error_message']]);
+        } else {
+            return view('project/edit',
+                ['template' => $template, 'project' => $project, 'users' => $users, 'child_relits_info' => $child_relits_info]);
         }
-        $templates = Template::get();
-        return view('project/edit', ['user' => $user, 'project' => $project, 'templates' => $templates]);
     }
+//
+//    function edit_user(Project $project)
+//    {
+//        $user = User::findOrFail($project->user_id);
+//        if (!Auth::user()->isAdmin()) {
+//            if (GlobalController::glo_user_id() != $user->id) {
+//                return redirect()->route('project.all_index');
+//            }
+//        }
+//        $templates = Template::get();
+//        return view('project/edit', ['user' => $user, 'project' => $project, 'templates' => $templates]);
+//    }
 
     function delete_question(Project $project)
     {
@@ -1173,4 +1189,68 @@ class ProjectController extends Controller
 
     }
 
+
+    private
+    function get_array_relips(Template $template, Project  $project = null)
+    {
+        $plan_child_relits = $template->child_relits;
+        $create = $project == null;
+        if (!$create) {
+            // по факту в таблице relips
+            $fact_child_relips = Relip::where('child_project_id', $project->id)->get();
+        }
+        $array_plan = array();
+        foreach ($plan_child_relits as $key => $relit) {
+            // добавление или корректировка массива по ключу $relit_id
+            // заносится null, т.к. это план (настройка от таблицы relits)
+            $array_plan[$relit->id] = null;
+        }
+
+        // если relip->relit_id одинаковый для записей, то берется одно значение(последнее по списку)
+        $array_fact = array();
+        if (!$create) {
+            foreach ($fact_child_relips as $key => $relip) {
+                // добавление или корректировка массива по ключу $relit_id
+                // заносится $relip->parent_project_id (используется в форме extended.edit)
+                $array_fact[$relip->relit_id] = $relip->parent_project_id;
+            }
+        }
+// объединяем два массива, главный $array_plan
+// он содержит количество записей, как настроено в relits
+// индекс массива = relits->id
+// значение массива = null (при создании нового project или если в relips нет записи с таким relits->id)
+        foreach ($array_plan as $key => $value) {
+            if (array_key_exists($key, $array_fact)) {
+                $array_plan[$key] = $array_fact[$key];
+            }
+        }
+        return $array_plan;
+    }
+        function child_relits_info(Template $template, Project $project = null)
+    {
+        $is_child_relits = false;
+        $error_message = '';
+        $array_projects = [];
+        $array_calc = $this->get_array_relips($template, $project);
+        // '$child_relits =$template->child_relits();' так не использовать
+        $child_relits = $template->child_relits;
+        if (count($child_relits) > 0) {
+            $is_child_relits = true;
+        }
+        if ($is_child_relits) {
+
+            foreach ($child_relits as $relit) {
+                $parent_template = $relit->parent_template;
+                $projects = Project::where('template_id', $parent_template->id)->orderBy('account')->get();
+                if (count($projects) > 0) {
+                    $array_projects[$parent_template->id] = $projects;
+                } else {
+                    $error_message = '"' . $parent_template->name() . '" - ' . trans('main.no_projects_found_with_this_template') . '!';
+                    break;
+                }
+            }
+        }
+        return ['is_child_relits' => $is_child_relits, 'error_message' => $error_message, 'child_relits' => $child_relits,
+            'array_calc' => $array_calc,'array_projects' => $array_projects];
+    }
 }

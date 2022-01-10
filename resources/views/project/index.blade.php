@@ -30,19 +30,28 @@
             <div class="col-2">
             </div>
             <div class="col-5 text-right">
-                <button type="button" class="btn btn-dreamer" title="{{trans('main.add')}}"
-                        onclick="document.location=
-                        @if($is_template)
-                            '{{route('project.create_template', ['template'=>$template])}}'
-                            ">
-                    @endif
-                    @if($is_user)
-                        '{{route('project.create_user', ['user'=>$user])}}'
-                        ">
-                    @endif
-                    <i class="fas fa-plus d-inline"></i>
-                    {{trans('main.add')}}
-                </button>
+                {{--                Не использовать для if($is_user)--}}
+                {{--                <button type="button" class="btn btn-dreamer" title="{{trans('main.add')}}"--}}
+                {{--                        onclick="document.location=--}}
+                {{--                        @if($is_template)--}}
+                {{--                            '{{route('project.create_template', ['template'=>$template])}}'--}}
+                {{--                            ">--}}
+                {{--                    @endif--}}
+                {{--                    @if($is_user)--}}
+                {{--                        '{{route('project.create_user', ['user'=>$user])}}'--}}
+                {{--                        ">--}}
+                {{--                    @endif--}}
+                {{--                    <i class="fas fa-plus d-inline"></i>--}}
+                {{--                    {{trans('main.add')}}--}}
+                {{--                </button>--}}
+                @if($is_template)
+                    <button type="button" class="btn btn-dreamer" title="{{trans('main.add')}}"
+                            onclick="document.location=
+                                '{{route('project.create_template', ['template'=>$template])}}'">
+                        <i class="fas fa-plus d-inline"></i>
+                        {{trans('main.add')}}
+                    </button>
+                @endif
             </div>
         </div>
     </div>

@@ -504,9 +504,9 @@ Route::get('/project/edit_template/{project}', [ProjectController::class, 'edit_
     ->name('project.edit_template')
     ->middleware('auth');
 
-Route::get('/project/edit_user/{project}', [ProjectController::class, 'edit_user'])
-    ->name('project.edit_user')
-    ->middleware('auth');
+//Route::get('/project/edit_user/{project}', [ProjectController::class, 'edit_user'])
+//    ->name('project.edit_user')
+//    ->middleware('auth');
 
 Route::post('/project/store', [ProjectController::class, 'store'])
     ->name('project.store')

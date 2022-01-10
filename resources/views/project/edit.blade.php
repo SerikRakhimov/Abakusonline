@@ -8,8 +8,9 @@
     $closed_default_value = false;
     if ($is_template)
         $closed_default_value = $template->is_closed_default_value;
-    else
-        {$closed_default_value = false;}
+    else {
+        $closed_default_value = false;
+    }
     ?>
     <p>
         @if($is_template)
@@ -177,13 +178,13 @@
                             class="@error('user_id') is-invalid @enderror">
                         @foreach ($users as $user)
                             <option value="{{$user->id}}"
-                            @if ($update)
-{{--                                "(int) 0" нужно--}}
-                                {{--                                @if ((old('user_id') ?? ($key ?? (int) 0)) ==  $project->user_id)--}}
-                                @if ((old('user_id') ?? ($project->user_id ?? (int) 0)) ==  $user->id)
+                                    @if ($update)
+                                    {{--                                "(int) 0" нужно--}}
+                                    {{--                                @if ((old('user_id') ?? ($key ?? (int) 0)) ==  $project->user_id)--}}
+                                    @if ((old('user_id') ?? ($project->user_id ?? (int) 0)) ==  $user->id)
                                     selected
                                 @endif
-                            @endif
+                                @endif
                             >{{$user->name}}, {{$user->email}}</option>
                         @endforeach
                     </select>
@@ -197,7 +198,41 @@
                 </div>
             </div>
         @endif
-
+        @if($child_relits_info['is_child_relits'] == true && $child_relits_info['error_message'] == '')
+            <h5>{{trans('main.projects')}}_{{trans('main.parents')}}:</h5>
+            @foreach($child_relits_info['child_relits'] as $child_relit)
+                <div class="form-group row">
+                    <div class="col-sm-3 text-right">
+                        <label for="{{$child_relit->id}}"
+                               class="col-form-label">{{$child_relit->parent_template->name()}}<span
+                                class="text-danger">*</span></label>
+                    </div>
+                    <div class="col-sm-7">
+                        <select class="form-control"
+                                name="{{$child_relit->id}}"
+                                id="{{$child_relit->id}}"
+                                class="@error('{{$child_relit->id}}') is-invalid @enderror">
+                            @foreach($child_relits_info['array_projects'][$child_relit->parent_template_id] as $proj_obj)
+                                <option value="{{$proj_obj->id}}"
+                                        @if($update)
+                                        @if (((old($child_relit->id)) ?? (($child_relits_info['array_calc'][$child_relit->id] != null) ? $child_relits_info['array_calc'][$child_relit->id] : 0)) == $proj_obj->id)
+                                        selected
+                                    @endif
+                                    @endif
+                                >{{$proj_obj->name()}}</option>
+                            @endforeach
+                        </select>
+                        @error('{{$child_relit->id}}')
+                        <div class="text-danger">
+                            {{$message}}
+                        </div>
+                        @enderror
+                    </div>
+                    <div class="col-sm-2">
+                    </div>
+                </div>
+            @endforeach
+        @endif
         <br>
         <div class="container-fluid">
             <div class="row text-center">

@@ -81,10 +81,10 @@
                 <i class="fas fa-equals"></i>
                 {{trans('main.sets')}}
             </button>
-            <button type="button" class="btn btn-dreamer  mb-1 mb-sm-0" title="{{trans('main.relit')}}"
+            <button type="button" class="btn btn-dreamer  mb-1 mb-sm-0" title="{{trans('main.relits')}}"
                     onclick="document.location='{{route('relit.index', $template)}}'">
-                <i class="fas fa-file"></i><i class="fas fa-file-alt"></i>
-                {{trans('main.relit')}}
+                <i class="fas fa-file"></i></i>
+                {{trans('main.relits')}}
             </button>
         </p>
         <p>

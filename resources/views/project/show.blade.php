@@ -10,12 +10,13 @@
     $is_template = isset($template);
     $is_user = isset($user);
     $project_edit = "";
-    if($is_template == true){
+    if ($is_template == true) {
         $project_edit = "project.edit_template";
     }
-    if($is_user == true){
-        $project_edit = "project.edit_user";
-    }
+//      Не использовать для '($is_user == true)'
+//    if ($is_user == true) {
+//        $project_edit = "project.edit_user";
+//    }
     ?>
     <p>
         @if($is_template)
@@ -47,28 +48,29 @@
 
     @if ($type_form == 'show')
         <p>
-            <button type="button" class="btn btn-dreamer"
-                    onclick="document.location='{{route($project_edit,$project)}}'" title="{{trans('main.edit')}}">
-                            <i class="fas fa-edit"></i>
-                {{trans('main.edit')}}
-            </button>
+            {{--                Не использовать для if($is_user)--}}
+            @if($is_template)
+                <button type="button" class="btn btn-dreamer"
+                        onclick="document.location='{{route($project_edit,$project)}}'" title="{{trans('main.edit')}}">
+                    <i class="fas fa-edit"></i>
+                    {{trans('main.edit')}}
+                </button>
+            @endif
             <button type="button" class="btn btn-dreamer"
                     onclick="document.location='{{route('project.delete_question',$project)}}'"
                     title="{{trans('main.delete')}}">
-                            <i class="fas fa-trash"></i>
+                <i class="fas fa-trash"></i>
                 {{trans('main.delete')}}
             </button>
-        </p>
-        <p>
             {{--            Не удалять--}}
-{{--            <button type="button" class="btn btn-dreamer" title="{{trans('main.accesses')}}"--}}
-{{--                    onclick="document.location='{{route('access.index_project', $project)}}'">--}}
-{{--                            <i class="fas fa-universal-access"></i>--}}
-{{--                {{trans('main.accesses')}}--}}
-{{--            </button>--}}
+            {{--            <button type="button" class="btn btn-dreamer" title="{{trans('main.accesses')}}"--}}
+            {{--                    onclick="document.location='{{route('access.index_project', $project)}}'">--}}
+            {{--                            <i class="fas fa-universal-access"></i>--}}
+            {{--                {{trans('main.accesses')}}--}}
+            {{--            </button>--}}
             <button type="button" class="btn btn-dreamer"
                     title="{{trans('main.cancel')}}" @include('layouts.project.previous_url')>
-                            <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-left"></i>
                 {{trans('main.cancel')}}
             </button>
         </p>
@@ -78,12 +80,12 @@
             @method('DELETE')
             <p>
                 <button type="submit" class="btn btn-danger" title="{{trans('main.delete')}}">
-                                    <i class="fas fa-trash"></i>
+                    <i class="fas fa-trash"></i>
                     {{trans('main.delete')}}
                 </button>
                 <button type="button" class="btn btn-dreamer"
                         title="{{trans('main.cancel')}}" @include('layouts.project.previous_url')>
-                                    <i class="fas fa-arrow-left"></i>
+                    <i class="fas fa-arrow-left"></i>
                     {{trans('main.cancel')}}
                 </button>
             </p>

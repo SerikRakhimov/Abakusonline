@@ -9,7 +9,7 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-5 text-center">
-                <h3>{{trans('main.relit')}}</h3>
+                <h3>{{trans('main.relits')}}</h3>
             </div>
             <div class="col-2">
             </div>
@@ -30,7 +30,6 @@
             <th class="text-center">#</th>
             <th class="text-center">{{trans('main.serial_number')}}</th>
             <th class="text-left">{{trans('main.parent')}}_{{trans('main.template')}}</th>
-            <th class="text-center">{{trans('main.relips')}}</th>
         </tr>
         </thead>
         <tbody>
@@ -56,11 +55,6 @@
                         {{$relit->parent_template->name()}}
                     </a>
                 </td>
-{{--                <td class="text-center">--}}
-{{--                    <a href="{{route('roba.index_relit', $relit)}}" title="{{trans('main.robas')}}">--}}
-{{--                        <i class="fas fa-ring"></i>--}}
-{{--                    </a>--}}
-{{--                </td>--}}
             </tr>
         @endforeach
         </tbody>

@@ -350,13 +350,13 @@ class ItemController extends Controller
         } else {
             foreach ($fact_child_mains as $key => $main) {
                 // добавление или корректировка массива по ключу $link_id
-                // заносится $main->parent_item_id (используется в форме extended.edit)
+                // заносится $main->parent_item_id (используется в форме ext_edit)
                 $array_fact[$main->link_id] = $main->parent_item_id;
             }
         }
 
 // объединяем два массива, главный $array_plan
-// он содержит количество записей, как настроено в link
+// он содержит количество записей, как настроено в links
 // индекс массива = links->id
 // значение массива = null (при создании нового item или если в mains нет записи с таким links->id)
 // или mains->parent_item_id (по существующим записям в mains)
