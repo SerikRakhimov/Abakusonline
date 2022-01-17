@@ -136,6 +136,8 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" CONTENT="Первая облачная мультиязычная универсальная расчетная учетная платформа">
+    <meta name="description" CONTENT="Первая облачная мультиязычная универсальная расчетная учетная платформа">
 
     <title>{{config('app.name', 'Laravel')}}</title>
 
