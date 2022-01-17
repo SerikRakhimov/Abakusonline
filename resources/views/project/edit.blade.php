@@ -41,7 +41,7 @@
                        name="account"
                        class="form-control @error('account') is-invalid @enderror"
                        placeholder=""
-                       value="{{ old('account') ?? ($project->account ?? '') }}"
+                       value="{{ old('account') ?? ($project->account ?? $template->account . '_') }}"
                 >
             </div>
             @error('account')
@@ -99,7 +99,7 @@
                            id="name_lang_{{$key}}"
                            class="form-control @error('name_lang_' . $key) is-invalid @enderror"
                            placeholder=""
-                           value="{{ old('name_lang_' . $key) ?? ($project['name_lang_' . $key] ?? '') }}">
+                           value="{{ old('name_lang_' . $key) ?? ($project['name_lang_' . $key] ?? $template['name_lang_' . $key]) }}">
                     @error('name_lang_' . $key)
                     <div class="text-danger">
                         {{$message}}

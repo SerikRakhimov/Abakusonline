@@ -28,11 +28,16 @@ use Illuminate\Support\Facades\Log;
 
 class ProjectController extends Controller
 {
-    protected function rules()
+    protected function account_rules()
     {
         return [
             'account' => ['required', 'string', 'max:255', 'unique:projects', new IsOneWordProject(), new IsLatinProject(), new IsLowerProject()],
-            'name_lang_0' => ['required', 'max:255'],
+        ];
+    }
+
+    protected function name_lang_0_rules()
+    {
+        return ['name_lang_0' => ['required', 'max:255'],
         ];
     }
 
@@ -892,7 +897,8 @@ class ProjectController extends Controller
         if (GlobalController::glo_user_id() != $user->id) {
             return redirect()->route('project.all_index');
         }
-        $request->validate($this->rules());
+        $request->validate($this->account_rules());
+        $request->validate($this->name_lang_0_rules());
 
         $array_mess = [];
         $this->check($request, $array_mess);
@@ -944,8 +950,11 @@ class ProjectController extends Controller
                 return redirect()->route('project.all_index');
             }
         }
-        if (($project->name_lang_0 != $request->name_lang_0) || ($project->account != $request->account)) {
-            $request->validate($this->rules());
+        if ($project->account != $request->account) {
+            $request->validate($this->account_rules());
+        }
+        if ($project->name_lang_0 != $request->name_lang_0) {
+            $request->validate($this->name_lang_0_rules());
         }
 
         $array_mess = [];

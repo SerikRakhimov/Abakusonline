@@ -13,10 +13,15 @@ use Illuminate\Support\Facades\Auth;
 
 class TemplateController extends Controller
 {
-    protected function rules()
+    protected function account_rules()
     {
         return ['account' => ['required', 'string', 'max:255', 'unique:templates', new IsOneWordTemplate(), new IsLatinTemplate(), new IsLowerTemplate()],
-            'name_lang_0' => ['required', 'max:255'],
+        ];
+    }
+
+    protected function name_lang_0_rules()
+    {
+        return ['name_lang_0' => ['required', 'max:255'],
         ];
     }
 
@@ -79,7 +84,9 @@ class TemplateController extends Controller
         Auth::user()->isAdmin()) {
             return redirect()->route('project.all_index');
         }
-        $request->validate($this->rules());
+
+        $request->validate($this->account_rules());
+        $request->validate($this->name_lang_0_rules());
 
         $array_mess = [];
         $this->check($request, $array_mess);
@@ -113,9 +120,12 @@ class TemplateController extends Controller
             return redirect()->route('project.all_index');
         }
 
-        if (($template->serial_number != $request->serial_number) || ($template->account != $request->account)
-            || ($template->name_lang_0 != $request->name_lang_0)) {
-            $request->validate($this->rules());
+        if ($template->account != $request->account) {
+            $request->validate($this->account_rules());
+        }
+
+        if ($template->name_lang_0 != $request->name_lang_0) {
+            $request->validate($this->name_lang_0_rules());
         }
 
         $array_mess = [];

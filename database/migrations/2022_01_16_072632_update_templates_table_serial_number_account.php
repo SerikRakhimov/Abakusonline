@@ -15,8 +15,8 @@ class UpdateTemplatesTableSerialNumberAccount extends Migration
     {
         Schema::table('templates', function (Blueprint $table) {
             $table->integer('serial_number')->default(0);
-            //$table->string('account')->defalut('')->unique();
-            $table->string('account')->defalut('');
+            $table->string('account')->defalut('')->unique();
+            //$table->string('account')->defalut('');
         });
     }
 
