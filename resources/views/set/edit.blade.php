@@ -95,6 +95,35 @@
 
         <div class="form-group row">
             <div class="col-sm-3 text-right">
+                <label for="relit_to_id">{{trans('main.parent')}}_{{trans('main.template')}}<span
+                    class="text-danger">*</span></label>
+            </div>
+            <div class="col-sm-7">
+            <select class="form-control"
+                    name="relit_to_id"
+                    id="relit_to_id"
+                    class="form-control @error('relit_to_id') is-invalid @enderror">
+                @foreach ($array_relits as $key=>$value)
+                    <option value="{{$key}}"
+                            {{--            "(int) 0" нужно--}}
+                            @if ((old('relit_to_id') ?? ($set->relit_to_id ?? (int) 0)) ==  $key)
+                            selected
+                        @endif
+                    >{{$value}}</option>
+                @endforeach
+            </select>
+            @error('relit_to_id')
+            <div class="text-danger">
+                {{$message}}
+            </div>
+            @enderror
+            </div>
+            <div class="col-sm-2">
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <div class="col-sm-3 text-right">
                 <label for="link_to_id" class="col-form-label">{{trans('main.link_to')}}<span
                         class="text-danger">*</span></label>
             </div>
@@ -264,6 +293,7 @@
     </form>
     <script>
         var forwhat = document.getElementById('forwhat');
+        var relit_to_id = document.getElementById('relit_to_id');
         var updaction_fg = document.getElementById('updaction_form_group');
         var upd_delwithzero_fg = document.getElementById('is_upd_delete_record_with_zero_value_form_group');
         var savesets_fg = document.getElementById('is_savesets_enabled_form_group');
@@ -300,13 +330,39 @@
             updaction_fg.style.visibility = val_updaction;
             upd_delwithzero_fg.style.visibility = val_updaction;
             savesets_fg.style.visibility = val_savesets;
-
         }
 
+                function relit_to_id_changeOption(box) {
+                    axios.get('/set/get_links_from_relit_to_id/'
+                        + relit_to_id.options[relit_to_id.selectedIndex].value
+                        + '/{{$template->id}}'
+                    ).then(function (res) {
+                        
+                        // если запуск функции не при загрузке страницы
+                        if (res.data['links_options'] == "") {
+                            link_to_id.innerHTML = '<option value = "0">{{trans('main.no_information_on')}} "' + relit_to_id.options[relit_to_id.selectedIndex].text + '"!</option>';
+                        } else {
+                            link_to_id.innerHTML = res.data['links_options'];
+                        }
+                            // нужно чтобы при первом вызове формы корректировки записи значения полей соответствовали значениям из базы данных
+                            @if ($update)  // при корректировке записи
+                            for (let i = 0; i < link_to_id.length; i++) {
+                                // если элемент списка = текущему значению из базы данных
+                                if (link_to_id[i].value == {{$set->link_to_id}}) {
+                                    // установить selected на true
+                                    link_to_id[i].selected = true;
+                                }
+                            }
+                            @endif
+                    });
+                }
+
         forwhat.addEventListener("change", forwhat_changeOption);
+        relit_to_id.addEventListener("change", relit_to_id_changeOption);
 
         window.onload = function () {
             forwhat_changeOption(true);
+            relit_to_id_changeOption(true);
         };
 
     </script>

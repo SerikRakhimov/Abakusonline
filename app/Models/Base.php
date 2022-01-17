@@ -8,6 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class Base extends Model
 {
     protected $fillable = ['name_lang_0', 'name_lang_1', 'name_lang_2', 'name_lang_3'];
+    
+    function template()
+    {
+        return $this->belongsTo(Template::class, 'template_id');
+    }
 
     function items()
     {

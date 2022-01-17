@@ -3,10 +3,15 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\DB;
 use App\Models\Item;
 use App\Models\Link;
 use App\Models\Main;
+use App\Models\Project;
+use App\Models\Template;
 use App\Models\Set;
+use App\Models\Relit;
+use App\Models\Relip;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -290,5 +295,103 @@ class MainController extends Controller
         }
         return $item;
     }
+
+    // Вывод проекта по $link и $current_project
+    // Функции calc_link_project(), calc_set_project(), calc_relit_children_projects() похожи
+    static function calc_link_project(Link $link, Project $current_project)
+    {
+        $project = null;
+        if ($link->parent_relit_id == 0){
+            // Возвращается текущий проект
+            $project = $current_project;
+        }
+        else{
+            // Поиск взаимосвязанного проекта
+            $relit = Relit::find($link->parent_relit_id);
+            if ($relit){
+                $relip = Relip::where('relit_id', $relit->id)->where('child_project_id', $current_project->id)->first();
+                if ($relip){
+                    $project = $relip->parent_project;
+                }
+            }
+        }
+        if ($project == null){
+            dd(trans('main.check_project_properties_projects_parents_are_not_set') . '!');
+            //return view('message', ['message' => trans('main.info_user_changed')]);
+            //return('Не найден проект');
+        }
+        return $project;
+    }
+
+        // вывод проекта по $set и $current_project
+        // Функции calc_link_project(), calc_set_project(), calc_relit_children_projects() похожи
+        static function calc_set_project(Set $set, Project $current_project)
+        {
+            $project = null;
+            if ($set->relit_to_id == 0){
+                // Возвращается текущий проект
+                $project = $current_project;
+            }
+            else{
+                // Поиск взаимосвязанного проекта
+                $relit = Relit::find($set->relit_to_id);
+                if ($relit){
+                    $relip = Relip::where('relit_id', $relit->id)->where('child_project_id', $current_project->id)->first();
+                    if ($relip){
+                        $project = $relip->parent_project;
+                    }
+                }
+            }
+            if ($project == null){
+                dd(trans('main.check_project_properties_projects_parents_are_not_set') . '!');
+            }
+            return $project;
+        }
+    
+        // вывод проекта по $relit и $current_project
+        // Функции calc_link_project(), calc_set_project(), calc_relit_children_projects() похожи
+        static function calc_relit_children_id_projects(Relit $relit, Project $current_project)
+        {
+            // Поиск взаимосвязанных детских проектов
+            $children_id_projects = Relip::select(DB::Raw('relips.child_project_id as project_id'))
+            ->where('relips.relit_id', '=', $relit->id)
+            ->where('relips.parent_project_id', '=', $current_project->id)
+            ->get();
+            //if ($children_id_projects == null){
+            //    dd(trans('main.projects_children_are_not_set') . '!');
+            //}
+            return $children_id_projects;
+        }
+
+    function get_array_relits(Template $template)
+    {
+        $array_relits = [];
+        $child_relits = $template->child_relits;
+        // 0 - текущий шаблон (нужно)
+        $array_relits[0] = $template->name() . ' (' . trans('main.current_template') . ')';
+        foreach ($child_relits as $relit) {
+            $array_relits[$relit->id] = $relit->parent_template->name();
+        }
+        return $array_relits;
+    }
+
+    function get_template_name_from_relit_id($relit_id, $current_template_id)
+            {
+                $template_name = '';
+                // Вычисление $template
+                $template_id = null;
+                if ($relit_id == 0){
+                      $template = Template::findOrFail($current_template_id);
+                      $template_name = $template->name() . ' (' . trans('main.current_template') . ')';
+                    }
+                else{
+                    $relit = Relit::find($relit_id);
+                    if ($relit){
+                        $template = Template::findOrFail($relit->parent_template_id);
+                        $template_name = $template->name();
+                    }
+                }
+                return $template_name;
+            }
 
 }

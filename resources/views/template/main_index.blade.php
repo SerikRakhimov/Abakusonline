@@ -24,10 +24,10 @@
                 {{--            <img class="card-img-top" src="{{Storage::url('background.png')}}" alt="Card image">--}}
                 <div class="card-header">
                     <div class="row">
-                        <div class="col-sm-6 text-left text-title">
-                            <small class="text-muted">Id = {{$template->id}}</small>
+                        <div class="col-sm-8 text-left text-title">
+                            <small class="text-muted">{{$template->account}}</small>
                         </div>
-                        <div class="col-sm-6 text-right">
+                        <div class="col-sm-4 text-right">
                             @include('layouts.template.show_icons',['template'=>$template])
                         </div>
                     </div>
@@ -47,7 +47,14 @@
                     </button>
                 </div>
                 <div class="card-footer">
-                    <small class="text-muted">{{trans('main.projects')}}: {{$template->projects_count}}</small>
+                <div class="row">
+                        <div class="col-sm-4 text-left text-title">
+                            <small class="text-muted">Id: {{$template->id}}</small>
+                        </div>
+                        <div class="col-sm-8 text-right">
+                            <small class="text-muted">{{trans('main.projects')}}: {{$template->projects_count}}</small>
+                        </div>
+                    </div>                    
                 </div>
             </div>
             <br>

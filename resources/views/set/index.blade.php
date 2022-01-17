@@ -3,6 +3,7 @@
 @section('content')
     <?php
     use App\Http\Controllers\GlobalController;
+    use App\Http\Controllers\MainController;
     ?>
     <p>
     @include('layouts.template.show_name',['template'=>$template])
@@ -31,6 +32,7 @@
             <th class="text-center align-top">{{trans('main.serial_number')}}</th>
             <th class="text-center align-top">{{trans('main.line_number')}}</th>
             <th class="text-left align-top">{{trans('main.link_from')}}</th>
+            <th class="text-left align-top">{{trans('main.parent')}}_{{trans('main.template')}}</th>
             <th class="text-left align-top">{{trans('main.link_to')}}</th>
             <th class="text-center align-top">{{trans('main.is_savesets_enabled')}}</th>
             <th class="text-center align-top">{{trans('main.forwhat')}}</th>
@@ -65,6 +67,11 @@
                 <td class="text-left">
                     <a href="{{route('set.show',$set)}}" title="{{trans('main.show')}}">
                         {{$set->link_from->name()}}
+                    </a>
+                </td>
+                <td class="text-left">
+                    <a href="{{route('set.show',$set)}}" title="{{trans('main.show')}}">
+                        {{MainController::get_template_name_from_relit_id($set->relit_to_id, $template->id)}}
                     </a>
                 </td>
                 <td class="text-left">

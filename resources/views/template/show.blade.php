@@ -12,6 +12,8 @@
     </p>
 
     <p>Id: <b>{{$template->id}}</b></p>
+    <p>{{trans('main.serial_number')}}: <b>{{$template->serial_number}}</b></p>
+    <p>{{trans('main.account')}}: <b>{{$template->account}}</b></p>
 
     @foreach (config('app.locales') as $key=>$value)
         <p>{{trans('main.name')}} ({{trans('main.' . $value)}}): <b>{{$template['name_lang_' . $key]}}</b></p>

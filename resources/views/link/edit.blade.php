@@ -99,6 +99,29 @@
             </div>
             @enderror
         </div>
+        
+        <div class="form-group">
+            <label for="parent_relit_id">{{trans('main.parent')}}_{{trans('main.template')}}<span
+                    class="text-danger">*</span></label>
+            <select class="form-control"
+                    name="parent_relit_id"
+                    id="parent_relit_id"
+                    class="form-control @error('parent_relit_id') is-invalid @enderror">
+                @foreach ($array_relits as $key=>$value)
+                    <option value="{{$key}}"
+                            {{--            "(int) 0" нужно--}}
+                            @if ((old('parent_relit_id') ?? ($link->parent_relit_id ?? (int) 0)) ==  $key)
+                            selected
+                        @endif
+                    >{{$value}}</option>
+                @endforeach
+            </select>
+            @error('parent_relit_id')
+            <div class="text-danger">
+                {{$message}}
+            </div>
+            @enderror
+        </div>
 
         <div class="form-group">
             <label for="parent_base_id">{{trans('main.parent')}}_{{trans('main.base')}}<span
@@ -1681,7 +1704,33 @@
             });
         }
 
+        // Изменение parent_relit_id
+        function parent_relit_id_changeOption(box) {
+                    axios.get('/link/get_bases_from_parent_relit_id/'
+                        + parent_relit_id.options[parent_relit_id.selectedIndex].value
+                        + '/{{$base->template_id}}'
+                    ).then(function (res) {
+                        // если запуск функции не при загрузке страницы
+                        if (res.data['bases_options'] == "") {
+                            parent_base_id.innerHTML = '<option value = "0">{{trans('main.no_information_on')}} "' + parent_relit_id.options[parent_relit_id.selectedIndex].text + '"!</option>';
+                        } else {
+                            parent_base_id.innerHTML = res.data['bases_options'];
+                        }
+                            // нужно чтобы при первом вызове формы корректировки записи значения полей соответствовали значениям из базы данных
+                            @if ($update)  // при корректировке записи
+                            for (let i = 0; i < parent_base_id.length; i++) {
+                                // если элемент списка = текущему значению из базы данных
+                                if (parent_base_id[i].value == {{$link->parent_base_id}}) {
+                                    // установить selected на true
+                                    parent_base_id[i].selected = true;
+                                }
+                            }
+                            @endif
+                    });
+        }
+
         child_base_id.addEventListener("change", child_base_id_changeOption);
+        parent_relit_id.addEventListener("change", parent_relit_id_changeOption);
         parent_selection_calculated_table_set_id.addEventListener("change", parent_selection_calculated_table_set_id_changeOption);
         //parent_selection_calculated_table_link_id_0.addEventListener("change", parent_selection_calculated_table_link_id_1_show_or_hide(parent_is_use_selection_calculated_table_link_id_1));
         parent_selection_calculated_table_link_id_0.addEventListener("change", parent_selection_calculated_table_link_id_1_show_or_hide_change);
@@ -1694,6 +1743,7 @@
 
         window.onload = function () {
             child_base_id_changeOption(true);
+            parent_relit_id_changeOption(true);
             parent_selection_calculated_table_show_or_hide(parent_is_in_the_selection_list_use_the_calculated_table_field);
             parent_selection_calculated_table_link_id_0_show_or_hide(parent_is_use_selection_calculated_table_link_id_0);
             parent_selection_calculated_table_link_id_1_show_or_hide(parent_is_use_selection_calculated_table_link_id_1);

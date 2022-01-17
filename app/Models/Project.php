@@ -38,7 +38,7 @@ class Project extends Model
 //            $result = $this->name_lang_0;
 //        };
 //        $result = $result . ' (' . $this->user->name . ')';
-        $result = $result . ' (' . $this->account . ')';
+        $result = $result . ' (' . $this->account . ', Id = ' .$this->id . ')';
         return $result;
     }
 

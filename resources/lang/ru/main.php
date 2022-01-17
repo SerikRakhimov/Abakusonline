@@ -359,6 +359,7 @@ return [
     'project_access_denied'=>'Доступ к проекту запрещен',
     'error_sending_email'=>'Ошибка при отправке электронной почты',
     'current_status'=>'Текущий статус',
+    'current_template'=>'Текущий проект',
     'send'=>'Отправить',
     'subscribe'=>'Подписаться',
     'subscription_requests'=>'Запросы на подписку',
@@ -381,4 +382,7 @@ return [
     'parent_enabled_boolean_value_link_id' => 'Зависимое поле Логический',
     'is_equality_of_templates_rule' =>'Шаблоны не должны быть равны друг другу',
     'no_projects_found_with_this_template' => 'Не найдено проектов с таким шаблоном',
+    'check_project_properties_projects_parents_are_not_set' => 'Проверьте свойства проекта: не установлены "проекты - Родители"',
+    'projects_children_are_not_set' => 'Не установлены "проекты - Дети"',
+    'parent_project_not_found' => 'Проект - Родитель не найден',
     ];

@@ -15,6 +15,8 @@ use App\Models\Project;
 use App\Models\Template;
 use App\Models\Role;
 use App\Models\Set;
+use App\Models\Relit;
+use App\Models\Relip;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Artisan;
@@ -22,6 +24,7 @@ use Illuminate\Support\Facades\Mail;
 use phpDocumentor\Reflection\Types\Boolean;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Log;
 
 class ProjectController extends Controller
 {
@@ -179,7 +182,6 @@ class ProjectController extends Controller
                     $result[$role->id] = $role->name();
                 }
             }
-
 
         } elseif ($subs_projects == true) {
 
@@ -757,7 +759,9 @@ class ProjectController extends Controller
         }
 
         $template = Template::findOrFail($project->template_id);
-        return view('project/show', ['type_form' => 'show', 'template' => $template, 'project' => $project]);
+        $child_relits_info = $this->child_relits_info($template, $project);
+        return view('project/show', ['type_form' => 'show', 'template' => $template, 'project' => $project,
+            'array_calc' => $child_relits_info['array_calc']]);
     }
 
     function show_user(Project $project)
@@ -769,7 +773,10 @@ class ProjectController extends Controller
                 return redirect()->route('project.all_index');
             }
         }
-        return view('project/show', ['type_form' => 'show', 'user' => $user, 'project' => $project]);
+
+        $child_relits_info = $this->child_relits_info($project->template, $project);
+        return view('project/show', ['type_form' => 'show', 'user' => $user, 'project' => $project,
+            'array_calc' => $child_relits_info['array_calc']]);
     }
 
     function start(Project $project, Role $role = null)
@@ -872,7 +879,7 @@ class ProjectController extends Controller
             if ($child_relits_info['error_message'] != '') {
                 return view('message', ['message' => $child_relits_info['error_message']]);
             } else {
-                   return view('project/edit', ['template' => $template, 'user' => $user, 'child_relits_info' => $child_relits_info]);
+                return view('project/edit', ['template' => $template, 'user' => $user, 'child_relits_info' => $child_relits_info]);
             }
         } else {
             return view('message', ['message' => trans('main.role_author_not_found')]);
@@ -994,19 +1001,66 @@ class ProjectController extends Controller
 
     function set(Request $request, Project &$project)
     {
-        $project->template_id = $request->template_id;
-        $project->user_id = $request->user_id;
-        $project->account = $request->account;
+        try {
+            // начало транзакции
+            DB::transaction(function () use ($request, $project) {
+                $project->template_id = $request->template_id;
+                $project->user_id = $request->user_id;
+                $project->account = $request->account;
 
-        $project->name_lang_0 = $request->name_lang_0;
-        $project->name_lang_1 = isset($request->name_lang_1) ? $request->name_lang_1 : "";
-        $project->name_lang_2 = isset($request->name_lang_2) ? $request->name_lang_2 : "";
-        $project->name_lang_3 = isset($request->name_lang_3) ? $request->name_lang_3 : "";
+                $project->name_lang_0 = $request->name_lang_0;
+                $project->name_lang_1 = isset($request->name_lang_1) ? $request->name_lang_1 : "";
+                $project->name_lang_2 = isset($request->name_lang_2) ? $request->name_lang_2 : "";
+                $project->name_lang_3 = isset($request->name_lang_3) ? $request->name_lang_3 : "";
 
-        $project->is_test = isset($request->is_test) ? true : false;
-        $project->is_closed = isset($request->is_closed) ? true : false;
+                $project->is_test = isset($request->is_test) ? true : false;
+                $project->is_closed = isset($request->is_closed) ? true : false;
 
-        $project->save();
+                $project->save();
+
+                $array_relips = [];
+
+                $child_relits = $project->template->child_relits;
+                foreach ($child_relits as $key => $relit) {
+                    // добавление или корректировка массива по ключу $relit_id
+                    // заносится null, т.к. это план (настройка от таблицы relits)
+                    $array_relips[$relit->id] = $request[$relit->id];
+                }
+                // Сначала проверка, потом присвоение
+                // Проверка на $relip->relit_id, если такой не найден - то удаляется
+                $relips = Relip::where('child_project_id', $project->id)->get();
+                foreach ($relips as $relip) {
+                    $delete_main = false;
+                    $relit = Relit::where('id', $relip->relit_id)->first();
+                    if ($relit) {
+                        if ($relit->child_template_id != $project->template_id) {
+                            $delete_main = true;
+                        }
+                    } else {
+                        $delete_main = true;
+                    }
+                    if ($delete_main) {
+                        $relip->delete();
+                    }
+                }
+
+                foreach ($child_relits as $relit) {
+                    $relip = Relip::where('child_project_id', $project->id)->where('relit_id', $relit->id)->first();
+                    if ($relip == null) {
+                        $relip = new Relip();
+                        $relip->relit_id = $relit->id;
+                        $relip->child_project_id = $project->id;
+                    }
+                    // Заполняется введенный проект
+                    $relip->parent_project_id = $request[$relit->id];
+                    $relip->save();
+                }
+            }, 3);  // Повторить три раза, прежде чем признать неудачу
+            // окончание транзакции
+
+        } catch (Exception $exc) {
+            return trans('transaction_not_completed') . ": " . $exc->getMessage();
+        }
     }
 
     function edit_template(Project $project)
@@ -1025,18 +1079,25 @@ class ProjectController extends Controller
                 ['template' => $template, 'project' => $project, 'users' => $users, 'child_relits_info' => $child_relits_info]);
         }
     }
-//
-//    function edit_user(Project $project)
-//    {
-//        $user = User::findOrFail($project->user_id);
-//        if (!Auth::user()->isAdmin()) {
-//            if (GlobalController::glo_user_id() != $user->id) {
-//                return redirect()->route('project.all_index');
-//            }
-//        }
+
+    function edit_user(Project $project)
+    {
+        $user = User::findOrFail($project->user_id);
+        if (!Auth::user()->isAdmin()) {
+            if (GlobalController::glo_user_id() != $user->id) {
+                return redirect()->route('project.all_index');
+            }
+        }
 //        $templates = Template::get();
 //        return view('project/edit', ['user' => $user, 'project' => $project, 'templates' => $templates]);
-//    }
+// Передаются $user, $project, $template
+        if (isset($project)) {
+            $template = $project->template;
+            $child_relits_info = $this->child_relits_info($template, $project);
+            return view('project/edit', ['user' => $user, 'project' => $project,
+                'template' => $template, 'child_relits_info' => $child_relits_info]);
+        }
+    }
 
     function delete_question(Project $project)
     {
@@ -1047,7 +1108,9 @@ class ProjectController extends Controller
             }
         }
         $template = Template::findOrFail($project->template_id);
-        return view('project/show', ['type_form' => 'delete_question', 'template' => $template, 'project' => $project]);
+        $child_relits_info = $this->child_relits_info($template, $project);
+        return view('project/show', ['type_form' => 'delete_question', 'template' => $template, 'project' => $project,
+            'array_calc' => $child_relits_info['array_calc']]);
     }
 
     function delete(Request $request, Project $project)
@@ -1086,6 +1149,7 @@ class ProjectController extends Controller
         try {
             // начало транзакции
             DB::transaction(function ($r) use ($project) {
+                // Запрос для определения bases, которые нужно удалить
                 // Нужно "->where('sets.is_savesets_enabled', '=', true)"
                 $bases_to = Set::select(DB::Raw('links.child_base_id as base_id'))
                     ->join('links', 'sets.link_to_id', '=', 'links.id')
@@ -1119,6 +1183,21 @@ class ProjectController extends Controller
 //                    ->distinct()
 //                    ->orderBy('lf.child_base_id')
 //                    ->get();
+//                $bases_from = Set::select(DB::Raw('lf.child_base_id as base_id'))
+//                    ->join('links as lf', 'sets.link_from_id', '=', 'lf.id')
+//                    ->join('links as lt', 'sets.link_to_id', '=', 'lt.id')
+//                    ->join('bases as bf', 'lf.child_base_id', '=', 'bf.id')
+//                    ->join('bases as bt', 'lt.child_base_id', '=', 'bt.id')
+//                    ->where('bf.template_id', $project->template_id)
+//                    ->where('sets.is_savesets_enabled', '=', true)
+//                    ->where('bf.is_calculated_lst', '=', false)
+//                    ->where('bt.is_calculated_lst', '=', true)
+//                    ->where('sets.is_calcsort', '=', false)
+//                    ->distinct()
+//                    ->orderBy('lf.child_base_id')
+//                    ->get();
+                // Запросы $bases_from и $bases_relit_from похожи
+                // Запрос по текущему проекту
                 $bases_from = Set::select(DB::Raw('lf.child_base_id as base_id'))
                     ->join('links as lf', 'sets.link_from_id', '=', 'lf.id')
                     ->join('links as lt', 'sets.link_to_id', '=', 'lt.id')
@@ -1133,8 +1212,25 @@ class ProjectController extends Controller
                     ->orderBy('lf.child_base_id')
                     ->get();
 
+                // Запрос по проектам - Дети по отношению к текущему проекту/шаблону
+                // '->orderBy('lf.child_base_id, relits.id')' - дает ошибку
+                $bases_relit_from = Set::select(DB::Raw('lf.child_base_id as base_id, relits.id as relit_id'))
+                    ->join('relits', 'sets.relit_to_id', '=', 'relits.id')
+                    ->join('links as lf', 'sets.link_from_id', '=', 'lf.id')
+                    ->join('links as lt', 'sets.link_to_id', '=', 'lt.id')
+                    ->join('bases as bf', 'lf.child_base_id', '=', 'bf.id')
+                    ->join('bases as bt', 'lt.child_base_id', '=', 'bt.id')
+                    ->where('sets.is_savesets_enabled', '=', true)
+                    ->where('bf.is_calculated_lst', '=', false)
+                    ->where('bt.is_calculated_lst', '=', true)
+                    ->where('sets.is_calcsort', '=', false)
+                    ->distinct()
+                    ->orderBy('lf.child_base_id')
+                    ->get();
+
                 $str_records = mb_strtolower(trans('main.records'));
 
+                // Удаление записей
                 foreach ($bases_to as $base_to_id) {
                     $base = Base::findOrFail($base_to_id['base_id']);
                     echo nl2br(trans('main.base') . ": " . $base->name() . " - ");
@@ -1144,17 +1240,45 @@ class ProjectController extends Controller
                     echo nl2br(trans('main.deleted') . " " . $count . " " . $str_records . PHP_EOL);
                 }
 
+                // Обработка записей текущего проекта
                 foreach ($bases_from as $base_from_id) {
                     $base = Base::findOrFail($base_from_id['base_id']);
                     echo nl2br(trans('main.base') . ": " . $base->name() . " - ");
                     $items = Item::where('project_id', $project->id)->where('base_id', $base->id)->get();
                     $count = $items->count();
                     foreach ($items as $item) {
+                        //Log::info($item->id . ' - ' . $item->name());
                         //echo nl2br(trans('main.processed') . " id = " . $item->id . " " . $item->name() . " ".$item->id. PHP_EOL);
                         // $reverse = true - отнимать, false - прибавлять
                         (new ItemController)->save_info_sets($item, false);
                     }
                     echo nl2br(trans('main.processed') . " " . $count . " " . $str_records . PHP_EOL);
+                }
+
+                // Обработка записей проектов - Дети
+                foreach ($bases_relit_from as $value) {
+                    $base = Base::findOrFail($value['base_id']);
+                    echo nl2br(trans('main.base') . ": " . $base->name() . PHP_EOL);
+                    $relit = Relit::findOrFail($value['relit_id']);
+                    // Поиск $child_project
+                    $child_id_projects = MainController::calc_relit_children_id_projects($relit, $project);
+                    foreach ($child_id_projects as $project_id) {
+                        $child_project = Project::findOrFail($project_id['project_id']);
+                        echo nl2br('->' . trans('main.child') . '_' . trans('main.template') . ": " . $relit->child_template->name() . ", "
+                            . trans('main.project') . ": " . $child_project->name()
+                            . " - ");
+
+                        // Используется $child_project
+                        $items = Item::where('project_id', $child_project->id)->where('base_id', $base->id)->get();
+                        $count = $items->count();
+                        foreach ($items as $item) {
+                            //Log::info($item->id . ' - ' . $item->name());
+                            //echo nl2br(trans('main.processed') . " id = " . $item->id . " " . $item->name() . " ".$item->id. PHP_EOL);
+                            // $reverse = true - отнимать, false - прибавлять
+                            (new ItemController)->save_info_sets($item, false);
+                        }
+                        echo nl2br(trans('main.processed') . " " . $count . " " . $str_records . PHP_EOL);
+                    }
                 }
 
             }, 3);  // Повторить три раза, прежде чем признать неудачу
@@ -1189,9 +1313,8 @@ class ProjectController extends Controller
 
     }
 
-
     private
-    function get_array_relips(Template $template, Project  $project = null)
+    function get_array_calc(Template $template, Project $project = null)
     {
         $plan_child_relits = $template->child_relits;
         $create = $project == null;
@@ -1226,12 +1349,13 @@ class ProjectController extends Controller
         }
         return $array_plan;
     }
-        function child_relits_info(Template $template, Project $project = null)
+
+    function child_relits_info(Template $template, Project $project = null)
     {
         $is_child_relits = false;
         $error_message = '';
         $array_projects = [];
-        $array_calc = $this->get_array_relips($template, $project);
+        $array_calc = $this->get_array_calc($template, $project);
         // '$child_relits =$template->child_relits();' так не использовать
         $child_relits = $template->child_relits;
         if (count($child_relits) > 0) {
@@ -1251,6 +1375,7 @@ class ProjectController extends Controller
             }
         }
         return ['is_child_relits' => $is_child_relits, 'error_message' => $error_message, 'child_relits' => $child_relits,
-            'array_calc' => $array_calc,'array_projects' => $array_projects];
+            'array_calc' => $array_calc, 'array_projects' => $array_projects];
     }
+
 }

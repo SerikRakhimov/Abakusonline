@@ -385,6 +385,10 @@ Route::get('/set/delete_question/{set}', [SetController::class, 'delete_question
 Route::delete('/set/delete/{set}', [SetController::class, 'delete'])
     ->name('set.delete')
     ->middleware('auth');
+    
+Route::get('/set/get_links_from_relit_to_id/{relit_id}/{current_template_id}', [SetController::class, 'get_links_from_relit_to_id'])
+    ->name('set.get_links_from_relit_to_id')
+    ->middleware('auth');
 
 // Rolis
 Route::get('/roli/index_role/{role}', [RoliController::class, 'index_role'])
@@ -492,9 +496,9 @@ Route::get('/project/create_template/{template}', [ProjectController::class, 'cr
     ->name('project.create_template')
     ->middleware('auth');
 
-Route::get('/project/create_user/{user}', [ProjectController::class, 'create_user'])
-    ->name('project.create_user')
-    ->middleware('auth');
+//Route::get('/project/create_user/{user}', [ProjectController::class, 'create_user'])
+//    ->name('project.create_user')
+//    ->middleware('auth');
 
 Route::get('/project/create_template_user/{template}', [ProjectController::class, 'create_template_user'])
     ->name('project.create_template_user')
@@ -504,9 +508,9 @@ Route::get('/project/edit_template/{project}', [ProjectController::class, 'edit_
     ->name('project.edit_template')
     ->middleware('auth');
 
-//Route::get('/project/edit_user/{project}', [ProjectController::class, 'edit_user'])
-//    ->name('project.edit_user')
-//    ->middleware('auth');
+Route::get('/project/edit_user/{project}', [ProjectController::class, 'edit_user'])
+    ->name('project.edit_user')
+    ->middleware('auth');
 
 Route::post('/project/store', [ProjectController::class, 'store'])
     ->name('project.store')
@@ -780,6 +784,10 @@ Route::get('/link/get_links_from_link_id_parent_base/{link_id}', [LinkController
     ->name('link.get_links_from_link_id_parent_base')
     ->middleware('auth');
 
+Route::get('/link/get_bases_from_parent_relit_id/{relit_id}/{current_template_id}', [LinkController::class, 'get_bases_from_parent_relit_id'])
+    ->name('link.get_bases_from_parent_relit_id')
+    ->middleware('auth');
+    
 Route::get('/link/base_index/{base}', [LinkController::class, 'base_index'])
     ->name('link.base_index')
     ->middleware('auth');

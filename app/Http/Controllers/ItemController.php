@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\GlobalController;
+use App\Http\Controllers\MainController;
 use App\Rules\IsUniqueRoba;
 use Illuminate\Support\Facades\App;
 use App\Models\User;
@@ -1269,14 +1270,9 @@ class ItemController extends Controller
 
                 // Группировка данных
                 $set_is_group = $set_base_to->where('is_group', true);
-//                if ($item->id == 3868) {
-//                    $rr = $set_is_group->where('id', 179)->first();
-//                    if (!$rr) {
-//                        dd($set_is_group->get());
-//                    }
-//                }
 
-                $items = Item::where('base_id', $to_key)->where('project_id', $item->project_id);
+                //$items = Item::where('base_id', $to_key)->where('project_id', $item->project_id);
+                $items = Item::where('base_id', $to_key);
 
                 $error = true;
                 $found = false;
@@ -1285,8 +1281,8 @@ class ItemController extends Controller
                 // Поиск $item_seek в цикле
                 // Цикл по группировке данных
                 foreach ($set_is_group as $key => $value) {
-//                    Log::info('value - '.$value);
-//                проверка, если link - вычисляемое поле
+                    $parent_project = MainController::calc_set_project($value, $item->project);
+//                   проверка, если link - вычисляемое поле
                     //if ($link->parent_is_parent_related == true || $link->parent_is_numcalc == true)
                     if ($value->link_from->parent_is_parent_related == true) {
 
@@ -1301,13 +1297,16 @@ class ItemController extends Controller
                         }
                         if ($nk != -1) {
                             $set_to = $set_is_group->where('link_from_id', $value['link_from_id'])->first();
-                            Log::info('set_to - '.$set_to);
                             if ($set_to) {
                                 $nt = $set_to->link_to_id;
                                 //$nv = $values[$nk];
                                 // Получить item->id
                                 $nv = $valits[$nk];
-                                $items = $items->whereHas('child_mains', function ($query) use ($nt, $nv) {
+                                //$items = $items->whereHas('child_mains', function ($query) use ($nt, $nv) {
+                                //    $query->where('link_id', $nt)->where('parent_item_id', $nv);
+                                //});
+                                $items = $items->where('project_id', $parent_project->id)
+                                    ->whereHas('child_mains', function ($query) use ($nt, $nv) {
                                     $query->where('link_id', $nt)->where('parent_item_id', $nv);
                                 });
                                 // Поиск по item
@@ -1340,10 +1339,11 @@ class ItemController extends Controller
 
                     if (!$found) {
                         $create_item_seek = true;
-
                         // Эта проверка сделана, чтобы зря не создавать $item_seek
                         // Фильтры 111 - похожие строки ниже
+                        $parent_project = null;
                         foreach ($set_base_to as $key => $value) {
+                            $parent_project = MainController::calc_set_project($value, $item->project);
                             $nk = -1;
                             foreach ($keys as $k => $v) {
                                 if ($v == $value['link_from_id']) {
@@ -1363,7 +1363,11 @@ class ItemController extends Controller
                             // создать новую запись
                             $item_seek = new Item();
                             $item_seek->base_id = $to_key;
-                            $item_seek->project_id = $item->project_id;
+                            if($parent_project){
+                                $item_seek->project_id = $parent_project->id;
+                            }else{
+                                dd(trans('main.parent_project_not_found' . '!'));
+                            }
                             $item_seek->code = uniqid($item_seek->id . '_', true);
                             $item_seek->name_lang_0 = "";
                             $item_seek->name_lang_1 = "";
@@ -1389,6 +1393,7 @@ class ItemController extends Controller
 
                         // Фильтры 111 - похожие строки выше
                         foreach ($set_base_to as $key => $value) {
+                            $parent_project = MainController::calc_set_project($value, $item->project);
                             $nk = -1;
                             foreach ($keys as $k => $v) {
                                 if ($v == $value['link_from_id']) {
@@ -1507,7 +1512,7 @@ class ItemController extends Controller
                                 } else {
                                     //  Добавление числа в базу данных
                                     if ($seek_item == true) {
-                                        $item_find = self::find_save_number($value->link_to->parent_base_id, $item->project_id, $seek_value);
+                                        $item_find = self::find_save_number($value->link_to->parent_base_id, $parent_project->id, $seek_value);
                                         $main->parent_item_id = $item_find->id;
                                     }
                                     $main->save();
@@ -2085,7 +2090,6 @@ class ItemController extends Controller
         return $result_item;
     }
 
-    private
     function save_main(Main $main, $item, $keys, $values, &$valits, $index, $strings_inputs)
     {
         $main->link_id = $keys[$index];
@@ -2093,6 +2097,9 @@ class ItemController extends Controller
 
         // поиск должен быть удачным, иначе "$main->link_id = $keys[$index]" может дать ошибку
         $link = Link::findOrFail($keys[$index]);
+	    // Находим $parent_project
+	    $parent_project = MainController::calc_link_project($link, $item->project);
+        $parent_project_id = $parent_project->id;
 
         // тип корректировки поля - список
         if ($link->parent_base->type_is_list()) {
@@ -2160,7 +2167,7 @@ class ItemController extends Controller
             $item_find->name_lang_2 = "";
             $item_find->name_lang_3 = "";
 
-            $item_find->project_id = $item->project_id;
+            $item_find->project_id = $parent_project_id;
             // при создании записи "$item->created_user_id" заполняется
             $item_find->created_user_id = Auth::user()->id;
             $item_find->updated_user_id = Auth::user()->id;
@@ -2194,7 +2201,7 @@ class ItemController extends Controller
                 }
             }
             // поиск в таблице items значение с таким же названием и base_id
-            $item_find = Item::where('base_id', $link->parent_base_id)->where('project_id', $item->project_id)->where('name_lang_0', $values[$index]);
+            $item_find = Item::where('base_id', $link->parent_base_id)->where('project_id', $parent_project_id)->where('name_lang_0', $values[$index]);
             if ($link->parent_base->is_one_value_lst_str_txt == false) {
                 $i = 0;
                 foreach (config('app.locales') as $lang_key => $lang_value) {
@@ -2230,7 +2237,7 @@ class ItemController extends Controller
                     }
                     $i = $i + 1;
                 }
-                $item_find->project_id = $item->project_id;
+                $item_find->project_id = $parent_project_id;
                 // при создании записи "$item->created_user_id" заполняется
                 $item_find->created_user_id = Auth::user()->id;
                 $item_find->updated_user_id = Auth::user()->id;
@@ -2239,8 +2246,6 @@ class ItemController extends Controller
             $main->parent_item_id = $item_find->id;
             // заменяем значение в массиве ссылкой на $item вместо значения
             $valits[$index] = $item_find->id;
-
-
         } // тип корректировки поля - текст
         // Полные значения полей text хранятся в таблице texts,
         // краткие (ограниченные 255 - размером полей хранятся в $item->name_lang_0 - $item->name_lang_3)
@@ -2278,7 +2283,7 @@ class ItemController extends Controller
             $item_find->base_id = $link->parent_base_id;
             // Похожая строка вверху и внизу
             $item_find->code = uniqid($item_find->base_id . '_', true);
-            $item_find->project_id = $item->project_id;
+            $item_find->project_id = $parent_project_id;
             $item_find->updated_user_id = Auth::user()->id;
 
             // Нужно чтобы знать $item_find->id в команде "$text->item_id = $item_find->id;"
@@ -2337,7 +2342,7 @@ class ItemController extends Controller
 //            }
 
             // поиск в таблице items значение с таким же названием и base_id
-            $item_find = Item::where('base_id', $link->parent_base_id)->where('project_id', $item->project_id)->where('name_lang_0', $values[$index])->first();
+            $item_find = Item::where('base_id', $link->parent_base_id)->where('project_id', $parent_project_id)->where('name_lang_0', $values[$index])->first();
 
             // если не найдено
             if (!$item_find) {
@@ -2350,7 +2355,7 @@ class ItemController extends Controller
                 foreach (config('app.locales') as $key => $value) {
                     $item_find['name_lang_' . $key] = $values[$index];
                 }
-                $item_find->project_id = $item->project_id;
+                $item_find->project_id = $parent_project_id;
                 // при создании записи "$item->created_user_id" заполняется
                 $item_find->created_user_id = Auth::user()->id;
                 $item_find->updated_user_id = Auth::user()->id;
@@ -4727,7 +4732,7 @@ class ItemController extends Controller
                 }
             }
         } else {
-            $items = self::get_items_list_main($base, $project, $role);
+            $items = self::get_items_list_main($base, $project, $link);
         }
 
         // Такая же проверка и в GlobalController (function items_right()),
@@ -4735,11 +4740,12 @@ class ItemController extends Controller
         if ($base_right['is_list_base_byuser'] == true) {
             $items = $items->where('created_user_id', GlobalController::glo_user_id());
         }
+        // Сортировка не нужна, т.к. мешает сортировке по коду/наименованию в $this->browser()
         // По умолчанию, сортировка по наименованию
-        $index = array_search(App::getLocale(), config('app.locales'));
-        if ($index !== false) {   // '!==' использовать, '!=' не использовать
-            $items = $items->orderBy('name_lang_' . $index);
-        }
+        //$index = array_search(App::getLocale(), config('app.locales'));
+        //if ($index !== false) {   // '!==' использовать, '!=' не использовать
+        //    $items = $items->orderBy('name_lang_' . $index);
+        //}
 
         return ['items_no_get' => $items,
             'result_parent_label' => $result_parent_label,
@@ -4790,12 +4796,30 @@ class ItemController extends Controller
     }
 
 // Выборка данных без фильтра и вычисляемых
-    static function get_items_list_main(Base $base, Project $project, Role $role)
+    //static function get_items_list_main(Base $base, Project $project, Role $role)
+    static function get_items_list_main(Base $base, Project $current_project, Link $link)
     {
-        // Результат, no get()
+        $project = null;
+        
+        //$items = null;
+        // Пустой список items класса Item
         $items = Item::select(DB::Raw('items.*'))
-            ->where('items.base_id', $base->id)
-            ->where('project_id', $project->id);
+        ->where('id', '_');
+
+        // Если передано $link
+        if ($link){
+            // Находим проект
+            $project = MainController::calc_link_project($link, $current_project);
+        }
+        else{
+            $project = $current_project;
+        }
+        if ($project){
+            // Результат, no get()
+            $items = Item::select(DB::Raw('items.*'))
+                ->where('items.base_id', $base->id)
+                ->where('project_id', $project->id);
+        }
         return $items;
     }
 

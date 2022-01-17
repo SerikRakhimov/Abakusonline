@@ -25,7 +25,6 @@ class IsLowerProject implements Rule
      */
     public function passes($attribute, $value)
     {
-        //
         return mb_strtolower($value) == $value;
     }
 

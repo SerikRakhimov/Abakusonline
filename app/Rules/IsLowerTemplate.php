@@ -4,7 +4,7 @@ namespace App\Rules;
 
 use Illuminate\Contracts\Validation\Rule;
 
-class IsLatinProject implements Rule
+class IsLowerTemplate implements Rule
 {
     /**
      * Create a new rule instance.
@@ -19,14 +19,13 @@ class IsLatinProject implements Rule
     /**
      * Determine if the validation rule passes.
      *
-     * @param  string  $attribute
-     * @param  mixed  $value
+     * @param string $attribute
+     * @param mixed $value
      * @return bool
      */
     public function passes($attribute, $value)
     {
-        $chr_ru = "A-Za-z0-9\s`~!@#$%^&*()_+-={}|:;<>?,.\/\"\'\\\[\]";
-        return (preg_match("/^[$chr_ru]+$/u", $value));
+        return mb_strtolower($value) == $value;
     }
 
     /**
@@ -36,7 +35,6 @@ class IsLatinProject implements Rule
      */
     public function message()
     {
-        return trans('main.only_latin_characters_numbers_and_special_characters_are_allowed') . '.';
+        return trans('main.all_letters_must_be_lowercase') . '.';
     }
-
 }

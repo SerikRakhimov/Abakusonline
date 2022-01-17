@@ -30,7 +30,7 @@
             <div class="col-2">
             </div>
             <div class="col-5 text-right">
-                {{--                Не использовать для if($is_user)--}}
+                {{--                Не использовать добавление записи (корректирку записи можно) для if($is_user)--}}
                 {{--                <button type="button" class="btn btn-dreamer" title="{{trans('main.add')}}"--}}
                 {{--                        onclick="document.location=--}}
                 {{--                        @if($is_template)--}}

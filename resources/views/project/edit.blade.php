@@ -199,6 +199,7 @@
             </div>
         @endif
         @if($child_relits_info['is_child_relits'] == true && $child_relits_info['error_message'] == '')
+            {{-- Похожая строки в project/edit, project/show --}}
             <h5>{{trans('main.projects')}}_{{trans('main.parents')}}:</h5>
             @foreach($child_relits_info['child_relits'] as $child_relit)
                 <div class="form-group row">

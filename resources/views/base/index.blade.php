@@ -60,8 +60,7 @@
                     <td class="text-left">
                         {{--                        <a href="{{route('item.base_index',$base)}}" title="{{$base->names()}}">--}}
                         {{$base->names()}}
-                        ({{count(Item::where('base_id', $base->id)->get())}}
-                        )
+                        ({{count(Item::where('base_id', $base->id)->get())}})
                         {{--                        </a>--}}
                     </td>
                     <td class="text-center">

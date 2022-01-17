@@ -1,6 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
+<?php
+    use \App\Http\Controllers\MainController;
+    ?>
     <p>
     <div class="container-fluid">
         <div class="row">
@@ -28,8 +31,9 @@
             <th class="text-left">{{trans('main.child')}}_{{trans('main.base')}}</th>
             <th class="text-left">{{trans('main.child_label')}}</th>
             <th class="text-left">{{trans('main.child_labels')}}</th>
-            <th class="text-left">{{trans('main.parent')}}_{{trans('main.base')}}</th>
             <th class="text-left">{{trans('main.serial_number')}}</th>
+            <th class="text-left">{{trans('main.parent')}}_{{trans('main.template')}}</th>
+            <th class="text-left">{{trans('main.parent')}}_{{trans('main.base')}}</th>
             <th class="text-left">{{trans('main.level')}}_0</th>
             <th class="text-left">{{trans('main.level')}}_1</th>
             <th class="text-left">{{trans('main.level')}}_2</th>
@@ -74,12 +78,17 @@
                 </td>
                 <td class="text-left">
                     <a href="{{route('link.show',$link)}}">
-                        {{$link->parent_base->info()}}
+                        {{$link->parent_base_number}}
                     </a>
                 </td>
                 <td class="text-left">
                     <a href="{{route('link.show',$link)}}">
-                        {{$link->parent_base_number}}
+                        {{MainController::get_template_name_from_relit_id($link->parent_relit_id, $link->child_base->template_id)}}
+                    </a>
+                </td>
+                <td class="text-left">
+                    <a href="{{route('link.show',$link)}}">
+                        {{$link->parent_base->info()}}
                     </a>
                 </td>
                 <td class="text-left">

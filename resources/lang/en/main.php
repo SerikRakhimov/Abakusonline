@@ -359,6 +359,7 @@ return [
     'project_access_denied'=>'Project access denied',
     'error_sending_email'=>'Error sending email',
     'current_status'=>'Current status',
+    'current_template'=>'Current template',
     'send'=>'Send',
     'subscribe'=>'Subscribe',
     'subscription_requests'=>'Subscription requests',
@@ -381,4 +382,7 @@ return [
     'parent_enabled_boolean_value_link_id' => 'Dependent field Boolean',
     'is_equality_of_templates_rule' =>"Templates don't have to be equal to each other",
     'no_projects_found_with_this_template' => 'No projects found with this template',
+    'check_project_properties_projects_parents_are_not_set' => 'Check project properties: projects - Parents are not set',
+    'projects_children_are_not_set' => 'projects - Children are not set',
+    'parent_project_not_found' => 'Project - Parent not found',
     ];

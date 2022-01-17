@@ -6,6 +6,7 @@
     use App\Models\Item;
     use App\Models\Set;
     use \App\Http\Controllers\GlobalController;
+    use \App\Http\Controllers\MainController;
     use \App\Http\Controllers\BaseController;
     use \App\Http\Controllers\ItemController;
     use \App\Http\Controllers\LinkController;
@@ -295,7 +296,7 @@
                 }
             }
             $items = [];
-            if ($items_default = true) {
+            if ($items_default = true && $link->parent_base->type_is_list()) {
                 $result = ItemController::get_items_main($base_items, $project, $role, $link);
                 $items = $result['items_no_get']->get();
             }
@@ -888,12 +889,13 @@
     @foreach($array_calc as $key=>$value)
         <?php
         $link = Link::find($key);
+        // Находим $parent_project
+        $parent_project = MainController::calc_link_project($link, $project);
         $base_link_right = GlobalController::base_link_right($link, $role);
         ?>
         @if($base_link_right['is_edit_link_enable'] == false)
             @continue
         @endif
-
         <?php
         $prefix = '1_';
         ?>
@@ -999,16 +1001,16 @@
             {{--                <script>--}}
             {{--                </script>--}}
             <script>
-                    @if(($link_start_child->parent_is_base_link == true) || ($link_start_child->parent_base->is_code_needed==true && $link_start_child->parent_is_enter_refer==true))
+                @if(($link_start_child->parent_is_base_link == true) || ($link_start_child->parent_base->is_code_needed==true && $link_start_child->parent_is_enter_refer==true))
                 var child_base_id{{$prefix}}{{$link->id}} = document.getElementById('{{$link_start_child->id}}');
-                    @else
+                @else
                 var child_base_id{{$prefix}}{{$link->id}} = document.getElementById('link{{$link_start_child->id}}');
-                    @endif
-                    {{--var child_base_id{{$prefix}}{{$link->id}} = document.getElementById('link{{$link_start_child->id}}');--}}
+                @endif
+                {{--var child_base_id{{$prefix}}{{$link->id}} = document.getElementById('link{{$link_start_child->id}}');--}}
 
-                    @if(($link->parent_is_base_link == true) || ($link->parent_base->is_code_needed==true && $link->parent_is_enter_refer==true))
+                @if(($link->parent_is_base_link == true) || ($link->parent_base->is_code_needed==true && $link->parent_is_enter_refer==true))
                 var parent_base_id{{$prefix}}{{$link->id}} = document.getElementById('{{$link->id}}');
-                    @else
+                @else
                 var parent_base_id{{$prefix}}{{$link->id}} = document.getElementById('link{{$link->id}}');
                 @endif
 
@@ -1036,9 +1038,9 @@
                             @if(($link_start_child->parent_is_base_link == true) || ($link_start_child->parent_base->is_code_needed==true && $link_start_child->parent_is_enter_refer==true))
                                 @else
                                 await axios.get('/item/get_items_main_options/'
-                                + '{{$link_start_child->parent_base_id}}' + '/' + {{$project->id}} +'/' + {{$role->id}} +'/' + {{$link_get->id}}
+                                + '{{$link_start_child->parent_base_id}}' + '/' + {{$project->id}} + '/' + {{$role->id}} + '/' + {{$link_get->id}}
                                     @if(($link->parent_is_base_link == true) || ($link->parent_base->is_code_needed==true && $link->parent_is_enter_refer==true))
-                                    +'/' + parent_base_id{{$prefix}}{{$link->id}}.value
+                                + '/' + parent_base_id{{$prefix}}{{$link->id}}.value
                                 @else
                                 + '/' + parent_base_id{{$prefix}}{{$link->id}}.options[parent_base_id{{$prefix}}{{$link->id}}.selectedIndex].value
                                 @endif
@@ -1088,9 +1090,9 @@
 
                     var child_base_id{{$prefix}}{{$link->id}} = document.getElementById('buttonbrow{{$link->id}}');
 
-                        @if(($link_refer_main->parent_is_base_link == true) || ($link_refer_main->parent_base->is_code_needed==true && $link_refer_main->parent_is_enter_refer==true))
+                    @if(($link_refer_main->parent_is_base_link == true) || ($link_refer_main->parent_base->is_code_needed==true && $link_refer_main->parent_is_enter_refer==true))
                     var parent_base_id{{$prefix}}{{$link->id}} = document.getElementById('{{$link_refer_main->id}}');
-                        @else
+                    @else
                     var parent_base_id{{$prefix}}{{$link->id}} = document.getElementById('link{{$link_refer_main->id}}');
 
                     @endif
@@ -1112,9 +1114,9 @@
                                 window.item_name.innerHTML = "";
                                 alert("{{trans('main.select_a_field_to_filter') . '!'}}");
                             } else {
-                                open('{{route('item.browser', '')}}' + '/' + {{$link->id}} +'/' + {{$project->id}} +'/' + {{$role->id}}
+                                open('{{route('item.browser', '')}}' + '/' + {{$link->id}} + '/' + {{$project->id}} + '/' + {{$role->id}}
                                         @if(($link_refer_main->parent_is_base_link == true) || ($link_refer_main->parent_base->is_code_needed==true && $link_refer_main->parent_is_enter_refer==true))
-                                        +'/' + parent_base_id{{$prefix}}{{$link->id}}.value
+                                    + '/' + parent_base_id{{$prefix}}{{$link->id}}.value
                                     @else
                                     + '/' + parent_base_id{{$prefix}}{{$link->id}}.options[parent_base_id{{$prefix}}{{$link->id}}.selectedIndex].value
                                     @endif
@@ -1144,9 +1146,9 @@
                                 } else {
                                     await axios.get('/item/get_items_main_code/'
                                         + code_{{$prefix}}{{$link->id}}.value + '/'
-                                        + '{{$link->parent_base_id}}' + '/' + {{$project->id}} +'/' + {{$role->id}} +'/' + {{$link->id}}
+                                        + '{{$link->parent_base_id}}' + '/' + {{$project->id}} + '/' + {{$role->id}} + '/' + {{$link->id}}
                                             @if(($link_refer_main->parent_is_base_link == true) || ($link_refer_main->parent_base->is_code_needed==true && $link_refer_main->parent_is_enter_refer==true))
-                                            +'/' + parent_base_id{{$prefix}}{{$link->id}}.value
+                                        + '/' + parent_base_id{{$prefix}}{{$link->id}}.value
                                         @else
                                         + '/' + parent_base_id{{$prefix}}{{$link->id}}.options[parent_base_id{{$prefix}}{{$link->id}}.selectedIndex].value
                                         @endif
@@ -1184,7 +1186,7 @@
                         window.item_id = document.getElementById('{{$link->id}}');
                         window.item_code = document.getElementById('code{{$link->id}}');
                         window.item_name = document.getElementById('name{{$link->id}}');
-                        open('{{route('item.browser', '')}}' + '/' + {{$link->id}} +'/' + {{$project->id}} +'/' + {{$role->id}}
+                        open('{{route('item.browser', '')}}' + '/' + {{$link->id}} + '/' + {{$project->id}} + '/' + {{$role->id}}
                             , 'browse', 'width=800, height=800');
                     }
 
@@ -1200,7 +1202,7 @@
                     async function code_input_{{$prefix}}{{$link->id}}(first) {
                         await axios.get('/item/item_from_base_code/'
                             + '{{$link->parent_base_id}}'
-                            + '/' + '{{$project->id}}'
+                            + '/' + '{{$parent_project->id}}'
                             + '/' + code_{{$prefix}}{{$link->id}}.value
                         ).then(function (res) {
                                 code_{{$prefix}}{{$link->id}}.innerHTML = res.data['item_code'];
@@ -1231,7 +1233,7 @@
         {{--        Проверка на вычисляемые поля--}}
         @if($link_parent)
             <script>
-                    @if($const_link_start->parent_base->is_code_needed==true && $const_link_start->parent_is_enter_refer==true)
+                @if($const_link_start->parent_base->is_code_needed==true && $const_link_start->parent_is_enter_refer==true)
 
                 var child_base_id{{$prefix}}{{$link->id}} = document.getElementById('{{$const_link_id_start}}');
                 var child_code_id{{$prefix}}{{$link->id}} = document.getElementById('code{{$const_link_id_start}}');
@@ -1274,7 +1276,7 @@
                 // Эта команда не нужна
                 //child_code_id{{$prefix}}{{$link->id}}.addEventListener("change", link_id_change_{{$prefix}}{{$link->id}});
 
-                    @elseif($const_link_start->parent_base->type_is_list())
+                @elseif($const_link_start->parent_base->type_is_list())
                 var child_base_id{{$prefix}}{{$link->id}} = document.getElementById('link{{$const_link_id_start}}');
                 var parent_base_id{{$prefix}}{{$link->id}} = document.getElementById('link{{$link->id}}');
 
@@ -1313,16 +1315,16 @@
         {{--        Выводится одно поле из вычисляемой таблицы--}}
         @if($link_calculated_table)
             <script>
-                    @foreach($sets_group as $to_key => $to_value)
+                @foreach($sets_group as $to_key => $to_value)
                 var code_needed_child_base_id{{$prefix}}{{$link->id}}_{{$to_value->id}} = {{$to_value->link_from->parent_base->is_code_needed}};
 
-                    @if($to_value->link_from->parent_base->is_code_needed==true && $to_value->link_from->parent_is_enter_refer==true)
+                @if($to_value->link_from->parent_base->is_code_needed==true && $to_value->link_from->parent_is_enter_refer==true)
                 var child_base_id{{$prefix}}{{$link->id}}_{{$to_value->id}} = document.getElementById('{{$to_value->link_from_id}}');
                 var code_child_base_id{{$prefix}}{{$link->id}}_{{$to_value->id}} = document.getElementById('code{{$to_value->link_from_id}}');
-                    @else
+                @else
                 var child_base_id{{$prefix}}{{$link->id}}_{{$to_value->id}} = document.getElementById('link{{$to_value->link_from_id}}');
-                    @endif
-                    @endforeach
+                @endif
+                @endforeach
 
                 var parent_base_id{{$prefix}}{{$link->id}} = document.getElementById('link{{$link->id}}');
 
@@ -1380,19 +1382,19 @@
 
     <script>
 
-            @foreach($array_calc as $key=>$value)
-            <?php
-            $link = Link::find($key);
-            $base_link_right = GlobalController::base_link_right($link, $role);
-            $prefix = '5_';
-            ?>
+        @foreach($array_calc as $key=>$value)
+        <?php
+        $link = Link::find($key);
+        $base_link_right = GlobalController::base_link_right($link, $role);
+        $prefix = '5_';
+        ?>
 
-            {{-- Похожая проверка вверху--}}
-            {{-- @if($base_link_right['is_edit_link_read'] == false)--}}
-            {{-- @if($link->parent_is_numcalc == true)--}}
-            @if($base_link_right['is_edit_link_read'] == false)
-            @if($link->parent_is_numcalc == true)
-            @if($link->parent_is_numcalc==true && $link->parent_is_nc_screencalc==true)
+        {{-- Похожая проверка вверху--}}
+        {{-- @if($base_link_right['is_edit_link_read'] == false)--}}
+        {{-- @if($link->parent_is_numcalc == true)--}}
+        @if($base_link_right['is_edit_link_read'] == false)
+        @if($link->parent_is_numcalc == true)
+        @if($link->parent_is_numcalc==true && $link->parent_is_nc_screencalc==true)
         var button_nc_{{$prefix}}{{$link->id}} = document.getElementById('button_nc{{$link->id}}');
         var numcalc_{{$prefix}}{{$link->id}} = document.getElementById('link{{$link->id}}');
         var name_{{$prefix}}{{$link->id}} = document.getElementById('name{{$link->id}}');
@@ -1416,15 +1418,15 @@
         }
 
         button_nc_{{$prefix}}{{$link->id}}.addEventListener("click", button_nc_click_{{$prefix}}{{$link->id}});
-            {{--    button_nc_{{$prefix}}{{$link->id}}.addEventListener("click", on_numcalc);--}}
-            @endif
-            @endif
-            @endif
+        {{--    button_nc_{{$prefix}}{{$link->id}}.addEventListener("click", on_numcalc);--}}
+        @endif
+        @endif
+        @endif
 
-            @endforeach
-            {{--                @if($link->parent_base->is_code_needed==true && $link->parent_is_enter_refer==true)--}}
-            @if($base->is_code_number == true  && $base->is_limit_sign_code == true
-                && $base->is_code_zeros == true  && $base->significance_code > 0)
+        @endforeach
+        {{--                @if($link->parent_base->is_code_needed==true && $link->parent_is_enter_refer==true)--}}
+        @if($base->is_code_number == true  && $base->is_limit_sign_code == true
+            && $base->is_code_zeros == true  && $base->significance_code > 0)
         var code_el = document.getElementById('code');
 
         <?php
@@ -1441,7 +1443,7 @@
 
         code_el.addEventListener("change", code_change);
 
-            @endif
+        @endif
 
         var child_base_id_work = 0;
         var parent_base_id_work = 0;
@@ -1485,16 +1487,16 @@
             return r;
         }
 
-            @foreach($array_calc as $key=>$value)
-            <?php
-            $link = Link::find($key);
-            $prefix = '6_';
-            ?>
+        @foreach($array_calc as $key=>$value)
+        <?php
+        $link = Link::find($key);
+        $prefix = '6_';
+        ?>
 
-            @if($link->parent_is_nc_parameter == true && $link->parent_is_numcalc == false
-                    && $link->parent_is_nc_viewonly == false && $link->parent_is_parent_related == false)
-            {{--            @if($link->parent_is_nc_parameter == true && $link->parent_is_nc_viewonly == false)--}}
-            {{--            @if($link->parent_is_nc_parameter == true)--}}
+        @if($link->parent_is_nc_parameter == true && $link->parent_is_numcalc == false
+                && $link->parent_is_nc_viewonly == false && $link->parent_is_parent_related == false)
+        {{--            @if($link->parent_is_nc_parameter == true && $link->parent_is_nc_viewonly == false)--}}
+        {{--            @if($link->parent_is_nc_parameter == true)--}}
 
         var numrecalc_{{$prefix}}{{$link->id}} = document.getElementById('link{{$link->id}}');
 

@@ -359,6 +359,7 @@ return [
     'project_access_denied'=>'Жобаға қатынасуға тыйым салынған',
     'error_sending_email'=>'Электрондық пошта жіберу қатесі',
     'current_status'=>'Ағымдағы мәртебе',
+    'current_template'=>'Ағымдағы үлгі',
     'send'=>'Жіберу',
     'subscribe'=>'Жазылу',
     'subscription_requests'=>'Жазылуға сұрау салу',
@@ -381,4 +382,7 @@ return [
     'parent_enabled_boolean_value_link_id' => 'Тәуелді өріс логикалық',
     'is_equality_of_templates_rule' =>'Үлгілердің бір-біріне тең болуы міндетті емес',
     'no_projects_found_with_this_template' => 'Бұл үлгімен ешбір жоба табылмады',
+    'check_project_properties_projects_parents_are_not_set' => 'Жобаның сипаттарын тексеріңіз: «Жобалар - Ата-аналар» орнатылмаған',
+    'projects_children_are_not_set' => '«Жобалар - Балалар» орнатылмаған',
+    'parent_project_not_found' => 'Жоба - Ата-ана табылмады',
 ];

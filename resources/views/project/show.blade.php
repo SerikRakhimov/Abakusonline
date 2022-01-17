@@ -7,16 +7,18 @@
     use App\Http\Controllers\GlobalController;
     use Illuminate\Support\Facades\Request;
     use App\Models\User;
+    use App\Models\Project;
+    use App\Models\Relit;
     $is_template = isset($template);
     $is_user = isset($user);
     $project_edit = "";
     if ($is_template == true) {
         $project_edit = "project.edit_template";
     }
-//      Не использовать для '($is_user == true)'
-//    if ($is_user == true) {
-//        $project_edit = "project.edit_user";
-//    }
+//      Использовать для '($is_user == true)' только для корректировки (при этом поле Шаблон недоступно для корректирки)
+    if ($is_user == true) {
+        $project_edit = "project.edit_user";
+    }
     ?>
     <p>
         @if($is_template)
@@ -46,10 +48,32 @@
         <p>{{trans('main.author')}}: <b>{{$project->user->name()}}</b></p>
     @endif
 
+
+    @if(count($array_calc) > 0)
+        {{-- Похожая строки в project/edit, project/show --}}
+        <h5>{{trans('main.projects')}}_{{trans('main.parents')}}:</h5>
+        @foreach($array_calc as $relit_id=>$parent_project_id)
+            <?php
+                $relit = Relit::findOrFail($relit_id);
+                //$parent_project = Project::findOrFail($parent_project_id);
+                $parent_project = Project::find($parent_project_id);
+            ?>
+            <p>{{$relit->parent_template->name()}}:
+                <b>
+                    @if($parent_project)
+                        {{$parent_project->name()}}
+                    @else
+                        {{trans('main.empty')}}
+                    @endif
+                </b>
+            </p>
+        @endforeach
+    @endif
+
+
     @if ($type_form == 'show')
         <p>
-            {{--                Не использовать для if($is_user)--}}
-            @if($is_template)
+            @if($is_template || $is_user)
                 <button type="button" class="btn btn-dreamer"
                         onclick="document.location='{{route($project_edit,$project)}}'" title="{{trans('main.edit')}}">
                     <i class="fas fa-edit"></i>

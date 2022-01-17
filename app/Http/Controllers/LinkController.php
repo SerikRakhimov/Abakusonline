@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\App;
 use App\Models\Base;
 use App\Models\Link;
+use App\Models\Template;
 use App\Models\Level;
 use App\Models\Set;
+use App\Models\Relit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -87,7 +89,9 @@ class LinkController extends Controller
 
         return view('link/edit', ['base' => $base,
             'bases' => Base::where('template_id', $base->template_id)->get(),
-            'levels' => Level::where('template_id', $base->template_id)->get()]);
+            'levels' => Level::where('template_id', $base->template_id)->get(),
+            'array_relits' => MainController::get_array_relits($base->template)],
+        );
     }
 
     function store(Request $request)
@@ -115,6 +119,7 @@ class LinkController extends Controller
         $link->child_labels_lang_2 = isset($request->child_labels_lang_2) ? $request->child_labels_lang_2 : "";
         $link->child_labels_lang_3 = isset($request->child_labels_lang_3) ? $request->child_labels_lang_3 : "";
         $link->parent_base_number = $request->parent_base_number;
+        $link->parent_relit_id = $request->parent_relit_id;
         $link->parent_num_bool_default_value = isset($request->parent_num_bool_default_value) ? $request->parent_num_bool_default_value : "";
         $link->parent_level_id_0 = isset($request->parent_level_id_0) ? ($request->parent_level_id_0 == 0 ? null : $request->parent_level_id_0) : null;
         $link->parent_level_id_1 = isset($request->parent_level_id_1) ? ($request->parent_level_id_1 == 0 ? null : $request->parent_level_id_1) : null;
@@ -371,6 +376,7 @@ class LinkController extends Controller
         $link->child_labels_lang_2 = isset($request->child_labels_lang_2) ? $request->child_labels_lang_2 : "";
         $link->child_labels_lang_3 = isset($request->child_labels_lang_3) ? $request->child_labels_lang_3 : "";
         $link->parent_base_number = $request->parent_base_number;
+        $link->parent_relit_id = $request->parent_relit_id;
         $link->parent_num_bool_default_value = isset($request->parent_num_bool_default_value) ? $request->parent_num_bool_default_value : "";
         $link->parent_level_id_0 = isset($request->parent_level_id_0) ? ($request->parent_level_id_0 == 0 ? null : $request->parent_level_id_0) : null;
         $link->parent_level_id_1 = isset($request->parent_level_id_1) ? ($request->parent_level_id_1 == 0 ? null : $request->parent_level_id_1) : null;
@@ -609,7 +615,8 @@ class LinkController extends Controller
 
         return view('link/edit', ['base' => $base, 'link' => $link,
             'bases' => Base::where('template_id', $base->template_id)->get(),
-            'levels' => Level::where('template_id', $base->template_id)->get()]);
+            'levels' => Level::where('template_id', $base->template_id)->get(),
+            'array_relits' => MainController::get_array_relits($base->template)]);
     }
 
     function delete_question(Link $link)
@@ -983,6 +990,35 @@ class LinkController extends Controller
             'const_link_id_start' => $const_link_id_start,
             'const_link_start' => $const_link_start,
             'link_ids' => $link_ids  // все элементы в $link_ids - вычисляемые поля
+        ];
+    }
+
+    // Похожая процедура SetController::get_links_from_parent_relit_to_id()
+    static function get_bases_from_parent_relit_id($relit_id, $current_template_id)
+    {
+        $bases_options = '';
+        // Вычисление $template
+        $template_id = null;
+        if ($relit_id == 0){
+              $template_id = $current_template_id;}
+        else{
+            $relit = Relit::find($relit_id);
+            if ($relit){
+                $template_id = $relit->parent_template_id;
+            }
+        }
+        if ($template_id != null) {
+            // список bases по выбранному template_id
+            $bases = Base::all()
+                ->where('template_id', $template_id)
+                ->sortBy('parent_base_number');
+            foreach ($bases as $base) {
+                $bases_options = $bases_options
+                    . "<option value='" . $base->id . "'>" . $base->name() . "</option>";
+            }
+        }
+        return [
+            'bases_options' => $bases_options
         ];
     }
 

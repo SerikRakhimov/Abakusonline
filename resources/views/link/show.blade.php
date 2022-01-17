@@ -3,6 +3,7 @@
 @section('content')
     <?php
     use App\Models\Link;
+    use \App\Http\Controllers\MainController;
     use \App\Http\Controllers\LinkController;
     ?>
     <h3 class="display-5">
@@ -29,7 +30,8 @@
     @endforeach
 
     <p>{{trans('main.serial_number')}}: <b>{{$link->parent_base_number}}</b></p>
-
+    <p>{{trans('main.parent')}}_{{trans('main.template')}}: <b>{{MainController::get_template_name_from_relit_id($link->parent_relit_id, $link->child_base->template_id)}}</b></p>
+    
     <p>{{trans('main.parent')}}_{{trans('main.base')}}: <b>{{$link->parent_base->name()}}</b>
     <div><b>{{$link->parent_base->info_full()}}</b></div></p>
 
