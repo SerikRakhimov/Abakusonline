@@ -4,6 +4,7 @@ namespace App\Observers;
 
 use App\Models\Base;
 use App\Models\Item;
+use App\Models\Text;
 use Illuminate\Support\Facades\Storage;
 
 class BaseObserver
@@ -42,7 +43,16 @@ class BaseObserver
         // эти записи items потом удалятся автоматически, т.к. связаны с bases
         $items = Item::where('base_id', $base->id)->get();
         foreach ($items as $item) {
-            if ($item->base->type_is_image() || $item->base->type_is_document()) {
+            // Если тип - текст, удаление записей в связанной таблице
+            if ($item->base->type_is_text()) {
+                $texts = Text::where('item_id', $item->id)->get();
+                if ($texts) {
+                    foreach ($texts as $text) {
+                        $text->delete();
+                    }
+                }
+            } // Если тип - изображение или документ, предварительное удаление файлов с диска
+            elseif ($item->base->type_is_image() || $item->base->type_is_document()) {
                 Storage::delete($item->filename());
             }
         }

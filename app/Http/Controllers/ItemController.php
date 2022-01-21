@@ -21,6 +21,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use Intervention\Image\Facades\Image;
 use phpDocumentor\Reflection\Types\Boolean;
 use phpDocumentor\Reflection\Types\Integer;
 use Illuminate\Support\Facades\Auth;
@@ -823,7 +824,11 @@ class ItemController extends Controller
             if ($link->parent_base->type_is_image() || $link->parent_base->type_is_document()) {
                 $path = "";
                 if ($request->hasFile($key)) {
-                    $path = $request[$key]->store('public/' . $item->project_id . '/' . $link->parent_base_id);
+                    if ($link->parent_base->type_is_image()) {
+                        $path = MainController::image_store($request, $key, $item->project_id, $link->parent_base_id);
+                    } else {
+                        $path = $request[$key]->store('public/' . $item->project_id . '/' . $link->parent_base_id);
+                    }
                 }
                 $inputs[$key] = $path;
             } elseif ($link->parent_base->type_is_number()) {
@@ -1307,8 +1312,8 @@ class ItemController extends Controller
                                 //});
                                 $items = $items->where('project_id', $parent_project->id)
                                     ->whereHas('child_mains', function ($query) use ($nt, $nv) {
-                                    $query->where('link_id', $nt)->where('parent_item_id', $nv);
-                                });
+                                        $query->where('link_id', $nt)->where('parent_item_id', $nv);
+                                    });
                                 // Поиск по item
                                 // похожие строки чуть ниже
                                 $item_seek = $items->first();
@@ -1363,9 +1368,9 @@ class ItemController extends Controller
                             // создать новую запись
                             $item_seek = new Item();
                             $item_seek->base_id = $to_key;
-                            if($parent_project){
+                            if ($parent_project) {
                                 $item_seek->project_id = $parent_project->id;
-                            }else{
+                            } else {
                                 dd(trans('main.parent_project_not_found' . '!'));
                             }
                             $item_seek->code = uniqid($item_seek->id . '_', true);
@@ -2097,8 +2102,8 @@ class ItemController extends Controller
 
         // поиск должен быть удачным, иначе "$main->link_id = $keys[$index]" может дать ошибку
         $link = Link::findOrFail($keys[$index]);
-	    // Находим $parent_project
-	    $parent_project = MainController::calc_link_project($link, $item->project);
+        // Находим $parent_project
+        $parent_project = MainController::calc_link_project($link, $item->project);
         $parent_project_id = $parent_project->id;
 
         // тип корректировки поля - список
@@ -2375,7 +2380,11 @@ class ItemController extends Controller
         if ($base->type_is_image() || $base->type_is_document()) {
             $path = "";
             if ($request->hasFile('name_lang_0')) {
-                $path = $item->name_lang_0->store('public/' . $item->project_id . '/' . $base->id);
+                if ($base->type_is_image()) {
+                    $path = MainController::image_store($request, 'name_lang_0', $item->project_id, $base->id);
+                } else {
+                    $path = $item->name_lang_0->store('public/' . $item->project_id . '/' . $base->id);
+                }
                 $item->name_lang_0 = $path;
                 if ($base->type_is_image()) {
                     if ($item->base->is_to_moderate_image == true) {
@@ -2809,7 +2818,11 @@ class ItemController extends Controller
             if ($link->parent_base->type_is_image() || $link->parent_base->type_is_document()) {
                 $path = "";
                 if ($request->hasFile($key)) {
-                    $path = $request[$key]->store('public/' . $item->project_id . '/' . $link->parent_base_id);
+                    if ($link->parent_base->type_is_image()) {
+                        $path = MainController::image_store($request, $key, $item->project_id, $link->parent_base_id);
+                    } else {
+                        $path = $request[$key]->store('public/' . $item->project_id . '/' . $link->parent_base_id);
+                    }
                 }
                 $inputs[$key] = $path;
             } elseif ($link->parent_base->type_is_number()) {
@@ -4800,21 +4813,20 @@ class ItemController extends Controller
     static function get_items_list_main(Base $base, Project $current_project, Link $link)
     {
         $project = null;
-        
+
         //$items = null;
         // Пустой список items класса Item
         $items = Item::select(DB::Raw('items.*'))
-        ->where('id', '_');
+            ->where('id', '_');
 
         // Если передано $link
-        if ($link){
+        if ($link) {
             // Находим проект
             $project = MainController::calc_link_project($link, $current_project);
-        }
-        else{
+        } else {
             $project = $current_project;
         }
-        if ($project){
+        if ($project) {
             // Результат, no get()
             $items = Item::select(DB::Raw('items.*'))
                 ->where('items.base_id', $base->id)

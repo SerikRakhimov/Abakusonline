@@ -86,7 +86,7 @@
                         </div>
                     @endif
                     <p>
-                    <h4 class="mb-2">{{$project->name()}}</h4>
+                    <h5 class="mb-2">{{$project->name()}}</h5>
                     {{--                <p class="card-text">{{$project->desc()}}</p>--}}
                     <span class="card-text"><?php echo nl2br($project->dc_ext()); ?></span></p>
                     <br>

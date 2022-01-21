@@ -14,6 +14,7 @@ use App\Models\Relit;
 use App\Models\Relip;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Intervention\Image\Facades\Image;
 
 class MainController extends Controller
 {
@@ -301,21 +302,20 @@ class MainController extends Controller
     static function calc_link_project(Link $link, Project $current_project)
     {
         $project = null;
-        if ($link->parent_relit_id == 0){
+        if ($link->parent_relit_id == 0) {
             // Возвращается текущий проект
             $project = $current_project;
-        }
-        else{
+        } else {
             // Поиск взаимосвязанного проекта
             $relit = Relit::find($link->parent_relit_id);
-            if ($relit){
+            if ($relit) {
                 $relip = Relip::where('relit_id', $relit->id)->where('child_project_id', $current_project->id)->first();
-                if ($relip){
+                if ($relip) {
                     $project = $relip->parent_project;
                 }
             }
         }
-        if ($project == null){
+        if ($project == null) {
             dd(trans('main.check_project_properties_projects_parents_are_not_set') . '!');
             //return view('message', ['message' => trans('main.info_user_changed')]);
             //return('Не найден проект');
@@ -323,45 +323,44 @@ class MainController extends Controller
         return $project;
     }
 
-        // вывод проекта по $set и $current_project
-        // Функции calc_link_project(), calc_set_project(), calc_relit_children_projects() похожи
-        static function calc_set_project(Set $set, Project $current_project)
-        {
-            $project = null;
-            if ($set->relit_to_id == 0){
-                // Возвращается текущий проект
-                $project = $current_project;
-            }
-            else{
-                // Поиск взаимосвязанного проекта
-                $relit = Relit::find($set->relit_to_id);
-                if ($relit){
-                    $relip = Relip::where('relit_id', $relit->id)->where('child_project_id', $current_project->id)->first();
-                    if ($relip){
-                        $project = $relip->parent_project;
-                    }
+    // вывод проекта по $set и $current_project
+    // Функции calc_link_project(), calc_set_project(), calc_relit_children_projects() похожи
+    static function calc_set_project(Set $set, Project $current_project)
+    {
+        $project = null;
+        if ($set->relit_to_id == 0) {
+            // Возвращается текущий проект
+            $project = $current_project;
+        } else {
+            // Поиск взаимосвязанного проекта
+            $relit = Relit::find($set->relit_to_id);
+            if ($relit) {
+                $relip = Relip::where('relit_id', $relit->id)->where('child_project_id', $current_project->id)->first();
+                if ($relip) {
+                    $project = $relip->parent_project;
                 }
             }
-            if ($project == null){
-                dd(trans('main.check_project_properties_projects_parents_are_not_set') . '!');
-            }
-            return $project;
         }
-    
-        // вывод проекта по $relit и $current_project
-        // Функции calc_link_project(), calc_set_project(), calc_relit_children_projects() похожи
-        static function calc_relit_children_id_projects(Relit $relit, Project $current_project)
-        {
-            // Поиск взаимосвязанных детских проектов
-            $children_id_projects = Relip::select(DB::Raw('relips.child_project_id as project_id'))
+        if ($project == null) {
+            dd(trans('main.check_project_properties_projects_parents_are_not_set') . '!');
+        }
+        return $project;
+    }
+
+    // вывод проекта по $relit и $current_project
+    // Функции calc_link_project(), calc_set_project(), calc_relit_children_projects() похожи
+    static function calc_relit_children_id_projects(Relit $relit, Project $current_project)
+    {
+        // Поиск взаимосвязанных детских проектов
+        $children_id_projects = Relip::select(DB::Raw('relips.child_project_id as project_id'))
             ->where('relips.relit_id', '=', $relit->id)
             ->where('relips.parent_project_id', '=', $current_project->id)
             ->get();
-            //if ($children_id_projects == null){
-            //    dd(trans('main.projects_children_are_not_set') . '!');
-            //}
-            return $children_id_projects;
-        }
+        //if ($children_id_projects == null){
+        //    dd(trans('main.projects_children_are_not_set') . '!');
+        //}
+        return $children_id_projects;
+    }
 
     function get_array_relits(Template $template)
     {
@@ -376,22 +375,55 @@ class MainController extends Controller
     }
 
     function get_template_name_from_relit_id($relit_id, $current_template_id)
-            {
-                $template_name = '';
-                // Вычисление $template
-                $template_id = null;
-                if ($relit_id == 0){
-                      $template = Template::findOrFail($current_template_id);
-                      $template_name = $template->name() . ' (' . trans('main.current_template') . ')';
-                    }
-                else{
-                    $relit = Relit::find($relit_id);
-                    if ($relit){
-                        $template = Template::findOrFail($relit->parent_template_id);
-                        $template_name = $template->name();
-                    }
-                }
-                return $template_name;
+    {
+        $template_name = '';
+        // Вычисление $template
+        $template_id = null;
+        if ($relit_id == 0) {
+            $template = Template::findOrFail($current_template_id);
+            $template_name = $template->name() . ' (' . trans('main.current_template') . ')';
+        } else {
+            $relit = Relit::find($relit_id);
+            if ($relit) {
+                $template = Template::findOrFail($relit->parent_template_id);
+                $template_name = $template->name();
             }
+        }
+        return $template_name;
+    }
+
+    // Сохранение и resize() изображения
+    function image_store($request, $key, $project_id, $base_id)
+    {
+        // Сохраняем на диск графический файл "один к одному"
+        //$path = $request[$key]->store('public/' . $item->project_id . '/' . $link->parent_base_id);
+        $path = $request[$key]->store('public/' . $project_id . '/' . $base_id);
+        // Пример заполнения $path = "public/24/55/axlkyj0ldw7ge0OaNU0hIZBHiqyMhB4oAeyS8HLs.jpg"
+        // Заменяем начальные 'public/' на 'storage/'
+        $path_storage = substr_replace($path, 'storage/', 0, 7);
+        // Пример заполнения $path_storage = "storage/24/55/DqKxdrZbpielRYdng4XoVomkMRSi3DqvRqWjIkHM.jpg"
+        $public_path = public_path($path_storage);
+        // Команда resize()
+        $img = Image::make($request[$key])->orientate()->resize(500, 500, function ($constraint) {
+            $constraint->aspectRatio();
+            // Предотвратить возможное увеличение размера
+            $constraint->upsize();
+        }
+        );
+//        $img = Image::make($request[$key])->orientate()->widen(300, function ($constraint) {
+//            // Предотвратить возможное увеличение размера
+//            $constraint->upsize();
+//        }
+//        );
+//        $img = Image::make($request[$key])->orientate()->fit(300, 400, function ($constraint) {
+//            $constraint->upsize();
+//        });
+
+        // Сохраняем(перезаписываем с тем же именем) графический файл после resize()
+        $img->save($public_path);
+
+        //$this->createThumbnail($path, 150, 150);
+        return $path;
+    }
 
 }
