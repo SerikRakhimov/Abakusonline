@@ -109,6 +109,7 @@ class ProjectController extends Controller
 //                    ->orwhere('is_default_for_external', true);
 //            })->orderBy('user_id')->orderBy('template_id')->orderBy('created_at');
 
+        // Проекты, у которых автор проекта = текущему пользователю
         $projects = Project::where('user_id', GlobalController::glo_user_id())
             ->orwhereHas('template.roles', function ($query) {
                 $query->where('is_author', true);
@@ -298,7 +299,6 @@ class ProjectController extends Controller
                 $role = $access->role;
                 $result[$role->id] = $result[$role->id] . " (" . trans('main.access_denied') . ")";
             }
-
 
         } elseif ($mysubs_projects == true) {
             if (Auth::check()) {
@@ -744,8 +744,14 @@ class ProjectController extends Controller
                 return redirect()->route('project.all_index');
             }
         }
-        //$projects = Project::where('user_id', $user->id)->orderBy('template_id');
-        $projects = Project::where('user_id', $user->id)->orderBy('account');
+
+//      Первоначальный вариант: выводить проекты, где автор равен текущему пользователю
+//      $projects = Project::where('user_id', $user->id)->orderBy('account');
+//
+        // Проекты, у которых в accesses есть записи для текущего пользователя
+        // с ролью Автор
+        $projects = $this->get_author_roles_projects();
+
         $name = "";  // нужно, не удалять
         $index = array_search(App::getLocale(), config('app.locales'));
         if ($index !== false) {   // '!==' использовать, '!=' не использовать
@@ -772,9 +778,16 @@ class ProjectController extends Controller
     function show_user(Project $project)
     {
         $user = User::findOrFail($project->user_id);
+//        Первоначальная проверка
+//        if (!
+//        Auth::user()->isAdmin()) {
+//            if (GlobalController::glo_user_id() != $user->id || $this->is_author_roles_project($project->id) == false) {
+//                return redirect()->route('project.all_index');
+//            }
+//        }
         if (!
         Auth::user()->isAdmin()) {
-            if (GlobalController::glo_user_id() != $user->id) {
+            if (!$this->is_author_roles_project($project->id)) {
                 return redirect()->route('project.all_index');
             }
         }
@@ -944,12 +957,21 @@ class ProjectController extends Controller
 
     function update(Request $request, Project $project)
     {
-        if (!Auth::user()->isAdmin()) {
-            $user = User::findOrFail($project->user_id);
-            if (GlobalController::glo_user_id() != $user->id) {
+//        Первоначальный вариант
+//        if (!Auth::user()->isAdmin()) {
+//            $user = User::findOrFail($project->user_id);
+//            if (GlobalController::glo_user_id() != $user->id) {
+//                return redirect()->route('project.all_index');
+//            }
+//        }
+
+        if (!
+        Auth::user()->isAdmin()) {
+            if (!$this->is_author_roles_project($project->id)) {
                 return redirect()->route('project.all_index');
             }
         }
+
         if ($project->account != $request->account) {
             $request->validate($this->account_rules());
         }
@@ -1092,11 +1114,21 @@ class ProjectController extends Controller
     function edit_user(Project $project)
     {
         $user = User::findOrFail($project->user_id);
-        if (!Auth::user()->isAdmin()) {
-            if (GlobalController::glo_user_id() != $user->id) {
+
+//        Первоначальный вариант
+//        if (!Auth::user()->isAdmin()) {
+//            if (GlobalController::glo_user_id() != $user->id) {
+//                return redirect()->route('project.all_index');
+//            }
+//        }
+
+        if (!
+        Auth::user()->isAdmin()) {
+            if (!$this->is_author_roles_project($project->id)) {
                 return redirect()->route('project.all_index');
             }
         }
+
 //        $templates = Template::get();
 //        return view('project/edit', ['user' => $user, 'project' => $project, 'templates' => $templates]);
 // Передаются $user, $project, $template
@@ -1111,11 +1143,21 @@ class ProjectController extends Controller
     function delete_question(Project $project)
     {
         $user = User::findOrFail($project->user_id);
-        if (!Auth::user()->isAdmin()) {
-            if (GlobalController::glo_user_id() != $user->id) {
+
+//        Первоначальный вариант
+//        if (!Auth::user()->isAdmin()) {
+//            if (GlobalController::glo_user_id() != $user->id) {
+//                return redirect()->route('project.all_index');
+//            }
+//        }
+
+        if (!
+        Auth::user()->isAdmin()) {
+            if (!$this->is_author_roles_project($project->id)) {
                 return redirect()->route('project.all_index');
             }
         }
+
         $template = Template::findOrFail($project->template_id);
         $child_relits_info = $this->child_relits_info($template, $project);
         return view('project/show', ['type_form' => 'delete_question', 'template' => $template, 'project' => $project,
@@ -1125,11 +1167,21 @@ class ProjectController extends Controller
     function delete(Request $request, Project $project)
     {
         $user = User::findOrFail($project->user_id);
-        if (!Auth::user()->isAdmin()) {
-            if (GlobalController::glo_user_id() != $user->id) {
+
+//        Первоначальный вариант
+//        if (!Auth::user()->isAdmin()) {
+//            if (GlobalController::glo_user_id() != $user->id) {
+//                return redirect()->route('project.all_index');
+//            }
+//        }
+
+        if (!
+        Auth::user()->isAdmin()) {
+            if (!$this->is_author_roles_project($project->id)) {
                 return redirect()->route('project.all_index');
             }
         }
+
         $project->delete();
 
         if ($request->session()->has('projects_previous_url')) {
@@ -1385,6 +1437,32 @@ class ProjectController extends Controller
         }
         return ['is_child_relits' => $is_child_relits, 'error_message' => $error_message, 'child_relits' => $child_relits,
             'array_calc' => $array_calc, 'array_projects' => $array_projects];
+    }
+
+    function get_author_roles_projects($project_id = null)
+    {
+        // Проекты, у которых в accesses есть записи для текущего пользователя
+        // с ролью Автор
+        $projects = Project::whereHas('accesses', function ($query) {
+            $query->where('user_id', GlobalController::glo_user_id());
+        })->whereHas('template.roles', function ($query) {
+            $query->where('is_author', true);
+        });
+        if ($project_id) {
+            $projects = Project::where('id', $project_id);
+        }
+        return $projects;
+    }
+
+    function is_author_roles_project($project_id = null)
+    {
+        $projects = $this->get_author_roles_projects($project_id);
+        $project = $projects->first();
+        $result = false;
+        if ($project) {
+            $result = true;
+        }
+        return $result;
     }
 
 }
