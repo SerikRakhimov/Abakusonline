@@ -385,4 +385,5 @@ return [
     'check_project_properties_projects_parents_are_not_set' => 'Жобаның сипаттарын тексеріңіз: «Жобалар - Ата-аналар» орнатылмаған',
     'projects_children_are_not_set' => '«Жобалар - Балалар» орнатылмаған',
     'parent_project_not_found' => 'Жоба - Ата-ана табылмады',
+    'project_author_subscription_with_authoring_role_is_not_deleted' => 'Жоба авторының авторлық рөлі бар жазылымы жойылмайды',
 ];

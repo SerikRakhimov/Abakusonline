@@ -385,4 +385,5 @@ return [
     'check_project_properties_projects_parents_are_not_set' => 'Проверьте свойства проекта: не установлены "проекты - Родители"',
     'projects_children_are_not_set' => 'Не установлены "проекты - Дети"',
     'parent_project_not_found' => 'Проект - Родитель не найден',
+    'project_author_subscription_with_authoring_role_is_not_deleted' => 'Подписка автора проекта с авторской ролью не удаляется',
     ];

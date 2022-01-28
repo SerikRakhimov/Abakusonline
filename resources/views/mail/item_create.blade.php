@@ -3,7 +3,7 @@ use App\Http\Controllers\MainController;
 //$link_image = $item->base->link_primary_image();
 //$item_find = null;
 //if ($link_image) {
-//    $item_find = MainController::view_info($item->id, $link_image->id);
+//    $item_find = GlobalController::view_info($item->id, $link_image->id);
 //} else {
 //    $item_find = null;
 //}

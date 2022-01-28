@@ -78,7 +78,7 @@ if ($item){
             @foreach($items as $it)
                 <?php
                 $i = $i + 1;
-                $item_find = MainController::view_info($it->id, $link_image->id);
+                $item_find = GlobalController::view_info($it->id, $link_image->id);
                 ?>
                 {{--            @if(($i-1) % 3 == 0)--}}
                 {{--                --}}{{--                Открывает /row--}}

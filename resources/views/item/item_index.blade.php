@@ -35,7 +35,7 @@
             <tr>
                 @foreach($links as $link)
                     <?php
-                    $item_find = MainController::view_info($item->id, $link->id);
+                    $item_find = GlobalController::view_info($item->id, $link->id);
                     ?>
                     <td>
                         @if($item_find)
@@ -313,7 +313,7 @@
                         @foreach($links1 as $link1)
                             <td>
                                 <?php
-                                $item_find = MainController::view_info($item1->id, $link1->id);
+                                $item_find = GlobalController::view_info($item1->id, $link1->id);
                                 ?>
                                 @if($item_find)
                                     {{--проверка на вычисляемые поля--}}

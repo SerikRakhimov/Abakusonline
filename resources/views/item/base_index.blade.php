@@ -174,7 +174,7 @@
             @foreach($items as $item)
                 <?php
                 $i = $i + 1;
-                $item_find = MainController::view_info($item->id, $link_image->id);
+                $item_find = GlobalController::view_info($item->id, $link_image->id);
                 ?>
                 {{--                <div class="card text-center">--}}
                 {{--                    <div class="card card-inverse text-center" style="background-color: rgba(222,255,162,0.23); border-color: #3548ee;">--}}
@@ -339,7 +339,7 @@
                             @include('layouts.class_from_base',['base'=>$link->parent_base])
                         >
                             <?php
-                            $item_find = MainController::view_info($item->id, $link->id);
+                            $item_find = GlobalController::view_info($item->id, $link->id);
                             ?>
                             @if($item_find)
                                 @if($link->parent_base->type_is_image())

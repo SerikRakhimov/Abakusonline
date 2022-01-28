@@ -890,7 +890,7 @@
         <?php
         $link = Link::find($key);
         // Находим $parent_project
-        $parent_project = MainController::calc_link_project($link, $project);
+        $parent_project = GlobalController::calc_link_project($link, $project);
         $base_link_right = GlobalController::base_link_right($link, $role);
         ?>
         @if($base_link_right['is_edit_link_enable'] == false)

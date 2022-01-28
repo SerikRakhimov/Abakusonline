@@ -68,7 +68,7 @@ class ModerationController extends Controller
         $path = "";
         if ($request->hasFile('name_lang_0')) {
             //$path = $request->name_lang_0->store('public/' . $item->project_id . '/' . $item->base->id);
-            $path = MainController::image_store($request, 'name_lang_0', $item->project_id, $item->base->id);
+            $path = GlobalController::image_store($request, 'name_lang_0', $item->project_id, $item->base->id);
             $item->name_lang_0 = $path;
         }
         $item->name_lang_1 = $request->name_lang_1;

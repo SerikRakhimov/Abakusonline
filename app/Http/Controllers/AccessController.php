@@ -27,11 +27,21 @@ class AccessController extends Controller
 
     function index_project(Project $project)
     {
+        // Первоначальный вариант
 //        if (!Auth::user()->isAdmin()) {
 //            return redirect()->route('project.all_index');
 //        }
+
+        if (!
+        Auth::user()->isAdmin()) {
+            if (!GlobalController::is_author_roles_project($project->id)) {
+                return redirect()->route('project.all_index');
+            }
+        }
+
         $accesses = Access::where('project_id', $project->id)
             ->orderBy('is_subscription_request', 'desc')->orderBy('user_id')->orderBy('role_id');
+
         session(['accesses_previous_url' => request()->url()]);
         return view('access/index', ['project' => $project, 'accesses' => $accesses->paginate(60)]);
     }
@@ -60,9 +70,17 @@ class AccessController extends Controller
 
     function show_project(Access $access)
     {
+//        Первоначальный вариант
 //        if (!Auth::user()->isAdmin()) {
 //            return redirect()->route('project.all_index');
 //        }
+        if (!
+        Auth::user()->isAdmin()) {
+            if (!GlobalController::is_author_roles_project($access->project_id)) {
+                return redirect()->route('project.all_index');
+            }
+        }
+
         $project = Project::findOrFail($access->project_id);
         return view('access/show', ['type_form' => 'show', 'project' => $project, 'access' => $access]);
     }
@@ -87,9 +105,9 @@ class AccessController extends Controller
 
     function create_project(Project $project)
     {
-//        if (!Auth::user()->isAdmin()) {
-//            return redirect()->route('project.all_index');
-//        }
+        if (!Auth::user()->isAdmin()) {
+            return redirect()->route('project.all_index');
+        }
         $users = User::orderBy('name')->get();
         $roles = Role::where('template_id', $project->template_id)->orderBy('name_lang_0')->get();
         return view('access/edit', ['project' => $project, 'users' => $users, 'roles' => $roles]);
@@ -117,9 +135,9 @@ class AccessController extends Controller
 
     function store(Request $request)
     {
-//        if (!Auth::user()->isAdmin()) {
-//            return redirect()->route('project.all_index');
-//        }
+        if (!Auth::user()->isAdmin()) {
+            return redirect()->route('project.all_index');
+        }
 
         $request->validate($this->rules($request));
 
@@ -139,9 +157,18 @@ class AccessController extends Controller
 
     function update(Request $request, Access $access)
     {
+//        Первоначальный вариант
 //        if (!Auth::user()->isAdmin()) {
 //            return redirect()->route('project.all_index');
 //        }
+
+        if (!
+        Auth::user()->isAdmin()) {
+            if (!GlobalController::is_author_roles_project($access->project_id)) {
+                return redirect()->route('project.all_index');
+            }
+        }
+
 //        if (!(Auth::user()->isAdmin() || ($access->role->is_default_for_external == true))) {
 //            return null;
 //        }
@@ -189,12 +216,12 @@ class AccessController extends Controller
             if (env('MAIL_ENABLED') == 'yes') {
                 $email_to = $access->user->email;
                 $appname = config('app.name', 'Abakus');
-                try{
-                Mail::send(['html' => 'mail/access_update'], ['access' => $access],
-                    function ($message) use ($email_to, $appname, $project) {
-                        $message->to($email_to, '')->subject($project->name() . ' - ' . trans('main.subscription_status_has_changed'));
-                        $message->from(env('MAIL_FROM_ADDRESS', ''), $appname);
-                    });
+                try {
+                    Mail::send(['html' => 'mail/access_update'], ['access' => $access],
+                        function ($message) use ($email_to, $appname, $project) {
+                            $message->to($email_to, '')->subject($project->name() . ' - ' . trans('main.subscription_status_has_changed'));
+                            $message->from(env('MAIL_FROM_ADDRESS', ''), $appname);
+                        });
                 } catch (Exception $exc) {
                     return trans('error_sending_email') . ": " . $exc->getMessage();
                 }
@@ -205,9 +232,17 @@ class AccessController extends Controller
 
     function edit_project(Access $access)
     {
+//        Первоначальный вариант
 //        if (!Auth::user()->isAdmin()) {
 //            return redirect()->route('project.all_index');
 //        }
+
+        if (!
+        Auth::user()->isAdmin()) {
+            if (!GlobalController::is_author_roles_project($access->project_id)) {
+                return redirect()->route('project.all_index');
+            }
+        }
 
 //        if (!(Auth::user()->isAdmin() ||!($access->role->is_default_for_external == false))) {
 //            return null;
@@ -216,12 +251,19 @@ class AccessController extends Controller
         $users = User::orderBy('name')->get();
         $roles = Role::where('template_id', $project->template_id)->orderBy('name_lang_0')->get();
 
-        if (!Auth::user()->isAdmin()) {
-            if (Auth::user() != $project->user) {
-                $roles = $roles->where('is_default_for_external', true);
-            }
-        }
+//        Первоначальный вариант
+//        if (!Auth::user()->isAdmin()) {
+//            if (Auth::user() != $project->user) {
+//                $roles = $roles->where('is_default_for_external', true);
+//            }
+//        }
 
+//        if (!
+//        Auth::user()->isAdmin()) {
+//            if (!GlobalController::is_author_roles_project($project->id)) {
+//                $roles = $roles->where('is_default_for_external', true);
+//            }
+//        }
 
         return view('access/edit', ['project' => $project, 'access' => $access, 'users' => $users, 'roles' => $roles]);
     }
@@ -261,9 +303,17 @@ class AccessController extends Controller
 
     function delete_question(Access $access)
     {
+//        Первоначальный вариант
 //        if (!Auth::user()->isAdmin()) {
 //            return redirect()->route('project.all_index');
 //        }
+
+        if (!
+        Auth::user()->isAdmin()) {
+            if (!GlobalController::is_author_roles_project($access->project_id)) {
+                return redirect()->route('project.all_index');
+            }
+        }
 
 //        if (!(Auth::user()->isAdmin() || ($access->role->is_default_for_external == true))) {
 //            return null;
@@ -274,9 +324,17 @@ class AccessController extends Controller
 
     function delete(Request $request, Access $access)
     {
+//        Первоначальный вариант
 //        if (!Auth::user()->isAdmin()) {
 //            return redirect()->route('project.all_index');
 //        }
+
+        if (!
+        Auth::user()->isAdmin()) {
+            if (!GlobalController::is_author_roles_project($access->project_id)) {
+                return redirect()->route('project.all_index');
+            }
+        }
 
 //        if (!(Auth::user()->isAdmin() || ($access->role->is_default_for_external == true))) {
 //            return null;
@@ -298,17 +356,19 @@ class AccessController extends Controller
                 if (env('MAIL_ENABLED') == 'yes') {
                     $email_to = $access->user->email;
                     $appname = config('app.name', 'Abakus');
-                    try{
-                    Mail::send(['html' => 'mail/access_delete'], ['access' => $access_copy],
-                        function ($message) use ($email_to, $appname, $project) {
-                            $message->to($email_to, '')->subject($project->name() . ' - ' . trans('main.subscription_removed'));
-                            $message->from(env('MAIL_FROM_ADDRESS', ''), $appname);
-                        });
+                    try {
+                        Mail::send(['html' => 'mail/access_delete'], ['access' => $access_copy],
+                            function ($message) use ($email_to, $appname, $project) {
+                                $message->to($email_to, '')->subject($project->name() . ' - ' . trans('main.subscription_removed'));
+                                $message->from(env('MAIL_FROM_ADDRESS', ''), $appname);
+                            });
                     } catch (Exception $exc) {
                         return trans('error_sending_email') . ": " . $exc->getMessage();
                     }
                 }
             }
+        } else {
+            return view('message', ['message' => trans('main.project_author_subscription_with_authoring_role_is_not_deleted') . '!']);
         }
         if ($request->session()->has('accesses_previous_url')) {
             return redirect(session('accesses_previous_url'));
@@ -328,9 +388,19 @@ class AccessController extends Controller
             }
             // список roles по выбранному project/template
             $result_roles = Role::where('template_id', $project->template_id)->orderBy($name)->get();
-            if (!Auth::user()->isAdmin()) {
-                $result_roles = $result_roles->where('is_default_for_external', true);
-            }
+
+//            Первоначальный вариант
+//            if (!Auth::user()->isAdmin()) {
+//                $result_roles = $result_roles->where('is_default_for_external', true);
+//            }
+
+//            if (!
+//            Auth::user()->isAdmin()) {
+//                if (!GlobalController::is_author_roles_project($project->id)) {
+//                    $result_roles = $result_roles->where('is_default_for_external', true);
+//                }
+//            }
+
             foreach ($result_roles as $role) {
                 $result_roles_options = $result_roles_options . "<option value='" . $role->id . "'>" . $role->name() . "</option>";
             }

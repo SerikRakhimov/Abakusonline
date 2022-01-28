@@ -750,7 +750,7 @@ class ProjectController extends Controller
 //
         // Проекты, у которых в accesses есть записи для текущего пользователя
         // с ролью Автор
-        $projects = $this->get_author_roles_projects();
+        $projects = GlobalController::get_author_roles_projects();
 
         $name = "";  // нужно, не удалять
         $index = array_search(App::getLocale(), config('app.locales'));
@@ -781,13 +781,13 @@ class ProjectController extends Controller
 //        Первоначальная проверка
 //        if (!
 //        Auth::user()->isAdmin()) {
-//            if (GlobalController::glo_user_id() != $user->id || $this->is_author_roles_project($project->id) == false) {
+//            if (GlobalController::glo_user_id() != $user->id) == false) {
 //                return redirect()->route('project.all_index');
 //            }
 //        }
         if (!
         Auth::user()->isAdmin()) {
-            if (!$this->is_author_roles_project($project->id)) {
+            if (!GlobalController::is_author_roles_project($project->id)) {
                 return redirect()->route('project.all_index');
             }
         }
@@ -967,7 +967,7 @@ class ProjectController extends Controller
 
         if (!
         Auth::user()->isAdmin()) {
-            if (!$this->is_author_roles_project($project->id)) {
+            if (!GlobalController::is_author_roles_project($project->id)) {
                 return redirect()->route('project.all_index');
             }
         }
@@ -1124,7 +1124,7 @@ class ProjectController extends Controller
 
         if (!
         Auth::user()->isAdmin()) {
-            if (!$this->is_author_roles_project($project->id)) {
+            if (!GlobalController::is_author_roles_project($project->id)) {
                 return redirect()->route('project.all_index');
             }
         }
@@ -1153,7 +1153,7 @@ class ProjectController extends Controller
 
         if (!
         Auth::user()->isAdmin()) {
-            if (!$this->is_author_roles_project($project->id)) {
+            if (!GlobalController::is_author_roles_project($project->id)) {
                 return redirect()->route('project.all_index');
             }
         }
@@ -1177,7 +1177,7 @@ class ProjectController extends Controller
 
         if (!
         Auth::user()->isAdmin()) {
-            if (!$this->is_author_roles_project($project->id)) {
+            if (!GlobalController::is_author_roles_project($project->id)) {
                 return redirect()->route('project.all_index');
             }
         }
@@ -1322,7 +1322,7 @@ class ProjectController extends Controller
                     echo nl2br(trans('main.base') . ": " . $base->name() . PHP_EOL);
                     $relit = Relit::findOrFail($value['relit_id']);
                     // Поиск $child_project
-                    $child_id_projects = MainController::calc_relit_children_id_projects($relit, $project);
+                    $child_id_projects = GlobalController::calc_relit_children_id_projects($relit, $project);
                     foreach ($child_id_projects as $project_id) {
                         $child_project = Project::findOrFail($project_id['project_id']);
                         echo nl2br('->' . trans('main.child') . '_' . trans('main.template') . ": " . $relit->child_template->name() . ", "
@@ -1437,32 +1437,6 @@ class ProjectController extends Controller
         }
         return ['is_child_relits' => $is_child_relits, 'error_message' => $error_message, 'child_relits' => $child_relits,
             'array_calc' => $array_calc, 'array_projects' => $array_projects];
-    }
-
-    function get_author_roles_projects($project_id = null)
-    {
-        // Проекты, у которых в accesses есть записи для текущего пользователя
-        // с ролью Автор
-        $projects = Project::whereHas('accesses', function ($query) {
-            $query->where('user_id', GlobalController::glo_user_id());
-        })->whereHas('template.roles', function ($query) {
-            $query->where('is_author', true);
-        });
-        if ($project_id) {
-            $projects = Project::where('id', $project_id);
-        }
-        return $projects;
-    }
-
-    function is_author_roles_project($project_id = null)
-    {
-        $projects = $this->get_author_roles_projects($project_id);
-        $project = $projects->first();
-        $result = false;
-        if ($project) {
-            $result = true;
-        }
-        return $result;
     }
 
 }

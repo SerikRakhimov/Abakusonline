@@ -93,7 +93,7 @@
         @foreach($array_calc as $key=>$value)
             <?php
             $link = Link::find($key);
-            $item_find = MainController::view_info($item->id, $key);
+            $item_find = GlobalController::view_info($item->id, $key);
             ?>
             @if($link && $item_find)
                 <?php

@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Relip;
+use App\Models\Relit;
 use App\Models\Set;
+use App\Models\Template;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
@@ -19,6 +22,7 @@ use App\Models\Access;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Auth;
+use Intervention\Image\Facades\Image;
 use phpDocumentor\Reflection\Types\Boolean;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Storage;
@@ -440,7 +444,7 @@ class GlobalController extends Controller
                                 $base_link_right = self::base_link_right($link, $role);
                                 // Если 'Показывать Связь в списке' = true
                                 if ($base_link_right['is_list_link_enable'] == true) {
-                                    $item_find = MainController::view_info($item->id, $link->id);
+                                    $item_find = GlobalController::view_info($item->id, $link->id);
                                     if ($item_find) {
                                         // Формирование вычисляемой строки для сортировки
                                         // Для строковых данных для сортировки берутся первые 50 символов
@@ -923,6 +927,230 @@ class GlobalController extends Controller
                     $result = trans('main.max_count_message_second') . $base->names() . trans('main.max_count_message_third') . '. ' . self::base_maxcount_message($base) . '!';
                 }
             }
+        }
+        return $result;
+    }
+
+    static function get_parent_item_from_main($child_item_id, $link_id)
+    {
+        $item = null;
+        //$main = Main::all()->where('child_item_id', $child_item_id)->where('link_id', $link_id)->first();
+        //$main = Main::where(['child_item_id'=> $child_item_id, 'link_id'=> $link_id])->first();
+        //$main = $cursor->where('child_item_id', $child_item_id)->where('link_id', $link_id)->first();
+        $main = Main::where('child_item_id', $child_item_id)->where('link_id', $link_id)->first();
+        if ($main) {
+            $item = $main->parent_item;
+        }
+        return $item;
+    }
+
+    // Вывод объекта по имени главного $item и $link
+    static function view_info($child_item_id, $link_id)
+    {
+        // Нужно
+        $item = null;
+        $item_find = Item::find($child_item_id);
+        $link_find = Link::find($link_id);
+        $view_enable = false;
+        //
+        if ($item_find && $link_find) {
+            // Если установлено 'Доступно от значения поля Логический'
+            if ($link_find->parent_is_enabled_boolean_value) {
+                $link_bool = Link::find($link_find->parent_enabled_boolean_value_link_id);
+                if ($link_bool) {
+                    // Находим $item_bool
+                    $item_bool = self::get_parent_item_from_main($child_item_id, $link_bool->id);
+                    if ($item_bool) {
+                        // Если checked, то показывать поле
+                        if ($item_bool->boolval()['value']) {
+                            $view_enable = true;
+                        } else {
+                            $view_enable = false;
+                        }
+                    }
+                }
+            } else {
+                $view_enable = true;
+            }
+            // Иначе возвращается $item = null
+            if ($view_enable == true) {
+                // Выводить связанное поле
+                if ($link_find->parent_is_parent_related == true) {
+                    $link_related_result = Link::find($link_find->parent_parent_related_result_link_id);
+                    if ($link_related_result) {
+                        $item = ItemController::get_parent_item_from_calc_child_item($item_find, $link_find, true)['result_item'];
+                    }
+                    // Выводить поле вычисляемой таблицы
+                } elseif ($link_find->parent_is_output_calculated_table_field == true) {
+                    $item = ItemController::get_item_from_parent_output_calculated_table($item_find, $link_find);
+                    // Иначе - обычный вывод поля по $child_item_id, $link_id
+                } else {
+                    $item = self::get_parent_item_from_main($child_item_id, $link_id);
+                }
+            }
+        }
+        return $item;
+    }
+
+    // Вывод проекта по $link и $current_project
+    // Функции calc_link_project(), calc_set_project(), calc_relit_children_projects() похожи
+    static function calc_link_project(Link $link, Project $current_project)
+    {
+        $project = null;
+        if ($link->parent_relit_id == 0) {
+            // Возвращается текущий проект
+            $project = $current_project;
+        } else {
+            // Поиск взаимосвязанного проекта
+            $relit = Relit::find($link->parent_relit_id);
+            if ($relit) {
+                $relip = Relip::where('relit_id', $relit->id)->where('child_project_id', $current_project->id)->first();
+                if ($relip) {
+                    $project = $relip->parent_project;
+                }
+            }
+        }
+        if ($project == null) {
+            dd(trans('main.check_project_properties_projects_parents_are_not_set') . '!');
+            //return view('message', ['message' => trans('main.info_user_changed')]);
+            //return('Не найден проект');
+        }
+        return $project;
+    }
+
+    // Вывод проекта по $set и $current_project
+    // Функции calc_link_project(), calc_set_project(), calc_relit_children_projects() похожи
+    static function calc_set_project(Set $set, Project $current_project)
+    {
+        $project = null;
+        if ($set->relit_to_id == 0) {
+            // Возвращается текущий проект
+            $project = $current_project;
+        } else {
+            // Поиск взаимосвязанного проекта
+            $relit = Relit::find($set->relit_to_id);
+            if ($relit) {
+                $relip = Relip::where('relit_id', $relit->id)->where('child_project_id', $current_project->id)->first();
+                if ($relip) {
+                    $project = $relip->parent_project;
+                }
+            }
+        }
+        if ($project == null) {
+            dd(trans('main.check_project_properties_projects_parents_are_not_set') . '!');
+        }
+        return $project;
+    }
+
+    // Вывод проекта по $relit и $current_project
+    // Функции calc_link_project(), calc_set_project(), calc_relit_children_projects() похожи
+    static function calc_relit_children_id_projects(Relit $relit, Project $current_project)
+    {
+        // Поиск взаимосвязанных детских проектов
+        $children_id_projects = Relip::select(DB::Raw('relips.child_project_id as project_id'))
+            ->where('relips.relit_id', '=', $relit->id)
+            ->where('relips.parent_project_id', '=', $current_project->id)
+            ->get();
+        //if ($children_id_projects == null){
+        //    dd(trans('main.projects_children_are_not_set') . '!');
+        //}
+        return $children_id_projects;
+    }
+
+    function get_array_relits(Template $template)
+    {
+        $array_relits = [];
+        $child_relits = $template->child_relits;
+        // 0 - текущий шаблон (нужно)
+        $array_relits[0] = $template->name() . ' (' . trans('main.current_template') . ')';
+        foreach ($child_relits as $relit) {
+            $array_relits[$relit->id] = $relit->parent_template->name();
+        }
+        return $array_relits;
+    }
+
+    function get_template_name_from_relit_id($relit_id, $current_template_id)
+    {
+        $template_name = '';
+        // Вычисление $template
+        $template_id = null;
+        if ($relit_id == 0) {
+            $template = Template::findOrFail($current_template_id);
+            $template_name = $template->name() . ' (' . trans('main.current_template') . ')';
+        } else {
+            $relit = Relit::find($relit_id);
+            if ($relit) {
+                $template = Template::findOrFail($relit->parent_template_id);
+                $template_name = $template->name();
+            }
+        }
+        return $template_name;
+    }
+
+    // Сохранение и resize() изображения
+    function image_store($request, $key, $project_id, $base_id)
+    {
+        // Сохраняем на диск графический файл "один к одному"
+        //$path = $request[$key]->store('public/' . $item->project_id . '/' . $link->parent_base_id);
+        $path = $request[$key]->store('public/' . $project_id . '/' . $base_id);
+        // Пример заполнения $path = "public/24/55/axlkyj0ldw7ge0OaNU0hIZBHiqyMhB4oAeyS8HLs.jpg"
+        // Заменяем начальные 'public/' на 'storage/'
+        $path_storage = substr_replace($path, 'storage/', 0, 7);
+        // Пример заполнения $path_storage = "storage/24/55/DqKxdrZbpielRYdng4XoVomkMRSi3DqvRqWjIkHM.jpg"
+        $public_path = public_path($path_storage);
+        // Команда resize()
+        $img = Image::make($request[$key])->orientate()->resize(500, 500, function ($constraint) {
+            $constraint->aspectRatio();
+            // Предотвратить возможное увеличение размера
+            $constraint->upsize();
+        }
+        );
+//        $img = Image::make($request[$key])->orientate()->widen(300, function ($constraint) {
+//            // Предотвратить возможное увеличение размера
+//            $constraint->upsize();
+//        }
+//        );
+//        $img = Image::make($request[$key])->orientate()->fit(300, 400, function ($constraint) {
+//            $constraint->upsize();
+//        });
+
+        // Сохраняем(перезаписываем с тем же именем) графический файл после resize()
+        $img->save($public_path);
+
+        //$this->createThumbnail($path, 150, 150);
+        return $path;
+    }
+
+    function get_author_roles_projects($project_id = null)
+    {
+        // Проекты, у которых в accesses есть записи для текущего пользователя
+        // с ролью Автор
+        $projects = null;
+        if ($project_id) {
+            $projects = Project::where('id', $project_id)
+                ->whereHas('accesses', function ($query) use ($project_id) {
+                    $query->where('user_id', GlobalController::glo_user_id())
+                        ->where('project_id', $project_id);
+                })->whereHas('template.roles', function ($query) {
+                    $query->where('is_author', true);
+                });
+        } else {
+            $projects = Project::whereHas('accesses', function ($query) {
+                $query->where('user_id', GlobalController::glo_user_id());
+            })->whereHas('template.roles', function ($query) {
+                $query->where('is_author', true);
+            });
+        }
+        return $projects;
+    }
+
+    function is_author_roles_project($project_id = null)
+    {
+        $projects = self::get_author_roles_projects($project_id);
+        $project = $projects->first();
+        $result = false;
+        if ($project) {
+            $result = true;
         }
         return $result;
     }

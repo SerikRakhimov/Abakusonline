@@ -68,17 +68,17 @@ class Project extends Model
             if ($item) {
                 $link = $base->get_link_project_logo();
                 if ($link) {
-                    $item_logo = MainController::view_info($item->id, $link->id);
+                    $item_logo = GlobalController::view_info($item->id, $link->id);
                 }
 
                 $link = $base->get_link_project_description('parent_is_setup_project_external_description_txt');
                 if ($link) {
-                    $item_ext_desc = MainController::view_info($item->id, $link->id);
+                    $item_ext_desc = GlobalController::view_info($item->id, $link->id);
                 }
 
                 $link = $base->get_link_project_description('parent_is_setup_project_internal_description_txt');
                 if ($link) {
-                    $item_int_desc = MainController::view_info($item->id, $link->id);
+                    $item_int_desc = GlobalController::view_info($item->id, $link->id);
                 }
 
             }

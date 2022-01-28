@@ -385,4 +385,5 @@ return [
     'check_project_properties_projects_parents_are_not_set' => 'Check project properties: projects - Parents are not set',
     'projects_children_are_not_set' => 'projects - Children are not set',
     'parent_project_not_found' => 'Project - Parent not found',
+    'project_author_subscription_with_authoring_role_is_not_deleted' => 'Project author subscription with authoring role is not deleted',
     ];

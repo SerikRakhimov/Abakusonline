@@ -825,7 +825,7 @@ class ItemController extends Controller
                 $path = "";
                 if ($request->hasFile($key)) {
                     if ($link->parent_base->type_is_image()) {
-                        $path = MainController::image_store($request, $key, $item->project_id, $link->parent_base_id);
+                        $path = GlobalController::image_store($request, $key, $item->project_id, $link->parent_base_id);
                     } else {
                         $path = $request[$key]->store('public/' . $item->project_id . '/' . $link->parent_base_id);
                     }
@@ -1286,13 +1286,13 @@ class ItemController extends Controller
                 // Поиск $item_seek в цикле
                 // Цикл по группировке данных
                 foreach ($set_is_group as $key => $value) {
-                    $parent_project = MainController::calc_set_project($value, $item->project);
+                    $parent_project = GlobalController::calc_set_project($value, $item->project);
 //                   проверка, если link - вычисляемое поле
                     //if ($link->parent_is_parent_related == true || $link->parent_is_numcalc == true)
                     if ($value->link_from->parent_is_parent_related == true) {
 
                     } else {
-                        //$item_seek = MainController::view_info($item, $value['link_from_id']);
+                        //$item_seek = GlobalController::view_info($item, $value['link_from_id']);
                         $nk = -1;
                         foreach ($keys as $k => $v) {
                             if ($v == $value['link_from_id']) {
@@ -1348,7 +1348,7 @@ class ItemController extends Controller
                         // Фильтры 111 - похожие строки ниже
                         $parent_project = null;
                         foreach ($set_base_to as $key => $value) {
-                            $parent_project = MainController::calc_set_project($value, $item->project);
+                            $parent_project = GlobalController::calc_set_project($value, $item->project);
                             $nk = -1;
                             foreach ($keys as $k => $v) {
                                 if ($v == $value['link_from_id']) {
@@ -1398,7 +1398,7 @@ class ItemController extends Controller
 
                         // Фильтры 111 - похожие строки выше
                         foreach ($set_base_to as $key => $value) {
-                            $parent_project = MainController::calc_set_project($value, $item->project);
+                            $parent_project = GlobalController::calc_set_project($value, $item->project);
                             $nk = -1;
                             foreach ($keys as $k => $v) {
                                 if ($v == $value['link_from_id']) {
@@ -1666,7 +1666,7 @@ class ItemController extends Controller
 
             // Цикл по записям, в каждой итерации цикла свой to_child_base_id в переменной $to_key
             foreach ($sets_group as $to_key => $to_value) {
-                $item_seek = MainController::get_parent_item_from_main($item->id, $to_value->link_from_id);
+                $item_seek = GlobalController::get_parent_item_from_main($item->id, $to_value->link_from_id);
                 //dd($item_seek);
                 if ($item_seek) {
                     $items = $items->whereHas('child_mains', function ($query) use ($to_value, $item_seek) {
@@ -1683,7 +1683,7 @@ class ItemController extends Controller
                 $item_calc = self::output_calculated_table_firstlast($item->base, $set, $item->project, $items);
             }
             if ($item_calc) {
-                $result_item = MainController::get_parent_item_from_main($item_calc->id, $set->link_from_id);
+                $result_item = GlobalController::get_parent_item_from_main($item_calc->id, $set->link_from_id);
             }
 
         }
@@ -1740,7 +1740,7 @@ class ItemController extends Controller
                 $str = "";
                 foreach ($sets_calcsort as $set_value) {
                     // '$set_value->link_from_id' используется
-                    $item_find = MainController::view_info($item->id, $set_value->link_from_id);
+                    $item_find = GlobalController::view_info($item->id, $set_value->link_from_id);
                     if ($item_find) {
                         // Формирование вычисляемой строки для сортировки
                         // Для строковых данных для сортировки берутся первые 50 символов
@@ -1784,7 +1784,7 @@ class ItemController extends Controller
                 $result_item = $item_calc;
             } else {
                 // '$set->link_from_id' используется
-                $result_item = MainController::get_parent_item_from_main($item_calc->id, $set->link_from_id);
+                $result_item = GlobalController::get_parent_item_from_main($item_calc->id, $set->link_from_id);
             }
         }
         return $result_item;
@@ -1886,7 +1886,7 @@ class ItemController extends Controller
             // Фильтрация/поиск
             // Цикл по записям, в каждой итерации цикла свой to_child_base_id в переменной $to_key
             foreach ($sets_group as $to_key => $to_value) {
-                $item_seek = MainController::get_parent_item_from_main($item_main->id, $to_value->link_from_id);
+                $item_seek = GlobalController::get_parent_item_from_main($item_main->id, $to_value->link_from_id);
                 if ($item_seek) {
                     $items = $items->whereHas('child_mains', function ($query) use ($to_value, $item_seek) {
                         $query->where('link_id', $to_value->link_to_id)->where('parent_item_id', $item_seek->id);
@@ -1988,7 +1988,7 @@ class ItemController extends Controller
             foreach ($items_calcsort as $item) {
                 $str = "";
                 foreach ($sets_calcsort as $set_value) {
-                    $item_find = MainController::view_info($item->id, $set_value->link_to_id);
+                    $item_find = GlobalController::view_info($item->id, $set_value->link_to_id);
                     if ($item_find) {
                         // Формирование вычисляемой строки для сортировки
                         // Для строковых данных для сортировки берутся первые 50 символов
@@ -2038,7 +2038,7 @@ class ItemController extends Controller
                 foreach ($items_list as $item) {
                     $str = "";
                     // Находим в исходной таблице объект, по которуму считается Количество()
-                    $item_find = MainController::view_info($item->id, $set->link_to_id);
+                    $item_find = GlobalController::view_info($item->id, $set->link_to_id);
                     if ($item_find) {
                         $seek_value = $seek_value + 1;
                     }
@@ -2052,7 +2052,7 @@ class ItemController extends Controller
                 foreach ($items_list as $item) {
                     $str = "";
                     // Находим в исходной таблице объект, по которуму считается Средний(), Сумма()
-                    $item_find = MainController::view_info($item->id, $set->link_to_id);
+                    $item_find = GlobalController::view_info($item->id, $set->link_to_id);
                     if ($item_find) {
                         $count = $count + 1;
                         $sum = $sum + $item_find->numval()['value'];
@@ -2089,7 +2089,7 @@ class ItemController extends Controller
             if ($is_func) {
                 $result_item = $item_calc;
             } else {
-                $result_item = MainController::get_parent_item_from_main($item_calc->id, $set->link_to_id);
+                $result_item = GlobalController::get_parent_item_from_main($item_calc->id, $set->link_to_id);
             }
         }
         return $result_item;
@@ -2103,7 +2103,7 @@ class ItemController extends Controller
         // поиск должен быть удачным, иначе "$main->link_id = $keys[$index]" может дать ошибку
         $link = Link::findOrFail($keys[$index]);
         // Находим $parent_project
-        $parent_project = MainController::calc_link_project($link, $item->project);
+        $parent_project = GlobalController::calc_link_project($link, $item->project);
         $parent_project_id = $parent_project->id;
 
         // тип корректировки поля - список
@@ -2381,7 +2381,7 @@ class ItemController extends Controller
             $path = "";
             if ($request->hasFile('name_lang_0')) {
                 if ($base->type_is_image()) {
-                    $path = MainController::image_store($request, 'name_lang_0', $item->project_id, $base->id);
+                    $path = GlobalController::image_store($request, 'name_lang_0', $item->project_id, $base->id);
                 } else {
                     $path = $item->name_lang_0->store('public/' . $item->project_id . '/' . $base->id);
                 }
@@ -2819,7 +2819,7 @@ class ItemController extends Controller
                 $path = "";
                 if ($request->hasFile($key)) {
                     if ($link->parent_base->type_is_image()) {
-                        $path = MainController::image_store($request, $key, $item->project_id, $link->parent_base_id);
+                        $path = GlobalController::image_store($request, $key, $item->project_id, $link->parent_base_id);
                     } else {
                         $path = $request[$key]->store('public/' . $item->project_id . '/' . $link->parent_base_id);
                     }
@@ -2870,7 +2870,7 @@ class ItemController extends Controller
                 if ($link->parent_base->type_is_image() || $link->parent_base->type_is_document()) {
                     // Проверка на обязательность ввода
                     if ($link->parent_base->is_required_lst_num_str_txt_img_doc == true) {
-                        $item_seek = MainController::get_parent_item_from_main($item->id, $link->id);
+                        $item_seek = GlobalController::get_parent_item_from_main($item->id, $link->id);
                         $check = false;
                         if ($item_seek) {
                             if (!$item_seek->img_doc_exist()) {
@@ -3855,13 +3855,13 @@ class ItemController extends Controller
 //            $item = null;
 //            if ($item_calc == true) {
 //                // Поиск item-start (например: в заказе - поиск товара)
-//                $item = MainController::get_parent_item_from_main($item_start->id, $link_result->parent_parent_related_start_link_id);
+//                $item = GlobalController::get_parent_item_from_main($item_start->id, $link_result->parent_parent_related_start_link_id);
 //            } else {
 //                $item = $item_start;
 //            }
 //            if ($item) {
 //                // Поиск item-result (например: в товаре - поиск наименования)
-//                $item = MainController::get_parent_item_from_main($item->id, $link_result->parent_parent_related_result_link_id);
+//                $item = GlobalController::get_parent_item_from_main($item->id, $link_result->parent_parent_related_result_link_id);
 //                if ($item) {
 //                    $result_item = $item;
 //                    $result_item_id = $item->id;
@@ -3892,7 +3892,7 @@ class ItemController extends Controller
             $link_ids = $rs['link_ids'];
             // Вычисляем первоначальный $item;
             if ($item_calc == true) {
-                $item = MainController::get_parent_item_from_main($item_start->id, $const_link_id_start);
+                $item = GlobalController::get_parent_item_from_main($item_start->id, $const_link_id_start);
             } else {
                 $item = $item_start;
             }
@@ -4822,7 +4822,7 @@ class ItemController extends Controller
         // Если передано $link
         if ($link) {
             // Находим проект
-            $project = MainController::calc_link_project($link, $current_project);
+            $project = GlobalController::calc_link_project($link, $current_project);
         } else {
             $project = $current_project;
         }

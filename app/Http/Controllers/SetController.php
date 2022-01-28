@@ -81,7 +81,7 @@ class SetController extends Controller
         $links = $this->select_links_template($template);
         return view('set/edit', ['template' => $template, 'links' => $links,
             'forwhats' => Set::get_forwhats(), 'updactions' => Set::get_updactions(),
-            'array_relits' => MainController::get_array_relits($template)]);
+            'array_relits' => GlobalController::get_array_relits($template)]);
     }
 
     function store(Request $request)
@@ -421,7 +421,7 @@ class SetController extends Controller
         $links = $this->select_links_template($template);
         return view('set/edit', ['template' => $template, 'set' => $set, 'links' => $links,
             'forwhats' => Set::get_forwhats(), 'updactions' => Set::get_updactions(),
-            'array_relits' => MainController::get_array_relits($template)]);
+            'array_relits' => GlobalController::get_array_relits($template)]);
     }
 
     function delete_question(Set $set)

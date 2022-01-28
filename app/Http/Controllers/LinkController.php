@@ -90,7 +90,7 @@ class LinkController extends Controller
         return view('link/edit', ['base' => $base,
             'bases' => Base::where('template_id', $base->template_id)->get(),
             'levels' => Level::where('template_id', $base->template_id)->get(),
-            'array_relits' => MainController::get_array_relits($base->template)],
+            'array_relits' => GlobalController::get_array_relits($base->template)],
         );
     }
 
@@ -616,7 +616,7 @@ class LinkController extends Controller
         return view('link/edit', ['base' => $base, 'link' => $link,
             'bases' => Base::where('template_id', $base->template_id)->get(),
             'levels' => Level::where('template_id', $base->template_id)->get(),
-            'array_relits' => MainController::get_array_relits($base->template)]);
+            'array_relits' => GlobalController::get_array_relits($base->template)]);
     }
 
     function delete_question(Link $link)
