@@ -31,7 +31,7 @@ class BaseController extends Controller
     protected function maxfilesize_rules()
     {
         return [
-//            'maxfilesize_img_doc' => ['required', 'gte:50000', 'lte:1048576'],
+//          'maxfilesize_img_doc' => ['required', 'gte:50000', 'lte:1048576'],
             'maxfilesize_img_doc' => ['required', 'gte:50000', 'lte:100000000'],
             'maxfilesize_title_img_doc' => ['required', 'max:25'],
         ];
