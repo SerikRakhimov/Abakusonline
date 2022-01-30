@@ -32,7 +32,7 @@ class BaseController extends Controller
     {
         return [
 //            'maxfilesize_img_doc' => ['required', 'gte:50000', 'lte:1048576'],
-            'maxfilesize_img_doc' => ['required', 'gte:50000', 'lte:10000000'],
+            'maxfilesize_img_doc' => ['required', 'gte:50000', 'lte:100000000'],
             'maxfilesize_title_img_doc' => ['required', 'max:25'],
         ];
     }
