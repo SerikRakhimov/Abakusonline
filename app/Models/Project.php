@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Support\Facades\App;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\User;
-use \App\Http\Controllers\MainController;
+use \App\Http\Controllers\GlobalController;
 
 class Project extends Model
 {
