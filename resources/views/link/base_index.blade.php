@@ -2,7 +2,7 @@
 
 @section('content')
 <?php
-    use \App\Http\Controllers\MainController;
+    use \App\Http\Controllers\GlobalController;
     ?>
     <p>
     <div class="container-fluid">
