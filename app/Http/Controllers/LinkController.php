@@ -885,15 +885,18 @@ class LinkController extends Controller
     {
         $parent_base_id = '';
         $parent_base_name = '';
+        $parent_base_desc = '';
         if ($set != null) {
             // $parent_base_id = $set->link_to->parent_base_id;
             // $parent_base_name = $set->link_to->parent_base->name();
             $parent_base_id = $set->link_from->parent_base_id;
             $parent_base_name = $set->link_from->parent_base->name();
+            $parent_base_desc = $set->link_from->parent_base->desc();
         }
         return [
             'parent_base_id' => $parent_base_id,
             'parent_base_name' => $parent_base_name,
+            'parent_base_desc' => $parent_base_desc,
         ];
     }
 
@@ -1013,8 +1016,8 @@ class LinkController extends Controller
                 ->where('template_id', $template_id)
                 ->sortBy('parent_base_number');
             foreach ($bases as $base) {
-                $bases_options = $bases_options
-                    . "<option value='" . $base->id . "'>" . $base->name() . "</option>";
+                //$bases_options = $bases_options . "<option value='" . $base->id . "'>" . $base->name() . "</option>";
+                $bases_options = $bases_options . "<option value='" . $base->id . "'>" . $base->desc() . "</option>";
             }
         }
         return [
