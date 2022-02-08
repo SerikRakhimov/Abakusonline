@@ -247,12 +247,9 @@ class ItemController extends Controller
         }
 
         $base_right = GlobalController::base_right($base, $role);
-
         $items_right = GlobalController::items_right($base, $project, $role);
         $items = $items_right['items'];
-//        if ($project->template_id == 8) {
-        //dd($items->get());
-//        }
+
         if ($items) {
             session(['base_index_previous_url' => ((!empty($_SERVER['HTTPS'])) ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . '/' . request()->path()]);
             return view('item/base_index', ['base_right' => $base_right, 'base' => $base, 'project' => $project, 'role' => $role,
@@ -431,6 +428,12 @@ class ItemController extends Controller
     {
         if (GlobalController::check_project_user($project, $role) == false) {
             return view('message', ['message' => trans('main.info_user_changed')]);
+        }
+
+        $base_right = GlobalController::base_right($base, $role);
+//      Похожая проверка в ItemController::ext_create() и base_index.php
+        if ($base_right['is_list_base_create'] == false) {
+            return view('message', ['message' => trans('main.no_access')]);
         }
 
         $arrays = $this->get_array_calc_create($base, $par_link, $parent_item);

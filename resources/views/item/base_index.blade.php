@@ -18,6 +18,7 @@
                 <h3>{{$base->names()}}</h3>
             </div>
         </div>
+        {{--        Похожая проверка в ItemController::ext_create() и base_index.php--}}
         @if($base_right['is_list_base_create'] == true)
             <div class="col-12 text-right">
                 @if($message == "")
