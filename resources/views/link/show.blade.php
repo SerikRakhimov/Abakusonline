@@ -3,7 +3,7 @@
 @section('content')
     <?php
     use App\Models\Link;
-    use \App\Http\Controllers\MainController;
+    use \App\Http\Controllers\GlobalController;
     use \App\Http\Controllers\LinkController;
     ?>
     <h3 class="display-5">
