@@ -1017,7 +1017,7 @@ class LinkController extends Controller
                 ->sortBy('serial_number');
             foreach ($bases as $base) {
                 //$bases_options = $bases_options . "<option value='" . $base->id . "'>" . $base->name() . "</option>";
-                $bases_options = $bases_options . "<option value='" . $base->id . "'>" . $base->desc() . "</option>";
+                $bases_options = $bases_options . "<option value='" . $base->id . "'>" . $base->desc_type() . "</option>";
             }
         }
         return [

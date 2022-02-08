@@ -70,6 +70,12 @@ class Base extends Model
         return $result;
     }
 
+    // Используется "desc" c "type"
+    function desc_type()
+    {
+        return $this->desc() . '(' . $this->type_name() . ')';
+    }
+
     // Похожие строки в BaseController.php (function store() и edit())
     // и base/edit.blade.php
     // и ModerationController (function index())
