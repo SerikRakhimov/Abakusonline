@@ -1014,7 +1014,7 @@ class LinkController extends Controller
             // список bases по выбранному template_id
             $bases = Base::all()
                 ->where('template_id', $template_id)
-                ->sortBy('parent_base_number');
+                ->sortBy('serial_number');
             foreach ($bases as $base) {
                 //$bases_options = $bases_options . "<option value='" . $base->id . "'>" . $base->name() . "</option>";
                 $bases_options = $bases_options . "<option value='" . $base->id . "'>" . $base->desc() . "</option>";
