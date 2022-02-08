@@ -73,7 +73,7 @@ class Base extends Model
     // Используется "desc" c "type"
     function desc_type()
     {
-        return $this->desc() . '(' . $this->type_name() . ')';
+        return $this->desc() . ' (' . $this->type_name() . ')';
     }
 
     // Похожие строки в BaseController.php (function store() и edit())
