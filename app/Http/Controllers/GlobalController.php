@@ -132,7 +132,8 @@ class GlobalController extends Controller
         // Для вычисляемых base
         if ($base->is_calculated_lst == true) {
             $is_list_base_create = false;
-            $is_list_base_read = true;
+//          Не нужно '$is_list_base_read = true;'
+//          $is_list_base_read = true;
             $is_list_base_update = false;
             $is_list_base_delete = false;
         }
@@ -176,7 +177,8 @@ class GlobalController extends Controller
             // Для вычисляемых base
             if ($base->is_calculated_lst == true) {
                 $is_roba_list_base_create = false;
-                $is_roba_list_base_read = true;
+//              Не нужно '$is_roba_list_base_read = true;'
+//              $is_roba_list_base_read = true;
                 $is_roba_list_base_update = false;
                 $is_roba_list_base_delete = false;
             }
