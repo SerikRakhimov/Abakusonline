@@ -132,8 +132,8 @@ class GlobalController extends Controller
         // Для вычисляемых base
         if ($base->is_calculated_lst == true) {
             $is_list_base_create = false;
-//          Не нужно '$is_list_base_read = true;'
 //          $is_list_base_read = true;
+            $is_list_base_read = $is_list_base_calc;
             $is_list_base_update = false;
             $is_list_base_delete = false;
         }
