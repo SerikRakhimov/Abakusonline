@@ -93,6 +93,30 @@
             @endforeach
         </div>
 
+        {{--    desc    --}}
+        <div class="form-group row">
+            @foreach (config('app.locales') as $key=>$value)
+                <div class="col-sm-3 text-right">
+                    <label for="desc_lang_{{$key}}" class="col-form-label">{{trans('main.desc')}}
+                        ({{trans('main.' . $value)}})<span
+                            class="text-danger">*</span></label>
+                </div>
+                <div class="col-sm-7">
+                    <input type="text"
+                           name="desc_lang_{{$key}}"
+                           id="desc_lang_{{$key}}"
+                           class="form-control @error('desc_lang_' . $key) is-invalid @enderror"
+                           placeholder=""
+                           value="{{ old('desc_lang_' . $key) ?? ($base['desc_lang_' . $key] ?? '') }}">
+                </div>
+                @error('desc_lang_' . $key)
+                <div class="text-danger">
+                    {{$message}}
+                </div>
+                @enderror
+            @endforeach
+        </div>
+
         <div class="form-group row">
             <div class="col-sm-3 text-right">
                 <label for="vartype" class="col-form-label">{{trans('main.type')}}<span

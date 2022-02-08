@@ -108,10 +108,28 @@ class BaseController extends Controller
         $base->name_lang_1 = isset($request->name_lang_1) ? $request->name_lang_1 : "";
         $base->name_lang_2 = isset($request->name_lang_2) ? $request->name_lang_2 : "";
         $base->name_lang_3 = isset($request->name_lang_3) ? $request->name_lang_3 : "";
+
         $base->names_lang_0 = $request->names_lang_0;
         $base->names_lang_1 = isset($request->names_lang_1) ? $request->names_lang_1 : "";
         $base->names_lang_2 = isset($request->names_lang_2) ? $request->names_lang_2 : "";
         $base->names_lang_3 = isset($request->names_lang_3) ? $request->names_lang_3 : "";
+
+        $base->desc_lang_0 = isset($request->desc_lang_0) ? $request->desc_lang_0 : "";
+        $base->desc_lang_1 = isset($request->desc_lang_1) ? $request->desc_lang_1 : "";
+        $base->desc_lang_2 = isset($request->desc_lang_2) ? $request->desc_lang_2 : "";
+        $base->desc_lang_3 = isset($request->desc_lang_3) ? $request->desc_lang_3 : "";
+        if ($base->desc_lang_0 == "") {
+            $base->desc_lang_0 = $base->name_lang_0;
+        }
+        if ($base->desc_lang_1 == "") {
+            $base->desc_lang_1 = $base->name_lang_1;
+        }
+        if ($base->desc_lang_2 == "") {
+            $base->desc_lang_2 = $base->name_lang_2;
+        }
+        if ($base->desc_lang_3 == "") {
+            $base->desc_lang_3 = $base->name_lang_3;
+        }
 
         // у этой команды два предназначения:
         // 1) заменить "on" на "1" при отмеченном checkbox
@@ -407,10 +425,28 @@ class BaseController extends Controller
         $base->name_lang_1 = isset($request->name_lang_1) ? $request->name_lang_1 : "";
         $base->name_lang_2 = isset($request->name_lang_2) ? $request->name_lang_2 : "";
         $base->name_lang_3 = isset($request->name_lang_3) ? $request->name_lang_3 : "";
+
         $base->names_lang_0 = $request->names_lang_0;
         $base->names_lang_1 = isset($request->names_lang_1) ? $request->names_lang_1 : "";
         $base->names_lang_2 = isset($request->names_lang_2) ? $request->names_lang_2 : "";
         $base->names_lang_3 = isset($request->names_lang_3) ? $request->names_lang_3 : "";
+
+        $base->desc_lang_0 = isset($request->desc_lang_0) ? $request->desc_lang_0 : "";
+        $base->desc_lang_1 = isset($request->desc_lang_1) ? $request->desc_lang_1 : "";
+        $base->desc_lang_2 = isset($request->desc_lang_2) ? $request->desc_lang_2 : "";
+        $base->desc_lang_3 = isset($request->desc_lang_3) ? $request->desc_lang_3 : "";
+        if ($base->desc_lang_0 == "") {
+            $base->desc_lang_0 = $base->name_lang_0;
+        }
+        if ($base->desc_lang_1 == "") {
+            $base->desc_lang_1 = $base->name_lang_1;
+        }
+        if ($base->desc_lang_2 == "") {
+            $base->desc_lang_2 = $base->name_lang_2;
+        }
+        if ($base->desc_lang_3 == "") {
+            $base->desc_lang_3 = $base->name_lang_3;
+        }
 
         $base->digits_num = $request->digits_num;
 

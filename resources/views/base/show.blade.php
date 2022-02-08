@@ -28,6 +28,10 @@
         <p>{{trans('main.names')}} ({{trans('main.' . $value)}}): <b>{{$base['names_lang_' . $key]}}</b></p>
     @endforeach
 
+    @foreach (config('app.locales') as $key=>$value)
+        <p>{{trans('main.desc')}} ({{trans('main.' . $value)}}): <b>{{$base['desc_lang_' . $key]}}</b></p>
+    @endforeach
+
     <p>{{trans('main.type')}}: <b>{{$base->type_name()}}</b></p>
     <p>{{trans('main.is_calculated_lst')}}: <b>{{GlobalController::name_is_boolean($base->is_calculated_lst)}}</b></p>
     <p>{{trans('main.is_setup_lst')}}: <b>{{GlobalController::name_is_boolean($base->is_setup_lst)}}</b></p>

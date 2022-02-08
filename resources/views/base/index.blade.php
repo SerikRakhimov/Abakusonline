@@ -35,6 +35,7 @@
             <th class="text-center">{{trans('main.is_calculated_lst')}}</th>
             <th class="text-center">{{trans('main.is_setup_lst')}}</th>
             <th class="text-center">{{trans('main.is_required_lst_num_str_txt_img_doc')}}</th>
+            <th class="text-left">{{trans('main.desc')}}</th>
             <th class="text-center">Id</th>
             @if (Auth::user()->isAdmin())
                 <th class="text-center"></th>
@@ -74,6 +75,9 @@
                     </td>
                     <td class="text-center">
                         {{GlobalController::name_is_boolean($base->is_required_lst_num_str_txt_img_doc)}}
+                    </td>
+                    <td class="text-left">
+                       {{$base->desc()}}
                     </td>
                     <td class="text-center">
                         {{$base->id}}
