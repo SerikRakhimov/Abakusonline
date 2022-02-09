@@ -31,7 +31,7 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-5 text-center">
-{{--                <h3>{{trans('main.bases')}}</h3>--}}
+                {{--                <h3>{{trans('main.bases')}}</h3>--}}
                 <h3>{{trans('main.mainmenu')}}</h3>
             </div>
             <div class="col-2">
@@ -57,6 +57,7 @@
             <?php
             $base_right = GlobalController::base_right($base, $role);
             ?>
+            {{--            Похожая проверка в ItemController::base_index() и project/start.php--}}
             @if($base_right['is_list_base_calc'] == true)
                 <?php
                 $i++;
@@ -85,10 +86,10 @@
                                 title="{{$base->names() . $message}}">
                                 {{$base->names()}}
                                 {{--                            @auth--}}
-{{--                                <span--}}
-{{--                                    class="text-muted text-related">--}}
-{{--                                    {{GlobalController::items_right($base, $project, $role)['view_count']}}--}}
-{{--                                </span>--}}
+                                {{--                                <span--}}
+                                {{--                                    class="text-muted text-related">--}}
+                                {{--                                    {{GlobalController::items_right($base, $project, $role)['view_count']}}--}}
+                                {{--                                </span>--}}
                             </a>
                             <?php
                             $menu_type_name = $base->menu_type_name();
