@@ -3268,7 +3268,7 @@ class ItemController extends Controller
             return view('message', ['message' => trans('main.info_user_changed')]);
         }
 
-        $base_right = GlobalController::base_right($base, $role);
+        $base_right = GlobalController::base_right($item->base, $role);
 //      Похожая проверка в ItemController::ext_edit() и ext_show.php
         if($base_right['is_list_base_update'] == false){
             return view('message', ['message' => trans('main.no_access')]);
