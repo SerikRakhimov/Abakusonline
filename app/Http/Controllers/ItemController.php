@@ -250,6 +250,11 @@ class ItemController extends Controller
         $items_right = GlobalController::items_right($base, $project, $role);
         $items = $items_right['items'];
 
+//      Похожая проверка в ItemController::base_index() и project/start.php
+        if($base_right['is_list_base_calc'] == false){
+            return view('message', ['message' => trans('main.no_access')]);
+        }
+
         if ($items) {
             session(['base_index_previous_url' => ((!empty($_SERVER['HTTPS'])) ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . '/' . request()->path()]);
             return view('item/base_index', ['base_right' => $base_right, 'base' => $base, 'project' => $project, 'role' => $role,
@@ -3297,6 +3302,7 @@ class ItemController extends Controller
 
         return view('item/ext_show', ['type_form' => 'delete_question', 'item' => $item, 'role' => $role,
             'array_calc' => $this->get_array_calc_edit($item)['array_calc'], 'heading' => $heading]);
+
     }
 
     function ext_delete(Item $item, Role $role, $heading = false)
@@ -3316,6 +3322,7 @@ class ItemController extends Controller
 //                $main->parent_item->delete();
 //            }
 //        }
+
         if (self::is_delete($item, $role) == true) {
 
             $item_copy = $item;

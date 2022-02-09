@@ -167,6 +167,7 @@
                     {{trans('main.edit')}}
                 </button>
             @endif
+            {{--            В ItemController::is_delete() есть необходимые проверки на права по удалению записи--}}
             @if(ItemController::is_delete($item, $role) == true)
                 <button type="button" class="btn btn-dreamer mb-1 mb-sm-0"
                         onclick='document.location="{{route('item.ext_delete_question', ['item'=>$item, 'role'=>$role])}}"'
