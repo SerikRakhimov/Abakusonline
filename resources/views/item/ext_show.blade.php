@@ -45,10 +45,10 @@
                 </li>
             @elseif($base->type_is_document)
                 <li><b>
-                    @include('view.doc',['item'=>$item])
-                    {{--                <a href="{{Storage::url($item->filename())}}" target="_blank">--}}
-                    {{--                    Открыть документ--}}
-                    {{--                </a>--}}
+                        @include('view.doc',['item'=>$item])
+                        {{--                <a href="{{Storage::url($item->filename())}}" target="_blank">--}}
+                        {{--                    Открыть документ--}}
+                        {{--                </a>--}}
                     </b></li>
             @else
                 {{--                Если тип-вычисляемое поле и Показывать Основу с вычисляемым наименованием--}}
@@ -58,15 +58,15 @@
                     {{--                                            $numcat = true - вывод числовых полей с разрядом тысячи/миллионы/миллиарды--}}
                     <li>
                         <p class="text-label">{{trans('main.name')}}:
-{{--                            <span class="text-related">--}}<b>
-                    @if($base->type_is_text())
+                            {{--                            <span class="text-related">--}}<b>
+                                @if($base->type_is_text())
                                     <?php
                                     echo GlobalController::it_txnm_n2b($item);
                                     ?>
                                 @else
                                     {{$item->name(false, true)}}
                                 @endif
-                        {{--                </span>--}}</b>
+                                {{--                </span>--}}</b>
                         </p>
                     </li>
                 @endif
@@ -103,8 +103,8 @@
                     <li>
                         {{$link->parent_label()}}:
                         @if($link->parent_base->type_is_text())
-{{--                            <span class="text-related">--}}<b>
-                            <?php
+                            {{--                            <span class="text-related">--}}<b>
+                                <?php
                                 echo GlobalController::it_txnm_n2b($item_find);
                                 ?>
                                 {{--                        </span>--}}</b>
@@ -117,18 +117,18 @@
                             {{--                            </a>--}}
                         @elseif($link->parent_base->type_is_document())
                             <b>
-                            @include('view.doc',['item'=>$item_find])
-                            {{--                            <a href="{{Storage::url($item_find->filename())}}" target="_blank">--}}
-                            {{--                                Открыть документ--}}
-                            {{--                            </a>--}}
+                                @include('view.doc',['item'=>$item_find])
+                                {{--                            <a href="{{Storage::url($item_find->filename())}}" target="_blank">--}}
+                                {{--                                Открыть документ--}}
+                                {{--                            </a>--}}
                             </b>
                         @else
                             {{--                                            $numcat = true - вывод числовых полей с разрядом тысячи/миллионы/миллиарды--}}
-{{--                            <span class="text-related">--}}
-                        <b>
+                            {{--                            <span class="text-related">--}}
+                            <b>
                                 {{$item_find->name(false, true, true)}}
-                        </b>
-{{--                            </span>--}}
+                            </b>
+                            {{--                            </span>--}}
                         @endif
                     </li>
                     {{--                    <br>--}}
@@ -142,8 +142,8 @@
     if ($base_right['is_hier_base_enable'] == true) {
         $result = ItemController::form_parent_deta_hier($item->id, $role, false);
         echo $result;
- //         $result = ItemController::form_parent_deta_hier($item->id, $role, true);
- //       echo $result;
+        //         $result = ItemController::form_parent_deta_hier($item->id, $role, true);
+        //       echo $result;
 //        $result = ItemController::form_parent_coll_hier($item->id, $role);
 //        echo $result;
         $result = ItemController::form_child_deta_hier($item->id, $role);
@@ -158,6 +158,7 @@
     </i>
     @if ($type_form == 'show')
         <p>
+            {{--Похожая проверка в ItemController::ext_edit() и ext_show.php--}}
             @if($base_right['is_list_base_update'] == true)
                 <button type="button" class="btn btn-dreamer mb-1 mb-sm-0"
                         onclick='document.location="{{route('item.ext_edit', ['item'=>$item, 'role'=>$role])}}"'
@@ -195,11 +196,11 @@
             {{--                                            С base_index.blade.php--}}
             {{--                                                            Не удалять: нужно для просмотра Пространства--}}
             {{--                                                                                                        проверка, если link - вычисляемое поле--}}
-{{--                                                                            @if ($link->parent_is_parent_related == true || $link->parent_is_numcalc == true)--}}
-{{--                                                                                <a href="{{route('item.item_index', ['item'=>$item_find, 'role'=>$role])}}">--}}
-{{--                                                                                    @else--}}
-{{--                                                                                        <a href="{{route('item.item_index', ['item'=>$item_find, 'role'=>$role,'par_link'=>$link])}}">--}}
-{{--                                                                                            @endif--}}
+            {{--                                                                            @if ($link->parent_is_parent_related == true || $link->parent_is_numcalc == true)--}}
+            {{--                                                                                <a href="{{route('item.item_index', ['item'=>$item_find, 'role'=>$role])}}">--}}
+            {{--                                                                                    @else--}}
+            {{--                                                                                        <a href="{{route('item.item_index', ['item'=>$item_find, 'role'=>$role,'par_link'=>$link])}}">--}}
+            {{--                                                                                            @endif--}}
             {{--                            Не удалять--}}
             {{--                                        <button type="button" class="btn btn-dreamer mb-1 mb-sm-0"--}}
             {{--                                                onclick='document.location="{{route('item.item_index', ['item'=>$item, 'role'=>$role])}}"'--}}

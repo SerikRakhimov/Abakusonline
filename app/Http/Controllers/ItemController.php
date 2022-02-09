@@ -3268,6 +3268,12 @@ class ItemController extends Controller
             return view('message', ['message' => trans('main.info_user_changed')]);
         }
 
+        $base_right = GlobalController::base_right($base, $role);
+//      Похожая проверка в ItemController::ext_edit() и ext_show.php
+        if($base_right['is_list_base_update'] == false){
+            return view('message', ['message' => trans('main.no_access')]);
+        }
+
         $arrays = $this->get_array_calc_edit($item, $par_link, $parent_item);
         $array_calc = $arrays['array_calc'];
         $array_disabled = $arrays['array_disabled'];
