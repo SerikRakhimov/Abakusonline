@@ -1160,6 +1160,7 @@ class GlobalController extends Controller
         return $result;
     }
 
+//    Функции function usercode_calc() и usercode_uncalc()- прямой и обратный расчеты
     static function usercode_calc($user_id)
     {
         $result = $user_id * 11 + 7;
