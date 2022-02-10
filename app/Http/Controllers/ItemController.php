@@ -782,10 +782,10 @@ class ItemController extends Controller
         foreach ($string_langs as $link) {
             if ($link->parent_base->type_is_boolean()) {
                 // Проверка нужна
-                $base_link_right = GlobalController::base_link_right($link, $role);
-                if ($base_link_right['is_edit_link_update'] == false) {
-                    continue;
-                }
+//                $base_link_right = GlobalController::base_link_right($link, $role);
+//                if ($base_link_right['is_edit_link_update'] == false) {
+//                    continue;
+//                }
                 // похожая формула выше (в этой же процедуре)
                 // у этой команды два предназначения:
                 // 1) заменить "on" на "1" при отмеченном checkbox
@@ -2857,10 +2857,10 @@ class ItemController extends Controller
         foreach ($string_langs as $link) {
             if ($link->parent_base->type_is_boolean()) {
                 // Проверка нужна
-                $base_link_right = GlobalController::base_link_right($link, $role);
-                if ($base_link_right['is_edit_link_update'] == false) {
-                    continue;
-                }
+//                $base_link_right = GlobalController::base_link_right($link, $role);
+//                if ($base_link_right['is_edit_link_update'] == false) {
+//                    continue;
+//                }
                 // похожая формула выше (в этой же процедуре)
                 // у этой команды два предназначения:
                 // 1) заменить "on" на "1" при отмеченном checkbox
