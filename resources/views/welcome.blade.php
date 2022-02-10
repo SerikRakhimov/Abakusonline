@@ -230,13 +230,14 @@
         <div class="title_small m-b-md">
             {{mb_strtolower(trans('main.app_info_second'))}}
         </div>
-        <img src="{{Storage::url('logotype.png')}}" width="250" height="250" class="d-inline-block align-top" alt="" loading="lazy">
+        <img src="{{Storage::url('logotype.png')}}" width="250" height="250" class="d-inline-block align-top" alt=""
+             loading="lazy">
         <p><a href="mailto:support@abakusonline.com">support@abakusonline.com</a></p>
         {{--                <div class="title m-b-md">--}}
         {{--                    Abakus - учетная платформа--}}
         {{--                </div>--}}
         {{--                <div class="links">--}}
-        <a href="https://www.instagram.com/abakusonline_com/">Instagram: abakusonline_com</a>
+        <a href="https://www.instagram.com/abakusonline_com/" target="_blank">Instagram: abakusonline_com</a>
         {{--                    <a href="https://laracasts.com">Laracasts</a>--}}
         {{--                    <a href="https://laravel-news.com">News</a>--}}
         {{--                    <a href="https://blog.laravel.com">Blog</a>--}}
