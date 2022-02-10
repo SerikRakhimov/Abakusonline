@@ -241,6 +241,7 @@ class Item extends Model
     // '$moderation = true' -  возвращать имя файла, независимо прошло/не прошло модерацию
     function filename($moderation = false)
     {
+        // Для типов полей Изображение, Документ
         $result = $this->name_lang_0;
         if ($this->base->type_is_image() == true) {
             // Показывать для пользователя, создавшего фото

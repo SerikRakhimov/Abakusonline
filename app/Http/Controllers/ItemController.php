@@ -251,7 +251,7 @@ class ItemController extends Controller
         $items = $items_right['items'];
 
 //      Похожая проверка в ItemController::base_index() и project/start.php
-        if($base_right['is_list_base_calc'] == false){
+        if ($base_right['is_list_base_calc'] == false) {
             return view('message', ['message' => trans('main.no_access')]);
         }
 
@@ -3275,7 +3275,7 @@ class ItemController extends Controller
 
         $base_right = GlobalController::base_right($item->base, $role);
 //      Похожая проверка в ItemController::ext_edit() и ext_show.php
-        if($base_right['is_list_base_update'] == false){
+        if ($base_right['is_list_base_update'] == false) {
             return view('message', ['message' => trans('main.no_access')]);
         }
 
@@ -4018,7 +4018,7 @@ class ItemController extends Controller
                     if ($link->parent_base->type_is_image()) {
                         $img_doc = GlobalController::view_img($main->parent_item, "small", false, true, false, "");
                     } elseif ($link->parent_base->type_is_document()) {
-                        $img_doc = GlobalController::view_doc($main->parent_item);
+                        $img_doc = GlobalController::view_doc($main->parent_item, Auth::user()->id);
                     }
                     if ($str == '') {
                         $result = $result . '<li>';
@@ -4112,7 +4112,7 @@ class ItemController extends Controller
                     if ($link->parent_base->type_is_image()) {
                         $img_doc = GlobalController::view_img($main->parent_item, "small", false, true, false, "");
                     } elseif ($link->parent_base->type_is_document()) {
-                        $img_doc = GlobalController::view_doc($main->parent_item);
+                        $img_doc = GlobalController::view_doc($main->parent_item, Auth::user()->id);
                     }
 
                     // $link_exists = false, поле $main->parent_item->base_id простое
@@ -4204,7 +4204,7 @@ class ItemController extends Controller
                     if ($link->child_base->type_is_image()) {
                         $img_doc = GlobalController::view_img($main->child_item, "small", false, true, false, "");
                     } elseif ($link->child_base->type_is_document()) {
-                        $img_doc = GlobalController::view_doc($main->child_item);
+                        $img_doc = GlobalController::view_doc($main->child_item, Auth::user()->id);
                     }
                     $items_dop = array();
                     // '$items' и '$items_dop' использовать для того, чтобы записи, отображаемые на экране, были уникальными
@@ -4979,6 +4979,32 @@ class ItemController extends Controller
             }
         }
         return $items;
+    }
+
+    public function doc_download(Item $item, $usercode)
+    {
+        $user_id = GlobalController::usercode_uncalc($usercode);
+        // Нужно
+        $check = false;
+        if ($item->base->type_is_document() == true) {
+            if (Auth::check()) {
+                if ($user_id == Auth::user()->id) {
+                    $check = true;
+                } else {
+                    $check = false;
+                }
+            } else {
+                $check = false;
+            }
+        } else {
+            $check = false;
+        }
+        if ($check) {
+            $file_path = $item->filename();
+            return Storage::download($file_path);
+        } else {
+            return view('message', ['message' => trans('main.no_access')]);
+        }
     }
 
 }

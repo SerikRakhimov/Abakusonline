@@ -868,12 +868,15 @@ class GlobalController extends Controller
     }
 
 // Алгоритмы одинаковые в view.doc.blade.php и GlobalController::view_doc()
-    static function view_doc(Item $item)
+    static function view_doc(Item $item, $usercode)
     {
         $result = '';
         if ($item->base->type_is_document()) {
             if ($item->img_doc_exist()) {
-                $result = '<a href = "' . Storage::url($item->filename()) . '" target = "_blank"  alt = "" title = "' . $item->title_img() . '" >' . trans('main.open_document') . '</a>';
+                //$result = '<a href = "' . Storage::url($item->filename()) . '" target = "_blank"  title = "' . $item->title_img() . '" >' . trans('main.open_document') . '</a>';
+                $result = '<a href = "' . route('item.doc_download', ['item'=>$item, 'usercode'=>$usercode])
+                    . '" target = "_blank"  title = "' . $item->title_img() . '" >'
+                    . trans('main.open_document') . '</a>';
             } else {
                 $result = '<div class="text-danger">' . GlobalController::empty_html() . '</div>';
             }
@@ -1154,6 +1157,18 @@ class GlobalController extends Controller
         if ($project) {
             $result = true;
         }
+        return $result;
+    }
+
+    static function usercode_calc($user_id)
+    {
+        $result = $user_id * 11 + 7;
+        return $result;
+    }
+
+    static function usercode_uncalc($usercode)
+    {
+        $result = intval(($usercode - 7) / 11);
         return $result;
     }
 

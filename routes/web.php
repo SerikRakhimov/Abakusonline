@@ -385,7 +385,7 @@ Route::get('/set/delete_question/{set}', [SetController::class, 'delete_question
 Route::delete('/set/delete/{set}', [SetController::class, 'delete'])
     ->name('set.delete')
     ->middleware('auth');
-    
+
 Route::get('/set/get_links_from_relit_to_id/{relit_id}/{current_template_id}', [SetController::class, 'get_links_from_relit_to_id'])
     ->name('set.get_links_from_relit_to_id')
     ->middleware('auth');
@@ -787,7 +787,7 @@ Route::get('/link/get_links_from_link_id_parent_base/{link_id}', [LinkController
 Route::get('/link/get_bases_from_parent_relit_id/{relit_id}/{current_template_id}', [LinkController::class, 'get_bases_from_parent_relit_id'])
     ->name('link.get_bases_from_parent_relit_id')
     ->middleware('auth');
-    
+
 Route::get('/link/base_index/{base}', [LinkController::class, 'base_index'])
     ->name('link.base_index')
     ->middleware('auth');
@@ -934,6 +934,10 @@ Route::get('/item/verify_table_texts', [ItemController::class, 'verify_table_tex
 
 Route::get('/item/item_from_base_code/{base}/{project}/{code}', [ItemController::class, 'item_from_base_code'])
     ->name('item.item_from_base_code')
+    ->middleware('auth');
+
+Route::get('/item/doc_download/{item}/{usercode}', [ItemController::class, 'doc_download'])
+    ->name('item.doc_download')
     ->middleware('auth');
 
 // Mains
