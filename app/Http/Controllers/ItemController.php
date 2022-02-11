@@ -3942,9 +3942,10 @@ class ItemController extends Controller
                         if ($item->base->type_is_image() || $item->base->type_is_document()) {
                             //$result_item_name = "<a href='" . Storage::url($item->filename()) . "'><img src='" . Storage::url($item->filename()) . "' height='50' alt='' title='" . $item->filename() . "'></a>";
                             if ($item->base->type_is_image()) {
-                                $result_item_name = "<img src='" . Storage::url($item->filename()) . "' height='250' alt='' title='" . $item->title_img() . "'>";
+                                //$result_item_name = "<img src='" . Storage::url($item->filename()) . "' height='250' alt='' title='" . $item->title_img() . "'>";
+                                $result_item_name = GlobalController::view_img($item, "medium", false, false, false, $item->title_img());
                             } else {
-                                $result_item_name = "<a href='" . Storage::url($item->filename()) . "'><img src='" . Storage::url($item->filename()) . "' height='50' alt='' title='" . $item->filename() . "'></a>";
+                                $result_item_name = GlobalController::view_doc($item, GlobalController::usercode_calc(Auth::user()->id));
                             }
                         } elseif ($item->base->type_is_text()) {
                             $result_item_name = GlobalController::it_txnm_n2b($item);
@@ -4018,7 +4019,7 @@ class ItemController extends Controller
                     if ($link->parent_base->type_is_image()) {
                         $img_doc = GlobalController::view_img($main->parent_item, "small", false, true, false, "");
                     } elseif ($link->parent_base->type_is_document()) {
-                        $img_doc = GlobalController::view_doc($main->parent_item, Auth::user()->id);
+                        $img_doc = GlobalController::view_doc($main->parent_item, GlobalController::usercode_calc(Auth::user()->id));
                     }
                     if ($str == '') {
                         $result = $result . '<li>';
@@ -4112,7 +4113,7 @@ class ItemController extends Controller
                     if ($link->parent_base->type_is_image()) {
                         $img_doc = GlobalController::view_img($main->parent_item, "small", false, true, false, "");
                     } elseif ($link->parent_base->type_is_document()) {
-                        $img_doc = GlobalController::view_doc($main->parent_item, Auth::user()->id);
+                        $img_doc = GlobalController::view_doc($main->parent_item, GlobalController::usercode_calc(Auth::user()->id));
                     }
 
                     // $link_exists = false, поле $main->parent_item->base_id простое
@@ -4204,7 +4205,7 @@ class ItemController extends Controller
                     if ($link->child_base->type_is_image()) {
                         $img_doc = GlobalController::view_img($main->child_item, "small", false, true, false, "");
                     } elseif ($link->child_base->type_is_document()) {
-                        $img_doc = GlobalController::view_doc($main->child_item, Auth::user()->id);
+                        $img_doc = GlobalController::view_doc($main->child_item, GlobalController::usercode_calc(Auth::user()->id));
                     }
                     $items_dop = array();
                     // '$items' и '$items_dop' использовать для того, чтобы записи, отображаемые на экране, были уникальными

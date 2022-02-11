@@ -1,5 +1,9 @@
 <?php
-// Алгоритмы одинаковые в view.img.blade.php и GlobalController::view_img()
+// Алгоритмы одинаковые в view.img.blade.php и GlobalController::view_img();
+//Много похожих строк в этом файле;
+//Похожие алгоритмы:
+//view/doc.php, edit/doc_base.php, edit/doc_link.php,
+//view/img.php, edit/img_base.php, edit/img_link.php.
 use \App\Http\Controllers\GlobalController;
 ?>
 @if($item->base->type_is_image())

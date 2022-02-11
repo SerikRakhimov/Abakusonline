@@ -1,3 +1,9 @@
+<?php
+//Много похожих строк в этом файле;
+//Похожие алгоритмы:
+//view/doc.php, edit/doc_base.php, edit/doc_link.php,
+//view/img.php, edit/img_base.php, edit/img_link.php.
+?>
 @if($base->type_is_image())
     <div class="form-group row">
         <div class="col-sm-3 text-right">

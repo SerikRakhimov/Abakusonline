@@ -1,5 +1,9 @@
 <?php
-// Алгоритмы одинаковые в view.doc.blade.php и GlobalController::view_doc()
+// Алгоритмы одинаковые в view.doc.blade.php и GlobalController::view_doc();
+//Много похожих строк в этом файле;
+//Похожие алгоритмы:
+//view/doc.php, edit/doc_base.php, edit/doc_link.php,
+//view/img.php, edit/img_base.php, edit/img_link.php.
 use \App\Http\Controllers\GlobalController;
 {{--        Предыдущий вариант--}}
 {{--        <a href="{{Storage::url($item->filename())}}" target="_blank"--}}

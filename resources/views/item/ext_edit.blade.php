@@ -42,16 +42,16 @@
     <br>
     {{--    https://qastack.ru/programming/1191113/how-to-ensure-a-select-form-field-is-submitted-when-it-is-disabled--}}
     <form
-            action="{{$update ? route('item.ext_update', ['item'=>$item, 'role'=>$role]):route('item.ext_store', ['base' => $base, 'project' => $project, 'role'=>$role, 'heading' => $heading])}}"
-            method="POST"
-            enctype=multipart/form-data
-            @if($par_link)
-            onsubmit=on_submit()
-            {{--        @else--}}
-            {{--        onsubmit="playSound('sound');"--}}
-            @endif
+        action="{{$update ? route('item.ext_update', ['item'=>$item, 'role'=>$role]):route('item.ext_store', ['base' => $base, 'project' => $project, 'role'=>$role, 'heading' => $heading])}}"
+        method="POST"
+        enctype=multipart/form-data
+        @if($par_link)
+        onsubmit=on_submit()
+        {{--        @else--}}
+        {{--        onsubmit="playSound('sound');"--}}
+        @endif
 
-            name="form">
+        name="form">
         @csrf
 
         @if ($update)
@@ -75,11 +75,11 @@
                     <div class="col-sm-3 text-right">
                         <label for="code" class="col-form-label">{{trans('main.code')}}
                             <span
-                                    class="text-danger">*</span></label>
+                                class="text-danger">*</span></label>
                     </div>
                     <div class="col-sm-2">
                         <input type={{$base->is_code_number == true?"number":"text"}}
-                                name="code"
+                            name="code"
                                id="code" ;
                                class="form-control @error('code') is-invalid @enderror"
                                placeholder=""
@@ -87,7 +87,7 @@
                                {{$base->is_code_number == true?" step = 0":""}}
                                @if($base->is_code_number == true  && $base->is_limit_sign_code == true)
                                min="0" max="{{$base->number_format()}}"
-                                @endif
+                            @endif
                         >
                         @error('code')
                         <div class="invalid-feedback">
@@ -108,7 +108,7 @@
                     <div class="col-sm-3 text-right">
                         <label for="name_lang_0" class="col-form-label">{{$base->name()}}
                             <span
-                                    class="text-danger">*</span></label>
+                                class="text-danger">*</span></label>
                     </div>
                     <div class="col-sm-2">
                         <input type="number"
@@ -135,7 +135,7 @@
                     <div class="col-sm-3 text-right">
                         <label for="name_lang_0" class="col-form-label">{{$base->name()}}
                             <span
-                                    class="text-danger">*</span></label>
+                                class="text-danger">*</span></label>
                     </div>
                     <div class="col-sm-2">
                         <input type="date"
@@ -167,7 +167,7 @@
                                placeholder=""
                                @if ((old('name_lang_0') ?? ($item['name_lang_0'] ?? false)) ==  true)
                                checked
-                                @endif
+                            @endif
                         >
                         @error('name_lang_0')
                         <div class="invalid-feedback">
@@ -188,16 +188,16 @@
                                     @if($base->is_one_value_lst_str_txt == false)
                                         ({{trans('main.' . $value)}})
                                     @endif<span
-                                            class="text-danger">*</span></label>
+                                        class="text-danger">*</span></label>
                             </div>
                             <div class="col-sm-7">
                                 <textarea
-                                        name="name_lang_{{$key}}"
-                                        id="name_lang_{{$key}}"
-                                        rows="5"
-                                        class="form-control @error('name_lang_' . $key) is-invalid @enderror"
-                                        placeholder=""
-                                        maxlength="10000">
+                                    name="name_lang_{{$key}}"
+                                    id="name_lang_{{$key}}"
+                                    rows="5"
+                                    class="form-control @error('name_lang_' . $key) is-invalid @enderror"
+                                    placeholder=""
+                                    maxlength="10000">
                                        {{ old('name_lang_' . $key) ?? ($item->text['name_lang_' . $key] ?? '') }}"
                                 </textarea>
                                 {{--                            <div class="invalid-feedback">--}}
@@ -220,10 +220,12 @@
                     @endforeach
                 </div>
             @elseif($base->type_is_image())
-                @include('edit.img_base',['update'=>$update, 'base'=>$base,'item'=>$item ?? null, 'title'=>$base->name(), 'name'=>"name_lang_0",'id'=>"name_lang_0", 'size'=>"small"])
+                @include('edit.img_base',['update'=>$update, 'base'=>$base,'item'=>$item ?? null,
+                         'title'=>$base->name(), 'name'=>"name_lang_0",'id'=>"name_lang_0", 'size'=>"small"])
                 {{--                            если тип корректировки поля - документ--}}
             @elseif($base->type_is_document())
-                @include('edit.doc_base',['update'=>$update, 'base'=>$base,'item'=>$item ?? null, 'title'=>$base->name(), 'name'=>"name_lang_0",'id'=>"name_lang_0"])
+                @include('edit.doc_base',['update'=>$update, 'base'=>$base,'item'=>$item ?? null,
+                         'usercode'=>GlobalController::usercode_calc(Auth::user()->id), 'title'=>$base->name(), 'name'=>"name_lang_0",'id'=>"name_lang_0"])
                 {{--                            если тип корректировки поля - строка или список--}}
             @else
                 @if($base->is_calcname_lst == false)
@@ -235,7 +237,7 @@
                                         @if($base->is_one_value_lst_str_txt == false)
                                             ({{trans('main.' . $value)}})
                                         @endif<span
-                                                class="text-danger">*</span></label>
+                                            class="text-danger">*</span></label>
                                 </div>
                                 <div class="col-sm-7">
                                     <input type="text"
@@ -326,7 +328,7 @@
                        value="{{$item->id}}"
                        @else
                        value="0"
-                        @endif
+                    @endif
                 >
                 {{--                            проверка для вычисляемых полей--}}
             @elseif($link->parent_is_parent_related == true)
@@ -334,7 +336,7 @@
                      {{--                     проверка скрывать поле или нет--}}
                      @if($link->parent_is_hidden_field == true)
                      hidden
-                        @endif
+                    @endif
                 >
                     <div class="col-sm-3 text-right">
                         <label for="calc{{$key}}" class="form-label">
@@ -346,14 +348,14 @@
                             <span class=""
                                   name="calc{{$key}}"
                                   id="link{{$key}}"></span>
-                            {{--                            <a href="{{Storage::url($item_find->filename())}}">--}}
-                            {{--                                <img src="{{Storage::url($item_find->filename())}}" height="50"--}}
-                            {{--                                     alt="" title="{{$item_find->filename()}}">--}}
-                            {{--                            </a>--}}
-                            {{--                        @elseif($link->parent_base->type_is_document())--}}
-                            {{--                            <a href="{{Storage::url($item_find->filename())}}" target="_blank">--}}
-                            {{--                                Открыть документ--}}
-                            {{--                            </a>--}}
+{{--                                                        <a href="{{Storage::url($item_find->filename())}}">--}}
+{{--                                                            <img src="{{Storage::url($item_find->filename())}}" height="50"--}}
+{{--                                                                 alt="" title="{{$item_find->filename()}}">--}}
+{{--                                                        </a>--}}
+{{--                                                    @elseif($link->parent_base->type_is_document())--}}
+{{--                                                        <a href="{{Storage::url($item_find->filename())}}" target="_blank">--}}
+{{--                                                            Открыть документ--}}
+{{--                                                        </a>--}}
                         @else
                             <span class="form-label text-related"
                                   name="calc{{$key}}"
@@ -387,13 +389,13 @@
                             <label for="{{$key}}" class="col-form-label">{{$result_parent_label}}
                                 ({{mb_strtolower(trans('main.code'))}})
                                 <span
-                                        class="text-danger">*</span></label>
+                                    class="text-danger">*</span></label>
                         </div>
 
                         <div class="col-sm-2">
                             <input name="{{$key}}" id="{{$key}}" type="hidden" value="{{old($key) ?? $value ?? "0"}}">
                             <input type={{$link->parent_base->is_code_number == true?"number":"text"}}
-                                    name="code{{$key}}"
+                                name="code{{$key}}"
                                    id="code{{$key}}"
                                    class="form-control @error($key) is-invalid @enderror"
                                    placeholder=""
@@ -411,9 +413,9 @@
                                    @if($par_link)
                                    @if ($key == $par_link->id)
                                    disabled
-                                    @endif
-                                    @endif
-                                    @endif
+                                @endif
+                                @endif
+                                @endif
                             >
                             @error("code" . $key)
                             {{--                            <div class="invalid-feedback">--}}
@@ -450,7 +452,7 @@
 
                                     @if($base_link_right['is_edit_link_read'] == true)
                                     disabled
-                                    @endif
+                                @endif
                             >
                                 {{--                                <i class="fas fa-mouse-pointer d-inline"></i>--}}
                                 ...
@@ -478,7 +480,7 @@
                         <div class="col-sm-3 text-right">
                             <label for="{{$key}}" class="col-form-label">{{$result_parent_label}}
                                 <span
-                                        class="text-danger">*</span></label>
+                                    class="text-danger">*</span></label>
                         </div>
                         <div class="col-sm-2">
                             <input type="number"
@@ -505,9 +507,9 @@
                                    {{--                                   parent_base_id_work = document.getElementById('link{{$key}}').disabled = true;--}}
                                    {{--                                   parent_base_id_work = document.getElementById('link{{$key}}').disabled = false;--}}
                                    readonly
-                                    @endif
-                                    @endif
-                                    @endif
+                                @endif
+                                @endif
+                                @endif
                             >
                             @error($key)
                             <div class="invalid-feedback">
@@ -558,7 +560,7 @@
                         <div class="col-sm-3 text-right">
                             <label for="{{$key}}" class="col-form-label">{{$result_parent_label}}
                                 <span
-                                        class="text-danger">*</span></label>
+                                    class="text-danger">*</span></label>
                         </div>
                         <div class="col-sm-2">
                             <input type="date"
@@ -573,9 +575,9 @@
                                    @if($par_link)
                                    @if ($key == $par_link->id)
                                    disabled
-                                    @endif
-                                    @endif
-                                    @endif
+                                @endif
+                                @endif
+                                @endif
                             >
                             @error($key)
                             <div class="text-danger">
@@ -640,9 +642,9 @@
                               @if($par_link)
                               @if ($key == $par_link->id)
                               disabled
-                            @endif
-                            @endif
-                            @endif
+                        @endif
+                        @endif
+                        @endif
                     >
                         <div class="form-group row">
                             @foreach (config('app.locales') as $lang_key=>$lang_value)
@@ -662,7 +664,7 @@
                                                 ({{trans('main.' . $lang_value)}})
                                             @endif
                                             <span
-                                                    class="text-danger">*</span></label>
+                                                class="text-danger">*</span></label>
                                     </div>
                                     <div class="col-sm-7">
                                         <input type="text"
@@ -700,9 +702,9 @@
                               @if($par_link)
                               @if ($key == $par_link->id)
                               disabled
-                            @endif
-                            @endif
-                            @endif
+                        @endif
+                        @endif
+                        @endif
                     >
                         <div class="form-group row">
                             @foreach (config('app.locales') as $lang_key=>$lang_value)
@@ -722,7 +724,7 @@
                                                 ({{trans('main.' . $lang_value)}})
                                             @endif
                                             <span
-                                                    class="text-danger">*</span></label>
+                                                class="text-danger">*</span></label>
                                     </div>
                                     <div class="col-sm-7">
                                             <textarea type="text"
@@ -755,14 +757,15 @@
 
                     {{--                            если тип корректировки поля - изображение--}}
                 @elseif($link->parent_base->type_is_image())
-{{--                    @include('edit.img_link',['update'=>$update, 'base'=>$link->parent_base,'value'=>$value, 'title'=>$result_parent_label, 'name'=>$key,'id'=>"link".$key, 'size'=>"small"])--}}
+                    {{--                    @include('edit.img_link',['update'=>$update, 'base'=>$link->parent_base,'value'=>$value, 'title'=>$result_parent_label, 'name'=>$key,'id'=>"link".$key, 'size'=>"small"])--}}
                     @include('edit.img_link',['update'=>$update, 'base'=>$link->parent_base,'value'=>$value, 'base_link_right'=>$base_link_right,'title'=>$result_parent_label, 'name'=>$key,'id'=>"link".$key, 'size'=>"small"])
 
                     {{--                            если тип корректировки поля - документ--}}
                 @elseif($link->parent_base->type_is_document())
-                    {{--                        @include('edit.doc_link',['update'=>$update, 'base'=>$link->parent_base,'result'=>$result,'value'=>$value, 'name'=>$key,'id'=>"link".$key])--}}
-                    @include('edit.doc_link',['update'=>$update, 'base'=>$link->parent_base,'value'=>$value, 'title'=>$result_parent_label, 'name'=>$key,'id'=>"link".$key])
-
+                    {{--                        @include('edit.doc_link',['update'=>$update, 'base'=>$link->parent_base,'value'=>$value, 'title'=>$result_parent_label, 'name'=>$key,'id'=>"link".$key])--}}
+                    @include('edit.doc_link',['update'=>$update, 'base'=>$link->parent_base,'value'=>$value,
+                            'base_link_right'=>$base_link_right,'usercode'=>GlobalController::usercode_calc(Auth::user()->id),
+                             'title'=>$result_parent_label, 'name'=>$key,'id'=>"link".$key])
                     {{--                         Такая же проверка ItemController::get_items_ext_edit_for_link(),--}}
                     {{--                         в ext_edit.php--}}
                 @elseif($link->parent_base->type_is_list())
@@ -782,9 +785,9 @@
                                     @if($par_link)
                                     @if ($key == $par_link->id)
                                     disabled
-                                    @endif
-                                    @endif
-                                    @endif
+                                @endif
+                                @endif
+                                @endif
                             >
                                 @if ((count($items) == 0)))
                                 <option value='0'>{{trans('main.no_information_on')}}
@@ -798,7 +801,7 @@
                                         <option value="{{$item_work->id}}"
                                                 @if (((old($key)) ?? (($value != null) ? $value : 0)) == $item_work->id)
                                                 selected
-                                                @endif
+                                            @endif
                                         >{{$item_work->name()}}
                                         </option>
                                     @endforeach
@@ -836,7 +839,7 @@
             </div>
             <div class="col-sm-5 text-left">
                 <button type="button" class="btn btn-dreamer" title="{{trans('main.cancel')}}"
-                        @include('layouts.item.base_index.previous_url')
+                    @include('layouts.item.base_index.previous_url')
                 >
                     <i class="fas fa-arrow-left d-inline"></i>
                     {{trans('main.cancel')}}
@@ -1036,19 +1039,19 @@
                                 child_base_id{{$prefix}}{{$link->id}}.innerHTML = "<option value='0'>{{trans('main.no_information') . '!'}}</option>";
                         } else {
                             @if(($link_start_child->parent_is_base_link == true) || ($link_start_child->parent_base->is_code_needed==true && $link_start_child->parent_is_enter_refer==true))
-                                    @else
+                                @else
                                 await axios.get('/item/get_items_main_options/'
                                 + '{{$link_start_child->parent_base_id}}' + '/' + {{$project->id}} + '/' + {{$role->id}} + '/' + {{$link_get->id}}
-                                            @if(($link->parent_is_base_link == true) || ($link->parent_base->is_code_needed==true && $link->parent_is_enter_refer==true))
+                                    @if(($link->parent_is_base_link == true) || ($link->parent_base->is_code_needed==true && $link->parent_is_enter_refer==true))
                                 + '/' + parent_base_id{{$prefix}}{{$link->id}}.value
-                                    @else
+                                @else
                                 + '/' + parent_base_id{{$prefix}}{{$link->id}}.options[parent_base_id{{$prefix}}{{$link->id}}.selectedIndex].value
-                                    @endif
-                                   ).then(function (res) {
+                                @endif
+                               ).then(function (res) {
                                         child_base_id{{$prefix}}{{$link->id}}.innerHTML = res.data['result_items_name_options'];
                                         for (let i = 0; i < child_base_id{{$prefix}}{{$link->id}}.length; i++) {
                                             if (child_base_id{{$prefix}}{{$link->id}}[i].value ==
-                                                    {{old($link_start_child->id) ?? (($array_calc[$link_start_child->id] != null) ? $array_calc[$link_start_child->id] : 0)}}) {
+                                                {{old($link_start_child->id) ?? (($array_calc[$link_start_child->id] != null) ? $array_calc[$link_start_child->id] : 0)}}) {
                                                 // установить selected на true
                                                 child_base_id{{$prefix}}{{$link->id}}[i].selected = true;
                                             }
@@ -1115,11 +1118,11 @@
                                 alert("{{trans('main.select_a_field_to_filter') . '!'}}");
                             } else {
                                 open('{{route('item.browser', '')}}' + '/' + {{$link->id}} + '/' + {{$project->id}} + '/' + {{$role->id}}
-                                                @if(($link_refer_main->parent_is_base_link == true) || ($link_refer_main->parent_base->is_code_needed==true && $link_refer_main->parent_is_enter_refer==true))
+                                        @if(($link_refer_main->parent_is_base_link == true) || ($link_refer_main->parent_base->is_code_needed==true && $link_refer_main->parent_is_enter_refer==true))
                                     + '/' + parent_base_id{{$prefix}}{{$link->id}}.value
-                                        @else
+                                    @else
                                     + '/' + parent_base_id{{$prefix}}{{$link->id}}.options[parent_base_id{{$prefix}}{{$link->id}}.selectedIndex].value
-                                        @endif
+                                    @endif
                                     + '/code/code', 'browse', 'width=800, height=800');
                             }
                             {{-- Вызываем событие - обновление кода--}}
@@ -1147,12 +1150,12 @@
                                     await axios.get('/item/get_items_main_code/'
                                         + code_{{$prefix}}{{$link->id}}.value + '/'
                                         + '{{$link->parent_base_id}}' + '/' + {{$project->id}} + '/' + {{$role->id}} + '/' + {{$link->id}}
-                                                    @if(($link_refer_main->parent_is_base_link == true) || ($link_refer_main->parent_base->is_code_needed==true && $link_refer_main->parent_is_enter_refer==true))
+                                            @if(($link_refer_main->parent_is_base_link == true) || ($link_refer_main->parent_base->is_code_needed==true && $link_refer_main->parent_is_enter_refer==true))
                                         + '/' + parent_base_id{{$prefix}}{{$link->id}}.value
-                                            @else
+                                        @else
                                         + '/' + parent_base_id{{$prefix}}{{$link->id}}.options[parent_base_id{{$prefix}}{{$link->id}}.selectedIndex].value
-                                            @endif
-                                        ).then(function (res) {
+                                        @endif
+                                    ).then(function (res) {
                                                 name_{{$prefix}}{{$link->id}}.innerHTML = res.data['item_name'];
                                                 key_{{$prefix}}{{$link->id}}.value = res.data['item_id'];
                                             }
@@ -1257,14 +1260,14 @@
                         ).then(function (res) {
                                 parent_base_id{{$prefix}}{{$link->id}}.innerHTML = res.data['result_item_name'];
                                 //alert('---->'+res.data['result_item_name'])
-                                    @if($link->parent_is_nc_parameter == true)
-                                    on_numcalc();
-                                    @endif
-                                    {{--    arr = res.data;--}}
-                                    {{--for (key in arr) {--}}
-                                    {{--    // console.log(`${key} = ${arr[key]}`);--}}
-                                    {{--    alert('link_id = {{$link->id}} key = ' + key + ' value = ' + arr[key]);--}}
-                                    {{--}--}}
+                                @if($link->parent_is_nc_parameter == true)
+                                on_numcalc();
+                                @endif
+                                {{--    arr = res.data;--}}
+                                {{--for (key in arr) {--}}
+                                {{--    // console.log(`${key} = ${arr[key]}`);--}}
+                                {{--    alert('link_id = {{$link->id}} key = ' + key + ' value = ' + arr[key]);--}}
+                                {{--}--}}
                             }
                         );
                         // При просмотре фото может неправильно работать при просмотре фото по связанному полю - проэтому закомментарено
@@ -1297,9 +1300,9 @@
                             + '/0'
                         ).then(function (res) {
                                 parent_base_id{{$prefix}}{{$link->id}}.innerHTML = res.data['result_item_name'];
-                                    @if($link->parent_is_nc_parameter == true)
-                                    on_numcalc();
-                                    @endif
+                                @if($link->parent_is_nc_parameter == true)
+                                on_numcalc();
+                                @endif
 
                             }
                         );
@@ -1339,18 +1342,18 @@
                     axios.get('/item/get_parent_item_from_output_calculated_table?'
                         + 'base_id={{$base->id}}'
                         + '&link_id={{$link->id}}'
-                            @foreach($sets_group as $to_key => $to_value)
-                            {{-- Если $to_value->link_from->Ссылка на основу = true --}}
-                            {{-- Выше по тексту тоже используется "parent_is_base_link"--}}
-                            @if(($to_value->link_from->parent_is_base_link == true) || ($to_value->link_from->parent_base->is_code_needed==true && $to_value->link_from->parent_is_enter_refer==true))
-                            {{--+ '/' + child_base_id{{$prefix}}{{$link->id}}_{{$to_value->id}}.value--}}
+                        @foreach($sets_group as $to_key => $to_value)
+                        {{-- Если $to_value->link_from->Ссылка на основу = true --}}
+                        {{-- Выше по тексту тоже используется "parent_is_base_link"--}}
+                        @if(($to_value->link_from->parent_is_base_link == true) || ($to_value->link_from->parent_base->is_code_needed==true && $to_value->link_from->parent_is_enter_refer==true))
+                        {{--+ '/' + child_base_id{{$prefix}}{{$link->id}}_{{$to_value->id}}.value--}}
                         + '&items_id_group[]=' + child_base_id{{$prefix}}{{$link->id}}_{{$to_value->id}}.value
-                            @else
-                            {{--+ '/' + child_base_id{{$prefix}}{{$link->id}}_{{$to_value->id}}.options[child_base_id{{$prefix}}{{$link->id}}_{{$to_value->id}}.selectedIndex].value--}}
+                        @else
+                        {{--+ '/' + child_base_id{{$prefix}}{{$link->id}}_{{$to_value->id}}.options[child_base_id{{$prefix}}{{$link->id}}_{{$to_value->id}}.selectedIndex].value--}}
                         + '&items_id_group[]=' + child_base_id{{$prefix}}{{$link->id}}_{{$to_value->id}}.options[child_base_id{{$prefix}}{{$link->id}}_{{$to_value->id}}.selectedIndex].value
-                            @endif
-                            @endforeach
-                            ).then(function (res) {
+                        @endif
+                        @endforeach
+                        ).then(function (res) {
                                 parent_base_id{{$prefix}}{{$link->id}}.innerHTML = res.data;
                             }
                         );
@@ -1450,14 +1453,14 @@
 
         function on_numcalc() {
             @foreach($functs_numcalc as $value)
-                    {{$value}}();
+                {{$value}}();
 
             @endforeach
         }
 
         function on_parent_refer() {
             @foreach($functs_parent_refer as $value)
-                    {{$value}}();
+                {{$value}}();
             @endforeach
         }
 
@@ -1511,7 +1514,7 @@
         window.onload = function () {
             // массив функций нужен, что при window.onload запустить обработчики всех полей
             @foreach($functions as $value)
-                    {{$value}}(true);
+                {{$value}}(true);
             @endforeach
             // on_parent_refer();
 
