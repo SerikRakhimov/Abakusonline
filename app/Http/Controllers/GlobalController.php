@@ -874,7 +874,7 @@ class GlobalController extends Controller
         if ($item->base->type_is_document()) {
             if ($item->img_doc_exist()) {
                 //$result = '<a href = "' . Storage::url($item->filename()) . '" target = "_blank"  title = "' . $item->title_img() . '" >' . trans('main.open_document') . '</a>';
-                $result = '<a href = "' . route('item.doc_download', ['item'=>$item, 'usercode'=>$usercode])
+                $result = '<a href = "' . route('item.doc_download', ['item' => $item, 'usercode' => $usercode])
                     . '" target = "_blank"  title = "' . $item->title_img() . '" >'
                     . trans('main.open_document') . '</a>';
             } else {
@@ -952,31 +952,14 @@ class GlobalController extends Controller
     // Вывод объекта по имени главного $item и $link
     static function view_info($child_item_id, $link_id)
     {
-        // Нужно
+        // Нужно '$item = null;'
         $item = null;
         $item_find = Item::find($child_item_id);
         $link_find = Link::find($link_id);
         $view_enable = false;
         //
         if ($item_find && $link_find) {
-            // Если установлено 'Доступно от значения поля Логический'
-            if ($link_find->parent_is_enabled_boolean_value) {
-                $link_bool = Link::find($link_find->parent_enabled_boolean_value_link_id);
-                if ($link_bool) {
-                    // Находим $item_bool
-                    $item_bool = self::get_parent_item_from_main($child_item_id, $link_bool->id);
-                    if ($item_bool) {
-                        // Если checked, то показывать поле
-                        if ($item_bool->boolval()['value']) {
-                            $view_enable = true;
-                        } else {
-                            $view_enable = false;
-                        }
-                    }
-                }
-            } else {
-                $view_enable = true;
-            }
+            $view_enable = self::view_enable($child_item_id, $link_id);
             // Иначе возвращается $item = null
             if ($view_enable == true) {
                 // Выводить связанное поле
@@ -995,6 +978,35 @@ class GlobalController extends Controller
             }
         }
         return $item;
+    }
+
+    // Возможен вывод объекта по имени главного $item и $link
+    static function view_enable($child_item_id, $link_id)
+    {
+        $link_find = Link::find($link_id);
+        $result = false;
+        //
+        if ($link_find) {
+            // Если установлено 'Доступно от значения поля Логический'
+            if ($link_find->parent_is_enabled_boolean_value) {
+                $link_bool = Link::find($link_find->parent_enabled_boolean_value_link_id);
+                if ($link_bool) {
+                    // Находим $item_bool
+                    $item_bool = self::get_parent_item_from_main($child_item_id, $link_bool->id);
+                    if ($item_bool) {
+                        // Если checked, то показывать поле
+                        if ($item_bool->boolval()['value']) {
+                            $result = true;
+                        } else {
+                            $result = false;
+                        }
+                    }
+                }
+            } else {
+                $result = true;
+            }
+        }
+        return $result;
     }
 
     // Вывод проекта по $link и $current_project

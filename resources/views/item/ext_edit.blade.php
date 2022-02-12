@@ -282,6 +282,12 @@
                 @continue
             @endif
             <?php
+            $view_enable = GlobalController::view_enable($item->id, $link->id);
+            ?>
+            @if($view_enable == false)
+                @continue
+            @endif
+            <?php
             $result_parent_label = $link->parent_label();
             $base_items = $link->parent_base;
             //                Загружаются данные для списков выбора
@@ -348,14 +354,14 @@
                             <span class=""
                                   name="calc{{$key}}"
                                   id="link{{$key}}"></span>
-{{--                                                        <a href="{{Storage::url($item_find->filename())}}">--}}
-{{--                                                            <img src="{{Storage::url($item_find->filename())}}" height="50"--}}
-{{--                                                                 alt="" title="{{$item_find->filename()}}">--}}
-{{--                                                        </a>--}}
-{{--                                                    @elseif($link->parent_base->type_is_document())--}}
-{{--                                                        <a href="{{Storage::url($item_find->filename())}}" target="_blank">--}}
-{{--                                                            Открыть документ--}}
-{{--                                                        </a>--}}
+                            {{--                                                        <a href="{{Storage::url($item_find->filename())}}">--}}
+                            {{--                                                            <img src="{{Storage::url($item_find->filename())}}" height="50"--}}
+                            {{--                                                                 alt="" title="{{$item_find->filename()}}">--}}
+                            {{--                                                        </a>--}}
+                            {{--                                                    @elseif($link->parent_base->type_is_document())--}}
+                            {{--                                                        <a href="{{Storage::url($item_find->filename())}}" target="_blank">--}}
+                            {{--                                                            Открыть документ--}}
+                            {{--                                                        </a>--}}
                         @else
                             <span class="form-label text-related"
                                   name="calc{{$key}}"
