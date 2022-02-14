@@ -35,7 +35,7 @@ return [
     'delete_record_question' => 'Удалить запись',
     'viewing_record' => 'Просмотр записи',
     'recs_genitive_case' => 'Записей',
-    'select' => 'Выбор',
+    'select' => 'Выбрать',
     'select_record_for_work' => 'Выберите запись для работы',
     'return' => 'Назад',
     'cancel' => 'Отмена',

@@ -99,7 +99,7 @@
             </div>
             @enderror
         </div>
-        
+
         <div class="form-group">
             <label for="parent_relit_id">{{trans('main.parent')}}_{{trans('main.template')}}<span
                     class="text-danger">*</span></label>
@@ -936,7 +936,6 @@
                     var parent_output_calculated_table_set_id_value =
                         parent_output_calculated_table_set_id.options[parent_output_calculated_table_set_id.selectedIndex].value;
                 }
-
                 if (res.data['result_parent_output_calculated_table_set_id_options'] == "") {
                     parent_is_output_calculated_table_field.disabled = true;
                     parent_is_output_calculated_table_field_form_group.style.display = "none";

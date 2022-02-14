@@ -35,7 +35,7 @@ return [
     'delete_record_question' => 'Жазбаны жою керек пе',
     'viewing_record' => 'Жазбаны қарау',
     'recs_genitive_case' => 'Жазба',
-    'select' => 'Таңдау',
+    'select' => 'Таңдаңыз',
     'select_record_for_work' => 'Жұмыс үшін жазбаны таңдаңыз',
     'return' => 'Артқа',
     'cancel' => 'Болдырмау',

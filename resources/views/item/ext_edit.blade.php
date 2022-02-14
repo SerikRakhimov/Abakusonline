@@ -225,7 +225,7 @@
                 {{--                            если тип корректировки поля - документ--}}
             @elseif($base->type_is_document())
                 @include('edit.doc_base',['update'=>$update, 'base'=>$base,'item'=>$item ?? null,
-                         'usercode'=>GlobalController::usercode_calc(Auth::user()->id), 'title'=>$base->name(), 'name'=>"name_lang_0",'id'=>"name_lang_0"])
+                         'usercode'=>GlobalController::usercode_calc(), 'title'=>$base->name(), 'name'=>"name_lang_0",'id'=>"name_lang_0"])
                 {{--                            если тип корректировки поля - строка или список--}}
             @else
                 @if($base->is_calcname_lst == false)
@@ -282,7 +282,14 @@
                 @continue
             @endif
             <?php
-            $view_enable = GlobalController::view_enable($item->id, $link->id);
+            // При добавлении записи
+            if (!$update) {
+                // Передается без параметров
+                $view_enable = GlobalController::view_enable($link->id);
+                // При корректировке записи
+            } else {
+                $view_enable = GlobalController::view_enable($link->id, $item->id);
+            }
             ?>
             @if($view_enable == false)
                 @continue
@@ -770,7 +777,7 @@
                 @elseif($link->parent_base->type_is_document())
                     {{--                        @include('edit.doc_link',['update'=>$update, 'base'=>$link->parent_base,'value'=>$value, 'title'=>$result_parent_label, 'name'=>$key,'id'=>"link".$key])--}}
                     @include('edit.doc_link',['update'=>$update, 'base'=>$link->parent_base,'value'=>$value,
-                            'base_link_right'=>$base_link_right,'usercode'=>GlobalController::usercode_calc(Auth::user()->id),
+                            'base_link_right'=>$base_link_right,'usercode'=>GlobalController::usercode_calc(),
                              'title'=>$result_parent_label, 'name'=>$key,'id'=>"link".$key])
                     {{--                         Такая же проверка ItemController::get_items_ext_edit_for_link(),--}}
                     {{--                         в ext_edit.php--}}

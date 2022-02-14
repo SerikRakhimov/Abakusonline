@@ -45,7 +45,7 @@
                 </li>
             @elseif($base->type_is_document)
                 <li><b>
-                        @include('view.doc',['item'=>$item,'usercode'=>GlobalController::usercode_calc(Auth::user()->id)])
+                        @include('view.doc',['item'=>$item,'usercode'=>GlobalController::usercode_calc()])
                         {{--                <a href="{{Storage::url($item->filename())}}" target="_blank">--}}
                         {{--                    Открыть документ--}}
                         {{--                </a>--}}
@@ -117,7 +117,7 @@
                             {{--                            </a>--}}
                         @elseif($link->parent_base->type_is_document())
                             <b>
-                                @include('view.doc',['item'=>$item_find, 'usercode'=>GlobalController::usercode_calc(Auth::user()->id)])
+                                @include('view.doc',['item'=>$item_find, 'usercode'=>GlobalController::usercode_calc()])
                                 {{--                            <a href="{{Storage::url($item_find->filename())}}" target="_blank">--}}
                                 {{--                                Открыть документ--}}
                                 {{--                            </a>--}}

@@ -321,7 +321,7 @@
                                 @if($base->type_is_image)
                                     @include('view.img',['item'=>$item, 'size'=>"small", 'filenametrue'=>false, 'link'=>true, 'img_fluid'=>false, 'title'=>""])
                                 @elseif($base->type_is_document)
-                                    @include('view.doc',['item'=>$item, 'usercode'=>GlobalController::usercode_calc(Auth::user()->id)])
+                                    @include('view.doc',['item'=>$item, 'usercode'=>GlobalController::usercode_calc()])
                                 @else
                                     <a href="{{route('item.ext_show', ['item'=>$item, 'role'=>$role])}}">
                                         {{--                            Где $item->name() выходит в cards выводить "<?php echo GlobalController::to_html();?>"--}}
@@ -346,7 +346,7 @@
                                 @if($link->parent_base->type_is_image())
                                     @include('view.img',['item'=>$item_find, 'size'=>"small", 'filenametrue'=>false, 'link'=>true, 'img_fluid'=>false, 'title'=>""])
                                 @elseif($link->parent_base->type_is_document())
-                                    @include('view.doc',['item'=>$item_find, 'usercode'=>GlobalController::usercode_calc(Auth::user()->id)])
+                                    @include('view.doc',['item'=>$item_find, 'usercode'=>GlobalController::usercode_calc()])
                                 @else
                                     {{--                                Не удалять: просмотр Пространство--}}
                                     {{--                                                                            проверка, если link - вычисляемое поле--}}
