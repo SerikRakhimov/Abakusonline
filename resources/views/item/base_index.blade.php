@@ -272,7 +272,7 @@
         {{--                        @endfor--}}
         {{--                        </tr>--}}
         {{--                    @endif--}}
-        @include('list.table',['base'=>$item->base, 'links_info'=>$links_info, 'items'=>$items,
+        @include('list.table',['base'=>$base, 'links_info'=>$links_info, 'items'=>$items,
                     'base_right'=>$base_right, 'item_view'=>true])
         {{--                            @if(1==2)--}}
         {{--                                @foreach($link_id_array as $value)--}}
