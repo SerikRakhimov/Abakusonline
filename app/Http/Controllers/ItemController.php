@@ -3376,7 +3376,9 @@ class ItemController extends Controller
         }
         //return $heading == true ? redirect()->route('item.base_index', $item->base_id) : redirect(session('base_index_previous_url'));
         if ($heading == true) {
-            return redirect()->route('item.base_index', $item->base_id);
+            //return redirect()->route('item.base_index', $item->base_id);
+            return redirect()->route('item.base_index', ['base' => $item->base, 'project' => $item->project, 'role' => $role]);
+
         } else {
             if (Session::has('base_index_previous_url')) {
                 return redirect(session('base_index_previous_url'));
@@ -4572,11 +4574,17 @@ class ItemController extends Controller
             . mb_strtolower(trans('main.must_less_equal')) . ' (' . $mx . ' ' . mb_strtolower(trans('main.byte')) . ') !';
     }
 
-    static function links_info(Base $base, Role $role)
+    static function links_info(Base $base, Role $role, Link $nolink = null)
     {
         $link_id_array = array();
         $matrix = array(array());
-        $links = $base->child_links->sortBy('parent_base_number');
+        $links = null;
+        if ($nolink == null) {
+            $links = $base->child_links->sortBy('parent_base_number');
+        } else {
+            // Исключить переданный $nolink
+            $links = $base->child_links->where('id', '!=', $nolink->id)->sortBy('parent_base_number');
+        }
 
         $k = 0;
         foreach ($links as $link) {

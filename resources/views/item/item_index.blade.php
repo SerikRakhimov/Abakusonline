@@ -6,7 +6,10 @@
     use App\Models\Link;
     use App\Models\Main;
     use \App\Http\Controllers\GlobalController;
+    use \App\Http\Controllers\ItemController;
     $child_links = $item->base->child_links->sortBy('parent_base_number');
+    $child_links_info = ItemController::links_info($item->base, $role);
+    $child_link_id_array = $child_links_info['link_id_array'];
     $project = $item->project;
     function objectToarray($data)
     {
@@ -54,7 +57,10 @@
                             {{$item->base->name()}}:
                         @endif
                     </a>
-                    {{$item->cdnm()}}
+                    <a href="{{route('item.ext_show', ['item'=>$item, 'role'=>$role])}}"
+                       title="{{$item->cdnm()}}">
+                        {{$item->cdnm()}}
+                    </a>
                 </h3>
             </div>
             <div class="col-1 text-center">
@@ -98,7 +104,7 @@
                         <a href="{{route('item.base_index',['base'=>$link->parent_base,
                             'project'=>$project, 'role'=>$role])}}"
                            title="{{$link->parent_base->names()}}">
-                            {{$link->parent_label()}}:
+                            {{$link->parent_label()}}
                         </a>
                     </th>
                 @endforeach
@@ -134,6 +140,15 @@
             {{--            </tr>--}}
             </tbody>
         </table>
+
+        <?php
+        $base_right = GlobalController::base_right($item->base, $role);
+        $items_right = GlobalController::items_right($item->base, $project, $role, null, null, $item->id);
+        $items = $items_right['itget'];
+        ?>
+        @include('list.table',['base'=>$item->base, 'links_info'=>$child_links_info, 'items'=>$items,
+    'base_right'=>$base_right, 'item_view'=>false])
+
         {{--    @endif--}}
         {{--    <hr align="center" width="100%" size="2" color="#ff0000"/>--}}
         {{--        &#8595;	&#8195; &#8595;	&#8195; &#8595;	&#8195; &#8595;	&#8195; &#8595;	&#8195; &#8595;	&#8195; &#8595;	&#8195; &#8595;	&#8195; &#8595;	&#8195; &#8595;	&#8195; &#8595;	&#8195;--}}
@@ -222,25 +237,31 @@
             </div>
         </div>
         @if (count($mains) > 0)
+            <?php
+            //                $child_body_links = $current_link->child_base->child_links->where('id', '!=', $current_link->id)->sortBy('parent_base_number');
+            $child_body_links_info = ItemController::links_info($current_link->child_base, $role, $current_link);
+            $child_body_link_id_array = $child_body_links_info['link_id_array'];
+            ?>
             <table class="table table-sm table-bordered table-hover">
                 <caption>{{trans('main.select_record_for_work')}}</caption>
-                <?php
-                $child_body_links = $current_link->child_base->child_links->where('id', '!=', $current_link->id)->sortBy('parent_base_number');
-                //$child_body_links = $current_link->child_base->child_links;
-                ?>
                 <thead>
                 <tr>
                     <th class="text-center">#</th>
                     <th class="text-left">{{$current_link->child_label()}}</th>
                     {{--                    <th class="text-center"></th>--}}
-                    @foreach($child_body_links as $link1)
-                        <th>
-                            <a href="{{route('item.base_index', ['base'=>$link1->parent_base,
+                    @foreach($child_body_link_id_array as $link1_id)
+                        <?php
+                        $link1 = Link::find($link1_id);
+                        ?>
+                        @if($link1)
+                            <th>
+                                <a href="{{route('item.base_index', ['base'=>$link1->parent_base,
                             'project'=>$project, 'role'=>$role])}}"
-                               title="{{$link1->parent_base->names()}}">
-                                {{$link1->parent_label()}}
-                            </a>
-                        </th>
+                                   title="{{$link1->parent_base->names()}}">
+                                    {{$link1->parent_label()}}
+                                </a>
+                            </th>
+                        @endif
                     @endforeach
                     <th class="text-center"></th>
                     <th class="text-center"></th>
@@ -265,23 +286,27 @@
                             </a>
                         </td>
                         {{--                        <td class="text-center">&#8594;</td>--}}
-                        @foreach($child_body_links as $link1)
-                            <td>
-                                <?php
-                                $item_find = GlobalController::view_info($item1->id, $link1->id);
-                                ?>
-                                @if($item_find)
-                                    {{--проверка на вычисляемые поля--}}
-                                    @if($link1->parent_is_parent_related == false)
-                                        <a href="{{route('item.item_index', ['item'=>$item_find, 'role'=>$role, 'par_link'=>$link1])}}">
-                                            @else
-                                                <a href="{{route('item.item_index', ['item'=>$item_find, 'role'=>$role])}}">
-                                                    @endif
-                                                    {{$item_find->name()}}
-                                                </a>
-                                    @endif
-                            </td>
-
+                        @foreach($child_body_link_id_array as $link1_id)
+                            <?php
+                            $link1 = Link::find($link1_id);
+                            ?>
+                            @if($link1)
+                                <td>
+                                    <?php
+                                    $item_find = GlobalController::view_info($item1->id, $link1->id);
+                                    ?>
+                                    @if($item_find)
+                                        {{--проверка на вычисляемые поля--}}
+                                        @if($link1->parent_is_parent_related == false)
+                                            <a href="{{route('item.item_index', ['item'=>$item_find, 'role'=>$role, 'par_link'=>$link1])}}">
+                                                @else
+                                                    <a href="{{route('item.item_index', ['item'=>$item_find, 'role'=>$role])}}">
+                                                        @endif
+                                                        {{$item_find->name()}}
+                                                    </a>
+                                        @endif
+                                </td>
+                            @endif
                         @endforeach
                         <td class="text-center">
                             <a href="{{route('item.ext_show', ['item'=>$item1, 'role'=>$role])}}"
@@ -308,6 +333,14 @@
                 @endforeach
                 </tbody>
             </table>
+            <?php
+            $base_right = GlobalController::base_right($current_link->child_base, $role);
+            $items_right = GlobalController::items_right($item->base, $project, $role, $item->id, $current_link->id);
+            $items = $items_right['itget'];
+            //dd($current_link->child_base);
+            ?>
+            @include('list.table',['base'=>$current_link->child_base, 'links_info'=>$child_body_links_info, 'items'=>$items,
+        'base_right'=>$base_right, 'item_view'=>true])
         @endif
         <hr>
         @if (count($next_links_plan) > 1)
@@ -316,7 +349,6 @@
                     @csrf
                     <input type="hidden" name="item_id" value="{{$item->id}}">
                     <input type="hidden" name="role_id" value="{{$role->id}}">
-
                     <div class="d-flex justify-content-end align-items-center mt-0">
                         <div class="col-auto">
                             {{--                            <label for="link_id">{{trans('main.another_attitude')}} = </label>--}}

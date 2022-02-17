@@ -372,42 +372,76 @@ class GlobalController extends Controller
 //                $query->whereDate('name_lang_0', '>','2020-02-09');});
 //        });
 
-    static function items_right(Base $base, Project $project, Role $role)
+    static function items_right(Base $base, Project $project, Role $role, $mains_item_id = null, $mains_link_id = null, $item_id = null)
     {
 
         $base_right = self::base_right($base, $role);
+        $items = null;
 
-        // Обязательно фильтр на два запроса:
-        // where('base_id', $base->id)->where('project_id', $project->id)
-        $items = Item::where('base_id', $base->id)->where('project_id', $project->id);
+        // Выборка из mains
+        if ($mains_item_id && $mains_link_id) {
+            //        $mains = Main::all()->where('parent_item_id', $item->id)->where('link_id', $current_link->id)->sortBy(function ($main) {
+            //            return $main->link->child_base->name() . $main->child_item->name();
+            //        });
+            $items_ids = Main::select(DB::Raw('mains.child_item_id as id'))
+                ->join('items', 'mains.child_item_id', '=', 'items.id')
+                ->where('mains.parent_item_id', '=', $mains_item_id)
+                ->where('mains.link_id', '=', $mains_link_id)
+                ->get();
+            $coll_mains = collect();
+            foreach ($items_ids as $value) {
+                $coll_mains[$value['id']] = $value['id'];
+            }
+            $ids = $coll_mains->keys()->toArray();
+            $items = Item::whereIn('id', $ids);
 
-        // Сортировать по дате создания записи в порядке убывания
-        if ($base_right['is_list_base_sort_creation_date_desc'] == true) {
-            //$items = $items->orderByDesc('created_user_id');
-            $items = $items->latest();
+            // Выборка из items
         } else {
-            $name = "";  // нужно, не удалять
-            $index = array_search(App::getLocale(), config('app.locales'));
-            if ($index !== false) {   // '!==' использовать, '!=' не использовать
-                $name = 'name_lang_' . $index;
+            // Обязательно фильтр на два запроса:
+            // where('base_id', $base->id)->where('project_id', $project->id)
+            $items = Item::where('base_id', $base->id)->where('project_id', $project->id);
+        }
+        // Такая же проверка и в GlobalController (function items_right()),
+        // в ItemController (function browser(), get_items_for_link(), get_items_ext_edit_for_link())
+        if ($base_right['is_list_base_byuser'] == true) {
+            if (Auth::check()) {
+                $items = $items->where('created_user_id', GlobalController::glo_user_id());
+            } else {
+                $items = null;
+                $collection = null;
             }
-
-            // В $collection сохраняется в key - $item->id
-            $collection = collect();
-            $items = $items->orderBy($name);
-
-            //if (count($items->get()) > 0) {
-            // Такая же проверка и в GlobalController (function items_right()),
-            // в ItemController (function browser(), get_items_for_link(), get_items_ext_edit_for_link())
-            if ($base_right['is_list_base_byuser'] == true) {
-                if (Auth::check()) {
-                    $items = $items->where('created_user_id', GlobalController::glo_user_id());
-                } else {
-                    $items = null;
-                    $collection = null;
+        }
+        if ($items != null) {
+            if ($item_id != null) {
+                $items = $items->where('id', $item_id);
+            }
+            // Сортировать по дате создания записи в порядке убывания
+            if ($base_right['is_list_base_sort_creation_date_desc'] == true) {
+                //$items = $items->orderByDesc('created_user_id');
+                $items = $items->latest();
+            } else {
+                $name = "";  // нужно, не удалять
+                $index = array_search(App::getLocale(), config('app.locales'));
+                if ($index !== false) {   // '!==' использовать, '!=' не использовать
+                    $name = 'name_lang_' . $index;
                 }
-            }
-            if ($items != null) {
+
+                // В $collection сохраняется в key - $item->id
+                $collection = collect();
+                $items = $items->orderBy($name);
+
+                //if (count($items->get()) > 0) {
+                // Такая же проверка и в GlobalController (function items_right()),
+                // в ItemController (function browser(), get_items_for_link(), get_items_ext_edit_for_link())
+//            if ($base_right['is_list_base_byuser'] == true) {
+//                if (Auth::check()) {
+//                    $items = $items->where('created_user_id', GlobalController::glo_user_id());
+//                } else {
+//                    $items = null;
+//                    $collection = null;
+//                }
+//            }
+//            if ($items != null) {
                 // Эта проверка нужна "if (count($items->get()) > 0)", иначе ошибка SQL
                 if (count($items->get()) > 0) {
                     // Сортировка по mains
@@ -487,8 +521,9 @@ class GlobalController extends Controller
                             ->orderBy(\DB::raw("FIELD(id, " . implode(',', $ids) . ")"));
                     }
                 }
+                //}
+                //}
             }
-            //}
         }
         $itget = null;
         if ($items != null) {
