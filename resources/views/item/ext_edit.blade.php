@@ -353,7 +353,8 @@
                 >
                     <div class="col-sm-3 text-right">
                         <label for="calc{{$key}}" class="form-label">
-                            {{$result_parent_label}}
+                            @include('layouts.item.ext_edit.parent_label',
+                                ['result_parent_label'=>$result_parent_label, 'key'=>$key, 'par_link'=>$par_link])
                         </label>
                     </div>
                     <div class="col-sm-7">
@@ -384,7 +385,8 @@
                 >
                     <div class="col-sm-3 text-right">
                         <label for="calc{{$key}}" class="form-label">
-                            {{$result['result_parent_label']}}
+                            @include('layouts.item.ext_edit.parent_label',
+                                ['result_parent_label'=>$result_parent_label, 'key'=>$key, 'par_link'=>$par_link])
                         </label>
                     </div>
                     <div class="col-sm-7">
@@ -399,7 +401,9 @@
                 @if($link->parent_base->is_code_needed==true && $link->parent_is_enter_refer==true)
                     <div class="form-group row">
                         <div class="col-sm-3 text-right">
-                            <label for="{{$key}}" class="col-form-label">{{$result_parent_label}}
+                            <label for="{{$key}}" class="col-form-label">
+                                @include('layouts.item.ext_edit.parent_label',
+                                ['result_parent_label'=>$result_parent_label, 'key'=>$key, 'par_link'=>$par_link])
                                 ({{mb_strtolower(trans('main.code'))}})
                                 <span
                                     class="text-danger">*</span></label>
@@ -491,7 +495,9 @@
                 @elseif($link->parent_base->type_is_number())
                     <div class="form-group row">
                         <div class="col-sm-3 text-right">
-                            <label for="{{$key}}" class="col-form-label">{{$result_parent_label}}
+                            <label for="{{$key}}" class="col-form-label">
+                                @include('layouts.item.ext_edit.parent_label',
+                                ['result_parent_label'=>$result_parent_label, 'key'=>$key, 'par_link'=>$par_link])
                                 <span
                                     class="text-danger">*</span></label>
                         </div>
@@ -571,9 +577,12 @@
                 @elseif($link->parent_base->type_is_date())
                     <div class="form-group row">
                         <div class="col-sm-3 text-right">
-                            <label for="{{$key}}" class="col-form-label">{{$result_parent_label}}
+                            <label for="{{$key}}" class="col-form-label">
+                                @include('layouts.item.ext_edit.parent_label',
+                                ['result_parent_label'=>$result_parent_label, 'key'=>$key, 'par_link'=>$par_link])
                                 <span
-                                    class="text-danger">*</span></label>
+                                    class="text-danger">*</span>
+                            </label>
                         </div>
                         <div class="col-sm-2">
                             <input type="date"
@@ -613,7 +622,12 @@
                     {{--(($link->parent_num_bool_default_value!="")? $link->parent_num_bool_default_value:'0'))--}}
                     <div class="form-group row">
                         <div class="col-sm-3 text-right">
-                            <label class="form-label" for="{{$key}}">{{$result_parent_label}}</label>
+                            <label class="form-label" for="{{$key}}">
+                                @include('layouts.item.ext_edit.parent_label',
+                                ['result_parent_label'=>$result_parent_label, 'key'=>$key, 'par_link'=>$par_link])
+                                <span
+                                    class="text-danger">*</span>
+                            </label>
                         </div>
                         <div class="col-sm-7">
                             <input class="@error($key) is-invalid @enderror"
@@ -672,8 +686,10 @@
                                     || ($link->parent_base->is_one_value_lst_str_txt == false))
                                     <div class="col-sm-3 text-right">
                                         <label for="{{$input_name}}"
-                                               class="col-form-label">{{$result_parent_label}}
-                                            @if($link->parent_base->is_one_value_lst_str_txt == false)
+                                               class="col-form-label">
+                                            @include('layouts.item.ext_edit.parent_label',
+                                ['result_parent_label'=>$result_parent_label, 'key'=>$key, 'par_link'=>$par_link])
+                                        @if($link->parent_base->is_one_value_lst_str_txt == false)
                                                 ({{trans('main.' . $lang_value)}})
                                             @endif
                                             <span
@@ -732,8 +748,10 @@
                                     || ($link->parent_base->is_one_value_lst_str_txt == false))
                                     <div class="col-sm-3 text-right">
                                         <label for="{{$input_name}}"
-                                               class="col-form-label">{{$result_parent_label}}
-                                            @if($link->parent_base->is_one_value_lst_str_txt == false)
+                                               class="col-form-label">
+                                            @include('layouts.item.ext_edit.parent_label',
+                                ['result_parent_label'=>$result_parent_label, 'key'=>$key, 'par_link'=>$par_link])
+                                        @if($link->parent_base->is_one_value_lst_str_txt == false)
                                                 ({{trans('main.' . $lang_value)}})
                                             @endif
                                             <span
@@ -784,7 +802,9 @@
                 @elseif($link->parent_base->type_is_list())
                     <div class="form-group row">
                         <div class="col-sm-3 text-right">
-                            <label for="{{$key}}" class="col-form-label">{{$result_parent_label}}
+                            <label for="{{$key}}" class="col-form-label">
+                                @include('layouts.item.ext_edit.parent_label',
+                                ['result_parent_label'=>$result_parent_label, 'key'=>$key, 'par_link'=>$par_link])
                                 <span class="text-danger">*{{$value !=null ? "" : "~"}}</span></label>
                         </div>
                         <div class="col-sm-7">

@@ -419,13 +419,15 @@ class ItemController extends Controller
         return view('item/show', ['type_form' => 'show', 'item' => $item]);
     }
 
-    function ext_show(Item $item, Role $role)
+    function ext_show(Item $item, Role $role, Link $par_link = null, Item $parent_item = null)
     {
         if (GlobalController::check_project_user($item->project, $role) == false) {
             return view('message', ['message' => trans('main.info_user_changed')]);
         }
 
-        return view('item/ext_show', ['type_form' => 'show', 'item' => $item, 'role' => $role, 'array_calc' => $this->get_array_calc_edit($item)['array_calc']]);
+        return view('item/ext_show', ['type_form' => 'show', 'item' => $item,
+            'role' => $role, 'array_calc' => $this->get_array_calc_edit($item)['array_calc'],
+            'par_link' => $par_link, 'parent_item' => $parent_item]);
     }
 
     function ext_create(Base $base, Project $project, Role $role, $heading = 0, Link $par_link = null, Item $parent_item = null)

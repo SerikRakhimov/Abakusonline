@@ -101,7 +101,7 @@
                 ?>
                 @if($base_link_right['is_show_link_enable'] == true)
                     <li>
-                        {{$link->parent_label()}}:
+                        @include('layouts.item.ext_show.parent_label', ['link'=>$link, 'par_link'=>$par_link])
                         @if($link->parent_base->type_is_text())
                             {{--                            <span class="text-related">--}}<b>
                                 <?php
@@ -161,7 +161,8 @@
             {{--Похожая проверка в ItemController::ext_edit() и ext_show.php--}}
             @if($base_right['is_list_base_update'] == true)
                 <button type="button" class="btn btn-dreamer mb-1 mb-sm-0"
-                        onclick='document.location="{{route('item.ext_edit', ['item'=>$item, 'role'=>$role])}}"'
+                        onclick='document.location="{{route('item.ext_edit', ['item'=>$item, 'role'=>$role,
+            'par_link' => $par_link, 'parent_item' => $parent_item])}}"'
                         title="{{trans('main.edit')}}">
                     <i class="fas fa-edit"></i>
                     {{trans('main.edit')}}

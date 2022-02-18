@@ -147,7 +147,7 @@
         $items = $items_right['itget'];
         ?>
         @include('list.table',['base'=>$item->base, 'links_info'=>$child_links_info, 'items'=>$items,
-    'base_right'=>$base_right, 'item_view'=>false])
+    'base_right'=>$base_right, 'item_view'=>false, 'par_link'=>null, 'parent_item'=>null])
 
         {{--    @endif--}}
         {{--    <hr align="center" width="100%" size="2" color="#ff0000"/>--}}
@@ -340,7 +340,7 @@
             //dd($current_link->child_base);
             ?>
             @include('list.table',['base'=>$current_link->child_base, 'links_info'=>$child_body_links_info, 'items'=>$items,
-        'base_right'=>$base_right, 'item_view'=>true])
+        'base_right'=>$base_right, 'item_view'=>true, 'par_link'=>$current_link, 'parent_item'=>$item])
         @endif
         <hr>
         @if (count($next_links_plan) > 1)

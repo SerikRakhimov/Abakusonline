@@ -817,7 +817,7 @@ Route::get('/item/create', [ItemController::class, 'create'])
     ->middleware('auth');
 
 // "->middleware('auth')" не использовать
-Route::get('/item/ext_show/{item}/{role}', [ItemController::class, 'ext_show'])
+Route::get('/item/ext_show/{item}/{role}/{par_link?}/{parent_item?}', [ItemController::class, 'ext_show'])
     ->name('item.ext_show');
 //->middleware('auth');
 
