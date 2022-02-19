@@ -12,7 +12,7 @@ if ($par_link != null) {
 }
 ?>
 @if($result)
-    <i>{{$result_parent_label}}</i>
+    <u>{{$result_parent_label}}</u>
 @else
     {{$result_parent_label}}
 @endif

@@ -11,6 +11,9 @@
     $child_links_info = ItemController::links_info($item->base, $role);
     $child_link_id_array = $child_links_info['link_id_array'];
     $project = $item->project;
+    $base_right = GlobalController::base_right($item->base, $role);
+    $items_right = GlobalController::items_right($item->base, $project, $role, null, null, $item->id);
+    $items = $items_right['itget'];
     function objectToarray($data)
     {
         $array = (array)$data;
@@ -49,14 +52,18 @@
         <div class="row">
             <div class="col text-left">
                 <h3>
-                    <a href="{{route('item.base_index', ['base'=>$item->base,
+                    @if ($base_right['is_list_base_calc'] == true)
+                        <a href="{{route('item.base_index', ['base'=>$item->base,
                             'project'=>$project, 'role'=>$role])}}" title="{{$item->base->names()}}">
-                        @if($current_link)
-                            {{$current_link->parent_label()}}:
-                        @else
-                            {{$item->base->name()}}:
-                        @endif
-                    </a>
+                            @endif
+                            @if($current_link)
+                                {{$current_link->parent_label()}}:
+                            @else
+                                {{$item->base->name()}}:
+                            @endif
+                            @if ($base_right['is_list_base_calc'] == true)
+                        </a>
+                    @endif
                     <a href="{{route('item.ext_show', ['item'=>$item, 'role'=>$role])}}"
                        title="{{$item->cdnm()}}">
                         {{$item->cdnm()}}
@@ -140,12 +147,6 @@
             {{--            </tr>--}}
             </tbody>
         </table>
-
-        <?php
-        $base_right = GlobalController::base_right($item->base, $role);
-        $items_right = GlobalController::items_right($item->base, $project, $role, null, null, $item->id);
-        $items = $items_right['itget'];
-        ?>
         @include('list.table',['base'=>$item->base, 'links_info'=>$child_links_info, 'items'=>$items,
     'base_right'=>$base_right, 'item_view'=>false, 'par_link'=>null, 'parent_item'=>null])
 

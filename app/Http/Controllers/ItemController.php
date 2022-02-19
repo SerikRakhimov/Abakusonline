@@ -267,8 +267,23 @@ class ItemController extends Controller
 
     function item_index(Item $item, Role $role, Link $par_link = null)
     {
-        if (GlobalController::check_project_user($item->project, $role) == false) {
-            return view('message', ['message' => trans('main.info_user_changed')]);
+//        if (GlobalController::check_project_user($item->project, $role) == false) {
+//            return view('message', ['message' => trans('main.info_user_changed')]);
+//        }
+
+//        $links_info = ItemController::links_info($base, $role);
+//        if ($links_info['error_message'] != "") {
+//            return view('message', ['message' => $links_info['error_message']]);
+//        }
+
+        $base_right = GlobalController::base_right($item->base, $role);
+        //$items_right = GlobalController::items_right($base, $project, $role);
+        //$items = $items_right['items'];
+
+//      Похожая проверка в ItemController::base_index() и project/start.php
+//      Используется 'is_show_base_enable' в ext_show.php и ItemController::item_index()
+        if ($base_right['is_show_base_enable'] == false) {
+            return view('message', ['message' => trans('main.no_access')]);
         }
 
 //        $items = null;

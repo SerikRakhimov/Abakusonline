@@ -126,7 +126,15 @@
                             {{--                                            $numcat = true - вывод числовых полей с разрядом тысячи/миллионы/миллиарды--}}
                             {{--                            <span class="text-related">--}}
                             <b>
-                                {{$item_find->name(false, true, true)}}
+{{--                                Используется 'is_show_base_enable' в ext_show.php и ItemController::item_index()--}}
+                                @if($base_link_right['is_show_base_enable'] == true)
+                                    <a href="{{route('item.item_index', ['item'=>$item_find, 'role'=>$role, 'par_link'=>$link])}}"
+                                       title="{{$link->child_labels()}}">
+                                        {{$item_find->name(false, true, true)}}
+                                    </a>
+                                @else
+                                    {{$item_find->name(false, true, true)}}
+                                @endif
                             </b>
                             {{--                            </span>--}}
                         @endif
