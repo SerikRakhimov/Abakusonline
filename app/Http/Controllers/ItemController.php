@@ -265,11 +265,11 @@ class ItemController extends Controller
 
     }
 
-    function item_index(Item $item, Role $role, Link $par_link = null)
+    function item_index(Project $project, Item $item, Role $role, Link $par_link = null)
     {
-//        if (GlobalController::check_project_user($item->project, $role) == false) {
-//            return view('message', ['message' => trans('main.info_user_changed')]);
-//        }
+        if (GlobalController::check_project_item_user($project, $item, $role) == false) {
+            return view('message', ['message' => trans('main.no_access')]);
+        }
 
 //        $links_info = ItemController::links_info($base, $role);
 //        if ($links_info['error_message'] != "") {
@@ -308,16 +308,17 @@ class ItemController extends Controller
 //        }
 //        return view('item/item_index', ['base'=>$base, 'items' => $items->where('base_id', $base->id)->paginate(60)]);
         session(['links' => ((!empty($_SERVER['HTTPS'])) ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . '/' . request()->path()]);
-        return view('item/item_index', ['item' => $item, 'role' => $role, 'par_link' => $par_link]);
+        return view('item/item_index', ['project' => $project, 'item' => $item, 'role' => $role, 'par_link' => $par_link]);
 
     }
 
     function store_link_change(Request $request)
     {
+        $project = Item::find($request['project_id']);
         $item = Item::find($request['item_id']);
         $role = Role::find($request['role_id']);
         $link = Link::find($request['link_id']);
-        return redirect()->route('item.item_index', ['item' => $item, 'role' => $role, 'par_link' => $link]);
+        return redirect()->route('item.item_index', ['project'=>$project, 'item' => $item, 'role' => $role, 'par_link' => $link]);
     }
 
     private
@@ -1177,7 +1178,7 @@ class ItemController extends Controller
         }
 
 //return $heading ? redirect()->route('item.item_index', $item) : redirect(session('links'));
-        return $heading ? redirect()->route('item.item_index', $item) : redirect()->route('item.base_index', ['base' => $base, 'project' => $project, 'role' => $role]);
+        return $heading ? redirect()->route('item.item_index', ['project'=>$project, 'item' => $item, 'role' => $role]) : redirect()->route('item.base_index', ['base' => $base, 'project' => $project, 'role' => $role]);
 //return redirect()->route('item.base_index', ['base'=>$item->base, 'project'=>$item->project, 'role'=>$role]);
 
     }

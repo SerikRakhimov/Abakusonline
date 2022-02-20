@@ -645,6 +645,25 @@ class GlobalController extends Controller
         return $result;
     }
 
+    static function check_project_item_user(Project $project, Item $item, Role $role)
+    {
+        $result = false;
+        // Если проекты равны
+        if ($project->id == $item->project_id) {
+            // Стандартная проверка
+            $result = self::check_project_user($project, $role);
+        } // Если проекты разные
+        else {
+            // Проверка на равенство шаблонов
+            $result = ($project->template_id == $role->template_id);
+            if ($result) {
+                // Проверка на наличие проекта в Relips
+                $result = self::is_found_parent_project($project, $item->project);
+            }
+        }
+        return $result;
+    }
+
 //    static function to_html($item)
 //    {
 //        $str = trim($item->base->sepa_calcname);
@@ -1097,6 +1116,13 @@ class GlobalController extends Controller
             dd(trans('main.check_project_properties_projects_parents_are_not_set') . '!');
         }
         return $project;
+    }
+
+    // Проверка: существует ли связанный проект $parent_project в основном проекте $child_project
+    static function is_found_parent_project(Project $child_project, Project $parent_project)
+    {
+        return Relip::where('child_project_id', $child_project->id)
+            ->where('parent_project_id', $parent_project->id)->exists();
     }
 
     // Вывод проекта по $relit и $current_project

@@ -127,9 +127,9 @@
                         @if($item_find)
                             {{--проверка на вычисляемые поля--}}
                             @if($link->parent_is_parent_related == false)
-                                <a href="{{route('item.item_index', ['item'=>$item_find, 'role'=>$role, 'par_link'=>$link])}}">
+                                <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item_find, 'role'=>$role, 'par_link'=>$link])}}">
                                     @else
-                                        <a href="{{route('item.item_index', ['item'=>$item_find, 'role'=>$role])}}">
+                                        <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item_find, 'role'=>$role])}}">
                                             @endif
                                             {{$item_find->cdnm()}}
                                         </a>
@@ -282,7 +282,7 @@
                     <tr>
                         <td class="text-center">{{$i}}</td>
                         <td class="text-left">
-                            <a href="{{route('item.item_index', ['item'=>$item1, 'role'=>$role])}}">
+                            <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item1, 'role'=>$role])}}">
                                 {{$item1->cdnm()}}
                             </a>
                         </td>
@@ -299,9 +299,9 @@
                                     @if($item_find)
                                         {{--проверка на вычисляемые поля--}}
                                         @if($link1->parent_is_parent_related == false)
-                                            <a href="{{route('item.item_index', ['item'=>$item_find, 'role'=>$role, 'par_link'=>$link1])}}">
+                                            <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item_find, 'role'=>$role, 'par_link'=>$link1])}}">
                                                 @else
-                                                    <a href="{{route('item.item_index', ['item'=>$item_find, 'role'=>$role])}}">
+                                                    <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item_find, 'role'=>$role])}}">
                                                         @endif
                                                         {{$item_find->name()}}
                                                     </a>
@@ -348,6 +348,7 @@
             <form action="{{route('item.store_link_change')}}" method="POST" enctype=multipart/form-data>
                 <div class="form-row">
                     @csrf
+                    <input type="hidden" name="project_id" value="{{$project->id}}">
                     <input type="hidden" name="item_id" value="{{$item->id}}">
                     <input type="hidden" name="role_id" value="{{$role->id}}">
                     <div class="d-flex justify-content-end align-items-center mt-0">

@@ -128,7 +128,7 @@
                             <b>
 {{--                                Используется 'is_show_base_enable' в ext_show.php и ItemController::item_index()--}}
                                 @if($base_link_right['is_show_base_enable'] == true)
-                                    <a href="{{route('item.item_index', ['item'=>$item_find, 'role'=>$role, 'par_link'=>$link])}}"
+                                    <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item_find, 'role'=>$role, 'par_link'=>$link])}}"
                                        title="{{$link->child_labels()}}">
                                         {{$item_find->name(false, true, true)}}
                                     </a>
@@ -189,14 +189,14 @@
             {{--                                            Не удалять: нужно для просмотра Пространства--}}
             {{--                                                                                        проверка, если link - вычисляемое поле--}}
             {{--                                                @if ($link->parent_is_parent_related == true || $link->parent_is_numcalc == true)--}}
-            {{--                                                    <a href="{{route('item.item_index', ['item'=>$item_find, 'role'=>$role])}}">--}}
+            {{--                                                    <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item_find, 'role'=>$role])}}">--}}
             {{--                                                        @else--}}
-            {{--                                                            <a href="{{route('item.item_index', ['item'=>$item_find, 'role'=>$role,'par_link'=>$link])}}">--}}
+            {{--                                                            <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item_find, 'role'=>$role,'par_link'=>$link])}}">--}}
             {{--                                                                @endif--}}
             {{--            Не удалять--}}
             @if(1==1)
                 <button type="button" class="btn btn-dreamer mb-1 mb-sm-0"
-                        onclick='document.location="{{route('item.item_index', ['item'=>$item, 'role'=>$role])}}"'
+                        onclick='document.location="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role])}}"'
                         title="{{trans('main.space')}}">
                     <i class="fas fa-atlas"></i>
                     {{trans('main.space')}}
@@ -207,13 +207,13 @@
             {{--                                                            Не удалять: нужно для просмотра Пространства--}}
             {{--                                                                                                        проверка, если link - вычисляемое поле--}}
             {{--                                                                            @if ($link->parent_is_parent_related == true || $link->parent_is_numcalc == true)--}}
-            {{--                                                                                <a href="{{route('item.item_index', ['item'=>$item_find, 'role'=>$role])}}">--}}
+            {{--                                                                                <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item_find, 'role'=>$role])}}">--}}
             {{--                                                                                    @else--}}
-            {{--                                                                                        <a href="{{route('item.item_index', ['item'=>$item_find, 'role'=>$role,'par_link'=>$link])}}">--}}
+            {{--                                                                                        <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item_find, 'role'=>$role,'par_link'=>$link])}}">--}}
             {{--                                                                                            @endif--}}
             {{--                            Не удалять--}}
             {{--                                        <button type="button" class="btn btn-dreamer mb-1 mb-sm-0"--}}
-            {{--                                                onclick='document.location="{{route('item.item_index', ['item'=>$item, 'role'=>$role])}}"'--}}
+            {{--                                                onclick='document.location="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role])}}"'--}}
             {{--                                                title="{{trans('main.space')}}">--}}
             {{--                                            <i class="fas fa-atlas"></i>--}}
             {{--                                            {{trans('main.space')}}--}}

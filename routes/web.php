@@ -804,7 +804,7 @@ Route::get('/item/base_index/{base}/{project}/{role}', [ItemController::class, '
     ->name('item.base_index');
 //->middleware('auth');
 
-Route::get('/item/item_index/{item}/{role}/{par_link?}', [ItemController::class, 'item_index'])
+Route::get('/item/item_index/{project}/{item}/{role}/{par_link?}', [ItemController::class, 'item_index'])
     ->name('item.item_index')
     ->middleware('auth');
 

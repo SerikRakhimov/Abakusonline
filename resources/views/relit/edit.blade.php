@@ -43,7 +43,7 @@
 
         <div class="form-group row">
             <div class="col-sm-3 text-right">
-                <label for="parent_template_id" class="col-form-label">{{trans('main.author')}}<span
+                <label for="parent_template_id" class="col-form-label">{{trans('main.parent')}}_{{trans('main.template')}}<span
                         class="text-danger">*</span></label>
             </div>
             <div class="col-sm-7">
