@@ -840,7 +840,7 @@ class ProjectController extends Controller
                     break;
             }
         }
-        session(['bases_previous_url' => request()->url()]);
+        session(['projects_previous_url' => request()->url()]);
         return view('project/start', ['project' => $project, 'role' => $role, 'bases' => $bases->paginate(60)]);
 
     }

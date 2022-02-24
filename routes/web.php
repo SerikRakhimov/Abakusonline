@@ -804,7 +804,7 @@ Route::get('/item/base_index/{base}/{project}/{role}', [ItemController::class, '
     ->name('item.base_index');
 //->middleware('auth');
 
-Route::get('/item/item_index/{project}/{item}/{role}/{par_link?}', [ItemController::class, 'item_index'])
+Route::get('/item/item_index/{project}/{item}/{role}/{usercode}/{par_link?}', [ItemController::class, 'item_index'])
     ->name('item.item_index')
     ->middleware('auth');
 
@@ -837,7 +837,8 @@ Route::post('/item/store', [ItemController::class, 'store'])
     ->name('item.store')
     ->middleware('auth');
 
-Route::post('/item/ext_store/{base}/{project}/{role}/{heading?}', [ItemController::class, 'ext_store'])
+// heading нужно, если $heading = true - нажата Добавить из "heading", false - из "body" (только при добавлении записи)
+Route::post('/item/ext_store/{base}/{project}/{role}/{heading?}/{par_link?}/{parent_item?}', [ItemController::class, 'ext_store'])
     ->name('item.ext_store')
     ->middleware('auth');
 
@@ -845,7 +846,7 @@ Route::put('/item/edit/{item}', [ItemController::class, 'update'])
     ->name('item.update')
     ->middleware('auth');
 
-Route::put('/item/ext_edit/{item}/{role}', [ItemController::class, 'ext_update'])
+Route::put('/item/ext_edit/{item}/{role}/{par_link?}/{parent_item?}', [ItemController::class, 'ext_update'])
     ->name('item.ext_update')
     ->middleware('auth');
 
@@ -853,7 +854,7 @@ Route::get('/item/delete_question/{item}', [ItemController::class, 'delete_quest
     ->name('item.delete_question')
     ->middleware('auth');
 
-Route::get('/item/ext_delete_question/{item}/{role}/{heading?}', [ItemController::class, 'ext_delete_question'])
+Route::get('/item/ext_delete_question/{item}/{role}/{par_link?}/{parent_item?}', [ItemController::class, 'ext_delete_question'])
     ->name('item.ext_delete_question')
     ->middleware('auth');
 

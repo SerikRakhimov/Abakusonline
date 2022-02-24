@@ -6,10 +6,12 @@ $matrix = $links_info['matrix'];
 $rows = $links_info['rows'];
 $cols = $links_info['cols'];
 //$i = $items->firstItem() - 1;
-$i =0;
+$i = 0;
 ?>
 <table class="table table-sm table-bordered table-hover">
-    <caption>{{trans('main.select_record_for_work')}}</caption>
+    @if($item_view)
+        <caption>{{trans('main.select_record_for_work')}}</caption>
+    @endif
     <thead>
     <tr>
         {{--        Похожие проверки ниже по тексту--}}
@@ -68,7 +70,7 @@ $i =0;
             {{--        Похожие проверки выше по тексту--}}
             <td class="text-center">
                 {{--                    Не удалять--}}
-                {{--                    <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role])}}">--}}
+                {{--                    <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc()])}}">--}}
                 <a href="{{route('item.ext_show', ['item'=>$item, 'role'=>$role,
                         'par_link'=>$par_link, 'parent_item'=>$parent_item])}}">
                     {{$i}}
@@ -96,8 +98,8 @@ $i =0;
                             @else
                                 <a href="{{route('item.ext_show', ['item'=>$item, 'role'=>$role,
                                     'par_link'=>$par_link, 'parent_item'=>$parent_item])}}">
-{{--                                                                Где $item->name() выходит в cards выводить "<?php echo GlobalController::to_html();?>"--}}
-                            {{$item->name()}}
+                                    {{--                                                                Где $item->name() выходит в cards выводить "<?php echo GlobalController::to_html();?>"--}}
+                                    {{$item->name()}}
                                 </a>
                             @endif
                         </td>
@@ -124,12 +126,12 @@ $i =0;
                             {{--                                Не удалять: просмотр Пространство--}}
                             {{--                                                                            проверка, если link - вычисляемое поле--}}
                             {{--                                    @if ($link->parent_is_parent_related == true || $link->parent_is_numcalc == true)--}}
-                            {{--                                        <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item_find, 'role'=>$role])}}">--}}
+                            {{--                                        <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item_find, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc()])}}">--}}
                             {{--                                            @else--}}
-                            {{--                                                <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item_find, 'role'=>$role,'par_link'=>$link])}}">--}}
+                            {{--                                                <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item_find, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(), 'par_link'=>$link])}}">--}}
                             {{--                                                    @endif--}}
                             {{--                                             Так использовать: 'item'=>$item--}}
-                            <a href="{{route('item.ext_show', ['item'=>$item, 'role'=>$role,
+                                <a href="{{route('item.ext_show', ['item'=>$item, 'role'=>$role,
                                 'par_link'=>$par_link, 'parent_item'=>$parent_item])}}">
                                 {{--                            Где $item->name() выходит в cards выводить "<?php echo GlobalController::to_html();?>"--}}
                                 {{$item_find->name(false,false,false)}}
@@ -190,7 +192,7 @@ $i =0;
             {{--                             alt="{{trans('main.info')}}">--}}
             {{--                    </a>--}}
             {{--                </td>--}}
-        </tr>
+            </tr>
     @endforeach
     </tbody>
 </table>

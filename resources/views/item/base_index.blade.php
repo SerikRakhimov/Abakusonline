@@ -169,7 +169,6 @@
     {{--            </div>--}}
     {{--        </div>--}}
     {{--    </div><!-- Конец карточки -->--}}
-
     @if($tile_view['result'] == true)
         <div class="card-columns">
             @foreach($items as $item)
@@ -356,7 +355,7 @@
         {{--                                    --}}{{--                                    @if ($link->parent_is_parent_related == true || $link->parent_is_numcalc == true)--}}
         {{--                                    --}}{{--                                        <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item_find, 'role'=>$role])}}">--}}
         {{--                                    --}}{{--                                            @else--}}
-        {{--                                    --}}{{--                                                <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item_find, 'role'=>$role,'par_link'=>$link])}}">--}}
+        {{--                                    --}}{{--                                                <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item_find, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(), par_link'=>$link])}}">--}}
         {{--                                    --}}{{--                                                    @endif--}}
         {{--                                    --}}{{--                                             Так использовать: 'item'=>$item--}}
         {{--                                    <a href="{{route('item.ext_show', ['item'=>$item, 'role'=>$role])}}">--}}

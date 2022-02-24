@@ -42,7 +42,7 @@
     <br>
     {{--    https://qastack.ru/programming/1191113/how-to-ensure-a-select-form-field-is-submitted-when-it-is-disabled--}}
     <form
-        action="{{$update ? route('item.ext_update', ['item'=>$item, 'role'=>$role]):route('item.ext_store', ['base' => $base, 'project' => $project, 'role'=>$role, 'heading' => $heading])}}"
+        action="{{$update ? route('item.ext_update', ['item'=>$item, 'role'=>$role, 'par_link' => $par_link, 'parent_item' => $parent_item]):route('item.ext_store', ['base' => $base, 'project' => $project, 'role'=>$role, 'heading'=>$heading, 'par_link' => $par_link, 'parent_item' => $parent_item])}}"
         method="POST"
         enctype=multipart/form-data
         @if($par_link)

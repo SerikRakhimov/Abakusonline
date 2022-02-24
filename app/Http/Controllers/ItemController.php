@@ -254,7 +254,6 @@ class ItemController extends Controller
         if ($base_right['is_list_base_calc'] == false) {
             return view('message', ['message' => trans('main.no_access')]);
         }
-
         if ($items) {
             session(['base_index_previous_url' => ((!empty($_SERVER['HTTPS'])) ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . '/' . request()->path()]);
             return view('item/base_index', ['base_right' => $base_right, 'base' => $base, 'project' => $project, 'role' => $role,
@@ -265,9 +264,13 @@ class ItemController extends Controller
 
     }
 
-    function item_index(Project $project, Item $item, Role $role, Link $par_link = null)
+    // $usercode нужно, чтобы проверять на текущего пользователя, если у $item проект внешний,
+    // и чтобы невозможно было скопировать адресную строку с item_index с параметрами
+    //  и вставить в адресную строку другого пользователя платформы www.abakusonline.com
+    // - должно работать только на текущем проекте
+    function item_index(Project $project, Item $item, Role $role, $usercode, Link $par_link = null)
     {
-        if (GlobalController::check_project_item_user($project, $item, $role) == false) {
+        if (GlobalController::check_project_item_user($project, $item, $role, $usercode) == false) {
             return view('message', ['message' => trans('main.no_access')]);
         }
 
@@ -277,38 +280,69 @@ class ItemController extends Controller
 //        }
 
         $base_right = GlobalController::base_right($item->base, $role);
-        //$items_right = GlobalController::items_right($base, $project, $role);
-        //$items = $items_right['items'];
 
 //      Похожая проверка в ItemController::base_index() и project/start.php
-//      Используется 'is_show_base_enable' в ext_show.php и ItemController::item_index()
-        if ($base_right['is_show_base_enable'] == false) {
+//      Используется 'is_list_base_calc' в ext_show.php и ItemController::item_index()
+        if ($base_right['is_list_base_calc'] == false) {
             return view('message', ['message' => trans('main.no_access')]);
         }
 
-//        $items = null;
-//        $index = array_search(App::getLocale(), config('app.locales'));
-//        if ($index !== false) {   // '!==' использовать, '!=' не использовать
-//            switch ($index) {
-//                case 0:
-//                    //$items = Item::all()->sortBy('name_lang_0');
-//                    $items = Item::orderBy('base_id')->orderBy('name_lang_0');
-//                    break;
-//                case 1:
-//                    //$items = Item::all()->sortBy(function($row){return $row->name_lang_1 . $row->name_lang_0;});
-//                    $items = Item::orderBy('base_id')->orderBy('name_lang_1')->orderBy('name_lang_0');
-//                    break;
-//                case 2:
-//                    $items = Item::orderBy('base_id')->orderBy('name_lang_2')->orderBy('name_lang_0');
-//                    break;
-//                case 3:
-//                    $items = Item::orderBy('base_id')->orderBy('name_lang_3')->orderBy('name_lang_0');
-//                    break;
-//            }
-//        }
-//        return view('item/item_index', ['base'=>$base, 'items' => $items->where('base_id', $base->id)->paginate(60)]);
-        session(['links' => ((!empty($_SERVER['HTTPS'])) ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . '/' . request()->path()]);
-        return view('item/item_index', ['project' => $project, 'item' => $item, 'role' => $role, 'par_link' => $par_link]);
+        $child_links = $item->base->child_links->sortBy('parent_base_number');
+        $child_links_info = ItemController::links_info($item->base, $role);
+        $items_right = GlobalController::items_right($item->base, $project, $role, null, null, $item->id);
+        // 'itget' нужно
+        $items = $items_right['itget'];
+
+        // Находим $current_link
+        $current_link = null;  // нужно
+        if ($par_link) {
+            $current_link = $par_link;
+            $current_link = Link::find($current_link->id);  // проверка существования в базе данных
+        }
+        if (!$current_link) {
+            // Находим заполненный подчиненный link
+            $parent_links = $item->base->parent_links;
+            if (count($parent_links) > 0) {
+                $next_links_fact1 = DB::table('mains')
+                    ->select('link_id')
+                    ->join('links', 'mains.link_id', '=', 'links.id')
+                    ->where('links.child_base_id', '=', $item->base_id)
+                    ->where('parent_item_id', $item->id)
+                    ->distinct()
+                    ->get()
+                    ->groupBy('link_id');
+                // Если найдены - берем первый
+                if (count($next_links_fact1) > 0) {
+                    $current_link = Link::find($next_links_fact1->first()[0]->link_id);
+                    // Если не найдены - берем первый пустой (без данных)
+                } else {
+                    $current_link = $parent_links[0];
+                }
+            };
+        }
+        $next_links_plan = $item->base->parent_links->where('parent_is_parent_related', false);
+
+        $child_body_links_info = null;
+        $base_body_right = null;
+        $body_items = null;
+        if ($current_link) {
+            $child_body_links_info = ItemController::links_info($current_link->child_base, $role, $current_link);
+            $base_body_right = GlobalController::base_right($current_link->child_base, $role);
+            $items_body_right = GlobalController::items_right($item->base, $project, $role, $item->id, $current_link->id);
+            // 'items' нужно, для пагинации
+            // '->paginate(60)' использовать здесь
+            $body_items = $items_body_right['items']->paginate(3);
+            $item_seek = Item::find(1485);
+            //dd($item_seek);
+            //dd($body_items);
+            //dd($body_items->search($item_seek));
+        }
+        //     session(['links' => ((!empty($_SERVER['HTTPS'])) ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . '/' . request()->path()]);
+        return view('item/item_index', ['project' => $project, 'item' => $item, 'role' => $role, 'par_link' => $par_link,
+            'base_right' => $base_right, 'items' => $items, 'child_links' => $child_links, 'child_links_info' => $child_links_info,
+            'current_link' => $current_link, 'next_links_plan' => $next_links_plan,
+            'child_body_links_info' => $child_body_links_info, 'body_items' => $body_items,
+            'base_body_right' => $base_body_right]);
 
     }
 
@@ -318,7 +352,8 @@ class ItemController extends Controller
         $item = Item::find($request['item_id']);
         $role = Role::find($request['role_id']);
         $link = Link::find($request['link_id']);
-        return redirect()->route('item.item_index', ['project'=>$project, 'item' => $item, 'role' => $role, 'par_link' => $link]);
+        return redirect()->route('item.item_index', ['project' => $project, 'item' => $item, 'role' => $role,
+            'usercode' => GlobalController::usercode_calc(), 'par_link' => $link]);
     }
 
     private
@@ -441,6 +476,12 @@ class ItemController extends Controller
             return view('message', ['message' => trans('main.info_user_changed')]);
         }
 
+        $base_right = GlobalController::base_right($item->base, $role);
+
+        if ($base_right['is_list_base_calc'] == false) {
+            return view('message', ['message' => trans('main.no_access')]);
+        }
+
         return view('item/ext_show', ['type_form' => 'show', 'item' => $item,
             'role' => $role, 'array_calc' => $this->get_array_calc_edit($item)['array_calc'],
             'par_link' => $par_link, 'parent_item' => $parent_item]);
@@ -467,7 +508,6 @@ class ItemController extends Controller
         $code_uniqid = uniqid($base->id . '_', true);
 
         //$array_parent_related = GlobalController::get_array_parent_related($base);
-
         return view('item/ext_edit', ['base' => $base,
             'code_new' => $code_new, 'code_uniqid' => $code_uniqid,
             'heading' => $heading,
@@ -483,8 +523,9 @@ class ItemController extends Controller
         return view('item/edit', ['bases' => Base::all()]);
     }
 
-    function ext_store(Request $request, Base $base, Project $project, Role $role, $heading)
+    function ext_store(Request $request, Base $base, Project $project, Role $role, $heading = 0, Link $par_link = null, Item $parent_item = null)
     {
+
         if (GlobalController::check_project_user($project, $role) == false) {
             return view('message', ['message' => trans('main.info_user_changed')]);
         }
@@ -499,12 +540,14 @@ class ItemController extends Controller
         // Проверка на $base->maxcount_lst
         // Проверка осуществляется только при добавлении записи
         $message = GlobalController::base_maxcount_validate($project, $base, true);
+
         if ($message != '') {
-            $array_mess['name_lang_0'] = $message;
-            // повторный вызов формы
-            return redirect()->back()
-                ->withInput()
-                ->withErrors($array_mess);
+//            $array_mess['name_lang_0'] = $message;
+//            // повторный вызов формы
+//            return redirect()->back()
+//                ->withInput()
+//                ->withErrors($array_mess);
+            return view('message', ['message' => $message]);
         }
 
         // Проверка полей с типом "текст" на длину текста
@@ -1178,8 +1221,26 @@ class ItemController extends Controller
         }
 
 //return $heading ? redirect()->route('item.item_index', $item) : redirect(session('links'));
-        return $heading ? redirect()->route('item.item_index', ['project'=>$project, 'item' => $item, 'role' => $role]) : redirect()->route('item.base_index', ['base' => $base, 'project' => $project, 'role' => $role]);
-//return redirect()->route('item.base_index', ['base'=>$item->base, 'project'=>$item->project, 'role'=>$role]);
+//        return $heading ? redirect()->route('item.item_index', ['project' => $project, 'item' => $item, 'role' => $role,
+//            'usercode' => GlobalController::usercode_calc()]) : redirect()->route('item.base_index', ['base' => $base, 'project' => $project, 'role' => $role]);
+
+        // Похожий же текст в функциях ext_store(), ext_update()
+        if ($par_link) {
+            // Если $heading = true - нажата Добавить из "heading", false - из "body" (только при добавлении записи)
+//            return redirect()->route('item.item_index', ['project' => $item->project, 'item' => $heading ? $item : $parent_item, 'role' => $role,
+//                'usercode' => GlobalController::usercode_calc(), 'par_link' => $par_link]);
+            if (!$heading && $parent_item) {
+                return redirect()->route('item.item_index', ['project' => $item->project, 'item' => $parent_item, 'role' => $role,
+                    'usercode' => GlobalController::usercode_calc(), 'par_link' => $par_link]);
+            } else {
+                return redirect()->route('item.item_index', ['project' => $item->project, 'item' => $item, 'role' => $role,
+                    'usercode' => GlobalController::usercode_calc(), 'par_link' => $par_link]);
+            }
+        } else {
+            return redirect()->route('item.item_index', ['project' => $item->project, 'item' => $item, 'role' => $role,
+                'usercode' => GlobalController::usercode_calc()]);
+            //return redirect()->route('item.base_index', ['base' => $item->base, 'project' => $item->project, 'role' => $role]);
+        }
 
     }
 // save_info_sets() выполняет все присваивания для $item с отниманием/прибавлением значений
@@ -2508,7 +2569,7 @@ class ItemController extends Controller
         return redirect(session('links'));
     }
 
-    function ext_update(Request $request, Item $item, Role $role)
+    function ext_update(Request $request, Item $item, Role $role, Link $par_link = null, Item $parent_item = null)
     {
         // установка часового пояса нужно для сохранения времени
         date_default_timezone_set('Asia/Almaty');
@@ -3239,8 +3300,14 @@ class ItemController extends Controller
 //                    $message->from(env('MAIL_FROM_ADDRESS', 'support@rsb0807.kz'), $appname);
 //                });
 //        }
-
-        return redirect()->route('item.base_index', ['base' => $item->base, 'project' => $item->project, 'role' => $role]);
+        // Похожий же текст в функциях ext_store(), ext_update()
+        if ($par_link && $parent_item) {
+            return redirect()->route('item.item_index', ['project' => $item->project, 'item' => $parent_item, 'role' => $role,
+                'usercode' => GlobalController::usercode_calc(), 'par_link' => $par_link]);
+        } else {
+            return redirect()->route('item.item_index', ['project' => $item->project, 'item' => $item, 'role' => $role,
+                'usercode' => GlobalController::usercode_calc()]);
+        }
 
     }
 
@@ -3312,14 +3379,15 @@ class ItemController extends Controller
             'par_link' => $par_link, 'parent_item' => $parent_item]);
     }
 
-    function ext_delete_question(Item $item, Role $role, $heading = false)
+    function ext_delete_question(Item $item, Role $role, Link $par_link = null, Item $parent_item = null)
     {
         if (GlobalController::check_project_user($item->project, $role) == false) {
             return view('message', ['message' => trans('main.info_user_changed')]);
         }
 
         return view('item/ext_show', ['type_form' => 'delete_question', 'item' => $item, 'role' => $role,
-            'array_calc' => $this->get_array_calc_edit($item)['array_calc'], 'heading' => $heading]);
+            'array_calc' => $this->get_array_calc_edit($item)['array_calc'], 'heading' => false,
+            'par_link' => $par_link, 'parent_item' => $parent_item]);
 
     }
 
@@ -3394,15 +3462,24 @@ class ItemController extends Controller
         }
         //return $heading == true ? redirect()->route('item.base_index', $item->base_id) : redirect(session('base_index_previous_url'));
         if ($heading == true) {
-            //return redirect()->route('item.base_index', $item->base_id);
             return redirect()->route('item.base_index', ['base' => $item->base, 'project' => $item->project, 'role' => $role]);
 
         } else {
-            if (Session::has('base_index_previous_url')) {
-                return redirect(session('base_index_previous_url'));
+            // Похожий же текст в функциях ext_store(), ext_update()
+            if ($par_link && $parent_item) {
+                // Если $heading = true - нажата Добавить из "heading", false - из "body" (только при добавлении записи)
+                return redirect()->route('item.item_index', ['project' => $item->project, 'item' => $heading ? $item : $parent_item, 'role' => $role,
+                    'usercode' => GlobalController::usercode_calc(), 'par_link' => $par_link]);
             } else {
-                return redirect()->back();
+                return redirect()->route('item.item_index', ['project' => $item->project, 'item' => $item, 'role' => $role,
+                    'usercode' => GlobalController::usercode_calc()]);
+                //return redirect()->route('item.base_index', ['base' => $item->base, 'project' => $item->project, 'role' => $role]);
             }
+//            if (Session::has('base_index_previous_url')) {
+//                return redirect(session('base_index_previous_url'));
+//            } else {
+//                return redirect()->back();
+//            }
         }
     }
 

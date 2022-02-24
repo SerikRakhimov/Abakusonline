@@ -26,11 +26,23 @@
 
     <hr>
     <ul>
-        <p class="text-label">Id: <span class="text-related">{{$item->id}}</span></p>
+        <p class="text-label">Id: <span class="text-related">
+                <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,
+                        'usercode' =>GlobalController::usercode_calc()])}}"
+                   title="">
+                {{$item->id}}
+                </a>
+            </span></p>
         @if($base_right['is_show_base_enable'] == true)
             {{--        <p>--}}
             @if($base->is_code_needed == true)
-                <p class="text-label">{{trans('main.code')}}: <span class="text-related">{{$item->code}}</span></p>
+                <p class="text-label">{{trans('main.code')}}: <span class="text-related">
+                        <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,
+                                'usercode' =>GlobalController::usercode_calc()])}}"
+                           title="">
+                        {{$item->code}}
+                                                            </a>
+                    </span></p>
             @endif
             {{--        @foreach (config('app.locales') as $key=>$value)--}}
             {{--            {{trans('main.name')}} ({{trans('main.' . $value)}}): <span class="text-related">{{$item['name_lang_' . $key]}}</span><br>--}}
@@ -64,7 +76,11 @@
                                     echo GlobalController::it_txnm_n2b($item);
                                     ?>
                                 @else
-                                    {{$item->name(false, true)}}
+                                    <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,
+                                       'usercode' =>GlobalController::usercode_calc()])}}"
+                                       title="">
+                                        {{$item->name(false, true)}}
+                                    </a>
                                 @endif
                                 {{--                </span>--}}</b>
                         </p>
@@ -101,7 +117,14 @@
                 ?>
                 @if($base_link_right['is_show_link_enable'] == true)
                     <li>
-                        @include('layouts.item.ext_show.parent_label', ['link'=>$link, 'par_link'=>$par_link])
+                        @if($base_link_right['is_list_base_calc'] == true)
+                            <a href="{{route('item.base_index',['base'=>$link->parent_base_id, 'project'=>$project, 'role'=>$role])}}"
+                               title="{{$link->parent_base->names()}}">
+                                @include('layouts.item.ext_show.parent_label', ['link'=>$link, 'par_link'=>$par_link])
+                            </a>
+                        @else
+                            @include('layouts.item.ext_show.parent_label', ['link'=>$link, 'par_link'=>$par_link])
+                        @endif
                         @if($link->parent_base->type_is_text())
                             {{--                            <span class="text-related">--}}<b>
                                 <?php
@@ -126,10 +149,11 @@
                             {{--                                            $numcat = true - вывод числовых полей с разрядом тысячи/миллионы/миллиарды--}}
                             {{--                            <span class="text-related">--}}
                             <b>
-{{--                                Используется 'is_show_base_enable' в ext_show.php и ItemController::item_index()--}}
-                                @if($base_link_right['is_show_base_enable'] == true)
-                                    <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item_find, 'role'=>$role, 'par_link'=>$link])}}"
-                                       title="{{$link->child_labels()}}">
+                                {{--  Используется 'is_list_base_calc' в ext_show.php и ItemController::item_index()  --}}
+                                @if($base_link_right['is_list_base_calc'] == true)
+                                    <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item_find, 'role'=>$role,
+                                        'usercode' =>GlobalController::usercode_calc(),'par_link'=>$link])}}"
+                                       title="">
                                         {{$item_find->name(false, true, true)}}
                                     </a>
                                 @else
@@ -179,7 +203,8 @@
             {{--            В ItemController::is_delete() есть необходимые проверки на права по удалению записи--}}
             @if(ItemController::is_delete($item, $role) == true)
                 <button type="button" class="btn btn-dreamer mb-1 mb-sm-0"
-                        onclick='document.location="{{route('item.ext_delete_question', ['item'=>$item, 'role'=>$role])}}"'
+                        onclick='document.location="{{route('item.ext_delete_question', ['item'=>$item, 'role'=>$role,
+            'par_link' => $par_link, 'parent_item' => $parent_item])}}"'
                         title="{{trans('main.delete')}}">
                     <i class="fas fa-trash"></i>
                     {{trans('main.delete')}}
@@ -189,14 +214,15 @@
             {{--                                            Не удалять: нужно для просмотра Пространства--}}
             {{--                                                                                        проверка, если link - вычисляемое поле--}}
             {{--                                                @if ($link->parent_is_parent_related == true || $link->parent_is_numcalc == true)--}}
-            {{--                                                    <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item_find, 'role'=>$role])}}">--}}
+            {{--                                                    <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item_find, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc()])}}">--}}
             {{--                                                        @else--}}
-            {{--                                                            <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item_find, 'role'=>$role,'par_link'=>$link])}}">--}}
+            {{--                                                            <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item_find, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(), 'par_link'=>$link])}}">--}}
             {{--                                                                @endif--}}
             {{--            Не удалять--}}
             @if(1==1)
                 <button type="button" class="btn btn-dreamer mb-1 mb-sm-0"
-                        onclick='document.location="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role])}}"'
+                        onclick='document.location="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,
+                         'usercode' =>GlobalController::usercode_calc()])}}"'
                         title="{{trans('main.space')}}">
                     <i class="fas fa-atlas"></i>
                     {{trans('main.space')}}
@@ -207,13 +233,13 @@
             {{--                                                            Не удалять: нужно для просмотра Пространства--}}
             {{--                                                                                                        проверка, если link - вычисляемое поле--}}
             {{--                                                                            @if ($link->parent_is_parent_related == true || $link->parent_is_numcalc == true)--}}
-            {{--                                                                                <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item_find, 'role'=>$role])}}">--}}
+            {{--                                                                                <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item_find, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc()])}}">--}}
             {{--                                                                                    @else--}}
-            {{--                                                                                        <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item_find, 'role'=>$role,'par_link'=>$link])}}">--}}
+            {{--                                                                                        <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item_find, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(), 'par_link'=>$link])}}">--}}
             {{--                                                                                            @endif--}}
             {{--                            Не удалять--}}
             {{--                                        <button type="button" class="btn btn-dreamer mb-1 mb-sm-0"--}}
-            {{--                                                onclick='document.location="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role])}}"'--}}
+            {{--                                                onclick='document.location="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc()])}}"'--}}
             {{--                                                title="{{trans('main.space')}}">--}}
             {{--                                            <i class="fas fa-atlas"></i>--}}
             {{--                                            {{trans('main.space')}}--}}

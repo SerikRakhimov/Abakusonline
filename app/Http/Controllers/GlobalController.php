@@ -121,6 +121,9 @@ class GlobalController extends Controller
                     $is_list_base_calc = false;
                 }
             }
+            if ($base->template_id != $role->template_id) {
+                $is_list_base_calc = false;
+            }
         }
 
 //        if ($is_list_base_read == true) {
@@ -130,7 +133,8 @@ class GlobalController extends Controller
 //        }
 
         // Для вычисляемых base
-        if ($base->is_calculated_lst == true) {
+        // ИЛИ $base с другого шаблона(не равен $role->template_id)
+        if (($base->is_calculated_lst == true) || ($base->template_id != $role->template_id)) {
             $is_list_base_create = false;
 //          $is_list_base_read = true;
             $is_list_base_read = $is_list_base_calc;
@@ -175,7 +179,8 @@ class GlobalController extends Controller
 //            }
 
             // Для вычисляемых base
-            if ($base->is_calculated_lst == true) {
+            // ИЛИ $base с другого шаблона(не равен $role->template_id)
+            if (($base->is_calculated_lst == true) || ($base->template_id != $role->template_id)) {
                 $is_roba_list_base_create = false;
 //              Не нужно '$is_roba_list_base_read = true;'
 //              $is_roba_list_base_read = true;
@@ -368,13 +373,12 @@ class GlobalController extends Controller
 //            $query->where('link_id', 11)->whereHas('parent_item', function ($query) {
 //                $query->where(strval('name_lang_0'), '<=',500);});
 //        })->whereHas('child_mains', function ($query) {
-//            $query->where('link_id', 3)->whereHas('parent_item', function ($query) {
+//      is_list_base_create      $query->where('link_id', 3)->whereHas('parent_item', function ($query) {
 //                $query->whereDate('name_lang_0', '>','2020-02-09');});
 //        });
 
     static function items_right(Base $base, Project $project, Role $role, $mains_item_id = null, $mains_link_id = null, $item_id = null)
     {
-
         $base_right = self::base_right($base, $role);
         $items = null;
 
@@ -383,17 +387,27 @@ class GlobalController extends Controller
             //        $mains = Main::all()->where('parent_item_id', $item->id)->where('link_id', $current_link->id)->sortBy(function ($main) {
             //            return $main->link->child_base->name() . $main->child_item->name();
             //        });
+//            $items_ids = Main::select(DB::Raw('mains.child_item_id as id'))
+//                ->join('items', 'mains.child_item_id', '=', 'items.id')
+//                ->where('mains.parent_item_id', '=', $mains_item_id)
+//                ->where('mains.link_id', '=', $mains_link_id)
+//                ->get();
+//            $coll_mains = collect();
+//            foreach ($items_ids as $value) {
+//                $coll_mains[$value['id']] = $value['id'];
+//            }
+//            $ids = $coll_mains->keys()->toArray();
+//            $items = Item::whereIn('id', $ids);
+
             $items_ids = Main::select(DB::Raw('mains.child_item_id as id'))
                 ->join('items', 'mains.child_item_id', '=', 'items.id')
+                ->where('items.project_id', '=', $project->id)
                 ->where('mains.parent_item_id', '=', $mains_item_id)
-                ->where('mains.link_id', '=', $mains_link_id)
-                ->get();
-            $coll_mains = collect();
-            foreach ($items_ids as $value) {
-                $coll_mains[$value['id']] = $value['id'];
-            }
-            $ids = $coll_mains->keys()->toArray();
-            $items = Item::whereIn('id', $ids);
+                ->where('mains.link_id', '=', $mains_link_id);
+
+            $items = Item::joinSub($items_ids, 'items_ids', function ($join) {
+                $join->on('items.id', '=', 'items_ids.id');
+            });
 
             // Выборка из items
         } else {
@@ -556,7 +570,6 @@ class GlobalController extends Controller
             ->where('parent_is_parent_related', true)
             ->orderBy('parent_base_number')->get();
         if ($links) {
-
             foreach ($links as $link) {
                 // В $collection_result в key сохраняется $link->parent_parent_related_start_link_id
                 $collection_start[$link->parent_parent_related_start_link_id] = true;
@@ -645,7 +658,7 @@ class GlobalController extends Controller
         return $result;
     }
 
-    static function check_project_item_user(Project $project, Item $item, Role $role)
+    static function check_project_item_user(Project $project, Item $item, Role $role, $usercode)
     {
         $result = false;
         // Если проекты равны
@@ -654,11 +667,16 @@ class GlobalController extends Controller
             $result = self::check_project_user($project, $role);
         } // Если проекты разные
         else {
-            // Проверка на равенство шаблонов
-            $result = ($project->template_id == $role->template_id);
+            // Проверка на равенство кодов пользователя: переданного в функцию и текущего
+            $user_id = GlobalController::usercode_uncalc($usercode);
+            $result = ($user_id == Auth::user()->id);
             if ($result) {
-                // Проверка на наличие проекта в Relips
-                $result = self::is_found_parent_project($project, $item->project);
+                // Проверка на равенство шаблонов
+                $result = ($project->template_id == $role->template_id);
+                if ($result) {
+                    // Проверка на наличие проекта в Relips
+                    $result = self::is_found_parent_project($project, $item->project);
+                }
             }
         }
         return $result;
