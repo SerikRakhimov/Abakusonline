@@ -9,7 +9,6 @@
     use App\Http\Controllers\ItemController;
     use App\Http\Controllers\MainController;
     use Illuminate\Support\Facades\Storage;
-    $project = $item->project;
     $base = $item->base;
     $base_right = GlobalController::base_right($base, $role);
     ?>
@@ -23,7 +22,6 @@
         <span class="text-label">-</span> <span class="text-title">{{$item->base->info()}}</span>
     </h3>
     <br>
-
     <hr>
     <ul>
         <p class="text-label">Id: <span class="text-related">
@@ -178,7 +176,7 @@
         //       echo $result;
 //        $result = ItemController::form_parent_coll_hier($item->id, $role);
 //        echo $result;
-        $result = ItemController::form_child_deta_hier($item->id, $role);
+        $result = ItemController::form_child_deta_hier($item, $project, $role);
         echo $result;
     }
     ?>
@@ -193,7 +191,11 @@
             {{--Похожая проверка в ItemController::ext_edit() и ext_show.php--}}
             @if($base_right['is_list_base_update'] == true)
                 <button type="button" class="btn btn-dreamer mb-1 mb-sm-0"
-                        onclick='document.location="{{route('item.ext_edit', ['item'=>$item, 'role'=>$role,
+                        onclick='document.location="{{route('item.ext_edit',
+            ['item'=>$item,'project'=>$project, 'role'=>$role,
+            'usercode' =>GlobalController::usercode_calc(),
+            'heading' => $heading,
+            'body_page' => $body_page, 'body_count' => $body_count, 'body_perpage' => $body_perpage,
             'par_link' => $par_link, 'parent_item' => $parent_item])}}"'
                         title="{{trans('main.edit')}}">
                     <i class="fas fa-edit"></i>
@@ -203,7 +205,11 @@
             {{--            В ItemController::is_delete() есть необходимые проверки на права по удалению записи--}}
             @if(ItemController::is_delete($item, $role) == true)
                 <button type="button" class="btn btn-dreamer mb-1 mb-sm-0"
-                        onclick='document.location="{{route('item.ext_delete_question', ['item'=>$item, 'role'=>$role,
+                        onclick='document.location="{{route('item.ext_delete_question',
+            ['item'=>$item,'project'=>$project, 'role'=>$role,
+            'usercode' =>GlobalController::usercode_calc(),
+            'heading' => $heading,
+            'body_page' => $body_page, 'body_count' => $body_count, 'body_perpage' => $body_perpage,
             'par_link' => $par_link, 'parent_item' => $parent_item])}}"'
                         title="{{trans('main.delete')}}">
                     <i class="fas fa-trash"></i>
@@ -222,7 +228,8 @@
             @if(1==1)
                 <button type="button" class="btn btn-dreamer mb-1 mb-sm-0"
                         onclick='document.location="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,
-                         'usercode' =>GlobalController::usercode_calc()])}}"'
+                         'usercode' =>GlobalController::usercode_calc(),
+                         'par_link' => null])}}"'
                         title="{{trans('main.space')}}">
                     <i class="fas fa-atlas"></i>
                     {{trans('main.space')}}
@@ -251,7 +258,11 @@
             </button>
         </p>
     @elseif($type_form == 'delete_question')
-        <form action="{{route('item.ext_delete',['item' => $item, 'role' => $role, 'heading' => $heading])}}"
+        <form action="{{route('item.ext_delete',['item'=>$item,'project'=>$project, 'role'=>$role,
+            'usercode' =>GlobalController::usercode_calc(),
+            'heading' => $heading,
+            'body_page' => $body_page, 'body_count' => $body_count, 'body_perpage' => $body_perpage,
+            'par_link' => $par_link, 'parent_item' => $parent_item])}}"
               method="POST"
               id='delete-form'>
             @csrf

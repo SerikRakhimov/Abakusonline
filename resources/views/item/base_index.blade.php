@@ -23,7 +23,8 @@
             <div class="col-12 text-right">
                 @if($message == "")
                     <button type="button" class="btn btn-dreamer" title="{{trans('main.add')}}"
-                            onclick="document.location='{{route('item.ext_create', ['base'=>$base, 'project'=>$project, 'role'=>$role])}}'">
+                            onclick="document.location='{{route('item.ext_create',
+                            ['base'=>$base, 'project'=>$project, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc()])}}'">
                         <i class="fas fa-plus d-inline"></i>&nbsp;{{trans('main.add')}}
                     </button>
                 @else
@@ -180,7 +181,9 @@
                 {{--                    <div class="card card-inverse text-center" style="background-color: rgba(222,255,162,0.23); border-color: #3548ee;">--}}
                 <div class="card shadow">
                     @if($base->is_code_needed == true)
-                        <a href="{{route('item.ext_show', ['item'=>$item, 'role'=>$role])}}" title="{{$item->name()}}">
+                        <a href="{{route('item.ext_show', ['item'=>$item, 'project'=>$project, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(),
+                                    'heading'=>0,'body_page'=>0, 'body_count'=>0,'body_perpage'=>0,
+                                    'par_link'=>null, 'parent_item'=>null])}}" title="{{$item->name()}}">
                             <p class="card-header text-center text-label">{{trans('main.code')}}: {{$item->code}}</p>
                         </a>
                     @endif
@@ -189,7 +192,9 @@
                             {{--                            <div class="card-block text-center">--}}
                             <div class="text-center">
                                 {{-- https://askdev.ru/q/kak-vyzvat-funkciyu-javascript-iz-tega-href-v-html-276225/--}}
-                                <a href="{{route('item.ext_show', ['item'=>$item, 'role'=>$role])}}"
+                                <a href="{{route('item.ext_show', ['item'=>$item, 'project'=>$project, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(),
+                                    'heading'=>0,'body_page'=>0, 'body_count'=>0,'body_perpage'=>0,
+                                    'par_link'=>null, 'parent_item'=>null])}}"
                                    title="{{$item->name()}}">
                                     @include('view.img',['item'=>$item_find, 'size'=>"medium", 'filenametrue'=>false, 'link'=>false, 'img_fluid'=>true, 'title'=>$item->name()])
                                 </a>
@@ -197,7 +202,9 @@
                         @endif
                         {{--                    <div class="card-footer">--}}
                         <h5 class="card-title text-center"><a
-                                href="{{route('item.ext_show', ['item'=>$item, 'role'=>$role])}}"
+                                href="{{route('item.ext_show', ['item'=>$item, 'project'=>$project, 'role'=>$role, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(),
+                                    'heading'=>0,'body_page'=>0, 'body_count'=>0,'body_perpage'=>0,
+                                    'par_link'=>null, 'parent_item'=>null])}}"
                                 title="{{$item->name()}}">
                                 {{--                            Где $item->name() выходит в cards выводить "<?php echo GlobalController::to_html();?>"--}}
                                 <?php echo $item->nmbr(false);?>
@@ -273,6 +280,7 @@
         {{--                    @endif--}}
         @include('list.table',['base'=>$base, 'links_info'=>$links_info, 'items'=>$items,
                     'base_right'=>$base_right, 'item_view'=>true,
+                    'heading'=>0,'body_page'=>0, 'body_count'=>0,'body_perpage'=>0,
                     'par_link'=>null, 'parent_item'=>null])
         {{--                            @if(1==2)--}}
         {{--                                @foreach($link_id_array as $value)--}}

@@ -42,7 +42,9 @@
     <br>
     {{--    https://qastack.ru/programming/1191113/how-to-ensure-a-select-form-field-is-submitted-when-it-is-disabled--}}
     <form
-        action="{{$update ? route('item.ext_update', ['item'=>$item, 'role'=>$role, 'par_link' => $par_link, 'parent_item' => $parent_item]):route('item.ext_store', ['base' => $base, 'project' => $project, 'role'=>$role, 'heading'=>$heading, 'par_link' => $par_link, 'parent_item' => $parent_item])}}"
+        action="{{$update ?
+        route('item.ext_update', ['item'=>$item, 'project' => $project, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(), 'heading'=>$heading, 'body_page'=>$body_page, 'body_count'=>$body_count, 'body_perpage'=>$body_perpage, 'par_link' => $par_link, 'parent_item' => $parent_item]):
+        route('item.ext_store', ['base' => $base, 'project' => $project, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(), 'heading'=>$heading, 'body_page'=>$body_page, 'body_count'=>$body_count,'body_perpage'=>$body_perpage, 'par_link' => $par_link, 'parent_item' => $parent_item])}}"
         method="POST"
         enctype=multipart/form-data
         @if($par_link)
@@ -689,7 +691,7 @@
                                                class="col-form-label">
                                             @include('layouts.item.ext_edit.parent_label',
                                 ['result_parent_label'=>$result_parent_label, 'key'=>$key, 'par_link'=>$par_link])
-                                        @if($link->parent_base->is_one_value_lst_str_txt == false)
+                                            @if($link->parent_base->is_one_value_lst_str_txt == false)
                                                 ({{trans('main.' . $lang_value)}})
                                             @endif
                                             <span
@@ -751,7 +753,7 @@
                                                class="col-form-label">
                                             @include('layouts.item.ext_edit.parent_label',
                                 ['result_parent_label'=>$result_parent_label, 'key'=>$key, 'par_link'=>$par_link])
-                                        @if($link->parent_base->is_one_value_lst_str_txt == false)
+                                            @if($link->parent_base->is_one_value_lst_str_txt == false)
                                                 ({{trans('main.' . $lang_value)}})
                                             @endif
                                             <span

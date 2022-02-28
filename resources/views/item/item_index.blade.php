@@ -12,6 +12,14 @@
     //        $array = (array)$data;
     //        return $array;
     //    }
+    $body_page = 0;
+    $body_count = 0;
+    $body_perpage = 0;
+    if ($body_items) {
+        $body_page = $body_items->currentPage();
+        $body_count = $body_items->count();
+        $body_perpage = $body_items->perPage();
+    }
     ?>
     @include('layouts.project.show_project_role',['project'=>$project, 'role'=>$role])
     <p>
@@ -32,7 +40,7 @@
                         </a>
                     @endif
                     @if ($base_right['is_list_base_calc'] == true)
-                        <a href="{{route('item.ext_show', ['item'=>$item, 'role'=>$role])}}"
+                        <a href="{{route('item.ext_show', ['item'=>$item, 'project'=>$project, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc()])}}"
                            title="{{$item->cdnm()}}">
                             {{$item->cdnm()}}
                         </a>
@@ -50,7 +58,8 @@
                 {{--                </a>--}}
                 <button type="button" class="btn btn-dreamer" title="{{trans('main.add')}}"
                         onclick="document.location='{{route('item.ext_create', ['base'=>$item->base,
-                            'project'=>$project, 'role'=>$role, 'heading'=>intval(true),
+                             'project'=>$project, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(),
+                             'heading'=>intval(true), 'body_page'=>$body_page, 'body_count'=>$body_count,'body_perpage'=>$body_perpage,
                              'par_link'=>$current_link, 'parent_item'=>null])}}'">
                     <i class="fas fa-plus d-inline"></i>&nbsp;{{trans('main.add')}}
                 </button>
@@ -78,20 +87,34 @@
         </div>
     </div>
     </p>
-    @if(count($child_links) !=0)
+    @if(count($child_links) != 0)
         @if($current_link)
-            @include('list.table',['base'=>$item->base, 'links_info'=>$child_links_info, 'items'=>$items,
-                'base_right'=>$base_right, 'item_view'=>false, 'par_link'=>$current_link, 'parent_item'=>$item])
+            @include('list.table',['base'=>$item->base, 'project'=>$project, 'links_info'=>$child_links_info, 'items'=>$items,
+                'base_right'=>$base_right, 'item_view'=>false,
+                'heading'=>intval(true), 'body_page'=>$body_page, 'body_count'=>$body_count,'body_perpage'=>$body_perpage,
+                'par_link'=>$current_link, 'parent_item'=>$item])
         @else
-            @include('list.table',['base'=>$item->base, 'links_info'=>$child_links_info, 'items'=>$items,
-                'base_right'=>$base_right, 'item_view'=>false, 'par_link'=>null, 'parent_item'=>null])
+            @include('list.table',['base'=>$item->base, 'project'=>$project, 'links_info'=>$child_links_info, 'items'=>$items,
+                     'heading'=>intval(true), 'body_page'=>$body_page, 'body_count'=>$body_count,'body_perpage'=>$body_perpage,
+                     'base_right'=>$base_right, 'item_view'=>false, 'par_link'=>null, 'parent_item'=>null])
         @endif
-        {{--    @endif--}}
-        {{--    <hr align="center" width="100%" size="2" color="#ff0000"/>--}}
-        {{--        &#8595;	&#8195; &#8595;	&#8195; &#8595;	&#8195; &#8595;	&#8195; &#8595;	&#8195; &#8595;	&#8195; &#8595;	&#8195; &#8595;	&#8195; &#8595;	&#8195; &#8595;	&#8195; &#8595;	&#8195;--}}
-        {{--        <hr>--}}
-        {{--        <div class="text-center">&#8595;</div>--}}
     @endif
+    {{--    <hr align="center" width="100%" size="2" color="#ff0000"/>--}}
+    {{--        &#8595;	&#8195; &#8595;	&#8195; &#8595;	&#8195; &#8595;	&#8195; &#8595;	&#8195; &#8595;	&#8195; &#8595;	&#8195; &#8595;	&#8195; &#8595;	&#8195; &#8595;	&#8195; &#8595;	&#8195;--}}
+    {{--        <hr>--}}
+    {{--        <div class="text-center">&#8595;</div>--}}
+    <ul class="pagination">
+        @if($prev_item)
+            <li class="page-item"><a class="page-link" href="{{route('item.item_index', ['project'=>$project, 'item'=>$prev_item, 'role'=>$role,
+                                'usercode' =>GlobalController::usercode_calc(), 'par_link'=>$current_link])}}"
+                                     title=""><</a></li>
+        @endif
+        @if($next_item)
+            <li class="page-item"><a class="page-link" href="{{route('item.item_index', ['project'=>$project, 'item'=>$next_item, 'role'=>$role,
+                                'usercode' =>GlobalController::usercode_calc(), 'par_link'=>$current_link])}}"
+                                     title="">></a></li>
+        @endif
+    </ul>
     @if($current_link)
         {{--        <hr>--}}
         {{--        <br>--}}
@@ -164,7 +187,10 @@
                 <div class="col-2 text-right">
                     <button type="button" class="btn btn-dreamer" title="{{trans('main.add')}}"
                             onclick="document.location='{{route('item.ext_create', ['base'=>$current_link->child_base_id,
-                                        'project'=>$project, 'role'=>$role, 'heading'=>intval(false), 'par_link'=>$current_link, 'parent_item'=>$item])}}'">
+                                        'project'=>$project, 'role'=>$role,
+                                         'usercode' =>GlobalController::usercode_calc(),
+                             'heading'=>intval(false), 'body_page'=>$body_page, 'body_count'=>$body_count,'body_perpage'=>$body_perpage,
+                             'par_link'=>$current_link, 'parent_item'=>$item])}}'">
                         <i class="fas fa-plus d-inline"></i>&nbsp;{{trans('main.add')}}
                     </button>
                 </div>
@@ -184,12 +210,14 @@
         {{--        </div>--}}
         </p>
         @if (count($body_items) > 0)
-            @include('list.table',['base'=>$current_link->child_base, 'links_info'=>$child_body_links_info, 'items'=>$body_items,
-        'base_right'=>$base_body_right, 'item_view'=>true, 'par_link'=>$current_link, 'parent_item'=>$item])
+            @include('list.table',['base'=>$current_link->child_base, 'project'=>$project, 'links_info'=>$child_body_links_info, 'items'=>$body_items,
+        'base_right'=>$base_body_right, 'item_view'=>true,
+        'heading'=>intval(false), 'body_page'=>$body_page, 'body_count'=>$body_count,'body_perpage'=>$body_perpage,
+        'par_link'=>$current_link, 'parent_item'=>$item])
             {{$body_items->links()}}
-            {{$body_items->currentPage()}}
-            {{$body_items->count()}}
-            {{$body_items->perPage()}}
+            {{--            {{$body_items->currentPage()}}--}}
+            {{--            {{$body_count = $body_items->count()}}--}}
+            {{--            {{$body_perpage = $body_items->perPage()}}--}}
         @endif
         <hr>
         @if (count($next_links_plan) > 1)

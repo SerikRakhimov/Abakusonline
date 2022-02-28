@@ -377,10 +377,17 @@ class GlobalController extends Controller
 //                $query->whereDate('name_lang_0', '>','2020-02-09');});
 //        });
 
-    static function items_right(Base $base, Project $project, Role $role, $mains_item_id = null, $mains_link_id = null, $item_id = null)
+    static function items_right(Base $base, Project $project, Role $role, $mains_item_id = null, $mains_link_id = null, $current_item_id = null)
     {
         $base_right = self::base_right($base, $role);
         $items = null;
+        $view_count = 0;
+        $prev_item = null;
+        $next_item = null;
+        $current_index = null;
+        $prev_index = null;
+        $next_index = null;
+        $seek_item = null;
 
         // Выборка из mains
         if ($mains_item_id && $mains_link_id) {
@@ -426,9 +433,9 @@ class GlobalController extends Controller
             }
         }
         if ($items != null) {
-            if ($item_id != null) {
-                $items = $items->where('id', $item_id);
-            }
+//            if ($current_item_id != null) {
+//                $items = $items->where('id', $current_item_id);
+//            }
             // Сортировать по дате создания записи в порядке убывания
             if ($base_right['is_list_base_sort_creation_date_desc'] == true) {
                 //$items = $items->orderByDesc('created_user_id');
@@ -541,7 +548,40 @@ class GlobalController extends Controller
         }
         $itget = null;
         if ($items != null) {
+            // Одинаковые строка/строки в этой функции
             $itget = $items->get();
+        } else {
+            $itget = null;
+        }
+
+        if ($itget) {
+            if ($current_item_id != null) {
+                $current_item = Item::find($current_item_id);
+                //$current_item = Item::find(1649);
+                if ($current_item) {
+                    $current_index = $itget->search($current_item);
+                    // Использовать '!==' для правильного сравнения
+                    if ($current_index !== false) {
+                        $prev_index = $current_index - 1;
+                        if ($prev_index >= 0) {
+                            $seek_item = $itget->get($prev_index);
+                            if ($seek_item) {
+                                $prev_item = $seek_item;
+                            }
+                        }
+                        $next_index = $current_index + 1;
+                        if ($next_index >= 0) {
+                            $seek_item = $itget->get($next_index);
+                            if ($seek_item) {
+                                $next_item = $seek_item;
+                            }
+                        }
+                    }
+                    // Одинаковые строка/строки в этой функции
+                    $items = $items->where('id', $current_item_id);
+                    $itget = $items->get();
+                }
+            }
             $view_count = count($itget);
             // Такая же проверка в GlobalController::item_right() и start.php
             if ($base_right['is_list_base_create'] == true) {
@@ -549,11 +589,10 @@ class GlobalController extends Controller
                 $view_count = $view_count;
             }
         } else {
-            $itget = null;
             $view_count = mb_strtolower(trans('main.no_access'));
         }
-
-        return ['items' => $items, 'itget' => $itget, 'view_count' => '(' . $view_count . ')'];
+        return ['items' => $items, 'itget' => $itget, 'view_count' => '(' . $view_count . ')',
+            'prev_item' => $prev_item, 'next_item' => $next_item];
     }
 
     static function get_array_parent_related(Base $base)
@@ -658,24 +697,51 @@ class GlobalController extends Controller
         return $result;
     }
 
-    static function check_project_item_user(Project $project, Item $item, Role $role, $usercode)
+    static function check_project_item_user(Project $project, Item $item = null, Role $role, $usercode)
     {
         $result = false;
-        // Если проекты равны
-        if ($project->id == $item->project_id) {
-            // Стандартная проверка
-            $result = self::check_project_user($project, $role);
-        } // Если проекты разные
-        else {
-            // Проверка на равенство кодов пользователя: переданного в функцию и текущего
-            $user_id = GlobalController::usercode_uncalc($usercode);
+//        // Если проекты равны
+//        if ($project->id == $item->project_id) {
+//            // Стандартная проверка
+//            $result = self::check_project_user($project, $role);
+//        } // Если проекты разные
+//        else {
+//            // Проверка на равенство кодов пользователя: переданного в функцию и текущего
+//            $user_id = GlobalController::usercode_uncalc($usercode);
+//            $result = ($user_id == Auth::user()->id);
+//            if ($result) {
+//                // Проверка на равенство шаблонов
+//                $result = ($project->template_id == $role->template_id);
+//                if ($result) {
+//                    // Проверка на наличие проекта в Relips
+//                    $result = self::is_found_parent_project($project, $item->project);
+//                }
+//            }
+//        }
+
+        // Проверка на равенство кодов пользователя: переданного в функцию и текущего
+        $user_id = GlobalController::usercode_uncalc($usercode);
+        if (Auth::check()) {
             $result = ($user_id == Auth::user()->id);
+        } else {
+            $result = true;
+        }
+        if ($result) {
+            // Проверка на равенство шаблонов
+            $result = ($project->template_id == $role->template_id);
             if ($result) {
-                // Проверка на равенство шаблонов
-                $result = ($project->template_id == $role->template_id);
-                if ($result) {
-                    // Проверка на наличие проекта в Relips
-                    $result = self::is_found_parent_project($project, $item->project);
+                // Передача параметра $item=null в функциях ItemController: ext_create() и ext_store()
+                //if ($item != null)
+                if ($item) {
+                    // Если проекты равны
+                    if ($project->id == $item->project_id) {
+                        // Стандартная проверка
+                        $result = self::check_project_user($project, $role);
+                        // Если проекты разные
+                    } else {
+                        // Проверка на наличие проекта в Relips
+                        $result = self::is_found_parent_project($project, $item->project);
+                    }
                 }
             }
         }

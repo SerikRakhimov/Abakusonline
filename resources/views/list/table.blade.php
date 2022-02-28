@@ -71,8 +71,9 @@ $i = 0;
             <td class="text-center">
                 {{--                    Не удалять--}}
                 {{--                    <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc()])}}">--}}
-                <a href="{{route('item.ext_show', ['item'=>$item, 'role'=>$role,
-                        'par_link'=>$par_link, 'parent_item'=>$parent_item])}}">
+                <a href="{{route('item.ext_show', ['item'=>$item, 'project'=>$project, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(),
+                                    'heading'=>$heading, 'body_page'=>$body_page, 'body_count'=>$body_count,'body_perpage'=>$body_perpage,
+                                    'par_link'=>$par_link, 'parent_item'=>$parent_item])}}">
                     {{$i}}
                 </a>
             </td>
@@ -80,7 +81,8 @@ $i = 0;
                 @if($base_right['is_list_base_enable'] == true)
                     @if($base->is_code_needed == true)
                         <td class="text-center">
-                            <a href="{{route('item.ext_show', ['item'=>$item, 'role'=>$role,
+                            <a href="{{route('item.ext_show', ['item'=>$item, 'project'=>$project, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(),
+                                    'heading'=>$heading, 'body_page'=>$body_page, 'body_count'=>$body_count,'body_perpage'=>$body_perpage,
                                     'par_link'=>$par_link, 'parent_item'=>$parent_item])}}">
                                 {{$item->code}}
                             </a>
@@ -96,7 +98,8 @@ $i = 0;
                             @elseif($base->type_is_document)
                                 @include('view.doc',['item'=>$item, 'usercode'=>GlobalController::usercode_calc()])
                             @else
-                                <a href="{{route('item.ext_show', ['item'=>$item, 'role'=>$role,
+                                <a href="{{route('item.ext_show', ['item'=>$item, 'project'=>$project, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(),
+                                    'heading'=>$heading, 'body_page'=>$body_page, 'body_count'=>$body_count,'body_perpage'=>$body_perpage,
                                     'par_link'=>$par_link, 'parent_item'=>$parent_item])}}">
                                     {{--                                                                Где $item->name() выходит в cards выводить "<?php echo GlobalController::to_html();?>"--}}
                                     {{$item->name()}}
@@ -131,7 +134,8 @@ $i = 0;
                             {{--                                                <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item_find, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(), 'par_link'=>$link])}}">--}}
                             {{--                                                    @endif--}}
                             {{--                                             Так использовать: 'item'=>$item--}}
-                                <a href="{{route('item.ext_show', ['item'=>$item, 'role'=>$role,
+                                <a href="{{route('item.ext_show', ['item'=>$item, 'project'=>$project, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(),
+                                'heading'=>$heading, 'body_page'=>$body_page, 'body_count'=>$body_count,'body_perpage'=>$body_perpage,
                                 'par_link'=>$par_link, 'parent_item'=>$parent_item])}}">
                                 {{--                            Где $item->name() выходит в cards выводить "<?php echo GlobalController::to_html();?>"--}}
                                 {{$item_find->name(false,false,false)}}
