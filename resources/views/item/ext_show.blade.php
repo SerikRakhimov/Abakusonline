@@ -170,6 +170,7 @@
     <hr>
     <?php
     if ($base_right['is_hier_base_enable'] == true) {
+        dd($project);
         $result = ItemController::form_parent_deta_hier($item->id, $project, $role, false);
         echo $result;
         //         $result = ItemController::form_parent_deta_hier($item->id, $role, true);
