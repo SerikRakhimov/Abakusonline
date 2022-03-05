@@ -4426,7 +4426,7 @@ class ItemController extends Controller
                 $base_link_right = GlobalController::base_link_right($link, $role, true);
                 if ($base_link_right['is_hier_link_enable'] == true) {
                     // Получить $str - вложенные детские значения
-                    $str = self::form_child_hier_deta_start($items, $main->child_item_id, $level, $role);
+                    $str = self::form_child_hier_deta_start($items, $main->child_item_id, $project, $level, $role);
                     $alink = '';
                     if ($base_link_right['is_list_base_calc'] == true) {
                         $alink = '<a href="' . route('item.ext_show', ['item' => $main->child_item_id, 'project' => $project, 'role' => $role, 'usercode' => GlobalController::usercode_calc()]) . '" title="' .
