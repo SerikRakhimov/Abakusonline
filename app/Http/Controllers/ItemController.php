@@ -331,7 +331,7 @@ class ItemController extends Controller
                 }
             }
         }
-
+dd($current_link);
         if (!$current_link) {
             // Находим заполненный подчиненный link
             if (count($next_links_plan) > 0) {
