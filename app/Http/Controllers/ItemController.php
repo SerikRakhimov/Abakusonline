@@ -303,15 +303,12 @@ class ItemController extends Controller
 //            ->where('parent_is_parent_related', false)
 //            ->where('parent_is_base_link', false);
         $next_links_plan = self::next_links_plan_calc($item, $role);
-
-        if ($par_link) {
-            $current_link = $par_link;
-            //$current_link = Link::find($current_link->id);  // проверка существования в базе данных
-        }
         if (count($next_links_plan) == 0) {
             $current_link = null;
         } else {
-//            // Использовать '== false'
+            if ($par_link) {
+                $current_link = $par_link;
+                //            // Использовать '== false'
 //            if ($next_links_plan->search($current_link) == false) {
 //                $current_link = null;
 //            }
@@ -322,15 +319,16 @@ class ItemController extends Controller
 //                $current_link = null;
 //            }
 
-            $found_current_link = false;
-            foreach ($next_links_plan as $link){
-                if($link->id == $current_link->id){
-                    $found_current_link = true;
-                    break;
+                $found_current_link = false;
+                foreach ($next_links_plan as $link) {
+                    if ($link->id == $current_link->id) {
+                        $found_current_link = true;
+                        break;
+                    }
                 }
-            }
-            if ($found_current_link == false) {
-                $current_link = null;
+                if ($found_current_link == false) {
+                    $current_link = null;
+                }
             }
         }
 
