@@ -27,6 +27,22 @@
         @endif
 
         <div class="form-group">
+            <label for="child_base_number">{{trans('main.child')}}_{{trans('main.serial_number')}}<span
+                    class="text-danger">*</span></label>
+            <input type="number"
+                   name="child_base_number"
+                   id="child_base_number"
+                   class="form-control @error('child_base_number') is-invalid @enderror"
+                   placeholder=""
+                   value="{{ old('child_base_number') ?? ($link['child_base_number'] ?? '0') }}">
+            @error('child_base_number')
+            <div class="text-danger">
+                {{$message}}
+            </div>
+            @enderror
+        </div>
+
+        <div class="form-group">
             <label for="child_base_id">{{trans('main.child')}}_{{trans('main.base')}}<span class="text-danger">*</span></label>
             <select class="form-control"
                     name="child_base_id"

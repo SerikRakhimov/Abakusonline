@@ -22,6 +22,18 @@
     }
     ?>
     @include('layouts.project.show_project_role',['project'=>$project, 'role'=>$role])
+    @if(count($child_links) != 0)
+        @if($current_link)
+            @include('list.table',['base'=>$item->base, 'project'=>$project, 'links_info'=>$child_links_info, 'items'=>$items,
+                'base_right'=>$base_right,
+                'heading'=>intval(true), 'body_page'=>$body_page, 'body_count'=>$body_count,'body_perpage'=>$body_perpage,
+                'par_link'=>$current_link, 'parent_item'=>$item])
+        @else
+            @include('list.table',['base'=>$item->base, 'project'=>$project, 'links_info'=>$child_links_info, 'items'=>$items,
+                     'heading'=>intval(true), 'body_page'=>$body_page, 'body_count'=>$body_count,'body_perpage'=>$body_perpage,
+                     'base_right'=>$base_right, 'par_link'=>null, 'parent_item'=>null])
+        @endif
+    @endif
     <p>
     <div class="container-fluid">
         <div class="row">
@@ -39,13 +51,15 @@
                             @if ($base_right['is_list_base_calc'] == true)
                         </a>
                     @endif
-                    @if ($base_right['is_list_base_calc'] == true)
-                        <a href="{{route('item.ext_show', ['item'=>$item, 'project'=>$project, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc()])}}"
-                           title="{{$item->cdnm()}}">
+                    @if(GlobalController::is_base_calcname_check($item->base, $base_right))
+                        @if ($base_right['is_list_base_calc'] == true)
+                            <a href="{{route('item.ext_show', ['item'=>$item, 'project'=>$project, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc()])}}"
+                               title="{{$item->cdnm()}}">
+                                {{$item->cdnm()}}
+                            </a>
+                        @else
                             {{$item->cdnm()}}
-                        </a>
-                    @else
-                        {{$item->cdnm()}}
+                        @endif
                     @endif
                 </h3>
             </div>
@@ -56,13 +70,15 @@
                 {{--                    <img src="{{Storage::url('add_record.png')}}" width="15" height="15"--}}
                 {{--                         alt="{{trans('main.add')}}">--}}
                 {{--                </a>--}}
-                <button type="button" class="btn btn-dreamer" title="{{trans('main.add')}}"
-                        onclick="document.location='{{route('item.ext_create', ['base'=>$item->base,
+                @if ($base_right['is_list_base_create'] == true)
+                    <button type="button" class="btn btn-dreamer" title="{{trans('main.add')}}"
+                            onclick="document.location='{{route('item.ext_create', ['base'=>$item->base,
                              'project'=>$project, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(),
                              'heading'=>intval(true), 'body_page'=>$body_page, 'body_count'=>$body_count,'body_perpage'=>$body_perpage,
                              'par_link'=>$current_link, 'parent_item'=>null])}}'">
-                    <i class="fas fa-plus d-inline"></i>&nbsp;{{trans('main.add')}}
-                </button>
+                        <i class="fas fa-plus d-inline"></i>&nbsp;{{trans('main.add')}}
+                    </button>
+                @endif
             </div>
             {{--            <div class="col-1 text-center">--}}
             {{--                <a href="{{route('item.ext_show', ['item'=>$item, 'role'=>$role])}}"--}}
@@ -87,33 +103,29 @@
         </div>
     </div>
     </p>
-    @if(count($child_links) != 0)
-        @if($current_link)
-            @include('list.table',['base'=>$item->base, 'project'=>$project, 'links_info'=>$child_links_info, 'items'=>$items,
-                'base_right'=>$base_right, 'item_view'=>false,
-                'heading'=>intval(true), 'body_page'=>$body_page, 'body_count'=>$body_count,'body_perpage'=>$body_perpage,
-                'par_link'=>$current_link, 'parent_item'=>$item])
-        @else
-            @include('list.table',['base'=>$item->base, 'project'=>$project, 'links_info'=>$child_links_info, 'items'=>$items,
-                     'heading'=>intval(true), 'body_page'=>$body_page, 'body_count'=>$body_count,'body_perpage'=>$body_perpage,
-                     'base_right'=>$base_right, 'item_view'=>false, 'par_link'=>null, 'parent_item'=>null])
-        @endif
-    @endif
     {{--    <hr align="center" width="100%" size="2" color="#ff0000"/>--}}
     {{--        &#8595;	&#8195; &#8595;	&#8195; &#8595;	&#8195; &#8595;	&#8195; &#8595;	&#8195; &#8595;	&#8195; &#8595;	&#8195; &#8595;	&#8195; &#8595;	&#8195; &#8595;	&#8195; &#8595;	&#8195;--}}
     {{--        <hr>--}}
     {{--        <div class="text-center">&#8595;</div>--}}
     <ul class="pagination">
-        @if($prev_item)
-            <li class="page-item"><a class="page-link" href="{{route('item.item_index', ['project'=>$project, 'item'=>$prev_item, 'role'=>$role,
+        <li class="page-item"><a class="page-link"
+                                 @if($prev_item)
+                                 href="{{route('item.item_index', ['project'=>$project, 'item'=>$prev_item, 'role'=>$role,
                                 'usercode' =>GlobalController::usercode_calc(), 'par_link'=>$current_link])}}"
-                                     title=""><</a></li>
-        @endif
-        @if($next_item)
-            <li class="page-item"><a class="page-link" href="{{route('item.item_index', ['project'=>$project, 'item'=>$next_item, 'role'=>$role,
+                                 title=""
+                                 @else
+                                 href="#" title=""
+                @endif
+            ><</a></li>
+        <li class="page-item"><a class="page-link"
+                                 @if($next_item)
+                                 href="{{route('item.item_index', ['project'=>$project, 'item'=>$next_item, 'role'=>$role,
                                 'usercode' =>GlobalController::usercode_calc(), 'par_link'=>$current_link])}}"
-                                     title="">></a></li>
-        @endif
+                                 title=""
+                                 @else
+                                 href="#" title=""
+                @endif
+            >></a></li>
     </ul>
     @if($current_link)
         {{--        <hr>--}}
@@ -144,7 +156,6 @@
         {{--        </div>--}}
         {{--        </p>--}}
 
-        <hr>
         <?php
 
         //      $next_links_plan = $item->base->parent_links->where('id', '!=', $current_link->id);
@@ -170,57 +181,65 @@
         //            ->groupBy('link_id');
         //
         //        $array = objectToarray($next_links_fact);
-
         ?>
-        <p>
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-10 text-left">
-                    <h3>
-                        @if($current_link)
-                            {{$current_link->child_labels()}}:
-                        @else
-                            {{$item->base->name()}}:
-                        @endif
-                    </h3>
-                </div>
-                <div class="col-2 text-right">
-                    <button type="button" class="btn btn-dreamer" title="{{trans('main.add')}}"
-                            onclick="document.location='{{route('item.ext_create', ['base'=>$current_link->child_base_id,
+        @if($base_body_right['is_list_base_calc'] == true)
+            <hr>
+            <p>
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-10 text-left">
+                        <h3>
+                            {{--                        @if($current_link)--}}
+                            {{--                        {{$current_link->child_labels()}}:{{$current_link->child_base->name()}}--}}
+                            {{--                        @else--}}
+                            {{--                            {{$item->base->name()}}:--}}
+                            {{--                        @endif--}}
+                            <a href="{{route('item.base_index', ['base'=>$current_link->child_base,
+                            'project'=>$project, 'role'=>$role])}}" title="{{$current_link->child_base->names()}}">
+                                {{$current_link->child_labels()}}:
+                            </a>
+                        </h3>
+                    </div>
+                    <div class="col-2 text-right">
+                        @if ($base_body_right['is_list_base_create'] == true)
+                            <button type="button" class="btn btn-dreamer" title="{{trans('main.add')}}"
+                                    onclick="document.location='{{route('item.ext_create', ['base'=>$current_link->child_base_id,
                                         'project'=>$project, 'role'=>$role,
                                          'usercode' =>GlobalController::usercode_calc(),
                              'heading'=>intval(false), 'body_page'=>$body_page, 'body_count'=>$body_count,'body_perpage'=>$body_perpage,
                              'par_link'=>$current_link, 'parent_item'=>$item])}}'">
-                        <i class="fas fa-plus d-inline"></i>&nbsp;{{trans('main.add')}}
-                    </button>
+                                <i class="fas fa-plus d-inline"></i>&nbsp;{{trans('main.add')}}
+                            </button>
+                        @endif
+                    </div>
                 </div>
             </div>
-        </div>
-        {{--        <div class="container-fluid">--}}
-        {{--            <div class="row">--}}
-        {{--                <div class="col text-right">--}}
-        {{--                    <a href="{{route('item.ext_create', ['base'=>$current_link->child_base_id,--}}
-        {{--                            'project'=>$project, 'role'=>$role, 'heading'=>intval(false), 'par_link'=>$current_link->id, 'parent_item'=>$item->id])}}"--}}
-        {{--                       title="{{trans('main.add')}}">--}}
-        {{--                        <img src="{{Storage::url('add_record.png')}}" width="15" height="15"--}}
-        {{--                             alt="{{trans('main.add')}}">--}}
-        {{--                    </a>--}}
-        {{--                </div>--}}
-        {{--            </div>--}}
-        {{--        </div>--}}
-        </p>
-        @if (count($body_items) > 0)
-            @include('list.table',['base'=>$current_link->child_base, 'project'=>$project, 'links_info'=>$child_body_links_info, 'items'=>$body_items,
-        'base_right'=>$base_body_right, 'item_view'=>true,
-        'heading'=>intval(false), 'body_page'=>$body_page, 'body_count'=>$body_count,'body_perpage'=>$body_perpage,
-        'par_link'=>$current_link, 'parent_item'=>$item])
-            {{$body_items->links()}}
-            {{--            {{$body_items->currentPage()}}--}}
-            {{--            {{$body_count = $body_items->count()}}--}}
-            {{--            {{$body_perpage = $body_items->perPage()}}--}}
+            {{--        <div class="container-fluid">--}}
+            {{--            <div class="row">--}}
+            {{--                <div class="col text-right">--}}
+            {{--                    <a href="{{route('item.ext_create', ['base'=>$current_link->child_base_id,--}}
+            {{--                            'project'=>$project, 'role'=>$role, 'heading'=>intval(false), 'par_link'=>$current_link->id, 'parent_item'=>$item->id])}}"--}}
+            {{--                       title="{{trans('main.add')}}">--}}
+            {{--                        <img src="{{Storage::url('add_record.png')}}" width="15" height="15"--}}
+            {{--                             alt="{{trans('main.add')}}">--}}
+            {{--                    </a>--}}
+            {{--                </div>--}}
+            {{--            </div>--}}
+            {{--        </div>--}}
+            </p>
+            @if (count($body_items) > 0)
+                @include('list.table',['base'=>$current_link->child_base, 'project'=>$project, 'links_info'=>$child_body_links_info, 'items'=>$body_items,
+            'base_right'=>$base_body_right,
+            'heading'=>intval(false), 'body_page'=>$body_page, 'body_count'=>$body_count,'body_perpage'=>$body_perpage,
+            'par_link'=>$current_link, 'parent_item'=>$item])
+                {{$body_items->links()}}
+                {{--            {{$body_items->currentPage()}}--}}
+                {{--            {{$body_count = $body_items->count()}}--}}
+                {{--            {{$body_perpage = $body_items->perPage()}}--}}
+            @endif
         @endif
-        <hr>
         @if (count($next_links_plan) > 1)
+            <hr>
             <form action="{{route('item.store_link_change')}}" method="POST" enctype=multipart/form-data>
                 <div class="form-row">
                     @csrf

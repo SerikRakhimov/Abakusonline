@@ -84,14 +84,14 @@
     $i = $items->firstItem() - 1;
     ?>
     <!---->
-    {{--    <p>Выберите любимого персонажа:</p>--}}
-    {{--    <p><input list="character">--}}
-    {{--        <datalist id="character">--}}
-    {{--            <option value="Чебурашка"></option>--}}
-    {{--            <option value="Крокодил Гена"></option>--}}
-    {{--            <option value="Шапокляк"></option>--}}
-    {{--        </datalist>--}}
-    {{--    </p>--}}
+{{--        <p>Выберите любимого персонажа:</p>--}}
+{{--        <p><input list="character">--}}
+{{--            <datalist id="character">--}}
+{{--                <option value="Чебурашка"></option>--}}
+{{--                <option value="Крокодил Гена"></option>--}}
+{{--                <option value="Шапокляк"></option>--}}
+{{--            </datalist>--}}
+{{--        </p>--}}
 
     {{--    <!-- Карточка (border-primary - цвет границ карточки) -->--}}
     {{--    <div class="card border-info">--}}

@@ -17,6 +17,7 @@
     <br>
 
     <p>Id: <b>{{$link->id}}</b></p>
+    <p>{{trans('main.child')}}_{{trans('main.serial_number')}}: <b>{{$link->child_base_number}}</b></p>
     <p>{{trans('main.child')}}_{{trans('main.base')}}: <b>{{$link->child_base->name()}}</b>
     <div><b>{{$link->child_base->info_full()}}</b></div></p>
 
@@ -29,7 +30,7 @@
         </p>
     @endforeach
 
-    <p>{{trans('main.serial_number')}}: <b>{{$link->parent_base_number}}</b></p>
+    <p>{{trans('main.parent')}}_{{trans('main.serial_number')}}: <b>{{$link->parent_base_number}}</b></p>
     <p>{{trans('main.parent')}}_{{trans('main.template')}}: <b>{{GlobalController::get_template_name_from_relit_id($link->parent_relit_id, $link->child_base->template_id)}}</b></p>
 
     <p>{{trans('main.parent')}}_{{trans('main.base')}}: <b>{{$link->parent_base->name()}}</b>

@@ -2,6 +2,9 @@
 use App\Models\Link;
 use \App\Http\Controllers\GlobalController;
 $link_id_array = $links_info['link_id_array'];
+//dd($links_info['link_base_right_array']);
+$link_base_right_array = $links_info['link_base_right_array'];
+//dd($link_base_right_array);
 $matrix = $links_info['matrix'];
 $rows = $links_info['rows'];
 $cols = $links_info['cols'];
@@ -9,14 +12,17 @@ $cols = $links_info['cols'];
 $i = 0;
 ?>
 <table class="table table-sm table-bordered table-hover">
-    @if($item_view)
+    @if(!$heading)
         <caption>{{trans('main.select_record_for_work')}}</caption>
     @endif
     <thead>
     <tr>
         {{--        Похожие проверки ниже по тексту--}}
-        <th rowspan="{{$rows + 1}}" class="text-center align-top">#</th>
-        @if($item_view)
+        @if(!$heading)
+            <th rowspan="{{$rows + 1}}" class="text-center align-top">#</th>
+        @endif
+        <th rowspan="{{$rows + 1}}" class="text-center align-top">Id</th>
+        @if(!$heading)
             @if($base_right['is_list_base_enable'] == true)
                 @if($base->is_code_needed == true)
                     <th class="text-center align-top" rowspan="{{$rows + 1}}">{{trans('main.code')}}</th>
@@ -68,16 +74,27 @@ $i = 0;
         ?>
         <tr>
             {{--        Похожие проверки выше по тексту--}}
+            @if(!$heading)
+                <td class="text-center">
+                    {{--                    Не удалять--}}
+                    {{--                    <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc()])}}">--}}
+                    <a href="{{route('item.ext_show', ['item'=>$item, 'project'=>$project, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(),
+                                    'heading'=>$heading, 'body_page'=>$body_page, 'body_count'=>$body_count,'body_perpage'=>$body_perpage,
+                                    'par_link'=>$par_link, 'parent_item'=>$parent_item])}}">
+                        {{$i}}
+                    </a>
+                </td>
+            @endif
             <td class="text-center">
                 {{--                    Не удалять--}}
                 {{--                    <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc()])}}">--}}
                 <a href="{{route('item.ext_show', ['item'=>$item, 'project'=>$project, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(),
                                     'heading'=>$heading, 'body_page'=>$body_page, 'body_count'=>$body_count,'body_perpage'=>$body_perpage,
                                     'par_link'=>$par_link, 'parent_item'=>$parent_item])}}">
-                    {{$i}}
+                    {{$item->id}}
                 </a>
             </td>
-            @if($item_view)
+            @if(!$heading)
                 @if($base_right['is_list_base_enable'] == true)
                     @if($base->is_code_needed == true)
                         <td class="text-center">
@@ -98,10 +115,15 @@ $i = 0;
                             @elseif($base->type_is_document)
                                 @include('view.doc',['item'=>$item, 'usercode'=>GlobalController::usercode_calc()])
                             @else
-                                <a href="{{route('item.ext_show', ['item'=>$item, 'project'=>$project, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(),
-                                    'heading'=>$heading, 'body_page'=>$body_page, 'body_count'=>$body_count,'body_perpage'=>$body_perpage,
-                                    'par_link'=>$par_link, 'parent_item'=>$parent_item])}}">
-                                    {{--                                                                Где $item->name() выходит в cards выводить "<?php echo GlobalController::to_html();?>"--}}
+                                {{--                                <a href="{{route('item.ext_show', ['item'=>$item, 'project'=>$project, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(),--}}
+                                {{--                                    'heading'=>$heading, 'body_page'=>$body_page, 'body_count'=>$body_count,'body_perpage'=>$body_perpage,--}}
+                                {{--                                    'par_link'=>$par_link, 'parent_item'=>$parent_item])}}">--}}
+                                {{--                                    --}}{{--                                                                Где $item->name() выходит в cards выводить "<?php echo GlobalController::to_html();?>"--}}
+                                {{--                                    {{$item->name()}}--}}
+                                {{--                                </a>--}}
+                                <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,
+                                       'usercode' =>GlobalController::usercode_calc()])}}"
+                                   title="{{$item->name()}}">
                                     {{$item->name()}}
                                 </a>
                             @endif
@@ -113,6 +135,7 @@ $i = 0;
             @foreach($link_id_array as $value)
                 <?php
                 $link = Link::findOrFail($value);
+                $base_link_right = $link_base_right_array[$link->id];
                 ?>
                 <td
                     @include('layouts.class_from_base',['base'=>$link->parent_base])
@@ -134,17 +157,26 @@ $i = 0;
                             {{--                                                <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item_find, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(), 'par_link'=>$link])}}">--}}
                             {{--                                                    @endif--}}
                             {{--                                             Так использовать: 'item'=>$item--}}
-                                <a href="{{route('item.ext_show', ['item'=>$item, 'project'=>$project, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(),
-                                'heading'=>$heading, 'body_page'=>$body_page, 'body_count'=>$body_count,'body_perpage'=>$body_perpage,
-                                'par_link'=>$par_link, 'parent_item'=>$parent_item])}}">
-                                {{--                            Где $item->name() выходит в cards выводить "<?php echo GlobalController::to_html();?>"--}}
-                                {{$item_find->name(false,false,false)}}
-                            </a>
+                            {{--                            <a href="{{route('item.ext_show', ['item'=>$item, 'project'=>$project, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(),--}}
+                            {{--                                'heading'=>$heading, 'body_page'=>$body_page, 'body_count'=>$body_count,'body_perpage'=>$body_perpage,--}}
+                            {{--                                'par_link'=>$par_link, 'parent_item'=>$parent_item])}}">--}}
+                            {{--                                --}}{{--                            Где $item->name() выходит в cards выводить "<?php echo GlobalController::to_html();?>"--}}
+                            {{--                                {{$item_find->name(false,false,false)}}--}}
+                            {{--                            </a>--}}
+                            @if ($base_link_right['is_list_base_calc'] == true)
+                                <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item_find, 'role'=>$role,
+                                        'usercode' =>GlobalController::usercode_calc(),'par_link'=>$link])}}"
+                                   title="">
+                                    @endif
+                                    {{$item_find->name(false,false,false)}}
+                                    @if ($base_link_right['is_list_base_calc'] == true)
+                                </a>
+                            @endif
                         @endif
                     @else
-                        <div class="text-danger">
-                            {{GlobalController::empty_html()}}
-                        </div>
+                        {{--                        <div class="text-danger">--}}
+                        {{--                            {{GlobalController::empty_html()}}--}}
+                        {{--                        </div>--}}
                     @endif
                 </td>
             @endforeach
@@ -196,7 +228,7 @@ $i = 0;
             {{--                             alt="{{trans('main.info')}}">--}}
             {{--                    </a>--}}
             {{--                </td>--}}
-            </tr>
+        </tr>
     @endforeach
     </tbody>
 </table>

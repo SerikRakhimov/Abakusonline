@@ -21,12 +21,14 @@ class Base extends Model
 
     function child_links()
     {
-        return $this->hasMany(Link::class, 'child_base_id');
+        return $this->hasMany(Link::class, 'child_base_id')
+            ->orderBy('links.parent_base_number');
     }
 
     function parent_links()
     {
-        return $this->hasMany(Link::class, 'parent_base_id');
+        return $this->hasMany(Link::class, 'parent_base_id')
+            ->orderBy('links.child_base_number');
     }
 
     // Используется "name"

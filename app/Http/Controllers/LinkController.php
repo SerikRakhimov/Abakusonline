@@ -108,6 +108,7 @@ class LinkController extends Controller
 
         $link = new Link($request->except('_token', '_method'));
 
+        $link->child_base_number = $request->child_base_number;
         $link->child_base_id = $request->child_base_id;
         $link->parent_base_id = $request->parent_base_id;
         $link->child_label_lang_0 = isset($request->child_label_lang_0) ? $request->child_label_lang_0 : "";
@@ -365,6 +366,7 @@ class LinkController extends Controller
         $data = $request->except('_token', '_method');
         $link->fill($data);
 
+        $link->child_base_number = $request->child_base_number;
         $link->child_base_id = $request->child_base_id;
         $link->parent_base_id = $request->parent_base_id;
         $link->child_label_lang_0 = isset($request->child_label_lang_0) ? $request->child_label_lang_0 : "";

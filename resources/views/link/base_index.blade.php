@@ -28,10 +28,11 @@
         <thead>
         <tr>
             <th class="text-center">#</th>
+            <th class="text-left">{{trans('main.child')}}_{{trans('main.serial_number')}}</th>
             <th class="text-left">{{trans('main.child')}}_{{trans('main.base')}}</th>
             <th class="text-left">{{trans('main.child_label')}}</th>
             <th class="text-left">{{trans('main.child_labels')}}</th>
-            <th class="text-left">{{trans('main.serial_number')}}</th>
+            <th class="text-left">{{trans('main.parent')}}_{{trans('main.serial_number')}}</th>
             <th class="text-left">{{trans('main.parent')}}_{{trans('main.template')}}</th>
             <th class="text-left">{{trans('main.parent')}}_{{trans('main.base')}}</th>
             <th class="text-left">{{trans('main.level')}}_0</th>
@@ -61,6 +62,11 @@
             ?>
             <tr>
                 <td class="text-center">{{$i}}</td>
+                <td class="text-left">
+                    <a href="{{route('link.show',$link)}}">
+                        {{$link->child_base_number}}
+                    </a>
+                </td>
                 <td class="text-left">
                     <a href="{{route('link.show',$link)}}">
                         {{$link->child_base->name()}}

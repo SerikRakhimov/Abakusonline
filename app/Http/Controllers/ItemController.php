@@ -298,38 +298,70 @@ class ItemController extends Controller
 
         // Находим $current_link
         $current_link = null;  // нужно
+
+//        $next_links_plan = $item->base->parent_links
+//            ->where('parent_is_parent_related', false)
+//            ->where('parent_is_base_link', false);
+        $next_links_plan = self::next_links_plan_calc($item, $role);
+
         if ($par_link) {
             $current_link = $par_link;
-            $current_link = Link::find($current_link->id);  // проверка существования в базе данных
+            //$current_link = Link::find($current_link->id);  // проверка существования в базе данных
         }
+        if (count($next_links_plan) == 0) {
+            $current_link = null;
+        } else {
+//            // Использовать '== false'
+//            if ($next_links_plan->search($current_link) == false) {
+//                $current_link = null;
+//            }
+
+//            Не удалять - так поиск не работает
+//            // Использовать '== false'
+//            if (in_array($current_link, $next_links_plan) == false) {
+//                $current_link = null;
+//            }
+
+            $found_current_link = false;
+            foreach ($next_links_plan as $link){
+                if($link->id == $current_link->id){
+                    $found_current_link = true;
+                    break;
+                }
+            }
+            if ($found_current_link == false) {
+                $current_link = null;
+            }
+        }
+
         if (!$current_link) {
             // Находим заполненный подчиненный link
-            $parent_links = $item->base->parent_links;
-            if (count($parent_links) > 0) {
-                $next_links_fact1 = DB::table('mains')
-                    ->select('link_id')
-                    ->join('links', 'mains.link_id', '=', 'links.id')
-                    ->where('links.child_base_id', '=', $item->base_id)
-                    ->where('parent_item_id', $item->id)
-                    ->distinct()
-                    ->get()
-                    ->groupBy('link_id');
-                // Если найдены - берем первый
-                if (count($next_links_fact1) > 0) {
-                    $current_link = Link::find($next_links_fact1->first()[0]->link_id);
-                    // Если не найдены - берем первый пустой (без данных)
-                } else {
-                    $current_link = $parent_links[0];
-                }
+            if (count($next_links_plan) > 0) {
+//                $next_links_fact1 = DB::table('mains')
+//                    ->select('link_id')
+//                    ->join('links', 'mains.link_id', '=', 'links.id')
+//                    ->where('links.parent_base_id', '=', $item->base_id)
+//                    ->where('links.parent_is_base_link', '=', false)
+//                    ->where('parent_item_id', $item->id)
+//                    ->distinct()
+//                    ->get()
+//                    ->groupBy('link_id');
+//                // Если найдены - берем первый
+//                if (count($next_links_fact1) > 0) {
+//                    $current_link = Link::find($next_links_fact1->first()[0]->link_id);
+//                } else {
+//                    // Если не найдены - берем первый пустой (без данных)
+//                    $current_link = $next_links_plan[0];
+//                }
+//                $current_link = $next_links_plan[1];
+                $current_link = $next_links_plan[0];
             };
         }
-        $next_links_plan = $item->base->parent_links->where('parent_is_parent_related', false);
-
         $child_body_links_info = null;
         $base_body_right = null;
         $body_items = null;
         if ($current_link) {
-            $child_body_links_info = ItemController::links_info($current_link->child_base, $role, $current_link);
+            $child_body_links_info = self::links_info($current_link->child_base, $role, $current_link);
             $base_body_right = GlobalController::base_right($current_link->child_base, $role);
             $items_body_right = GlobalController::items_right($item->base, $project, $role, $item->id, $current_link->id);
 //            $body_items1 = $items_body_right['items']->get();
@@ -363,7 +395,25 @@ class ItemController extends Controller
             'current_link' => $current_link, 'next_links_plan' => $next_links_plan,
             'child_body_links_info' => $child_body_links_info, 'body_items' => $body_items,
             'base_body_right' => $base_body_right]);
+    }
 
+    function next_links_plan_calc(Item $item, Role $role)
+    {
+        $links = $item->base->parent_links
+            ->where('parent_is_parent_related', false)
+            ->where('parent_is_base_link', false);
+        $result = array();
+        foreach ($links as $link) {
+            $base_link_right = GlobalController::base_link_right($link, $role, true);
+//            if ($base_link_right['is_list_link_enable'] == true) {
+//                $result[] = $link;
+//            }
+            // Использовать эту проверку
+            if ($base_link_right['is_list_base_calc'] == true) {
+                $result[] = $link;
+            }
+        }
+        return $result;
     }
 
     function store_link_change(Request $request)
@@ -4758,6 +4808,7 @@ class ItemController extends Controller
     static function links_info(Base $base, Role $role, Link $nolink = null)
     {
         $link_id_array = array();
+        $link_base_right_array = array();
         $matrix = array(array());
         $links = null;
         if ($nolink == null) {
@@ -4773,6 +4824,7 @@ class ItemController extends Controller
             if ($base_link_right['is_list_link_enable'] == true) {
                 $is_list_base_calc = $base_link_right['is_list_base_calc'];
                 $link_id_array[] = $link->id;
+                $link_base_right_array[$link->id] = $base_link_right;
                 // 0-ая строка с link->id
                 $matrix[0][$k] = ['parent_level_id' => null, 'link_id' => $link->id, 'work_field' => null, 'work_link' => null, 'is_list_base_calc' => $is_list_base_calc, 'fin_link' => null, 'view_field' => null, 'view_name' => '', 'colspan' => 0, 'rowspan' => 0];
                 // строки с уровнями
@@ -4896,8 +4948,8 @@ class ItemController extends Controller
             $cols = 0;
         }
 
-        return ['link_id_array' => $link_id_array, 'matrix' => $matrix,
-            'rows' => $rows, 'cols' => $cols, 'error_message' => $error_message];
+        return ['link_id_array' => $link_id_array, 'link_base_right_array' => $link_base_right_array,
+            'matrix' => $matrix, 'rows' => $rows, 'cols' => $cols, 'error_message' => $error_message];
     }
 
     static function get_link_refer_main(Base $base, Link $link_refer_start)
