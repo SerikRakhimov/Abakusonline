@@ -37,64 +37,6 @@
                 {{$item->id}}
                 </a>
             </span></p>
-        @if($base_right['is_show_base_enable'] == true)
-            {{--        <p>--}}
-            @if($base->is_code_needed == true)
-                <p class="text-label">{{trans('main.code')}}: <span class="text-related">
-                        <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,
-                                'usercode' =>GlobalController::usercode_calc()])}}"
-                           title="">
-                        {{$item->code}}
-                                                            </a>
-                    </span></p>
-            @endif
-            {{--        @foreach (config('app.locales') as $key=>$value)--}}
-            {{--            {{trans('main.name')}} ({{trans('main.' . $value)}}): <span class="text-related">{{$item['name_lang_' . $key]}}</span><br>--}}
-            {{--        @endforeach--}}
-            @if($base->type_is_image)
-                <li>
-                    @include('view.img',['item'=>$item, 'size'=>"medium", 'filenametrue'=>false, 'link'=>true, 'img_fluid'=>false, 'title'=>""])
-                    {{--                <a href="{{Storage::url($item->filename())}}">--}}
-                    {{--                    <img src="{{Storage::url($item->filename())}}" height="250"--}}
-                    {{--                         alt="" title="{{$item->title_img()}}">--}}
-                    {{--                </a>--}}
-                </li>
-            @elseif($base->type_is_document)
-                <li><b>
-                        @include('view.doc',['item'=>$item,'usercode'=>GlobalController::usercode_calc()])
-                        {{--                <a href="{{Storage::url($item->filename())}}" target="_blank">--}}
-                        {{--                    Открыть документ--}}
-                        {{--                </a>--}}
-                    </b></li>
-            @else
-                {{--                Если тип-вычисляемое поле и Показывать Основу с вычисляемым наименованием--}}
-                {{--                или если тип-не вычисляемое наименование--}}
-                {{--            похожая проверка в base_index.blade.php--}}
-                @if(GlobalController::is_base_calcname_check($base, $base_right))
-                    {{--                                            $numcat = true - вывод числовых полей с разрядом тысячи/миллионы/миллиарды--}}
-                    <li>
-                        <p class="text-label">{{$base->name()}}:
-                            {{--                            <span class="text-related">--}}<b>
-                                @if($base->type_is_text())
-                                    <?php
-                                    echo GlobalController::it_txnm_n2b($item);
-                                    ?>
-                                @else
-                                    <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,
-                                       'usercode' =>GlobalController::usercode_calc()])}}"
-                                       title="">
-                                        {{$item->name(false, true)}}
-                                    </a>
-                                @endif
-                                {{--                </span>--}}</b>
-                        </p>
-                    </li>
-                @endif
-            @endif
-            {{--            <br>--}}
-            {{--        </p>--}}
-        @endif
-
         {{--    @foreach($array_plan as $key=>$value)--}}
         {{--        <?php--}}
         {{--        $result = ItemController::get_items_for_link(Link::find($key));--}}
@@ -172,6 +114,63 @@
                     @endif
                     @endforeach
                     </p>
+                    @if($base_right['is_show_base_enable'] == true)
+                        {{--        <p>--}}
+                        @if($base->is_code_needed == true)
+                            <p class="text-label">{{trans('main.code')}}: <span class="text-related">
+                        <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,
+                                'usercode' =>GlobalController::usercode_calc()])}}"
+                           title="">
+                        {{$item->code}}
+                                                            </a>
+                    </span></p>
+                        @endif
+                        {{--        @foreach (config('app.locales') as $key=>$value)--}}
+                        {{--            {{trans('main.name')}} ({{trans('main.' . $value)}}): <span class="text-related">{{$item['name_lang_' . $key]}}</span><br>--}}
+                        {{--        @endforeach--}}
+                        @if($base->type_is_image)
+                            <li>
+                                @include('view.img',['item'=>$item, 'size'=>"medium", 'filenametrue'=>false, 'link'=>true, 'img_fluid'=>false, 'title'=>""])
+                                {{--                <a href="{{Storage::url($item->filename())}}">--}}
+                                {{--                    <img src="{{Storage::url($item->filename())}}" height="250"--}}
+                                {{--                         alt="" title="{{$item->title_img()}}">--}}
+                                {{--                </a>--}}
+                            </li>
+                        @elseif($base->type_is_document)
+                            <li><b>
+                                    @include('view.doc',['item'=>$item,'usercode'=>GlobalController::usercode_calc()])
+                                    {{--                <a href="{{Storage::url($item->filename())}}" target="_blank">--}}
+                                    {{--                    Открыть документ--}}
+                                    {{--                </a>--}}
+                                </b></li>
+                        @else
+                            {{--                Если тип-вычисляемое поле и Показывать Основу с вычисляемым наименованием--}}
+                            {{--                или если тип-не вычисляемое наименование--}}
+                            {{--            похожая проверка в base_index.blade.php--}}
+                            @if(GlobalController::is_base_calcname_check($base, $base_right))
+                                {{--                                            $numcat = true - вывод числовых полей с разрядом тысячи/миллионы/миллиарды--}}
+                                <li>
+                                    <p class="text-label">{{$base->name()}}:
+                                        {{--                            <span class="text-related">--}}<b>
+                                            @if($base->type_is_text())
+                                                <?php
+                                                echo GlobalController::it_txnm_n2b($item);
+                                                ?>
+                                            @else
+                                                <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,
+                                       'usercode' =>GlobalController::usercode_calc()])}}"
+                                                   title="">
+                                                    {{$item->name(false, true)}}
+                                                </a>
+                                            @endif
+                                            {{--                </span>--}}</b>
+                                    </p>
+                                </li>
+                            @endif
+                        @endif
+                        {{--            <br>--}}
+                        {{--        </p>--}}
+                    @endif
     </ul>
     <hr>
     <?php
