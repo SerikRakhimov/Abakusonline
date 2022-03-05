@@ -308,6 +308,36 @@ class ItemController extends Controller
         } else {
             if ($par_link) {
                 $current_link = $par_link;
+            }
+            if (!$current_link) {
+                // Находим заполненный подчиненный link
+                if (count($next_links_plan) > 0) {
+                    // Условия одинаковые в item_index() и next_links_plan_calc()
+                    // 'where('parent_is_parent_related', false)'
+                    // 'where('parent_is_base_link', false)'
+                    $next_links_fact1 = DB::table('mains')
+                        ->select('link_id')
+                        ->join('links', 'mains.link_id', '=', 'links.id')
+                        ->where('links.parent_base_id', '=', $item->base_id)
+                        ->where('links.parent_is_parent_related', '=', false)
+                        ->where('links.parent_is_base_link', '=', false)
+                        ->where('parent_item_id', $item->id)
+                        ->distinct()
+                        ->get()
+                        ->groupBy('link_id');
+                    // Если найдены - берем первый
+                    if (count($next_links_fact1) > 0) {
+                        $current_link = Link::find($next_links_fact1->first()[0]->link_id);
+//                } else {
+//                    // Если не найдены - берем первый пустой (без данных)
+//                    $current_link = $next_links_plan[0];
+                    }
+//                $current_link = $next_links_plan[1];
+//                $current_link = $next_links_plan[0];
+                };
+            }
+            // Проверка: есть ли $current_link->id в списке $next_links_plan
+            if ($current_link) {
                 //            // Использовать '== false'
 //            if ($next_links_plan->search($current_link) == false) {
 //                $current_link = null;
@@ -330,30 +360,10 @@ class ItemController extends Controller
                     $current_link = null;
                 }
             }
-        }
-dd($current_link);
-        if (!$current_link) {
-            // Находим заполненный подчиненный link
-            if (count($next_links_plan) > 0) {
-//                $next_links_fact1 = DB::table('mains')
-//                    ->select('link_id')
-//                    ->join('links', 'mains.link_id', '=', 'links.id')
-//                    ->where('links.parent_base_id', '=', $item->base_id)
-//                    ->where('links.parent_is_base_link', '=', false)
-//                    ->where('parent_item_id', $item->id)
-//                    ->distinct()
-//                    ->get()
-//                    ->groupBy('link_id');
-//                // Если найдены - берем первый
-//                if (count($next_links_fact1) > 0) {
-//                    $current_link = Link::find($next_links_fact1->first()[0]->link_id);
-//                } else {
-//                    // Если не найдены - берем первый пустой (без данных)
-//                    $current_link = $next_links_plan[0];
-//                }
-//                $current_link = $next_links_plan[1];
+            if (!$current_link) {
+                // Если не найдены - берем первый пустой (без данных)
                 $current_link = $next_links_plan[0];
-            };
+            }
         }
         $child_body_links_info = null;
         $base_body_right = null;
@@ -397,6 +407,9 @@ dd($current_link);
 
     function next_links_plan_calc(Item $item, Role $role)
     {
+        // Условия одинаковые в item_index() и next_links_plan_calc()
+        // 'where('parent_is_parent_related', false)'
+        // 'where('parent_is_base_link', false)'
         $links = $item->base->parent_links
             ->where('parent_is_parent_related', false)
             ->where('parent_is_base_link', false);
@@ -4444,13 +4457,13 @@ dd($current_link);
                         // '$items' использовать
                         // 'level_one = true' используется
                         // получить простые родительские поля один первый уровень
-                        $str = self::form_parent_hier_deta_start($items, $main->child_item_id, $project,0, $role, true);
+                        $str = self::form_parent_hier_deta_start($items, $main->child_item_id, $project, 0, $role, true);
                     } else {
                         // '$items_dop' использовать
                         // 'level_one = true' используется
                         // получить простые родительские поля один первый уровень
                         // '. $str' используется
-                        $str = self::form_parent_hier_deta_start($items_dop, $main->child_item_id, $project,0, $role, true) . $str;
+                        $str = self::form_parent_hier_deta_start($items_dop, $main->child_item_id, $project, 0, $role, true) . $str;
                     }
                     if ($str == '') {
                         $result = $result . '<li>';
