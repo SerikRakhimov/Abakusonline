@@ -163,15 +163,15 @@ $i = 0;
                             {{--                                --}}{{--                            Где $item->name() выходит в cards выводить "<?php echo GlobalController::to_html();?>"--}}
                             {{--                                {{$item_find->name(false,false,false)}}--}}
                             {{--                            </a>--}}
-                            @if ($base_link_right['is_list_base_calc'] == true)
-                                <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item_find, 'role'=>$role,
+{{--                            @if ($base_link_right['is_list_base_calc'] == true)--}}
+                                    <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,
                                         'usercode' =>GlobalController::usercode_calc(),'par_link'=>$link])}}"
-                                   title="">
-                                    @endif
+                                       title="">
+{{--                                    @endif--}}
                                     {{$item_find->name(false,false,false)}}
-                                    @if ($base_link_right['is_list_base_calc'] == true)
+{{--                                    @if ($base_link_right['is_list_base_calc'] == true)--}}
                                 </a>
-                            @endif
+{{--                            @endif--}}
                         @endif
                     @else
                         {{--                        <div class="text-danger">--}}
