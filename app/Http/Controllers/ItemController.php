@@ -416,7 +416,7 @@ class ItemController extends Controller
 
     function store_link_change(Request $request)
     {
-        $project = Item::find($request['project_id']);
+        $project = Project::find($request['project_id']);
         $item = Item::find($request['item_id']);
         $role = Role::find($request['role_id']);
         $link = Link::find($request['link_id']);
