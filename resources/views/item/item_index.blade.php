@@ -112,18 +112,18 @@
                                  @if($prev_item)
                                  href="{{route('item.item_index', ['project'=>$project, 'item'=>$prev_item, 'role'=>$role,
                                 'usercode' =>GlobalController::usercode_calc(), 'par_link'=>$current_link])}}"
-                                 title=""
+                                 title="{{$prev_item->cdnm()}}"
                                  @else
-                                 href="#" title=""
+                                 style="cursor:default" href="#" title="{{trans('main.none')}}"
                 @endif
             ><</a></li>
         <li class="page-item"><a class="page-link"
                                  @if($next_item)
                                  href="{{route('item.item_index', ['project'=>$project, 'item'=>$next_item, 'role'=>$role,
                                 'usercode' =>GlobalController::usercode_calc(), 'par_link'=>$current_link])}}"
-                                 title=""
+                                 title="{{$next_item->cdnm()}}"
                                  @else
-                                 href="#" title=""
+                                 style="cursor:default" href="#" title="{{trans('main.none')}}"
                 @endif
             >></a></li>
     </ul>
@@ -183,6 +183,7 @@
         //        $array = objectToarray($next_links_fact);
         ?>
         @if($base_body_right['is_list_base_calc'] == true)
+            @if ((count($body_items) > 0) || ($base_body_right['is_list_base_create'] == true))
             <hr>
             <p>
             <div class="container-fluid">
@@ -214,6 +215,7 @@
                     </div>
                 </div>
             </div>
+            @endif
             {{--        <div class="container-fluid">--}}
             {{--            <div class="row">--}}
             {{--                <div class="col text-right">--}}

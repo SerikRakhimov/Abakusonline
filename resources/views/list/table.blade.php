@@ -32,7 +32,12 @@ $i = 0;
                 {{--            похожая проверка в ext_show.blade.php--}}
                 @if(GlobalController::is_base_calcname_check($base, $base_right))
                     <th rowspan="{{$rows + 1}}" @include('layouts.class_from_base',['base'=>$base, 'align_top'=>true])>
-                        {{trans('main.name')}}</th>
+                        @if($par_link)
+                            {{$par_link->child_label()}}
+                        @else
+                            {{trans('main.name')}}}}
+                        @endif
+                    </th>
     @endif
     @endif
     @endif
@@ -122,7 +127,7 @@ $i = 0;
                                 {{--                                    {{$item->name()}}--}}
                                 {{--                                </a>--}}
                                 <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,
-                                       'usercode' =>GlobalController::usercode_calc()])}}"
+                                       'usercode' =>GlobalController::usercode_calc(),'par_link'=>$par_link])}}"
                                    title="{{$item->name()}}">
                                     {{$item->name()}}
                                 </a>
@@ -163,15 +168,27 @@ $i = 0;
                             {{--                                --}}{{--                            Где $item->name() выходит в cards выводить "<?php echo GlobalController::to_html();?>"--}}
                             {{--                                {{$item_find->name(false,false,false)}}--}}
                             {{--                            </a>--}}
-{{--                            @if ($base_link_right['is_list_base_calc'] == true)--}}
-                                    <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,
+                            @if($heading)
+                                @if ($base_link_right['is_list_base_calc'] == true)
+                                    <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item_find, 'role'=>$role,
                                         'usercode' =>GlobalController::usercode_calc(),'par_link'=>$link])}}"
                                        title="">
-{{--                                    @endif--}}
-                                    {{$item_find->name(false,false,false)}}
-{{--                                    @if ($base_link_right['is_list_base_calc'] == true)--}}
-                                </a>
-{{--                            @endif--}}
+                                        @endif
+                                        {{$item_find->name(false,false,false)}}
+                                        @if ($base_link_right['is_list_base_calc'] == true)
+                                    </a>
+                                @endif
+                            @else
+                                @if ($base_right['is_list_base_calc'] == true)
+                                    <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,
+                                        'usercode' =>GlobalController::usercode_calc(),'par_link'=>$par_link])}}"
+                                       title="">
+                                        @endif
+                                        {{$item_find->name(false,false,false)}}
+                                        @if ($base_link_right['is_list_base_calc'] == true)
+                                    </a>
+                                @endif
+                            @endif
                         @endif
                     @else
                         {{--                        <div class="text-danger">--}}

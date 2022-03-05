@@ -381,7 +381,7 @@ class ItemController extends Controller
 //                // 'items' нужно, для пагинации
 //                // '->paginate(60)' использовать здесь
 
-            $body_items = $items_body_right['items']->paginate(3, ['*'], 'body_page');
+            $body_items = $items_body_right['items']->paginate(60, ['*'], 'body_page');
             //$body_items = $items_body_right['items']->cursorPaginate(3, ['*'], 'body_page');
 //        }
         }
@@ -4824,12 +4824,17 @@ class ItemController extends Controller
                 $link_id_array[] = $link->id;
                 $link_base_right_array[$link->id] = $base_link_right;
                 // 0-ая строка с link->id
-                $matrix[0][$k] = ['parent_level_id' => null, 'link_id' => $link->id, 'work_field' => null, 'work_link' => null, 'is_list_base_calc' => $is_list_base_calc, 'fin_link' => null, 'view_field' => null, 'view_name' => '', 'colspan' => 0, 'rowspan' => 0];
+                $matrix[0][$k] = ['parent_level_id' => null, 'link_id' => $link->id, 'work_field' => null,
+                    'work_link' => null, 'is_list_base_calc' => $is_list_base_calc, 'fin_link' => null, 'view_field' => null, 'view_name' => '', 'colspan' => 0, 'rowspan' => 0];
                 // строки с уровнями
-                $matrix[1][$k] = ['parent_level_id' => $link->parent_level_id_0, 'link_id' => $link->id, 'work_field' => null, 'work_link' => null, 'is_list_base_calc' => $is_list_base_calc, 'fin_link' => null, 'view_field' => null, 'view_name' => '', 'colspan' => 0, 'rowspan' => 0];
-                $matrix[2][$k] = ['parent_level_id' => $link->parent_level_id_1, 'link_id' => $link->id, 'work_field' => null, 'work_link' => null, 'is_list_base_calc' => $is_list_base_calc, 'fin_link' => null, 'view_field' => null, 'view_name' => '', 'colspan' => 0, 'rowspan' => 0];
-                $matrix[3][$k] = ['parent_level_id' => $link->parent_level_id_2, 'link_id' => $link->id, 'work_field' => null, 'work_link' => null, 'is_list_base_calc' => $is_list_base_calc, 'fin_link' => null, 'view_field' => null, 'view_name' => '', 'colspan' => 0, 'rowspan' => 0];
-                $matrix[4][$k] = ['parent_level_id' => $link->parent_level_id_3, 'link_id' => $link->id, 'work_field' => null, 'work_link' => null, 'is_list_base_calc' => $is_list_base_calc, 'fin_link' => null, 'view_field' => null, 'view_name' => '', 'colspan' => 0, 'rowspan' => 0];
+                $matrix[1][$k] = ['parent_level_id' => $link->parent_level_id_0, 'link_id' => $link->id, 'work_field' => null,
+                    'work_link' => null, 'is_list_base_calc' => $is_list_base_calc, 'fin_link' => null, 'view_field' => null, 'view_name' => '', 'colspan' => 0, 'rowspan' => 0];
+                $matrix[2][$k] = ['parent_level_id' => $link->parent_level_id_1, 'link_id' => $link->id, 'work_field' => null,
+                    'work_link' => null, 'is_list_base_calc' => $is_list_base_calc, 'fin_link' => null, 'view_field' => null, 'view_name' => '', 'colspan' => 0, 'rowspan' => 0];
+                $matrix[3][$k] = ['parent_level_id' => $link->parent_level_id_2, 'link_id' => $link->id, 'work_field' => null,
+                    'work_link' => null, 'is_list_base_calc' => $is_list_base_calc, 'fin_link' => null, 'view_field' => null, 'view_name' => '', 'colspan' => 0, 'rowspan' => 0];
+                $matrix[4][$k] = ['parent_level_id' => $link->parent_level_id_3, 'link_id' => $link->id, 'work_field' => null,
+                    'work_link' => null, 'is_list_base_calc' => $is_list_base_calc, 'fin_link' => null, 'view_field' => null, 'view_name' => '', 'colspan' => 0, 'rowspan' => 0];
                 $k = $k + 1;
             }
         }
@@ -4945,7 +4950,6 @@ class ItemController extends Controller
             $rows = 0;
             $cols = 0;
         }
-
         return ['link_id_array' => $link_id_array, 'link_base_right_array' => $link_base_right_array,
             'matrix' => $matrix, 'rows' => $rows, 'cols' => $cols, 'error_message' => $error_message];
     }
