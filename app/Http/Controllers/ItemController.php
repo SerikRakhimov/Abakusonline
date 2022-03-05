@@ -4335,7 +4335,7 @@ class ItemController extends Controller
                 $base_link_right = GlobalController::base_link_right($link, $role, false);
                 if ($base_link_right['is_hier_link_enable'] == true) {
                     // Получить $str - вложенные родительские значения
-                    $str = self::form_parent_hier_deta_start($items, $main->parent_item_id, $level, $role, $level_one);
+                    $str = self::form_parent_hier_deta_start($items, $main->parent_item_id, $project, $level, $role, $level_one);
                     $alink = '';
                     if ($base_link_right['is_list_base_calc'] == true) {
                         $alink = '<a href="' . route('item.ext_show', ['item' => $main->parent_item_id, 'project' => $project, 'role' => $role, 'usercode' => GlobalController::usercode_calc()]) . '" title="' .
@@ -4444,13 +4444,13 @@ class ItemController extends Controller
                         // '$items' использовать
                         // 'level_one = true' используется
                         // получить простые родительские поля один первый уровень
-                        $str = self::form_parent_hier_deta_start($items, $main->child_item_id, 0, $role, true);
+                        $str = self::form_parent_hier_deta_start($items, $main->child_item_id, $project,0, $role, true);
                     } else {
                         // '$items_dop' использовать
                         // 'level_one = true' используется
                         // получить простые родительские поля один первый уровень
                         // '. $str' используется
-                        $str = self::form_parent_hier_deta_start($items_dop, $main->child_item_id, 0, $role, true) . $str;
+                        $str = self::form_parent_hier_deta_start($items_dop, $main->child_item_id, $project,0, $role, true) . $str;
                     }
                     if ($str == '') {
                         $result = $result . '<li>';
