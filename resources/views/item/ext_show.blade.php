@@ -73,7 +73,7 @@
                 @if(GlobalController::is_base_calcname_check($base, $base_right))
                     {{--                                            $numcat = true - вывод числовых полей с разрядом тысячи/миллионы/миллиарды--}}
                     <li>
-                        <p class="text-label">{{trans('main.name')}}:
+                        <p class="text-label">{{$base->name()}}:
                             {{--                            <span class="text-related">--}}<b>
                                 @if($base->type_is_text())
                                     <?php
