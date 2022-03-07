@@ -23,11 +23,12 @@
     @include('layouts.style_header')
     <style>
         .navbar {
-            background-image: url('{{Storage::url('newyear1.jpg')}}');
+            {{--background-image: url('{{Storage::url('newyear1.jpg')}}');--}}
         }
     </style>
 </head>
-<body background="{{Storage::url('newyear1.jpg')}}">
+{{--<body background="{{Storage::url('background_2.jpg')}}">--}}
+<body>
 {{--    <div id="app">--}}
 {{--        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">--}}
 {{--            <div class="container">--}}
