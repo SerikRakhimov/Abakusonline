@@ -278,10 +278,11 @@
         {{--                        @endfor--}}
         {{--                        </tr>--}}
         {{--                    @endif--}}
+{{--        Используется 'heading'=>0'--}}
         @include('list.table',['base'=>$base, 'links_info'=>$links_info, 'items'=>$items,
                     'base_right'=>$base_right, 'item_view'=>true,
                     'heading'=>0,'body_page'=>0, 'body_count'=>0,'body_perpage'=>0,
-                    'par_link'=>null, 'parent_item'=>null])
+                    'par_link'=>null, 'parent_item'=>null, 'ext_show_body'=>$ext_show_body])
         {{--                            @if(1==2)--}}
         {{--                                @foreach($link_id_array as $value)--}}
         {{--                                    <?php--}}

@@ -35,7 +35,7 @@ $i = 0;
                         @if($par_link)
                             {{$par_link->child_label()}}
                         @else
-                            {{trans('main.name')}}}}
+                            {{$base->name()}}
                         @endif
                     </th>
     @endif
@@ -168,26 +168,51 @@ $i = 0;
                             {{--                                --}}{{--                            Где $item->name() выходит в cards выводить "<?php echo GlobalController::to_html();?>"--}}
                             {{--                                {{$item_find->name(false,false,false)}}--}}
                             {{--                            </a>--}}
-                            @if($heading)
-                                @if ($base_link_right['is_list_base_calc'] == true)
-                                    <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item_find, 'role'=>$role,
-                                        'usercode' =>GlobalController::usercode_calc(),'par_link'=>$link])}}"
-                                       title="">
-                                        @endif
-                                        {{$item_find->name(false,false,false)}}
-                                        @if ($base_link_right['is_list_base_calc'] == true)
-                                    </a>
-                                @endif
-                            @else
-                                @if ($base_right['is_list_base_calc'] == true)
-                                    <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,
-                                        'usercode' =>GlobalController::usercode_calc(),'par_link'=>$par_link])}}"
-                                       title="">
-                                        @endif
-                                        {{$item_find->name(false,false,false)}}
-                                        @if ($base_link_right['is_list_base_calc'] == true)
-                                    </a>
-                                @endif
+                            <?php
+//                          Открывать ext_show.php
+                            $ext_show_view = $ext_show_body;
+//                          Открывать item_index.php
+                            $item_index_view = false;
+                            if (!$ext_show_view) {
+                                // Открывать item_index.php - проверка
+                                if ($heading) {
+                                    // В таблице-заголовке ($heading=true) ссылки будут, если '$base_link_right['is_list_base_calc'] == true'
+                                    if ($base_link_right['is_list_base_calc'] == true) {
+                                        $item_index_view = true;
+                                    }
+                                } else {
+                                    // В таблице-теле ($heading=false) все ссылки будут
+                                    $item_index_view = true;
+                                }
+                            }
+                            ?>
+                            @if($ext_show_view)
+                                {{--                                        Вызывается ext_show.php--}}
+                                <a href="{{route('item.ext_show', ['item'=>$item, 'project'=>$project, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(),
+                                    'heading'=>$heading, 'body_page'=>$body_page, 'body_count'=>$body_count,'body_perpage'=>$body_perpage,
+                                    'par_link'=>$par_link, 'parent_item'=>$parent_item])}}">
+                                    @else
+                                        @if ($item_index_view)
+                                            {{--                                        Вызывается item_index.php--}}
+                                            <?php
+                                            $i_item = null;
+                                            $i_par_link = null;
+                                            if ($heading) {
+                                                $i_item = $item_find;
+                                                $i_par_link = $link;
+                                            } else {
+                                                $i_item = $item;
+                                                $i_par_link = $par_link;
+                                            }
+                                            ?>
+                                            <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$i_item, 'role'=>$role,
+                                        'usercode' =>GlobalController::usercode_calc(),'par_link'=>$i_par_link])}}"
+                                               title="">
+                                                @endif
+                                                @endif
+                                                {{$item_find->name(false,false,false)}}
+                                                @if ($ext_show_view || $item_index_view)
+                                            </a>
                             @endif
                         @endif
                     @else

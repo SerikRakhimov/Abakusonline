@@ -23,16 +23,19 @@
     ?>
     @include('layouts.project.show_project_role',['project'=>$project, 'role'=>$role])
     @if(count($child_links) != 0)
-        @if($current_link)
-            @include('list.table',['base'=>$item->base, 'project'=>$project, 'links_info'=>$child_links_info, 'items'=>$items,
+        <?php
+//          Присваивания нужны
+            $i_par_link = null;
+            $i_parent_item = null;
+        if ($current_link) {
+            $i_par_link = $current_link;
+            $i_parent_item = $item;
+        }
+        ?>
+        @include('list.table',['base'=>$item->base, 'project'=>$project, 'links_info'=>$child_links_info, 'items'=>$items,
                 'base_right'=>$base_right,
                 'heading'=>intval(true), 'body_page'=>$body_page, 'body_count'=>$body_count,'body_perpage'=>$body_perpage,
-                'par_link'=>$current_link, 'parent_item'=>$item])
-        @else
-            @include('list.table',['base'=>$item->base, 'project'=>$project, 'links_info'=>$child_links_info, 'items'=>$items,
-                     'heading'=>intval(true), 'body_page'=>$body_page, 'body_count'=>$body_count,'body_perpage'=>$body_perpage,
-                     'base_right'=>$base_right, 'par_link'=>null, 'parent_item'=>null])
-        @endif
+                'par_link'=>$i_par_link, 'parent_item'=>$i_parent_item, 'ext_show_body'=>false])
     @endif
     <p>
     <div class="container-fluid">
@@ -233,7 +236,7 @@
                 @include('list.table',['base'=>$current_link->child_base, 'project'=>$project, 'links_info'=>$child_body_links_info, 'items'=>$body_items,
             'base_right'=>$base_body_right,
             'heading'=>intval(false), 'body_page'=>$body_page, 'body_count'=>$body_count,'body_perpage'=>$body_perpage,
-            'par_link'=>$current_link, 'parent_item'=>$item])
+            'par_link'=>$current_link, 'parent_item'=>$item, 'ext_show_body'=>false])
                 {{$body_items->links()}}
                 {{--            {{$body_items->currentPage()}}--}}
                 {{--            {{$body_count = $body_items->count()}}--}}

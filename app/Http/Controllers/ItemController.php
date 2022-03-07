@@ -250,6 +250,9 @@ class ItemController extends Controller
         $items_right = GlobalController::items_right($base, $project, $role);
         $items = $items_right['items'];
 
+        $next_links_plan = self::next_links_plan_calc($base, $role);
+        $ext_show_body = (count($next_links_plan) == 0);
+
 //      Похожая проверка в ItemController::base_index() и project/start.php
         if ($base_right['is_list_base_calc'] == false) {
             return view('message', ['message' => trans('main.no_access')]);
@@ -257,7 +260,7 @@ class ItemController extends Controller
         if ($items) {
             session(['base_index_previous_url' => ((!empty($_SERVER['HTTPS'])) ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . '/' . request()->path()]);
             return view('item/base_index', ['base_right' => $base_right, 'base' => $base, 'project' => $project, 'role' => $role,
-                'items' => $items->paginate(60), 'links_info' => $links_info]);
+                'items' => $items->paginate(60), 'links_info' => $links_info, 'ext_show_body' => $ext_show_body]);
         } else {
             return view('message', ['message' => trans('main.no_access_for_unregistered_users')]);
         }
@@ -302,7 +305,7 @@ class ItemController extends Controller
 //        $next_links_plan = $item->base->parent_links
 //            ->where('parent_is_parent_related', false)
 //            ->where('parent_is_base_link', false);
-        $next_links_plan = self::next_links_plan_calc($item, $role);
+        $next_links_plan = self::next_links_plan_calc($item->base, $role);
         if (count($next_links_plan) == 0) {
             $current_link = null;
         } else {
@@ -405,12 +408,12 @@ class ItemController extends Controller
             'base_body_right' => $base_body_right]);
     }
 
-    function next_links_plan_calc(Item $item, Role $role)
+    function next_links_plan_calc(Base $base, Role $role)
     {
         // Условия одинаковые в item_index() и next_links_plan_calc()
         // 'where('parent_is_parent_related', false)'
         // 'where('parent_is_base_link', false)'
-        $links = $item->base->parent_links
+        $links = $base->parent_links
             ->where('parent_is_parent_related', false)
             ->where('parent_is_base_link', false);
         $result = array();
@@ -537,9 +540,11 @@ class ItemController extends Controller
                     $link_result = Link::find($link->parent_child_related_result_link_id);
                     if ($link_result) {
                         $item = self::get_parent_item_from_child_item($parent_item, $link_result)['result_item'];
-                        $array_disabled[$link->id] = $item->id;
-                        // рекурсивный вызов этой же функции, $link передается в функцию
-                        self::par_link_calc_in_array_disabled($plan_child_links, $parent_item, $array_disabled, $link);
+                        if ($item) {
+                            $array_disabled[$link->id] = $item->id;
+                            // рекурсивный вызов этой же функции, $link передается в функцию
+                            self::par_link_calc_in_array_disabled($plan_child_links, $parent_item, $array_disabled, $link);
+                        }
                     }
                 }
             }
