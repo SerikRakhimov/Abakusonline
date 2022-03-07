@@ -386,4 +386,7 @@ return [
     'projects_children_are_not_set' => 'Не установлены "проекты - Дети"',
     'parent_project_not_found' => 'Проект - Родитель не найден',
     'project_author_subscription_with_authoring_role_is_not_deleted' => 'Подписка автора проекта с авторской ролью не удаляется',
+    'is_show_admin' => 'Показывать шаблон только админу',
+    'is_create_admin' => 'Создавать проект из этого шаблона может только админ',
+    'for_project_create' => 'Для создания проекта обратитесь к админу',
     ];

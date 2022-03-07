@@ -21,7 +21,7 @@
         @if ($update)
             @method('PUT')
         @endif
-        
+
         <div class="form-group row" id="serial_number_form_group">
             <div class="col-sm-3 text-right">
                 <label for="serial_number">{{trans('main.serial_number')}}<span
@@ -155,6 +155,58 @@
                     @endif
                 >
                 @error('is_closed_default_value_fixed')
+                <div class="invalid-feedback">
+                    {{$message}}
+                </div>
+                @enderror
+            </div>
+            <div class="col-sm-2">
+            </div>
+        </div>
+
+        <div class="form-group row" id="is_show_admin_form_group">
+            <div class="col-sm-3 text-right">
+                <label class="form-label"
+                       for="is_show_admin">{{trans('main.is_show_admin')}}</label>
+            </div>
+            <div class="col-sm-7">
+                <input class="@error('is_show_admin') is-invalid @enderror"
+                       type="checkbox"
+                       name="is_show_admin"
+                       id="linkis_show_admin"
+                       placeholder=""
+                       {{--                       'false' - значение по умолчанию --}}
+                       @if ((old('is_show_admin') ?? ($template->is_show_admin ?? false)) ==  true)
+                       checked
+                    @endif
+                >
+                @error('is_show_admin')
+                <div class="invalid-feedback">
+                    {{$message}}
+                </div>
+                @enderror
+            </div>
+            <div class="col-sm-2">
+            </div>
+        </div>
+
+        <div class="form-group row" id="is_create_admin_form_group">
+            <div class="col-sm-3 text-right">
+                <label class="form-label"
+                       for="is_create_admin">{{trans('main.is_create_admin')}}</label>
+            </div>
+            <div class="col-sm-7">
+                <input class="@error('is_create_admin') is-invalid @enderror"
+                       type="checkbox"
+                       name="is_create_admin"
+                       id="linkis_create_admin"
+                       placeholder=""
+                       {{--                       'false' - значение по умолчанию --}}
+                       @if ((old('is_create_admin') ?? ($template->is_create_admin ?? false)) ==  true)
+                       checked
+                    @endif
+                >
+                @error('is_create_admin')
                 <div class="invalid-feedback">
                     {{$message}}
                 </div>

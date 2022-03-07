@@ -47,6 +47,18 @@ class TemplateController extends Controller
     function main_index()
     {
         $templates = Template::withCount('projects');
+        // Используется '$is_filter_show_admin = false;'
+        $is_filter_show_admin = false;
+        if (Auth::check()) {
+            if (!Auth::user()->isAdmin()) {
+                $is_filter_show_admin = true;
+            }
+        } else {
+            $is_filter_show_admin = true;
+        }
+        if ($is_filter_show_admin) {
+            $templates = $templates->where('is_show_admin', false);
+        }
         $index = array_search(App::getLocale(), config('app.locales'));
         $name = "";  // нужно, не удалять
         //$index = array_search(App::getLocale(), config('app.locales'));
@@ -172,6 +184,8 @@ class TemplateController extends Controller
         $template->is_test = isset($request->is_test) ? true : false;
         $template->is_closed_default_value = isset($request->is_closed_default_value) ? true : false;
         $template->is_closed_default_value_fixed = isset($request->is_closed_default_value_fixed) ? true : false;
+        $template->is_show_admin = isset($request->is_show_admin) ? true : false;
+        $template->is_create_admin = isset($request->is_create_admin) ? true : false;
 
         $template->desc_lang_0 = isset($request->desc_lang_0) ? $request->desc_lang_0 : "";
         $template->desc_lang_1 = isset($request->desc_lang_1) ? $request->desc_lang_1 : "";

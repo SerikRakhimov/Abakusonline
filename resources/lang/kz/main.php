@@ -386,4 +386,7 @@ return [
     'projects_children_are_not_set' => '«Жобалар - Балалар» орнатылмаған',
     'parent_project_not_found' => 'Жоба - Ата-ана табылмады',
     'project_author_subscription_with_authoring_role_is_not_deleted' => 'Жоба авторының авторлық рөлі бар жазылымы жойылмайды',
-];
+    'is_show_admin' => 'Үлгіні тек әкімшіге көрсету',
+    'is_create_admin' => 'Осы үлгіден тек әкімші ғана жоба жасай алады',
+    'for_project_create' => 'Жобаны жасау үшін әкімшіге хабарласыңы',
+    ];

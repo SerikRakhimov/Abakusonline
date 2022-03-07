@@ -27,19 +27,21 @@
         <caption>{{trans('main.select_record_for_work')}}</caption>
         <thead>
         <tr>
-            <th class="text-center">#</th>
-            <th class="text-left">{{trans('main.serial_number')}}</th>
-            <th class="text-left">{{trans('main.account')}}</th>
-            <th class="text-left">{{trans('main.name')}}</th>
-            <th class="text-left">{{trans('main.is_test')}}</th>
-            <th class="text-left">{{trans('main.is_closed_default_value')}}</th>
-            <th class="text-left">{{trans('main.is_closed_default_value_fixed')}}</th>
-            <th class="text-center">{{trans('main.projects')}}</th>
-            <th class="text-center">{{trans('main.roles')}}</th>
-            <th class="text-center">{{trans('main.levels')}}</th>
-            <th class="text-center">{{trans('main.bases')}}</th>
-            <th class="text-center">{{trans('main.sets')}}</th>
-            <th class="text-center">{{trans('main.relits')}}</th>
+            <th class="align-top text-center">#</th>
+            <th class="align-top text-left">{{trans('main.serial_number')}}</th>
+            <th class="align-top text-left">{{trans('main.account')}}</th>
+            <th class="align-top text-left">{{trans('main.name')}}</th>
+            <th class="align-top text-left">{{trans('main.is_test')}}</th>
+            <th class="align-top text-left">{{trans('main.is_closed_default_value')}}</th>
+            <th class="align-top text-left">{{trans('main.is_closed_default_value_fixed')}}</th>
+            <th class="align-top text-left">{{trans('main.is_show_admin')}}</th>
+            <th class="align-top text-left">{{trans('main.is_create_admin')}}</th>
+            <th class="align-top text-center">{{trans('main.projects')}}</th>
+            <th class="align-top text-center">{{trans('main.roles')}}</th>
+            <th class="align-top text-center">{{trans('main.levels')}}</th>
+            <th class="align-top text-center">{{trans('main.bases')}}</th>
+            <th class="align-top text-center">{{trans('main.sets')}}</th>
+            <th class="align-top text-center">{{trans('main.relits')}}</th>
         </tr>
         </thead>
         <tbody>
@@ -84,6 +86,16 @@
                 <td class="text-center">
                     <a href="{{route('template.show',$template)}}" title="{{trans('main.show')}}">
                         {{GlobalController::name_is_boolean($template->is_closed_default_value_fixed)}}
+                    </a>
+                </td>
+                <td class="text-center">
+                    <a href="{{route('template.show',$template)}}" title="{{trans('main.show')}}">
+                        {{GlobalController::name_is_boolean($template->is_show_admin)}}
+                    </a>
+                </td>
+                <td class="text-center">
+                    <a href="{{route('template.show',$template)}}" title="{{trans('main.show')}}">
+                        {{GlobalController::name_is_boolean($template->is_create_admin)}}
                     </a>
                 </td>
                 <td class="text-center">

@@ -24,6 +24,10 @@
         <b>{{GlobalController::name_is_boolean($template->is_closed_default_value)}}</b></p>
     <p>{{trans('main.is_closed_default_value_fixed')}}:
         <b>{{GlobalController::name_is_boolean($template->is_closed_default_value_fixed)}}</b></p>
+    <p>{{trans('main.is_show_admin')}}:
+        <b>{{GlobalController::name_is_boolean($template->is_show_admin)}}</b></p>
+    <p>{{trans('main.is_create_admin')}}:
+        <b>{{GlobalController::name_is_boolean($template->is_create_admin)}}</b></p>
 
     @foreach (config('app.locales') as $key=>$value)
         {{--        <p>{{trans('main.desc')}} ({{trans('main.' . $value)}}): <b>{{$template['desc_lang_' . $key]}}</b></p>--}}

@@ -40,21 +40,38 @@
                         ?>
                     </p>
                     {{--                ($my_projects ? 1 : 0)--}}
-                    <button type="button" class="btn btn-dreamer" title="{{trans('main.create_project')}}"
-                            onclick="document.location='{{route('project.create_template_user', ['template'=>$template])}}'">
-                        <i class="fas fa-plus d-inline"></i>
-                        {{trans('main.create_project')}}
-                    </button>
+                    <?php
+                    // Используется '$is_create_project = true;'
+                    $is_create_project = true;
+                    if (Auth::check()) {
+                        if ($template->is_create_admin == true) {
+                            if (!Auth::user()->isAdmin()) {
+                                $is_create_project = false;
+                            }
+                        }
+                    } else {
+                        $is_create_project = false;
+                    }
+                    ?>
+                    @if($is_create_project)
+                        <button type="button" class="btn btn-dreamer" title="{{trans('main.create_project')}}"
+                                onclick="document.location='{{route('project.create_template_user', ['template'=>$template])}}'">
+                            <i class="fas fa-plus d-inline"></i>
+                            {{trans('main.create_project')}}
+                        </button>
+                    @else
+                        <small class="text-muted">{{trans('main.for_project_create')}}</small>
+                    @endif
                 </div>
                 <div class="card-footer">
-                <div class="row">
+                    <div class="row">
                         <div class="col-sm-4 text-left text-title">
                             <small class="text-muted">Id: {{$template->id}}</small>
                         </div>
                         <div class="col-sm-8 text-right">
                             <small class="text-muted">{{trans('main.projects')}}: {{$template->projects_count}}</small>
                         </div>
-                    </div>                    
+                    </div>
                 </div>
             </div>
             <br>

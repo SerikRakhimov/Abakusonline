@@ -386,4 +386,7 @@ return [
     'projects_children_are_not_set' => 'projects - Children are not set',
     'parent_project_not_found' => 'Project - Parent not found',
     'project_author_subscription_with_authoring_role_is_not_deleted' => 'Project author subscription with authoring role is not deleted',
+    'is_show_admin' => 'Show template only admin',
+    'is_create_admin' => 'Only admin can create a project from this template',
+    'for_project_create' => 'To create a project, contact your administrator',
     ];
