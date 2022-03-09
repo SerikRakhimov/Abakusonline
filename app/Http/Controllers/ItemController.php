@@ -1333,14 +1333,17 @@ class ItemController extends Controller
         //  Похожий текст в функциях ext_store(), ext_update(), ext_delete();
         //  По алгоритму передается $body_perpage - сохраненный номер страницы $body_perpage;
         if (!$par_link && !$heading) {
+            dd(1);
             return redirect()->route('item.base_index', ['base' => $item->base, 'project' => $item->project, 'role' => $role]);
         } else {
             // Если $heading = true - нажата Добавить из "heading", false - из "body" (только при добавлении записи)
             if ($par_link && !$heading && $parent_item) {
+                dd(2);
                 return redirect()->route('item.item_index', ['project' => $item->project, 'item' => $parent_item, 'role' => $role,
                     'usercode' => GlobalController::usercode_calc(), 'par_link' => $par_link,
                     'body_page' => $body_page]);
             } else {
+                dd(3);
                 return redirect()->route('item.item_index', ['project' => $item->project, 'item' => $item, 'role' => $role,
                     'usercode' => GlobalController::usercode_calc(), 'par_link' => $par_link, 'body_page' => $body_page]);
             }
