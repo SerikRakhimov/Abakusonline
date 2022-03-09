@@ -10,6 +10,22 @@ $rows = $links_info['rows'];
 $cols = $links_info['cols'];
 //$i = $items->firstItem() - 1;
 $i = 0;
+// Открывать ext_show.php
+$ext_show_view = $ext_show_body;
+// Открывать item_index.php
+$item_index_view = false;
+if (!$ext_show_view) {
+    // Открывать item_index.php - проверка
+    if ($heading) {
+        // В таблице-заголовке ($heading=true) ссылки будут, если '$base_link_right['is_list_base_calc'] == true'
+        if ($base_link_right['is_list_base_calc'] == true) {
+            $item_index_view = true;
+        }
+    } else {
+        // В таблице-теле ($heading=false) все ссылки будут
+        $item_index_view = true;
+    }
+}
 ?>
 <table class="table table-sm table-bordered table-hover">
     @if(!$heading)
@@ -126,12 +142,23 @@ $i = 0;
                                 {{--                                    --}}{{--                                                                Где $item->name() выходит в cards выводить "<?php echo GlobalController::to_html();?>"--}}
                                 {{--                                    {{$item->name()}}--}}
                                 {{--                                </a>--}}
-                                <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,
+                                @if($ext_show_view)
+                                    {{--                                        Вызывается ext_show.php--}}
+                                    <a href="{{route('item.ext_show', ['item'=>$item, 'project'=>$project, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(),
+                                    'heading'=>$heading, 'body_page'=>$body_page, 'body_count'=>$body_count,'body_perpage'=>$body_perpage,
+                                    'par_link'=>$par_link, 'parent_item'=>$parent_item])}}">
+                                        {{$item->name()}}
+                                    </a>
+                                        @else
+                                            @if ($item_index_view)
+                                                <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,
                                        'usercode' =>GlobalController::usercode_calc(),'par_link'=>$par_link])}}"
-                                   title="{{$item->name()}}">
-                                    {{$item->name()}}
-                                </a>
-                            @endif
+                                                   title="{{$item->name()}}">
+                                                    {{$item->name()}}
+                                                </a>
+                                            @endif
+                                        @endif
+                                @endif
                         </td>
                     @endif
                 @endif
@@ -168,24 +195,6 @@ $i = 0;
                             {{--                                --}}{{--                            Где $item->name() выходит в cards выводить "<?php echo GlobalController::to_html();?>"--}}
                             {{--                                {{$item_find->name(false,false,false)}}--}}
                             {{--                            </a>--}}
-                            <?php
-//                          Открывать ext_show.php
-                            $ext_show_view = $ext_show_body;
-//                          Открывать item_index.php
-                            $item_index_view = false;
-                            if (!$ext_show_view) {
-                                // Открывать item_index.php - проверка
-                                if ($heading) {
-                                    // В таблице-заголовке ($heading=true) ссылки будут, если '$base_link_right['is_list_base_calc'] == true'
-                                    if ($base_link_right['is_list_base_calc'] == true) {
-                                        $item_index_view = true;
-                                    }
-                                } else {
-                                    // В таблице-теле ($heading=false) все ссылки будут
-                                    $item_index_view = true;
-                                }
-                            }
-                            ?>
                             @if($ext_show_view)
                                 {{--                                        Вызывается ext_show.php--}}
                                 <a href="{{route('item.ext_show', ['item'=>$item, 'project'=>$project, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(),
