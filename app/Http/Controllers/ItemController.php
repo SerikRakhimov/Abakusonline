@@ -250,7 +250,7 @@ class ItemController extends Controller
         $items_right = GlobalController::items_right($base, $project, $role);
         $items = $items_right['items'];
 
-        $next_links_plan = self::next_links_plan_calc($base, $role);
+        //$next_links_plan = self::next_links_plan_calc($base, $role);
         //$ext_show_body = (count($next_links_plan) == 0);
         $ext_show_body = true;
 

@@ -150,18 +150,23 @@
                             @if(GlobalController::is_base_calcname_check($base, $base_right))
                                 {{--                                            $numcat = true - вывод числовых полей с разрядом тысячи/миллионы/миллиарды--}}
                                 <li>
-                                    <p class="text-label">{{$base->name()}}:
+                                    <p class="text-label">
+                                        <big>{{$base->name()}}:</big>
                                         {{--                            <span class="text-related">--}}<b>
                                             @if($base->type_is_text())
+                                            <big>
                                                 <?php
                                                 echo GlobalController::it_txnm_n2b($item);
                                                 ?>
+                                            </big>
                                             @else
+                                            <big>
                                                 <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,
                                        'usercode' =>GlobalController::usercode_calc()])}}"
                                                    title="">
                                                     {{$item->name(false, true)}}
                                                 </a>
+                                            </big>
                                             @endif
                                             {{--                </span>--}}</b>
                                     </p>
