@@ -251,7 +251,8 @@ class ItemController extends Controller
         $items = $items_right['items'];
 
         $next_links_plan = self::next_links_plan_calc($base, $role);
-        $ext_show_body = (count($next_links_plan) == 0);
+        //$ext_show_body = (count($next_links_plan) == 0);
+        $ext_show_body = true;
 
 //      Похожая проверка в ItemController::base_index() и project/start.php
         if ($base_right['is_list_base_calc'] == false) {

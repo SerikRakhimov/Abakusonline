@@ -388,6 +388,7 @@ class BaseController extends Controller
         // Нужно
         if ($base->is_calculated_lst == "1") {
             $base->is_setup_lst = "0";
+            $base->is_calcname_lst = "1";
         };
         if ($base->is_setup_lst == "1") {
             $base->is_calculated_lst = "0";
