@@ -375,7 +375,7 @@ class ItemController extends Controller
         if ($current_link) {
             $child_body_links_info = self::links_info($current_link->child_base, $role, $current_link);
             $base_body_right = GlobalController::base_right($current_link->child_base, $role);
-            $items_body_right = GlobalController::items_right($item->base, $project, $role, $item->id, $current_link->id);
+            $items_body_right = GlobalController::items_right($current_link->child_base, $project, $role, $item->id, $current_link->id);
 //            $body_items1 = $items_body_right['items']->get();
 //            $item_seek = Item::find(1487);
 //            $nstr=$body_items1->search($item_seek);

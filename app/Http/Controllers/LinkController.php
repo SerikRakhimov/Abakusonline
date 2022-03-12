@@ -1004,11 +1004,11 @@ class LinkController extends Controller
         $bases_options = '';
         // Вычисление $template
         $template_id = null;
-        if ($relit_id == 0){
-              $template_id = $current_template_id;}
-        else{
+        if ($relit_id == 0) {
+            $template_id = $current_template_id;
+        } else {
             $relit = Relit::find($relit_id);
-            if ($relit){
+            if ($relit) {
                 $template_id = $relit->parent_template_id;
             }
         }
