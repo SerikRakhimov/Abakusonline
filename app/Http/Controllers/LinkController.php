@@ -171,13 +171,13 @@ class LinkController extends Controller
             $link->child_labels_lang_0 = $link->child_base->names_lang_0;
         }
         if ($link->child_labels_lang_1 == "") {
-            $link->child_labels_lang_1 = $link->child_base->name_lang_1;
+            $link->child_labels_lang_1 = $link->child_base->names_lang_1;
         }
         if ($link->child_labels_lang_2 == "") {
-            $link->child_labels_lang_2 = $link->child_base->name_lang_2;
+            $link->child_labels_lang_2 = $link->child_base->names_lang_2;
         }
         if ($link->child_labels_lang_3 == "") {
-            $link->child_labels_lang_3 = $link->child_base->name_lang_3;
+            $link->child_labels_lang_3 = $link->child_base->names_lang_3;
         }
 
         if ($link->parent_label_lang_0 == "") {
@@ -429,13 +429,13 @@ class LinkController extends Controller
             $link->child_labels_lang_0 = $link->child_base->names_lang_0;
         }
         if ($link->child_labels_lang_1 == "") {
-            $link->child_labels_lang_1 = $link->child_base->name_lang_1;
+            $link->child_labels_lang_1 = $link->child_base->names_lang_1;
         }
         if ($link->child_labels_lang_2 == "") {
-            $link->child_labels_lang_2 = $link->child_base->name_lang_2;
+            $link->child_labels_lang_2 = $link->child_base->names_lang_2;
         }
         if ($link->child_labels_lang_3 == "") {
-            $link->child_labels_lang_3 = $link->child_base->name_lang_3;
+            $link->child_labels_lang_3 = $link->child_base->names_lang_3;
         }
 
         if ($link->parent_label_lang_0 == "") {
