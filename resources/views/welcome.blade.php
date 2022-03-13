@@ -189,6 +189,11 @@
             color: #5f7a91;
         }
 
+        .phone {
+            font-size: 18px;
+            color: #243dbf;
+        }
+
         .links > a {
             color: #636b6f;
             padding: 0 25px;
@@ -232,7 +237,14 @@
         </div>
         <img src="{{Storage::url('logotype.png')}}" width="250" height="250" class="d-inline-block align-top" alt=""
              loading="lazy">
-        <p><a href="mailto:support@abakusonline.com">support@abakusonline.com</a></p>
+{{--        <p><a href="mailto:support@abakusonline.com">support@abakusonline.com</a></p>--}}
+        <p><a href="mailto:s_astana@mail.ru">s_astana@mail.ru</a></p>
+        <p>
+        <div class="phone">
+            +7-701-999-2917
+        </div>
+        </p>
+{{--        <p><a href="mailto:support@abakusonline.com">support@abakusonline.com</a></p>--}}
         {{--                <div class="title m-b-md">--}}
         {{--                    Abakus - учетная платформа--}}
         {{--                </div>--}}
