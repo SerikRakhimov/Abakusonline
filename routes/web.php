@@ -135,6 +135,10 @@ Route::get('/setlocale/{locale}', function ($locale) {
 
 });
 
+Route::get('/global/set_display/{display}', [GlobalController::class, 'set_display'])
+    ->name('global.set_display')
+    ->middleware('auth');
+
 Route::post('/home/glo_store', [HomeController::class, 'glo_store'])
     ->name('home.glo_store')
     ->middleware('auth');

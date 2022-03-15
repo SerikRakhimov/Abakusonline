@@ -5125,11 +5125,9 @@ class ItemController extends Controller
         // Получаем список из вычисляемой таблицы
         $items = Item::select(DB::Raw('items.*'))
             ->join('mains', 'items.id', '=', 'mains.parent_item_id')
-            ->where('project_id', $project->id)
             ->where('mains.link_id', '=', $set_link->id);
 
         //->orderBy('items.' . $name);
-
         //                             ->where('items.project_id', $project->id)
 
 //                    1.1 В списке выбора использовать дополнительное связанное поле вычисляемой таблицы
@@ -5146,8 +5144,8 @@ class ItemController extends Controller
                 })
                 ->where('mains.link_id', '=', $link_id)
                 ->distinct();
-            //->orderBy('items.' . $name);
 
+            //->orderBy('items.' . $name);
             //                             ->where('items.project_id', $project->id)
 
 //                        1.2 В списке выбора использовать два дополнительных связанных поля вычисляемой таблицы
@@ -5164,9 +5162,10 @@ class ItemController extends Controller
                     })
                     ->where('mains.link_id', '=', $link_id)
                     ->distinct();
-                //->orderBy('items.' . $name);
 
+                //->orderBy('items.' . $name);
                 //                             ->where('items.project_id', $project->id)
+
             }
         }
 

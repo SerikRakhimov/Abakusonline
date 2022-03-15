@@ -10,6 +10,7 @@
     use \App\Http\Controllers\ItemController;
     use \App\Http\Controllers\MainController;
     $message = GlobalController::base_maxcount_validate($project, $base, true);
+//    Config::set('app.display', 'table');
     ?>
     @include('layouts.project.show_project_role',['project'=>$project, 'role'=>$role])
     <div class="container-fluid">

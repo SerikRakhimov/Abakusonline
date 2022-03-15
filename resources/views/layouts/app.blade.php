@@ -1,4 +1,7 @@
-<!doctype html>
+<?php
+use \App\Http\Controllers\GlobalController;
+?>
+    <!doctype html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
     <meta charset="utf-8">
@@ -19,11 +22,14 @@
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
 
     <!-- Styles -->
-{{--    <link href="{{ asset('css/app.css') }}" rel="stylesheet">--}}
+    {{--    <link href="{{ asset('css/app.css') }}" rel="stylesheet">--}}
     @include('layouts.style_header')
     <style>
         .navbar {
-            {{--background-image: url('{{Storage::url('newyear1.jpg')}}');--}}
+        {{--background-image: url('{{Storage::url('newyear1.jpg')}}');--}}
+
+
+
         }
     </style>
 </head>
@@ -88,7 +94,6 @@
 {{--            @yield('content')--}}
 {{--        </main>--}}
 {{--    </div>--}}
-
 <div id="app">
     <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
         <div class="container">
@@ -96,17 +101,24 @@
             @foreach (config('app.locales') as $value)
                 <a class="navbar-brand" href="{{ url('/setlocale/' . $value) }}">
                     <span
-{{--                                                @if(session('locale') == $value)--}}
+                        {{--                                                @if(session('locale') == $value)--}}
                         @if(App::getLocale() == $value)
-                                          {{--                        @if(App::currentLocale() == $value)--}}
+                        {{--                        @if(App::currentLocale() == $value)--}}
                         style="text-decoration: underline"
                         @endif
-{{--                        @if(App::isLocale('en'))--}}
-{{--                        style="text-decoration: underline"--}}
-{{--                    @endif--}}
                     >{{mb_strtoupper($value)}}</span>
                 </a>
             @endforeach
+{{--            @foreach (config('app.displays') as $value)--}}
+{{--                <a class="navbar-brand" href="{{route('global.set_display',--}}
+{{--                            ['display'=>$value])}}">--}}
+{{--                    <span--}}
+{{--                        @if(GlobalController::get_display() == $value)--}}
+{{--                        style="text-decoration: underline"--}}
+{{--                        @endif--}}
+{{--                    >{{mb_strtoupper($value)}}</span>--}}
+{{--                </a>--}}
+{{--            @endforeach--}}
             <a class="navbar-brand" href="{{ url('/') }}" title="{{config('app.name')}}">
                 <img src="{{Storage::url('logotype.png')}}" width="30" height="30" class="d-inline-block align-top"
                      alt="" loading="lazy">

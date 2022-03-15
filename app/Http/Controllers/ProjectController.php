@@ -1423,7 +1423,6 @@ class ProjectController extends Controller
             $is_child_relits = true;
         }
         if ($is_child_relits) {
-
             foreach ($child_relits as $relit) {
                 $parent_template = $relit->parent_template;
                 $projects = Project::where('template_id', $parent_template->id)->orderBy('account')->get();

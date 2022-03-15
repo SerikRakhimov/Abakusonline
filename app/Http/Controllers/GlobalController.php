@@ -7,6 +7,7 @@ use App\Models\Relit;
 use App\Models\Set;
 use App\Models\Template;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 use App\Models\Base;
@@ -29,6 +30,8 @@ use Illuminate\Support\Facades\Storage;
 
 class GlobalController extends Controller
 {
+    public $display='tape';
+    private $displays = ['tape', 'table'];
     static function start_artisan()
     {
         Artisan::call('migrate');
@@ -1345,5 +1348,28 @@ class GlobalController extends Controller
         $result = intval(($usercode - 7) / 11);
         return $result;
     }
+
+//    function get_display()
+//    {
+//        return config('app.display');
+//        //return $this->display;
+//    }
+//
+//    function current_display()
+//    {
+//        return $this->get_display();
+//    }
+//
+//    function set_display($display)
+//    {
+//        // Проверка на правильность значения
+//        //$index = array_search($display, config('app.displays'));
+//        //if ($index !== false) {   // '!==' использовать, '!=' не использовать
+//            // Сохранение значения
+//            //Config::set('app.display', $display);
+//        //}
+//        $this->display = $display;
+//        return redirect()->back();
+//    }
 
 }
