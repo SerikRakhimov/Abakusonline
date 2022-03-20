@@ -33,6 +33,7 @@
         <p>{{trans('main.role')}}: <b>{{$roba->role->name()}}</b></p>
     @endif
     @if(!$is_base)
+        <p>{{trans('main.template')}}: <b>{{GlobalController::get_template_name_from_relit_id($roba->relit_id, $roba->role->template_id)}}</b></p>
         <p>{{trans('main.base')}}: <b>{{$roba->base->name()}}</b></p>
     @endif
     <p>{{trans('main.is_all_base_calcname_enable')}}: <b>{{GlobalController::name_is_boolean($roba->is_all_base_calcname_enable)}}</b></p>

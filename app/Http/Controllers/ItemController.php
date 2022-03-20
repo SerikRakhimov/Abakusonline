@@ -106,10 +106,10 @@ class ItemController extends Controller
     // меняется только сортировка
     // Использовать знак вопроса "/{base_id?}" (web.php)
     //              равенство null "$base_id = null" (ItemController.php),
-    // иначе ошибка в function seach_click() - open('{{route('item.browser', '')}}' ...
+    // иначе ошибка в function search_click() - open('{{route('item.browser', '')}}' ...
     //function browser($link_id, $project_id = null, $role_id = null, $item_id = null, bool $sort_by_code = true, bool $save_by_code = true, $search = "")
 //    function browser($link_id, $project_id = null, $role_id = null, $item_id = null, $order_by = null, $filter_by = null, $search = "")
-    function browser($link_id, $project_id = null, $role_id = null, $item_id = null, $order_by = null, $filter_by = null, $search = "")
+    function browser($link_id, $project_id = null, $role_id = null, $relit_id = null, $item_id = null, $order_by = null, $filter_by = null, $search = "")
     {
         $link = Link::findOrFail($link_id);
         $base_id = $link->parent_base_id;
@@ -122,9 +122,9 @@ class ItemController extends Controller
                 $item = Item::findOrFail($item_id);
             }
         }
-        $base_right = GlobalController::base_right($base, $role);
+        $base_right = GlobalController::base_right($base, $role, $relit_id);
         $name = BaseController::field_name();
-        $items = ItemController::get_items_main($base, $project, $role, $link, $item)['items_no_get'];
+        $items = ItemController::get_items_main($base, $project, $role, $relit_id, $link, $item)['items_no_get'];
         if ($order_by == null) {
             $order_by = "name";
         }
@@ -190,8 +190,6 @@ class ItemController extends Controller
 //                }
 //            }
         }
-        //dd($items->paginate(30));
-        //dd($items->get());
 //        $ids = $collection->keys()->toArray();
 //
 //        $items = Item::whereIn('id', $ids)
@@ -201,7 +199,7 @@ class ItemController extends Controller
 //                'items' => $items->paginate(30), 'search' => $search]);
 //            return view('item/browser', ['link' => $link, 'base' => $base, 'project' => $project, 'role' => $role, 'item' => $item, 'base_right' => $base_right, 'order_by' => $order_by, 'filter_by' => $filter_by,
 //                'items' => $items->paginate(30), 'search' => $search]);
-            return view('item/browser', ['link' => $link, 'base' => $base, 'project' => $project, 'role' => $role, 'item' => $item, 'base_right' => $base_right,
+            return view('item/browser', ['link' => $link, 'base' => $base, 'project' => $project, 'role' => $role, 'relit_id' => $relit_id, 'item' => $item, 'base_right' => $base_right,
                 'order_by' => $order_by, 'filter_by' => $filter_by,
                 'items' => $items->paginate(30), 'search' => $search]);
         } else {
@@ -235,32 +233,32 @@ class ItemController extends Controller
 //        return view('item/index', ['items' => $items->paginate(60)]);
 //    }
 
-    function base_index(Base $base, Project $project, Role $role)
+    function base_index(Base $base, Project $project, Role $role, $relit_id)
     {
         if (GlobalController::check_project_user($project, $role) == false) {
             return view('message', ['message' => trans('main.info_user_changed')]);
         }
 
-        $links_info = ItemController::links_info($base, $role);
+        $links_info = ItemController::links_info($base, $role, $relit_id);
         if ($links_info['error_message'] != "") {
             return view('message', ['message' => $links_info['error_message']]);
         }
 
-        $base_right = GlobalController::base_right($base, $role);
-        $items_right = GlobalController::items_right($base, $project, $role);
+        $base_right = GlobalController::base_right($base, $role, $relit_id);
+        $items_right = GlobalController::items_right($base, $project, $role, $relit_id);
         $items = $items_right['items'];
 
         //$next_links_plan = self::next_links_plan_calc($base, $role);
         //$ext_show_body = (count($next_links_plan) == 0);
         $ext_show_body = true;
 
-//      Похожая проверка в ItemController::base_index() и project/start.php
+//      Похожая проверка в GlobalController::get_project_bases(), ItemController::base_index() и project/start.php
         if ($base_right['is_list_base_calc'] == false) {
             return view('message', ['message' => trans('main.no_access')]);
         }
         if ($items) {
             session(['base_index_previous_url' => ((!empty($_SERVER['HTTPS'])) ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . '/' . request()->path()]);
-            return view('item/base_index', ['base_right' => $base_right, 'base' => $base, 'project' => $project, 'role' => $role,
+            return view('item/base_index', ['base_right' => $base_right, 'base' => $base, 'project' => $project, 'role' => $role, 'relit_id' => $relit_id,
                 'items' => $items->paginate(60), 'links_info' => $links_info, 'ext_show_body' => $ext_show_body]);
         } else {
             return view('message', ['message' => trans('main.no_access_for_unregistered_users')]);
@@ -272,7 +270,7 @@ class ItemController extends Controller
     // и чтобы невозможно было скопировать адресную строку с item_index с параметрами
     //  и вставить в адресную строку другого пользователя платформы www.abakusonline.com
     // - должно работать только на текущем проекте
-    function item_index(Project $project, Item $item, Role $role, $usercode, Link $par_link = null)
+    function item_index(Project $project, Item $item, Role $role, $usercode, $relit_id = 0, Link $par_link = null)
     {
         if (GlobalController::check_project_item_user($project, $item, $role, $usercode) == false) {
             return view('message', ['message' => trans('main.no_access')]);
@@ -283,7 +281,7 @@ class ItemController extends Controller
 //            return view('message', ['message' => $links_info['error_message']]);
 //        }
 
-        $base_right = GlobalController::base_right($item->base, $role);
+        $base_right = GlobalController::base_right($item->base, $role, $relit_id);
 
 //      Похожая проверка в ItemController::base_index() и project/start.php
 //      Используется 'is_list_base_calc' в ext_show.php и ItemController::item_index()
@@ -292,9 +290,9 @@ class ItemController extends Controller
         }
 
         $child_links = $item->base->child_links->sortBy('parent_base_number');
-        $child_links_info = ItemController::links_info($item->base, $role);
+        $child_links_info = ItemController::links_info($item->base, $role, $relit_id);
         // Используется фильтр на равенство одному $item->id
-        $items_right = GlobalController::items_right($item->base, $project, $role, null, null, $item->id);
+        $items_right = GlobalController::items_right($item->base, $project, $role, $relit_id, null, null, $item->id);
         // 'itget' нужно
         $items = $items_right['itget'];
         $prev_item = $items_right['prev_item'];
@@ -306,7 +304,7 @@ class ItemController extends Controller
 //        $next_links_plan = $item->base->parent_links
 //            ->where('parent_is_parent_related', false)
 //            ->where('parent_is_base_link', false);
-        $next_links_plan = self::next_links_plan_calc($item->base, $role);
+        $next_links_plan = self::next_links_plan_calc($item->base, $role, $relit_id);
         if (count($next_links_plan) == 0) {
             $current_link = null;
         } else {
@@ -373,9 +371,9 @@ class ItemController extends Controller
         $base_body_right = null;
         $body_items = null;
         if ($current_link) {
-            $child_body_links_info = self::links_info($current_link->child_base, $role, $current_link);
-            $base_body_right = GlobalController::base_right($current_link->child_base, $role);
-            $items_body_right = GlobalController::items_right($current_link->child_base, $project, $role, $item->id, $current_link->id);
+            $child_body_links_info = self::links_info($current_link->child_base, $role, $relit_id, $current_link);
+            $base_body_right = GlobalController::base_right($current_link->child_base, $role, $relit_id);
+            $items_body_right = GlobalController::items_right($current_link->child_base, $project, $role, $relit_id, $item->id, $current_link->id);
 //            $body_items1 = $items_body_right['items']->get();
 //            $item_seek = Item::find(1487);
 //            $nstr=$body_items1->search($item_seek);
@@ -400,7 +398,7 @@ class ItemController extends Controller
 //        }
         }
         //     session(['links' => ((!empty($_SERVER['HTTPS'])) ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . '/' . request()->path()]);
-        return view('item/item_index', ['project' => $project, 'item' => $item, 'role' => $role, 'par_link' => $par_link,
+        return view('item/item_index', ['project' => $project, 'item' => $item, 'role' => $role, 'relit_id' => $relit_id, 'par_link' => $par_link,
             'base_right' => $base_right, 'items' => $items,
             'prev_item' => $prev_item, 'next_item' => $next_item,
             'child_links' => $child_links, 'child_links_info' => $child_links_info,
@@ -409,7 +407,7 @@ class ItemController extends Controller
             'base_body_right' => $base_body_right]);
     }
 
-    function next_links_plan_calc(Base $base, Role $role)
+    function next_links_plan_calc(Base $base, Role $role, $relit_id = 0)
     {
         // Условия одинаковые в item_index() и next_links_plan_calc()
         // 'where('parent_is_parent_related', false)'
@@ -419,7 +417,7 @@ class ItemController extends Controller
             ->where('parent_is_base_link', false);
         $result = array();
         foreach ($links as $link) {
-            $base_link_right = GlobalController::base_link_right($link, $role, true);
+            $base_link_right = GlobalController::base_link_right($link, $role, $relit_id, true);
 //            if ($base_link_right['is_list_link_enable'] == true) {
 //                $result[] = $link;
 //            }
@@ -436,9 +434,10 @@ class ItemController extends Controller
         $project = Project::find($request['project_id']);
         $item = Item::find($request['item_id']);
         $role = Role::find($request['role_id']);
+        $relit_id = $request['relit_id'];
         $link = Link::find($request['link_id']);
-        return redirect()->route('item.item_index', ['project' => $project, 'item' => $item, 'role' => $role,
-            'usercode' => GlobalController::usercode_calc(), 'par_link' => $link]);
+        return redirect()->route('item.item_index', ['project' => $project, 'item' => $item, 'role' => $role, 'relit_id'=>$relit_id,
+            'usercode' => GlobalController::usercode_calc(), 'relit_id' => $relit_id, 'par_link' => $link]);
     }
 
     private
@@ -557,7 +556,9 @@ class ItemController extends Controller
         return view('item/show', ['type_form' => 'show', 'item' => $item]);
     }
 
-    function ext_show(Item $item, Project $project, Role $role, $usercode, $heading = 0,
+    function ext_show(Item $item, Project $project, Role $role, $usercode,
+                           $relit_id,
+                           $heading = 0,
                            $body_page = 0, $body_count = 0, $body_perpage = 0,
                       Link $par_link = null, Item $parent_item = null)
     {
@@ -569,7 +570,7 @@ class ItemController extends Controller
 //            return view('message', ['message' => trans('main.info_user_changed')]);
 //        }
 
-        $base_right = GlobalController::base_right($item->base, $role);
+        $base_right = GlobalController::base_right($item->base, $role, $relit_id);
 
         if ($base_right['is_list_base_calc'] == false) {
             return view('message', ['message' => trans('main.no_access')]);
@@ -578,13 +579,14 @@ class ItemController extends Controller
         return view('item/ext_show', ['type_form' => 'show', 'item' => $item,
             'role' => $role,
             'project' => $project,
+            'relit_id' => $relit_id,
             'array_calc' => $this->get_array_calc_edit($item)['array_calc'],
             'heading' => $heading,
             'body_page' => $body_page, 'body_count' => $body_count, 'body_perpage' => $body_perpage,
             'par_link' => $par_link, 'parent_item' => $parent_item]);
     }
 
-    function ext_create(Base $base, Project $project, Role $role, $usercode,
+    function ext_create(Base $base, Project $project, Role $role, $usercode, $relit_id,
                              $heading = 0, $body_page = 0, $body_count = 0, $body_perpage = 0,
                         Link $par_link = null, Item $parent_item = null)
         // '$heading = 0' использовать; аналог '$heading = false', в этом случае так /item/ext_create/{base}//
@@ -597,7 +599,7 @@ class ItemController extends Controller
 //            return view('message', ['message' => trans('main.info_user_changed')]);
 //        }
 
-        $base_right = GlobalController::base_right($base, $role);
+        $base_right = GlobalController::base_right($base, $role, $relit_id);
 //      Похожая проверка в ItemController::ext_create() и base_index.php
         if ($base_right['is_list_base_create'] == false) {
             return view('message', ['message' => trans('main.no_access')]);
@@ -616,6 +618,7 @@ class ItemController extends Controller
             'heading' => $heading,
             'project' => $project,
             'role' => $role,
+            'relit_id' => $relit_id,
             'array_calc' => $array_calc,
             'array_disabled' => $array_disabled,
             'body_page' => $body_page, 'body_count' => $body_count, 'body_perpage' => $body_perpage,
@@ -627,7 +630,9 @@ class ItemController extends Controller
         return view('item/edit', ['bases' => Base::all()]);
     }
 
-    function ext_store(Request $request, Base $base, Project $project, Role $role, $usercode, $heading = 0,
+    function ext_store(Request $request, Base $base, Project $project, Role $role, $usercode,
+                       $relit_id,
+                       $heading = 0,
                                $body_page = 0, $body_count = 0, $body_perpage = 0,
                        Link    $par_link = null, Item $parent_item = null)
     {
@@ -1314,7 +1319,7 @@ class ItemController extends Controller
         }
 
         if (env('MAIL_ENABLED') == 'yes') {
-            $base_right = GlobalController::base_right($item->base, $role);
+            $base_right = GlobalController::base_right($item->base, $role, $relit_id);
             if ($base_right['is_edit_email_base_create'] == true) {
                 $email_to = $item->project->user->email;
                 $appname = config('app.name', 'Abakus');
@@ -1333,16 +1338,16 @@ class ItemController extends Controller
         //  Похожий текст в функциях ext_store(), ext_update(), ext_delete();
         //  По алгоритму передается $body_perpage - сохраненный номер страницы $body_perpage;
         if (!$par_link && !$heading) {
-            return redirect()->route('item.base_index', ['base' => $item->base, 'project' => $item->project, 'role' => $role]);
+            return redirect()->route('item.base_index', ['base' => $item->base, 'project' => $item->project, 'role' => $role, 'relit_id' => $relit_id]);
         } else {
             // Если $heading = true - нажата Добавить из "heading", false - из "body" (только при добавлении записи)
             if ($par_link && !$heading && $parent_item) {
                 return redirect()->route('item.item_index', ['project' => $item->project, 'item' => $parent_item, 'role' => $role,
-                    'usercode' => GlobalController::usercode_calc(), 'par_link' => $par_link,
+                    'usercode' => GlobalController::usercode_calc(), 'relit_id'=>$relit_id, 'par_link' => $par_link,
                     'body_page' => $body_page]);
             } else {
                 return redirect()->route('item.item_index', ['project' => $item->project, 'item' => $item, 'role' => $role,
-                    'usercode' => GlobalController::usercode_calc(), 'par_link' => $par_link, 'body_page' => $body_page]);
+                    'usercode' => GlobalController::usercode_calc(), 'relit_id'=>$relit_id, 'par_link' => $par_link, 'body_page' => $body_page]);
             }
         }
     }
@@ -2674,7 +2679,7 @@ class ItemController extends Controller
     }
 
     function ext_update(Request $request, Item $item, Project $project, Role $role, $usercode,
-                                $heading = 0, $body_page = 0, $body_count = 0, $body_perpage = 0,
+                                $relit_id, $heading = 0, $body_page = 0, $body_count = 0, $body_perpage = 0,
                         Link    $par_link = null, Item $parent_item = null)
     {
         // установка часового пояса нужно для сохранения времени
@@ -3385,7 +3390,7 @@ class ItemController extends Controller
         $this->delete_items_old($array_calc);
 
         if (env('MAIL_ENABLED') == 'yes') {
-            $base_right = GlobalController::base_right($item->base, $role);
+            $base_right = GlobalController::base_right($item->base, $role, $relit_id);
             if ($base_right['is_edit_email_base_update'] == true) {
                 $email_to = $item->created_user->email;
                 $appname = config('app.name', 'Abakus');
@@ -3414,16 +3419,16 @@ class ItemController extends Controller
         //  Похожий текст в функциях ext_store(), ext_update(), ext_delete();
         //  По алгоритму передается $body_perpage - сохраненный номер страницы $body_perpage;
         if (!$par_link && !$heading) {
-            return redirect()->route('item.base_index', ['base' => $item->base, 'project' => $item->project, 'role' => $role]);
+            return redirect()->route('item.base_index', ['base' => $item->base, 'project' => $item->project, 'role' => $role, 'relit_id' => $relit_id]);
         } else {
             // Если $heading = true - нажата Добавить из "heading", false - из "body" (только при добавлении записи)
             if ($par_link && !$heading && $parent_item) {
                 return redirect()->route('item.item_index', ['project' => $item->project, 'item' => $parent_item, 'role' => $role,
-                    'usercode' => GlobalController::usercode_calc(), 'par_link' => $par_link,
+                    'usercode' => GlobalController::usercode_calc(), 'relit_id'=>$relit_id, 'par_link' => $par_link,
                     'body_page' => $body_page]);
             } else {
                 return redirect()->route('item.item_index', ['project' => $item->project, 'item' => $item, 'role' => $role,
-                    'usercode' => GlobalController::usercode_calc(), 'par_link' => $par_link, 'body_page' => $body_page]);
+                    'usercode' => GlobalController::usercode_calc(), 'relit_id'=>$relit_id, 'par_link' => $par_link, 'body_page' => $body_page]);
             }
         }
     }
@@ -3469,7 +3474,7 @@ class ItemController extends Controller
         return view('item/edit', ['item' => $item, 'bases' => Base::all()]);
     }
 
-    function ext_edit(Item $item, Project $project, Role $role, $usercode, $heading = 0,
+    function ext_edit(Item $item, Project $project, Role $role, $usercode, $relit_id, $heading = 0,
                            $body_page = 0, $body_count = 0, $body_perpage = 0,
                       Link $par_link = null, Item $parent_item = null)
     {
@@ -3481,7 +3486,7 @@ class ItemController extends Controller
 //        return view('message', ['message' => trans('main.info_user_changed')]);
 //    }
 
-        $base_right = GlobalController::base_right($item->base, $role);
+        $base_right = GlobalController::base_right($item->base, $role, $relit_id);
 //      Похожая проверка в ItemController::ext_edit() и ext_show.php
         if ($base_right['is_list_base_update'] == false) {
             return view('message', ['message' => trans('main.no_access')]);
@@ -3497,6 +3502,7 @@ class ItemController extends Controller
 
         return view('item/ext_edit', ['base' => $item->base, 'item' => $item,
             'role' => $role,
+            'relit_id' => $relit_id,
             'array_calc' => $array_calc,
             'array_disabled' => $array_disabled,
             'heading' => $heading,
@@ -3509,6 +3515,7 @@ class ItemController extends Controller
 
     function ext_delete_question(Item $item, Project $project, Role $role,
                                       $usercode,
+                                      $relit_id,
                                       $heading = 0,
                                       $body_page = 0, $body_count = 0, $body_perpage = 0,
                                  Link $par_link = null, Item $parent_item = null)
@@ -3524,6 +3531,7 @@ class ItemController extends Controller
 
         return view('item/ext_show', ['type_form' => 'delete_question', 'item' => $item, 'role' => $role,
             'project' => $project,
+            'relit_id' => $relit_id,
             'array_calc' => $this->get_array_calc_edit($item)['array_calc'],
             'heading' => $heading,
             'body_page' => $body_page,
@@ -3535,6 +3543,7 @@ class ItemController extends Controller
 
     function ext_delete(Item $item, Project $project, Role $role,
                              $usercode,
+                             $relit_id,
                              $heading = 0, $body_page = 0, $body_count = 0, $body_perpage = 0,
                         Link $par_link = null, Item $parent_item = null)
     {
@@ -3559,7 +3568,7 @@ class ItemController extends Controller
 //            }
 //        }
 
-        if (self::is_delete($item, $role) == true) {
+        if (self::is_delete($item, $role, $relit_id) == true) {
 
             $item_copy = $item;
 
@@ -3592,7 +3601,7 @@ class ItemController extends Controller
 
             $item = $item_copy;
             if (env('MAIL_ENABLED') == 'yes') {
-                $base_right = GlobalController::base_right($item->base, $role);
+                $base_right = GlobalController::base_right($item->base, $role, $relit_id);
                 if ($base_right['is_show_email_base_delete'] == true) {
                     $email_to = $item->created_user->email;
                     $deleted_user_date_time = GlobalController::deleted_user_date_time();
@@ -3611,21 +3620,21 @@ class ItemController extends Controller
         }
         // Если запись удаляется при просмотре Пространство с "шапки", то перейти на base_index
         if ($heading == true) {
-            return redirect()->route('item.base_index', ['base' => $item->base, 'project' => $item->project, 'role' => $role]);
+            return redirect()->route('item.base_index', ['base' => $item->base, 'project' => $item->project, 'role' => $role, 'relit_id' => $relit_id]);
         } else {
             //  Похожий текст в функциях ext_store(), ext_update(), ext_delete();
             //  По алгоритму передается $body_perpage - сохраненный номер страницы $body_perpage;
             if (!$par_link && !$heading) {
-                return redirect()->route('item.base_index', ['base' => $item->base, 'project' => $item->project, 'role' => $role]);
+                return redirect()->route('item.base_index', ['base' => $item->base, 'project' => $item->project, 'role' => $role, 'relit_id' => $relit_id]);
             } else {
                 // Если $heading = true - нажата Добавить из "heading", false - из "body" (только при добавлении записи)
                 if ($par_link && !$heading && $parent_item) {
                     return redirect()->route('item.item_index', ['project' => $item->project, 'item' => $parent_item, 'role' => $role,
-                        'usercode' => GlobalController::usercode_calc(), 'par_link' => $par_link,
+                        'usercode' => GlobalController::usercode_calc(), 'relit_id'=>$relit_id, 'par_link' => $par_link,
                         'body_page' => $body_page]);
                 } else {
                     return redirect()->route('item.item_index', ['project' => $item->project, 'item' => $item, 'role' => $role,
-                        'usercode' => GlobalController::usercode_calc(), 'par_link' => $par_link, 'body_page' => $body_page]);
+                        'usercode' => GlobalController::usercode_calc(), 'relit_id'=>$relit_id, 'par_link' => $par_link, 'body_page' => $body_page]);
                 }
             }
 
@@ -3637,11 +3646,11 @@ class ItemController extends Controller
         }
     }
 
-    static function is_delete(Item $item, Role $role)
+    static function is_delete(Item $item, Role $role, $relit_id)
     {
         // Нужно "$result = false;"
         $result = false;
-        $base_right = GlobalController::base_right($item->base, $role);
+        $base_right = GlobalController::base_right($item->base, $role, $relit_id);
         if ($base_right['is_list_base_delete'] == true) {
             if ($base_right['is_list_base_used_delete'] == true) {
                 $result = true;
@@ -3691,7 +3700,7 @@ class ItemController extends Controller
 
 // Функции get_items_for_link() и get_items_ext_edit_for_link()
 // в целом похожи в части возвращаемых 'result_parent_label', 'result_parent_base_name', 'result_parent_base_items'
-    static function get_items_for_link(Link $link, Project $project, Role $role)
+    static function get_items_for_link(Link $link, Project $project, Role $role, $relit_id)
     {
         $result_parent_label = '';
         $result_child_base_name = '';
@@ -3727,7 +3736,7 @@ class ItemController extends Controller
             }
 
             // список items по выбранному parent_base_id
-            $base_right = GlobalController::base_right($link->parent_base, $role);
+            $base_right = GlobalController::base_right($link->parent_base, $role, $relit_id);
 
             // если это фильтрируемое поле - то, тогда загружать весь список не нужно
             $link_exists = Link::where('parent_is_child_related', true)->where('parent_child_related_start_link_id', $link->id)->exists();
@@ -3825,7 +3834,7 @@ class ItemController extends Controller
 
 // Функции get_items_for_link() и get_items_ext_edit_for_link()
 // в целом похожи в части возвращаемых 'result_parent_label', 'result_parent_base_name', 'result_parent_base_items'
-    static function get_items_ext_edit_for_link(Link $link, Project $project, Role $role)
+    static function get_items_ext_edit_for_link(Link $link, Project $project, Role $role, $relit_id)
     {
         // наименование
         $result_parent_label = $link->parent_label();
@@ -3840,7 +3849,7 @@ class ItemController extends Controller
                 $name = 'name_lang_' . $index;
             }
             // список items по выбранному parent_base_id
-            $base_right = GlobalController::base_right($link->parent_base, $role);
+            $base_right = GlobalController::base_right($link->parent_base, $role, $relit_id);
             $result_parent_base_items = Item::select(['id', 'base_id', 'name_lang_0', 'name_lang_1', 'name_lang_2', 'name_lang_3', 'created_user_id'])->where('base_id', $link->parent_base_id)->where('project_id', $project->id)->orderBy($name);
             // Такая же проверка и в GlobalController (function items_right()),
             // в ItemController (function browser(), get_items_for_link(), get_items_ext_edit_for_link())
@@ -4218,11 +4227,11 @@ class ItemController extends Controller
             'result_item_name_options' => $result_item_name_options];
     }
 
-    static function form_parent_coll_hier($item_id, Project $project, Role $role)
+    static function form_parent_coll_hier($item_id, Project $project, Role $role, $relit_id)
     {
         $item = Item::find($item_id);
         $items = array();
-        $result = self::form_parent_hier_coll_start($items, $item_id, $project, 0, $role);
+        $result = self::form_parent_hier_coll_start($items, $item_id, $project, $relit_id, 0, $role);
         if ($result != "") {
             $kod = 0;
             $result = '<a data-toggle="collapse" href="#collapse' . $kod . '">' . trans('main.ancestors') . '</br>' .
@@ -4236,13 +4245,13 @@ class ItemController extends Controller
 // $items нужно - чтобы не было бесконечного цикла
 //static function form_parent_coll_hier_start($items, $item_id, $project, $level, $role)   - можно использовать так
 //static function form_parent_coll_hier_start(&$items, $item_id, $project, $level, $role)  - и так - результаты разные
-    static function form_parent_hier_coll_start(&$items, $item_id, Project $project, $level, Role $role)
+    static function form_parent_hier_coll_start(&$items, $item_id, Project $project, $relit_id, $level, Role $role)
     {
         $result = '';
         $level = $level + 1;
         $item = Item::findOrFail($item_id);
         $base = Base::findOrFail($item->base_id);
-        $base_right = GlobalController::base_right($base, $role);
+        $base_right = GlobalController::base_right($base, $role, $relit_id);
         if ($base_right['is_hier_base_enable'] == true) {
             $mains = Main::all()->where('child_item_id', $item_id)->sortBy(function ($row) {
                 return $row->link->parent_base_number;
@@ -4257,13 +4266,13 @@ class ItemController extends Controller
             foreach ($mains as $main) {
                 $str = '';
                 $link = Link::findOrFail($main->link_id);
-                // '$base_link_right = GlobalController::base_link_right($link, $role, false);' false нужно
-                $base_link_right = GlobalController::base_link_right($link, $role, false);
+                // '$base_link_right = GlobalController::base_link_right($link, $role, $relit_id, false);' false нужно
+                $base_link_right = GlobalController::base_link_right($link, $role, $relit_id, false);
                 if ($base_link_right['is_hier_link_enable'] == true) {
                     $str = self::form_parent_hier_coll_start($items, $main->parent_item_id, $level, $role);
                     $alink = '';
                     if ($base_link_right['is_list_base_calc'] == true) {
-                        $alink = '<a href="' . route('item.ext_show', ['item' => $main->parent_item_id, 'project' => $project, 'role' => $role, 'usercode' => GlobalController::usercode_calc()]) . '" title="' .
+                        $alink = '<a href="' . route('item.ext_show', ['item' => $main->parent_item_id, 'project' => $project, 'role' => $role, 'usercode' => GlobalController::usercode_calc(), 'relit_id' => $relit_id]) . '" title="' .
                             $main->parent_item->name() . '">...</a>';
                     }
                     $img_doc = '';
@@ -4326,13 +4335,13 @@ class ItemController extends Controller
 // $items нужно - чтобы не было бесконечного цикла
 //static function form_parent_hier_deta_start($items, $item_id, $project, $level, $role, $level_one)   - можно использовать так
 //static function form_parent_hier_deta_start(&$items, $item_id, $project, $level, $role, $level_one)  - и так - результаты разные
-    static function form_parent_hier_deta_start(&$items, $item_id, Project $project, $level, Role $role, $level_one)
+    static function form_parent_hier_deta_start(&$items, $item_id, Project $project, $relit_id, $level, Role $role, $level_one)
     {
         $result = '';
         $level = $level + 1;
         $item = Item::findOrFail($item_id);
         $base = Base::findOrFail($item->base_id);
-        $base_right = GlobalController::base_right($base, $role);
+        $base_right = GlobalController::base_right($base, $role, $relit_id);
         if ($base_right['is_hier_base_enable'] == true) {
             $mains = Main::all()->where('child_item_id', $item_id)->sortBy(function ($row) {
                 return $row->link->parent_base_number;
@@ -4350,14 +4359,14 @@ class ItemController extends Controller
             foreach ($mains as $main) {
                 $str = '';
                 $link = Link::findOrFail($main->link_id);
-                // '$base_link_right = GlobalController::base_link_right($link, $role, false);' true нужно
-                $base_link_right = GlobalController::base_link_right($link, $role, false);
+                // '$base_link_right = GlobalController::base_link_right($link, $role, $relit_id, false);' true нужно
+                $base_link_right = GlobalController::base_link_right($link, $role, $relit_id, false);
                 if ($base_link_right['is_hier_link_enable'] == true) {
                     // Получить $str - вложенные родительские значения
                     $str = self::form_parent_hier_deta_start($items, $main->parent_item_id, $project, $level, $role, $level_one);
                     $alink = '';
                     if ($base_link_right['is_list_base_calc'] == true) {
-                        $alink = '<a href="' . route('item.ext_show', ['item' => $main->parent_item_id, 'project' => $project, 'role' => $role, 'usercode' => GlobalController::usercode_calc()]) . '" title="' .
+                        $alink = '<a href="' . route('item.ext_show', ['item' => $main->parent_item_id, 'project' => $project, 'role' => $role, 'usercode' => GlobalController::usercode_calc(), 'relit_id'=>$relit_id]) . '" title="' .
                             $main->parent_item->name() . '">...</a>';
                     }
                     $img_doc = '';
@@ -4405,10 +4414,10 @@ class ItemController extends Controller
         return $result;
     }
 
-    static function form_child_deta_hier(Item $item, Project $project, Role $role)
+    static function form_child_deta_hier(Item $item, Project $project, Role $role, $relit_id)
     {
         $items = array();
-        $result = self::form_child_hier_deta_start($items, $item->id, $project, 0, $role);
+        $result = self::form_child_hier_deta_start($items, $item->id, $project, $relit_id, 0, $role);
         if ($result != '') {
             $result = trans('main.descendants') . ':<br>' . $result . '<hr>';
         }
@@ -4419,13 +4428,13 @@ class ItemController extends Controller
 //static function form_child_hier_deta_start($items, $item_id, $level, $role)   - можно использовать так
 //static function form_child_hier_deta_start(&$items, $item_id, $level, $role)  - и так - результаты разные
 // '$items' и '$items_dop' использовать для того, чтобы записи, отображаемые на экране, были уникальными (см.ниже)
-    static function form_child_hier_deta_start(&$items, $item_id, Project $project, $level, Role $role)
+    static function form_child_hier_deta_start(&$items, $item_id, Project $project, $relit_id, $level, Role $role)
     {
         $result = '';
         $level = $level + 1;
         $item = Item::findOrFail($item_id);
         $base = Base::findOrFail($item->base_id);
-        $base_right = GlobalController::base_right($base, $role);
+        $base_right = GlobalController::base_right($base, $role, $relit_id);
         if ($base_right['is_hier_base_enable'] == true) {
             $mains = Main::all()->where('parent_item_id', $item_id)->sortBy(function ($row) {
                 return $row->child_item->name();
@@ -4441,14 +4450,14 @@ class ItemController extends Controller
             foreach ($mains as $main) {
                 $str = '';
                 $link = Link::findOrFail($main->link_id);
-                // '$base_link_right = GlobalController::base_link_right($link, $role, true);' true нужно
-                $base_link_right = GlobalController::base_link_right($link, $role, true);
+                // '$base_link_right = GlobalController::base_link_right($link, $role, $relit_id, true);' true нужно
+                $base_link_right = GlobalController::base_link_right($link, $role, $relit_id, true);
                 if ($base_link_right['is_hier_link_enable'] == true) {
                     // Получить $str - вложенные детские значения
                     $str = self::form_child_hier_deta_start($items, $main->child_item_id, $project, $level, $role);
                     $alink = '';
                     if ($base_link_right['is_list_base_calc'] == true) {
-                        $alink = '<a href="' . route('item.ext_show', ['item' => $main->child_item_id, 'project' => $project, 'role' => $role, 'usercode' => GlobalController::usercode_calc()]) . '" title="' .
+                        $alink = '<a href="' . route('item.ext_show', ['item' => $main->child_item_id, 'project' => $project, 'role' => $role, 'usercode' => GlobalController::usercode_calc(), 'relit_id' => $relit_id]) . '" title="' .
                             $main->child_item->name() . '">...</a>';
                     }
                     $img_doc = '';
@@ -4561,16 +4570,17 @@ class ItemController extends Controller
                     $dop_name_2 = "";
                     $dop_name_3 = "";
                     if ($item->base_id == $item_result->base_id) {
-                        if ($level == 1) {
-                            // всего два запуска этой функции (основной и этот), только для однородных значений (например: ФизЛицо имеет поле Мать(ФизЛицо), Отец(ФизЛицо))
-                            $rs = $this->calc_value_func($item_result, $level, false);
-                            $dop_name_0 = $rs['calc_lang_0'] == "" ? "" : $item->base->sepa_same_left_calcname . $rs['calc_lang_0'] . $item->base->sepa_same_right_calcname;
-                            $dop_name_1 = $rs['calc_lang_1'] == "" ? "" : $item->base->sepa_same_left_calcname . $rs['calc_lang_1'] . $item->base->sepa_same_right_calcname;
-                            $dop_name_2 = $rs['calc_lang_2'] == "" ? "" : $item->base->sepa_same_left_calcname . $rs['calc_lang_2'] . $item->base->sepa_same_right_calcname;
-                            $dop_name_3 = $rs['calc_lang_3'] == "" ? "" : $item->base->sepa_same_left_calcname . $rs['calc_lang_3'] . $item->base->sepa_same_right_calcname;
-                        } else {
-                            continue;
-                            //$res_names = $item_result->names();
+//111                        if ($level == 1) {
+                        // всего два запуска этой функции (основной и этот), только для однородных значений (например: ФизЛицо имеет поле Мать(ФизЛицо), Отец(ФизЛицо))
+                        $rs = $this->calc_value_func($item_result, $level, false);
+                        $dop_name_0 = $rs['calc_lang_0'] == "" ? "" : $item->base->sepa_same_left_calcname . $rs['calc_lang_0'] . $item->base->sepa_same_right_calcname;
+                        $dop_name_1 = $rs['calc_lang_1'] == "" ? "" : $item->base->sepa_same_left_calcname . $rs['calc_lang_1'] . $item->base->sepa_same_right_calcname;
+                        $dop_name_2 = $rs['calc_lang_2'] == "" ? "" : $item->base->sepa_same_left_calcname . $rs['calc_lang_2'] . $item->base->sepa_same_right_calcname;
+                        $dop_name_3 = $rs['calc_lang_3'] == "" ? "" : $item->base->sepa_same_left_calcname . $rs['calc_lang_3'] . $item->base->sepa_same_right_calcname;
+//111                        } else {
+//111                            continue;
+
+                        //$res_names = $item_result->names();
 //                            $dop_name_0 = $res_names[0];
 //                            $dop_name_1 = $res_names[1];
 //                            $dop_name_2 = $res_names[2];
@@ -4579,7 +4589,8 @@ class ItemController extends Controller
 //                            $dop_name_1 = "";
 //                            $dop_name_2 = "";
 //                            $dop_name_3 = "";
-                        }
+                        //111}
+
                     } else {
                         $res_names = $item_result->names();
                         $dop_name_0 = $res_names[0];
@@ -4822,7 +4833,7 @@ class ItemController extends Controller
             . mb_strtolower(trans('main.must_less_equal')) . ' (' . $mx . ' ' . mb_strtolower(trans('main.byte')) . ') !';
     }
 
-    static function links_info(Base $base, Role $role, Link $nolink = null)
+    static function links_info(Base $base, Role $role, $relit_id, Link $nolink = null)
     {
         $link_id_array = array();
         $link_base_right_array = array();
@@ -4837,7 +4848,7 @@ class ItemController extends Controller
 
         $k = 0;
         foreach ($links as $link) {
-            $base_link_right = GlobalController::base_link_right($link, $role);
+            $base_link_right = GlobalController::base_link_right($link, $role, $relit_id);
             if ($base_link_right['is_list_link_enable'] == true) {
                 $is_list_base_calc = $base_link_right['is_list_base_calc'];
                 $link_id_array[] = $link->id;
@@ -4983,7 +4994,7 @@ class ItemController extends Controller
     }
 
 // Выборка данных в виде списка
-    static function get_items_main(Base $base, Project $project, Role $role, Link $link = null, Item $item = null)
+    static function get_items_main(Base $base, Project $project, Role $role, $relit_id, Link $link = null, Item $item = null)
     {
         // Фильтр данных
         $is_filter = false;
@@ -5003,14 +5014,14 @@ class ItemController extends Controller
             $is_calcuse = $link->parent_is_in_the_selection_list_use_the_calculated_table_field;
         }
         // Права по base_id
-        $base_right = GlobalController::base_right($base, $role);
+        $base_right = GlobalController::base_right($base, $role, $relit_id);
         if (($is_filter) || ($is_calcuse)) {
             if ($is_filter) {
-                $items_filter = self::get_items_filter_main($base, $project, $role, $link, $item);
+                $items_filter = self::get_items_filter_main($base, $link, $item);
                 $items = $items_filter;
             }
             if ($is_calcuse) {
-                $items = self::get_items_calc_main($base, $project, $role, $link);
+                $items = self::get_items_calc_main($link);
                 if ($is_filter) {
                     // Объединение двух запросов $items_filter и $items(вычисляемые)
                     //$items = Item::select(DB::Raw('items.*'))
@@ -5045,9 +5056,9 @@ class ItemController extends Controller
     }
 
 // Выборка данных в виде списка
-    static function get_items_main_options(Base $base, Project $project, Role $role, Link $link = null, Item $item = null)
+    static function get_items_main_options(Base $base, Project $project, Role $role, $relit_id, Link $link = null, Item $item = null)
     {
-        $items_main = self::get_items_main($base, $project, $role, $link, $item);
+        $items_main = self::get_items_main($base, $project, $role, $relit_id, $link, $item);
         $items_no_get = $items_main['items_no_get'];
         // '->get()' нужно
         $result_items = $items_no_get->get();
@@ -5071,9 +5082,9 @@ class ItemController extends Controller
     }
 
 // Выборка данных в виде списка
-    static function get_items_main_code($code, Base $base, Project $project, Role $role, Link $link = null, Item $item = null)
+    static function get_items_main_code($code, Base $base, Project $project, Role $role, $relit_id, Link $link = null, Item $item = null)
     {
-        $items_main = self::get_items_main($base, $project, $role, $link, $item);
+        $items_main = self::get_items_main($base, $project, $role, $relit_id, $link, $item);
         $items_no_get = $items_main['items_no_get'];
         $item_id = 0;
         $item_name = trans('main.no_information') . '!';
@@ -5094,7 +5105,7 @@ class ItemController extends Controller
         $project = null;
 
         //$items = null;
-        // Пустой список items класса Item
+        // Пустой список items класса Item, как значение по умолчанию
         $items = Item::select(DB::Raw('items.*'))
             ->where('id', '_');
 
@@ -5115,7 +5126,7 @@ class ItemController extends Controller
     }
 
 // Выборка данных c вычисляемыми
-    static function get_items_calc_main(Base $base, Project $project, Role $role, Link $link)
+    static function get_items_calc_main(Link $link)
     {
         // Результат, no get()
         $items = null;
@@ -5173,13 +5184,13 @@ class ItemController extends Controller
     }
 
 // Выборка данных с фильтром
-    static function get_items_filter_main(Base $base, Project $project, Role $role, Link $link, Item $item)
+    static function get_items_filter_main(Base $base, Link $link_filter, Item $item)
     {
         // Результат, no get()
         $items = null;
         // Находим $link_find - (из примера) ЕдиницуИзмерения, $link передано в функцию как Материал
         // Если это фильтрируемое поле (например: в связка ЕдинИзмерения-Материал - поле Материал является фильтрируемым полем)
-        $link_find = Link::where('parent_is_child_related', true)->where('parent_child_related_start_link_id', $link->id)->first();
+        $link_find = Link::where('parent_is_child_related', true)->where('parent_child_related_start_link_id', $link_filter->id)->first();
         if ($link_find) {
             $link_result = Link::find($link_find->parent_child_related_result_link_id);
             $result_items = null;

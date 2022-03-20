@@ -2,6 +2,7 @@
 
 @section('content')
     <?php
+    use App\Http\Controllers\GlobalController;
     use App\Models\User;
     $is_role = isset($role);
     $is_base = isset($base);
@@ -53,6 +54,7 @@
                 <th class="text-left">{{trans('main.role')}}</th>
             @endif
             @if(!$is_base)
+                <th class="text-left">{{trans('main.template')}}</th>
                 <th class="text-left">{{trans('main.base')}}</th>
             @endif
         </tr>
@@ -78,6 +80,11 @@
                     </td>
                 @endif
                 @if(!$is_base)
+                    <td class="text-left">
+                        <a href="{{route($roba_show, $roba)}}" title="{{trans('main.show')}}">
+                            {{GlobalController::get_template_name_from_relit_id($roba->relit_id, $role->template_id)}}
+                        </a>
+                    </td>
                     <td class="text-left">
                         <a href="{{route($roba_show, $roba)}}" title="{{trans('main.show')}}">
                             {{$roba->base->name()}}

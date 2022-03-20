@@ -19,7 +19,7 @@
     <p>{{trans('main.serial_number')}}: <b>{{$set->serial_number}}</b></p>
     <p>{{trans('main.line_number')}}: <b>{{$set->line_number}}</b></p>
     <p>{{trans('main.link_from')}}: <b>{{$set->link_from->id}} {{$set->link_from->name()}}</b></p>
-    <p>{{trans('main.parent')}}_{{trans('main.template')}}: <b>{{GlobalController::get_template_name_from_relit_id($set->relit_to_id, $template->id)}}</b></p>
+    <p>{{trans('main.template_to')}}: <b>{{GlobalController::get_template_name_from_relit_id($set->relit_to_id, $template->id)}}</b></p>
     <p>{{trans('main.link_to')}}: <b>{{$set->link_to->id}} {{$set->link_to->name()}}</b></p>
     <p>{{trans('main.is_savesets_enabled')}}: <b>{{GlobalController::name_is_boolean($set->is_savesets_enabled)}}</b></p>
     <p>{{trans('main.forwhat')}}: <b>{{$set->forwhat_name()}}</b></p>

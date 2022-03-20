@@ -2,6 +2,7 @@
 
 @section('content')
     <?php
+    use App\Http\Controllers\GlobalController;
     use App\Models\User;
     $is_role = isset($role);
     $is_link = isset($link);
@@ -28,7 +29,7 @@
             <div class="col-2">
             </div>
             <div class="col-5 text-right">
-                <button type="button" class="btn btn-dreamer" title="{{trans('main.add')}}"
+                 <button type="button" class="btn btn-dreamer" title="{{trans('main.add')}}"
                         onclick="document.location=
                         @if($is_role)
                             '{{route('roli.create_role', ['role'=>$role])}}'
@@ -53,6 +54,7 @@
                 <th class="text-left">{{trans('main.role')}}</th>
             @endif
             @if(!$is_link)
+                <th class="text-left">{{trans('main.template')}}</th>
                 <th class="text-left">{{trans('main.link')}}</th>
             @endif
         </tr>
@@ -78,6 +80,11 @@
                     </td>
                 @endif
                 @if(!$is_link)
+                    <td class="text-left">
+                        <a href="{{route($roli_show, $roli)}}" title="{{trans('main.show')}}">
+                            {{GlobalController::get_template_name_from_relit_id($roli->relit_id, $roli->role->template_id)}}
+                        </a>
+                    </td>
                     <td class="text-left">
                         <a href="{{route($roli_show, $roli)}}" title="{{trans('main.show')}}">
                             {{$roli->link->name()}}

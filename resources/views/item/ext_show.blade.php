@@ -10,7 +10,7 @@
     use App\Http\Controllers\MainController;
     use Illuminate\Support\Facades\Storage;
     $base = $item->base;
-    $base_right = GlobalController::base_right($base, $role);
+    $base_right = GlobalController::base_right($base, $role, $relit_id);
     ?>
     @include('layouts.project.show_project_role',['project'=>$project, 'role'=>$role])
     <h3 class="display-5">
@@ -31,7 +31,7 @@
     ?>
     <ul>
         <p class="text-label">Id: <span class="text-related">
-                <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,
+                <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role, 'relit_id'=>$relit_id,
                         'usercode' =>GlobalController::usercode_calc()])}}"
                    title="">
                 {{$item->id}}
@@ -59,12 +59,12 @@
             ?>
             @if($link && $item_find)
                 <?php
-                $base_link_right = GlobalController::base_link_right($link, $role);
+                $base_link_right = GlobalController::base_link_right($link, $role, $relit_id);
                 ?>
                 @if($base_link_right['is_show_link_enable'] == true)
                     <li>
                         @if($base_link_right['is_list_base_calc'] == true)
-                            <a href="{{route('item.base_index',['base'=>$link->parent_base_id, 'project'=>$project, 'role'=>$role])}}"
+                            <a href="{{route('item.base_index',['base'=>$link->parent_base_id, 'project'=>$project, 'role'=>$role, 'relit_id'=>$relit_id])}}"
                                title="{{$link->parent_base->names()}}">
                                 @include('layouts.item.ext_show.parent_label', ['link'=>$link, 'par_link'=>$par_link])
                             </a>
@@ -98,7 +98,7 @@
                                 {{--  Используется 'is_list_base_calc' в ext_show.php и ItemController::item_index()  --}}
                                 @if($base_link_right['is_list_base_calc'] == true)
                                     <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item_find, 'role'=>$role,
-                                        'usercode' =>GlobalController::usercode_calc(),'par_link'=>$link])}}"
+                                        'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id, 'par_link'=>$link])}}"
                                        title="">
                                         {{$item_find->name(false, true, true)}}
                                     </a>
@@ -119,7 +119,7 @@
                         @if($base->is_code_needed == true)
                             <p class="text-label">{{trans('main.code')}}: <span class="text-related">
                         <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,
-                                'usercode' =>GlobalController::usercode_calc()])}}"
+                                'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id])}}"
                            title="">
                         {{$item->code}}
                                                             </a>
@@ -162,7 +162,7 @@
                                             @else
                                             <big>
                                                 <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,
-                                       'usercode' =>GlobalController::usercode_calc()])}}"
+                                       'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id])}}"
                                                    title="">
                                                     {{$item->name(false, true)}}
                                                 </a>
@@ -180,7 +180,7 @@
     <hr>
     <?php
     if ($base_right['is_hier_base_enable'] == true) {
-//        $result = ItemController::form_parent_coll_hier($item->id, $role);
+//        $result = ItemController::form_parent_coll_hier($item->id, $role, $relit_id);
 //        echo $result;
         $result = ItemController::form_child_deta_hier($item, $project, $role);
         echo $result;
@@ -199,7 +199,7 @@
                 <button type="button" class="btn btn-dreamer mb-1 mb-sm-0"
                         onclick='document.location="{{route('item.ext_edit',
             ['item'=>$item,'project'=>$project, 'role'=>$role,
-            'usercode' =>GlobalController::usercode_calc(),
+            'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id,
             'heading' => $heading,
             'body_page' => $body_page, 'body_count' => $body_count, 'body_perpage' => $body_perpage,
             'par_link' => $par_link, 'parent_item' => $parent_item])}}"'
@@ -209,11 +209,12 @@
                 </button>
             @endif
             {{--            В ItemController::is_delete() есть необходимые проверки на права по удалению записи--}}
-            @if(ItemController::is_delete($item, $role) == true)
+            @if(ItemController::is_delete($item, $role, $relit_id) == true)
                 <button type="button" class="btn btn-dreamer mb-1 mb-sm-0"
                         onclick='document.location="{{route('item.ext_delete_question',
             ['item'=>$item,'project'=>$project, 'role'=>$role,
             'usercode' =>GlobalController::usercode_calc(),
+            'relit_id'=>$relit_id,
             'heading' => $heading,
             'body_page' => $body_page, 'body_count' => $body_count, 'body_perpage' => $body_perpage,
             'par_link' => $par_link, 'parent_item' => $parent_item])}}"'
@@ -234,7 +235,7 @@
             @if(1==1)
                 <button type="button" class="btn btn-dreamer mb-1 mb-sm-0"
                         onclick='document.location="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,
-                         'usercode' =>GlobalController::usercode_calc(),
+                         'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id,
                          'par_link' => null])}}"'
                         title="{{trans('main.space')}}">
                     <i class="fas fa-atlas"></i>
@@ -267,6 +268,7 @@
         <form action="{{route('item.ext_delete',['item'=>$item,'project'=>$project, 'role'=>$role,
             'usercode' =>GlobalController::usercode_calc(),
             'heading' => $heading,
+            'relit_id' => $relit_id,
             'body_page' => $body_page, 'body_count' => $body_count, 'body_perpage' => $body_perpage,
             'par_link' => $par_link, 'parent_item' => $parent_item])}}"
               method="POST"

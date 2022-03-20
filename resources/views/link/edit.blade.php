@@ -1721,7 +1721,7 @@
 
         // Изменение parent_relit_id
         function parent_relit_id_changeOption(box) {
-                    axios.get('/link/get_bases_from_parent_relit_id/'
+                    axios.get('/global/get_bases_from_relit_id/'
                         + parent_relit_id.options[parent_relit_id.selectedIndex].value
                         + '/{{$base->template_id}}'
                     ).then(function (res) {

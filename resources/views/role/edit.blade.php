@@ -137,6 +137,30 @@
             </div>
         </div>
 
+        <div class="form-group row" id="is_list_base_relits_form_group">
+            <div class="col-sm-3 text-right">
+                <label class="form-label"
+                       for="is_list_base_relits">{{trans('main.is_list_base_relits')}}</label>
+            </div>
+            <div class="col-sm-7">
+                <input class="@error('is_list_base_relits') is-invalid @enderror"
+                       type="checkbox"
+                       name="is_list_base_relits"
+                       placeholder=""
+                       @if ((old('is_list_base_relits') ?? ($role->is_list_base_relits ?? false)) ==  true)
+                       checked
+                    @endif
+                >
+                @error('is_list_base_relits')
+                <div class="invalid-feedback">
+                    {{$message}}
+                </div>
+                @enderror
+            </div>
+            <div class="col-sm-2">
+            </div>
+        </div>
+
         <div class="form-group row" id="is_list_base_sndbt_form_group">
             <div class="col-sm-3 text-right">
                 <label class="form-label"

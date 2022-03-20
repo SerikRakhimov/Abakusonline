@@ -30,8 +30,9 @@ use Illuminate\Support\Facades\Storage;
 
 class GlobalController extends Controller
 {
-    public $display='tape';
+    public $display = 'tape';
     private $displays = ['tape', 'table'];
+
     static function start_artisan()
     {
         Artisan::call('migrate');
@@ -73,7 +74,7 @@ class GlobalController extends Controller
             : ($value == false ? html_entity_decode('&#10065;') : trans('main.empty'));
     }
 
-    static function base_right(Base $base, Role $role, bool $is_no_sndb_pd_rule = false)
+    static function base_right(Base $base, Role $role, $relit_id, bool $is_no_sndb_pd_rule = false)
     {
         $is_all_base_calcname_enable = $role->is_all_base_calcname_enable;
         $is_list_base_sort_creation_date_desc = $role->is_list_base_sort_creation_date_desc;
@@ -124,8 +125,13 @@ class GlobalController extends Controller
                     $is_list_base_calc = false;
                 }
             }
-            if ($base->template_id != $role->template_id) {
-                $is_list_base_calc = false;
+//            if ($base->template_id != $role->template_id) {
+//                $is_list_base_calc = false;
+//            }
+            if ($role->is_list_base_relits == false) {
+                if ($relit_id != 0) {
+                    $is_list_base_calc = false;
+                }
             }
         }
 
@@ -137,7 +143,8 @@ class GlobalController extends Controller
 
         // Для вычисляемых base
         // ИЛИ $base с другого шаблона(не равен $role->template_id)
-        if (($base->is_calculated_lst == true) || ($base->template_id != $role->template_id)) {
+//        if (($base->is_calculated_lst == true) || ($base->template_id != $role->template_id)) {
+            if (($base->is_calculated_lst == true)) {
             $is_list_base_create = false;
 //          $is_list_base_read = true;
             $is_list_base_read = $is_list_base_calc;
@@ -147,8 +154,8 @@ class GlobalController extends Controller
         // "$is_enable &&" нужно
         $is_list_base_calc = $is_list_base_calc && ($is_list_base_create || $is_list_base_read || $is_list_base_update || $is_list_base_delete);
 
-        // Блок проверки по robas, используя переменные $role и $base
-        $roba = Roba::where('role_id', $role->id)->where('base_id', $base->id)->first();
+        // Блок проверки по robas, используя переменные $role, $relit_id и $base
+        $roba = Roba::where('role_id', $role->id)->where('relit_id', $relit_id)->where('base_id', $base->id)->first();
         if ($roba != null) {
             $is_roba_all_base_calcname_enable = $roba->is_all_base_calcname_enable;
             $is_roba_list_base_sort_creation_date_desc = $roba->is_list_base_sort_creation_date_desc;
@@ -183,7 +190,8 @@ class GlobalController extends Controller
 
             // Для вычисляемых base
             // ИЛИ $base с другого шаблона(не равен $role->template_id)
-            if (($base->is_calculated_lst == true) || ($base->template_id != $role->template_id)) {
+//            if (($base->is_calculated_lst == true) || ($base->template_id != $role->template_id)) {
+            if ($base->is_calculated_lst == true) {
                 $is_roba_list_base_create = false;
 //              Не нужно '$is_roba_list_base_read = true;'
 //              $is_roba_list_base_read = true;
@@ -257,17 +265,22 @@ class GlobalController extends Controller
         ];
     }
 
-    static function base_link_right(Link $link, Role $role, bool $child_base = false)
+    static function base_link_right(Link $link, Role $role, $parent_relit_id, bool $child_base = false)
     {
         $base = null;
+        $relit_id = null;
         if ($child_base == true) {
             $base = $link->child_base;
+            // 0 - текущий проект, по умолчанию
+            $relit_id = 0;
         } else {
             $base = $link->parent_base;
+            $relit_id = $parent_relit_id;
         }
 
         //$base_right = self::base_right($base, $role, true);
-        $base_right = self::base_right($base, $role, false);
+        //$base_right = self::base_right($base, $role, false);
+        $base_right = self::base_right($base, $role, $relit_id);
 
         $is_list_base_calc = $base_right['is_list_base_calc'];
         $is_all_base_calcname_enable = $base_right['is_all_base_calcname_enable'];
@@ -314,8 +327,8 @@ class GlobalController extends Controller
             // При корректировке в форме ставится пометка hidden
             //$is_edit_link_update = false;
         }
-        // Блок проверки по rolis, используя переменные $role и $link
-        $roli = Roli::where('role_id', $role->id)->where('link_id', $link->id)->first();
+        // Блок проверки по rolis, используя переменные $role, $relit_id и $link
+        $roli = Roli::where('role_id', $role->id)->where('relit_id', $relit_id)->where('link_id', $link->id)->first();
         if ($roli != null) {
             $is_list_link_enable = $roli->is_list_link_enable;
             $is_show_link_enable = $roli->is_show_link_enable;
@@ -380,9 +393,9 @@ class GlobalController extends Controller
 //                $query->whereDate('name_lang_0', '>','2020-02-09');});
 //        });
 
-    static function items_right(Base $base, Project $project, Role $role, $mains_item_id = null, $mains_link_id = null, $current_item_id = null)
+    static function items_right(Base $base, Project $project, Role $role, $relit_id, $mains_item_id = null, $mains_link_id = null, $current_item_id = null)
     {
-        $base_right = self::base_right($base, $role);
+        $base_right = self::base_right($base, $role, $relit_id);
         $items = null;
         $view_count = 0;
         $prev_item = null;
@@ -502,7 +515,7 @@ class GlobalController extends Controller
                         foreach ($items as $item) {
                             $str = "";
                             foreach ($links as $link) {
-                                $base_link_right = self::base_link_right($link, $role);
+                                $base_link_right = self::base_link_right($link, $role, $relit_id);
                                 // Если 'Показывать Связь в списке' = true
                                 if ($base_link_right['is_list_link_enable'] == true) {
                                     $item_find = GlobalController::view_info($item->id, $link->id);
@@ -1156,6 +1169,20 @@ class GlobalController extends Controller
         return $result;
     }
 
+    static function calc_relip_project($relit_id, Project $current_project)
+    {
+        $project = null;
+        // Поиск взаимосвязанного проекта
+        $relit = Relit::find($relit_id);
+        if ($relit) {
+            $relip = Relip::where('relit_id', $relit->id)->where('child_project_id', $current_project->id)->first();
+            if ($relip) {
+                $project = $relip->parent_project;
+            }
+        }
+        return $project;
+    }
+
     // Вывод проекта по $link и $current_project
     // Функции calc_link_project(), calc_set_project(), calc_relit_children_projects() похожи
     static function calc_link_project(Link $link, Project $current_project)
@@ -1166,15 +1193,17 @@ class GlobalController extends Controller
             $project = $current_project;
         } else {
             // Поиск взаимосвязанного проекта
-            $relit = Relit::find($link->parent_relit_id);
-            if ($relit) {
-                $relip = Relip::where('relit_id', $relit->id)->where('child_project_id', $current_project->id)->first();
-                if ($relip) {
-                    $project = $relip->parent_project;
-                }
-            }
+            $project = self::calc_relip_project($link->parent_relit_id, $current_project);
+//            $relit = Relit::find($link->parent_relit_id);
+//            if ($relit) {
+//                $relip = Relip::where('relit_id', $relit->id)->where('child_project_id', $current_project->id)->first();
+//                if ($relip) {
+//                    $project = $relip->parent_project;
+//                }
+//            }
         }
         if ($project == null) {
+            // Не удалять строку ниже
             dd(trans('main.check_project_properties_projects_parents_are_not_set') . '!');
             //return view('message', ['message' => trans('main.info_user_changed')]);
             //return('Не найден проект');
@@ -1192,13 +1221,14 @@ class GlobalController extends Controller
             $project = $current_project;
         } else {
             // Поиск взаимосвязанного проекта
-            $relit = Relit::find($set->relit_to_id);
-            if ($relit) {
-                $relip = Relip::where('relit_id', $relit->id)->where('child_project_id', $current_project->id)->first();
-                if ($relip) {
-                    $project = $relip->parent_project;
-                }
-            }
+            $project = self::calc_relip_project($set->relit_to_id, $current_project);
+//            $relit = Relit::find($set->relit_to_id);
+//            if ($relit) {
+//                $relip = Relip::where('relit_id', $relit->id)->where('child_project_id', $current_project->id)->first();
+//                if ($relip) {
+//                    $project = $relip->parent_project;
+//                }
+//            }
         }
         if ($project == null) {
             dd(trans('main.check_project_properties_projects_parents_are_not_set') . '!');
@@ -1235,9 +1265,136 @@ class GlobalController extends Controller
         // 0 - текущий шаблон (нужно)
         $array_relits[0] = $template->name() . ' (' . trans('main.current_template') . ')';
         foreach ($child_relits as $relit) {
-            $array_relits[$relit->id] = $relit->parent_template->name();
+            $array_relits[$relit->id] = $relit->serial_number . '. ' . $relit->parent_template->name()
+                . ' (Id =' . $relit->id . ')';
         }
         return $array_relits;
+    }
+
+    static function get_project_bases(Project $current_project, Role $role)
+    {
+        $array_project_relips = [];
+        $child_relits = $current_project->template->child_relits;
+        // Похожие строки ниже в этой функции
+        // 0 - текущий шаблон (нужно)
+        $current_id = 0;
+        $bases_ids = self::get_bases_from_relit_id($current_id, $current_project->template_id);
+        if ($bases_ids) {
+            $array_project_relips[$current_id]['project_id'] = $current_project->id;
+            $array_project_relips[$current_id]['base_id'] = $bases_ids['bases_ids'];
+            $array_project_relips[$current_id]['enable'] = true;
+        }
+        foreach ($child_relits as $relit) {
+            // Поиск взаимосвязанного проекта
+            $project = self::calc_relip_project($relit->id, $current_project);
+            if ($project) {
+                // Похожие строки выше в этой функции
+                $bases_ids = self::get_bases_from_relit_id($relit->id, $current_project->template_id);
+                if ($bases_ids) {
+                    $array_project_relips[$relit->id]['project_id'] = $project->id;
+                    $array_project_relips[$relit->id]['base_id'] = $bases_ids['bases_ids'];
+                    $array_project_relips[$relit->id]['enable'] = true;
+                }
+            }
+        }
+        foreach ($array_project_relips as $relit_id => $value) {
+            $project_id = $value['project_id'];
+            $bases_ids = $value['base_id'];
+            foreach ($bases_ids as $key => $value) {
+                $base = Base::find($value);
+                if ($base) {
+                    $base_right = self::base_right($base, $role, $relit_id);
+                    // Удаляем элемент массива с $base, если '$base_right['is_list_base_calc'] == false'
+                    //      Похожая проверка в GlobalController::get_project_bases(), ItemController::base_index() и project/start.php
+                    if ($base_right['is_list_base_calc'] == false) {
+                        unset($array_project_relips[$relit_id]['base_id'][$key]);
+                    }
+                }
+            }
+        }
+//      $relit_id нужно
+        foreach ($array_project_relips as $relit_id=>$value) {
+            $project_id = $value['project_id'];
+            $count = count($value['base_id']);
+            if ($count == 0) {
+                // Удаляем элемент массива с $relit_id, если количество $bases в массиве равно 0
+                unset($array_project_relips[$relit_id]);
+            }
+        }
+        return $array_project_relips;
+
+    }
+
+    function select_links_template(Template $template)
+    {
+        // Проверка для вычисляемых полей
+        //        ->where('links.parent_is_parent_related', false)
+        return Link::select(DB::Raw('links.*'))
+            ->join('bases', 'links.child_base_id', '=', 'bases.id')
+            ->where('bases.template_id', $template->id)
+            ->orderBy('links.child_base_id')
+            ->orderBy('links.parent_base_number')
+            ->get();
+    }
+
+    // Похожие процедуры get_bases_from_relit_id() и get_links_from_relit_id()
+    static function get_bases_from_relit_id($relit_id, $current_template_id)
+    {
+        $bases_ids = [];
+        $bases_options = '';
+        // Вычисление $template
+        $template_id = null;
+        if ($relit_id == 0) {
+            $template_id = $current_template_id;
+        } else {
+            $relit = Relit::find($relit_id);
+            if ($relit) {
+                $template_id = $relit->parent_template_id;
+            }
+        }
+        if ($template_id != null) {
+            // список bases по выбранному template_id
+            $bases = Base::all()
+                ->where('template_id', $template_id)
+                ->sortBy('serial_number');
+            foreach ($bases as $base) {
+                $bases_ids[] = $base->id;
+                //$bases_options = $bases_options . "<option value='" . $base->id . "'>" . $base->name() . "</option>";
+                $bases_options = $bases_options . "<option value='" . $base->id . "'>" . $base->desc_type() . "</option>";
+            }
+        }
+        return [
+            'bases_ids' => $bases_ids,
+            'bases_options' => $bases_options
+        ];
+    }
+
+    // Похожие процедуры get_bases_from_relit_id() и get_links_from_relit_id()
+    static function get_links_from_relit_id($relit_id, $current_template_id)
+    {
+        $links_options = '';
+        // Вычисление $template
+        $template_id = null;
+        if ($relit_id == 0) {
+            $template_id = $current_template_id;
+        } else {
+            $relit = Relit::find($relit_id);
+            if ($relit) {
+                $template_id = $relit->parent_template_id;
+            }
+        }
+        if ($template_id != null) {
+            $template = Template::findOrFail($template_id);
+            // список links по выбранному template_id
+            $links = self::select_links_template($template);
+            foreach ($links as $link) {
+                $links_options = $links_options
+                    . "<option value='" . $link->id . "'>" . $link->name() . "</option>";
+            }
+        }
+        return [
+            'links_options' => $links_options
+        ];
     }
 
     function get_template_name_from_relit_id($relit_id, $current_template_id)
@@ -1251,8 +1408,8 @@ class GlobalController extends Controller
         } else {
             $relit = Relit::find($relit_id);
             if ($relit) {
-                $template = Template::findOrFail($relit->parent_template_id);
-                $template_name = $template->name();
+                $template_name = $relit->serial_number . '. ' . $relit->parent_template->name()
+                    . ' (Id =' . $relit->id . ')';
             }
         }
         return $template_name;

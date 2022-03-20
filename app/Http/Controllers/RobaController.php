@@ -84,7 +84,9 @@ class RobaController extends Controller
             $bases = $bases->orderBy($name);
         }
         $bases = $bases->get();
-        return view('roba/edit', ['role' => $role, 'bases' => $bases]);
+        return view('roba/edit',
+            ['template' => $role->template, 'role' => $role, 'bases' => $bases,
+            'array_relits' => GlobalController::get_array_relits($role->template)]);
     }
 
     function create_base(Base $base)
@@ -102,7 +104,9 @@ class RobaController extends Controller
             $roles = $roles->orderBy($name);
         }
         $roles = $roles->get();
-        return view('roba/edit', ['base' => $base, 'roles' => $roles]);
+        return view('roba/edit',
+            ['template' => $base->template, 'base' => $base, 'roles' => $roles,
+            'array_relits' => GlobalController::get_array_relits($base->template)]);
     }
 
     function store(Request $request)
@@ -201,6 +205,7 @@ class RobaController extends Controller
     function set(Request $request, Roba &$roba)
     {
         $roba->role_id = $request->role_id;
+        $roba->relit_id = $request->relit_id;
         $roba->base_id = $request->base_id;
         $roba->is_all_base_calcname_enable = isset($request->is_all_base_calcname_enable) ? true : false;
         $roba->is_list_base_sort_creation_date_desc = isset($request->is_list_base_sort_creation_date_desc) ? true : false;
@@ -246,7 +251,8 @@ class RobaController extends Controller
             $bases = $bases->orderBy($name);
         }
         $bases = $bases->get();
-        return view('roba/edit', ['role' => $role, 'roba' => $roba, 'bases' => $bases]);
+        return view('roba/edit', ['template' => $roba->role->template, 'role' => $role, 'roba' => $roba, 'bases' => $bases,
+            'array_relits' => GlobalController::get_array_relits($roba->role->template)]);
     }
 
     function edit_base(Roba $roba)
@@ -265,7 +271,8 @@ class RobaController extends Controller
             $roles = $roles->orderBy($name);
         }
         $roles = $roles->get();
-        return view('roba/edit', ['base' => $base, 'roba' => $roba, 'roles' => $roles]);
+        return view('roba/edit', ['template' => $roba->role->template, 'base' => $base, 'roba' => $roba, 'roles' => $roles,
+            'array_relits' => GlobalController::get_array_relits($roba->role->template)]);
     }
 
     function delete_question(Roba $roba)

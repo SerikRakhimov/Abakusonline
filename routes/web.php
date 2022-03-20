@@ -139,6 +139,14 @@ Route::get('/global/set_display/{display}', [GlobalController::class, 'set_displ
     ->name('global.set_display')
     ->middleware('auth');
 
+Route::get('/global/get_bases_from_relit_id/{relit_id}/{current_template_id}', [GlobalController::class, 'get_bases_from_relit_id'])
+    ->name('global.get_bases_from_relit_id')
+    ->middleware('auth');
+
+Route::get('/global/get_links_from_relit_id/{relit_id}/{current_template_id}', [GlobalController::class, 'get_links_from_relit_id'])
+    ->name('global.get_links_from_relit_id')
+    ->middleware('auth');
+
 Route::post('/home/glo_store', [HomeController::class, 'glo_store'])
     ->name('home.glo_store')
     ->middleware('auth');
@@ -388,10 +396,6 @@ Route::get('/set/delete_question/{set}', [SetController::class, 'delete_question
 
 Route::delete('/set/delete/{set}', [SetController::class, 'delete'])
     ->name('set.delete')
-    ->middleware('auth');
-
-Route::get('/set/get_links_from_relit_to_id/{relit_id}/{current_template_id}', [SetController::class, 'get_links_from_relit_to_id'])
-    ->name('set.get_links_from_relit_to_id')
     ->middleware('auth');
 
 // Rolis
@@ -788,14 +792,9 @@ Route::get('/link/get_links_from_link_id_parent_base/{link_id}', [LinkController
     ->name('link.get_links_from_link_id_parent_base')
     ->middleware('auth');
 
-Route::get('/link/get_bases_from_parent_relit_id/{relit_id}/{current_template_id}', [LinkController::class, 'get_bases_from_parent_relit_id'])
-    ->name('link.get_bases_from_parent_relit_id')
-    ->middleware('auth');
-
 Route::get('/link/base_index/{base}', [LinkController::class, 'base_index'])
     ->name('link.base_index')
     ->middleware('auth');
-
 
 // Items
 //
@@ -804,11 +803,11 @@ Route::get('/link/base_index/{base}', [LinkController::class, 'base_index'])
 //    ->middleware('auth');
 
 // "->middleware('auth')" не использовать
-Route::get('/item/base_index/{base}/{project}/{role}', [ItemController::class, 'base_index'])
+Route::get('/item/base_index/{base}/{project}/{role}/{relit_id}', [ItemController::class, 'base_index'])
     ->name('item.base_index');
 //->middleware('auth');
 
-Route::get('/item/item_index/{project}/{item}/{role}/{usercode}/{par_link?}', [ItemController::class, 'item_index'])
+Route::get('/item/item_index/{project}/{item}/{role}/{usercode}/{relit_id}/{par_link?}', [ItemController::class, 'item_index'])
     ->name('item.item_index')
     ->middleware('auth');
 
@@ -821,11 +820,11 @@ Route::get('/item/create', [ItemController::class, 'create'])
     ->middleware('auth');
 
 // "->middleware('auth')" не использовать
-Route::get('/item/ext_show/{item}/{project}/{role}/{usercode}/{heading?}/{body_page?}/{body_count?}/{body_perpage?}/{par_link?}/{parent_item?}', [ItemController::class, 'ext_show'])
+Route::get('/item/ext_show/{item}/{project}/{role}/{usercode}/{relit_id}/{heading?}/{body_page?}/{body_count?}/{body_perpage?}/{par_link?}/{parent_item?}', [ItemController::class, 'ext_show'])
     ->name('item.ext_show');
 //->middleware('auth');
 
-Route::get('/item/ext_create/{base}/{project}/{role}/{usercode}/{heading?}/{body_page?}/{body_count?}/{body_perpage?}/{par_link?}/{parent_item?}', [ItemController::class, 'ext_create'])
+Route::get('/item/ext_create/{base}/{project}/{role}/{usercode}/{relit_id}/{heading?}/{body_page?}/{body_count?}/{body_perpage?}/{par_link?}/{parent_item?}', [ItemController::class, 'ext_create'])
     ->name('item.ext_create')
     ->middleware('auth');
 
@@ -833,7 +832,7 @@ Route::get('/item/edit/{item}', [ItemController::class, 'edit'])
     ->name('item.edit')
     ->middleware('auth');
 
-Route::get('/item/ext_edit/{item}/{project}/{role}/{usercode}/{heading?}/{body_page?}/{body_count?}/{body_perpage?}/{par_link?}/{parent_item?}', [ItemController::class, 'ext_edit'])
+Route::get('/item/ext_edit/{item}/{project}/{role}/{usercode}/{relit_id}/{heading?}/{body_page?}/{body_count?}/{body_perpage?}/{par_link?}/{parent_item?}', [ItemController::class, 'ext_edit'])
     ->name('item.ext_edit')
     ->middleware('auth');
 
@@ -842,7 +841,7 @@ Route::post('/item/store', [ItemController::class, 'store'])
     ->middleware('auth');
 
 // heading нужно, если $heading = true - нажата Добавить из "heading", false - из "body" (только при добавлении записи)
-Route::post('/item/ext_store/{base}/{project}/{role}/{usercode}/{heading?}/{body_page?}/{body_count?}/{body_perpage?}/{par_link?}/{parent_item?}', [ItemController::class, 'ext_store'])
+Route::post('/item/ext_store/{base}/{project}/{role}/{usercode}/{relit_id}/{heading?}/{body_page?}/{body_count?}/{body_perpage?}/{par_link?}/{parent_item?}', [ItemController::class, 'ext_store'])
     ->name('item.ext_store')
     ->middleware('auth');
 
@@ -850,7 +849,7 @@ Route::put('/item/edit/{item}', [ItemController::class, 'update'])
     ->name('item.update')
     ->middleware('auth');
 
-Route::put('/item/ext_edit/{item}/{project}/{role}/{usercode}/{heading?}/{body_page?}/{body_count?}/{body_perpage?}/{par_link?}/{parent_item?}', [ItemController::class, 'ext_update'])
+Route::put('/item/ext_edit/{item}/{project}/{role}/{usercode}/{relit_id}/{heading?}/{body_page?}/{body_count?}/{body_perpage?}/{par_link?}/{parent_item?}', [ItemController::class, 'ext_update'])
     ->name('item.ext_update')
     ->middleware('auth');
 
@@ -858,30 +857,30 @@ Route::get('/item/delete_question/{item}', [ItemController::class, 'delete_quest
     ->name('item.delete_question')
     ->middleware('auth');
 
-Route::get('/item/ext_delete_question/{item}/{project}/{role}/{usercode}/{heading?}/{body_page?}/{body_count?}/{body_perpage?}/{par_link?}/{parent_item?}', [ItemController::class, 'ext_delete_question'])
+Route::get('/item/ext_delete_question/{item}/{project}/{role}/{usercode}/{relit_id}/{heading?}/{body_page?}/{body_count?}/{body_perpage?}/{par_link?}/{parent_item?}', [ItemController::class, 'ext_delete_question'])
     ->name('item.ext_delete_question')
     ->middleware('auth');
 
-Route::delete('/item/ext_delete/{item}/{project}/{role}/{usercode}/{heading?}/{body_page?}/{body_count?}/{body_perpage?}/{par_link?}/{parent_item?}', [ItemController::class, 'ext_delete'])
+Route::delete('/item/ext_delete/{item}/{project}/{role}/{usercode}/{relit_id}/{heading?}/{body_page?}/{body_count?}/{body_perpage?}/{par_link?}/{parent_item?}', [ItemController::class, 'ext_delete'])
     ->name('item.ext_delete')
     ->middleware('auth');
 
 Route::post('/store_link_change', [ItemController::class, 'store_link_change'])
     ->name('item.store_link_change');
 
-Route::get('/item/get_items_main/{base}/{project}/{role}/{link?}/{item?}', [ItemController::class, 'get_items_main'])
+Route::get('/item/get_items_main/{base}/{project}/{role}/{relit_id}/{link?}/{item?}', [ItemController::class, 'get_items_main'])
     ->name('item.get_items_main')
     ->middleware('auth');
 
-Route::get('/item/get_items_main_options/{base}/{project}/{role}/{link?}/{item?}', [ItemController::class, 'get_items_main_options'])
+Route::get('/item/get_items_main_options/{base}/{project}/{role}/{relit_id}/{link?}/{item?}', [ItemController::class, 'get_items_main_options'])
     ->name('item.get_items_main_options')
     ->middleware('auth');
 
-Route::get('/item/get_items_main_code/{code}/{base}/{project}/{role}/{link?}/{item?}', [ItemController::class, 'get_items_main_code'])
+Route::get('/item/get_items_main_code/{code}/{base}/{project}/{role}/{relit_id}/{link?}/{item?}', [ItemController::class, 'get_items_main_code'])
     ->name('item.get_items_main_code')
     ->middleware('auth');
 
-Route::get('/item/get_items_for_link/{link}/{project}/{role}', [ItemController::class, 'get_items_for_link'])
+Route::get('/item/get_items_for_link/{link}/{project}/{role}/{relit_id}', [ItemController::class, 'get_items_for_link'])
     ->name('item.get_items_for_link')
     ->middleware('auth');
 
@@ -913,7 +912,7 @@ Route::get('/item/get_parent_item_from_output_calculated_table',
 //    ->name('item.browser')
 //    ->middleware('auth');
 
-Route::get('/item/browser/{link_id}/{project_id?}/{role_id?}/{item_id?}/{order_by?}/{filter_by?}/{search?}', [ItemController::class, 'browser'])
+Route::get('/item/browser/{link_id}/{project_id?}/{role_id?}/{relit_id?}/{item_id?}/{order_by?}/{filter_by?}/{search?}', [ItemController::class, 'browser'])
     ->name('item.browser')
     ->middleware('auth');
 

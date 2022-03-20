@@ -78,7 +78,7 @@ class SetController extends Controller
             return redirect()->route('project.all_index');
         }
 
-        $links = $this->select_links_template($template);
+        $links = GlobalController::select_links_template($template);
         return view('set/edit', ['template' => $template, 'links' => $links,
             'forwhats' => Set::get_forwhats(), 'updactions' => Set::get_updactions(),
             'array_relits' => GlobalController::get_array_relits($template)]);
@@ -420,7 +420,7 @@ class SetController extends Controller
         }
 
         $template = Template::findOrFail($set->template_id);
-        $links = $this->select_links_template($template);
+        $links = GlobalController::select_links_template($template);
         return view('set/edit', ['template' => $template, 'set' => $set, 'links' => $links,
             'forwhats' => Set::get_forwhats(), 'updactions' => Set::get_updactions(),
             'array_relits' => GlobalController::get_array_relits($template)]);
@@ -451,46 +451,6 @@ class SetController extends Controller
         } else {
             return redirect()->back();
         }
-    }
-
-    function select_links_template(Template $template)
-    {
-        // Проверка для вычисляемых полей
-        //        ->where('links.parent_is_parent_related', false)
-        return Link::select(DB::Raw('links.*'))
-            ->join('bases', 'links.child_base_id', '=', 'bases.id')
-            ->where('bases.template_id', $template->id)
-            ->orderBy('links.child_base_id')
-            ->orderBy('links.parent_base_number')
-            ->get();
-    }
-
-    // Похожие процедуры LinkController::get_bases_from_parent_relit_id()
-    static function get_links_from_relit_to_id($relit_id, $current_template_id)
-    {
-        $links_options = '';
-        // Вычисление $template
-        $template_id = null;
-        if ($relit_id == 0) {
-            $template_id = $current_template_id;
-        } else {
-            $relit = Relit::find($relit_id);
-            if ($relit) {
-                $template_id = $relit->parent_template_id;
-            }
-        }
-        if ($template_id != null) {
-            $template = Template::findOrFail($template_id);
-            // список links по выбранному template_id
-            $links = self::select_links_template($template);
-            foreach ($links as $link) {
-                $links_options = $links_options
-                    . "<option value='" . $link->id . "'>" . $link->name() . "</option>";
-            }
-        }
-        return [
-            'links_options' => $links_options
-        ];
     }
 
 }

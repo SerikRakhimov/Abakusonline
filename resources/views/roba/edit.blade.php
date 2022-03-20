@@ -60,8 +60,43 @@
         @endif
 
         @if($is_base)
+            @if($update)
+                <input type="hidden" name="relit_id" value="{{$roba->relit_id}}">
+            @else
+                {{-- Значение по умолчанию - 'value="0"'--}}
+                <input type="hidden" name="relit_id" value="0">
+            @endif
             <input type="hidden" name="base_id" value="{{$base->id}}">
         @else
+            <div class="form-group row">
+                <div class="col-sm-3 text-right">
+                    <label for="relit_id">{{trans('main.template')}}<span
+                            class="text-danger">*</span></label>
+                </div>
+                <div class="col-sm-7">
+                    <select class="form-control"
+                            name="relit_id"
+                            id="relit_id"
+                            class="form-control @error('relit_id') is-invalid @enderror">
+                        @foreach ($array_relits as $key=>$value)
+                            <option value="{{$key}}"
+                                    {{--            "(int) 0" нужно--}}
+                                    @if ((old('relit_id') ?? ($roba->relit_id ?? (int) 0)) ==  $key)
+                                    selected
+                                @endif
+                            >{{$value}}</option>
+                        @endforeach
+                    </select>
+                    @error('relit_id')
+                    <div class="text-danger">
+                        {{$message}}
+                    </div>
+                    @enderror
+                </div>
+                <div class="col-sm-2">
+                </div>
+            </div>
+
             <div class="form-group row">
                 <div class="col-sm-3 text-right">
                     <label for="base_id" class="col-form-label">{{trans('main.base')}}<span
@@ -72,14 +107,14 @@
                             name="base_id"
                             id="base_id"
                             class="@error('base_id') is-invalid @enderror">
-                        @foreach ($bases as $base)
-                            <option value="{{$base->id}}"
+                        @foreach ($bases as $base_work)
+                            <option value="{{$base_work->id}}"
                                     @if ($update)
-                                    @if ((old('base_id') ?? ($roba->base_id ?? (int) 0)) ==  $base->id)
+                                    @if ((old('base_id') ?? ($roba->base_id ?? (int) 0)) ==  $base_work->id)
                                     selected
                                 @endif
                                 @endif
-                            >{{$base->name()}}</option>
+                            >{{$base_work->name()}}</option>
                         @endforeach
                     </select>
                     @error('base_id')
@@ -719,5 +754,40 @@
             </div>
         </div>
     </form>
+    <script>
+        var relit_id = document.getElementById('relit_id');
+        var base_id = document.getElementById('base_id');
 
+        // Изменение relit_id
+        function relit_id_changeOption(box) {
+            axios.get('/global/get_bases_from_relit_id/'
+                + relit_id.options[relit_id.selectedIndex].value
+                + '/{{$template->id}}'
+            ).then(function (res) {
+                // если запуск функции не при загрузке страницы
+                if (res.data['bases_options'] == "") {
+                   base_id.innerHTML = '<option value = "0">{{trans('main.no_information_on')}} "' + relit_id.options[relit_id.selectedIndex].text + '"!</option>';
+                } else {
+                    base_id.innerHTML = res.data['bases_options'];
+                }
+                // нужно чтобы при первом вызове формы корректировки записи значения полей соответствовали значениям из базы данных
+                @if ($update)  // при корректировке записи
+                for (let i = 0; i < base_id.length; i++) {
+                    // если элемент списка = текущему значению из базы данных
+                    if (base_id[i].value == {{$roba->base_id}}) {
+                        // установить selected на true
+                        base_id[i].selected = true;
+                    }
+                }
+                @endif
+            });
+        }
+
+        relit_id.addEventListener("change", relit_id_changeOption);
+
+        window.onload = function () {
+            relit_id_changeOption(true);
+        };
+
+    </script>
 @endsection

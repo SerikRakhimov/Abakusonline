@@ -25,7 +25,8 @@
                 @if($message == "")
                     <button type="button" class="btn btn-dreamer" title="{{trans('main.add')}}"
                             onclick="document.location='{{route('item.ext_create',
-                            ['base'=>$base, 'project'=>$project, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc()])}}'">
+                            ['base'=>$base, 'project'=>$project, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(),
+                             'relit_id' =>$relit_id])}}'">
                         <i class="fas fa-plus d-inline"></i>&nbsp;{{trans('main.add')}}
                     </button>
                 @else
@@ -182,7 +183,7 @@
                 {{--                    <div class="card card-inverse text-center" style="background-color: rgba(222,255,162,0.23); border-color: #3548ee;">--}}
                 <div class="card shadow">
                     @if($base->is_code_needed == true)
-                        <a href="{{route('item.ext_show', ['item'=>$item, 'project'=>$project, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(),
+                        <a href="{{route('item.ext_show', ['item'=>$item, 'project'=>$project, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id,
                                     'heading'=>0,'body_page'=>0, 'body_count'=>0,'body_perpage'=>0,
                                     'par_link'=>null, 'parent_item'=>null])}}" title="{{$item->name()}}">
                             <p class="card-header text-center text-label">{{trans('main.code')}}: {{$item->code}}</p>
@@ -193,7 +194,7 @@
                             {{--                            <div class="card-block text-center">--}}
                             <div class="text-center">
                                 {{-- https://askdev.ru/q/kak-vyzvat-funkciyu-javascript-iz-tega-href-v-html-276225/--}}
-                                <a href="{{route('item.ext_show', ['item'=>$item, 'project'=>$project, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(),
+                                <a href="{{route('item.ext_show', ['item'=>$item, 'project'=>$project, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id,
                                     'heading'=>0,'body_page'=>0, 'body_count'=>0,'body_perpage'=>0,
                                     'par_link'=>null, 'parent_item'=>null])}}"
                                    title="{{$item->name()}}">
@@ -203,7 +204,7 @@
                         @endif
                         {{--                    <div class="card-footer">--}}
                         <h5 class="card-title text-center"><a
-                                href="{{route('item.ext_show', ['item'=>$item, 'project'=>$project, 'role'=>$role, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(),
+                                href="{{route('item.ext_show', ['item'=>$item, 'project'=>$project, 'role'=>$role, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id,
                                     'heading'=>0,'body_page'=>0, 'body_count'=>0,'body_perpage'=>0,
                                     'par_link'=>null, 'parent_item'=>null])}}"
                                 title="{{$item->name()}}">
@@ -282,7 +283,7 @@
 {{--        Используется 'heading'=>0'--}}
         @include('list.table',['base'=>$base, 'links_info'=>$links_info, 'items'=>$items,
                     'base_right'=>$base_right, 'item_view'=>true,
-                    'heading'=>0,'body_page'=>0, 'body_count'=>0,'body_perpage'=>0,
+                    'relit_id'=>$relit_id, 'heading'=>0, 'body_page'=>0, 'body_count'=>0,'body_perpage'=>0,
                     'par_link'=>null, 'parent_item'=>null, 'ext_show_body'=>$ext_show_body])
         {{--                            @if(1==2)--}}
         {{--                                @foreach($link_id_array as $value)--}}

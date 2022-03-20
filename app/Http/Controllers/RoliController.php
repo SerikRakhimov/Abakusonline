@@ -78,7 +78,8 @@ class RoliController extends Controller
 
         $links = $this->select_links_role($role);
 
-        return view('roli/edit', ['role' => $role, 'links' => $links]);
+        return view('roli/edit', ['template' => $role->template, 'role' => $role, 'links' => $links,
+            'array_relits' => GlobalController::get_array_relits($role->template)]);
     }
 
     function create_link(Link $link)
@@ -96,7 +97,8 @@ class RoliController extends Controller
             $roles = $roles->orderBy($name);
         }
         $roles = $roles->get();
-        return view('roli/edit', ['link' => $link, 'roles' => $roles]);
+        return view('roli/edit', ['template' => $link->child_base->template, 'link' => $link, 'roles' => $roles,
+            'array_relits' => GlobalController::get_array_relits($link->child_base->template)]);
     }
 
     function store(Request $request)
@@ -174,6 +176,7 @@ class RoliController extends Controller
     function set(Request $request, Roli &$roli)
     {
         $roli->role_id = $request->role_id;
+        $roli->relit_id = $request->relit_id;
         $roli->link_id = $request->link_id;
         $roli->is_list_link_enable = isset($request->is_list_link_enable) ? true : false;
         $roli->is_show_link_enable = isset($request->is_show_link_enable) ? true : false;
@@ -224,7 +227,8 @@ class RoliController extends Controller
 
         $links = $this->select_links_role($role);
 
-        return view('roli/edit', ['role' => $role, 'roli' => $roli, 'links' => $links]);
+        return view('roli/edit', ['template' => $roli->role->template, 'role' => $role, 'roli' => $roli, 'links' => $links,
+            'array_relits' => GlobalController::get_array_relits($roli->role->template)]);
     }
 
     function edit_link(Roli $roli)
@@ -243,7 +247,8 @@ class RoliController extends Controller
             $roles = $roles->orderBy($name);
         }
         $roles = $roles->get();
-        return view('roli/edit', ['link' => $link, 'roli' => $roli, 'roles' => $roles]);
+        return view('roli/edit', ['template' => $roli->role->template, 'link' => $link, 'roli' => $roli, 'roles' => $roles,
+            'array_relits' => GlobalController::get_array_relits($roli->role->template)]);
     }
 
     function delete_question(Roli $roli)

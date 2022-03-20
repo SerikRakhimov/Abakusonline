@@ -32,7 +32,7 @@
             <th class="text-center align-top">{{trans('main.serial_number')}}</th>
             <th class="text-center align-top">{{trans('main.line_number')}}</th>
             <th class="text-left align-top">{{trans('main.link_from')}}</th>
-            <th class="text-left align-top">{{trans('main.parent')}}_{{trans('main.template')}}</th>
+            <th class="text-left align-top">{{trans('main.template_to')}}</th>
             <th class="text-left align-top">{{trans('main.link_to')}}</th>
             <th class="text-center align-top">{{trans('main.is_savesets_enabled')}}</th>
             <th class="text-center align-top">{{trans('main.forwhat')}}</th>

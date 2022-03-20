@@ -55,7 +55,7 @@ $i = 0;
                                     <?php
                                     $link = Link::findOrFail($matrix[$x][$y]["link_id"]);
                                     ?>
-                                    <a href="{{route('item.base_index',['base'=>$link->parent_base_id, 'project'=>$project, 'role'=>$role])}}"
+                                    <a href="{{route('item.base_index',['base'=>$link->parent_base_id, 'project'=>$project, 'role'=>$role, 'relit_id' => $relit_id])}}"
                                        title="{{$link->parent_base->names()}}">
                                         {{$matrix[$x][$y]["view_name"]}}
                                     </a>
@@ -83,7 +83,7 @@ $i = 0;
                 <td class="text-center">
                     {{--                    Не удалять--}}
                     {{--                    <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc()])}}">--}}
-                    <a href="{{route('item.ext_show', ['item'=>$item, 'project'=>$project, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(),
+                    <a href="{{route('item.ext_show', ['item'=>$item, 'project'=>$project, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id,
                                     'heading'=>$heading, 'body_page'=>$body_page, 'body_count'=>$body_count,'body_perpage'=>$body_perpage,
                                     'par_link'=>$par_link, 'parent_item'=>$parent_item])}}">
                         {{$i}}
@@ -93,7 +93,7 @@ $i = 0;
             <td class="text-center">
                 {{--                    Не удалять--}}
                 {{--                    <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc()])}}">--}}
-                <a href="{{route('item.ext_show', ['item'=>$item, 'project'=>$project, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(),
+                <a href="{{route('item.ext_show', ['item'=>$item, 'project'=>$project, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id,
                                     'heading'=>$heading, 'body_page'=>$body_page, 'body_count'=>$body_count,'body_perpage'=>$body_perpage,
                                     'par_link'=>$par_link, 'parent_item'=>$parent_item])}}">
                     {{$item->id}}
@@ -103,7 +103,7 @@ $i = 0;
                 @if($base_right['is_list_base_enable'] == true)
                     @if($base->is_code_needed == true)
                         <td class="text-center">
-                            <a href="{{route('item.ext_show', ['item'=>$item, 'project'=>$project, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(),
+                            <a href="{{route('item.ext_show', ['item'=>$item, 'project'=>$project, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id,
                                     'heading'=>$heading, 'body_page'=>$body_page, 'body_count'=>$body_count,'body_perpage'=>$body_perpage,
                                     'par_link'=>$par_link, 'parent_item'=>$parent_item])}}">
                                 {{$item->code}}
@@ -147,7 +147,7 @@ $i = 0;
                                 ?>
                                 @if($ext_show_view)
                                     {{--                                        Вызывается ext_show.php--}}
-                                    <a href="{{route('item.ext_show', ['item'=>$item, 'project'=>$project, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(),
+                                    <a href="{{route('item.ext_show', ['item'=>$item, 'project'=>$project, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id,
                                     'heading'=>$heading, 'body_page'=>$body_page, 'body_count'=>$body_count,'body_perpage'=>$body_perpage,
                                     'par_link'=>$par_link, 'parent_item'=>$parent_item])}}">
                                         {{$item->name()}}
@@ -155,7 +155,7 @@ $i = 0;
                                         @else
                                             @if ($item_index_view)
                                                 <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,
-                                       'usercode' =>GlobalController::usercode_calc(),'par_link'=>$par_link])}}"
+                                       'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id,'par_link'=>$par_link])}}"
                                                    title="{{$item->name()}}">
                                                     {{$item->name()}}
                                                 </a>
@@ -219,8 +219,8 @@ $i = 0;
                                 ?>
                             @if($ext_show_view)
                                 {{--                                        Вызывается ext_show.php--}}
-                                <a href="{{route('item.ext_show', ['item'=>$item, 'project'=>$project, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(),
-                                    'heading'=>$heading, 'body_page'=>$body_page, 'body_count'=>$body_count,'body_perpage'=>$body_perpage,
+                                <a href="{{route('item.ext_show', ['item'=>$item, 'project'=>$project, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id,
+                                        'heading'=>$heading, 'body_page'=>$body_page, 'body_count'=>$body_count,'body_perpage'=>$body_perpage,
                                     'par_link'=>$par_link, 'parent_item'=>$parent_item])}}">
                                     @else
                                         @if ($item_index_view)
@@ -237,7 +237,7 @@ $i = 0;
                                             }
                                             ?>
                                             <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$i_item, 'role'=>$role,
-                                        'usercode' =>GlobalController::usercode_calc(),'par_link'=>$i_par_link])}}"
+                                        'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id, 'par_link'=>$i_par_link])}}"
                                                title="">
                                                 @endif
                                                 @endif

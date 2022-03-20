@@ -998,33 +998,4 @@ class LinkController extends Controller
         ];
     }
 
-    // Похожая процедура SetController::get_links_from_parent_relit_to_id()
-    static function get_bases_from_parent_relit_id($relit_id, $current_template_id)
-    {
-        $bases_options = '';
-        // Вычисление $template
-        $template_id = null;
-        if ($relit_id == 0) {
-            $template_id = $current_template_id;
-        } else {
-            $relit = Relit::find($relit_id);
-            if ($relit) {
-                $template_id = $relit->parent_template_id;
-            }
-        }
-        if ($template_id != null) {
-            // список bases по выбранному template_id
-            $bases = Base::all()
-                ->where('template_id', $template_id)
-                ->sortBy('serial_number');
-            foreach ($bases as $base) {
-                //$bases_options = $bases_options . "<option value='" . $base->id . "'>" . $base->name() . "</option>";
-                $bases_options = $bases_options . "<option value='" . $base->id . "'>" . $base->desc_type() . "</option>";
-            }
-        }
-        return [
-            'bases_options' => $bases_options
-        ];
-    }
-
 }

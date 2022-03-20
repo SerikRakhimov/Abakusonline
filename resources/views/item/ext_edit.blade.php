@@ -12,7 +12,7 @@
     use \App\Http\Controllers\LinkController;
     use \App\Http\Controllers\StepController;
     $update = isset($item);
-    $base_right = GlobalController::base_right($base, $role);
+    $base_right = GlobalController::base_right($base, $role, $relit_id);
     if ($update) {
         $project = $item->project;
     } else {
@@ -43,8 +43,8 @@
     {{--    https://qastack.ru/programming/1191113/how-to-ensure-a-select-form-field-is-submitted-when-it-is-disabled--}}
     <form
         action="{{$update ?
-        route('item.ext_update', ['item'=>$item, 'project' => $project, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(), 'heading'=>$heading, 'body_page'=>$body_page, 'body_count'=>$body_count, 'body_perpage'=>$body_perpage, 'par_link' => $par_link, 'parent_item' => $parent_item]):
-        route('item.ext_store', ['base' => $base, 'project' => $project, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(), 'heading'=>$heading, 'body_page'=>$body_page, 'body_count'=>$body_count,'body_perpage'=>$body_perpage, 'par_link' => $par_link, 'parent_item' => $parent_item])}}"
+        route('item.ext_update', ['item'=>$item, 'project' => $project, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(), 'relit_id' =>$relit_id, 'heading'=>$heading, 'body_page'=>$body_page, 'body_count'=>$body_count, 'body_perpage'=>$body_perpage, 'par_link' => $par_link, 'parent_item' => $parent_item]):
+        route('item.ext_store', ['base'=>$base, 'project' => $project, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(), 'relit_id' =>$relit_id, 'heading'=>$heading, 'body_page'=>$body_page, 'body_count'=>$body_count,'body_perpage'=>$body_perpage, 'par_link' => $par_link, 'parent_item' => $parent_item])}}"
         method="POST"
         enctype=multipart/form-data
         @if($par_link)
@@ -278,7 +278,7 @@
         @foreach($array_calc as $key=>$value)
             <?php
             $link = Link::find($key);
-            $base_link_right = GlobalController::base_link_right($link, $role);
+            $base_link_right = GlobalController::base_link_right($link, $role, $relit_id);
             ?>
             @if($base_link_right['is_edit_link_enable'] == false)
                 @continue
@@ -298,14 +298,14 @@
             @endif
             <?php
             $result_parent_label = $link->parent_label();
-            $base_items = $link->parent_base;
+            $link_parent_base = $link->parent_base;
             //                Загружаются данные для списков выбора
-            //$result = ItemController::get_items_ext_edit_for_link($link, $project, $role);
-            //                $result = ItemController::get_items_for_link($link, $project, $role);
+            //$result = ItemController::get_items_ext_edit_for_link($link, $project, $role, $relit_id);
+            //                $result = ItemController::get_items_for_link($link, $project, $role, $relit_id);
             //                $items = $result['result_parent_base_items'];
             $items_default = true;
             //  Проверка на фильтруемые поля
-            $link_selection_table = ItemController::get_link_refer_main($base_items, $link);
+            $link_selection_table = ItemController::get_link_refer_main($link_parent_base, $link);
             // Проверка на ввод в виде справочника
             if ($link->parent_base->is_code_needed == true && $link->parent_is_enter_refer == true) {
                 if ($link_selection_table) {
@@ -314,7 +314,7 @@
             }
             $items = [];
             if ($items_default = true && $link->parent_base->type_is_list()) {
-                $result = ItemController::get_items_main($base_items, $project, $role, $link);
+                $result = ItemController::get_items_main($link_parent_base, $project, $role, $relit_id, $link);
                 $items = $result['items_no_get']->get();
             }
             $code_find = null;
@@ -929,7 +929,7 @@
         $link = Link::find($key);
         // Находим $parent_project
         $parent_project = GlobalController::calc_link_project($link, $project);
-        $base_link_right = GlobalController::base_link_right($link, $role);
+        $base_link_right = GlobalController::base_link_right($link, $role, $relit_id);
         ?>
         @if($base_link_right['is_edit_link_enable'] == false)
             @continue
@@ -967,7 +967,7 @@
         <?php
         // похожие строки ниже
         $prefix = '';
-        $base_items = $link->parent_base;
+        $link_parent_base = $link->parent_base;
         $link_enter_refer = null;
         $link_refer_start = null;
         $link_refer_main = null;
@@ -1007,7 +1007,7 @@
                 $const_link_start = $lres['const_link_start'];
                 $link_start_child = Link::find($link->parent_child_related_start_link_id);
                 $link_result_child = Link::find($link->parent_child_related_result_link_id);
-                $link_selection_table = ItemController::get_link_refer_main($base_items, $link);
+                $link_selection_table = ItemController::get_link_refer_main($link_parent_base, $link);
                 $prefix = '3_';
             }
             //}
@@ -1076,7 +1076,7 @@
                             @if(($link_start_child->parent_is_base_link == true) || ($link_start_child->parent_base->is_code_needed==true && $link_start_child->parent_is_enter_refer==true))
                                 @else
                                 await axios.get('/item/get_items_main_options/'
-                                + '{{$link_start_child->parent_base_id}}' + '/' + {{$project->id}} + '/' + {{$role->id}} + '/' + {{$link_get->id}}
+                                + '{{$link_start_child->parent_base_id}}' + '/' + {{$project->id}} + '/' + {{$role->id}}  + '/' + {{$relit_id}} + '/' + {{$link_get->id}}
                                     @if(($link->parent_is_base_link == true) || ($link->parent_base->is_code_needed==true && $link->parent_is_enter_refer==true))
                                 + '/' + parent_base_id{{$prefix}}{{$link->id}}.value
                                 @else
@@ -1184,7 +1184,7 @@
                                 } else {
                                     await axios.get('/item/get_items_main_code/'
                                         + code_{{$prefix}}{{$link->id}}.value + '/'
-                                        + '{{$link->parent_base_id}}' + '/' + {{$project->id}} + '/' + {{$role->id}} + '/' + {{$link->id}}
+                                        + '{{$link->parent_base_id}}' + '/' + {{$project->id}} + '/' + {{$role->id}} + '/'+ {{$relit_id}} + '/' + {{$link->id}}
                                             @if(($link_refer_main->parent_is_base_link == true) || ($link_refer_main->parent_base->is_code_needed==true && $link_refer_main->parent_is_enter_refer==true))
                                         + '/' + parent_base_id{{$prefix}}{{$link->id}}.value
                                         @else
@@ -1423,7 +1423,7 @@
         @foreach($array_calc as $key=>$value)
         <?php
         $link = Link::find($key);
-        $base_link_right = GlobalController::base_link_right($link, $role);
+        $base_link_right = GlobalController::base_link_right($link, $role, $relit_id);
         $prefix = '5_';
         ?>
 

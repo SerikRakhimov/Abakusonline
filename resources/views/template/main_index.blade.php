@@ -100,6 +100,5 @@
     {{--        </div>--}}
 
     {{$templates->links()}}
-
 @endsection
 

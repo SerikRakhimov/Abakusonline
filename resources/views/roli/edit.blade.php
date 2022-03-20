@@ -60,8 +60,43 @@
         @endif
 
         @if($is_link)
+            @if($update)
+                <input type="hidden" name="relit_id" value="{{$roli->relit_id}}">
+            @else
+                {{-- Значение по умолчанию - 'value="0"'--}}
+                <input type="hidden" name="relit_id" value="0">
+            @endif
             <input type="hidden" name="link_id" value="{{$link->id}}">
         @else
+            <div class="form-group row">
+                <div class="col-sm-3 text-right">
+                    <label for="relit_id">{{trans('main.template')}}<span
+                            class="text-danger">*</span></label>
+                </div>
+                <div class="col-sm-7">
+                    <select class="form-control"
+                            name="relit_id"
+                            id="relit_id"
+                            class="form-control @error('relit_id') is-invalid @enderror">
+                        @foreach ($array_relits as $key=>$value)
+                            <option value="{{$key}}"
+                                    {{--            "(int) 0" нужно--}}
+                                    @if ((old('relit_id') ?? ($roli->relit_id ?? (int) 0)) ==  $key)
+                                    selected
+                                @endif
+                            >{{$value}}</option>
+                        @endforeach
+                    </select>
+                    @error('relit_id')
+                    <div class="text-danger">
+                        {{$message}}
+                    </div>
+                    @enderror
+                </div>
+                <div class="col-sm-2">
+                </div>
+            </div>
+
             <div class="form-group row">
                 <div class="col-sm-3 text-right">
                     <label for="link_id" class="col-form-label">{{trans('main.link')}}<span
@@ -178,7 +213,7 @@
                        name="is_edit_link_update"
                        id="is_edit_link_update"
                        placeholder=""
-{{--                       "$roli->is_edit_link_update ?? true" - "true" значение по умолчанию--}}
+                       {{--                       "$roli->is_edit_link_update ?? true" - "true" значение по умолчанию--}}
                        @if ((old('is_edit_link_update') ?? ($roli->is_edit_link_update ?? true)) ==  true)
                        checked
                     @endif
@@ -247,4 +282,39 @@
             </div>
         </div>
     </form>
+    <script>
+        var relit_id = document.getElementById('relit_id');
+        var link_id = document.getElementById('link_id');
+
+        function relit_id_changeOption(box) {
+            axios.get('/global/get_links_from_relit_id/'
+                + relit_id.options[relit_id.selectedIndex].value
+                + '/{{$template->id}}'
+            ).then(function (res) {
+                // если запуск функции не при загрузке страницы
+                if (res.data['links_options'] == "") {
+                    link_id.innerHTML = '<option value = "0">{{trans('main.no_information_on')}} "' + relit_id.options[relit_id.selectedIndex].text + '"!</option>';
+                } else {
+                    link_id.innerHTML = res.data['links_options'];
+                }
+                // нужно чтобы при первом вызове формы корректировки записи значения полей соответствовали значениям из базы данных
+                @if ($update)  // при корректировке записи
+                for (let i = 0; i < link_id.length; i++) {
+                    // если элемент списка = текущему значению из базы данных
+                    if (link_id[i].value == {{$roli->link_id}}) {
+                        // установить selected на true
+                        link_id[i].selected = true;
+                    }
+                }
+                @endif
+            });
+        }
+
+        relit_id.addEventListener("change", relit_id_changeOption);
+
+        window.onload = function () {
+            relit_id_changeOption(true);
+        };
+
+    </script>
 @endsection

@@ -39,7 +39,7 @@ class Project extends Model
 //        };
 //        $result = $result . ' (' . $this->user->name . ')';
 //        $result = $result . ' (' . $this->account . ', Id = ' .$this->id . ')';
-        $result = $result . ' (Id = ' .$this->id . ')';
+        //$result = $result . ' (Id = ' .$this->id . ')';
         return $result;
     }
 

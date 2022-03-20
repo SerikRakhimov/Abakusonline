@@ -33,7 +33,7 @@
         }
         ?>
         @include('list.table',['base'=>$item->base, 'project'=>$project, 'links_info'=>$child_links_info, 'items'=>$items,
-                'base_right'=>$base_right,
+                'base_right'=>$base_right, 'relit_id'=>$relit_id,
                 'heading'=>intval(true), 'body_page'=>$body_page, 'body_count'=>$body_count,'body_perpage'=>$body_perpage,
                 'par_link'=>$i_par_link, 'parent_item'=>$i_parent_item, 'ext_show_body'=>false])
     @endif
@@ -44,7 +44,7 @@
                 <h3>
                     @if ($base_right['is_list_base_calc'] == true)
                         <a href="{{route('item.base_index', ['base'=>$item->base,
-                            'project'=>$project, 'role'=>$role])}}" title="{{$item->base->names()}}">
+                            'project'=>$project, 'role'=>$role, 'relit_id'=>$relit_id])}}" title="{{$item->base->names()}}">
                             @endif
                             @if($current_link)
                                 {{$current_link->parent_label()}}:
@@ -56,7 +56,7 @@
                     @endif
                     @if(GlobalController::is_base_calcname_check($item->base, $base_right))
                         @if ($base_right['is_list_base_calc'] == true)
-                            <a href="{{route('item.ext_show', ['item'=>$item, 'project'=>$project, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc()])}}"
+                            <a href="{{route('item.ext_show', ['item'=>$item, 'project'=>$project, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id])}}"
                                title="{{$item->cdnm()}}">
                                 {{$item->cdnm()}}
                             </a>
@@ -77,6 +77,7 @@
                     <button type="button" class="btn btn-dreamer" title="{{trans('main.add')}}"
                             onclick="document.location='{{route('item.ext_create', ['base'=>$item->base,
                              'project'=>$project, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(),
+                             'relit_id' =>$relit_id,
                              'heading'=>intval(true), 'body_page'=>$body_page, 'body_count'=>$body_count,'body_perpage'=>$body_perpage,
                              'par_link'=>$current_link, 'parent_item'=>null])}}'">
                         <i class="fas fa-plus d-inline"></i>&nbsp;{{trans('main.add')}}
@@ -114,7 +115,7 @@
         <li class="page-item"><a class="page-link"
                                  @if($prev_item)
                                  href="{{route('item.item_index', ['project'=>$project, 'item'=>$prev_item, 'role'=>$role,
-                                'usercode' =>GlobalController::usercode_calc(), 'par_link'=>$current_link])}}"
+                                'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id, 'par_link'=>$current_link])}}"
                                  title="{{$prev_item->cdnm()}}"
                                  @else
                                  style="cursor:default" href="#" title="{{trans('main.none')}}"
@@ -123,7 +124,7 @@
         <li class="page-item"><a class="page-link"
                                  @if($next_item)
                                  href="{{route('item.item_index', ['project'=>$project, 'item'=>$next_item, 'role'=>$role,
-                                'usercode' =>GlobalController::usercode_calc(), 'par_link'=>$current_link])}}"
+                                'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id, 'par_link'=>$current_link])}}"
                                  title="{{$next_item->cdnm()}}"
                                  @else
                                  style="cursor:default" href="#" title="{{trans('main.none')}}"
@@ -148,7 +149,7 @@
         {{--                    </h3>--}}
         {{--                    <h3>--}}
         {{--                        <a href="{{route('item.base_index', ['base'=>$current_link->child_base,--}}
-        {{--                            'project'=>$project, 'role'=>$role])}}"--}}
+        {{--                            'project'=>$project, 'role'=>$role, 'relit_id'=>$relit_id])}}"--}}
         {{--                           title="{{$current_link->child_base->names()}}">--}}
         {{--                            {{$current_link->child_labels()}}--}}
         {{--                        </a>--}}
@@ -199,7 +200,7 @@
                             {{--                            {{$item->base->name()}}:--}}
                             {{--                        @endif--}}
                             <a href="{{route('item.base_index', ['base'=>$current_link->child_base,
-                            'project'=>$project, 'role'=>$role])}}" title="{{$current_link->child_base->names()}}">
+                            'project'=>$project, 'role'=>$role, 'relit_id'=>$relit_id])}}" title="{{$current_link->child_base->names()}}">
                                 {{$current_link->child_labels()}}:
                             </a>
                         </h3>
@@ -210,6 +211,7 @@
                                     onclick="document.location='{{route('item.ext_create', ['base'=>$current_link->child_base_id,
                                         'project'=>$project, 'role'=>$role,
                                          'usercode' =>GlobalController::usercode_calc(),
+                             'relit_id' =>$relit_id,
                              'heading'=>intval(false), 'body_page'=>$body_page, 'body_count'=>$body_count,'body_perpage'=>$body_perpage,
                              'par_link'=>$current_link, 'parent_item'=>$item])}}'">
                                 <i class="fas fa-plus d-inline"></i>&nbsp;{{trans('main.add')}}
@@ -234,7 +236,7 @@
             </p>
             @if (count($body_items) > 0)
                 @include('list.table',['base'=>$current_link->child_base, 'project'=>$project, 'links_info'=>$child_body_links_info, 'items'=>$body_items,
-            'base_right'=>$base_body_right,
+            'base_right'=>$base_body_right, 'relit_id'=>$relit_id,
             'heading'=>intval(false), 'body_page'=>$body_page, 'body_count'=>$body_count,'body_perpage'=>$body_perpage,
             'par_link'=>$current_link, 'parent_item'=>$item, 'ext_show_body'=>false])
                 {{$body_items->links()}}
@@ -251,6 +253,7 @@
                     <input type="hidden" name="project_id" value="{{$project->id}}">
                     <input type="hidden" name="item_id" value="{{$item->id}}">
                     <input type="hidden" name="role_id" value="{{$role->id}}">
+                    <input type="hidden" name="relit_id" value="{{$relit_id}}">
                     <div class="d-flex justify-content-end align-items-center mt-0">
                         <div class="col-auto">
                             {{--                            <label for="link_id">{{trans('main.another_attitude')}} = </label>--}}

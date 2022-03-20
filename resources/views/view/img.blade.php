@@ -23,7 +23,7 @@ use \App\Http\Controllers\GlobalController;
                                         @endif
                                     src="{{Storage::url($item->filename())}}"
                                     @endif
-                                    height=
+                                        height=
                                     @include('types.img.height',['size'=>$size])
                                         alt="" title=
                                     @if($title == "")

@@ -95,7 +95,7 @@
 
         <div class="form-group row">
             <div class="col-sm-3 text-right">
-                <label for="relit_to_id">{{trans('main.parent')}}_{{trans('main.template')}}<span
+                <label for="relit_to_id">{{trans('main.template_to')}}<span
                     class="text-danger">*</span></label>
             </div>
             <div class="col-sm-7">
@@ -333,11 +333,11 @@
         }
 
                 function relit_to_id_changeOption(box) {
-                    axios.get('/set/get_links_from_relit_to_id/'
+                    axios.get('/global/get_links_from_relit_id/'
                         + relit_to_id.options[relit_to_id.selectedIndex].value
                         + '/{{$template->id}}'
                     ).then(function (res) {
-                        
+
                         // если запуск функции не при загрузке страницы
                         if (res.data['links_options'] == "") {
                             link_to_id.innerHTML = '<option value = "0">{{trans('main.no_information_on')}} "' + relit_to_id.options[relit_to_id.selectedIndex].text + '"!</option>';

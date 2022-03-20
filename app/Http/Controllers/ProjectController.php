@@ -840,8 +840,10 @@ class ProjectController extends Controller
                     break;
             }
         }
+        $array_relips = GlobalController::get_project_bases($project, $role);
+
         session(['projects_previous_url' => request()->url()]);
-        return view('project/start', ['project' => $project, 'role' => $role, 'bases' => $bases->paginate(60)]);
+        return view('project/start', ['array_relips' => $array_relips, 'project' => $project, 'role' => $role, 'bases' => $bases->paginate(60)]);
 
     }
 

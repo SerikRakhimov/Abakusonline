@@ -55,9 +55,9 @@
         ?>
         @foreach($bases as $base)
             <?php
-            $base_right = GlobalController::base_right($base, $role);
+            $base_right = GlobalController::base_right($base, $role, 0);
             ?>
-            {{--            Похожая проверка в ItemController::base_index() и project/start.php--}}
+            {{-- Похожая проверка в GlobalController::get_project_bases(), ItemController::base_index() и project/start.php --}}
             @if($base_right['is_list_base_calc'] == true)
                 <?php
                 $i++;
@@ -73,16 +73,17 @@
                 ?>
                 <tr>
                     {{--                                    <th scope="row">{{$i}}</th>--}}
-                    <td class="text-center"><h5>
+                    <td class="text-center">
+                        <h5>
                             <a
-                                href="{{route('item.base_index',['base'=>$base, 'project' => $project, 'role' => $role])}}"
+                                href="{{route('item.base_index',['base'=>$base, 'project' => $project, 'role' => $role, 'relit_id' => 0])}}"
                                 title="{{$base->names()}}">
                                 {{$i}}
                             </a></h5></td>
                     <td class="text-left">
                         <h5>
                             <a
-                                href="{{route('item.base_index',['base'=>$base, 'project' => $project, 'role' => $role])}}"
+                                href="{{route('item.base_index',['base'=>$base, 'project' => $project, 'role' => $role, 'relit_id' => 0])}}"
                                 title="{{$base->names() . $message}}">
                                 {{$base->names()}}
                                 {{--                            @auth--}}
@@ -95,7 +96,7 @@
                             $menu_type_name = $base->menu_type_name();
                             ?>
                             <a
-                                href="{{route('item.base_index',['base'=>$base, 'project' => $project, 'role' => $role])}}"
+                                href="{{route('item.base_index',['base'=>$base, 'project' => $project, 'role' => $role, 'relit_id' => 0])}}"
                                 title="{{$menu_type_name['text']}}">
                                 <span class="badge badge-related"><?php
                                     echo $menu_type_name['icon'];
@@ -133,7 +134,7 @@
     {{--                    <div class="card-body">--}}
     {{--                        <h5 class="card-title text-center">--}}
     {{--                            <a--}}
-    {{--                                href="{{route('item.base_index',['base'=>$base, 'project' => $project, 'role' => $role])}}"--}}
+    {{--                                href="{{route('item.base_index',['base'=>$base, 'project' => $project, 'role' => $role, 'relit_id' => 0])}}"--}}
     {{--                                title="{{$base->names()}}">--}}
     {{--                                {{$base->names()}}--}}
 
@@ -187,7 +188,7 @@
                 <ul class="list-group">
                     @foreach($bases as $base)
                         <?php
-                        $base_right = GlobalController::base_right($base, $role);
+                        $base_right = GlobalController::base_right($base, $role, 0);
                         ?>
                         @if($base_right['is_list_base_calc'] == true)
                             <?php
@@ -196,13 +197,13 @@
                             <li class="list-group-item d-flex justify-content-between align-items-center listgroup">
                                 <h5 class="card-title text-center">
                                     <a
-                                        href="{{route('item.base_index',['base'=>$base, 'project' => $project, 'role' => $role])}}"
+                                        href="{{route('item.base_index',['base'=>$base, 'project' => $project, 'role' => $role, 'relit_id' => 0])}}"
                                         title="{{$base->names()}}">
                                         {{$base->names()}}
                                     </a>
                                 </h5>
                                 <span
-                                    class="badge badge-related badge-pill">{{GlobalController::items_right($base, $project, $role)['view_count']}}</span>
+                                    class="badge badge-related badge-pill">{{GlobalController::items_right($base, $project, $role, 0)['view_count']}}</span>
                             </li>
                         @endif
                     @endforeach

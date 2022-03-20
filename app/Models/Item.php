@@ -191,7 +191,7 @@ class Item extends Model
                 $base = $this->base;
                 if ($base) {
                     // Эта строка нужна, не удалять
-                    // Для полей типа текст ө наименование берется из $item->name_lang_x, а не с $text->name_lang_x
+                    // Для полей типа текст - наименование берется из $item->name_lang_x, а не с $text->name_lang_x
                     $name = $this['name_lang_' . $lang_key];
                     if ($base->type_is_date()) {
                         $name = date_create($name)->Format(trans('main.format_date'));
