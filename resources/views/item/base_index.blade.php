@@ -10,13 +10,17 @@
     use \App\Http\Controllers\ItemController;
     use \App\Http\Controllers\MainController;
     $message = GlobalController::base_maxcount_validate($project, $base, true);
+    $relip_project = GlobalController::calc_relip_project($relit_id, $project);
 //    Config::set('app.display', 'table');
     ?>
     @include('layouts.project.show_project_role',['project'=>$project, 'role'=>$role])
     <div class="container-fluid">
         <div class="row">
-            <div class="col text-left align-top">
+            <div class="col-6 text-left align-top">
                 <h3>{{$base->names()}}</h3>
+            </div>
+            <div class="col-6 text-right align-top">
+                <small>{{$relip_project->name()}}</small>
             </div>
         </div>
         {{--        Похожая проверка в ItemController::ext_create() и base_index.php--}}
@@ -40,7 +44,7 @@
                 @if ($role->is_author())
                     @if ($base->is_calcname_lst == true)
                         <div class="col-12 text-right">
-                            <a href="{{route('item.calculate_names', ['base'=>$base, 'project'=>$project])}}"
+                            <a href="{{route('item.calculate_names', ['base'=>$base, 'project'=>$relip_project])}}"
                                title="{{trans('main.calculate_names')}}">
                                 <img src="{{Storage::url('calculate_names.png')}}" width="15" height="15"
                                      alt="{{trans('main.calculate_names')}}">
@@ -49,7 +53,7 @@
                     @endif
                     @if ($base->is_recalc_code == true)
                         <div class="col-12 text-right">
-                            <a href="{{route('item.recalculation_codes',['base'=>$base, 'project'=>$project])}}"
+                            <a href="{{route('item.recalculation_codes',['base'=>$base, 'project'=>$relip_project])}}"
                                title="{{trans('main.recalculation_codes')}}">
                                 <img src="{{Storage::url('recalculation_codes.png')}}" width="15" height="15"
                                      alt="{{trans('main.recalculation_codes')}}">
@@ -57,7 +61,7 @@
                         </div>
                     @endif
                     <div class="col-12 text-right">
-                        <a href="{{route('item.verify_baselink',['base'=>$base, 'project'=>$project])}}"
+                        <a href="{{route('item.verify_baselink',['base'=>$base, 'project'=>$relip_project])}}"
                            title="{{trans('main.verify_baselink')}}">
                             <img src="{{Storage::url('recalculation_codes.png')}}" width="15" height="15"
                                  alt="{{trans('main.verify_baselink')}}">

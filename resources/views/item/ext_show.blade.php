@@ -11,6 +11,7 @@
     use Illuminate\Support\Facades\Storage;
     $base = $item->base;
     $base_right = GlobalController::base_right($base, $role, $relit_id);
+    $relip_project = GlobalController::calc_relip_project($relit_id, $project);
     ?>
     @include('layouts.project.show_project_role',['project'=>$project, 'role'=>$role])
     <h3 class="display-5">
@@ -21,6 +22,7 @@
         @endif
         <span class="text-label">-</span> <span class="text-title">{{$item->base->info()}}</span>
     </h3>
+    <small>{{$relip_project->name()}}</small>
     <br>
     <hr>
     <?php

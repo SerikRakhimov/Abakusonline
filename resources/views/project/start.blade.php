@@ -2,7 +2,9 @@
 
 @section('content')
     <?php
+    use App\Models\Base;
     use App\Models\Item;
+    use App\Models\Project;
     use App\Http\Controllers\GlobalController;
     use App\Http\Controllers\ProjectController;
     // https://ru.coredump.biz/questions/41704091/laravel-file-uploads-failing-when-file-size-is-larger-than-2mb
@@ -14,6 +16,7 @@
     $is_delete = $acc_check['is_delete'];
     $is_num_request = $is_request ? 1 : 0;
     $is_num_ask = $is_ask ? 1 : 0;
+    $i = 0;
     ?>
     @include('layouts.project.show_project_role',['project'=>$project, 'role'=>$role])
     @auth
@@ -28,62 +31,63 @@
             @endif
         @endif
     @endauth
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-5 text-center">
-                {{--                <h3>{{trans('main.bases')}}</h3>--}}
-                <h3>{{trans('main.mainmenu')}}</h3>
-            </div>
-            <div class="col-2">
-            </div>
-            <div class="col-5 text-right">
+
+    @foreach($array_relips as $relit_id=>$array_relip)
+        <?php
+        // Находим родительский проект
+        $relip_project = Project::findOrFail($array_relip['project_id']);
+        $base_ids = $array_relip['base_ids'];
+        ?>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-1">
+                </div>
+                <div class="col-6 text-left">
+                    @if($relit_id == 0)
+                        <h3>{{trans('main.mainmenu')}}</h3>
+                    @else
+                        <h4>{{$relip_project->name()}}<h4>
+                    @endif
+                </div>
+                <div class="col-5 text-right">
+                </div>
             </div>
         </div>
-    </div>
-    </p>
-    <table class="table table-sm table-bordered table-hover">
-        <caption>{{trans('main.select_record_for_work')}}</caption>
-        <thead>
-        <tr>
-            <th class="text-center">#</th>
-            <th class="text-left">{{trans('main.names')}}</th>
-        </tr>
-        </thead>
-        <tbody>
-        <?php
-        $i = $bases->firstItem() - 1;
-        ?>
-        @foreach($bases as $base)
-            <?php
-            $base_right = GlobalController::base_right($base, $role, 0);
-            ?>
-            {{-- Похожая проверка в GlobalController::get_project_bases(), ItemController::base_index() и project/start.php --}}
-            @if($base_right['is_list_base_calc'] == true)
+        </p>
+        <table class="table table-sm table-no-bordered table-hover">
+            <caption></caption>
+            {{--                    <thead>--}}
+            {{--                    <tr>--}}
+            {{--                        <th class="text-center col-2">#</th>--}}
+            {{--                        <th class="text-left col-10">{{trans('main.names')}}</th>--}}
+            {{--                    </tr>--}}
+            {{--                    </thead>--}}
+            <tbody>
+            @foreach($base_ids as $base_id)
+                <?php
+                $base = Base::findOrFail($base_id);
+                ?>
                 <?php
                 $i++;
                 $message = GlobalController::base_maxcount_message($base);
                 if ($message != '') {
-                    // Такая же проверка в GlobalController::item_right() и start.php
-                    if ($base_right['is_list_base_create'] == true) {
-                        $message = ' (' . $message . ')';
-                    } else {
-                        $message = '';
-                    }
+                    // Такая же проверка в GlobalController::items_right() и start.php
+                    $message = ' (' . $message . ')';
                 }
                 ?>
                 <tr>
                     {{--                                    <th scope="row">{{$i}}</th>--}}
-                    <td class="text-center">
+                    <td class="col-2 text-center">
                         <h5>
                             <a
-                                href="{{route('item.base_index',['base'=>$base, 'project' => $project, 'role' => $role, 'relit_id' => 0])}}"
+                                href="{{route('item.base_index',['base'=>$base, 'project' => $project, 'role' => $role, 'relit_id' => $relit_id])}}"
                                 title="{{$base->names()}}">
                                 {{$i}}
                             </a></h5></td>
-                    <td class="text-left">
+                    <td class="col-10 text-left">
                         <h5>
                             <a
-                                href="{{route('item.base_index',['base'=>$base, 'project' => $project, 'role' => $role, 'relit_id' => 0])}}"
+                                href="{{route('item.base_index',['base'=>$base, 'project' => $project, 'role' => $role, 'relit_id' => $relit_id])}}"
                                 title="{{$base->names() . $message}}">
                                 {{$base->names()}}
                                 {{--                            @auth--}}
@@ -96,7 +100,7 @@
                             $menu_type_name = $base->menu_type_name();
                             ?>
                             <a
-                                href="{{route('item.base_index',['base'=>$base, 'project' => $project, 'role' => $role, 'relit_id' => 0])}}"
+                                href="{{route('item.base_index',['base'=>$base, 'project' => $project, 'role' => $role, 'relit_id' => $relit_id])}}"
                                 title="{{$menu_type_name['text']}}">
                                 <span class="badge badge-related"><?php
                                     echo $menu_type_name['icon'];
@@ -106,14 +110,10 @@
                         </h5>
                     </td>
                 </tr>
-            @endif
-        @endforeach
-        </tbody>
-    </table>
-    {{$bases->links()}}
-
-
-
+            @endforeach
+            </tbody>
+        </table>
+    @endforeach
 
     {{--    <h3 class="text-center">Справочники</h3><br>--}}
 
@@ -156,7 +156,9 @@
 
     {{--    </div>--}}
 
+{{--    Вывод сведений о подписке--}}
     @if(Auth::check())
+        <hr>
         <small>
             {{trans('main.current_status')}}: <span
                 class="text-title">{{ProjectController::current_status($project, $role)}}</span>

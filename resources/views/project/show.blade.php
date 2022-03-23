@@ -52,16 +52,16 @@
     @if(count($array_calc) > 0)
         {{-- Похожая строки в project/edit, project/show --}}
         <h5>{{trans('main.projects')}}_{{trans('main.parents')}}:</h5>
-        @foreach($array_calc as $relit_id=>$parent_project_id)
+        @foreach($array_calc as $relit_id=>$relip_project_id)
             <?php
                 $relit = Relit::findOrFail($relit_id);
-                //$parent_project = Project::findOrFail($parent_project_id);
-                $parent_project = Project::find($parent_project_id);
+                //$relip_project = Project::findOrFail($relip_project_id);
+                $relip_project = Project::find($relip_project_id);
             ?>
             <p>{{$relit->parent_template->name()}}:
                 <b>
-                    @if($parent_project)
-                        {{$parent_project->name()}}
+                    @if($relip_project)
+                        {{$relip_project->name()}}
                     @else
                         {{trans('main.empty')}}
                     @endif

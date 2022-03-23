@@ -12,6 +12,7 @@
     //        $array = (array)$data;
     //        return $array;
     //    }
+    $relip_project = GlobalController::calc_relip_project($relit_id, $project);
     $body_page = 0;
     $body_count = 0;
     $body_perpage = 0;
@@ -22,6 +23,11 @@
     }
     ?>
     @include('layouts.project.show_project_role',['project'=>$project, 'role'=>$role])
+    <h3 class="display-5">
+            {{trans('main.space')}}
+        <span class="text-label">-</span> <span class="text-title">{{$item->base->info()}}</span>
+    </h3>
+    <small>{{$relip_project->name()}}</small>
     @if(count($child_links) != 0)
         <?php
 //          Присваивания нужны

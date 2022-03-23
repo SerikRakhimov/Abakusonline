@@ -243,9 +243,10 @@ class ItemController extends Controller
         if ($links_info['error_message'] != "") {
             return view('message', ['message' => $links_info['error_message']]);
         }
-
+        $relip_project = GlobalController::calc_relip_project($relit_id, $project);
         $base_right = GlobalController::base_right($base, $role, $relit_id);
-        $items_right = GlobalController::items_right($base, $project, $role, $relit_id);
+        // Используется $relip_project
+        $items_right = GlobalController::items_right($base, $relip_project, $role, $relit_id);
         $items = $items_right['items'];
 
         //$next_links_plan = self::next_links_plan_calc($base, $role);
@@ -289,10 +290,12 @@ class ItemController extends Controller
             return view('message', ['message' => trans('main.no_access')]);
         }
 
+        $relip_project = GlobalController::calc_relip_project($relit_id, $project);
         $child_links = $item->base->child_links->sortBy('parent_base_number');
         $child_links_info = ItemController::links_info($item->base, $role, $relit_id);
+        // Используется $relip_project
         // Используется фильтр на равенство одному $item->id
-        $items_right = GlobalController::items_right($item->base, $project, $role, $relit_id, null, null, $item->id);
+        $items_right = GlobalController::items_right($item->base, $relip_project, $role, $relit_id, null, null, $item->id);
         // 'itget' нужно
         $items = $items_right['itget'];
         $prev_item = $items_right['prev_item'];
@@ -373,7 +376,8 @@ class ItemController extends Controller
         if ($current_link) {
             $child_body_links_info = self::links_info($current_link->child_base, $role, $relit_id, $current_link);
             $base_body_right = GlobalController::base_right($current_link->child_base, $role, $relit_id);
-            $items_body_right = GlobalController::items_right($current_link->child_base, $project, $role, $relit_id, $item->id, $current_link->id);
+            // Используется $relip_project
+            $items_body_right = GlobalController::items_right($current_link->child_base, $relip_project, $role, $relit_id, $item->id, $current_link->id);
 //            $body_items1 = $items_body_right['items']->get();
 //            $item_seek = Item::find(1487);
 //            $nstr=$body_items1->search($item_seek);
@@ -604,11 +608,11 @@ class ItemController extends Controller
         if ($base_right['is_list_base_create'] == false) {
             return view('message', ['message' => trans('main.no_access')]);
         }
-
+        $relip_project = GlobalController::calc_relip_project($relit_id, $project);
         $arrays = $this->get_array_calc_create($base, $par_link, $parent_item);
         $array_calc = $arrays['array_calc'];
         $array_disabled = $arrays['array_disabled'];
-        $code_new = $this->calculate_new_code($base, $project);
+        $code_new = $this->calculate_new_code($base, $relip_project);
         // Похожая строка внизу
         $code_uniqid = uniqid($base->id . '_', true);
 
@@ -632,9 +636,8 @@ class ItemController extends Controller
 
     function ext_store(Request $request, Base $base, Project $project, Role $role, $usercode,
                        $relit_id,
-                       $heading = 0,
-                               $body_page = 0, $body_count = 0, $body_perpage = 0,
-                       Link    $par_link = null, Item $parent_item = null)
+                       $heading = 0, $body_page = 0, $body_count = 0, $body_perpage = 0,
+                       Link $par_link = null, Item $parent_item = null)
     {
 
         if (GlobalController::check_project_item_user($project, null, $role, $usercode) == false) {
@@ -645,16 +648,18 @@ class ItemController extends Controller
 //            return view('message', ['message' => trans('main.info_user_changed')]);
 //        }
 
+        $relip_project = GlobalController::calc_relip_project($relit_id, $project);
+
         //https://webformyself.com/kak-v-php-poluchit-znachenie-checkbox/
         //        if($base->type_is_boolean()){
 //            $request->validate($this->name_lang_boolean_rules());
 //        }else{
-        $request->validate($this->code_rules($request, $project->id, $base->id));
+        $request->validate($this->code_rules($request, $relip_project->id, $base->id));
 //        }
 
         // Проверка на $base->maxcount_lst
         // Проверка осуществляется только при добавлении записи
-        $message = GlobalController::base_maxcount_validate($project, $base, true);
+        $message = GlobalController::base_maxcount_validate($relip_project, $base, true);
 
         if ($message != '') {
 //            $array_mess['name_lang_0'] = $message;
@@ -819,7 +824,7 @@ class ItemController extends Controller
         $item->name_lang_1 = isset($request->name_lang_1) ? $request->name_lang_1 : "";
         $item->name_lang_2 = isset($request->name_lang_2) ? $request->name_lang_2 : "";
         $item->name_lang_3 = isset($request->name_lang_3) ? $request->name_lang_3 : "";
-        $item->project_id = $project->id;
+        $item->project_id = $relip_project->id;
 
         // далее этот блок
         // похожие формулы ниже (в этой же процедуре)
@@ -1338,7 +1343,8 @@ class ItemController extends Controller
         //  Похожий текст в функциях ext_store(), ext_update(), ext_delete();
         //  По алгоритму передается $body_perpage - сохраненный номер страницы $body_perpage;
         if (!$par_link && !$heading) {
-            return redirect()->route('item.base_index', ['base' => $item->base, 'project' => $item->project, 'role' => $role, 'relit_id' => $relit_id]);
+            // Использовать "project' => $project"
+            return redirect()->route('item.base_index', ['base' => $item->base, 'project' => $project, 'role' => $role, 'relit_id' => $relit_id]);
         } else {
             // Если $heading = true - нажата Добавить из "heading", false - из "body" (только при добавлении записи)
             if ($par_link && !$heading && $parent_item) {
@@ -1482,7 +1488,8 @@ class ItemController extends Controller
                 // Поиск $item_seek в цикле
                 // Цикл по группировке данных
                 foreach ($set_is_group as $key => $value) {
-                    $parent_project = GlobalController::calc_set_project($value, $item->project);
+                    $relip_project = GlobalController::calc_relip_project($value->relit_to_id, $item->project);
+
 //                   проверка, если link - вычисляемое поле
                     //if ($link->parent_is_parent_related == true || $link->parent_is_numcalc == true)
                     if ($value->link_from->parent_is_parent_related == true) {
@@ -1506,7 +1513,7 @@ class ItemController extends Controller
                                 //$items = $items->whereHas('child_mains', function ($query) use ($nt, $nv) {
                                 //    $query->where('link_id', $nt)->where('parent_item_id', $nv);
                                 //});
-                                $items = $items->where('project_id', $parent_project->id)
+                                $items = $items->where('project_id', $relip_project->id)
                                     ->whereHas('child_mains', function ($query) use ($nt, $nv) {
                                         $query->where('link_id', $nt)->where('parent_item_id', $nv);
                                     });
@@ -1542,9 +1549,9 @@ class ItemController extends Controller
                         $create_item_seek = true;
                         // Эта проверка сделана, чтобы зря не создавать $item_seek
                         // Фильтры 111 - похожие строки ниже
-                        $parent_project = null;
+                        $relip_project = null;
                         foreach ($set_base_to as $key => $value) {
-                            $parent_project = GlobalController::calc_set_project($value, $item->project);
+                            $relip_project = GlobalController::calc_relip_project($value, $item->project);
                             $nk = -1;
                             foreach ($keys as $k => $v) {
                                 if ($v == $value['link_from_id']) {
@@ -1559,13 +1566,12 @@ class ItemController extends Controller
                                 break;
                             }
                         }
-
                         if ($create_item_seek == true) {
                             // создать новую запись
                             $item_seek = new Item();
                             $item_seek->base_id = $to_key;
-                            if ($parent_project) {
-                                $item_seek->project_id = $parent_project->id;
+                            if ($relip_project) {
+                                $item_seek->project_id = $relip_project->id;
                             } else {
                                 dd(trans('main.parent_project_not_found' . '!'));
                             }
@@ -1594,7 +1600,7 @@ class ItemController extends Controller
 
                         // Фильтры 111 - похожие строки выше
                         foreach ($set_base_to as $key => $value) {
-                            $parent_project = GlobalController::calc_set_project($value, $item->project);
+                            $relip_project = GlobalController::calc_relip_project($value, $item->project);
                             $nk = -1;
                             foreach ($keys as $k => $v) {
                                 if ($v == $value['link_from_id']) {
@@ -1713,7 +1719,7 @@ class ItemController extends Controller
                                 } else {
                                     //  Добавление числа в базу данных
                                     if ($seek_item == true) {
-                                        $item_find = self::find_save_number($value->link_to->parent_base_id, $parent_project->id, $seek_value);
+                                        $item_find = self::find_save_number($value->link_to->parent_base_id, $relip_project->id, $seek_value);
                                         $main->parent_item_id = $item_find->id;
                                     }
                                     $main->save();
@@ -2298,9 +2304,9 @@ class ItemController extends Controller
 
         // поиск должен быть удачным, иначе "$main->link_id = $keys[$index]" может дать ошибку
         $link = Link::findOrFail($keys[$index]);
-        // Находим $parent_project
-        $parent_project = GlobalController::calc_link_project($link, $item->project);
-        $parent_project_id = $parent_project->id;
+        // Находим $relip_project
+        $relip_project = GlobalController::calc_link_project($link, $item->project);
+        $relip_project_id = $relip_project->id;
 
         // тип корректировки поля - список
         if ($link->parent_base->type_is_list()) {
@@ -2368,7 +2374,7 @@ class ItemController extends Controller
             $item_find->name_lang_2 = "";
             $item_find->name_lang_3 = "";
 
-            $item_find->project_id = $parent_project_id;
+            $item_find->project_id = $relip_project_id;
             // при создании записи "$item->created_user_id" заполняется
             $item_find->created_user_id = Auth::user()->id;
             $item_find->updated_user_id = Auth::user()->id;
@@ -2402,7 +2408,7 @@ class ItemController extends Controller
                 }
             }
             // поиск в таблице items значение с таким же названием и base_id
-            $item_find = Item::where('base_id', $link->parent_base_id)->where('project_id', $parent_project_id)->where('name_lang_0', $values[$index]);
+            $item_find = Item::where('base_id', $link->parent_base_id)->where('project_id', $relip_project_id)->where('name_lang_0', $values[$index]);
             if ($link->parent_base->is_one_value_lst_str_txt == false) {
                 $i = 0;
                 foreach (config('app.locales') as $lang_key => $lang_value) {
@@ -2438,7 +2444,7 @@ class ItemController extends Controller
                     }
                     $i = $i + 1;
                 }
-                $item_find->project_id = $parent_project_id;
+                $item_find->project_id = $relip_project_id;
                 // при создании записи "$item->created_user_id" заполняется
                 $item_find->created_user_id = Auth::user()->id;
                 $item_find->updated_user_id = Auth::user()->id;
@@ -2484,7 +2490,7 @@ class ItemController extends Controller
             $item_find->base_id = $link->parent_base_id;
             // Похожая строка вверху и внизу
             $item_find->code = uniqid($item_find->base_id . '_', true);
-            $item_find->project_id = $parent_project_id;
+            $item_find->project_id = $relip_project_id;
             $item_find->updated_user_id = Auth::user()->id;
 
             // Нужно чтобы знать $item_find->id в команде "$text->item_id = $item_find->id;"
@@ -2543,7 +2549,7 @@ class ItemController extends Controller
 //            }
 
             // поиск в таблице items значение с таким же названием и base_id
-            $item_find = Item::where('base_id', $link->parent_base_id)->where('project_id', $parent_project_id)->where('name_lang_0', $values[$index])->first();
+            $item_find = Item::where('base_id', $link->parent_base_id)->where('project_id', $relip_project_id)->where('name_lang_0', $values[$index])->first();
 
             // если не найдено
             if (!$item_find) {
@@ -2556,7 +2562,7 @@ class ItemController extends Controller
                 foreach (config('app.locales') as $key => $value) {
                     $item_find['name_lang_' . $key] = $values[$index];
                 }
-                $item_find->project_id = $parent_project_id;
+                $item_find->project_id = $relip_project_id;
                 // при создании записи "$item->created_user_id" заполняется
                 $item_find->created_user_id = Auth::user()->id;
                 $item_find->updated_user_id = Auth::user()->id;
@@ -2698,7 +2704,7 @@ class ItemController extends Controller
             $request->validate($this->name_lang_rules($request));
         }
         if (!($item->code == $request->code)) {
-            $request->validate($this->code_rules($request, $item->project_id, $item->base_id));
+            $request->validate($this->code_rules($request, $relip_project->id, $item->base_id));
         }
 
         // Проверка полей с типом "текст" на длину текста
@@ -3419,7 +3425,8 @@ class ItemController extends Controller
         //  Похожий текст в функциях ext_store(), ext_update(), ext_delete();
         //  По алгоритму передается $body_perpage - сохраненный номер страницы $body_perpage;
         if (!$par_link && !$heading) {
-            return redirect()->route('item.base_index', ['base' => $item->base, 'project' => $item->project, 'role' => $role, 'relit_id' => $relit_id]);
+        // Использовать "project' => $project"
+            return redirect()->route('item.base_index', ['base' => $item->base, 'project' => $project, 'role' => $role, 'relit_id' => $relit_id]);
         } else {
             // Если $heading = true - нажата Добавить из "heading", false - из "body" (только при добавлении записи)
             if ($par_link && !$heading && $parent_item) {
@@ -3478,6 +3485,7 @@ class ItemController extends Controller
                            $body_page = 0, $body_count = 0, $body_perpage = 0,
                       Link $par_link = null, Item $parent_item = null)
     {
+
         if (GlobalController::check_project_item_user($project, $item, $role, $usercode) == false) {
             return view('message', ['message' => trans('main.no_access')]);
         }
@@ -3501,6 +3509,7 @@ class ItemController extends Controller
         }
 
         return view('item/ext_edit', ['base' => $item->base, 'item' => $item,
+            'project' => $project,
             'role' => $role,
             'relit_id' => $relit_id,
             'array_calc' => $array_calc,
@@ -3568,6 +3577,8 @@ class ItemController extends Controller
 //            }
 //        }
 
+        $relip_project = GlobalController::calc_relip_project($relit_id, $project);
+
         if (self::is_delete($item, $role, $relit_id) == true) {
 
             $item_copy = $item;
@@ -3625,7 +3636,8 @@ class ItemController extends Controller
             //  Похожий текст в функциях ext_store(), ext_update(), ext_delete();
             //  По алгоритму передается $body_perpage - сохраненный номер страницы $body_perpage;
             if (!$par_link && !$heading) {
-                return redirect()->route('item.base_index', ['base' => $item->base, 'project' => $item->project, 'role' => $role, 'relit_id' => $relit_id]);
+                // Использовать "project' => $project"
+                return redirect()->route('item.base_index', ['base' => $item->base, 'project' => $project, 'role' => $role, 'relit_id' => $relit_id]);
             } else {
                 // Если $heading = true - нажата Добавить из "heading", false - из "body" (только при добавлении записи)
                 if ($par_link && !$heading && $parent_item) {

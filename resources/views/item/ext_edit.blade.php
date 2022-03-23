@@ -13,12 +13,7 @@
     use \App\Http\Controllers\StepController;
     $update = isset($item);
     $base_right = GlobalController::base_right($base, $role, $relit_id);
-    if ($update) {
-        $project = $item->project;
-    } else {
-        // Итак должен передаваться в форму $project при добавлении записи
-        //$project = $project;
-    }
+    $relip_project = GlobalController::calc_relip_project($relit_id, $project);
     ?>
     <script>
         function browse(link_id, project_id, role_id, item_id) {
@@ -39,6 +34,7 @@
         @endif
         <span class="text-label">-</span> <span class="text-title">{{$base->info()}}</span>
     </h3>
+    <center><small>{{$relip_project->name()}}</small></center>
     <br>
     {{--    https://qastack.ru/programming/1191113/how-to-ensure-a-select-form-field-is-submitted-when-it-is-disabled--}}
     <form
@@ -927,8 +923,8 @@
     @foreach($array_calc as $key=>$value)
         <?php
         $link = Link::find($key);
-        // Находим $parent_project
-        $parent_project = GlobalController::calc_link_project($link, $project);
+        // Находим $relip_project
+        $relip_project = GlobalController::calc_link_project($link, $project);
         $base_link_right = GlobalController::base_link_right($link, $role, $relit_id);
         ?>
         @if($base_link_right['is_edit_link_enable'] == false)
@@ -1240,7 +1236,7 @@
                     async function code_input_{{$prefix}}{{$link->id}}(first) {
                         await axios.get('/item/item_from_base_code/'
                             + '{{$link->parent_base_id}}'
-                            + '/' + '{{$parent_project->id}}'
+                            + '/' + '{{$relip_project->id}}'
                             + '/' + code_{{$prefix}}{{$link->id}}.value
                         ).then(function (res) {
                                 code_{{$prefix}}{{$link->id}}.innerHTML = res.data['item_code'];

@@ -611,7 +611,7 @@ class GlobalController extends Controller
                 }
             }
             $view_count = count($itget);
-            // Такая же проверка в GlobalController::item_right() и start.php
+            // Такая же проверка в GlobalController::items_right() и start.php
             if ($base_right['is_list_base_create'] == true) {
                 //$view_count = $view_count . self::base_max_count_for_start($base);
                 $view_count = $view_count;
@@ -1183,79 +1183,43 @@ class GlobalController extends Controller
     static function calc_relip_project($relit_id, Project $current_project)
     {
         $project = null;
-        // Поиск взаимосвязанного проекта
-        $relit = Relit::find($relit_id);
-        if ($relit) {
-            $relip = Relip::where('relit_id', $relit->id)->where('child_project_id', $current_project->id)->first();
-            if ($relip) {
-                $project = $relip->parent_project;
+        if ($relit_id == 0) {
+            // Возвращается текущий проект
+            $project = $current_project;
+        } else {
+            // Поиск взаимосвязанного проекта
+            $relit = Relit::find($relit_id);
+            if ($relit) {
+                $relip = Relip::where('relit_id', $relit->id)->where('child_project_id', $current_project->id)->first();
+                if ($relip) {
+                    $project = $relip->parent_project;
+                }
             }
+        }
+        // Проверка и вывод сообщения нужны
+        if ($project == null) {
+            dd(trans('main.check_project_properties_projects_parents_are_not_set') . '!');
         }
         return $project;
     }
 
     // Вывод проекта по $link и $current_project
-    // Функции calc_link_project(), calc_set_project(), calc_relit_children_projects() похожи
     static function calc_link_project(Link $link, Project $current_project)
     {
-        $project = null;
-        if ($link->parent_relit_id == 0) {
-            // Возвращается текущий проект
-            $project = $current_project;
-        } else {
-            // Поиск взаимосвязанного проекта
-            $project = self::calc_relip_project($link->parent_relit_id, $current_project);
-//            $relit = Relit::find($link->parent_relit_id);
-//            if ($relit) {
-//                $relip = Relip::where('relit_id', $relit->id)->where('child_project_id', $current_project->id)->first();
-//                if ($relip) {
-//                    $project = $relip->parent_project;
-//                }
-//            }
-        }
-        if ($project == null) {
-            // Не удалять строку ниже
-            dd(trans('main.check_project_properties_projects_parents_are_not_set') . '!');
-            //return view('message', ['message' => trans('main.info_user_changed')]);
-            //return('Не найден проект');
-        }
+        // Поиск взаимосвязанного проекта
+        $project = self::calc_relip_project($link->parent_relit_id, $current_project);
+
         return $project;
     }
 
-    // Вывод проекта по $set и $current_project
-    // Функции calc_link_project(), calc_set_project(), calc_relit_children_projects() похожи
-    static function calc_set_project(Set $set, Project $current_project)
-    {
-        $project = null;
-        if ($set->relit_to_id == 0) {
-            // Возвращается текущий проект
-            $project = $current_project;
-        } else {
-            // Поиск взаимосвязанного проекта
-            $project = self::calc_relip_project($set->relit_to_id, $current_project);
-//            $relit = Relit::find($set->relit_to_id);
-//            if ($relit) {
-//                $relip = Relip::where('relit_id', $relit->id)->where('child_project_id', $current_project->id)->first();
-//                if ($relip) {
-//                    $project = $relip->parent_project;
-//                }
-//            }
-        }
-        if ($project == null) {
-            dd(trans('main.check_project_properties_projects_parents_are_not_set') . '!');
-        }
-        return $project;
-    }
-
-    // Проверка: существует ли связанный проект $parent_project в основном проекте $child_project
-    static function is_found_parent_project(Project $child_project, Project $parent_project)
+    // Проверка: существует ли связанный проект $relip_project в основном проекте $child_project
+    static function is_found_parent_project(Project $child_project, Project $relip_project)
     {
         return Relip::where('child_project_id', $child_project->id)
-            ->where('parent_project_id', $parent_project->id)->exists();
+            ->where('parent_project_id', $relip_project->id)->exists();
     }
 
     // Вывод проекта по $relit и $current_project
-    // Функции calc_link_project(), calc_set_project(), calc_relit_children_projects() похожи
     static function calc_relit_children_id_projects(Relit $relit, Project $current_project)
     {
         // Поиск взаимосвязанных детских проектов
@@ -1292,8 +1256,7 @@ class GlobalController extends Controller
         $bases_ids = self::get_bases_from_relit_id($current_id, $current_project->template_id);
         if ($bases_ids) {
             $array_project_relips[$current_id]['project_id'] = $current_project->id;
-            $array_project_relips[$current_id]['base_id'] = $bases_ids['bases_ids'];
-            $array_project_relips[$current_id]['enable'] = true;
+            $array_project_relips[$current_id]['base_ids'] = $bases_ids['bases_ids'];
         }
         foreach ($child_relits as $relit) {
             // Поиск взаимосвязанного проекта
@@ -1303,14 +1266,13 @@ class GlobalController extends Controller
                 $bases_ids = self::get_bases_from_relit_id($relit->id, $current_project->template_id);
                 if ($bases_ids) {
                     $array_project_relips[$relit->id]['project_id'] = $project->id;
-                    $array_project_relips[$relit->id]['base_id'] = $bases_ids['bases_ids'];
-                    $array_project_relips[$relit->id]['enable'] = true;
+                    $array_project_relips[$relit->id]['base_ids'] = $bases_ids['bases_ids'];
                 }
             }
         }
         foreach ($array_project_relips as $relit_id => $value) {
             $project_id = $value['project_id'];
-            $bases_ids = $value['base_id'];
+            $bases_ids = $value['base_ids'];
             foreach ($bases_ids as $key => $value) {
                 $base = Base::find($value);
                 if ($base) {
@@ -1318,7 +1280,7 @@ class GlobalController extends Controller
                     // Удаляем элемент массива с $base, если '$base_right['is_list_base_calc'] == false'
                     //      Похожая проверка в GlobalController::get_project_bases(), ItemController::base_index() и project/start.php
                     if ($base_right['is_list_base_calc'] == false) {
-                        unset($array_project_relips[$relit_id]['base_id'][$key]);
+                        unset($array_project_relips[$relit_id]['base_ids'][$key]);
                     }
                 }
             }
@@ -1326,7 +1288,7 @@ class GlobalController extends Controller
 //      $relit_id нужно
         foreach ($array_project_relips as $relit_id => $value) {
             $project_id = $value['project_id'];
-            $count = count($value['base_id']);
+            $count = count($value['base_ids']);
             if ($count == 0) {
                 // Удаляем элемент массива с $relit_id, если количество $bases в массиве равно 0
                 unset($array_project_relips[$relit_id]);
@@ -1364,10 +1326,16 @@ class GlobalController extends Controller
             }
         }
         if ($template_id != null) {
-            // список bases по выбранному template_id
-            $bases = Base::all()
-                ->where('template_id', $template_id)
-                ->sortBy('serial_number');
+            // Список bases по выбранному template_id
+//            $bases = Base::all()
+//                ->where('template_id', $template_id)
+//                ->sortBy('serial_number');
+            // Порядок сортировки; обычные bases, вычисляемые bases, настройки - bases, серийный номер
+            $bases = Base::where('template_id', $template_id)
+                ->orderBy('is_setup_lst')
+                ->orderBy('is_calculated_lst')
+                ->orderBy('serial_number')
+                ->get();
             foreach ($bases as $base) {
                 $bases_ids[] = $base->id;
                 //$bases_options = $bases_options . "<option value='" . $base->id . "'>" . $base->name() . "</option>";
