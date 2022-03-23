@@ -76,6 +76,11 @@ class GlobalController extends Controller
 
     static function base_right(Base $base, Role $role, $relit_id, bool $is_no_sndb_pd_rule = false)
     {
+//        $template = self::get_template_from_relit_id($relit_id, $role->template_id)['template'];
+//        if ($template == null) {
+//            //return view('message', ['message' => trans('main.template') . ': ' . trans('main.code_not_found') . '!']);
+//            dd(trans('main.template') . ': ' . trans('main.code_not_found') . '!');
+//        }
         $is_all_base_calcname_enable = $role->is_all_base_calcname_enable;
         $is_list_base_sort_creation_date_desc = $role->is_list_base_sort_creation_date_desc;
         $is_list_base_create = $role->is_list_base_create;
@@ -125,11 +130,15 @@ class GlobalController extends Controller
                     $is_list_base_calc = false;
                 }
             }
+            // Эти проверки не нужны
 //            if ($base->template_id != $role->template_id) {
 //                $is_list_base_calc = false;
 //            }
+//            if ($base->template_id != $template->id) {
+//                $is_list_base_calc = false;
+//            }
             if ($role->is_list_base_relits == false) {
-                if ($relit_id != 0) {
+                if ($base->template_id != $role->template_id) {
                     $is_list_base_calc = false;
                 }
             }
@@ -144,7 +153,8 @@ class GlobalController extends Controller
         // Для вычисляемых base
         // ИЛИ $base с другого шаблона(не равен $role->template_id)
 //        if (($base->is_calculated_lst == true) || ($base->template_id != $role->template_id)) {
-            if (($base->is_calculated_lst == true)) {
+//        if (($base->is_calculated_lst == true) || ($base->template_id != $template->id)) {
+        if ($base->is_calculated_lst == true) {
             $is_list_base_create = false;
 //          $is_list_base_read = true;
             $is_list_base_read = $is_list_base_calc;
@@ -153,8 +163,8 @@ class GlobalController extends Controller
         }
         // "$is_enable &&" нужно
         $is_list_base_calc = $is_list_base_calc && ($is_list_base_create || $is_list_base_read || $is_list_base_update || $is_list_base_delete);
-
         // Блок проверки по robas, используя переменные $role, $relit_id и $base
+        //$roba = Roba::where('role_id', $role->id)->where('base_id', $base->id)->first();
         $roba = Roba::where('role_id', $role->id)->where('relit_id', $relit_id)->where('base_id', $base->id)->first();
         if ($roba != null) {
             $is_roba_all_base_calcname_enable = $roba->is_all_base_calcname_enable;
@@ -231,7 +241,6 @@ class GlobalController extends Controller
             $is_show_email_base_delete = $is_roba_show_email_base_delete;
             $is_show_email_question_base_delete = $is_roba_show_email_question_base_delete;
         }
-
         $is_edit_base_enable = $is_edit_base_read || $is_edit_base_update;
         $is_edit_link_enable = $is_edit_link_read || $is_edit_link_update;
 //
@@ -281,7 +290,9 @@ class GlobalController extends Controller
         //$base_right = self::base_right($base, $role, true);
         //$base_right = self::base_right($base, $role, false);
         $base_right = self::base_right($base, $role, $relit_id);
-
+//if ($base->id ==37){
+//    dd($base_right);
+//}
         $is_list_base_calc = $base_right['is_list_base_calc'];
         $is_all_base_calcname_enable = $base_right['is_all_base_calcname_enable'];
         $is_list_base_sort_creation_date_desc = $base_right['is_list_base_sort_creation_date_desc'];
@@ -1313,7 +1324,7 @@ class GlobalController extends Controller
             }
         }
 //      $relit_id нужно
-        foreach ($array_project_relips as $relit_id=>$value) {
+        foreach ($array_project_relips as $relit_id => $value) {
             $project_id = $value['project_id'];
             $count = count($value['base_id']);
             if ($count == 0) {
@@ -1397,22 +1408,23 @@ class GlobalController extends Controller
         ];
     }
 
-    function get_template_name_from_relit_id($relit_id, $current_template_id)
+    static function get_template_from_relit_id($relit_id, $current_template_id)
     {
+        $template = null;
         $template_name = '';
         // Вычисление $template
-        $template_id = null;
         if ($relit_id == 0) {
             $template = Template::findOrFail($current_template_id);
             $template_name = $template->name() . ' (' . trans('main.current_template') . ')';
         } else {
             $relit = Relit::find($relit_id);
             if ($relit) {
-                $template_name = $relit->serial_number . '. ' . $relit->parent_template->name()
+                $template = $relit->parent_template;
+                $template_name = $relit->serial_number . '. ' . $template->name()
                     . ' (Id =' . $relit->id . ')';
             }
         }
-        return $template_name;
+        return ['template' => $template, 'template_name' => $template_name];
     }
 
     // Сохранение и resize() изображения

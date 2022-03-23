@@ -33,7 +33,7 @@
         <p>{{trans('main.role')}}: <b>{{$roli->role->name()}}</b></p>
     @endif
     @if(!$is_link)
-        <p>{{trans('main.template')}}: <b>{{GlobalController::get_template_name_from_relit_id($roli->relit_id, $roli->role->template_id)}}</b></p>
+        <p>{{trans('main.template')}}: <b>{{GlobalController::get_template_from_relit_id($roli->relit_id, $roli->role->template_id)['template_name']}}</b></p>
         <p>{{trans('main.link')}}: <b>{{$roli->link->name()}}</b></p>
     @endif
     <p>{{trans('main.is_list_link_enable')}}: <b>{{GlobalController::name_is_boolean($roli->is_list_link_enable)}}</b></p>

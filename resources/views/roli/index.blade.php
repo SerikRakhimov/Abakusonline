@@ -82,7 +82,7 @@
                 @if(!$is_link)
                     <td class="text-left">
                         <a href="{{route($roli_show, $roli)}}" title="{{trans('main.show')}}">
-                            {{GlobalController::get_template_name_from_relit_id($roli->relit_id, $roli->role->template_id)}}
+                            {{GlobalController::get_template_from_relit_id($roli->relit_id, $roli->role->template_id)['template_name']}}
                         </a>
                     </td>
                     <td class="text-left">

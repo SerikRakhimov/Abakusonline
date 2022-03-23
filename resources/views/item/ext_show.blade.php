@@ -62,14 +62,15 @@
                 $base_link_right = GlobalController::base_link_right($link, $role, $relit_id);
                 ?>
                 @if($base_link_right['is_show_link_enable'] == true)
-                    <li>
+                    <li>{{$link->parent_base->id}}, {{$link->parent_base->name()}}
                         @if($base_link_right['is_list_base_calc'] == true)
                             <a href="{{route('item.base_index',['base'=>$link->parent_base_id, 'project'=>$project, 'role'=>$role, 'relit_id'=>$relit_id])}}"
                                title="{{$link->parent_base->names()}}">
                                 @include('layouts.item.ext_show.parent_label', ['link'=>$link, 'par_link'=>$par_link])
-                            </a>
+                            222</a>
                         @else
                             @include('layouts.item.ext_show.parent_label', ['link'=>$link, 'par_link'=>$par_link])
+                            333
                         @endif
                         @if($link->parent_base->type_is_text())
                             {{--                            <span class="text-related">--}}<b>
