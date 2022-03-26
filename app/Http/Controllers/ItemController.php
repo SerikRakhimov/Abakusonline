@@ -594,6 +594,7 @@ class ItemController extends Controller
                              $heading = 0, $body_page = 0, $body_count = 0, $body_perpage = 0,
                         Link $par_link = null, Item $parent_item = null)
         // '$heading = 0' использовать; аналог '$heading = false', в этом случае так /item/ext_create/{base}//
+
     {
         if (GlobalController::check_project_item_user($project, null, $role, $usercode) == false) {
             return view('message', ['message' => trans('main.no_access')]);
@@ -608,6 +609,7 @@ class ItemController extends Controller
         if ($base_right['is_list_base_create'] == false) {
             return view('message', ['message' => trans('main.no_access')]);
         }
+
         $relip_project = GlobalController::calc_relip_project($relit_id, $project);
         $arrays = $this->get_array_calc_create($base, $par_link, $parent_item);
         $array_calc = $arrays['array_calc'];
@@ -1551,7 +1553,7 @@ class ItemController extends Controller
                         // Фильтры 111 - похожие строки ниже
                         $relip_project = null;
                         foreach ($set_base_to as $key => $value) {
-                            $relip_project = GlobalController::calc_relip_project($value, $item->project);
+                            $relip_project = GlobalController::calc_relip_project($value->relit_to_id, $item->project);
                             $nk = -1;
                             foreach ($keys as $k => $v) {
                                 if ($v == $value['link_from_id']) {
@@ -1600,7 +1602,7 @@ class ItemController extends Controller
 
                         // Фильтры 111 - похожие строки выше
                         foreach ($set_base_to as $key => $value) {
-                            $relip_project = GlobalController::calc_relip_project($value, $item->project);
+                            $relip_project = GlobalController::calc_relip_project($value->relit_to_id, $item->project);
                             $nk = -1;
                             foreach ($keys as $k => $v) {
                                 if ($v == $value['link_from_id']) {
@@ -2698,6 +2700,8 @@ class ItemController extends Controller
         //    if (GlobalController::check_project_user($project, $role) == false) {
         //        return view('message', ['message' => trans('main.info_user_changed')]);
         //    }
+
+        $relip_project = GlobalController::calc_relip_project($relit_id, $project);
 
         // Если данные изменились - выполнить проверку. оператор '??' нужны
         if (!($item->name_lang_0 ?? '' == $request->name_lang_0 ?? '')) {
@@ -5016,52 +5020,55 @@ class ItemController extends Controller
         $items = null;
         $items_filter = null;
         $result_parent_label = $link->parent_label();
-        $result_parent_base_name = $link->parent_base->name();;
-        if ($link) {
-            if ($item) {
-                // Если это фильтрируемое поле (в связка ЕдинИзмерения-Материал - поле Материал является фильтрируемым полем)
-                $is_filter = Link::where('parent_is_child_related', true)->where('parent_child_related_start_link_id', $link->id)->exists();
-            }
-            // 1.0 В списке выбора использовать поле вычисляемой таблицы
-            $is_calcuse = $link->parent_is_in_the_selection_list_use_the_calculated_table_field;
-        }
-        // Права по base_id
-        $base_right = GlobalController::base_right($base, $role, $relit_id);
-        if (($is_filter) || ($is_calcuse)) {
-            if ($is_filter) {
-                $items_filter = self::get_items_filter_main($base, $link, $item);
-                $items = $items_filter;
-            }
-            if ($is_calcuse) {
-                $items = self::get_items_calc_main($link);
-                if ($is_filter) {
-                    // Объединение двух запросов $items_filter и $items(вычисляемые)
-                    //$items = Item::select(DB::Raw('items.*'))
-                    $items = Item::select(DB::Raw('items.*'))
-                        ->joinSub($items, 'items_start', function ($join) {
-                            $join->on('items.id', '=', 'items_start.id');
-                        })
-                        ->joinSub($items_filter, 'items_second', function ($join) {
-                            $join->on('items.id', '=', 'items_second.id');
-                        });
+        $result_parent_base_name = $link->parent_base->name();
+        $relip_proj = GlobalController::calc_relip_project($relit_id, $project);
+        if ($relip_proj) {
+            if ($link) {
+                if ($item) {
+                    // Если это фильтрируемое поле (в связка ЕдинИзмерения-Материал - поле Материал является фильтрируемым полем)
+                    $is_filter = Link::where('parent_is_child_related', true)->where('parent_child_related_start_link_id', $link->id)->exists();
                 }
+                // 1.0 В списке выбора использовать поле вычисляемой таблицы
+                $is_calcuse = $link->parent_is_in_the_selection_list_use_the_calculated_table_field;
             }
-        } else {
-            $items = self::get_items_list_main($base, $project, $link);
-        }
+            // Права по base_id
+            $base_right = GlobalController::base_right($base, $role, $relit_id);
+            if (($is_filter) || ($is_calcuse)) {
+                if ($is_filter) {
+                    $items_filter = self::get_items_filter_main($base, $link, $item);
+                    $items = $items_filter;
+                }
+                if ($is_calcuse) {
+                    $items = self::get_items_calc_main($link);
+                    if ($is_filter) {
+                        // Объединение двух запросов $items_filter и $items(вычисляемые)
+                        //$items = Item::select(DB::Raw('items.*'))
+                        $items = Item::select(DB::Raw('items.*'))
+                            ->joinSub($items, 'items_start', function ($join) {
+                                $join->on('items.id', '=', 'items_start.id');
+                            })
+                            ->joinSub($items_filter, 'items_second', function ($join) {
+                                $join->on('items.id', '=', 'items_second.id');
+                            });
+                    }
+                }
+            } else {
+                // Используется $relip_proj
+                $items = self::get_items_list_main($base, $relip_proj, $link);
+            }
 
-        // Такая же проверка и в GlobalController (function items_right()),
-        // в ItemController (function browser(), get_items_for_link(), get_items_ext_edit_for_link())
-        if ($base_right['is_list_base_byuser'] == true) {
-            $items = $items->where('created_user_id', GlobalController::glo_user_id());
+            // Такая же проверка и в GlobalController (function items_right()),
+            // в ItemController (function browser(), get_items_for_link(), get_items_ext_edit_for_link())
+            if ($base_right['is_list_base_byuser'] == true) {
+                $items = $items->where('created_user_id', GlobalController::glo_user_id());
+            }
+            // Сортировка не нужна, т.к. мешает сортировке по коду/наименованию в $this->browser()
+            // По умолчанию, сортировка по наименованию
+            //$index = array_search(App::getLocale(), config('app.locales'));
+            //if ($index !== false) {   // '!==' использовать, '!=' не использовать
+            //    $items = $items->orderBy('name_lang_' . $index);
+            //}
         }
-        // Сортировка не нужна, т.к. мешает сортировке по коду/наименованию в $this->browser()
-        // По умолчанию, сортировка по наименованию
-        //$index = array_search(App::getLocale(), config('app.locales'));
-        //if ($index !== false) {   // '!==' использовать, '!=' не использовать
-        //    $items = $items->orderBy('name_lang_' . $index);
-        //}
-
         return ['items_no_get' => $items,
             'result_parent_label' => $result_parent_label,
             'result_parent_base_name' => $result_parent_base_name];

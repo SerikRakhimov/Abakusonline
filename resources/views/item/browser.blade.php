@@ -63,12 +63,12 @@ if ($item){
                 {{trans('main.sort_by')}}:
             </div>
             <div class="col text-center {{$order_by == 'code'?'font-italic' : ''}}">
-                <a href="{{route('item.browser',['link_id'=>$link->id, 'base_id'=>$base->id, 'project_id'=>$project->id, 'role_id'=>$role->id, 'item_id'=>$item_id, 'order_by'=>'code', 'filter_by'=>$filter_by, 'search'=>$search])}}"
+                <a href="{{route('item.browser',['link_id'=>$link->id, 'base_id'=>$base->id, 'project_id'=>$project->id, 'role_id'=>$role->id, 'relit_id'=>$relit_id, 'item_id'=>$item_id, 'order_by'=>'code', 'filter_by'=>$filter_by, 'search'=>$search])}}"
                    title="{{trans('main.sort_by_code')}}">{{trans('main.code')}}
                 </a>
             </div>
             <div class="col text-center {{$order_by != 'code'?'font-italic' : ''}}">
-                <a href="{{route('item.browser',['link_id'=>$link->id, 'base_id'=>$base->id, 'project_id'=>$project->id, 'role_id'=>$role->id, 'item_id'=>$item_id, 'order_by'=>'name', 'filter_by'=>$filter_by, 'search'=>$search])}}"
+                <a href="{{route('item.browser',['link_id'=>$link->id, 'base_id'=>$base->id, 'project_id'=>$project->id, 'role_id'=>$role->id, 'relit_id'=>$relit_id, 'item_id'=>$item_id, 'order_by'=>'name', 'filter_by'=>$filter_by, 'search'=>$search])}}"
                    title="{{trans('main.sort_by_name')}}">{{trans('main.name')}}</a>
             </div>
         </div>
@@ -156,12 +156,12 @@ if ($item){
             <th class="text-center {{$order_by == 'code'?'font-italic' : ''}}">
                 {{--                <a href="{{route('item.browser',['link_id'=>$link->id, 'project_id'=>$project->id, 'role_id'=>$role->id, 'item_id'=>$item->id, 'sort_by_code'=>1, 'save_by_code'=>$save_by_code==true?"1":"0", 'search'=>$search])}}"--}}
                 {{--                   title="{{trans('main.sort_by_code')}}">--}}
-                <a href="{{route('item.browser',['link_id'=>$link->id, 'project_id'=>$project->id, 'role_id'=>$role->id, 'item_id'=>$item_id, 'order_by'=>'code', 'filter_by'=>$filter_by, 'search'=>$search])}}"
+                <a href="{{route('item.browser',['link_id'=>$link->id, 'project_id'=>$project->id, 'role_id'=>$role->id, 'relit_id'=>$relit_id, 'item_id'=>$item_id, 'order_by'=>'code', 'filter_by'=>$filter_by, 'search'=>$search])}}"
                    title="{{trans('main.sort_by_code')}}">
                     {{trans('main.code')}}
                 </a></th>
             <th class="text-center {{$order_by != 'code'?'font-italic' : ''}}">
-                <a href="{{route('item.browser',['link_id'=>$link->id, 'project_id'=>$project->id, 'role_id'=>$role->id,'item_id'=>$item_id, 'order_by'=>'name', 'filter_by'=>$filter_by, 'search'=>$search])}}"
+                <a href="{{route('item.browser',['link_id'=>$link->id, 'project_id'=>$project->id, 'role_id'=>$role->id, 'relit_id'=>$relit_id, 'item_id'=>$item_id, 'order_by'=>'name', 'filter_by'=>$filter_by, 'search'=>$search])}}"
                    title="{{trans('main.sort_by_name')}}">{{trans('main.name')}}</a></th>
             </tr>
             </thead>
@@ -196,7 +196,7 @@ if ($item){
             {{--    , '_self', 'width=800, height=800');--}}
             {{--var path = '{{route('item.browser', '')}}' + '/' + {{$link->id}}+'/' + {{$project->id}} +'/' + {{$role->id}} +'/' + {{$item->id}} +'/'--}}
             {{--    + '{{$order_by}}' +'/' + '{{$filter_by}}' + '/' + document.getElementById('search').value;--}}
-        var path = '{{route('item.browser', '')}}' + '/' + {{$link->id}}+'/' + {{$project->id}} +'/' + {{$role->id}} +'/' + {{$item_id}}
+        var path = '{{route('item.browser', '')}}' + '/' + {{$link->id}}+'/' + {{$project->id}} +'/' + {{$role->id}} +'/'+ {{$relit_id}} +'/' + {{$item_id}}
                 +'/' + '{{$order_by}}' + '/' + '{{$order_by}}' + '/' + document.getElementById('search').value;
         open(path, '_self', 'width=800, height=800');
 

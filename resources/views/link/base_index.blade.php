@@ -89,7 +89,7 @@
                 </td>
                 <td class="text-left">
                     <a href="{{route('link.show',$link)}}">
-                        {{GlobalController::get_template_from_relit_id($link->parent_relit_id, $link->child_base->template_id)['template_name']}}
+                        {{GlobalController::get_parent_template_from_relit_id($link->parent_relit_id, $link->child_base->template_id)['template_name']}}
                     </a>
                 </td>
                 <td class="text-left">

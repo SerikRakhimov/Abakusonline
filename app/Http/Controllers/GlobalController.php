@@ -76,11 +76,7 @@ class GlobalController extends Controller
 
     static function base_right(Base $base, Role $role, $relit_id, bool $is_no_sndb_pd_rule = false)
     {
-//        $template = self::get_template_from_relit_id($relit_id, $role->template_id)['template'];
-//        if ($template == null) {
-//            //return view('message', ['message' => trans('main.template') . ': ' . trans('main.code_not_found') . '!']);
-//            dd(trans('main.template') . ': ' . trans('main.code_not_found') . '!');
-//        }
+        $relit_parent_template = self::get_parent_template_from_relit_id($relit_id, $role->template_id)['template'];
         $is_all_base_calcname_enable = $role->is_all_base_calcname_enable;
         $is_list_base_sort_creation_date_desc = $role->is_list_base_sort_creation_date_desc;
         $is_list_base_create = $role->is_list_base_create;
@@ -130,13 +126,17 @@ class GlobalController extends Controller
                     $is_list_base_calc = false;
                 }
             }
-            // Эти проверки не нужны
-//            if ($base->template_id != $role->template_id) {
-//                $is_list_base_calc = false;
-//            }
-//            if ($base->template_id != $template->id) {
-//                $is_list_base_calc = false;
-//            }
+
+            // Показывать Основы только своего текущего шаблона ($role->template_id)
+            // или связанных шаблонов ($relit_parent_template->id);
+            // Если в связанном шаблоне есть свои связанные шаблоны,
+            // то Основы таких (связанных шаблонов у связанных шаблонов) шаблонов не показываются
+            // Также 'Связанные шаблоны у связанных шаблонов' не должны присутствовать в robas
+            // Используется отрицание '!'
+            if (!(($base->template_id == $role->template_id) || ($base->template_id == $relit_parent_template->id))) {
+                $is_list_base_calc = false;
+            }
+
             if ($role->is_list_base_relits == false) {
                 if ($base->template_id != $role->template_id) {
                     $is_list_base_calc = false;
@@ -1183,6 +1183,7 @@ class GlobalController extends Controller
     static function calc_relip_project($relit_id, Project $current_project)
     {
         $project = null;
+        $mess = '';
         if ($relit_id == 0) {
             // Возвращается текущий проект
             $project = $current_project;
@@ -1193,12 +1194,20 @@ class GlobalController extends Controller
                 $relip = Relip::where('relit_id', $relit->id)->where('child_project_id', $current_project->id)->first();
                 if ($relip) {
                     $project = $relip->parent_project;
+                } else {
+                    $mess = trans('main.relip') . ' ' . trans('main.code_not_found');
                 }
+            } else {
+                $mess = trans('main.relit') . ' ' . trans('main.code_not_found');
             }
         }
         // Проверка и вывод сообщения нужны
         if ($project == null) {
-            dd(trans('main.check_project_properties_projects_parents_are_not_set') . '!');
+            dd('current_project: ' . $current_project->name_id()
+                . ', template: ' . $current_project->template->name_id()
+                . ', relit_id: ' . $relit_id . ', '
+                . $mess . ', '
+                . trans('main.check_project_properties_projects_parents_are_not_set') . '!');
         }
         return $project;
     }
@@ -1376,7 +1385,7 @@ class GlobalController extends Controller
         ];
     }
 
-    static function get_template_from_relit_id($relit_id, $current_template_id)
+    static function get_parent_template_from_relit_id($relit_id, $current_template_id)
     {
         $template = null;
         $template_name = '';

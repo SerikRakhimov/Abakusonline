@@ -15,15 +15,15 @@
     $base_right = GlobalController::base_right($base, $role, $relit_id);
     $relip_project = GlobalController::calc_relip_project($relit_id, $project);
     ?>
-    <script>
-        function browse(link_id, project_id, role_id, item_id) {
-            // Нужно, используется в browser.blade.php
-            window.item_id = document.getElementById("'" + link_id + "'");
-            window.item_code = document.getElementById('code' + link_id);
-            window.item_name = document.getElementById('name' + link_id);
-            open('{{route('item.browser', '')}}' + '/' + link_id + '/' + base_id + '/' + project_id + '/' + role_id + '/' + item_id + '/1/1', 'browse', 'width=800, height=800');
-        };
-    </script>
+{{--    <script>--}}
+{{--        function browse(link_id, project_id, role_id, item_id) {--}}
+{{--            // Нужно, используется в browser.blade.php--}}
+{{--            window.item_id = document.getElementById("'" + link_id + "'");--}}
+{{--            window.item_code = document.getElementById('code' + link_id);--}}
+{{--            window.item_name = document.getElementById('name' + link_id);--}}
+{{--            open('{{route('item.browser', '')}}' + '/' + link_id + '/' + base_id + '/' + project_id + '/' + role_id + '/' + {{$relit_id}} + '/' + item_id + '/1/1', 'browse', 'width=800, height=800');--}}
+{{--        };--}}
+{{--    </script>--}}
 
     @include('layouts.project.show_project_role',['project'=>$project, 'role'=>$role])
     <h3 class="display-5 text-center">
@@ -270,7 +270,6 @@
             {{--                Похожая строка выше--}}
             <input type="hidden" name="code" value="{{$update ? $item->code: $code_uniqid}}">
         @endif
-
         @foreach($array_calc as $key=>$value)
             <?php
             $link = Link::find($key);
@@ -453,7 +452,7 @@
                             {{--                                @endif--}}
                             {{--                            >--}}
                             {{--                                    onclick="browse('{{$link->id}}', '{{$link->parent_base_id}}', '{{$project->id}}', '{{$role->id}}', '{{$key}}')"--}}
-                            {{--                            onclick="browse('{{$link->id}}', '{{$link->parent_base_id}}', '{{$project->id}}', '{{$role->id}}',child_base_start_id{{$link->id}}.options[child_base_start_id{{$link->id}}.selectedIndex].value)"--}}
+                            {{--                            onclick="browse('{{$link->id}}', '{{$link->parent_base_id}}', '{{$project->id}}', '{{$role->id}}', '{{$relit_id}}',child_base_start_id{{$link->id}}.options[child_base_start_id{{$link->id}}.selectedIndex].value)"--}}
                             <button type="button" title="{{trans('main.select_from_refer')}}" class="text-label"
                                     id="buttonbrow{{$link->id}}"
                                     name="buttonbrow{{$link->id}}"
@@ -854,7 +853,6 @@
                 @endif
             @endif
         @endforeach
-
         <br>
         <div class="row text-center">
             <div class="col-sm-5 text-right">
@@ -923,8 +921,8 @@
     @foreach($array_calc as $key=>$value)
         <?php
         $link = Link::find($key);
-        // Находим $relip_project
-        $relip_project = GlobalController::calc_link_project($link, $project);
+        // Находим $relip_link_project
+        $relip_link_project = GlobalController::calc_link_project($link, $relip_project);
         $base_link_right = GlobalController::base_link_right($link, $role, $relit_id);
         ?>
         @if($base_link_right['is_edit_link_enable'] == false)
@@ -1148,7 +1146,7 @@
                                 window.item_name.innerHTML = "";
                                 alert("{{trans('main.select_a_field_to_filter') . '!'}}");
                             } else {
-                                open('{{route('item.browser', '')}}' + '/' + {{$link->id}} + '/' + {{$project->id}} + '/' + {{$role->id}}
+                                open('{{route('item.browser', '')}}' + '/' + {{$link->id}} + '/' + {{$project->id}} + '/' + {{$role->id}} + '/' + {{$relit_id}}
                                         @if(($link_refer_main->parent_is_base_link == true) || ($link_refer_main->parent_base->is_code_needed==true && $link_refer_main->parent_is_enter_refer==true))
                                     + '/' + parent_base_id{{$prefix}}{{$link->id}}.value
                                     @else
@@ -1220,7 +1218,7 @@
                         window.item_id = document.getElementById('{{$link->id}}');
                         window.item_code = document.getElementById('code{{$link->id}}');
                         window.item_name = document.getElementById('name{{$link->id}}');
-                        open('{{route('item.browser', '')}}' + '/' + {{$link->id}} + '/' + {{$project->id}} + '/' + {{$role->id}}
+                        open('{{route('item.browser', '')}}' + '/' + {{$link->id}} + '/' + {{$project->id}} + '/' + {{$role->id}} + '/' + {{$relit_id}}
                             , 'browse', 'width=800, height=800');
                     }
 
@@ -1236,7 +1234,7 @@
                     async function code_input_{{$prefix}}{{$link->id}}(first) {
                         await axios.get('/item/item_from_base_code/'
                             + '{{$link->parent_base_id}}'
-                            + '/' + '{{$relip_project->id}}'
+                            + '/' + '{{$relip_link_project->id}}'
                             + '/' + code_{{$prefix}}{{$link->id}}.value
                         ).then(function (res) {
                                 code_{{$prefix}}{{$link->id}}.innerHTML = res.data['item_code'];

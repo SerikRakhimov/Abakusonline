@@ -31,7 +31,7 @@
     @endforeach
 
     <p>{{trans('main.parent')}}_{{trans('main.serial_number')}}: <b>{{$link->parent_base_number}}</b></p>
-    <p>{{trans('main.parent')}}_{{trans('main.template')}}: <b>{{GlobalController::get_template_from_relit_id($link->parent_relit_id, $link->child_base->template_id)['template_name']}}</b></p>
+    <p>{{trans('main.parent')}}_{{trans('main.template')}}: <b>{{GlobalController::get_parent_template_from_relit_id($link->parent_relit_id, $link->child_base->template_id)['template_name']}}</b></p>
 
     <p>{{trans('main.parent')}}_{{trans('main.base')}}: <b>{{$link->parent_base->name()}}</b>
     <div><b>{{$link->parent_base->info_full()}}</b></div></p>

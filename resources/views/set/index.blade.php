@@ -71,7 +71,7 @@
                 </td>
                 <td class="text-left">
                     <a href="{{route('set.show',$set)}}" title="{{trans('main.show')}}">
-                        {{GlobalController::get_template_from_relit_id($set->relit_to_id, $template->id)['template_name']}}
+                        {{GlobalController::get_parent_template_from_relit_id($set->relit_to_id, $template->id)['template_name']}}
                     </a>
                 </td>
                 <td class="text-left">

@@ -53,6 +53,11 @@ class Template extends Model
         return $result;
     }
 
+    function name_id()
+    {
+        return $this->name() . " (Id = " . strval($this->id) . ")";
+    }
+
     function desc()
     {
         $result = "";  // нужно, не удалять
@@ -64,11 +69,6 @@ class Template extends Model
 //            $result = $this->desc_lang_0;
 //        }
         return $result;
-    }
-
-    function name_id()
-    {
-        return $this->name() . " (Id = " . strval($this->id) . ")";
     }
 
 }
