@@ -4330,11 +4330,11 @@ class ItemController extends Controller
 
 // $level_one = true, т.е. получить простые родительские поля один первый уровень
 // $level_one = false, т.е. получить связанные(со вложенными значениями) родительские поля один первый уровень, на остальных уровнях показать простые и связанные поля
-    static function form_parent_deta_hier($item_id, Project $project, Role $role, $level_one)
+    static function form_parent_deta_hier($item_id, Project $project, Role $role, $relit_id, $level_one)
     {
         $item = Item::find($item_id);
         $items = array();
-        $result = self::form_parent_hier_deta_start($items, $item_id, $project, 0, $role, $level_one);
+        $result = self::form_parent_hier_deta_start($items, $item_id, $project, $relit_id, 0, $role, $level_one);
         if ($result != '') {
             //$kod = 0 . $level_one;
             if ($level_one == false) {
