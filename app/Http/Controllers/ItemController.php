@@ -4349,8 +4349,8 @@ class ItemController extends Controller
     }
 
 // $items нужно - чтобы не было бесконечного цикла
-//static function form_parent_hier_deta_start($items, $item_id, $project, $level, $role, $level_one)   - можно использовать так
-//static function form_parent_hier_deta_start(&$items, $item_id, $project, $level, $role, $level_one)  - и так - результаты разные
+//static function form_parent_hier_deta_start($items, $item_id, $project, $relit_id, $level, $role, $level_one)   - можно использовать так
+//static function form_parent_hier_deta_start(&$items, $item_id, $project, $relit_id, $level, $role, $level_one)  - и так - результаты разные
     static function form_parent_hier_deta_start(&$items, $item_id, Project $project, $relit_id, $level, Role $role, $level_one)
     {
         $result = '';
@@ -4441,8 +4441,8 @@ class ItemController extends Controller
     }
 
 // $items нужно - чтобы не было бесконечного цикла
-//static function form_child_hier_deta_start($items, $item_id, $level, $role)   - можно использовать так
-//static function form_child_hier_deta_start(&$items, $item_id, $level, $role)  - и так - результаты разные
+//static function form_child_hier_deta_start($items, $item_id, $project, $relit_id, $level, $role)   - можно использовать так
+//static function form_child_hier_deta_start(&$items, $item_id, $project, $relit_id, $level, $role)  - и так - результаты разные
 // '$items' и '$items_dop' использовать для того, чтобы записи, отображаемые на экране, были уникальными (см.ниже)
     static function form_child_hier_deta_start(&$items, $item_id, Project $project, $relit_id, $level, Role $role)
     {
