@@ -19,6 +19,7 @@ class RobaController extends Controller
         return [
             'role_id' => ['required', new IsUniqueRoba($request)],
             'base_id' => ['required', new IsUniqueRoba($request)],
+            'relit_id' => ['required', new IsUniqueRoba($request)],
         ];
     }
 

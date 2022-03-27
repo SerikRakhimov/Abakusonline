@@ -29,7 +29,10 @@ class IsUniqueRoba implements Rule
      */
     public function passes($attribute, $value)
     {
-        return !Roba::where('role_id', $this->request->role_id)->where('base_id', $this->request->base_id)->exists();
+        return !Roba::where('role_id', $this->request->role_id)
+            ->where('base_id', $this->request->base_id)
+            ->where('relit_id', $this->request->relit_id)
+            ->exists();
     }
 
     /**

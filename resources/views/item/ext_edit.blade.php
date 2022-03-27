@@ -273,7 +273,8 @@
         @foreach($array_calc as $key=>$value)
             <?php
             $link = Link::find($key);
-            $base_link_right = GlobalController::base_link_right($link, $role, $relit_id);
+            //$base_link_right = GlobalController::base_link_right($link, $role, $relit_id);
+            $base_link_right = GlobalController::base_link_right($link, $role, $link->parent_relit_id);
             ?>
             @if($base_link_right['is_edit_link_enable'] == false)
                 @continue
@@ -309,8 +310,11 @@
             }
             $items = [];
             if ($items_default = true && $link->parent_base->type_is_list()) {
+                //$result = ItemController::get_items_main($link_parent_base, $project, $role, $link->parent_relit_id, $link);
+
                 $result = ItemController::get_items_main($link_parent_base, $project, $role, $relit_id, $link);
                 $items = $result['items_no_get']->get();
+                //$items = GlobalController::items_right($link_parent_base, $project, $role, $relit_id)['itget'];
             }
             $code_find = null;
             if ($value != null) {

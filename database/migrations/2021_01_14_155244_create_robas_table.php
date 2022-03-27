@@ -34,7 +34,7 @@ class CreateRobasTable extends Migration
             $table->timestamps();
             $table->index('role_id');
             $table->index('base_id');
-            $table->unique(['role_id', 'base_id']);
+            //$table->unique(['role_id', 'base_id']);
             $table->foreign('role_id')->references('id')->on('roles')->onDelete('cascade');
             $table->foreign('base_id')->references('id')->on('bases')->onDelete('cascade');
         });

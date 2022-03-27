@@ -126,9 +126,9 @@ class RelitController extends Controller
 
     function check(Request $request, &$array_mess)
     {
-        if ($request->child_template_id == $request->parent_template_id) {
-            $array_mess['parent_template_id'] = trans('main.is_equality_of_templates_rule') . '!';
-        }
+//        if ($request->child_template_id == $request->parent_template_id) {
+//            $array_mess['parent_template_id'] = trans('main.is_equality_of_templates_rule') . '!';
+//        }
     }
 
     function set(Request $request, Relit &$relit)

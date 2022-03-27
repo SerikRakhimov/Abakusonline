@@ -5032,7 +5032,8 @@ class ItemController extends Controller
                 $is_calcuse = $link->parent_is_in_the_selection_list_use_the_calculated_table_field;
             }
             // Права по base_id
-            $base_right = GlobalController::base_right($base, $role, $relit_id);
+            //$base_right = GlobalController::base_right($base, $role, $relit_id);
+            $base_right = GlobalController::base_right($base, $role, $link->parent_relit_id);
             if (($is_filter) || ($is_calcuse)) {
                 if ($is_filter) {
                     $items_filter = self::get_items_filter_main($base, $link, $item);
@@ -5053,6 +5054,7 @@ class ItemController extends Controller
                     }
                 }
             } else {
+                //$items = self::get_items_list_main($base, $project, $link);
                 // Используется $relip_proj
                 $items = self::get_items_list_main($base, $relip_proj, $link);
             }

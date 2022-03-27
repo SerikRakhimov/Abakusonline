@@ -290,9 +290,7 @@ class GlobalController extends Controller
         //$base_right = self::base_right($base, $role, true);
         //$base_right = self::base_right($base, $role, false);
         $base_right = self::base_right($base, $role, $relit_id);
-//if ($base->id ==37){
-//    dd($base_right);
-//}
+
         $is_list_base_calc = $base_right['is_list_base_calc'];
         $is_all_base_calcname_enable = $base_right['is_all_base_calcname_enable'];
         $is_list_base_sort_creation_date_desc = $base_right['is_list_base_sort_creation_date_desc'];
@@ -394,7 +392,6 @@ class GlobalController extends Controller
 //            $query->where('link_id', 11)->whereHas('parent_item', function ($query) {
 //                $query->where(strval('name_lang_0'), '<=',500);});
 //        });
-
 
 //        $items = $items->whereHas('child_mains', function ($query) {
 //            $query->where('link_id', 11)->whereHas('parent_item', function ($query) {
