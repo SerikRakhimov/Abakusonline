@@ -288,7 +288,8 @@
         @include('list.table',['base'=>$base, 'links_info'=>$links_info, 'items'=>$items,
                     'base_right'=>$base_right, 'item_view'=>true,
                     'relit_id'=>$relit_id, 'heading'=>0, 'body_page'=>0, 'body_count'=>0,'body_perpage'=>0,
-                    'par_link'=>null, 'parent_item'=>null, 'ext_show_body'=>$ext_show_body])
+                    'par_link'=>null, 'parent_item'=>null, 'is_table_body'=>$is_table_body,
+                    'base_index'=>true, 'item_heading_base'=>false, 'item_body_base'=>false])
         {{--                            @if(1==2)--}}
         {{--                                @foreach($link_id_array as $value)--}}
         {{--                                    <?php--}}

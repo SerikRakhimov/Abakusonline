@@ -250,8 +250,8 @@ class ItemController extends Controller
         $items = $items_right['items'];
 
         //$next_links_plan = self::next_links_plan_calc($base, $role);
-        //$ext_show_body = (count($next_links_plan) == 0);
-        $ext_show_body = true;
+        //$is_table_body = (count($next_links_plan) == 0);
+        $is_table_body = true;
 
 //      Похожая проверка в GlobalController::get_project_bases(), ItemController::base_index() и project/start.php
         if ($base_right['is_list_base_calc'] == false) {
@@ -260,7 +260,7 @@ class ItemController extends Controller
         if ($items) {
             session(['base_index_previous_url' => ((!empty($_SERVER['HTTPS'])) ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . '/' . request()->path()]);
             return view('item/base_index', ['base_right' => $base_right, 'base' => $base, 'project' => $project, 'role' => $role, 'relit_id' => $relit_id,
-                'items' => $items->paginate(60), 'links_info' => $links_info, 'ext_show_body' => $ext_show_body]);
+                'items' => $items->paginate(60), 'links_info' => $links_info, 'is_table_body' => $is_table_body]);
         } else {
             return view('message', ['message' => trans('main.no_access_for_unregistered_users')]);
         }
@@ -440,7 +440,7 @@ class ItemController extends Controller
         $role = Role::find($request['role_id']);
         $relit_id = $request['relit_id'];
         $link = Link::find($request['link_id']);
-        return redirect()->route('item.item_index', ['project' => $project, 'item' => $item, 'role' => $role, 'relit_id'=>$relit_id,
+        return redirect()->route('item.item_index', ['project' => $project, 'item' => $item, 'role' => $role, 'relit_id' => $relit_id,
             'usercode' => GlobalController::usercode_calc(), 'relit_id' => $relit_id, 'par_link' => $link]);
     }
 
@@ -637,9 +637,9 @@ class ItemController extends Controller
     }
 
     function ext_store(Request $request, Base $base, Project $project, Role $role, $usercode,
-                       $relit_id,
-                       $heading = 0, $body_page = 0, $body_count = 0, $body_perpage = 0,
-                       Link $par_link = null, Item $parent_item = null)
+                               $relit_id,
+                               $heading = 0, $body_page = 0, $body_count = 0, $body_perpage = 0,
+                       Link    $par_link = null, Item $parent_item = null)
     {
 
         if (GlobalController::check_project_item_user($project, null, $role, $usercode) == false) {
@@ -1351,11 +1351,11 @@ class ItemController extends Controller
             // Если $heading = true - нажата Добавить из "heading", false - из "body" (только при добавлении записи)
             if ($par_link && !$heading && $parent_item) {
                 return redirect()->route('item.item_index', ['project' => $item->project, 'item' => $parent_item, 'role' => $role,
-                    'usercode' => GlobalController::usercode_calc(), 'relit_id'=>$relit_id, 'par_link' => $par_link,
+                    'usercode' => GlobalController::usercode_calc(), 'relit_id' => $relit_id, 'par_link' => $par_link,
                     'body_page' => $body_page]);
             } else {
                 return redirect()->route('item.item_index', ['project' => $item->project, 'item' => $item, 'role' => $role,
-                    'usercode' => GlobalController::usercode_calc(), 'relit_id'=>$relit_id, 'par_link' => $par_link, 'body_page' => $body_page]);
+                    'usercode' => GlobalController::usercode_calc(), 'relit_id' => $relit_id, 'par_link' => $par_link, 'body_page' => $body_page]);
             }
         }
     }
@@ -3429,17 +3429,17 @@ class ItemController extends Controller
         //  Похожий текст в функциях ext_store(), ext_update(), ext_delete();
         //  По алгоритму передается $body_perpage - сохраненный номер страницы $body_perpage;
         if (!$par_link && !$heading) {
-        // Использовать "project' => $project"
+            // Использовать "project' => $project"
             return redirect()->route('item.base_index', ['base' => $item->base, 'project' => $project, 'role' => $role, 'relit_id' => $relit_id]);
         } else {
             // Если $heading = true - нажата Добавить из "heading", false - из "body" (только при добавлении записи)
             if ($par_link && !$heading && $parent_item) {
                 return redirect()->route('item.item_index', ['project' => $item->project, 'item' => $parent_item, 'role' => $role,
-                    'usercode' => GlobalController::usercode_calc(), 'relit_id'=>$relit_id, 'par_link' => $par_link,
+                    'usercode' => GlobalController::usercode_calc(), 'relit_id' => $relit_id, 'par_link' => $par_link,
                     'body_page' => $body_page]);
             } else {
                 return redirect()->route('item.item_index', ['project' => $item->project, 'item' => $item, 'role' => $role,
-                    'usercode' => GlobalController::usercode_calc(), 'relit_id'=>$relit_id, 'par_link' => $par_link, 'body_page' => $body_page]);
+                    'usercode' => GlobalController::usercode_calc(), 'relit_id' => $relit_id, 'par_link' => $par_link, 'body_page' => $body_page]);
             }
         }
     }
@@ -3646,11 +3646,11 @@ class ItemController extends Controller
                 // Если $heading = true - нажата Добавить из "heading", false - из "body" (только при добавлении записи)
                 if ($par_link && !$heading && $parent_item) {
                     return redirect()->route('item.item_index', ['project' => $item->project, 'item' => $parent_item, 'role' => $role,
-                        'usercode' => GlobalController::usercode_calc(), 'relit_id'=>$relit_id, 'par_link' => $par_link,
+                        'usercode' => GlobalController::usercode_calc(), 'relit_id' => $relit_id, 'par_link' => $par_link,
                         'body_page' => $body_page]);
                 } else {
                     return redirect()->route('item.item_index', ['project' => $item->project, 'item' => $item, 'role' => $role,
-                        'usercode' => GlobalController::usercode_calc(), 'relit_id'=>$relit_id, 'par_link' => $par_link, 'body_page' => $body_page]);
+                        'usercode' => GlobalController::usercode_calc(), 'relit_id' => $relit_id, 'par_link' => $par_link, 'body_page' => $body_page]);
                 }
             }
 
@@ -4382,7 +4382,7 @@ class ItemController extends Controller
                     $str = self::form_parent_hier_deta_start($items, $main->parent_item_id, $project, $relit_id, $level, $role, $level_one);
                     $alink = '';
                     if ($base_link_right['is_list_base_calc'] == true) {
-                        $alink = '<a href="' . route('item.ext_show', ['item' => $main->parent_item_id, 'project' => $project, 'role' => $role, 'usercode' => GlobalController::usercode_calc(), 'relit_id'=>$relit_id]) . '" title="' .
+                        $alink = '<a href="' . route('item.ext_show', ['item' => $main->parent_item_id, 'project' => $project, 'role' => $role, 'usercode' => GlobalController::usercode_calc(), 'relit_id' => $relit_id]) . '" title="' .
                             $main->parent_item->name() . '">...</a>';
                     }
                     $img_doc = '';
@@ -4470,7 +4470,7 @@ class ItemController extends Controller
                 $base_link_right = GlobalController::base_link_right($link, $role, $relit_id, true);
                 if ($base_link_right['is_hier_link_enable'] == true) {
                     // Получить $str - вложенные детские значения
-                    $str = self::form_child_hier_deta_start($items, $main->child_item_id, $project, $relit_id,  $level, $role);
+                    $str = self::form_child_hier_deta_start($items, $main->child_item_id, $project, $relit_id, $level, $role);
                     $alink = '';
                     if ($base_link_right['is_list_base_calc'] == true) {
                         $alink = '<a href="' . route('item.ext_show', ['item' => $main->child_item_id, 'project' => $project, 'role' => $role, 'usercode' => GlobalController::usercode_calc(), 'relit_id' => $relit_id]) . '" title="' .
@@ -4586,17 +4586,16 @@ class ItemController extends Controller
                     $dop_name_2 = "";
                     $dop_name_3 = "";
                     if ($item->base_id == $item_result->base_id) {
-//111                        if ($level == 1) {
-                        // всего два запуска этой функции (основной и этот), только для однородных значений (например: ФизЛицо имеет поле Мать(ФизЛицо), Отец(ФизЛицо))
-                        $rs = $this->calc_value_func($item_result, $level, false);
-                        $dop_name_0 = $rs['calc_lang_0'] == "" ? "" : $item->base->sepa_same_left_calcname . $rs['calc_lang_0'] . $item->base->sepa_same_right_calcname;
-                        $dop_name_1 = $rs['calc_lang_1'] == "" ? "" : $item->base->sepa_same_left_calcname . $rs['calc_lang_1'] . $item->base->sepa_same_right_calcname;
-                        $dop_name_2 = $rs['calc_lang_2'] == "" ? "" : $item->base->sepa_same_left_calcname . $rs['calc_lang_2'] . $item->base->sepa_same_right_calcname;
-                        $dop_name_3 = $rs['calc_lang_3'] == "" ? "" : $item->base->sepa_same_left_calcname . $rs['calc_lang_3'] . $item->base->sepa_same_right_calcname;
-//111                        } else {
-//111                            continue;
-
-                        //$res_names = $item_result->names();
+                        if ($level == 1) {
+                            // всего два запуска этой функции (основной и этот), только для однородных значений (например: ФизЛицо имеет поле Мать(ФизЛицо), Отец(ФизЛицо))
+                            $rs = $this->calc_value_func($item_result, $level, false);
+                            $dop_name_0 = $rs['calc_lang_0'] == "" ? "" : $item->base->sepa_same_left_calcname . $rs['calc_lang_0'] . $item->base->sepa_same_right_calcname;
+                            $dop_name_1 = $rs['calc_lang_1'] == "" ? "" : $item->base->sepa_same_left_calcname . $rs['calc_lang_1'] . $item->base->sepa_same_right_calcname;
+                            $dop_name_2 = $rs['calc_lang_2'] == "" ? "" : $item->base->sepa_same_left_calcname . $rs['calc_lang_2'] . $item->base->sepa_same_right_calcname;
+                            $dop_name_3 = $rs['calc_lang_3'] == "" ? "" : $item->base->sepa_same_left_calcname . $rs['calc_lang_3'] . $item->base->sepa_same_right_calcname;
+                        } else {
+                            continue;
+                            //$res_names = $item_result->names();
 //                            $dop_name_0 = $res_names[0];
 //                            $dop_name_1 = $res_names[1];
 //                            $dop_name_2 = $res_names[2];
@@ -4605,8 +4604,7 @@ class ItemController extends Controller
 //                            $dop_name_1 = "";
 //                            $dop_name_2 = "";
 //                            $dop_name_3 = "";
-                        //111}
-
+                        }
                     } else {
                         $res_names = $item_result->names();
                         $dop_name_0 = $res_names[0];
