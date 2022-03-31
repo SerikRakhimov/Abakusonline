@@ -75,16 +75,16 @@
                 </h3>
             </div>
             <div class="col-2 text-right">
-{{--                @if ($base_right['is_list_base_create'] == true)--}}
-{{--                    <button type="button" class="btn btn-dreamer" title="{{trans('main.add')}}"--}}
-{{--                            onclick="document.location='{{route('item.ext_create', ['base'=>$item->base,--}}
-{{--                             'project'=>$project, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(),--}}
-{{--                             'relit_id' =>$relit_id,--}}
-{{--                             'heading'=>intval(true), 'body_page'=>$body_page, 'body_count'=>$body_count,'body_perpage'=>$body_perpage,--}}
-{{--                             'par_link'=>$current_link, 'parent_item'=>null])}}'">--}}
-{{--                        <i class="fas fa-plus d-inline"></i>&nbsp;{{trans('main.add')}}--}}
-{{--                    </button>--}}
-{{--                @endif--}}
+                {{--                @if ($base_right['is_list_base_create'] == true)--}}
+                {{--                    <button type="button" class="btn btn-dreamer" title="{{trans('main.add')}}"--}}
+                {{--                            onclick="document.location='{{route('item.ext_create', ['base'=>$item->base,--}}
+                {{--                             'project'=>$project, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(),--}}
+                {{--                             'relit_id' =>$relit_id,--}}
+                {{--                             'heading'=>intval(true), 'body_page'=>$body_page, 'body_count'=>$body_count,'body_perpage'=>$body_perpage,--}}
+                {{--                             'par_link'=>$current_link, 'parent_item'=>null])}}'">--}}
+                {{--                        <i class="fas fa-plus d-inline"></i>&nbsp;{{trans('main.add')}}--}}
+                {{--                    </button>--}}
+                {{--                @endif--}}
             </div>
             {{--            <div class="col-1 text-center">--}}
             {{--                <a href="{{route('item.ext_show', ['item'=>$item, 'role'=>$role])}}"--}}
@@ -113,26 +113,42 @@
     {{--        &#8595;	&#8195; &#8595;	&#8195; &#8595;	&#8195; &#8595;	&#8195; &#8595;	&#8195; &#8595;	&#8195; &#8595;	&#8195; &#8595;	&#8195; &#8595;	&#8195; &#8595;	&#8195; &#8595;	&#8195;--}}
     {{--        <hr>--}}
     {{--        <div class="text-center">&#8595;</div>--}}
-    <ul class="pagination">
-        <li class="page-item"><a class="page-link"
-                                 @if($prev_item)
-                                 href="{{route('item.item_index', ['project'=>$project, 'item'=>$prev_item, 'role'=>$role,
+    @if(($prev_item) ||($next_item))
+        <ul class="pagination">
+            {{--        <li class="page-item"><a class="page-link"--}}
+            {{--                                 @if($prev_item)--}}
+            {{--                                 href="{{route('item.item_index', ['project'=>$project, 'item'=>$prev_item, 'role'=>$role,--}}
+            {{--                                'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id, 'par_link'=>$current_link])}}"--}}
+            {{--                                 title="{{$prev_item->cdnm()}}"--}}
+            {{--                                 @else--}}
+            {{--                                 style="cursor:default" href="#" title="{{trans('main.none')}}"--}}
+            {{--                @endif--}}
+            {{--            ><</a></li>--}}
+            @if($prev_item)
+            <li class="page-item">
+                    <a class="page-link" href="{{route('item.item_index', ['project'=>$project, 'item'=>$prev_item, 'role'=>$role,
                                 'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id, 'par_link'=>$current_link])}}"
-                                 title="{{$prev_item->cdnm()}}"
-                                 @else
-                                 style="cursor:default" href="#" title="{{trans('main.none')}}"
-                @endif
-            ><</a></li>
-        <li class="page-item"><a class="page-link"
-                                 @if($next_item)
-                                 href="{{route('item.item_index', ['project'=>$project, 'item'=>$next_item, 'role'=>$role,
+                                     title="{{$prev_item->cdnm()}}"><</a>
+            </li>
+            @endif
+            {{--        <li class="page-item"><a class="page-link"--}}
+            {{--                                 @if($next_item)--}}
+            {{--                                 href="{{route('item.item_index', ['project'=>$project, 'item'=>$next_item, 'role'=>$role,--}}
+            {{--                                'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id, 'par_link'=>$current_link])}}"--}}
+            {{--                                 title="{{$next_item->cdnm()}}"--}}
+            {{--                                 @else--}}
+            {{--                                 style="cursor:default" href="#" title="{{trans('main.none')}}"--}}
+            {{--                @endif--}}
+            {{--            >></a></li>--}}
+            @if($next_item)
+                <li class="page-item">
+                    <a class="page-link" href="{{route('item.item_index', ['project'=>$project, 'item'=>$next_item, 'role'=>$role,
                                 'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id, 'par_link'=>$current_link])}}"
-                                 title="{{$next_item->cdnm()}}"
-                                 @else
-                                 style="cursor:default" href="#" title="{{trans('main.none')}}"
-                @endif
-            >></a></li>
-    </ul>
+                                     title="{{$next_item->cdnm()}}">></a>
+            </li>
+            @endif
+        </ul>
+    @endif
     @if($current_link)
         {{--        <hr>--}}
         {{--        <br>--}}

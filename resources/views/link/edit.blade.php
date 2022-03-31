@@ -326,6 +326,20 @@
             </div>
         </div>
 
+        <div class="form-group" id="parent_is_parallel_link_form_group">
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" name="parent_is_parallel_link"
+                       id="parent_is_parallel_link"
+                       {{--            "(int) 0" нужно--}}
+                       @if ((old('parent_is_parallel_link') ?? ($link->parent_is_parallel_link ?? false)) ==  true)
+                       checked
+                    @endif
+                >
+                <label class="form-check-label"
+                       for="parent_is_parallel_link">{{trans('main.parent_is_parallel_link')}}</label>
+            </div>
+        </div>
+
         <div class="form-group" id="parent_is_enter_refer_form_group">
             <div class="form-check form-check-inline">
                 <input class="form-check-input" type="checkbox" name="parent_is_enter_refer"
@@ -408,19 +422,22 @@
             </div>
         </div>
 
-        <div class="form-group" id="parent_is_left_calcname_form_group">
-            <div class="form-check form-check-inline">
-                <input class="form-check-input" type="checkbox" name="parent_is_left_calcname"
-                       id="parent_is_left_calcname"
-                       {{--            "(int) 0" нужно--}}
-                       @if ((old('parent_is_left_calcname') ?? ($link->parent_is_left_calcname ?? false)) ==  true)
-                       checked
-                    @endif
-                >
-                <label class="form-check-label"
-                       for="parent_is_left_calcname">{{trans('main.parent_is_left_calcname')}}</label>
+        @foreach (config('app.locales') as $key=>$value)
+            <div class="form-group">
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" name="parent_is_left_calcname_lang_{{$key}}"
+                           id="parent_is_left_calcname_lang_{{$key}}"
+                           {{--            "(int) 0" нужно--}}
+                           @if ((old('parent_is_left_calcname_lang_' . $key) ?? ($link['parent_is_left_calcname_lang_' . $key] ?? false)) ==  true)
+                           checked
+                        @endif
+                    >
+                    <label class="form-check-label" for="parent_is_left_calcname_lang_{{$key}}">{{trans('main.parent_is_left_calcname')}}
+                        ({{trans('main.' . $value)}}
+                        )<span class="text-danger">*</span></label>
+                </div>
             </div>
-        </div>
+        @endforeach
 
         <div class="form-group" id="parent_is_small_calcname_form_group">
             <div class="form-check form-check-inline">

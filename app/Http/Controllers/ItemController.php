@@ -396,9 +396,7 @@ class ItemController extends Controller
 //            } else {
 //                // 'items' нужно, для пагинации
 //                // '->paginate(60)' использовать здесь
-
             $body_items = $items_body_right['items']->paginate(60, ['*'], 'body_page');
-            //$body_items = $items_body_right['items']->cursorPaginate(3, ['*'], 'body_page');
 //        }
         }
         //     session(['links' => ((!empty($_SERVER['HTTPS'])) ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . '/' . request()->path()]);
@@ -4631,23 +4629,23 @@ class ItemController extends Controller
                         $dop_sepa3 = $calc_lang_3 == "" ? "" : $sc . " ";
 
 //Лучше без пробела ("Цена = 15000" на одной строке может быть "Цена =", на второй "15000"; а если "Цена=15000" всегда выходит на одной строке, т.к. это одно слово)
-//                        $left_str0 = $link->parent_is_left_calcname == true ? $link->parent_calcname_prefix_lang_0 . " " : "";
-//                        $left_str1 = $link->parent_is_left_calcname == true ? $link->parent_calcname_prefix_lang_1 . " " : "";
-//                        $left_str2 = $link->parent_is_left_calcname == true ? $link->parent_calcname_prefix_lang_2 . " " : "";
-//                        $left_str3 = $link->parent_is_left_calcname == true ? $link->parent_calcname_prefix_lang_3 . " " : "";
-//                        $right_str0 = $link->parent_is_left_calcname == false ? " " . $link->parent_calcname_prefix_lang_0 : "";
-//                        $right_str1 = $link->parent_is_left_calcname == false ? " " . $link->parent_calcname_prefix_lang_1 : "";
-//                        $right_str2 = $link->parent_is_left_calcname == false ? " " . $link->parent_calcname_prefix_lang_2 : "";
-//                        $right_str3 = $link->parent_is_left_calcname == false ? " " . $link->parent_calcname_prefix_lang_3 : "";
+//                        $left_str0 = $link->parent_is_left_calcname_lang_0 == true ? $link->parent_calcname_prefix_lang_0 . " " : "";
+//                        $left_str1 = $link->parent_is_left_calcname_lang_1 == true ? $link->parent_calcname_prefix_lang_1 . " " : "";
+//                        $left_str2 = $link->parent_is_left_calcname_lang_2 == true ? $link->parent_calcname_prefix_lang_2 . " " : "";
+//                        $left_str3 = $link->parent_is_left_calcname_lang_3 == true ? $link->parent_calcname_prefix_lang_3 . " " : "";
+//                        $right_str0 = $link->parent_is_left_calcname_lang_0 == false ? " " . $link->parent_calcname_prefix_lang_0 : "";
+//                        $right_str1 = $link->parent_is_left_calcname_lang_1 == false ? " " . $link->parent_calcname_prefix_lang_1 : "";
+//                        $right_str2 = $link->parent_is_left_calcname_lang_2 == false ? " " . $link->parent_calcname_prefix_lang_2 : "";
+//                        $right_str3 = $link->parent_is_left_calcname_lang_3 == false ? " " . $link->parent_calcname_prefix_lang_3 : "";
 
-                        $left_str0 = $link->parent_is_left_calcname == true ? $link->parent_calcname_prefix_lang_0 . "" : "";
-                        $left_str1 = $link->parent_is_left_calcname == true ? $link->parent_calcname_prefix_lang_1 . "" : "";
-                        $left_str2 = $link->parent_is_left_calcname == true ? $link->parent_calcname_prefix_lang_2 . "" : "";
-                        $left_str3 = $link->parent_is_left_calcname == true ? $link->parent_calcname_prefix_lang_3 . "" : "";
-                        $right_str0 = $link->parent_is_left_calcname == false ? "" . $link->parent_calcname_prefix_lang_0 : "";
-                        $right_str1 = $link->parent_is_left_calcname == false ? "" . $link->parent_calcname_prefix_lang_1 : "";
-                        $right_str2 = $link->parent_is_left_calcname == false ? "" . $link->parent_calcname_prefix_lang_2 : "";
-                        $right_str3 = $link->parent_is_left_calcname == false ? "" . $link->parent_calcname_prefix_lang_3 : "";
+                        $left_str0 = $link->parent_is_left_calcname_lang_0 == true ? $link->parent_calcname_prefix_lang_0 . " " : "";
+                        $left_str1 = $link->parent_is_left_calcname_lang_1 == true ? $link->parent_calcname_prefix_lang_1 . " " : "";
+                        $left_str2 = $link->parent_is_left_calcname_lang_2 == true ? $link->parent_calcname_prefix_lang_2 . " " : "";
+                        $left_str3 = $link->parent_is_left_calcname_lang_3 == true ? $link->parent_calcname_prefix_lang_3 . " " : "";
+                        $right_str0 = $link->parent_is_left_calcname_lang_0 == false ? " " . $link->parent_calcname_prefix_lang_0 : "";
+                        $right_str1 = $link->parent_is_left_calcname_lang_1 == false ? " " . $link->parent_calcname_prefix_lang_1 : "";
+                        $right_str2 = $link->parent_is_left_calcname_lang_2 == false ? " " . $link->parent_calcname_prefix_lang_2 : "";
+                        $right_str3 = $link->parent_is_left_calcname_lang_3 == false ? " " . $link->parent_calcname_prefix_lang_3 : "";
 
                         $calc_lang_0 = $calc_lang_0 . ($dop_name_0 == "" ? "" : $dop_sepa0 . $left_str0) . $dop_name_0 . ($dop_name_0 == "" ? "" : $right_str0);
                         $calc_lang_1 = $calc_lang_1 . ($dop_name_1 == "" ? "" : $dop_sepa1 . $left_str1) . $dop_name_1 . ($dop_name_1 == "" ? "" : $right_str1);
@@ -4854,11 +4852,20 @@ class ItemController extends Controller
         $matrix = array(array());
         $links = null;
         if ($nolink == null) {
-            $links = $base->child_links->sortBy('parent_base_number');
+            $links = $base->child_links;
         } else {
-            // Исключить переданный $nolink
-            $links = $base->child_links->where('id', '!=', $nolink->id)->sortBy('parent_base_number');
+            //                                    При параллельной связи $nolink
+            //                                    другие паралельные связи не доступны при отображении списка в Пространство-тело таблицы
+            //                                    (если передано $nolink)
+            if ($nolink->parent_is_parallel_link == true) {
+                // Исключить child_links с параллельными связями
+                $links = $base->child_links->where('parent_is_parallel_link', '!=', true);
+            }else{
+                // Исключить переданный $nolink
+                $links = $base->child_links->where('id', '!=', $nolink->id);
+            }
         }
+        $links = $links->sortBy('parent_base_number');
 
         $k = 0;
         foreach ($links as $link) {

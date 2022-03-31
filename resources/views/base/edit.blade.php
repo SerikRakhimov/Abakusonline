@@ -557,6 +557,31 @@
             </div>
         </div>
 
+        <div class="form-group row" id="is_default_list_base_byuser_form_group">
+            <div class="col-sm-3 text-right">
+                <label class="form-label"
+                       for="is_default_list_base_byuser">{{trans('main.is_default_list_base_byuser')}}</label>
+            </div>
+            <div class="col-sm-7">
+                <input class="@error('is_default_list_base_byuser') is-invalid @enderror"
+                       type="checkbox"
+                       name="is_default_list_base_byuser"
+                       id="linkis_default_list_base_byuser"
+                       placeholder=""
+                       @if ((old('is_default_list_base_byuser') ?? ($base->is_default_list_base_byuser ?? false)) ==  true)
+                       checked
+                    @endif
+                >
+                @error('is_default_list_base_byuser')
+                <div class="invalid-feedback">
+                    {{$message}}
+                </div>
+                @enderror
+            </div>
+            <div class="col-sm-2">
+            </div>
+        </div>
+
         <div class="form-group row" id="is_one_value_lst_str_txt_form_group">
             <div class="col-sm-3 text-right">
                 <label class="form-label"
@@ -745,6 +770,7 @@
         var is_suggest_code = document.getElementById('is_suggest_code_form_group');
         var is_suggest_max_code = document.getElementById('is_suggest_max_code_form_group');
         var is_recalc_code = document.getElementById('is_recalc_code_form_group');
+        var is_byuser = document.getElementById('is_default_list_base_byuser_form_group');
         var is_required_lst_num_str_txt_img_doc = document.getElementById('is_required_lst_num_str_txt_img_doc_form_group');
         var is_tomoderate_img = document.getElementById('is_to_moderate_image_form_group');
         var maxfilesize_img_doc = document.getElementById('maxfilesize_img_doc_form_group');
@@ -795,6 +821,7 @@
             val_suggest_code = "hidden";
             val_suggest_max_code = "hidden";
             val_recalc_code = "hidden";
+            val_is_byuser = "hidden";
             val_digits_num = "hidden";
             val_required_num_str = "hidden";
             val_tomoderate_img = "hidden";
@@ -821,6 +848,7 @@
                     val_suggest_code = "visible";
                     val_suggest_max_code = "visible";
                     val_recalc_code = "visible";
+                    val_is_byuser = "visible";
                     val_required_num_str = "visible";
                     val_onevalue_str = "visible";
                     val_calcname_lst = "visible";
@@ -874,6 +902,7 @@
             is_suggest_code.style.visibility = val_suggest_code;
             is_suggest_max_code.style.visibility = val_suggest_max_code;
             is_recalc_code.style.visibility = val_recalc_code;
+            is_byuser.style.visibility = val_is_byuser;
             digits_num.style.visibility = val_digits_num;
             is_required_lst_num_str_txt_img_doc.style.visibility = val_required_num_str;
             is_tomoderate_img.style.visibility = val_tomoderate_img;

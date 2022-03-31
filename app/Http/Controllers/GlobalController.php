@@ -136,10 +136,22 @@ class GlobalController extends Controller
             if (!(($base->template_id == $role->template_id) || ($base->template_id == $relit_parent_template->id))) {
                 $is_list_base_calc = false;
             }
-
+//            Не 'Показывать Основы взаимосвязанных проектов'
             if ($role->is_list_base_relits == false) {
                 if ($base->template_id != $role->template_id) {
                     $is_list_base_calc = false;
+                }
+            }
+//          'Показывать Основы взаимосвязанных проектов'
+            if ($role->is_list_base_relits == true) {
+                if ($base->template_id != $role->template_id) {
+                    // 'Показывать только для чтения Основы взаимосвязанных проектов'
+                    if ($role->is_read_base_relits == true) {
+                        $is_list_base_read = true;
+                        $is_list_base_create = false;
+                        $is_list_base_update = false;
+                        $is_list_base_delete = false;
+                    }
                 }
             }
         }
@@ -149,6 +161,10 @@ class GlobalController extends Controller
 //            $is_list_base_update = false;
 //            $is_list_base_delete = false;
 //        }
+//      По умолчанию фильтровать по пользователю в списке
+        if ($base->is_default_list_base_byuser == true) {
+            $is_list_base_byuser = true;
+        }
 
         // Для вычисляемых base
         // ИЛИ $base с другого шаблона(не равен $role->template_id)

@@ -93,6 +93,19 @@ class Link extends Model
         return $result;
     }
 
+    function parent_is_left_calcname()
+    {
+        $result = "";  // нужно, не удалять
+        $index = array_search(App::getLocale(), config('app.locales'));
+        if ($index !== false) {   // '!==' использовать, '!=' не использовать
+            $result = $this['parent_is_left_calcname_lang_' . $index];
+        }
+        if ($result == "") {
+            $result = $this->parent_is_left_calcname_lang_0;
+        }
+        return $result;
+    }
+
     function info()
     {
         return $this->child_base->name() . " - " . $this->parent_label() . ": " . $this->parent_base->name();

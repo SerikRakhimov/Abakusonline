@@ -127,26 +127,29 @@ class RoleController extends Controller
         if ($request->is_list_base_create == true && $request->is_edit_base_read == true) {
             $array_mess['is_edit_base_read'] = trans('main.is_list_base_create_rule') . '!';
         }
-        if ($request->is_list_base_read  == true && ($request->is_list_base_create || $request->is_list_base_update ||$request->is_list_base_delete)) {
+        if ($request->is_list_base_read == true && ($request->is_list_base_create || $request->is_list_base_update || $request->is_list_base_delete)) {
             $array_mess['is_list_base_read'] = trans('main.is_list_base_read_rule') . '!';
         }
-        if ($request->is_list_base_delete  == false && $request->is_list_base_used_delete == true) {
+        if ($request->is_list_base_delete == false && $request->is_list_base_used_delete == true) {
             $array_mess['is_list_base_used_delete'] = trans('main.is_list_base_used_delete_rule') . '!';
         }
-        if ($request->is_edit_base_read  == true && $request->is_edit_base_update == true) {
+        if ($request->is_edit_base_read == true && $request->is_edit_base_update == true) {
             $array_mess['is_edit_base_read'] = trans('main.is_edit_base_read_rule') . '!';
         }
-        if ($request->is_edit_link_read  == true && $request->is_edit_link_update == true) {
+        if ($request->is_edit_link_read == true && $request->is_edit_link_update == true) {
             $array_mess['is_edit_link_read'] = trans('main.is_edit_link_read_rule') . '!';
         }
-        if ($request->is_edit_email_base_create  == false && $request->is_edit_email_question_base_create == true) {
+        if ($request->is_edit_email_base_create == false && $request->is_edit_email_question_base_create == true) {
             $array_mess['is_edit_email_question_base_create'] = trans('main.is_edit_email_question_base_create_rule') . '!';
         }
-        if ($request->is_edit_email_base_update  == false && $request->is_edit_email_question_base_update == true) {
+        if ($request->is_edit_email_base_update == false && $request->is_edit_email_question_base_update == true) {
             $array_mess['is_edit_email_question_base_update'] = trans('main.is_edit_email_question_base_update_rule') . '!';
         }
-        if ($request->is_show_email_base_delete  == false && $request->is_show_email_question_base_delete == true) {
+        if ($request->is_show_email_base_delete == false && $request->is_show_email_question_base_delete == true) {
             $array_mess['is_show_email_question_base_delete'] = trans('main.is_show_email_question_base_delete_rule') . '!';
+        }
+        if ($request->is_list_base_relits == false && $request->is_read_base_relits == true) {
+            $array_mess['is_read_base_relits'] = trans('main.need_to_uncheck') . '!';
         }
     }
 
@@ -168,6 +171,7 @@ class RoleController extends Controller
         $role->is_author = isset($request->is_author) ? true : false;
         $role->is_default_for_external = isset($request->is_default_for_external) ? true : false;
         $role->is_list_base_relits = isset($request->is_list_base_relits) ? true : false;
+        $role->is_read_base_relits = isset($request->is_read_base_relits) ? true : false;
         $role->is_list_base_sndbt = isset($request->is_list_base_sndbt) ? true : false;
         $role->is_list_base_id = isset($request->is_list_base_id) ? true : false;
         $role->is_list_base_calculated = isset($request->is_list_base_calculated) ? true : false;

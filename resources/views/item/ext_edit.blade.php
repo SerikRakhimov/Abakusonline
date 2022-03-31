@@ -15,15 +15,15 @@
     $base_right = GlobalController::base_right($base, $role, $relit_id);
     $relip_project = GlobalController::calc_relip_project($relit_id, $project);
     ?>
-{{--    <script>--}}
-{{--        function browse(link_id, project_id, role_id, item_id) {--}}
-{{--            // Нужно, используется в browser.blade.php--}}
-{{--            window.item_id = document.getElementById("'" + link_id + "'");--}}
-{{--            window.item_code = document.getElementById('code' + link_id);--}}
-{{--            window.item_name = document.getElementById('name' + link_id);--}}
-{{--            open('{{route('item.browser', '')}}' + '/' + link_id + '/' + base_id + '/' + project_id + '/' + role_id + '/' + {{$relit_id}} + '/' + item_id + '/1/1', 'browse', 'width=800, height=800');--}}
-{{--        };--}}
-{{--    </script>--}}
+    {{--    <script>--}}
+    {{--        function browse(link_id, project_id, role_id, item_id) {--}}
+    {{--            // Нужно, используется в browser.blade.php--}}
+    {{--            window.item_id = document.getElementById("'" + link_id + "'");--}}
+    {{--            window.item_code = document.getElementById('code' + link_id);--}}
+    {{--            window.item_name = document.getElementById('name' + link_id);--}}
+    {{--            open('{{route('item.browser', '')}}' + '/' + link_id + '/' + base_id + '/' + project_id + '/' + role_id + '/' + {{$relit_id}} + '/' + item_id + '/1/1', 'browse', 'width=800, height=800');--}}
+    {{--        };--}}
+    {{--    </script>--}}
 
     @include('layouts.project.show_project_role',['project'=>$project, 'role'=>$role])
     <h3 class="display-5 text-center">
@@ -799,9 +799,27 @@
                     {{--                         Такая же проверка ItemController::get_items_ext_edit_for_link(),--}}
                     {{--                         в ext_edit.php--}}
                 @elseif($link->parent_base->type_is_list())
+                    <?php
+                    $hidden_list = false;
+                    if ($par_link) {
+                        //                                   При параллельной связи $par_link
+                        //                                    другие паралельные связи не доступны при добавлении/корректировке записи
+                        //                            при способе ввода Пространство (если передано $par_link)
+                        if ($par_link->parent_is_parallel_link == true && $link->parent_is_parallel_link == true) {
+                            $hidden_list = true;
+                        }
+                    }
+                    ?>
                     <div class="form-group row">
                         <div class="col-sm-3 text-right">
-                            <label for="{{$key}}" class="col-form-label">
+                            <label for="{{$key}}" class="col-form-label"
+                                   {{--                               Проверка 'if ($par_link)' проверена ранее, при присваивании $hidden_list --}}
+                                   @if($hidden_list)
+                                   @if($key != $par_link->id)
+                                   hidden
+                                @endif
+                                @endif
+                            >
                                 @include('layouts.item.ext_edit.parent_label',
                                 ['result_parent_label'=>$result_parent_label, 'key'=>$key, 'par_link'=>$par_link])
                                 <span class="text-danger">*{{$value !=null ? "" : "~"}}</span></label>
@@ -817,6 +835,10 @@
                                     @if($par_link)
                                     @if ($key == $par_link->id)
                                     disabled
+                                    @else
+                                    @if($hidden_list)
+                                    hidden
+                                @endif
                                 @endif
                                 @endif
                                 @endif
@@ -1072,7 +1094,7 @@
                             @if(($link_start_child->parent_is_base_link == true) || ($link_start_child->parent_base->is_code_needed==true && $link_start_child->parent_is_enter_refer==true))
                                 @else
                                 await axios.get('/item/get_items_main_options/'
-                                + '{{$link_start_child->parent_base_id}}' + '/' + {{$project->id}} + '/' + {{$role->id}}  + '/' + {{$relit_id}} + '/' + {{$link_get->id}}
+                                + '{{$link_start_child->parent_base_id}}' + '/' + {{$project->id}} + '/' + {{$role->id}} + '/' + {{$relit_id}} + '/' + {{$link_get->id}}
                                     @if(($link->parent_is_base_link == true) || ($link->parent_base->is_code_needed==true && $link->parent_is_enter_refer==true))
                                 + '/' + parent_base_id{{$prefix}}{{$link->id}}.value
                                 @else
@@ -1180,7 +1202,7 @@
                                 } else {
                                     await axios.get('/item/get_items_main_code/'
                                         + code_{{$prefix}}{{$link->id}}.value + '/'
-                                        + '{{$link->parent_base_id}}' + '/' + {{$project->id}} + '/' + {{$role->id}} + '/'+ {{$relit_id}} + '/' + {{$link->id}}
+                                        + '{{$link->parent_base_id}}' + '/' + {{$project->id}} + '/' + {{$role->id}} + '/' + {{$relit_id}} + '/' + {{$link->id}}
                                             @if(($link_refer_main->parent_is_base_link == true) || ($link_refer_main->parent_base->is_code_needed==true && $link_refer_main->parent_is_enter_refer==true))
                                         + '/' + parent_base_id{{$prefix}}{{$link->id}}.value
                                         @else
