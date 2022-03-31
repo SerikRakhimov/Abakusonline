@@ -15,6 +15,9 @@
 
     <p>Id: <b>{{$relit->id}}</b></p>
     <p>{{trans('main.serial_number')}}: <b>{{$relit->serial_number}}</b></p>
+    @foreach (config('app.locales') as $key=>$value)
+        <p>{{trans('main.title')}} ({{trans('main.' . $value)}}): <b>{{$relit['title_lang_' . $key]}}</b></p>
+    @endforeach
     <p>{{trans('main.parent')}}_{{trans('main.template')}}: <b>{{$relit->parent_template->name()}} (Id = {{$relit->parent_template_id}})</b>
 
     @if ($type_form == 'show')

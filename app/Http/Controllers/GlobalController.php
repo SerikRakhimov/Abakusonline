@@ -161,6 +161,7 @@ class GlobalController extends Controller
 //            $is_list_base_update = false;
 //            $is_list_base_delete = false;
 //        }
+
 //      По умолчанию фильтровать по пользователю в списке
         if ($base->is_default_list_base_byuser == true) {
             $is_list_base_byuser = true;

@@ -5,6 +5,7 @@
     use App\Models\Base;
     use App\Models\Item;
     use App\Models\Project;
+    use App\Models\Relit;
     use App\Http\Controllers\GlobalController;
     use App\Http\Controllers\ProjectController;
     // https://ru.coredump.biz/questions/41704091/laravel-file-uploads-failing-when-file-size-is-larger-than-2mb
@@ -31,88 +32,86 @@
             @endif
         @endif
     @endauth
-
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-1">
+            </div>
+            <div class="col-6 text-left">
+                <h3>{{trans('main.mainmenu')}}</h3>
+            </div>
+            <div class="col-5 text-right">
+            </div>
+        </div>
+    </div>
     @foreach($array_relips as $relit_id=>$array_relip)
         <?php
+        $relit = null;
+        if ($relit_id == 0) {
+            $relit = null;
+        } else {
+            $relit = Relit::findOrFail($relit_id);
+        }
         // Находим родительский проект
         $relip_project = Project::findOrFail($array_relip['project_id']);
         $base_ids = $array_relip['base_ids'];
         ?>
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-1">
-                </div>
-                <div class="col-6 text-left">
-                    @if($relit_id == 0)
-                        <h3>{{trans('main.mainmenu')}}</h3>
-                    @else
-                        <h4>{{$relip_project->name()}}<h4>
-                    @endif
-                </div>
-                <div class="col-5 text-right">
+        @if($relit_id != 0 && $role->is_view_info_relits == true)
+            <div class="row ml-5">
+                <div class="col-12 text-left">
+                    <h6>{{$relit->title()}}</h6>
+                    <small>{{$relip_project->name()}}</small>
                 </div>
             </div>
-        </div>
-        </p>
-        <table class="table table-sm table-no-bordered table-hover">
-            <caption></caption>
-            {{--                    <thead>--}}
-            {{--                    <tr>--}}
-            {{--                        <th class="text-center col-2">#</th>--}}
-            {{--                        <th class="text-left col-10">{{trans('main.names')}}</th>--}}
-            {{--                    </tr>--}}
-            {{--                    </thead>--}}
-            <tbody>
-            @foreach($base_ids as $base_id)
-                <?php
-                $base = Base::findOrFail($base_id);
-                ?>
-                <?php
-                $i++;
-                $message = GlobalController::base_maxcount_message($base);
-                if ($message != '') {
-                    // Такая же проверка в GlobalController::items_right() и start.php
-                    $message = ' (' . $message . ')';
-                }
-                ?>
-                <tr>
-                    {{--                                    <th scope="row">{{$i}}</th>--}}
-                    <td class="col-2 text-center">
-                        <h5>
-                            <a
-                                href="{{route('item.base_index',['base'=>$base, 'project' => $project, 'role' => $role, 'relit_id' => $relit_id])}}"
-                                title="{{$base->names()}}">
-                                {{$i}}
-                            </a></h5></td>
-                    <td class="col-10 text-left">
-                        <h5>
-                            <a
-                                href="{{route('item.base_index',['base'=>$base, 'project' => $project, 'role' => $role, 'relit_id' => $relit_id])}}"
-                                title="{{$base->names() . $message}}">
-                                {{$base->names()}}
-                                {{--                            @auth--}}
-                                {{--                                <span--}}
-                                {{--                                    class="text-muted text-related">--}}
-                                {{--                                    {{GlobalController::items_right($base, $project, $role)['view_count']}}--}}
-                                {{--                                </span>--}}
-                            </a>
-                            <?php
-                            $menu_type_name = $base->menu_type_name();
-                            ?>
-                            <a
-                                href="{{route('item.base_index',['base'=>$base, 'project' => $project, 'role' => $role, 'relit_id' => $relit_id])}}"
-                                title="{{$menu_type_name['text']}}">
+        @endif
+        @foreach($base_ids as $base_id)
+            <?php
+            $base = Base::findOrFail($base_id);
+            ?>
+            <?php
+            $i++;
+            $message = GlobalController::base_maxcount_message($base);
+            if ($message != '') {
+                // Такая же проверка в GlobalController::items_right() и start.php
+                $message = ' (' . $message . ')';
+            }
+            ?>
+            <div class="row mt-3">
+                {{--                                    <th scope="row">{{$i}}</th>--}}
+                <div class="col-sm-2 text-center">
+                    <h5>
+                        <a
+                            href="{{route('item.base_index',['base'=>$base, 'project' => $project, 'role' => $role, 'relit_id' => $relit_id])}}"
+                            title="{{$base->names()}}">
+                            {{$i}}
+                        </a></h5>
+                </div>
+                <div class="col-sm-10 text-left">
+                    <h5>
+                        <a
+                            href="{{route('item.base_index',['base'=>$base, 'project' => $project, 'role' => $role, 'relit_id' => $relit_id])}}"
+                            title="{{$base->names() . $message}}">
+                            {{$base->names()}}
+                            {{--                            @auth--}}
+                            {{--                                <span--}}
+                            {{--                                    class="text-muted text-related">--}}
+                            {{--                                    {{GlobalController::items_right($base, $project, $role)['view_count']}}--}}
+                            {{--                                </span>--}}
+                        </a>
+                        <?php
+                        $menu_type_name = $base->menu_type_name();
+                        ?>
+                        <a
+                            href="{{route('item.base_index',['base'=>$base, 'project' => $project, 'role' => $role, 'relit_id' => $relit_id])}}"
+                            title="{{$menu_type_name['text']}}">
                                 <span class="badge badge-related"><?php
                                     echo $menu_type_name['icon'];
                                     ?></span>
-                                {{--                            @endauth--}}
-                            </a>
-                        </h5>
-                    </td>
-                </tr>
-            @endforeach
-            </tbody>
-        </table>
+                            {{--                            @endauth--}}
+                        </a>
+                    </h5>
+                </div>
+            </div>
+        @endforeach
     @endforeach
 
     {{--    <h3 class="text-center">Справочники</h3><br>--}}
@@ -156,7 +155,7 @@
 
     {{--    </div>--}}
 
-{{--    Вывод сведений о подписке--}}
+    {{--    Вывод сведений о подписке--}}
     @if(Auth::check())
         <hr>
         <small>

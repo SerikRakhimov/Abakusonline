@@ -151,6 +151,9 @@ class RoleController extends Controller
         if ($request->is_list_base_relits == false && $request->is_read_base_relits == true) {
             $array_mess['is_read_base_relits'] = trans('main.need_to_uncheck') . '!';
         }
+        if ($request->is_list_base_relits == false && $request->is_view_info_relits == true) {
+            $array_mess['is_view_info_relits'] = trans('main.need_to_uncheck') . '!';
+        }
     }
 
     function set(Request $request, Role &$role)
@@ -172,6 +175,7 @@ class RoleController extends Controller
         $role->is_default_for_external = isset($request->is_default_for_external) ? true : false;
         $role->is_list_base_relits = isset($request->is_list_base_relits) ? true : false;
         $role->is_read_base_relits = isset($request->is_read_base_relits) ? true : false;
+        $role->is_view_info_relits = isset($request->is_view_info_relits) ? true : false;
         $role->is_list_base_sndbt = isset($request->is_list_base_sndbt) ? true : false;
         $role->is_list_base_id = isset($request->is_list_base_id) ? true : false;
         $role->is_list_base_calculated = isset($request->is_list_base_calculated) ? true : false;

@@ -42,6 +42,29 @@
         </div>
 
         <div class="form-group row">
+            @foreach (config('app.locales') as $key=>$value)
+                <div class="col-sm-3 text-right">
+                    <label for="title_lang_{{$key}}" class="col-form-label">{{trans('main.title')}}
+                        ({{trans('main.' . $value)}})<span
+                            class="text-danger">*</span></label>
+                </div>
+                <div class="col-sm-7">
+                    <input type="text"
+                           name="title_lang_{{$key}}"
+                           id="title_lang_{{$key}}"
+                           class="form-control @error('title_lang_' . $key) is-invalid @enderror"
+                           placeholder=""
+                           value="{{ old('title_lang_' . $key) ?? ($relit['title_lang_' . $key] ?? '') }}">
+                </div>
+                @error('title_lang_' . $key)
+                <div class="text-danger">
+                    {{$message}}
+                </div>
+                @enderror
+            @endforeach
+        </div>
+
+        <div class="form-group row">
             <div class="col-sm-3 text-right">
                 <label for="parent_template_id" class="col-form-label">{{trans('main.parent')}}_{{trans('main.template')}}<span
                         class="text-danger">*</span></label>

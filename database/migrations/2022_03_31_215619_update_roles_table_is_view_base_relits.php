@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class UpdateBasesTableIsListBaseByuser extends Migration
+class UpdateRolesTableIsViewBaseRelits extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,8 @@ class UpdateBasesTableIsListBaseByuser extends Migration
      */
     public function up()
     {
-        Schema::table('bases', function (Blueprint $table) {
-            $table->boolean('is_default_list_base_byuser')->default(false);
+        Schema::table('roles', function (Blueprint $table) {
+            $table->boolean('is_view_info_relits')->default(false);
         });
     }
 

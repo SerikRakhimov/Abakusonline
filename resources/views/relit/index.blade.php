@@ -30,6 +30,7 @@
             <th class="text-center">#</th>
             <th class="text-center">Id</th>
             <th class="text-center">{{trans('main.serial_number')}}</th>
+            <th class="text-left">{{trans('main.title')}}</th>
             <th class="text-left">{{trans('main.parent')}}_{{trans('main.template')}}</th>
         </tr>
         </thead>
@@ -55,6 +56,9 @@
                     <a href="{{route('relit.show',$relit)}}" title="{{trans('main.show')}}">
                         {{$relit->serial_number}}
                     </a>
+                </td>
+                <td class="text-left">
+                    {{$relit->title()}}
                 </td>
                 <td class="text-left">
                     <a href="{{route('relit.show',$relit)}}" title="{{trans('main.show')}}">

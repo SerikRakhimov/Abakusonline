@@ -23,6 +23,7 @@ return [
     'show' => 'Show',
     'add' => 'Add',
     'edit' => 'Edit',
+    'title' => 'Title',
     'title_add' => 'Title add',
     'title_edit' => 'Title edit',
     'extended_edit' => 'Extended edit',
@@ -394,5 +395,6 @@ return [
     'is_list_base_relits' => 'Show related project Bases',
     'parent_is_parallel_link' => 'Parallel link',
     'is_read_base_relits' => 'Show read-only Bases of related projects',
+    'is_view_info_relits' => 'Show related projects information',
     'need_to_uncheck' => 'Need to uncheck',
     ];
