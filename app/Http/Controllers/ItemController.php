@@ -292,7 +292,8 @@ class ItemController extends Controller
 
         $relip_project = GlobalController::calc_relip_project($relit_id, $project);
         $child_links = $item->base->child_links->sortBy('parent_base_number');
-        $child_links_info = ItemController::links_info($item->base, $role, $relit_id);
+        // Нужно передать в функцию links_info() $item
+        $child_links_info = ItemController::links_info($item->base, $role, $relit_id, $item);
         // Используется $relip_project
         // Используется фильтр на равенство одному $item->id
         $items_right = GlobalController::items_right($item->base, $relip_project, $role, $relit_id, null, null, $item->id);
@@ -374,7 +375,7 @@ class ItemController extends Controller
         $base_body_right = null;
         $body_items = null;
         if ($current_link) {
-            $child_body_links_info = self::links_info($current_link->child_base, $role, $relit_id, $current_link);
+            $child_body_links_info = self::links_info($current_link->child_base, $role, $relit_id, null, $current_link);
             $base_body_right = GlobalController::base_right($current_link->child_base, $role, $relit_id);
             // Используется $relip_project
             $items_body_right = GlobalController::items_right($current_link->child_base, $relip_project, $role, $relit_id, $item->id, $current_link->id);
@@ -460,7 +461,7 @@ class ItemController extends Controller
             // - неправильно вытаскивает данные, когда находится внутри транзакции при корректировке записи
             //$fact_child_mains = $item->child_mains;
             //$fact_child_mains = Main::all()->where('child_item_id', $item->id);
-            $fact_child_mains = Main::where('child_item_id', $item->id)->get();
+            $fact_child_mains = Main::where('child_item_id', '=', $item->id)->get();
         }
         $array_plan = array();
         foreach ($plan_child_links as $key => $link) {
@@ -4845,24 +4846,35 @@ class ItemController extends Controller
             . mb_strtolower(trans('main.must_less_equal')) . ' (' . $mx . ' ' . mb_strtolower(trans('main.byte')) . ') !';
     }
 
-    static function links_info(Base $base, Role $role, $relit_id, Link $nolink = null)
+    static function links_info(Base $base, Role $role, $relit_id, Item $item = null, Link $nolink = null)
     {
         $link_id_array = array();
         $link_base_right_array = array();
         $matrix = array(array());
         $links = null;
-        if ($nolink == null) {
+        if ($item) {
+            $links_ids = Main::select(DB::Raw('mains.link_id'))
+                ->where('child_item_id', '=', $item->id);
+
+            $links = Link::joinSub($links_ids, 'links_ids', function ($join) {
+                $join->on('links.id', '=', 'links_ids.link_id');
+            })->get();
+        } else {
             $links = $base->child_links;
+        }
+
+        if ($nolink == null) {
+            //$links = $links;
         } else {
             //                                    При параллельной связи $nolink
             //                                    другие паралельные связи не доступны при отображении списка в Пространство-тело таблицы
             //                                    (если передано $nolink)
             if ($nolink->parent_is_parallel_link == true) {
                 // Исключить child_links с параллельными связями
-                $links = $base->child_links->where('parent_is_parallel_link', '!=', true);
-            }else{
+                $links = $links->where('parent_is_parallel_link', '!=', true);
+            } else {
                 // Исключить переданный $nolink
-                $links = $base->child_links->where('id', '!=', $nolink->id);
+                $links = $links->where('id', '!=', $nolink->id);
             }
         }
         $links = $links->sortBy('parent_base_number');
