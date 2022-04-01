@@ -25,7 +25,7 @@
     {{--        };--}}
     {{--    </script>--}}
 
-    @include('layouts.project.show_project_role',['project'=>$project, 'role'=>$role])
+    @include('layouts.project.show_project_role',['project'=>$project, 'role'=>$role, 'relit_id'=>$relit_id])
     <h3 class="display-5 text-center">
         @if (!$update)
             {{trans('main.new_record')}}
@@ -34,7 +34,6 @@
         @endif
         <span class="text-label">-</span> <span class="text-title">{{$base->info()}}</span>
     </h3>
-    <center><small>{{$relip_project->name()}}</small></center>
     <br>
     {{--    https://qastack.ru/programming/1191113/how-to-ensure-a-select-form-field-is-submitted-when-it-is-disabled--}}
     <form

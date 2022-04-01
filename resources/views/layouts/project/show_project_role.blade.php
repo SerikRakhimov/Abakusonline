@@ -1,18 +1,35 @@
+<?php
+use \App\Http\Controllers\GlobalController;
+$is_relit_id = isset($relit_id);
+if ($is_relit_id) {
+    $relip_project = GlobalController::calc_relip_project($relit_id, $project);
+}
+?>
 <p>
 <div class="container-fluid">
-        <p class="text-center">
-            <a href="{{route('project.start', ['project' => $project->id, 'role' => $role])}}" title="{{trans('main.bases')}}">
-                <mark class="text-project">{{$project->name()}}&nbsp;&nbsp;&nbsp;@include('layouts.project.show_icons',['project'=>$project])</mark>
-            </a>
-        </p>
+    <p class="text-center">
+        <a href="{{route('project.start', ['project' => $project->id, 'role' => $role])}}"
+           title="{{trans('main.mainmenu')}}">
+            <mark class="text-project">{{$project->name()}}<br>
+                @if($is_relit_id)
+                    @if($relit_id != 0 && $role->is_view_info_relits == true)
+                        <small><small>{{$relip_project->name()}}</small></small>
+                    @endif
+                @endif
+                @include('layouts.project.show_icons',['project'=>$project])</mark>
+        </a>
+    </p>
     <div class="row">
         <div class="col-6 text-left">
-            <a href="{{route('project.start', ['project' => $project->id, 'role' => $role])}}" title="{{trans('main.bases')}}">
-                <mark class="text-project">@guest{{trans('main.guest')}}@endguest @auth{{Auth::user()->name()}}@endauth</mark>
+            <a href="{{route('project.start', ['project' => $project->id, 'role' => $role])}}"
+               title="{{trans('main.mainmenu')}}">
+                <mark
+                    class="text-project">@guest{{trans('main.guest')}}@endguest @auth{{Auth::user()->name()}}@endauth</mark>
             </a>
         </div>
         <div class="col-6 text-right">
-            <a href="{{route('project.start', ['project' => $project->id, 'role' => $role])}}" title="{{trans('main.bases')}}">
+            <a href="{{route('project.start', ['project' => $project->id, 'role' => $role])}}"
+               title="{{trans('main.mainmenu')}}">
                 <mark class="text-project">{{$role->name()}}</mark>
             </a>
         </div>

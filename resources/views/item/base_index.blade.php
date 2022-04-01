@@ -13,14 +13,11 @@
     $relip_project = GlobalController::calc_relip_project($relit_id, $project);
 //    Config::set('app.display', 'table');
     ?>
-    @include('layouts.project.show_project_role',['project'=>$project, 'role'=>$role])
+    @include('layouts.project.show_project_role',['project'=>$project, 'role'=>$role, 'relit_id'=>$relit_id])
     <div class="container-fluid">
         <div class="row">
-            <div class="col-6 text-left align-top">
+            <div class="col-12 text-left align-top">
                 <h3>{{$base->names()}}</h3>
-            </div>
-            <div class="col-6 text-right align-top">
-                <small>{{$relip_project->name()}}</small>
             </div>
         </div>
         {{--        Похожая проверка в ItemController::ext_create() и base_index.php--}}

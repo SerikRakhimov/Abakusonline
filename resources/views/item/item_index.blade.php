@@ -22,12 +22,11 @@
         $body_perpage = $body_items->perPage();
     }
     ?>
-    @include('layouts.project.show_project_role',['project'=>$project, 'role'=>$role])
-    <h3 class="display-5">
-        {{trans('main.space')}}
-        <span class="text-label">-</span> <span class="text-title">{{$item->base->info()}}</span>
-    </h3>
-    <small>{{$relip_project->name()}}</small>
+    @include('layouts.project.show_project_role',['project'=>$project, 'role'=>$role, 'relit_id'=>$relit_id])
+{{--    <h3 class="display-5">--}}
+{{--        {{trans('main.space')}}--}}
+{{--        <span class="text-label">-</span> <span class="text-title">{{$item->base->info()}}</span>--}}
+{{--    </h3>--}}
     @if(count($child_links) != 0)
         <?php
         //          Присваивания нужны
