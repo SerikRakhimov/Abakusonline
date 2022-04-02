@@ -324,6 +324,7 @@ return [
     'docnm' => 'Құжаттың атауы',
     'instructions' => 'Нұсқаулықтар',
     'maxcount_lst' => 'Рұқсат етілген жазбалардың ең көп саны (0 - шектеусіз)',
+    'child_maxcount' => 'Рұқсат етілген жазбалардың ең көп саны (0 - шектеусіз)',
     'max_count_message_first' => 'Жазбалардың ең көп саны',
     'max_count_message_second' => '"',
     'max_count_message_third' => '" жазба қосылмады',

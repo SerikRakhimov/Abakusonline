@@ -661,7 +661,6 @@ class ItemController extends Controller
         // Проверка на $base->maxcount_lst
         // Проверка осуществляется только при добавлении записи
         $message = GlobalController::base_maxcount_validate($relip_project, $base, true);
-
         if ($message != '') {
 //            $array_mess['name_lang_0'] = $message;
 //            // повторный вызов формы
@@ -669,6 +668,15 @@ class ItemController extends Controller
 //                ->withInput()
 //                ->withErrors($array_mess);
             return view('message', ['message' => $message]);
+        }
+
+        if ($par_link && $parent_item) {
+            // Проверка на $par_link->child_maxcount
+            // Проверка осуществляется только при добавлении записи
+            $message = GlobalController::link_maxcount_validate($relip_project, $parent_item, $par_link, true);
+            if ($message != '') {
+                return view('message', ['message' => $message]);
+            }
         }
 
         // Проверка полей с типом "текст" на длину текста

@@ -1082,7 +1082,7 @@ class GlobalController extends Controller
         return $result;
     }
 
-// Сообщение "максимальное количество записей"
+// Сообщение "максимальное количество записей" в $base
     static function base_maxcount_message(Base $base)
     {
         $result = '';
@@ -1094,7 +1094,7 @@ class GlobalController extends Controller
         return $result;
     }
 
-// Проверка на максимальное количество записей
+// Проверка на максимальное количество записей в $base
 // $added - true, проверка при добавлении; - false, общая проверка
     static function base_maxcount_validate(Project $project, Base $base, bool $added)
     {
@@ -1104,7 +1104,6 @@ class GlobalController extends Controller
         if ($maxcount > 0) {
             if ($base->type_is_list() || $base->type_is_image() || $base->type_is_document()) {
                 $items_count = Item::where('project_id', $project->id)->where('base_id', $base->id)->count();
-                $error = false;
                 if ($added == true) {
                     if ($items_count >= $maxcount) {
                         $error = true;
@@ -1115,8 +1114,57 @@ class GlobalController extends Controller
                     }
                 }
                 if ($error == true) {
-                    $result = trans('main.max_count_message_second') . $base->names() . trans('main.max_count_message_third') . '. ' . self::base_maxcount_message($base) . '!';
+                    $result = trans('main.max_count_message_second') . $base->names()
+                        . trans('main.max_count_message_third') . '. ' . self::base_maxcount_message($base) . '!';
                 }
+            }
+        }
+        return $result;
+    }
+
+    // Сообщение "максимальное количество записей" в $link
+    static function link_maxcount_message(Link $link)
+    {
+        $result = '';
+        if ($link->child_maxcount > 0) {
+            $result = trans('main.max_count_message_first') . ' ' . $link->child_maxcount;
+        }
+        return $result;
+    }
+
+// Проверка на максимальное количество записей в $link
+// $added - true, проверка при добавлении; - false, общая проверка
+    static function link_maxcount_validate(Project $project, Item $item, Link $link, bool $added)
+    {
+        $result = '';
+        $error = false;
+        $maxcount = $link->child_maxcount;
+        if ($maxcount > 0) {
+            $mains= Main::select(DB::Raw('mains.*'))
+                ->join('links as ln', 'mains.link_id', '=', 'ln.id')
+                ->join('items as ct', 'mains.child_item_id', '=', 'ct.id')
+                ->where('ct.project_id', '=', $project->id)
+                ->where('mains.link_id', '=', $link->id);
+            //dd($mains->get());
+            $mains_count = Main::select(DB::Raw('mains.*'))
+                ->join('links as ln', 'mains.link_id', '=', 'ln.id')
+                ->join('items as ct', 'mains.child_item_id', '=', 'ct.id')
+                ->where('ct.project_id', '=', $project->id)
+                ->where('mains.parent_item_id', '=', $item->id)
+                ->where('mains.link_id', '=', $link->id)
+                ->count();
+            if ($added == true) {
+                if ($mains_count >= $maxcount) {
+                    $error = true;
+                }
+            } else {
+                if ($mains_count > $maxcount) {
+                    $error = true;
+                }
+            }
+            if ($error == true) {
+                $result = trans('main.max_count_message_second') . $link->child_base->names()
+                    . trans('main.max_count_message_third') . '. ' . self::link_maxcount_message($link) . '!';
             }
         }
         return $result;

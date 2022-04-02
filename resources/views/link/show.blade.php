@@ -29,6 +29,7 @@
         <p>{{trans('main.child_labels')}} ({{trans('main.' . $value)}}): <b>{{$link['child_labels_lang_' . $key]}}</b>
         </p>
     @endforeach
+    <p>{{trans('main.child')}}_{{trans('main.child_maxcount')}}: <b>{{$link->child_maxcount}}</b></p>
 
     <p>{{trans('main.parent')}}_{{trans('main.serial_number')}}: <b>{{$link->parent_base_number}}</b></p>
     <p>{{trans('main.parent')}}_{{trans('main.template')}}: <b>{{GlobalController::get_parent_template_from_relit_id($link->parent_relit_id, $link->child_base->template_id)['template_name']}}</b></p>

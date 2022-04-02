@@ -119,6 +119,7 @@ class LinkController extends Controller
         $link->child_labels_lang_1 = isset($request->child_labels_lang_1) ? $request->child_labels_lang_1 : "";
         $link->child_labels_lang_2 = isset($request->child_labels_lang_2) ? $request->child_labels_lang_2 : "";
         $link->child_labels_lang_3 = isset($request->child_labels_lang_3) ? $request->child_labels_lang_3 : "";
+        $link->child_maxcount = $request->child_maxcount >= 0 ? $request->child_maxcount : 0;
         $link->parent_base_number = $request->parent_base_number;
         $link->parent_relit_id = $request->parent_relit_id;
         $link->parent_num_bool_default_value = isset($request->parent_num_bool_default_value) ? $request->parent_num_bool_default_value : "";
@@ -381,6 +382,7 @@ class LinkController extends Controller
         $link->child_labels_lang_1 = isset($request->child_labels_lang_1) ? $request->child_labels_lang_1 : "";
         $link->child_labels_lang_2 = isset($request->child_labels_lang_2) ? $request->child_labels_lang_2 : "";
         $link->child_labels_lang_3 = isset($request->child_labels_lang_3) ? $request->child_labels_lang_3 : "";
+        $link->child_maxcount = $request->child_maxcount >= 0 ? $request->child_maxcount : 0;
         $link->parent_base_number = $request->parent_base_number;
         $link->parent_relit_id = $request->parent_relit_id;
         $link->parent_num_bool_default_value = isset($request->parent_num_bool_default_value) ? $request->parent_num_bool_default_value : "";

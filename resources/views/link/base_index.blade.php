@@ -32,6 +32,7 @@
             <th class="text-left">{{trans('main.child')}}_{{trans('main.base')}}</th>
             <th class="text-left">{{trans('main.child_label')}}</th>
             <th class="text-left">{{trans('main.child_labels')}}</th>
+            <th class="text-left">{{trans('main.child')}}_{{trans('main.child_maxcount')}}</th>
             <th class="text-left">{{trans('main.parent')}}_{{trans('main.serial_number')}}</th>
             <th class="text-left">{{trans('main.parent')}}_{{trans('main.template')}}</th>
             <th class="text-left">{{trans('main.parent')}}_{{trans('main.base')}}</th>
@@ -82,6 +83,11 @@
                 <td class="text-left">
                     <a href="{{route('link.show',$link)}}">
                         {{$link->child_labels()}}
+                    </a>
+                </td>
+                <td class="text-left">
+                    <a href="{{route('link.show',$link)}}">
+                        {{$link->child_maxcount}}
                     </a>
                 </td>
                 <td class="text-left">

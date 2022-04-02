@@ -11,7 +11,7 @@
     use \App\Http\Controllers\MainController;
     $message = GlobalController::base_maxcount_validate($project, $base, true);
     $relip_project = GlobalController::calc_relip_project($relit_id, $project);
-//    Config::set('app.display', 'table');
+    //    Config::set('app.display', 'table');
     ?>
     @include('layouts.project.show_project_role',['project'=>$project, 'role'=>$role, 'relit_id'=>$relit_id])
     <div class="container-fluid">
@@ -24,14 +24,13 @@
         @if($base_right['is_list_base_create'] == true)
             <div class="col-12 text-right">
                 @if($message == "")
-                    <button type="button" class="btn btn-dreamer" title="{{trans('main.add')}}"
+                    <button type="button" class="btn btn-dreamer"
+                            title="{{trans('main.add') . ', ' . GlobalController::base_maxcount_message($base)}}"
                             onclick="document.location='{{route('item.ext_create',
                             ['base'=>$base, 'project'=>$project, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(),
                              'relit_id' =>$relit_id])}}'">
                         <i class="fas fa-plus d-inline"></i>&nbsp;{{trans('main.add')}}
                     </button>
-                @else
-                    {{GlobalController::base_maxcount_message($base)}}
                 @endif
             </div>
         @endif
@@ -87,14 +86,14 @@
     $i = $items->firstItem() - 1;
     ?>
     <!---->
-{{--        <p>Выберите любимого персонажа:</p>--}}
-{{--        <p><input list="character">--}}
-{{--            <datalist id="character">--}}
-{{--                <option value="Чебурашка"></option>--}}
-{{--                <option value="Крокодил Гена"></option>--}}
-{{--                <option value="Шапокляк"></option>--}}
-{{--            </datalist>--}}
-{{--        </p>--}}
+    {{--        <p>Выберите любимого персонажа:</p>--}}
+    {{--        <p><input list="character">--}}
+    {{--            <datalist id="character">--}}
+    {{--                <option value="Чебурашка"></option>--}}
+    {{--                <option value="Крокодил Гена"></option>--}}
+    {{--                <option value="Шапокляк"></option>--}}
+    {{--            </datalist>--}}
+    {{--        </p>--}}
 
     {{--    <!-- Карточка (border-primary - цвет границ карточки) -->--}}
     {{--    <div class="card border-info">--}}
@@ -281,7 +280,7 @@
         {{--                        @endfor--}}
         {{--                        </tr>--}}
         {{--                    @endif--}}
-{{--        Используется 'heading'=>0'--}}
+        {{--        Используется 'heading'=>0'--}}
         @include('list.table',['base'=>$base, 'links_info'=>$links_info, 'items'=>$items,
                     'base_right'=>$base_right, 'item_view'=>true,
                     'relit_id'=>$relit_id, 'heading'=>0, 'body_page'=>0, 'body_count'=>0,'body_perpage'=>0,

@@ -101,6 +101,22 @@
         @endforeach
 
         <div class="form-group">
+            <label for="child_maxcount">{{trans('main.child')}}_{{trans('main.child_maxcount')}}<span
+                    class="text-danger">*</span></label>
+            <input type="number"
+                   name="child_maxcount"
+                   id="child_maxcount"
+                   class="form-control @error('child_maxcount') is-invalid @enderror"
+                   placeholder=""
+                   value="{{ old('child_maxcount') ?? ($link['child_maxcount'] ?? '0') }}">
+            @error('child_maxcount')
+            <div class="text-danger">
+                {{$message}}
+            </div>
+            @enderror
+        </div>
+
+        <div class="form-group">
             <label for="parent_base_number">{{trans('main.parent')}}_{{trans('main.serial_number')}}<span
                     class="text-danger">*</span></label>
             <input type="number"

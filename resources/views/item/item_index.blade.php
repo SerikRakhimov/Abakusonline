@@ -7,12 +7,12 @@
     use App\Models\Main;
     use \App\Http\Controllers\GlobalController;
     use \App\Http\Controllers\ItemController;
-// Не удалять
+    // Не удалять
     //        function objectToarray($data)
-//        {
-//            $array = (array)$data;
-//            return $array;
-//        }
+    //        {
+    //            $array = (array)$data;
+    //            return $array;
+    //        }
     $relip_project = GlobalController::calc_relip_project($relit_id, $project);
     $body_page = 0;
     $body_count = 0;
@@ -24,10 +24,10 @@
     }
     ?>
     @include('layouts.project.show_project_role',['project'=>$project, 'role'=>$role, 'relit_id'=>$relit_id])
-{{--    <h3 class="display-5">--}}
-{{--        {{trans('main.space')}}--}}
-{{--        <span class="text-label">-</span> <span class="text-title">{{$item->base->info()}}</span>--}}
-{{--    </h3>--}}
+    {{--    <h3 class="display-5">--}}
+    {{--        {{trans('main.space')}}--}}
+    {{--        <span class="text-label">-</span> <span class="text-title">{{$item->base->info()}}</span>--}}
+    {{--    </h3>--}}
     @if(count($child_links) != 0)
         <?php
         //          Присваивания нужны
@@ -125,11 +125,11 @@
             {{--                @endif--}}
             {{--            ><</a></li>--}}
             @if($prev_item)
-            <li class="page-item">
+                <li class="page-item">
                     <a class="page-link" href="{{route('item.item_index', ['project'=>$project, 'item'=>$prev_item, 'role'=>$role,
                                 'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id, 'par_link'=>$current_link])}}"
-                                     title="{{$prev_item->cdnm()}}"><</a>
-            </li>
+                       title="{{$prev_item->cdnm()}}"><</a>
+                </li>
             @endif
             {{--        <li class="page-item"><a class="page-link"--}}
             {{--                                 @if($next_item)--}}
@@ -144,8 +144,8 @@
                 <li class="page-item">
                     <a class="page-link" href="{{route('item.item_index', ['project'=>$project, 'item'=>$next_item, 'role'=>$role,
                                 'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id, 'par_link'=>$current_link])}}"
-                                     title="{{$next_item->cdnm()}}">></a>
-            </li>
+                       title="{{$next_item->cdnm()}}">></a>
+                </li>
             @endif
         </ul>
     @endif
@@ -179,6 +179,7 @@
         {{--        </p>--}}
 
         <?php
+        $message = GlobalController::link_maxcount_validate($project, $item, $current_link, true);
 
         //      $next_links_plan = $item->base->parent_links->where('id', '!=', $current_link->id);
         // исключить вычисляемые поля
@@ -195,14 +196,14 @@
 
         // $next_links_plan = $item->base->parent_links->where('parent_is_parent_related', false);
         // Не удалять
-//                $next_links_fact = DB::table('mains')
-//                    ->select('link_id')
-//                    ->where('parent_item_id', $item->id)
-//                    ->distinct()
-//                    ->get()
-//                    ->groupBy('link_id');
+        //                $next_links_fact = DB::table('mains')
+        //                    ->select('link_id')
+        //                    ->where('parent_item_id', $item->id)
+        //                    ->distinct()
+        //                    ->get()
+        //                    ->groupBy('link_id');
 
-//                $array = objectToarray($next_links_fact);
+        //                $array = objectToarray($next_links_fact);
 
         ?>
         @if($base_body_right['is_list_base_calc'] == true)
@@ -220,22 +221,25 @@
                                 {{--                        @endif--}}
                                 <a href="{{route('item.base_index', ['base'=>$current_link->child_base,
                             'project'=>$project, 'role'=>$role, 'relit_id'=>$relit_id])}}"
-                                   title="{{$current_link->child_base->names()}}">
+                                   title="{{$current_link->child_base->names() . GlobalController::link_maxcount_message($current_link)}}">
                                     {{$current_link->child_labels()}}:
                                 </a>
                             </h3>
                         </div>
                         <div class="col-2 text-right">
                             @if ($base_body_right['is_list_base_create'] == true)
-                                <button type="button" class="btn btn-dreamer" title="{{trans('main.add')}}"
-                                        onclick="document.location='{{route('item.ext_create', ['base'=>$current_link->child_base_id,
+                                @if($message == "")
+                                    <button type="button" class="btn btn-dreamer"
+                                            title="{{trans('main.add') . ', ' . GlobalController::link_maxcount_message($current_link)}}"
+                                            onclick="document.location='{{route('item.ext_create', ['base'=>$current_link->child_base_id,
                                         'project'=>$project, 'role'=>$role,
                                          'usercode' =>GlobalController::usercode_calc(),
                              'relit_id' =>$relit_id,
                              'heading'=>intval(false), 'body_page'=>$body_page, 'body_count'=>$body_count,'body_perpage'=>$body_perpage,
                              'par_link'=>$current_link, 'parent_item'=>$item])}}'">
-                                    <i class="fas fa-plus d-inline"></i>&nbsp;{{trans('main.add')}}
-                                </button>
+                                        <i class="fas fa-plus d-inline"></i>&nbsp;{{trans('main.add')}}
+                                    </button>
+                                @endif
                             @endif
                         </div>
                     </div>

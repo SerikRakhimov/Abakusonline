@@ -324,6 +324,7 @@ return [
     'docnm' => 'Document name',
     'instructions' => 'Instructions',
     'maxcount_lst' => 'Maximum number of records allowed (0 - unlimited)',
+    'child_maxcount' => 'Maximum number of records allowed (0 - unlimited)',
     'max_count_message_first' => 'Maximum number of records must be no more than',
     'max_count_message_second' => 'No record added to "',
     'max_count_message_third' => '"',
