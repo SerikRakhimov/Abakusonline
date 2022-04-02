@@ -154,6 +154,12 @@ class RoleController extends Controller
         if ($request->is_list_base_relits == false && $request->is_view_info_relits == true) {
             $array_mess['is_view_info_relits'] = trans('main.need_to_uncheck') . '!';
         }
+        if ($request->is_list_base_relits == false && $request->is_list_base_relits_setup == true) {
+            $array_mess['is_list_base_relits_setup'] = trans('main.need_to_uncheck') . '!';
+        }
+        if ($request->is_list_base_setup == false && $request->is_list_base_relits_setup == true) {
+            $array_mess['is_list_base_relits_setup'] = trans('main.need_to_uncheck') . '!';
+        }
     }
 
     function set(Request $request, Role &$role)
@@ -180,6 +186,7 @@ class RoleController extends Controller
         $role->is_list_base_id = isset($request->is_list_base_id) ? true : false;
         $role->is_list_base_calculated = isset($request->is_list_base_calculated) ? true : false;
         $role->is_list_base_setup = isset($request->is_list_base_setup) ? true : false;
+        $role->is_list_base_relits_setup = isset($request->is_list_base_relits_setup) ? true : false;
         $role->is_all_base_calcname_enable = isset($request->is_all_base_calcname_enable) ? true : false;
         $role->is_list_base_sort_creation_date_desc = isset($request->is_list_base_sort_creation_date_desc) ? true : false;
         $role->is_list_base_create = isset($request->is_list_base_create) ? true : false;

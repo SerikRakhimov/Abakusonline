@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class UpdateRolesTableIsViewBaseRelits extends Migration
+class UpdateRelitsTableParentIsRequired extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,8 @@ class UpdateRolesTableIsViewBaseRelits extends Migration
      */
     public function up()
     {
-        Schema::table('roles', function (Blueprint $table) {
-            $table->boolean('is_view_info_relits')->default(false);
+        Schema::table('relits', function (Blueprint $table) {
+            $table->boolean('parent_is_required')->default(false);
         });
     }
 
@@ -27,5 +27,4 @@ class UpdateRolesTableIsViewBaseRelits extends Migration
     {
         //
     }
-
 }

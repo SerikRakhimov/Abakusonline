@@ -42,29 +42,6 @@
         </div>
 
         <div class="form-group row">
-            @foreach (config('app.locales') as $key=>$value)
-                <div class="col-sm-3 text-right">
-                    <label for="title_lang_{{$key}}" class="col-form-label">{{trans('main.title')}}
-                        ({{trans('main.' . $value)}})<span
-                            class="text-danger">*</span></label>
-                </div>
-                <div class="col-sm-7">
-                    <input type="text"
-                           name="title_lang_{{$key}}"
-                           id="title_lang_{{$key}}"
-                           class="form-control @error('title_lang_' . $key) is-invalid @enderror"
-                           placeholder=""
-                           value="{{ old('title_lang_' . $key) ?? ($relit['title_lang_' . $key] ?? '') }}">
-                </div>
-                @error('title_lang_' . $key)
-                <div class="text-danger">
-                    {{$message}}
-                </div>
-                @enderror
-            @endforeach
-        </div>
-
-        <div class="form-group row">
             <div class="col-sm-3 text-right">
                 <label for="parent_template_id" class="col-form-label">{{trans('main.parent')}}_{{trans('main.template')}}<span
                         class="text-danger">*</span></label>
@@ -87,6 +64,54 @@
                 </select>
                 @error('parent_template_id')
                 <div class="text-danger">
+                    {{$message}}
+                </div>
+                @enderror
+            </div>
+            <div class="col-sm-2">
+            </div>
+        </div>
+
+        <div class="form-group row">
+            @foreach (config('app.locales') as $key=>$value)
+                <div class="col-sm-3 text-right">
+                    <label for="parent_title_lang_{{$key}}" class="col-form-label">{{trans('main.parent')}}_{{trans('main.title')}}
+                        ({{trans('main.' . $value)}})<span
+                            class="text-danger">*</span></label>
+                </div>
+                <div class="col-sm-7">
+                    <input type="text"
+                           name="parent_title_lang_{{$key}}"
+                           id="parent_title_lang_{{$key}}"
+                           class="form-control @error('parent_title_lang_' . $key) is-invalid @enderror"
+                           placeholder=""
+                           value="{{ old('parent_title_lang_' . $key) ?? ($relit['parent_title_lang_' . $key] ?? '') }}">
+                </div>
+                @error('parent_title_lang_' . $key)
+                <div class="text-danger">
+                    {{$message}}
+                </div>
+                @enderror
+            @endforeach
+        </div>
+
+        <div class="form-group row" id="parent_is_required_form_group">
+            <div class="col-sm-3 text-right">
+                <label class="form-label"
+                       for="parent_is_required">{{trans('main.parent')}}_{{trans('main.is_required')}}</label>
+            </div>
+            <div class="col-sm-7">
+                <input class="@error('parent_is_required') is-invalid @enderror"
+                       type="checkbox"
+                       name="parent_is_required"
+                       placeholder=""
+                       {{--                       "$relit->parent_is_required ?? false" - "false" значение по умолчанию--}}
+                       @if ((old('parent_is_required') ?? ($relit->parent_is_required ?? false)) ==  true)
+                       checked
+                    @endif
+                >
+                @error('parent_is_required')
+                <div class="invalid-feedback">
                     {{$message}}
                 </div>
                 @enderror

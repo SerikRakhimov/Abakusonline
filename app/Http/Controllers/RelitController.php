@@ -136,10 +136,11 @@ class RelitController extends Controller
         $relit->serial_number = $request->serial_number;
         $relit->child_template_id = $request->child_template_id;
         $relit->parent_template_id = $request->parent_template_id;
-        $relit->title_lang_0 = isset($request->title_lang_0) ? $request->title_lang_0 : "";
-        $relit->title_lang_1 = isset($request->title_lang_1) ? $request->title_lang_1 : "";
-        $relit->title_lang_2 = isset($request->title_lang_2) ? $request->title_lang_2 : "";
-        $relit->title_lang_3 = isset($request->title_lang_3) ? $request->title_lang_3 : "";
+        $relit->parent_title_lang_0 = isset($request->parent_title_lang_0) ? $request->parent_title_lang_0 : "";
+        $relit->parent_title_lang_1 = isset($request->parent_title_lang_1) ? $request->parent_title_lang_1 : "";
+        $relit->parent_title_lang_2 = isset($request->parent_title_lang_2) ? $request->parent_title_lang_2 : "";
+        $relit->parent_title_lang_3 = isset($request->parent_title_lang_3) ? $request->parent_title_lang_3 : "";
+        $relit->parent_is_required = isset($request->parent_is_required) ? true : false;
 
         $relit->save();
     }

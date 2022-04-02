@@ -26,7 +26,7 @@ class Relit extends Model
         $result = "";  // нужно, не удалять
         $index = array_search(App::getLocale(), config('app.locales'));
         if ($index !== false) {   // '!==' использовать, '!=' не использовать
-            $result = $this['title_lang_' . $index];
+            $result = $this['parent_title_lang_' . $index];
         }
         return $result;
     }

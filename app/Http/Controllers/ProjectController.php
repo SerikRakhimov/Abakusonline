@@ -1080,14 +1080,23 @@ class ProjectController extends Controller
 
                 foreach ($child_relits as $relit) {
                     $relip = Relip::where('child_project_id', $project->id)->where('relit_id', $relit->id)->first();
-                    if ($relip == null) {
-                        $relip = new Relip();
-                        $relip->relit_id = $relit->id;
-                        $relip->child_project_id = $project->id;
+                    // Если в списке проектов выбрано null
+                    // При условии (relit->parent_is_required == false)
+                    // или просто нет проектов (например шаблон проекта ссылается на свой же шаблон и первый раз создается проект такого шаблона)
+                    if ($request[$relit->id] == 0) {
+                        if ($relip) {
+                            $relip->delete();
+                        }
+                    } else {
+                        if ($relip == null) {
+                            $relip = new Relip();
+                            $relip->relit_id = $relit->id;
+                            $relip->child_project_id = $project->id;
+                        }
+                        // Заполняется введенный проект
+                        $relip->parent_project_id = $request[$relit->id];
+                        $relip->save();
                     }
-                    // Заполняется введенный проект
-                    $relip->parent_project_id = $request[$relit->id];
-                    $relip->save();
                 }
             }, 3);  // Повторить три раза, прежде чем признать неудачу
             // окончание транзакции
@@ -1428,12 +1437,15 @@ class ProjectController extends Controller
         if ($is_child_relits) {
             foreach ($child_relits as $relit) {
                 $parent_template = $relit->parent_template;
+                // Есть ли проекты с таким шаблоном
                 $projects = Project::where('template_id', $parent_template->id)->orderBy('account')->get();
                 if (count($projects) > 0) {
                     $array_projects[$parent_template->id] = $projects;
                 } else {
-                    $error_message = '"' . $parent_template->name() . '" - ' . trans('main.no_projects_found_with_this_template') . '!';
-                    break;
+                    if ($relit->parent_is_required == true) {
+                        $error_message = '"' . $parent_template->name() . '" - ' . trans('main.no_projects_found_with_this_template') . '!';
+                        break;
+                    }
                 }
             }
         }

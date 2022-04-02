@@ -7,11 +7,12 @@
     use App\Models\Main;
     use \App\Http\Controllers\GlobalController;
     use \App\Http\Controllers\ItemController;
-    //    function objectToarray($data)
-    //    {
-    //        $array = (array)$data;
-    //        return $array;
-    //    }
+// Не удалять
+    //        function objectToarray($data)
+//        {
+//            $array = (array)$data;
+//            return $array;
+//        }
     $relip_project = GlobalController::calc_relip_project($relit_id, $project);
     $body_page = 0;
     $body_count = 0;
@@ -193,15 +194,16 @@
         //            ->groupBy('link_id');
 
         // $next_links_plan = $item->base->parent_links->where('parent_is_parent_related', false);
+        // Не удалять
+//                $next_links_fact = DB::table('mains')
+//                    ->select('link_id')
+//                    ->where('parent_item_id', $item->id)
+//                    ->distinct()
+//                    ->get()
+//                    ->groupBy('link_id');
 
-        //        $next_links_fact = DB::table('mains')
-        //            ->select('link_id')
-        //            ->where('parent_item_id', $item->id)
-        //            ->distinct()
-        //            ->get()
-        //            ->groupBy('link_id');
-        //
-        //        $array = objectToarray($next_links_fact);
+//                $array = objectToarray($next_links_fact);
+
         ?>
         @if($base_body_right['is_list_base_calc'] == true)
             @if ((count($body_items) > 0) || ($base_body_right['is_list_base_create'] == true))

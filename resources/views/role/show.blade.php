@@ -34,6 +34,7 @@
     <p>{{trans('main.is_list_base_id')}}: <b>{{GlobalController::name_is_boolean($role->is_list_base_id)}}</b></p>
     <p>{{trans('main.is_list_base_calculated')}}: <b>{{GlobalController::name_is_boolean($role->is_list_base_calculated)}}</b></p>
     <p>{{trans('main.is_list_base_setup')}}: <b>{{GlobalController::name_is_boolean($role->is_list_base_setup)}}</b></p>
+    <p>{{trans('main.is_list_base_relits_setup')}}: <b>{{GlobalController::name_is_boolean($role->is_list_base_relits_setup)}}</b></p>
     <p>{{trans('main.is_all_base_calcname_enable')}}: <b>{{GlobalController::name_is_boolean($role->is_all_base_calcname_enable)}}</b></p>
     <p>{{trans('main.is_list_base_sort_creation_date_desc')}}: <b>{{GlobalController::name_is_boolean($role->is_list_base_sort_creation_date_desc)}}</b></p>
     <p>{{trans('main.is_list_base_create')}}: <b>{{GlobalController::name_is_boolean($role->is_list_base_create)}}</b></p>

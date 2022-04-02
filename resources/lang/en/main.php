@@ -145,6 +145,7 @@ return [
     'is_suggest_max_code' => 'Suggest the code by the maximum value, otherwise - by the first free value',
     'is_recalc_code' => 'Recalculation of codes',
     'digits_num' => 'Number of digits after decimal point',
+    'is_required' => 'Required',
     'is_required_lst_num_str_txt_img_doc' => 'Required',
     'is_to_moderate_image' => 'To moderate',
     'is_one_value_lst_str_txt' => 'One value in all languages',
@@ -396,5 +397,6 @@ return [
     'parent_is_parallel_link' => 'Parallel link',
     'is_read_base_relits' => 'Show read-only Bases of related projects',
     'is_view_info_relits' => 'Show related projects information',
+    'is_list_base_relits_setup' => 'Show Bases - related project settings',
     'need_to_uncheck' => 'Need to uncheck',
     ];

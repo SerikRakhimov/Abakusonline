@@ -152,6 +152,12 @@ class GlobalController extends Controller
                         $is_list_base_update = false;
                         $is_list_base_delete = false;
                     }
+                    // 'Показывать Основы - настройки взаимосвязанных проектов' = false
+                    if ($role->is_list_base_relits_setup == false) {
+                        if ($base->is_setup_lst == true) {
+                            $is_list_base_calc = false;
+                        }
+                    }
                 }
             }
         }

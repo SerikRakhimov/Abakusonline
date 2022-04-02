@@ -30,8 +30,9 @@
             <th class="text-center">#</th>
             <th class="text-center">Id</th>
             <th class="text-center">{{trans('main.serial_number')}}</th>
-            <th class="text-left">{{trans('main.title')}}</th>
             <th class="text-left">{{trans('main.parent')}}_{{trans('main.template')}}</th>
+            <th class="text-left">{{trans('main.parent')}}_{{trans('main.title')}}</th>
+            <th class="text-left">{{trans('main.parent')}}_{{trans('main.is_required')}}</th>
         </tr>
         </thead>
         <tbody>
@@ -58,11 +59,18 @@
                     </a>
                 </td>
                 <td class="text-left">
-                    {{$relit->title()}}
+                    <a href="{{route('relit.show',$relit)}}" title="{{trans('main.show')}}">
+                        {{$relit->parent_template->name()}}
+                    </a>
                 </td>
                 <td class="text-left">
                     <a href="{{route('relit.show',$relit)}}" title="{{trans('main.show')}}">
-                        {{$relit->parent_template->name()}}
+                        {{$relit->title()}}
+                    </a>
+                </td>
+                <td class="text-left">
+                    <a href="{{route('relit.show',$relit)}}" title="{{trans('main.show')}}">
+                        {{GlobalController::name_is_boolean($relit->parent_is_required)}}
                     </a>
                 </td>
             </tr>
