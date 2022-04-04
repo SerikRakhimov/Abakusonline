@@ -28,6 +28,7 @@
         <thead>
         <tr>
             <th class="text-center">#</th>
+            <th class="text-left">{{trans('main.link_maxcount')}}</th>
             <th class="text-left">{{trans('main.child')}}_{{trans('main.serial_number')}}</th>
             <th class="text-left">{{trans('main.child')}}_{{trans('main.base')}}</th>
             <th class="text-left">{{trans('main.child_label')}}</th>
@@ -65,6 +66,11 @@
             ?>
             <tr>
                 <td class="text-center">{{$i}}</td>
+                <td class="text-left">
+                    <a href="{{route('link.show',$link)}}">
+                        {{$link->link_maxcount}}
+                    </a>
+                </td>
                 <td class="text-left">
                     <a href="{{route('link.show',$link)}}">
                         {{$link->child_base_number}}

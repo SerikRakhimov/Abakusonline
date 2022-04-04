@@ -17,6 +17,7 @@
     <br>
 
     <p>Id: <b>{{$link->id}}</b></p>
+    <p>{{trans('main.link_maxcount')}}: <b>{{$link->link_maxcount}}</b></p>
     <p>{{trans('main.child')}}_{{trans('main.serial_number')}}: <b>{{$link->child_base_number}}</b></p>
     <p>{{trans('main.child')}}_{{trans('main.base')}}: <b>{{$link->child_base->name()}}</b>
     <div><b>{{$link->child_base->info_full()}}</b></div></p>

@@ -1127,20 +1127,20 @@ class GlobalController extends Controller
     static function link_maxcount_message(Link $link)
     {
         $result = '';
-        if ($link->child_maxcount > 0) {
+        if ($link->link_maxcount > 0) {
             $result = trans('main.link') . ': '
-                . trans('main.max_count_message_first') . ' ' . $link->child_maxcount;
+                . trans('main.max_count_message_first') . ' ' . $link->link_maxcount;
         }
         return $result;
     }
 
 // Проверка на максимальное количество записей в $link
 // $added - true, проверка при добавлении; - false, общая проверка
-    static function link_maxcount_validate(Project $project, Item $item, Link $link, bool $added)
+    static function link_maxcount_validate(Project $project, Link $link, bool $added)
     {
         $result = '';
         $error = false;
-        $maxcount = $link->child_maxcount;
+        $maxcount = $link->link_maxcount;
         if ($maxcount > 0) {
             // Не использовать '->where('mains.parent_item_id', '=', $item->id)'
             $mains_count = Main::select(DB::Raw('mains.*'))

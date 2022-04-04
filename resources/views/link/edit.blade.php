@@ -27,6 +27,22 @@
         @endif
 
         <div class="form-group">
+            <label for="link_maxcount">{{trans('main.child')}}_{{trans('main.link_maxcount')}}<span
+                    class="text-danger">*</span></label>
+            <input type="number"
+                   name="link_maxcount"
+                   id="link_maxcount"
+                   class="form-control @error('link_maxcount') is-invalid @enderror"
+                   placeholder=""
+                   value="{{ old('link_maxcount') ?? ($link['link_maxcount'] ?? '0') }}">
+            @error('link_maxcount')
+            <div class="text-danger">
+                {{$message}}
+            </div>
+            @enderror
+        </div>
+
+        <div class="form-group">
             <label for="child_base_number">{{trans('main.child')}}_{{trans('main.serial_number')}}<span
                     class="text-danger">*</span></label>
             <input type="number"

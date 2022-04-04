@@ -673,6 +673,11 @@ class ItemController extends Controller
         // Проверка осуществляется только при добавлении записи
         // Это есть проверка в начале функции и во время сохранения записи $item
         if ($par_link && $parent_item) {
+            // Проверка на $par_link->link_maxcount
+            $message = GlobalController::link_maxcount_validate($relip_project, $par_link, true);
+            if ($message != '') {
+                return view('message', ['message' => $message]);
+            }
             // Проверка на $par_link->child_maxcount
             $message = GlobalController::link_item_maxcount_validate($relip_project, $parent_item, $par_link, true);
             if ($message != '') {
@@ -1297,13 +1302,22 @@ class ItemController extends Controller
                     $link = Link::findOrFail($key);
                     // Проверка осуществляется только при добавлении записи
                     // Это есть проверка в начале функции и во время сохранения записи $item
-                    // Проверка на $par_link->child_maxcount
-                    $item_link_item_maxcount = Item::findOrFail($values[$i]);
-                    $message = GlobalController::link_item_maxcount_validate($relip_project, $item_link_item_maxcount, $link, true);
+                    // Проверка на $par_link->link_maxcount
+                    $message = GlobalController::link_maxcount_validate($relip_project, $link, true);
                     if ($message != '') {
                         //return view('message', ['message' => $message]);
                         // Не удалять 'dd($message);'
                         dd($message);
+                    }
+                    // Проверка на $par_link->child_maxcount
+                    $message_info = GlobalController::link_maxcount_message($link);
+                    if ($message_info != '') {
+                        $item_maxcount = Item::findOrFail($values[$i]);
+                        $message_result = GlobalController::link_item_maxcount_validate($relip_project, $item_maxcount, $link, true);
+                        if ($message_result != '') {
+                            // Не удалять 'dd($message_result);'
+                            dd($message_result);
+                        }
                     }
 
                     $main = Main::where('child_item_id', $item->id)->where('link_id', $key)->first();

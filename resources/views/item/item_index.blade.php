@@ -179,7 +179,12 @@
         {{--        </p>--}}
 
         <?php
-        $message = GlobalController::link_item_maxcount_validate($project, $item, $current_link, true);
+        $message_ln_mx = GlobalController::link_maxcount_message($current_link);
+        $message_it_mx = GlobalController::link_item_maxcount_message($current_link);
+        $message_mx = ($message_ln_mx == "" ? "" : ', ' . PHP_EOL . $message_ln_mx)
+            . ($message_it_mx == "" ? "" : ', ' . PHP_EOL . $message_it_mx);
+        $message_link = GlobalController::link_maxcount_validate($project, $current_link, true);
+        $message_item = GlobalController::link_item_maxcount_validate($project, $item, $current_link, true);
 
         //      $next_links_plan = $item->base->parent_links->where('id', '!=', $current_link->id);
         // исключить вычисляемые поля
@@ -221,16 +226,16 @@
                                 {{--                        @endif--}}
                                 <a href="{{route('item.base_index', ['base'=>$current_link->child_base,
                             'project'=>$project, 'role'=>$role, 'relit_id'=>$relit_id])}}"
-                                   title="{{$current_link->child_base->names() . ', ' . GlobalController::link_item_maxcount_message($current_link)}}">
+                                   title="{{$current_link->child_base->names() . $message_mx}}">
                                     {{$current_link->child_labels()}}:
                                 </a>
                             </h3>
                         </div>
                         <div class="col-2 text-right">
                             @if ($base_body_right['is_list_base_create'] == true)
-                                @if($message == "")
+                                @if($message_link == "" && $message_item == "")
                                     <button type="button" class="btn btn-dreamer"
-                                            title="{{trans('main.add') . ', ' . GlobalController::link_item_maxcount_message($current_link)}}"
+                                            title="{{trans('main.add') . $message_mx}}"
                                             onclick="document.location='{{route('item.ext_create', ['base'=>$current_link->child_base_id,
                                         'project'=>$project, 'role'=>$role,
                                          'usercode' =>GlobalController::usercode_calc(),

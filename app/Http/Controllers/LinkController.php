@@ -108,6 +108,7 @@ class LinkController extends Controller
 
         $link = new Link($request->except('_token', '_method'));
 
+        $link->link_maxcount = $request->link_maxcount >= 0 ? $request->link_maxcount : 0;
         $link->child_base_number = $request->child_base_number;
         $link->child_base_id = $request->child_base_id;
         $link->parent_base_id = $request->parent_base_id;
@@ -371,6 +372,7 @@ class LinkController extends Controller
         $data = $request->except('_token', '_method');
         $link->fill($data);
 
+        $link->link_maxcount = $request->link_maxcount >= 0 ? $request->link_maxcount : 0;
         $link->child_base_number = $request->child_base_number;
         $link->child_base_id = $request->child_base_id;
         $link->parent_base_id = $request->parent_base_id;
