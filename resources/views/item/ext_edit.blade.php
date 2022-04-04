@@ -47,8 +47,8 @@
         {{--        @else--}}
         {{--        onsubmit="playSound('sound');"--}}
         @endif
-
         name="form">
+
         @csrf
 
         @if ($update)

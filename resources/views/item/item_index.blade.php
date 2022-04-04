@@ -179,7 +179,7 @@
         {{--        </p>--}}
 
         <?php
-        $message = GlobalController::link_maxcount_validate($project, $item, $current_link, true);
+        $message = GlobalController::link_item_maxcount_validate($project, $item, $current_link, true);
 
         //      $next_links_plan = $item->base->parent_links->where('id', '!=', $current_link->id);
         // исключить вычисляемые поля
@@ -221,7 +221,7 @@
                                 {{--                        @endif--}}
                                 <a href="{{route('item.base_index', ['base'=>$current_link->child_base,
                             'project'=>$project, 'role'=>$role, 'relit_id'=>$relit_id])}}"
-                                   title="{{$current_link->child_base->names() . GlobalController::link_maxcount_message($current_link)}}">
+                                   title="{{$current_link->child_base->names() . ', ' . GlobalController::link_item_maxcount_message($current_link)}}">
                                     {{$current_link->child_labels()}}:
                                 </a>
                             </h3>
@@ -230,7 +230,7 @@
                             @if ($base_body_right['is_list_base_create'] == true)
                                 @if($message == "")
                                     <button type="button" class="btn btn-dreamer"
-                                            title="{{trans('main.add') . ', ' . GlobalController::link_maxcount_message($current_link)}}"
+                                            title="{{trans('main.add') . ', ' . GlobalController::link_item_maxcount_message($current_link)}}"
                                             onclick="document.location='{{route('item.ext_create', ['base'=>$current_link->child_base_id,
                                         'project'=>$project, 'role'=>$role,
                                          'usercode' =>GlobalController::usercode_calc(),

@@ -1088,7 +1088,8 @@ class GlobalController extends Controller
         $result = '';
         if ($base->maxcount_lst > 0) {
             if ($base->type_is_list() || $base->type_is_image() || $base->type_is_document()) {
-                $result = trans('main.max_count_message_first') . ' ' . $base->maxcount_lst;
+                $result = trans('main.base') . ': '
+                    . trans('main.max_count_message_first') . ' ' . $base->maxcount_lst;
             }
         }
         return $result;
@@ -1127,7 +1128,8 @@ class GlobalController extends Controller
     {
         $result = '';
         if ($link->child_maxcount > 0) {
-            $result = trans('main.max_count_message_first') . ' ' . $link->child_maxcount;
+            $result = trans('main.link') . ': '
+                . trans('main.max_count_message_first') . ' ' . $link->child_maxcount;
         }
         return $result;
     }
@@ -1140,12 +1142,49 @@ class GlobalController extends Controller
         $error = false;
         $maxcount = $link->child_maxcount;
         if ($maxcount > 0) {
-            $mains= Main::select(DB::Raw('mains.*'))
+            // Не использовать '->where('mains.parent_item_id', '=', $item->id)'
+            $mains_count = Main::select(DB::Raw('mains.*'))
                 ->join('links as ln', 'mains.link_id', '=', 'ln.id')
                 ->join('items as ct', 'mains.child_item_id', '=', 'ct.id')
                 ->where('ct.project_id', '=', $project->id)
-                ->where('mains.link_id', '=', $link->id);
-            //dd($mains->get());
+                ->where('mains.link_id', '=', $link->id)
+                ->count();
+            if ($added == true) {
+                if ($mains_count >= $maxcount) {
+                    $error = true;
+                }
+            } else {
+                if ($mains_count > $maxcount) {
+                    $error = true;
+                }
+            }
+            if ($error == true) {
+                $result = trans('main.max_count_message_second') . $link->child_base->names()
+                    . trans('main.max_count_message_third') . '. ' . self::link_maxcount_message($link) . '!';
+            }
+        }
+        return $result;
+    }
+
+    // Сообщение "максимальное количество записей" в $link - $item
+    static function link_item_maxcount_message(Link $link)
+    {
+        $result = '';
+        if ($link->child_maxcount > 0) {
+            $result = trans('main.link') . ' - ' . trans('main.item') . ': '
+                . trans('main.max_count_message_first') . ' ' . $link->child_maxcount;
+        }
+        return $result;
+    }
+
+// Проверка на максимальное количество записей в $link - $item
+// $added - true, проверка при добавлении; - false, общая проверка
+    static function link_item_maxcount_validate(Project $project, Item $item, Link $link, bool $added)
+    {
+        $result = '';
+        $error = false;
+        $maxcount = $link->child_maxcount;
+        if ($maxcount > 0) {
             $mains_count = Main::select(DB::Raw('mains.*'))
                 ->join('links as ln', 'mains.link_id', '=', 'ln.id')
                 ->join('items as ct', 'mains.child_item_id', '=', 'ct.id')
@@ -1164,7 +1203,7 @@ class GlobalController extends Controller
             }
             if ($error == true) {
                 $result = trans('main.max_count_message_second') . $link->child_base->names()
-                    . trans('main.max_count_message_third') . '. ' . self::link_maxcount_message($link) . '!';
+                    . trans('main.max_count_message_third') . '. ' . self::link_item_maxcount_message($link) . '!';
             }
         }
         return $result;

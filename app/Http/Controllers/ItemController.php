@@ -670,10 +670,11 @@ class ItemController extends Controller
             return view('message', ['message' => $message]);
         }
 
+        // Проверка осуществляется только при добавлении записи
+        // Это есть проверка в начале функции и во время сохранения записи $item
         if ($par_link && $parent_item) {
             // Проверка на $par_link->child_maxcount
-            // Проверка осуществляется только при добавлении записи
-            $message = GlobalController::link_maxcount_validate($relip_project, $parent_item, $par_link, true);
+            $message = GlobalController::link_item_maxcount_validate($relip_project, $parent_item, $par_link, true);
             if ($message != '') {
                 return view('message', ['message' => $message]);
             }
@@ -1033,7 +1034,6 @@ class ItemController extends Controller
                 $inputs[$key] = GlobalController::save_number_to_item($link->parent_base, $value);
             }
         }
-
         $keys = array_keys($inputs);
         $values = array_values($inputs);
 
@@ -1204,7 +1204,7 @@ class ItemController extends Controller
 
         try {
             // начало транзакции
-            DB::transaction(function ($r) use ($item, $it_texts, $keys, $values, $strings_inputs) {
+            DB::transaction(function ($r) use ($relip_project, $item, $it_texts, $keys, $values, $strings_inputs) {
                 // При добавлении записи
                 // Эта команда "$item->save();" нужна, чтобы при сохранении записи стало известно значение $item->id.
                 // оно нужно в функции save_main() (для команды "$main->child_item_id = $item->id;");
@@ -1294,6 +1294,18 @@ class ItemController extends Controller
                 $i = 0;
 
                 foreach ($keys as $key) {
+                    $link = Link::findOrFail($key);
+                    // Проверка осуществляется только при добавлении записи
+                    // Это есть проверка в начале функции и во время сохранения записи $item
+                    // Проверка на $par_link->child_maxcount
+                    $item_link_item_maxcount = Item::findOrFail($values[$i]);
+                    $message = GlobalController::link_item_maxcount_validate($relip_project, $item_link_item_maxcount, $link, true);
+                    if ($message != '') {
+                        //return view('message', ['message' => $message]);
+                        // Не удалять 'dd($message);'
+                        dd($message);
+                    }
+
                     $main = Main::where('child_item_id', $item->id)->where('link_id', $key)->first();
                     if ($main == null) {
                         $main = new Main();
