@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\GlobalController;
 use App\Http\Controllers\MainController;
 use App\Rules\IsUniqueRoba;
+use Exception;
 use Illuminate\Support\Facades\App;
 use App\Models\User;
 use App\Models\Base;
@@ -670,6 +671,7 @@ class ItemController extends Controller
             return view('message', ['message' => $message]);
         }
 
+        // Проверка на максимальное количество записей
         // Проверка осуществляется только при добавлении записи
         // Это есть проверка в начале функции и во время сохранения записи $item
         if ($par_link && $parent_item) {
@@ -1297,28 +1299,14 @@ class ItemController extends Controller
                 // Присвоение данных для $this->save_sets()
                 // "$i = 0" использовать, т.к. индексы в массивах начинаются с 0
                 $i = 0;
-
+                $items_unique_select = Item::where('id', '!=', $item->id)
+                    ->where('project_id', '=', $relip_project->id);
+                $items_unique_exist = false;
                 foreach ($keys as $key) {
+//                    if ($link->parent_base->type_is_list == false){
+//                        dd(trans('main.type_is_list_false'));
+//                    }
                     $link = Link::findOrFail($key);
-                    // Проверка осуществляется только при добавлении записи
-                    // Это есть проверка в начале функции и во время сохранения записи $item
-                    // Проверка на $par_link->link_maxcount
-                    $message = GlobalController::link_maxcount_validate($relip_project, $link, true);
-                    if ($message != '') {
-                        //return view('message', ['message' => $message]);
-                        // Не удалять 'dd($message);'
-                        dd($message);
-                    }
-                    // Проверка на $par_link->child_maxcount
-                    $message_info = GlobalController::link_item_maxcount_message($link);
-                    if ($message_info != '') {
-                        $item_maxcount = Item::findOrFail($values[$i]);
-                        $message_result = GlobalController::link_item_maxcount_validate($relip_project, $item_maxcount, $link, true);
-                        if ($message_result != '') {
-                            // Не удалять 'dd($message_result);'
-                            dd($message_result);
-                        }
-                    }
 
                     $main = Main::where('child_item_id', $item->id)->where('link_id', $key)->first();
                     if ($main == null) {
@@ -1333,9 +1321,48 @@ class ItemController extends Controller
                             }
                         }
                     }
+
                     $this->save_main($main, $item, $keys, $values, $valits, $i, $strings_inputs);
+                    // После выполнения массив $valits заполнен ссылками $item->id
+
+                    // Проверка на максимальное количество записей
+                    // Проверка осуществляется только при добавлении записи
+                    // Это есть проверка в начале функции и во время сохранения записи $item
+                    // Проверка на $par_link->link_maxcount
+                    $message = GlobalController::link_maxcount_validate($relip_project, $link, true);
+                    if ($message != '') {
+                        //return view('message', ['message' => $message]);
+                        // Не удалять 'dd($message);'
+                        dd($message);
+                    }
+                    // Проверка на $par_link->child_maxcount
+                    $message_info = GlobalController::link_item_maxcount_message($link);
+                    if ($message_info != '') {
+                        $item_maxcount = Item::findOrFail($valits[$i]);
+                        $message_result = GlobalController::link_item_maxcount_validate($relip_project, $item_maxcount, $link, true);
+                        if ($message_result != '') {
+                            // Не удалять 'dd($message_result);'
+                            dd($message_result);
+                        }
+                    }
+
+                    // Проверка на уникальность значений $item->child_mains;
+                    // Похожие строки при добавлении (функция ext_store()) и сохранении (функция ext_update()) записи
+                    $items_unique_select = $items_unique_select->whereHas('child_mains', function ($query) use ($keys, $valits, $i) {
+                        $query->where('link_id', $keys[$i])
+                            ->where('parent_item_id', $valits[$i]);
+                    });
+                    $items_unique_exist = true;
+
                     // "$i = $i + 1;" использовать здесь, т.к. индексы в массивах начинаются с 0
                     $i = $i + 1;
+                }
+                if ($items_unique_exist == true) {
+                    $items_unique_select = $items_unique_select->get();
+                    if (count($items_unique_select) != 0) {
+                        throw new Exception(trans('main.value_uniqueness_violation') . '!');
+                        dd(trans('main.value_uniqueness_violation') . '!');
+                    }
                 }
 
                 $rs = $this->calc_value_func($item);
@@ -1355,7 +1382,8 @@ class ItemController extends Controller
             // окончание транзакции
 
         } catch (Exception $exc) {
-            return trans('transaction_not_completed') . ": " . $exc->getMessage();
+            //return trans('transaction_not_completed') . ": " . $exc->getMessage();
+            return view('message', ['message' => trans('main.transaction_not_completed') . ": " . $exc->getMessage()]);
         }
 
         if (env('MAIL_ENABLED') == 'yes') {
@@ -2332,6 +2360,8 @@ class ItemController extends Controller
         return $result_item;
     }
 
+    // Сохранение $main, $index - номер $link,
+    // Присваивание $valits[] значениями $item->id, изначально там значения и $item->id в зависимости от типа данных(Число, Строка, Список, Изображение, Документ и т.д.)
     function save_main(Main $main, $item, $keys, $values, &$valits, $index, $strings_inputs)
     {
         $main->link_id = $keys[$index];
@@ -2443,6 +2473,8 @@ class ItemController extends Controller
                 }
             }
             // поиск в таблице items значение с таким же названием и base_id
+            // по одному ($link->parent_base->is_one_value_lst_str_txt == true)
+            // или всем языкам ($link->parent_base->is_one_value_lst_str_txt == false)
             $item_find = Item::where('base_id', $link->parent_base_id)->where('project_id', $relip_project_id)->where('name_lang_0', $values[$index]);
             if ($link->parent_base->is_one_value_lst_str_txt == false) {
                 $i = 0;
@@ -3405,6 +3437,7 @@ class ItemController extends Controller
                         }
                     }
                     $this->save_main($main, $item, $keys, $values, $valits, $i, $strings_inputs);
+                    // После выполнения массив $valits заполнен ссылками $item->id
                     // "$i = $i + 1;" использовать здесь, т.к. индексы в массивах начинаются с 0
                     $i = $i + 1;
                 }

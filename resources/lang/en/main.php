@@ -401,4 +401,5 @@ return [
     'is_view_info_relits' => 'Show related projects information',
     'is_list_base_relits_setup' => 'Show Bases - related project settings',
     'need_to_uncheck' => 'Need to uncheck',
+    'value_uniqueness_violation' => 'Value uniqueness violation',
     ];

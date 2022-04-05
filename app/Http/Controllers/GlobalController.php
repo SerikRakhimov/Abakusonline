@@ -407,6 +407,10 @@ class GlobalController extends Controller
 //            $query->where('parent_item_id', 358);
 //        });
 //
+//        $items = $items->whereHas('child_mains', function ($query) {
+//            $query->whereHas('link', function ($query) {
+//                $query->where('parent_is_unique', true);});
+//        });
 
 //        $items = $items->whereHas('child_mains', function ($query) {
 //            $query->where('link_id', 11)->where('parent_item_id', 152);
