@@ -1310,7 +1310,7 @@ class ItemController extends Controller
                         dd($message);
                     }
                     // Проверка на $par_link->child_maxcount
-                    $message_info = GlobalController::link_maxcount_message($link);
+                    $message_info = GlobalController::link_item_maxcount_message($link);
                     if ($message_info != '') {
                         $item_maxcount = Item::findOrFail($values[$i]);
                         $message_result = GlobalController::link_item_maxcount_validate($relip_project, $item_maxcount, $link, true);
