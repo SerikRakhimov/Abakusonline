@@ -169,7 +169,7 @@ class GlobalController extends Controller
 //        }
 
 //      По умолчанию фильтровать по пользователю в списке
-        if ($base->is_default_list_base_byuser == true) {
+        if (($is_list_base_byuser == true) && ($base->is_default_list_base_byuser == true)) {
             $is_list_base_byuser = true;
         }
 
@@ -1120,8 +1120,60 @@ class GlobalController extends Controller
                 }
                 if ($error == true) {
                     $result = trans('main.max_count_message_second') . $base->names()
-                        . trans('main.max_count_message_third') . '. ' . self::base_maxcount_message($base) . '!';
+                        . trans('main.max_count_message_third') . '. '
+                        . self::base_maxcount_message($base) . '!';
                 }
+            }
+        }
+        return $result;
+    }
+
+    // Сообщение "максимальное количество записей" в $base
+    static function base_byuser_maxcount_message(Base $base)
+    {
+        $result = '';
+        if ($base->maxcount_byuser_lst > 0) {
+            if ($base->type_is_list() || $base->type_is_image() || $base->type_is_document()) {
+                $result = trans('main.base') . ': '
+                    . trans('main.max_count_message_first') . ' ' . $base->maxcount_byuser_lst
+                    . ' (' . mb_strtolower(trans('main.is_list_base_byuser')) . ')';
+            }
+        }
+        return $result;
+    }
+
+// Проверка на максимальное количество записей в $base
+// $added - true, проверка при добавлении; - false, общая проверка
+    static function base_byuser_maxcount_validate(Project $project, Base $base, bool $added)
+    {
+        $result = '';
+        $error = false;
+        $maxcount = $base->maxcount_byuser_lst;
+        if ($maxcount > 0) {
+            if (Auth::check()) {
+                if ($base->type_is_list() || $base->type_is_image() || $base->type_is_document()) {
+                    // Филтр по пользователю, создавшему $item
+                    $items_count = Item::where('project_id', $project->id)
+                        ->where('base_id', $base->id)
+                        ->where('created_user_id', GlobalController::glo_user_id())
+                        ->count();
+                    if ($added == true) {
+                        if ($items_count >= $maxcount) {
+                            $error = true;
+                        }
+                    } else {
+                        if ($items_count > $maxcount) {
+                            $error = true;
+                        }
+                    }
+                    if ($error == true) {
+                        $result = trans('main.max_count_message_second') . $base->names()
+                            . trans('main.max_count_message_third') . '. '
+                            . self::base_byuser_maxcount_message($base) . '!';
+                    }
+                }
+            } else {
+                $result = trans('main.please_login_or_register') . '!';
             }
         }
         return $result;
@@ -1164,7 +1216,8 @@ class GlobalController extends Controller
             }
             if ($error == true) {
                 $result = trans('main.max_count_message_second') . $link->child_base->names()
-                    . trans('main.max_count_message_third') . '. ' . self::link_maxcount_message($link) . '!';
+                    . trans('main.max_count_message_third') . '. '
+                    . self::link_maxcount_message($link) . '!';
             }
         }
         return $result;
@@ -1207,7 +1260,8 @@ class GlobalController extends Controller
             }
             if ($error == true) {
                 $result = trans('main.max_count_message_second') . $link->child_base->names()
-                    . trans('main.max_count_message_third') . '. ' . self::link_item_maxcount_message($link) . '!';
+                    . trans('main.max_count_message_third') . '. '
+                    . self::link_item_maxcount_message($link) . '!';
             }
         }
         return $result;

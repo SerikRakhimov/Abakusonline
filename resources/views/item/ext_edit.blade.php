@@ -804,7 +804,7 @@
                         //                                   При параллельной связи $par_link
                         //                                    другие паралельные связи не доступны при добавлении/корректировке записи
                         //                            при способе ввода Пространство (если передано $par_link)
-                        if ($par_link->parent_is_parallel_link == true && $link->parent_is_parallel_link == true) {
+                        if ($par_link->parent_is_parallel == true && $link->parent_is_parallel == true) {
                             $hidden_list = true;
                         }
                     }

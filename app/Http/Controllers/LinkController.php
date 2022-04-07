@@ -135,7 +135,8 @@ class LinkController extends Controller
         $link->parent_is_base_link = isset($request->parent_is_base_link) ? true : false;
         $link->parent_is_enter_refer = isset($request->parent_is_enter_refer) ? true : false;
         $link->parent_is_calcname = isset($request->parent_is_calcname) ? true : false;
-        $link->parent_is_parallel_link = isset($request->parent_is_parallel_link) ? true : false;
+        $link->parent_is_unique = isset($request->parent_is_unique) ? true : false;
+        $link->parent_is_parallel = isset($request->parent_is_parallel) ? true : false;
         $link->parent_calcname_prefix_lang_0 = isset($request->parent_calcname_prefix_lang_0) ? $request->parent_calcname_prefix_lang_0 : "";
         $link->parent_calcname_prefix_lang_1 = isset($request->parent_calcname_prefix_lang_1) ? $request->parent_calcname_prefix_lang_1 : "";
         $link->parent_calcname_prefix_lang_2 = isset($request->parent_calcname_prefix_lang_2) ? $request->parent_calcname_prefix_lang_2 : "";
@@ -399,7 +400,8 @@ class LinkController extends Controller
         $link->parent_is_base_link = isset($request->parent_is_base_link) ? true : false;
         $link->parent_is_enter_refer = isset($request->parent_is_enter_refer) ? true : false;
         $link->parent_is_calcname = isset($request->parent_is_calcname) ? true : false;
-        $link->parent_is_parallel_link = isset($request->parent_is_parallel_link) ? true : false;
+        $link->parent_is_unique = isset($request->parent_is_unique) ? true : false;
+        $link->parent_is_parallel = isset($request->parent_is_parallel) ? true : false;
         $link->parent_calcname_prefix_lang_0 = isset($request->parent_calcname_prefix_lang_0) ? $request->parent_calcname_prefix_lang_0 : "";
         $link->parent_calcname_prefix_lang_1 = isset($request->parent_calcname_prefix_lang_1) ? $request->parent_calcname_prefix_lang_1 : "";
         $link->parent_calcname_prefix_lang_2 = isset($request->parent_calcname_prefix_lang_2) ? $request->parent_calcname_prefix_lang_2 : "";

@@ -159,6 +159,7 @@ class BaseController extends Controller
         $base->maxfilesize_title_img_doc = isset($request->maxfilesize_title_img_doc) ? $request->maxfilesize_title_img_doc : "";
 
         $base->maxcount_lst = $request->maxcount_lst >= 0 ? $request->maxcount_lst : 0;
+        $base->maxcount_byuser_lst = $request->maxcount_byuser_lst >= 0 ? $request->maxcount_byuser_lst : 0;
         $base->is_calculated_lst = isset($request->is_calculated_lst) ? "1" : "0";
         $base->is_setup_lst = isset($request->is_setup_lst) ? "1" : "0";
         $base->length_txt = $request->length_txt >= 0 ? $request->length_txt : 0;
@@ -206,6 +207,7 @@ class BaseController extends Controller
                 $base->maxfilesize_img_doc = 0;
                 $base->maxfilesize_title_img_doc = "";
                 $base->maxcount_lst = 0;
+                $base->maxcount_byuser_lst = 0;
                 $base->is_calculated_lst = "0";
                 $base->is_setup_lst = "0";
                 $base->length_txt = 0;
@@ -232,6 +234,7 @@ class BaseController extends Controller
                 $base->maxfilesize_img_doc = 0;
                 $base->maxfilesize_title_img_doc = "";
                 $base->maxcount_lst = 0;
+                $base->maxcount_byuser_lst = 0;
                 $base->is_calculated_lst = "0";
                 $base->is_setup_lst = "0";
                 $base->length_txt = 0;
@@ -260,6 +263,7 @@ class BaseController extends Controller
                 $base->maxfilesize_img_doc = 0;
                 $base->maxfilesize_title_img_doc = "";
                 $base->maxcount_lst = 0;
+                $base->maxcount_byuser_lst = 0;
                 $base->is_calculated_lst = "0";
                 $base->is_setup_lst = "0";
                 $base->length_txt = 0;
@@ -288,6 +292,7 @@ class BaseController extends Controller
                 $base->maxfilesize_img_doc = 0;
                 $base->maxfilesize_title_img_doc = "";
                 $base->maxcount_lst = 0;
+                $base->maxcount_byuser_lst = 0;
                 $base->is_calculated_lst = "0";
                 $base->is_setup_lst = "0";
                 $base->length_txt = 0;
@@ -314,6 +319,7 @@ class BaseController extends Controller
                 $base->maxfilesize_img_doc = 0;
                 $base->maxfilesize_title_img_doc = "";
                 $base->maxcount_lst = 0;
+                $base->maxcount_byuser_lst = 0;
                 $base->is_calculated_lst = "0";
                 $base->is_setup_lst = "0";
                 $base->is_default_list_base_byuser = 0;
@@ -338,6 +344,7 @@ class BaseController extends Controller
                 $base->sepa_same_left_calcname = "";
                 $base->sepa_same_right_calcname = "";
                 $base->maxcount_lst = 0;
+                $base->maxcount_byuser_lst = 0;
                 $base->is_calculated_lst = "0";
                 $base->is_setup_lst = "0";
                 $base->length_txt = 0;
@@ -364,6 +371,7 @@ class BaseController extends Controller
                 $base->sepa_same_right_calcname = "";
                 $base->is_to_moderate_image = "0";
                 $base->maxcount_lst = 0;
+                $base->maxcount_byuser_lst = 0;
                 $base->is_calculated_lst = "0";
                 $base->is_setup_lst = "0";
                 $base->length_txt = 0;
@@ -487,6 +495,7 @@ class BaseController extends Controller
         $base->maxfilesize_title_img_doc = isset($request->maxfilesize_title_img_doc) ? $request->maxfilesize_title_img_doc : "";
 
         $base->maxcount_lst = $request->maxcount_lst >= 0 ? $request->maxcount_lst : 0;
+        $base->maxcount_byuser_lst = $request->maxcount_byuser_lst >= 0 ? $request->maxcount_byuser_lst : 0;
         $base->is_calculated_lst = isset($request->is_calculated_lst) ? "1" : "0";
         $base->is_setup_lst = isset($request->is_setup_lst) ? "1" : "0";
         $base->length_txt = $request->length_txt >= 0 ? $request->length_txt : 0;
@@ -534,6 +543,7 @@ class BaseController extends Controller
                 $base->maxfilesize_img_doc = 0;
                 $base->maxfilesize_title_img_doc = "";
                 $base->maxcount_lst = 0;
+                $base->maxcount_byuser_lst = 0;
                 $base->is_calculated_lst = "0";
                 $base->is_setup_lst = "0";
                 $base->length_txt =0;
@@ -559,6 +569,7 @@ class BaseController extends Controller
                 $base->maxfilesize_img_doc = 0;
                 $base->maxfilesize_title_img_doc = "";
                 $base->maxcount_lst = 0;
+                $base->maxcount_byuser_lst = 0;
                 $base->is_calculated_lst = "0";
                 $base->is_setup_lst = "0";
                 $base->length_txt =0;
@@ -586,6 +597,7 @@ class BaseController extends Controller
                 $base->maxfilesize_img_doc = 0;
                 $base->maxfilesize_title_img_doc = "";
                 $base->maxcount_lst = 0;
+                $base->maxcount_byuser_lst = 0;
                 $base->is_calculated_lst = "0";
                 $base->is_setup_lst = "0";
                 $base->length_txt =0;
@@ -613,6 +625,7 @@ class BaseController extends Controller
                 $base->maxfilesize_img_doc = 0;
                 $base->maxfilesize_title_img_doc = "";
                 $base->maxcount_lst = 0;
+                $base->maxcount_byuser_lst = 0;
                 $base->is_calculated_lst = "0";
                 $base->is_setup_lst = "0";
                 $base->length_txt =0;
@@ -638,6 +651,7 @@ class BaseController extends Controller
                 $base->maxfilesize_img_doc = 0;
                 $base->maxfilesize_title_img_doc = "";
                 $base->maxcount_lst = 0;
+                $base->maxcount_byuser_lst = 0;
                 $base->is_calculated_lst = "0";
                 $base->is_setup_lst = "0";
                 break;
@@ -661,6 +675,7 @@ class BaseController extends Controller
                 $base->sepa_same_left_calcname = "";
                 $base->sepa_same_right_calcname = "";
                 $base->maxcount_lst = 0;
+                $base->maxcount_byuser_lst = 0;
                 $base->is_calculated_lst = "0";
                 $base->is_setup_lst = "0";
                 $base->length_txt =0;
@@ -686,6 +701,7 @@ class BaseController extends Controller
                 $base->sepa_same_right_calcname = "";
                 $base->is_to_moderate_image = "0";
                 $base->maxcount_lst = 0;
+                $base->maxcount_byuser_lst = 0;
                 $base->is_calculated_lst = "0";
                 $base->is_setup_lst = "0";
                 $base->length_txt =0;

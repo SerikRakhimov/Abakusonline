@@ -37,6 +37,7 @@
     <p>{{trans('main.is_setup_lst')}}: <b>{{GlobalController::name_is_boolean($base->is_setup_lst)}}</b></p>
     <p>{{trans('main.is_required_lst_num_str_txt_img_doc')}}: <b>{{GlobalController::name_is_boolean($base->is_required_lst_num_str_txt_img_doc)}}</b></p>
     <p>{{trans('main.maxcount_lst')}}: <b>{{$base->maxcount_lst}}</b></p>
+    <p>{{trans('main.maxcount_byuser_lst')}}: <b>{{$base->maxcount_byuser_lst}}</b></p>
     <p>{{trans('main.length_txt')}}: <b>{{$base->length_txt}}</b></p>
     <p>{{trans('main.is_code_needed')}}: <b>{{GlobalController::name_is_boolean($base->is_code_needed)}}</b></p>
     <p>{{trans('main.is_to_moderate_image')}}: <b>{{GlobalController::name_is_boolean($base->is_to_moderate_image)}}</b></p>

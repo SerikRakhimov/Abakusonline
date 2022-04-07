@@ -671,6 +671,13 @@ class ItemController extends Controller
             return view('message', ['message' => $message]);
         }
 
+        // Проверка на $base->maxcount_byuser_lst
+        // Проверка осуществляется только при добавлении записи
+        $message = GlobalController::base_byuser_maxcount_validate($relip_project, $base, true);
+        if ($message != '') {
+            return view('message', ['message' => $message]);
+        }
+
         // Проверка на максимальное количество записей
         // Проверка осуществляется только при добавлении записи
         // Это есть проверка в начале функции и во время сохранения записи $item
@@ -1299,13 +1306,17 @@ class ItemController extends Controller
                 // Присвоение данных для $this->save_sets()
                 // "$i = 0" использовать, т.к. индексы в массивах начинаются с 0
                 $i = 0;
+
+                // Похожие строки при добавлении (функция ext_store()) и сохранении (функция ext_update()) записи
+                // Нужно 'where('id', '!=', $item->id)'
                 $items_unique_select = Item::where('id', '!=', $item->id)
                     ->where('project_id', '=', $relip_project->id);
+                // Нужно '$items_unique_exist = false;'
                 $items_unique_exist = false;
+                // Нужно '$items_unique_bases = '';'
+                $items_unique_bases = '';
+
                 foreach ($keys as $key) {
-//                    if ($link->parent_base->type_is_list == false){
-//                        dd(trans('main.type_is_list_false'));
-//                    }
                     $link = Link::findOrFail($key);
 
                     $main = Main::where('child_item_id', $item->id)->where('link_id', $key)->first();
@@ -1331,37 +1342,38 @@ class ItemController extends Controller
                     // Проверка на $par_link->link_maxcount
                     $message = GlobalController::link_maxcount_validate($relip_project, $link, true);
                     if ($message != '') {
-                        //return view('message', ['message' => $message]);
-                        // Не удалять 'dd($message);'
-                        dd($message);
+                        throw new Exception($message);
                     }
                     // Проверка на $par_link->child_maxcount
-                    $message_info = GlobalController::link_item_maxcount_message($link);
+                    $message_info = GlobalController::link_item_maxcount_validate($relip_project, $item, $link, true);
                     if ($message_info != '') {
                         $item_maxcount = Item::findOrFail($valits[$i]);
                         $message_result = GlobalController::link_item_maxcount_validate($relip_project, $item_maxcount, $link, true);
                         if ($message_result != '') {
-                            // Не удалять 'dd($message_result);'
-                            dd($message_result);
+                            throw new Exception($message_result);
                         }
                     }
 
                     // Проверка на уникальность значений $item->child_mains;
                     // Похожие строки при добавлении (функция ext_store()) и сохранении (функция ext_update()) записи
-                    $items_unique_select = $items_unique_select->whereHas('child_mains', function ($query) use ($keys, $valits, $i) {
-                        $query->where('link_id', $keys[$i])
-                            ->where('parent_item_id', $valits[$i]);
-                    });
-                    $items_unique_exist = true;
+                    if ($link->parent_is_unique == true) {
+                        $items_unique_select = $items_unique_select->whereHas('child_mains', function ($query) use ($keys, $valits, $i) {
+                            $query->where('link_id', $keys[$i])
+                                ->where('parent_item_id', $valits[$i]);
+                        });
+                        $items_unique_bases = $items_unique_bases . ($items_unique_exist == false ? '' : ', ') . $link->parent_base->name();;
+                        // Нужно '$items_unique_exist = true;'
+                        $items_unique_exist = true;
+                    }
 
                     // "$i = $i + 1;" использовать здесь, т.к. индексы в массивах начинаются с 0
                     $i = $i + 1;
                 }
+                // Похожие строки при добавлении (функция ext_store()) и сохранении (функция ext_update()) записи
                 if ($items_unique_exist == true) {
                     $items_unique_select = $items_unique_select->get();
                     if (count($items_unique_select) != 0) {
-                        throw new Exception(trans('main.value_uniqueness_violation') . '!');
-                        dd(trans('main.value_uniqueness_violation') . '!');
+                        throw new Exception(trans('main.value_uniqueness_violation') . ' (' . $items_unique_bases . ')!');
                     }
                 }
 
@@ -1932,7 +1944,6 @@ class ItemController extends Controller
             // Цикл по записям, в каждой итерации цикла свой to_child_base_id в переменной $to_key
             foreach ($sets_group as $to_key => $to_value) {
                 $item_seek = GlobalController::get_parent_item_from_main($item->id, $to_value->link_from_id);
-                //dd($item_seek);
                 if ($item_seek) {
                     $items = $items->whereHas('child_mains', function ($query) use ($to_value, $item_seek) {
                         $query->where('link_id', $to_value->link_from_id)->where('parent_item_id', $item_seek->id);
@@ -2070,7 +2081,6 @@ class ItemController extends Controller
 
         foreach ($base_main as $link) {
             $items = Item::where('base_id', $link->child_base_id)->where('project_id', $project_id)->get();
-            //dd($items->get());
             foreach ($items as $item) {
                 if (!$item->child_mains()->exists()) {
                     if (!$item->parent_mains()->exists()) {
@@ -3349,7 +3359,7 @@ class ItemController extends Controller
             // начало транзакции
             // $array_plan передается при корректировке
             // $del_links ипользуется при корректировке item (функция ext_update()), при добавлении не используется (функция ext_store())
-            DB::transaction(function ($r) use ($item, $it_texts, $keys, $values, $strings_inputs, $del_links) {
+            DB::transaction(function ($r) use ($relip_project, $item, $it_texts, $keys, $values, $strings_inputs, $del_links) {
 
                 //$item->save();
 
@@ -3421,6 +3431,15 @@ class ItemController extends Controller
                 $i = 0;
                 $valits = $values;
 
+                // Похожие строки при добавлении (функция ext_store()) и сохранении (функция ext_update()) записи
+                // Нужно 'where('id', '!=', $item->id)'
+                $items_unique_select = Item::where('id', '!=', $item->id)
+                    ->where('project_id', '=', $relip_project->id);
+                // Нужно '$items_unique_exist = false;'
+                $items_unique_exist = false;
+                // Нужно '$items_unique_bases = '';'
+                $items_unique_bases = '';
+
                 foreach ($keys as $key) {
                     $main = Main::where('child_item_id', $item->id)->where('link_id', $key)->first();
                     if ($main == null) {
@@ -3438,8 +3457,29 @@ class ItemController extends Controller
                     }
                     $this->save_main($main, $item, $keys, $values, $valits, $i, $strings_inputs);
                     // После выполнения массив $valits заполнен ссылками $item->id
+
+                    // Проверка на уникальность значений $item->child_mains;
+                    // Похожие строки при добавлении (функция ext_store()) и сохранении (функция ext_update()) записи
+                    if ($link->parent_is_unique == true) {
+                        $items_unique_select = $items_unique_select->whereHas('child_mains', function ($query) use ($keys, $valits, $i) {
+                            $query->where('link_id', $keys[$i])
+                                ->where('parent_item_id', $valits[$i]);
+                        });
+                        $items_unique_bases = $items_unique_bases . ($items_unique_exist == false ? '' : ', ') . $link->parent_base->name();;
+                        // Нужно '$items_unique_exist = true;'
+                        $items_unique_exist = true;
+                    }
+
                     // "$i = $i + 1;" использовать здесь, т.к. индексы в массивах начинаются с 0
                     $i = $i + 1;
+                }
+
+                // Похожие строки при добавлении (функция ext_store()) и сохранении (функция ext_update()) записи
+                if ($items_unique_exist == true) {
+                    $items_unique_select = $items_unique_select->get();
+                    if (count($items_unique_select) != 0) {
+                        throw new Exception(trans('main.value_uniqueness_violation') . ' (' . $items_unique_bases . ')!');
+                    }
                 }
 
                 $rs = $this->calc_value_func($item);
@@ -3459,7 +3499,8 @@ class ItemController extends Controller
             // окончание транзакции
 
         } catch (Exception $exc) {
-            return trans('transaction_not_completed') . ": " . $exc->getMessage();
+            //return trans('transaction_not_completed') . ": " . $exc->getMessage();
+            return view('message', ['message' => trans('main.transaction_not_completed') . ": " . $exc->getMessage()]);
         }
 
         // удаление неиспользуемых данных
@@ -3822,12 +3863,9 @@ class ItemController extends Controller
 
             // если это фильтрируемое поле - то, тогда загружать весь список не нужно
             $link_exists = Link::where('parent_is_child_related', true)->where('parent_child_related_start_link_id', $link->id)->exists();
-            //dd($link_exists);
             //if ($link_exists == false || $link_exists == null) {
             //if ($link_exists == true) {
-            //dd($link->parent_is_in_the_selection_list_use_the_calculated_table_field);
             // 1.0 В списке выбора использовать поле вычисляемой таблицы
-            //dd($link->parent_is_in_the_selection_list_use_the_calculated_table_field);
             if ($link->parent_is_in_the_selection_list_use_the_calculated_table_field == true) {
                 $set = Set::findOrFail($link->parent_selection_calculated_table_set_id);
                 $set_link = $set->link_to;
@@ -3883,7 +3921,6 @@ class ItemController extends Controller
                     ->where('base_id', $link->parent_base_id)
                     ->where('project_id', $project->id);
 //                        ->orderBy($name);
-                //dd($result_parent_base_items->get());
             }
             // Такая же проверка и в GlobalController (function items_right()),
             // в ItemController (function browser(), get_items_for_link(), get_items_ext_edit_for_link())
@@ -3891,10 +3928,8 @@ class ItemController extends Controller
                 $result_parent_base_items = $result_parent_base_items->where('created_user_id', GlobalController::glo_user_id());
             }
             $result_parent_base_items_no_get = $result_parent_base_items;
-            //dd($result_parent_base_items_no_get);
             // '->get()' нужно
             $result_parent_base_items = $result_parent_base_items->get();
-            //dd($result_parent_base_items);
             foreach ($result_parent_base_items as $item) {
                 $result_parent_base_items_options = $result_parent_base_items_options . "<option value='" . $item->id . "'>" . $item->name() . "</option>";
             }
@@ -4936,9 +4971,9 @@ class ItemController extends Controller
             //                                    При параллельной связи $nolink
             //                                    другие паралельные связи не доступны при отображении списка в Пространство-тело таблицы
             //                                    (если передано $nolink)
-            if ($nolink->parent_is_parallel_link == true) {
+            if ($nolink->parent_is_parallel == true) {
                 // Исключить child_links с параллельными связями
-                $links = $links->where('parent_is_parallel_link', '!=', true);
+                $links = $links->where('parent_is_parallel', '!=', true);
             } else {
                 // Исключить переданный $nolink
                 $links = $links->where('id', '!=', $nolink->id);

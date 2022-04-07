@@ -9,7 +9,11 @@
     use \App\Http\Controllers\GlobalController;
     use \App\Http\Controllers\ItemController;
     use \App\Http\Controllers\MainController;
-    $message = GlobalController::base_maxcount_validate($project, $base, true);
+    $message_bs_mc = GlobalController::base_maxcount_message($base);
+    $message_bs_byuser_mc = GlobalController::base_byuser_maxcount_message($base);
+    $message_mc = ($message_bs_mc == "" ? "" : ', ' . PHP_EOL . $message_bs_mc)
+        . ($message_bs_byuser_mc == "" ? "" : ', ' . PHP_EOL . $message_bs_byuser_mc);
+
     $relip_project = GlobalController::calc_relip_project($relit_id, $project);
     //    Config::set('app.display', 'table');
     ?>
@@ -23,9 +27,11 @@
         {{--        Похожая проверка в ItemController::ext_create() и base_index.php--}}
         @if($base_right['is_list_base_create'] == true)
             <div class="col-12 text-right">
-                @if($message == "")
+{{--            Не удалять: используется $message_bs_m --}}
+                @if($message_bs_mc == "")
                     <button type="button" class="btn btn-dreamer"
-                            title="{{trans('main.add') . ', ' . GlobalController::base_maxcount_message($base)}}"
+{{--                        Выводится $message_mc--}}
+                            title="{{trans('main.add') . ', ' . $message_mc}}"
                             onclick="document.location='{{route('item.ext_create',
                             ['base'=>$base, 'project'=>$project, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(),
                              'relit_id' =>$relit_id])}}'">

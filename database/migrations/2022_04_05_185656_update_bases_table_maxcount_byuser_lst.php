@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class UpdateBasesTableIsListBaseByuser extends Migration
+class UpdateBasesTableMaxcountByuserLst extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,8 @@ class UpdateBasesTableIsListBaseByuser extends Migration
      */
     public function up()
     {
-        // Это поле в основом для таблицы Пользователи
         Schema::table('bases', function (Blueprint $table) {
-            $table->boolean('is_default_list_base_byuser')->default(false);
+            $table->integer('maxcount_byuser_lst')->default(0);
         });
     }
 

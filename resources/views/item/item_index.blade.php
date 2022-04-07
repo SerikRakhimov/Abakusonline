@@ -179,10 +179,14 @@
         {{--        </p>--}}
 
         <?php
-        $message_ln_mx = GlobalController::link_maxcount_message($current_link);
-        $message_it_mx = GlobalController::link_item_maxcount_message($current_link);
-        $message_mx = ($message_ln_mx == "" ? "" : ', ' . PHP_EOL . $message_ln_mx)
-            . ($message_it_mx == "" ? "" : ', ' . PHP_EOL . $message_it_mx);
+        $message_bs_mc = GlobalController::base_maxcount_message($current_link->child_base);
+        $message_bs_byuser_mc = GlobalController::base_byuser_maxcount_message($current_link->child_base);
+        $message_ln_mc = GlobalController::link_maxcount_message($current_link);
+        $message_it_mc = GlobalController::link_item_maxcount_message($current_link);
+        $message_mc = ($message_bs_mc == "" ? "" : ', ' . PHP_EOL . $message_bs_mc)
+            . ($message_bs_byuser_mc == "" ? "" : ', ' . PHP_EOL . $message_bs_byuser_mc)
+            . ($message_ln_mc == "" ? "" : ', ' . PHP_EOL . $message_ln_mc)
+            . ($message_it_mc == "" ? "" : ', ' . PHP_EOL . $message_it_mc);
         $message_link = GlobalController::link_maxcount_validate($project, $current_link, true);
         $message_item = GlobalController::link_item_maxcount_validate($project, $item, $current_link, true);
 
@@ -226,16 +230,18 @@
                                 {{--                        @endif--}}
                                 <a href="{{route('item.base_index', ['base'=>$current_link->child_base,
                             'project'=>$project, 'role'=>$role, 'relit_id'=>$relit_id])}}"
-                                   title="{{$current_link->child_base->names() . $message_mx}}">
+                                   title="{{$current_link->child_base->names() . $message_mc}}">
                                     {{$current_link->child_labels()}}:
                                 </a>
                             </h3>
                         </div>
                         <div class="col-2 text-right">
                             @if ($base_body_right['is_list_base_create'] == true)
+                                {{--            Не удалять: используются $message_link и $message_item --}}
                                 @if($message_link == "" && $message_item == "")
                                     <button type="button" class="btn btn-dreamer"
-                                            title="{{trans('main.add') . $message_mx}}"
+                                            {{--                        Выводится $message_mc--}}
+                                            title="{{trans('main.add') . $message_mc}}"
                                             onclick="document.location='{{route('item.ext_create', ['base'=>$current_link->child_base_id,
                                         'project'=>$project, 'role'=>$role,
                                          'usercode' =>GlobalController::usercode_calc(),

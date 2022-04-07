@@ -14,7 +14,7 @@ class UpdateLinksTableParentIsParallelIsLeft extends Migration
     public function up()
     {
         Schema::table('links', function (Blueprint $table) {
-            $table->boolean('parent_is_parallel_link')->default(false);
+            $table->boolean('parent_is_parallel')->default(false);
             $table->boolean('parent_is_left_calcname_lang_0')->default(false);
             $table->boolean('parent_is_left_calcname_lang_1')->default(false);
             $table->boolean('parent_is_left_calcname_lang_2')->default(false);
