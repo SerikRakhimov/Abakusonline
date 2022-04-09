@@ -272,7 +272,8 @@ class ItemController extends Controller
     // и чтобы невозможно было скопировать адресную строку с item_index с параметрами
     //  и вставить в адресную строку другого пользователя платформы www.abakusonline.com
     // - должно работать только на текущем проекте
-    function item_index(Project $project, Item $item, Role $role, $usercode, $relit_id = 0, Link $par_link = null)
+    function item_index(Project $project, Item $item, Role $role, $usercode, $relit_id = 0, Link $par_link = null,
+                                $string_link_ids_tree = '', $string_item_ids_tree = '')
     {
         if (GlobalController::check_project_item_user($project, $item, $role, $usercode) == false) {
             return view('message', ['message' => trans('main.no_access')]);
@@ -302,6 +303,14 @@ class ItemController extends Controller
         $items = $items_right['itget'];
         $prev_item = $items_right['prev_item'];
         $next_item = $items_right['next_item'];
+        // Пустой массив
+        $tree_array = array();
+        if ($string_link_ids_tree && $string_item_ids_tree) {
+            $tree_array = self::calc_tree_array($string_link_ids_tree, $string_item_ids_tree);
+        }
+        // Нужно
+        $string_link_ids_next = '';
+        $string_item_ids_next = '';
 
         // Находим $current_link
         $current_link = null;  // нужно
@@ -399,8 +408,14 @@ class ItemController extends Controller
 //                // 'items' нужно, для пагинации
 //                // '->paginate(60)' использовать здесь
             $body_items = $items_body_right['items']->paginate(60, ['*'], 'body_page');
+
+            $string_next_ids = self::calc_string_next_ids($item, $current_link, $tree_array);
+            $string_link_ids_next = $string_next_ids['string_link_ids'];
+            $string_item_ids_next = $string_next_ids['string_item_ids'];
 //        }
         }
+        //dd($tree_array);
+        //dd($string_link_ids_next);
         //     session(['links' => ((!empty($_SERVER['HTTPS'])) ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . '/' . request()->path()]);
         return view('item/item_index', ['project' => $project, 'item' => $item, 'role' => $role, 'relit_id' => $relit_id, 'par_link' => $par_link,
             'base_right' => $base_right, 'items' => $items,
@@ -408,7 +423,78 @@ class ItemController extends Controller
             'child_links' => $child_links, 'child_links_info' => $child_links_info,
             'current_link' => $current_link, 'next_links_plan' => $next_links_plan,
             'child_body_links_info' => $child_body_links_info, 'body_items' => $body_items,
-            'base_body_right' => $base_body_right]);
+            'base_body_right' => $base_body_right, 'tree_array' => $tree_array,
+            'string_link_ids_next' => $string_link_ids_next, 'string_item_ids_next' => $string_item_ids_next]);
+    }
+
+    function calc_tree_array($string_link_ids_tree, $string_item_ids_tree)
+    {
+        $result = array();
+        if (($string_link_ids_tree != "") && ($string_item_ids_tree != "")) {
+            $array_link_ids = explode(",", $string_link_ids_tree);
+            $array_item_ids = explode(",", $string_item_ids_tree);
+            if (count($array_link_ids) == count($array_item_ids)) {
+                if (count($array_link_ids) > 0) {
+                    // Сначала проверка, затем заполнение массива $result
+                    $error = false;
+                    foreach ($array_link_ids as $link_id) {
+                        $link = link::find($link_id);
+                        if (!$link) {
+                            $error = true;
+                            break;
+                        }
+                    }
+                    if (!$error) {
+                        foreach ($array_item_ids as $item_id) {
+                            $item = Item::find($item_id);
+                            if (!$item) {
+                                $error = true;
+                                break;
+                            }
+                        }
+                        if (!$error) {
+                            $i = 0;
+                            $str = '';
+                            foreach ($array_link_ids as $link_id) {
+                                $result[$i]['string_prev_link_ids'] = $str;
+                                $str = $str . ($i == 0 ? '' : ',') . $link_id;
+                                $result[$i]['link_id'] = $link_id;
+                                $result[$i]['string_link_ids'] = $str;
+                                $i = $i + 1;
+                            }
+                            $i = 0;
+                            $str = '';
+                            foreach ($array_item_ids as $item_id) {
+                                $result[$i]['string_prev_item_ids'] = $str;
+                                $str = $str . ($i == 0 ? '' : ',') . $item_id;
+                                $result[$i]['item_id'] = $item_id;
+                                $result[$i]['string_item_ids'] = $str;
+                                // Проверка на правильность поиска $link_id, $item_id выше
+                                $link = Link::findOrFail($link_id);
+                                $item = Item::findOrFail($item_id);
+                                $result[$i]['title_name'] = $link->parent_label();
+                                $result[$i]['item_name'] = $item->name();
+                                $i = $i + 1;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return $result;
+    }
+
+    function calc_string_next_ids(Item $item, Link $link, $tree_array)
+    {
+        $string_link_ids = $link->id;
+        $string_item_ids = $item->id;
+        $count = count($tree_array);
+        if ($count > 0) {
+            // '- 1' т.к. нумерация элементов массива начинается с 0
+            $string_link_ids = $tree_array[$count - 1]['string_link_ids'] . ',' . $string_link_ids;
+            $string_item_ids = $tree_array[$count - 1]['string_item_ids'] . ',' . $string_item_ids;
+        }
+        return ['string_link_ids' => $string_link_ids, 'string_item_ids' => $string_item_ids];
     }
 
     function next_links_plan_calc(Base $base, Role $role, $relit_id = 0)

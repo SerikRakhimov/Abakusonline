@@ -27,10 +27,10 @@
         {{--        Похожая проверка в ItemController::ext_create() и base_index.php--}}
         @if($base_right['is_list_base_create'] == true)
             <div class="col-12 text-right">
-{{--            Не удалять: используется $message_bs_m --}}
+                {{--            Не удалять: используется $message_bs_m --}}
                 @if($message_bs_mc == "")
                     <button type="button" class="btn btn-dreamer"
-{{--                        Выводится $message_mc--}}
+                            {{--                        Выводится $message_mc--}}
                             title="{{trans('main.add') . ', ' . $message_mc}}"
                             onclick="document.location='{{route('item.ext_create',
                             ['base'=>$base, 'project'=>$project, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(),
@@ -291,7 +291,8 @@
                     'base_right'=>$base_right, 'item_view'=>true,
                     'relit_id'=>$relit_id, 'heading'=>0, 'body_page'=>0, 'body_count'=>0,'body_perpage'=>0,
                     'par_link'=>null, 'parent_item'=>null, 'is_table_body'=>$is_table_body,
-                    'base_index'=>true, 'item_heading_base'=>false, 'item_body_base'=>false])
+                    'base_index'=>true, 'item_heading_base'=>false, 'item_body_base'=>false,
+                    'string_link_ids_next'=>'', 'string_item_ids_next'=>''])
         {{--                            @if(1==2)--}}
         {{--                                @foreach($link_id_array as $value)--}}
         {{--                                    <?php--}}

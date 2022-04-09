@@ -28,22 +28,18 @@
     {{--        {{trans('main.space')}}--}}
     {{--        <span class="text-label">-</span> <span class="text-title">{{$item->base->info()}}</span>--}}
     {{--    </h3>--}}
-    @if(count($child_links) != 0)
-        <?php
-        //          Присваивания нужны
-        $i_par_link = null;
-        $i_parent_item = null;
-        if ($current_link) {
-            $i_par_link = $current_link;
-            $i_parent_item = $item;
-        }
-        ?>
-        @include('list.table',['base'=>$item->base, 'project'=>$project, 'links_info'=>$child_links_info, 'items'=>$items,
-                'base_right'=>$base_right, 'relit_id'=>$relit_id,
-                'heading'=>intval(true), 'body_page'=>$body_page, 'body_count'=>$body_count,'body_perpage'=>$body_perpage,
-                'par_link'=>$i_par_link, 'parent_item'=>$i_parent_item, 'is_table_body'=>false,
-                    'base_index'=>false, 'item_heading_base'=>true, 'item_body_base'=>false])
-    @endif
+    @foreach($tree_array as $value)
+        <h6>{{$value['title_name']}}:
+            <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$value['item_id'], 'role'=>$role,
+                                        'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id, 'par_link'=>$value['link_id'],
+                                        'string_link_ids_tree'=>$value['string_prev_link_ids'],
+                                        'string_item_ids_tree'=>$value['string_prev_item_ids']])}}"
+               title="">
+                {{$value['item_name']}}
+            </a>
+        </h6>
+    @endforeach
+    <hr>
     <p>
     <div class="container-fluid">
         <div class="row">
@@ -69,7 +65,9 @@
                         {{--                                {{$item->cdnm()}}--}}
                         {{--                            </a>--}}
                         {{--                        @else--}}
+
                         {{$item->cdnm()}}
+
                         {{--                        @endif--}}
                     @endif
                 </h3>
@@ -109,6 +107,23 @@
         </div>
     </div>
     </p>
+    @if(count($child_links) != 0)
+        <?php
+        //          Присваивания нужны
+        $i_par_link = null;
+        $i_parent_item = null;
+        if ($current_link) {
+            $i_par_link = $current_link;
+            $i_parent_item = $item;
+        }
+        ?>
+        @include('list.table',['base'=>$item->base, 'project'=>$project, 'links_info'=>$child_links_info, 'items'=>$items,
+                'base_right'=>$base_right, 'relit_id'=>$relit_id,
+                'heading'=>intval(true), 'body_page'=>$body_page, 'body_count'=>$body_count,'body_perpage'=>$body_perpage,
+                'par_link'=>$i_par_link, 'parent_item'=>$i_parent_item, 'is_table_body'=>false,
+                    'base_index'=>false, 'item_heading_base'=>true, 'item_body_base'=>false,
+                    'string_link_ids_next'=>'', 'string_item_ids_next'=>''])
+    @endif
     {{--    <hr align="center" width="100%" size="2" color="#ff0000"/>--}}
     {{--        &#8595;	&#8195; &#8595;	&#8195; &#8595;	&#8195; &#8595;	&#8195; &#8595;	&#8195; &#8595;	&#8195; &#8595;	&#8195; &#8595;	&#8195; &#8595;	&#8195; &#8595;	&#8195; &#8595;	&#8195;--}}
     {{--        <hr>--}}
@@ -274,7 +289,8 @@
                 'base_right'=>$base_body_right, 'relit_id'=>$relit_id,
                 'heading'=>intval(false), 'body_page'=>$body_page, 'body_count'=>$body_count,'body_perpage'=>$body_perpage,
                 'par_link'=>$current_link, 'parent_item'=>$item, 'is_table_body'=>false,
-                    'base_index'=>false, 'item_heading_base'=>false, 'item_body_base'=>true])
+                    'base_index'=>false, 'item_heading_base'=>false, 'item_body_base'=>true,
+                    'string_link_ids_next'=>$string_link_ids_next, 'string_item_ids_next'=>$string_item_ids_next])
                     {{$body_items->links()}}
                     {{--            {{$body_items->currentPage()}}--}}
                     {{--            {{$body_count = $body_items->count()}}--}}
