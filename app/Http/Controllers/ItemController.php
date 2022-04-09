@@ -460,6 +460,9 @@ class ItemController extends Controller
                                 $str = $str . ($i == 0 ? '' : ',') . $link_id;
                                 $result[$i]['link_id'] = $link_id;
                                 $result[$i]['string_link_ids'] = $str;
+                                // Проверка на правильность поиска $link_id выше
+                                $link = Link::findOrFail($link_id);
+                                $result[$i]['title_name'] = $link->parent_label();
                                 $i = $i + 1;
                             }
                             $i = 0;
@@ -469,10 +472,8 @@ class ItemController extends Controller
                                 $str = $str . ($i == 0 ? '' : ',') . $item_id;
                                 $result[$i]['item_id'] = $item_id;
                                 $result[$i]['string_item_ids'] = $str;
-                                // Проверка на правильность поиска $link_id, $item_id выше
-                                $link = Link::findOrFail($link_id);
+                                // Проверка на правильность поиска $item_id выше
                                 $item = Item::findOrFail($item_id);
-                                $result[$i]['title_name'] = $link->parent_label();
                                 $result[$i]['item_name'] = $item->name();
                                 $i = $i + 1;
                             }

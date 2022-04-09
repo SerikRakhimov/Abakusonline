@@ -11,7 +11,8 @@ $cols = $links_info['cols'];
 //$i = $items->firstItem() - 1;
 $i = 0;
 ?>
-<table class="table table-sm table-bordered table-hover">
+{{--<table class="table table-sm table-bordered table-hover">--}}
+    <table class="table table-sm table-borderless table-hover">
     @if(!$heading)
         <caption>{{trans('main.select_record_for_work')}}</caption>
     @endif
@@ -21,7 +22,7 @@ $i = 0;
         @if(!$heading)
             <th rowspan="{{$rows + 1}}" class="text-center align-top">#</th>
         @endif
-        <th rowspan="{{$rows + 1}}" class="text-center align-top">Id</th>
+{{--        <th rowspan="{{$rows + 1}}" class="text-center align-top">Id</th>--}}
         @if($base->is_code_needed == true)
             <th class="text-center align-top" rowspan="{{$rows + 1}}">{{trans('main.code')}}</th>
         @endif
@@ -57,10 +58,10 @@ $i = 0;
                                     ?>
                                     <a href="{{route('item.base_index',['base'=>$link->parent_base_id, 'project'=>$project, 'role'=>$role, 'relit_id' => $relit_id])}}"
                                        title="{{$link->parent_base->names()}}">
-                                        {{$matrix[$x][$y]["view_name"]}}
+                                        {{$matrix[$x][$y]["view_name"]}}:
                                     </a>
                                 @else
-                                    {{$matrix[$x][$y]["view_name"]}}
+                                    {{$matrix[$x][$y]["view_name"]}}:
                                 @endif
                             </th>
                             {{--                    {{$x}} {{$y}}  rowspan = {{$matrix[$x][$y]["rowspan"]}} colspan = {{$matrix[$x][$y]["colspan"]}} view_level_id = {{$matrix[$x][$y]["view_level_id"]}} view_level_name = {{$matrix[$x][$y]["view_level_name"]}}--}}
@@ -93,22 +94,22 @@ $i = 0;
                     </a>
                 </td>
             @endif
-            <td class="text-center">
+{{--            <td class="text-center">--}}
                 {{--                    Не удалять--}}
                 {{--                    <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc()])}}">--}}
                 {{--                <a href="{{route('item.ext_show', ['item'=>$item, 'project'=>$project, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id,--}}
                 {{--                                    'heading'=>$heading, 'body_page'=>$body_page, 'body_count'=>$body_count,'body_perpage'=>$body_perpage,--}}
                 {{--                                    'par_link'=>$par_link, 'parent_item'=>$parent_item])}}">--}}
-                @if($base_index || $item_body_base)
-                    <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,
-                                       'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id,'par_link'=>$par_link])}}"
-                       title="{{$item->name()}}">
-                        @endif
-                        {{$item->id}}
-                        @if($base_index || $item_body_base)
-                    </a>
-                @endif
-            </td>
+{{--                @if($base_index || $item_body_base)--}}
+{{--                    <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,--}}
+{{--                                       'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id,'par_link'=>$par_link])}}"--}}
+{{--                       title="{{$item->name()}}">--}}
+{{--                        @endif--}}
+{{--                        {{$item->id}}--}}
+{{--                        @if($base_index || $item_body_base)--}}
+{{--                    </a>--}}
+{{--                @endif--}}
+{{--            </td>--}}
             @if($base->is_code_needed == true)
                 <td class="text-center">
                     @if($base_index || $item_body_base)
