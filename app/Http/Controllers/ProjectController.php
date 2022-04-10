@@ -49,6 +49,11 @@ class ProjectController extends Controller
                     ->where('is_author', false);
             });
 
+//        $projects = Project::whereHas('template.roles', function ($query) {
+//                $query->where('is_default_for_external', true)
+//                    ->where('is_author', false);
+//            });
+
         if (Auth::check()) {
             // 'orwhereHas' правильно
             $projects = $projects->orwhereHas('accesses', function ($query) {

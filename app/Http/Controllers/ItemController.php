@@ -292,25 +292,35 @@ class ItemController extends Controller
             return view('message', ['message' => trans('main.no_access')]);
         }
 
-        $relip_project = GlobalController::calc_relip_project($relit_id, $project);
-        $child_links = $item->base->child_links->sortBy('parent_base_number');
-        // Нужно передать в функцию links_info() $item
-        $child_links_info = ItemController::links_info($item->base, $role, $relit_id, $item);
-        // Используется $relip_project
-        // Используется фильтр на равенство одному $item->id
-        $items_right = GlobalController::items_right($item->base, $relip_project, $role, $relit_id, null, null, $item->id);
-        // 'itget' нужно
-        $items = $items_right['itget'];
-        $prev_item = $items_right['prev_item'];
-        $next_item = $items_right['next_item'];
         // Пустой массив
         $tree_array = array();
         if ($string_link_ids_tree && $string_item_ids_tree) {
             $tree_array = self::calc_tree_array($string_link_ids_tree, $string_item_ids_tree);
         }
         // Нужно
+        $string_link_ids_current = '';
+        $string_item_ids_current = '';
         $string_link_ids_next = '';
         $string_item_ids_next = '';
+
+        $relip_project = GlobalController::calc_relip_project($relit_id, $project);
+        $child_links = $item->base->child_links->sortBy('parent_base_number');
+        // Нужно передать в функцию links_info() $item
+        $child_links_info = ItemController::links_info($item->base, $role, $relit_id, $item);
+        // Используется $relip_project
+        // Используется фильтр на равенство одному $item->id (для вывода таблицы из одной строки)
+        $count = count($tree_array);
+        if ($count == 0) {
+            $items_right = GlobalController::items_right($item->base, $relip_project, $role, $relit_id, null, null, $item->id);
+        } else {
+            // Используем последний элемент массива $tree_array[$count - 1], '- 1' - т.к. нумерация массива с 0
+            $items_right = GlobalController::items_right($item->base, $relip_project, $role, $relit_id, $tree_array[$count - 1]['item_id'], $tree_array[$count - 1]['link_id'], $item->id);
+        }
+
+        // 'itget' нужно
+        $items = $items_right['itget'];
+        $prev_item = $items_right['prev_item'];
+        $next_item = $items_right['next_item'];
 
         // Находим $current_link
         $current_link = null;  // нужно
@@ -409,13 +419,14 @@ class ItemController extends Controller
 //                // '->paginate(60)' использовать здесь
             $body_items = $items_body_right['items']->paginate(60, ['*'], 'body_page');
 
-            $string_next_ids = self::calc_string_next_ids($item, $current_link, $tree_array);
-            $string_link_ids_next = $string_next_ids['string_link_ids'];
-            $string_item_ids_next = $string_next_ids['string_item_ids'];
+            $string_current_next_ids = self::calc_string_current_next_ids($item, $current_link, $tree_array);
+            $string_link_ids_current = $string_current_next_ids['string_current_link_ids'];
+            $string_item_ids_current = $string_current_next_ids['string_current_item_ids'];
+            $string_link_ids_next = $string_current_next_ids['string_next_link_ids'];
+            $string_item_ids_next = $string_current_next_ids['string_next_item_ids'];
 //        }
         }
-        //dd($tree_array);
-        //dd($string_link_ids_next);
+
         //     session(['links' => ((!empty($_SERVER['HTTPS'])) ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . '/' . request()->path()]);
         return view('item/item_index', ['project' => $project, 'item' => $item, 'role' => $role, 'relit_id' => $relit_id, 'par_link' => $par_link,
             'base_right' => $base_right, 'items' => $items,
@@ -424,6 +435,7 @@ class ItemController extends Controller
             'current_link' => $current_link, 'next_links_plan' => $next_links_plan,
             'child_body_links_info' => $child_body_links_info, 'body_items' => $body_items,
             'base_body_right' => $base_body_right, 'tree_array' => $tree_array,
+            'string_link_ids_current' => $string_link_ids_current, 'string_item_ids_current' => $string_item_ids_current,
             'string_link_ids_next' => $string_link_ids_next, 'string_item_ids_next' => $string_item_ids_next]);
     }
 
@@ -485,17 +497,25 @@ class ItemController extends Controller
         return $result;
     }
 
-    function calc_string_next_ids(Item $item, Link $link, $tree_array)
+    function calc_string_current_next_ids(Item $item, Link $link, $tree_array)
     {
-        $string_link_ids = $link->id;
-        $string_item_ids = $item->id;
+        $string_current_link_ids = '';
+        $string_current_item_ids = '';
+        $string_next_link_ids = $link->id;
+        $string_next_item_ids = $item->id;
         $count = count($tree_array);
         if ($count > 0) {
             // '- 1' т.к. нумерация элементов массива начинается с 0
-            $string_link_ids = $tree_array[$count - 1]['string_link_ids'] . ',' . $string_link_ids;
-            $string_item_ids = $tree_array[$count - 1]['string_item_ids'] . ',' . $string_item_ids;
+            $string_current_link_ids = $tree_array[$count - 1]['string_link_ids'];
+            $string_current_item_ids = $tree_array[$count - 1]['string_item_ids'];
+            $string_next_link_ids = $tree_array[$count - 1]['string_link_ids'] . ',' . $string_next_link_ids;
+            $string_next_item_ids = $tree_array[$count - 1]['string_item_ids'] . ',' . $string_next_item_ids;
         }
-        return ['string_link_ids' => $string_link_ids, 'string_item_ids' => $string_item_ids];
+        return ['string_current_link_ids' => $string_current_link_ids,
+            'string_current_item_ids' => $string_current_item_ids,
+            'string_next_link_ids' => $string_next_link_ids,
+            'string_next_item_ids' => $string_next_item_ids
+        ];
     }
 
     function next_links_plan_calc(Base $base, Role $role, $relit_id = 0)

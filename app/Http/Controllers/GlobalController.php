@@ -533,7 +533,6 @@ class GlobalController extends Controller
 //                ->orderBy('ln.parent_base_number')
 //                ->orderBy('ct.' . $name)
 //                ->distinct();
-
                         // Не попадают в список $links изображения/документы
                         // и с признаком "Ссылка на Основу"
                         //->where('links.parent_is_base_link', false)
@@ -630,7 +629,8 @@ class GlobalController extends Controller
                         }
                     }
                     // Одинаковые строка/строки в этой функции
-                    $items = $items->where('id', $current_item_id);
+                    // Нужно 'items.id', иначе - сообщение об ошибке
+                    $items = $items->where('items.id', $current_item_id);
                     $itget = $items->get();
                 }
             }
