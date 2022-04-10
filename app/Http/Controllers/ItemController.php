@@ -3149,7 +3149,6 @@ class ItemController extends Controller
                 }
             }
         }
-
         // Только при корректировке записи используется массив $del_names()
         // загрузить в $inputs все поля ввода, кроме $excepts, $string_names, $string_codes, $del_names, array_merge() - функция суммирования двух и более массивов
         $inputs = $request->except(array_merge($excepts, $string_names, $code_names, $del_names));
@@ -3546,39 +3545,40 @@ class ItemController extends Controller
                 $items_unique_exist = false;
                 // Нужно '$items_unique_bases = '';'
                 $items_unique_bases = '';
-
                 foreach ($keys as $key) {
                     $main = Main::where('child_item_id', $item->id)->where('link_id', $key)->first();
-                    if ($main == null) {
-                        $main = new Main();
-                        // при создании записи "$item->created_user_id" заполняется
-                        $main->created_user_id = Auth::user()->id;
-                    } else {
-                        // удалить файл-предыдущее значение при корректировке
-                        if ($main->parent_item->base->type_is_image() || $main->parent_item->base->type_is_document()) {
-                            if ($values[$i] != "") {
-                                Storage::delete($main->parent_item->filename());
-                                //$main->parent_item->delete();
+                    $link = Link::where('id', $key)->first();
+                    if ($link) {
+                        if ($main == null) {
+                            $main = new Main();
+                            // при создании записи "$item->created_user_id" заполняется
+                            $main->created_user_id = Auth::user()->id;
+                        } else {
+                            // удалить файл-предыдущее значение при корректировке
+                            if ($main->parent_item->base->type_is_image() || $main->parent_item->base->type_is_document()) {
+                                if ($values[$i] != "") {
+                                    Storage::delete($main->parent_item->filename());
+                                    //$main->parent_item->delete();
+                                }
                             }
                         }
-                    }
-                    $this->save_main($main, $item, $keys, $values, $valits, $i, $strings_inputs);
-                    // После выполнения массив $valits заполнен ссылками $item->id
+                        $this->save_main($main, $item, $keys, $values, $valits, $i, $strings_inputs);
+                        // После выполнения массив $valits заполнен ссылками $item->id
+                        // Проверка на уникальность значений $item->child_mains;
+                        // Похожие строки при добавлении (функция ext_store()) и сохранении (функция ext_update()) записи
+                        if ($link->parent_is_unique == true) {
+                            $items_unique_select = $items_unique_select->whereHas('child_mains', function ($query) use ($keys, $valits, $i) {
+                                $query->where('link_id', $keys[$i])
+                                    ->where('parent_item_id', $valits[$i]);
+                            });
+                            $items_unique_bases = $items_unique_bases . ($items_unique_exist == false ? '' : ', ') . $link->parent_base->name();;
+                            // Нужно '$items_unique_exist = true;'
+                            $items_unique_exist = true;
+                        }
 
-                    // Проверка на уникальность значений $item->child_mains;
-                    // Похожие строки при добавлении (функция ext_store()) и сохранении (функция ext_update()) записи
-                    if ($link->parent_is_unique == true) {
-                        $items_unique_select = $items_unique_select->whereHas('child_mains', function ($query) use ($keys, $valits, $i) {
-                            $query->where('link_id', $keys[$i])
-                                ->where('parent_item_id', $valits[$i]);
-                        });
-                        $items_unique_bases = $items_unique_bases . ($items_unique_exist == false ? '' : ', ') . $link->parent_base->name();;
-                        // Нужно '$items_unique_exist = true;'
-                        $items_unique_exist = true;
+                        // "$i = $i + 1;" использовать здесь, т.к. индексы в массивах начинаются с 0
+                        $i = $i + 1;
                     }
-
-                    // "$i = $i + 1;" использовать здесь, т.к. индексы в массивах начинаются с 0
-                    $i = $i + 1;
                 }
 
                 // Похожие строки при добавлении (функция ext_store()) и сохранении (функция ext_update()) записи
