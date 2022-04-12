@@ -47,9 +47,9 @@
                 <h3>
                     <?php
                     if ($current_link) {
-                        $title = $current_link->parent_label(). ' 111111';
+                        $title = $current_link->parent_label();
                     } else {
-                        $title = $item->base->name(). ' 222222';
+                        $title = $item->base->name();
                     }
                     //dd($child_mains_link_is_calcname);
                     ?>
