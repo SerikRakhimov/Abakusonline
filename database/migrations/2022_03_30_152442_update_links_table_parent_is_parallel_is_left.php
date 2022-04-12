@@ -19,7 +19,7 @@ class UpdateLinksTableParentIsParallelIsLeft extends Migration
             $table->boolean('parent_is_left_calcname_lang_1')->default(false);
             $table->boolean('parent_is_left_calcname_lang_2')->default(false);
             $table->boolean('parent_is_left_calcname_lang_3')->default(false);
-            $table->dropColumn('parent_is_left_calcname');
+            //$table->dropColumn('parent_is_left_calcname');
         });
 
     }
