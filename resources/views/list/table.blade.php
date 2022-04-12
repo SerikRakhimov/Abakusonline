@@ -11,8 +11,8 @@ $cols = $links_info['cols'];
 //$i = $items->firstItem() - 1;
 $i = 0;
 ?>
-{{--<table class="table table-sm table-bordered table-hover">--}}
-    <table class="table table-sm table-borderless table-hover">
+<table class="table table-sm table-bordered table-hover">
+    {{--    <table class="table table-sm table-borderless table-hover">--}}
     @if(!$heading)
         <caption>{{trans('main.select_record_for_work')}}</caption>
     @endif
@@ -22,13 +22,13 @@ $i = 0;
         @if(!$heading)
             <th rowspan="{{$rows + 1}}" class="text-center align-top">#</th>
         @endif
-{{--        <th rowspan="{{$rows + 1}}" class="text-center align-top">Id</th>--}}
+        {{--        <th rowspan="{{$rows + 1}}" class="text-center align-top">Id</th>--}}
         @if($base->is_code_needed == true)
             <th class="text-center align-top" rowspan="{{$rows + 1}}">{{trans('main.code')}}</th>
         @endif
         @if($base_index || $item_body_base)
             @if($base_right['is_list_base_enable'] == true)
-                {{--                Если тип-вычисляемое поле и Показывать Основу с вычисляемым наименованием--}}
+                {{--                Если тип-вычисляемое наименование и Показывать Основу с вычисляемым наименованием--}}
                 {{--                или если тип-не вычисляемое наименование--}}
                 {{--            похожая проверка в ext_show.blade.php--}}
                 @if(GlobalController::is_base_calcname_check($base, $base_right))
@@ -48,14 +48,16 @@ $i = 0;
                 <tr>
                     @endif
                     @for($y=0; $y<$cols;$y++)
+                        <?php
+                        $link = Link::findOrFail($matrix[$x][$y]["link_id"]);
+                        ?>
                         @if($matrix[$x][$y]["view_field"] != null)
+                            {{--                                class="text-center align-top"--}}
                             <th rowspan="{{$matrix[$x][$y]["rowspan"]}}"
                                 colspan="{{$matrix[$x][$y]["colspan"]}}"
-                                class="text-center align-top">
+                                @include('layouts.class_from_base',['base'=>$link->parent_base, 'align_top'=>true])
+                            >
                                 @if($item_heading_base && $matrix[$x][$y]["fin_link"] == true)
-                                    <?php
-                                    $link = Link::findOrFail($matrix[$x][$y]["link_id"]);
-                                    ?>
                                     <a href="{{route('item.base_index',['base'=>$link->parent_base_id, 'project'=>$project, 'role'=>$role, 'relit_id' => $relit_id])}}"
                                        title="{{$link->parent_base->names()}}">
                                         {{$matrix[$x][$y]["view_name"]}}:
@@ -88,44 +90,44 @@ $i = 0;
                     {{--                    Не удалять--}}
                     {{--                    <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc()])}}">--}}
                     <a href="{{route('item.ext_show', ['item'=>$item, 'project'=>$project, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id,
-                                    'heading'=>$heading, 'body_page'=>$body_page, 'body_count'=>$body_count,'body_perpage'=>$body_perpage,
-                                    'par_link'=>$par_link, 'parent_item'=>$parent_item])}}">
+    'heading'=>$heading, 'body_page'=>$body_page, 'body_count'=>$body_count,'body_perpage'=>$body_perpage,
+    'par_link'=>$par_link, 'parent_item'=>$parent_item])}}">
                         {{$i}}...
                     </a>
                 </td>
             @endif
-{{--            <td class="text-center">--}}
-                {{--                    Не удалять--}}
-                {{--                    <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc()])}}">--}}
-                {{--                <a href="{{route('item.ext_show', ['item'=>$item, 'project'=>$project, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id,--}}
-                {{--                                    'heading'=>$heading, 'body_page'=>$body_page, 'body_count'=>$body_count,'body_perpage'=>$body_perpage,--}}
-                {{--                                    'par_link'=>$par_link, 'parent_item'=>$parent_item])}}">--}}
-{{--                @if($base_index || $item_body_base)--}}
-{{--                    <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,--}}
-{{--                                       'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id,'par_link'=>$par_link])}}"--}}
-{{--                       title="{{$item->name()}}">--}}
-{{--                        @endif--}}
-{{--                        {{$item->id}}--}}
-{{--                        @if($base_index || $item_body_base)--}}
-{{--                    </a>--}}
-{{--                @endif--}}
-{{--            </td>--}}
+            {{--            <td class="text-center">--}}
+            {{--                    Не удалять--}}
+            {{--                    <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc()])}}">--}}
+            {{--                <a href="{{route('item.ext_show', ['item'=>$item, 'project'=>$project, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id,--}}
+            {{--                                    'heading'=>$heading, 'body_page'=>$body_page, 'body_count'=>$body_count,'body_perpage'=>$body_perpage,--}}
+            {{--                                    'par_link'=>$par_link, 'parent_item'=>$parent_item])}}">--}}
+            {{--                @if($base_index || $item_body_base)--}}
+            {{--                    <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,--}}
+            {{--                                       'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id,'par_link'=>$par_link])}}"--}}
+            {{--                       title="{{$item->name()}}">--}}
+            {{--                        @endif--}}
+            {{--                        {{$item->id}}--}}
+            {{--                        @if($base_index || $item_body_base)--}}
+            {{--                    </a>--}}
+            {{--                @endif--}}
+            {{--            </td>--}}
             @if($base->is_code_needed == true)
                 <td class="text-center">
                     @if($base_index || $item_body_base)
-                    <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,
-                                       'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id,'par_link'=>$par_link])}}"
-                       title="{{$item->name()}}">
-                        @endif
-                        {{$item->code}}
-                        @if($base_index || $item_body_base)
-                    </a>
+                        <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,
+       'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id,'par_link'=>$par_link])}}"
+                           title="{{$item->name()}}">
+                            @endif
+                            {{$item->code}}
+                            @if($base_index || $item_body_base)
+                        </a>
                     @endif
                 </td>
             @endif
             @if($base_index || $item_body_base)
                 @if($base_right['is_list_base_enable'] == true)
-                    {{--                Если тип-вычисляемое поле и Показывать Основу с вычисляемым наименованием--}}
+                    {{--                Если тип-вычисляемое наименование и Показывать Основу с вычисляемым наименованием--}}
                     {{--                или если тип-не вычисляемое наименование--}}
                     {{--            похожая проверка в ext_show.blade.php--}}
                     @if(GlobalController::is_base_calcname_check($base, $base_right))
@@ -170,8 +172,8 @@ $i = 0;
                                 {{--                                @else--}}
                                 @if ($item_index_view)
                                     <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,
-                                       'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id,'par_link'=>$par_link,
-                                        'string_link_ids_tree'=>$string_link_ids_next, 'string_item_ids_tree'=>$string_item_ids_next])}}"
+       'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id,'par_link'=>$par_link,
+        'string_link_ids_tree'=>$string_link_ids_next, 'string_item_ids_tree'=>$string_item_ids_next])}}"
                                        title="{{$item->name()}}">
                                         @endif
                                         {{$item->name()}}
@@ -236,12 +238,12 @@ $i = 0;
                             //                                }
                             // Открывать item_index.php - проверка
                             if ($item_heading_base) {
-                                // В таблице-заголовке ($heading=true) ссылки будут, если '$base_link_right['is_list_base_calc'] == true'
+// В таблице-заголовке ($heading=true) ссылки будут, если '$base_link_right['is_list_base_calc'] == true'
                                 if ($base_link_right['is_list_base_calc'] == true) {
                                     $item_index_view = true;
                                 }
                             } else {
-                                // В таблице-теле ($heading=false) все ссылки будут
+// В таблице-теле ($heading=false) все ссылки будут
                                 $item_index_view = true;
                             }
                             ?>
@@ -265,8 +267,8 @@ $i = 0;
                                 }
                                 ?>
                                 <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$i_item, 'role'=>$role,
-                                        'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id, 'par_link'=>$i_par_link,
-                                        'string_link_ids_tree'=>$string_link_ids_next, 'string_item_ids_tree'=>$string_item_ids_next])}}"
+        'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id, 'par_link'=>$i_par_link,
+        'string_link_ids_tree'=>$string_link_ids_next, 'string_item_ids_tree'=>$string_item_ids_next])}}"
                                    title="">
                                     @endif
                                     {{--                                    @endif--}}

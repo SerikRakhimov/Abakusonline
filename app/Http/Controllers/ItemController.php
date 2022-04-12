@@ -306,7 +306,8 @@ class ItemController extends Controller
         $relip_project = GlobalController::calc_relip_project($relit_id, $project);
         $child_links = $item->base->child_links->sortBy('parent_base_number');
         // Нужно передать в функцию links_info() $item
-        $child_links_info = ItemController::links_info($item->base, $role, $relit_id, $item);
+        $child_links_info = ItemController::links_info($item->base, $role, $relit_id, $item, null, true, $tree_array);
+        $child_mains_link_is_calcname = ItemController::mains_link_is_calcname($item, $role, $relit_id, $tree_array);
         // Используется $relip_project
         // Используется фильтр на равенство одному $item->id (для вывода таблицы из одной строки)
         $count = count($tree_array);
@@ -432,6 +433,7 @@ class ItemController extends Controller
             'base_right' => $base_right, 'items' => $items,
             'prev_item' => $prev_item, 'next_item' => $next_item,
             'child_links' => $child_links, 'child_links_info' => $child_links_info,
+            'child_mains_link_is_calcname' => $child_mains_link_is_calcname,
             'current_link' => $current_link, 'next_links_plan' => $next_links_plan,
             'child_body_links_info' => $child_body_links_info, 'body_items' => $body_items,
             'base_body_right' => $base_body_right, 'tree_array' => $tree_array,
@@ -5055,8 +5057,9 @@ class ItemController extends Controller
             . mb_strtolower(trans('main.must_less_equal')) . ' (' . $mx . ' ' . mb_strtolower(trans('main.byte')) . ') !';
     }
 
-    static function links_info(Base $base, Role $role, $relit_id, Item $item = null, Link $nolink = null)
+    static function links_info(Base $base, Role $role, $relit_id, Item $item = null, Link $nolink = null, $item_heading_base = false, $tree_array = [])
     {
+        $base_right = GlobalController::base_right($base, $role, $relit_id);
         $link_id_array = array();
         $link_base_right_array = array();
         $matrix = array(array());
@@ -5084,6 +5087,20 @@ class ItemController extends Controller
             } else {
                 // Исключить переданный $nolink
                 $links = $links->where('id', '!=', $nolink->id);
+            }
+        }
+        //        Если тип-вычисляемое наименование и Показывать Основу с вычисляемым наименованием
+        //        или если тип-не вычисляемое наименование
+        // или показывать в заголовке item_index.php
+        if (GlobalController::is_base_calcname_check($base, $base_right) || $item_heading_base == true) {
+            // Исключить links с признаком 'Для вычисляемого наименования'
+            $links = $links->where('parent_is_calcname', '=', false);
+        }
+
+        // Исключить links из переданного массива $tree_array
+        if (count($tree_array) > 0) {
+            foreach ($tree_array as $value) {
+                $links = $links->where('id', '!=', $value['link_id']);
             }
         }
         $links = $links->sortBy('parent_base_number');
@@ -5224,6 +5241,39 @@ class ItemController extends Controller
         }
         return ['link_id_array' => $link_id_array, 'link_base_right_array' => $link_base_right_array,
             'matrix' => $matrix, 'rows' => $rows, 'cols' => $cols, 'error_message' => $error_message];
+    }
+
+    static function mains_link_is_calcname(Item $item, Role $role, $relit_id, $tree_array = [])
+    {
+        $base = $item->base;
+        $base_right = GlobalController::base_right($base, $role, $relit_id);
+        $mains = Main::where('child_item_id', '=', $item->id);
+        //        Если тип-вычисляемое наименование и Показывать Основу с вычисляемым наименованием
+        //        или если тип-не вычисляемое наименование
+        if (GlobalController::is_base_calcname_check($base, $base_right)) {
+            // Оставить links с признаком 'Для вычисляемого наименования'
+            $mains = $mains->whereHas('link', function ($query) {
+                $query->where('parent_is_calcname', true);
+            });
+
+        }
+        // Нужно '$mains = $mains->get();', иначе - тело цикла ниже не прорабатывается ни разу
+        //$mains = $mains->get();
+        foreach ($mains as $main) {
+            $base_link_right = GlobalController::base_link_right($main->link, $role, $relit_id);
+            if ($base_link_right['is_list_link_enable'] == false) {
+                $mains = $mains->where('link_id', '!=', $main->link_id);
+            }
+        }
+        // Исключить links из переданного массива $tree_array
+        if (count($tree_array) > 0) {
+            foreach ($tree_array as $value) {
+                $mains = $mains->where('link_id', '!=', $value['link_id']);
+            }
+        }
+        $mains = $mains->get()->sortBy('link.parent_base_number');
+
+        return ['mains_link_is_calcname' => $mains];
     }
 
     static function get_link_refer_main(Base $base, Link $link_refer_start)

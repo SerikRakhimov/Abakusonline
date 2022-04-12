@@ -45,20 +45,24 @@
         <div class="row">
             <div class="col-10 text-left">
                 <h3>
-                    @if ($base_right['is_list_base_calc'] == true)
-                        <a href="{{route('item.base_index', ['base'=>$item->base,
-                            'project'=>$project, 'role'=>$role, 'relit_id'=>$relit_id])}}"
-                           title="{{$item->base->names()}}">
-                            @endif
-                            @if($current_link)
-                                {{$current_link->parent_label()}}:
-                            @else
-                                {{$item->base->name()}}:
-                            @endif
-                            @if ($base_right['is_list_base_calc'] == true)
-                        </a>
-                    @endif
+                    <?php
+                    if ($current_link) {
+                        $title = $current_link->parent_label();
+                    } else {
+                        $title = $item->base->name();
+                    }
+                    //dd($child_mains_link_is_calcname);
+                    ?>
                     @if(GlobalController::is_base_calcname_check($item->base, $base_right))
+                        @if ($base_right['is_list_base_calc'] == true)
+                            <a href="{{route('item.base_index', ['base'=>$item->base,
+                            'project'=>$project, 'role'=>$role, 'relit_id'=>$relit_id])}}"
+                               title="{{$item->base->names()}}">
+                                @endif
+                                {{$title}}:
+                                @if ($base_right['is_list_base_calc'] == true)
+                            </a>
+                        @endif
                         {{--                        @if ($base_right['is_list_base_calc'] == true)--}}
                         {{--                            <a href="{{route('item.ext_show', ['item'=>$item, 'project'=>$project, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id])}}"--}}
                         {{--                               title="{{$item->cdnm()}}">--}}
@@ -69,6 +73,27 @@
                         {{$item->cdnm()}}
 
                         {{--                        @endif--}}
+                    @else
+                        <small><small><small>
+                                    @if ($base_right['is_list_base_calc'] == true)
+                                        <a href="{{route('item.base_index', ['base'=>$item->base,
+                            'project'=>$project, 'role'=>$role, 'relit_id'=>$relit_id])}}"
+                                           title="{{$item->base->names()}}">
+                                            @endif
+                                            {{$title}}:
+                                            @if ($base_right['is_list_base_calc'] == true)
+                                        </a>
+                                    @endif
+                                </small></small></small>
+                        {{--                    Нужно '@foreach($child_mains_link_is_calcname as $calcname_mains)'--}}
+                        @foreach($child_mains_link_is_calcname as $calcname_mains)
+                            @foreach($calcname_mains as $calcname_main)
+                                <h4>
+                                    {{$calcname_main->link->parent_label()}}:
+                                    {{$calcname_main->parent_item->name()}}
+                                </h4>
+                            @endforeach
+                        @endforeach
                     @endif
                 </h3>
             </div>
