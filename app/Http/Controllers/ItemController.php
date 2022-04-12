@@ -272,7 +272,9 @@ class ItemController extends Controller
     // и чтобы невозможно было скопировать адресную строку с item_index с параметрами
     //  и вставить в адресную строку другого пользователя платформы www.abakusonline.com
     // - должно работать только на текущем проекте
-    function item_index(Project $project, Item $item, Role $role, $usercode, $relit_id = 0, Link $par_link = null,
+//    function item_index(Project $project, Item $item, Role $role, $usercode, $relit_id = 0, Link $par_link = null,
+//                                $string_link_ids_tree = '', $string_item_ids_tree = '')
+    function item_index(Project $project, Item $item, Role $role, $usercode, $relit_id = 0, $par_link = 'textnull',
                                 $string_link_ids_tree = '', $string_item_ids_tree = '')
     {
         if (GlobalController::check_project_item_user($project, $item, $role, $usercode) == false) {
@@ -291,6 +293,16 @@ class ItemController extends Controller
         if ($base_right['is_list_base_calc'] == false) {
             return view('message', ['message' => trans('main.no_access')]);
         }
+        $par_find_link = null;
+        if($par_link == GlobalController::par_link_const_textnull() || $par_link == null){
+            $par_find_link = null;
+        }
+        else{
+            $par_find_link = Link::find($par_link);
+            if (!$par_find_link){
+                return view('message', ['message' => 'par_link: ' . trans('main.code_not_found')]);
+            }
+        }
 
         // Пустой массив
         $tree_array = array();
@@ -298,10 +310,10 @@ class ItemController extends Controller
             $tree_array = self::calc_tree_array($string_link_ids_tree, $string_item_ids_tree);
         }
         // Нужно
-        $string_link_ids_current = '';
-        $string_item_ids_current = '';
-        $string_link_ids_next = '';
-        $string_item_ids_next = '';
+        $string_link_ids_current = $string_link_ids_tree;
+        $string_item_ids_current = $string_item_ids_tree;
+        $string_link_ids_next = $string_link_ids_current;
+        $string_item_ids_next = $string_item_ids_current;
 
         $relip_project = GlobalController::calc_relip_project($relit_id, $project);
         $child_links = $item->base->child_links->sortBy('parent_base_number');
@@ -333,8 +345,8 @@ class ItemController extends Controller
         if (count($next_links_plan) == 0) {
             $current_link = null;
         } else {
-            if ($par_link) {
-                $current_link = $par_link;
+            if ($par_find_link) {
+                $current_link = $par_find_link;
             }
             if (!$current_link) {
                 // Находим заполненный подчиненный link
@@ -427,9 +439,8 @@ class ItemController extends Controller
             $string_item_ids_next = $string_current_next_ids['string_next_item_ids'];
 //        }
         }
-
         //     session(['links' => ((!empty($_SERVER['HTTPS'])) ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . '/' . request()->path()]);
-        return view('item/item_index', ['project' => $project, 'item' => $item, 'role' => $role, 'relit_id' => $relit_id, 'par_link' => $par_link,
+        return view('item/item_index', ['project' => $project, 'item' => $item, 'role' => $role, 'relit_id' => $relit_id, 'par_link' => $par_find_link,
             'base_right' => $base_right, 'items' => $items,
             'prev_item' => $prev_item, 'next_item' => $next_item,
             'child_links' => $child_links, 'child_links_info' => $child_links_info,
@@ -553,7 +564,7 @@ class ItemController extends Controller
         $string_item_ids_current = $request['string_item_ids_current'];
         return redirect()->route('item.item_index', ['project' => $project, 'item' => $item, 'role' => $role, 'relit_id' => $relit_id,
             'usercode' => GlobalController::usercode_calc(), 'relit_id' => $relit_id, 'par_link' => $link,
-            'string_link_ids_tree'=>$string_link_ids_current, 'string_item_ids_tree'=>$string_item_ids_current]);
+            'string_link_ids_tree' => $string_link_ids_current, 'string_item_ids_tree' => $string_item_ids_current]);
     }
 
     private

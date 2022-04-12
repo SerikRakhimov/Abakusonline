@@ -167,9 +167,9 @@
             @if($prev_item)
                 <li class="page-item">
                     <a class="page-link" href="{{route('item.item_index', ['project'=>$project, 'item'=>$prev_item, 'role'=>$role,
-                                'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id, 'par_link'=>$current_link,
+                                'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id, 'par_link'=>GlobalController::par_link_textnull($current_link),
                                         'string_link_ids_tree'=>$string_link_ids_current, 'string_item_ids_tree'=>$string_item_ids_current])}}"
-                       title="{{$prev_item->cdnm()}}"><{{$current_link->id}} {{$string_link_ids_current}} {{$string_item_ids_current}}</a>
+                       title="{{$prev_item->cdnm()}}"><</a>
                 </li>
             @endif
             {{--        <li class="page-item"><a class="page-link"--}}
@@ -184,9 +184,9 @@
             @if($next_item)
                 <li class="page-item">
                     <a class="page-link" href="{{route('item.item_index', ['project'=>$project, 'item'=>$next_item, 'role'=>$role,
-                                'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id, 'par_link'=>$current_link,
+                                'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id, 'par_link'=>GlobalController::par_link_textnull($current_link),
                                         'string_link_ids_tree'=>$string_link_ids_current, 'string_item_ids_tree'=>$string_item_ids_current])}}"
-                       title="{{$next_item->cdnm()}}">>{{$current_link->id}} {{$string_link_ids_current}} {{$string_item_ids_current}}</a>
+                       title="{{$next_item->cdnm()}}">></a>
                 </li>
             @endif
         </ul>
