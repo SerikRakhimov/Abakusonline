@@ -5108,13 +5108,13 @@ class ItemController extends Controller
         // или показывать в заголовке item_index.php
         if (GlobalController::is_base_calcname_check($base, $base_right) || $item_heading_base == true) {
             // Исключить links с признаком 'Для вычисляемого наименования'
-            //$links = $links->where('parent_is_calcname', '=', false);
+            $links = $links->where('parent_is_calcname', '=', false);
         }
 
         // Исключить links из переданного массива $tree_array
         if (count($tree_array) > 0) {
             foreach ($tree_array as $value) {
-                //$links = $links->where('id', '!=', $value['link_id']);
+                $links = $links->where('id', '!=', $value['link_id']);
             }
         }
         $links = $links->sortBy('parent_base_number');
