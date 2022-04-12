@@ -90,7 +90,7 @@
                             @foreach($calcname_mains as $calcname_main)
                                 <h4>
                                     {{$calcname_main->link->parent_label()}}:
-                                    {{$calcname_main->parent_item->name()}}
+                                    <strong>{{$calcname_main->parent_item->name()}}</strong>
                                 </h4>
                             @endforeach
                         @endforeach
