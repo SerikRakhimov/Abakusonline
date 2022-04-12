@@ -5248,9 +5248,9 @@ class ItemController extends Controller
         $base = $item->base;
         $base_right = GlobalController::base_right($base, $role, $relit_id);
         $mains = Main::where('child_item_id', '=', $item->id);
-        //        Если тип-вычисляемое наименование и Показывать Основу с вычисляемым наименованием
+        //        Если не тип-вычисляемое наименование и Показывать Основу с вычисляемым наименованием
         //        или если тип-не вычисляемое наименование
-        if (GlobalController::is_base_calcname_check($base, $base_right)) {
+        if (!GlobalController::is_base_calcname_check($base, $base_right)) {
             // Оставить links с признаком 'Для вычисляемого наименования'
             $mains = $mains->whereHas('link', function ($query) {
                 $query->where('parent_is_calcname', true);
