@@ -44,14 +44,13 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-10 text-left">
-                <h3>
+                <h5>
                     <?php
                     if ($current_link) {
                         $title = $current_link->parent_label();
                     } else {
                         $title = $item->base->name();
                     }
-                    //dd($child_mains_link_is_calcname);
                     ?>
                     @if(GlobalController::is_base_calcname_check($item->base, $base_right))
                         @if ($base_right['is_list_base_calc'] == true)
@@ -73,29 +72,29 @@
                         {{$item->cdnm()}}
 
                         {{--                        @endif--}}
-                    @else
-                        <small><small><small>
-                                    @if ($base_right['is_list_base_calc'] == true)
-                                        <a href="{{route('item.base_index', ['base'=>$item->base,
+                </h5>
+                @else
+                    <small><small><small>
+                                @if ($base_right['is_list_base_calc'] == true)
+                                    <a href="{{route('item.base_index', ['base'=>$item->base,
                             'project'=>$project, 'role'=>$role, 'relit_id'=>$relit_id])}}"
-                                           title="{{$item->base->names()}}">
-                                            @endif
-                                            {{$title}}:
-                                            @if ($base_right['is_list_base_calc'] == true)
-                                        </a>
-                                    @endif
-                                </small></small></small>
-                        {{--                    Нужно '@foreach($child_mains_link_is_calcname as $calcname_mains)'--}}
-                        @foreach($child_mains_link_is_calcname as $calcname_mains)
-                            @foreach($calcname_mains as $calcname_main)
-                                <h6>
-                                    {{$calcname_main->link->parent_label()}}:
-                                    <strong>{{$calcname_main->parent_item->name()}}</strong>
-                                </h6>
-                            @endforeach
+                                       title="{{$item->base->names()}}">
+                                        @endif
+                                        {{$title}}:
+                                        @if ($base_right['is_list_base_calc'] == true)
+                                    </a>
+                                @endif
+                            </small></small></small>
+                    {{--                    Нужно '@foreach($child_mains_link_is_calcname as $calcname_mains)'--}}
+                    @foreach($child_mains_link_is_calcname as $calcname_mains)
+                        @foreach($calcname_mains as $calcname_main)
+                            <h6>
+                                {{$calcname_main->link->parent_label()}}:
+                                <strong>{{$calcname_main->parent_item->name()}}</strong>
+                            </h6>
                         @endforeach
-                    @endif
-                </h3>
+                    @endforeach
+                @endif
             </div>
             <div class="col-2 text-right">
                 {{--                @if ($base_right['is_list_base_create'] == true)--}}
