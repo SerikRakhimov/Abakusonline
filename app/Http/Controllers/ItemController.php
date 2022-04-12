@@ -549,8 +549,11 @@ class ItemController extends Controller
         $role = Role::find($request['role_id']);
         $relit_id = $request['relit_id'];
         $link = Link::find($request['link_id']);
+        $string_link_ids_current = $request['string_link_ids_current'];
+        $string_item_ids_current = $request['string_item_ids_current'];
         return redirect()->route('item.item_index', ['project' => $project, 'item' => $item, 'role' => $role, 'relit_id' => $relit_id,
-            'usercode' => GlobalController::usercode_calc(), 'relit_id' => $relit_id, 'par_link' => $link]);
+            'usercode' => GlobalController::usercode_calc(), 'relit_id' => $relit_id, 'par_link' => $link,
+            'string_link_ids_tree'=>$string_link_ids_current, 'string_item_ids_tree'=>$string_item_ids_current]);
     }
 
     private

@@ -333,6 +333,8 @@
                         <input type="hidden" name="item_id" value="{{$item->id}}">
                         <input type="hidden" name="role_id" value="{{$role->id}}">
                         <input type="hidden" name="relit_id" value="{{$relit_id}}">
+                        <input type="hidden" name="string_link_ids_current" value="{{$string_link_ids_current}}">
+                        <input type="hidden" name="string_item_ids_current" value="{{$string_item_ids_current}}">
                         <div class="d-flex justify-content-end align-items-center mt-0">
                             <div class="col-auto">
                                 {{--                            <label for="link_id">{{trans('main.another_attitude')}} = </label>--}}
