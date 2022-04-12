@@ -88,10 +88,10 @@
                         {{--                    Нужно '@foreach($child_mains_link_is_calcname as $calcname_mains)'--}}
                         @foreach($child_mains_link_is_calcname as $calcname_mains)
                             @foreach($calcname_mains as $calcname_main)
-                                <h5>
+                                <h6>
                                     {{$calcname_main->link->parent_label()}}:
                                     <strong>{{$calcname_main->parent_item->name()}}</strong>
-                                </h5>
+                                </h6>
                             @endforeach
                         @endforeach
                     @endif
