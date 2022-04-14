@@ -5078,8 +5078,7 @@ class ItemController extends Controller
             . mb_strtolower(trans('main.must_less_equal')) . ' (' . $mx . ' ' . mb_strtolower(trans('main.byte')) . ') !';
     }
 
-// 'static function' не использовать, ошибка на '$this' ($array_fill = $this->get_array_calc_edit($item)['array_fill'];)
-    function links_info(Base $base, Role $role, $relit_id, Item $item = null, Link $nolink = null, $item_heading_base = false, $tree_array = [])
+    static function links_info(Base $base, Role $role, $relit_id, Item $item = null, Link $nolink = null, $item_heading_base = false, $tree_array = [])
     {
         $base_right = GlobalController::base_right($base, $role, $relit_id);
         $link_id_array = array();
@@ -5087,19 +5086,25 @@ class ItemController extends Controller
         $matrix = array(array());
         $links = null;
         if ($item) {
-//             В $links не попадают связанные и вычисляемые связи
+//             В $links_values не попадают связанные и вычисляемые связи
             $links_ids = Main::select(DB::Raw('mains.link_id'))
                 ->where('child_item_id', '=', $item->id);
-            $links_values = Link::joinSub($links_ids, 'links_ids', function ($join) {
+            $links = Link::joinSub($links_ids, 'links_ids', function ($join) {
                 $join->on('links.id', '=', 'links_ids.link_id');
             })->get();
 
-            $links = $base->child_links->where('parent_is_parent_related', '=', true)
-                ->union($links_values);
+            // Объединение
+//            $links = $base->child_links->(where('parent_is_parent_related', '=', true)
+//                        ->orWhere('parent_is_output_calculated_table_field', '=', true));
+            $links_reca = Link::where('child_base_id', '=', $base->id)
+                ->where(function ($query) {
+                    $query->where('parent_is_parent_related', '=', true)
+                        ->orWhere('parent_is_output_calculated_table_field', '=', true);
+                })
+                ->get();
 
-//            $array_fill = $this->get_array_calc_edit($item)['array_fill'];
-//            $links_ids = array_keys($array_fill);
-//            $links = Link::whereIn('id', $links_ids)->get();
+            $links = $links->union($links_reca);
+
         } else {
             $links = $base->child_links;
         }
