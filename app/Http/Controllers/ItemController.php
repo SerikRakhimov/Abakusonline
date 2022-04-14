@@ -638,10 +638,18 @@ class ItemController extends Controller
 
             }
         }
-
+        $array_fill = array();
+        foreach ($array_plan as $key => $value) {
+            if (array_key_exists($key, $array_fact)) {
+                if ($array_plan[$key] != null){
+                    $array_fill[$key] = $array_plan[$key];
+                }
+            }
+        }
+        // array_fill() - список полей со значениями (не равны null)
         // array_disabled() - список полей, которые будут недоступны для ввода
         // array_refer() - список значений $item->code
-        return ['array_calc' => $array_plan, 'array_disabled' => $array_disabled, 'array_refer' => $array_refer];
+        return ['array_calc' => $array_plan, 'array_fill' => $array_fill,  'array_disabled' => $array_disabled, 'array_refer' => $array_refer];
     }
 
     private
@@ -5071,7 +5079,8 @@ class ItemController extends Controller
             . mb_strtolower(trans('main.must_less_equal')) . ' (' . $mx . ' ' . mb_strtolower(trans('main.byte')) . ') !';
     }
 
-    static function links_info(Base $base, Role $role, $relit_id, Item $item = null, Link $nolink = null, $item_heading_base = false, $tree_array = [])
+// 'static function' не использовать, ошибка на '$this' ($array_fill = $this->get_array_calc_edit($item)['array_fill'];)
+    function links_info(Base $base, Role $role, $relit_id, Item $item = null, Link $nolink = null, $item_heading_base = false, $tree_array = [])
     {
         $base_right = GlobalController::base_right($base, $role, $relit_id);
         $link_id_array = array();
@@ -5079,12 +5088,16 @@ class ItemController extends Controller
         $matrix = array(array());
         $links = null;
         if ($item) {
-            $links_ids = Main::select(DB::Raw('mains.link_id'))
-                ->where('child_item_id', '=', $item->id);
+//             В $links не попадают связанные и вычисляемые связи
+//            $links_ids = Main::select(DB::Raw('mains.link_id'))
+//                ->where('child_item_id', '=', $item->id);
+//            $links = Link::joinSub($links_ids, 'links_ids', function ($join) {
+//                $join->on('links.id', '=', 'links_ids.link_id');
+//        })->get();
 
-            $links = Link::joinSub($links_ids, 'links_ids', function ($join) {
-                $join->on('links.id', '=', 'links_ids.link_id');
-            })->get();
+            $array_fill = $this->get_array_calc_edit($item)['array_fill'];
+            $links_ids = array_keys($array_fill);
+            $links = Link::whereIn('id', $links_ids)->get();
         } else {
             $links = $base->child_links;
         }

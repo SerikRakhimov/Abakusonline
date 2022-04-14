@@ -155,19 +155,19 @@
                                         <big>{{$base->name()}}:</big>
                                         {{--                            <span class="text-related">--}}<b>
                                             @if($base->type_is_text())
-                                            <big>
-                                                <?php
-                                                echo GlobalController::it_txnm_n2b($item);
-                                                ?>
-                                            </big>
+                                                <big><big>
+                                                        <?php
+                                                        echo GlobalController::it_txnm_n2b($item);
+                                                        ?>
+                                                    </big></big>
                                             @else
-                                            <big>
-                                                <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,
+                                                <big><big>
+                                                        <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,
                                        'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id])}}"
-                                                   title="">
-                                                    {{$item->name(false, true)}}
-                                                </a>
-                                            </big>
+                                                           title="">
+                                                            {{$item->name(false, true)}}
+                                                        </a>
+                                                    </big></big>
                                             @endif
                                             {{--                </span>--}}</b>
                                     </p>
