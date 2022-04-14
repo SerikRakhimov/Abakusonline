@@ -637,17 +637,18 @@ class ItemController extends Controller
 
             }
         }
-        $array_fill = array();
-        foreach ($array_plan as $key => $value) {
-            if (array_key_exists($key, $array_fact)) {
-                if ($array_plan[$key] != null) {
-                    $array_fill[$key] = $array_plan[$key];
-                }
-            }
-        }
+//        $array_fill = array();
+//        foreach ($array_plan as $key => $value) {
+//            if (array_key_exists($key, $array_fact)) {
+//                if ($array_plan[$key] != null) {
+//                    $array_fill[$key] = $array_plan[$key];
+//                }
+//            }
+//        }
         // array_fill() - список полей со значениями (не равны null)
         // array_disabled() - список полей, которые будут недоступны для ввода
         // array_refer() - список значений $item->code
+//      return ['array_calc' => $array_plan, 'array_fill' => $array_fill, 'array_disabled' => $array_disabled, 'array_refer' => $array_refer];
         return ['array_calc' => $array_plan, 'array_fill' => $array_fill, 'array_disabled' => $array_disabled, 'array_refer' => $array_refer];
     }
 
@@ -5086,24 +5087,29 @@ class ItemController extends Controller
         $matrix = array(array());
         $links = null;
         if ($item) {
-//             В $links_values не попадают связанные и вычисляемые связи
+//          В $links_values не попадают связанные и вычисляемые связи
             $links_ids = Main::select(DB::Raw('mains.link_id'))
                 ->where('child_item_id', '=', $item->id);
-            $links = Link::joinSub($links_ids, 'links_ids', function ($join) {
+            $links_values = Link::joinSub($links_ids, 'links_ids', function ($join) {
                 $join->on('links.id', '=', 'links_ids.link_id');
-            })->get();
+            });
 
-            // Объединение
-//            $links = $base->child_links->(where('parent_is_parent_related', '=', true)
+//          $links = $base->child_links->(where('parent_is_parent_related', '=', true)
 //                        ->orWhere('parent_is_output_calculated_table_field', '=', true));
-            $links_reca = Link::where('child_base_id', '=', $base->id)
+            $links_reca_ids = Link::select(DB::Raw('links.id as link_id'))
+                ->where('child_base_id', '=', $base->id)
                 ->where(function ($query) {
                     $query->where('parent_is_parent_related', '=', true)
                         ->orWhere('parent_is_output_calculated_table_field', '=', true);
-                })
-                ->get();
+                });
+            $links_reca = Link::joinSub($links_reca_ids, 'links_reca_ids', function ($join) {
+                $join->on('links.id', '=', 'links_reca_ids.link_id');
+            });
 
-            $links = $links->union($links_reca);
+            // Объединение
+            // '$links = $links_values->union($links_reca);' - так тоже работает
+            // '->get()' нужно
+            $links = $links_values->unionall($links_reca)->get();
 
         } else {
             $links = $base->child_links;
