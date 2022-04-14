@@ -11,8 +11,8 @@ $cols = $links_info['cols'];
 //$i = $items->firstItem() - 1;
 $i = 0;
 ?>
-<table class="table table-sm table-bordered table-hover">
-    {{--    <table class="table table-sm table-borderless table-hover">--}}
+{{--<table class="table table-sm table-bordered table-hover">--}}
+<table class="table table-sm table-borderless table-hover">
     @if(!$heading)
         <caption>{{trans('main.select_record_for_work')}}</caption>
     @endif
