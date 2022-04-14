@@ -294,12 +294,11 @@ class ItemController extends Controller
             return view('message', ['message' => trans('main.no_access')]);
         }
         $par_find_link = null;
-        if($par_link == GlobalController::par_link_const_textnull() || $par_link == null){
+        if ($par_link == GlobalController::par_link_const_textnull() || $par_link == null) {
             $par_find_link = null;
-        }
-        else{
+        } else {
             $par_find_link = Link::find($par_link);
-            if (!$par_find_link){
+            if (!$par_find_link) {
                 return view('message', ['message' => 'par_link: ' . trans('main.code_not_found')]);
             }
         }
@@ -641,7 +640,7 @@ class ItemController extends Controller
         $array_fill = array();
         foreach ($array_plan as $key => $value) {
             if (array_key_exists($key, $array_fact)) {
-                if ($array_plan[$key] != null){
+                if ($array_plan[$key] != null) {
                     $array_fill[$key] = $array_plan[$key];
                 }
             }
@@ -649,7 +648,7 @@ class ItemController extends Controller
         // array_fill() - список полей со значениями (не равны null)
         // array_disabled() - список полей, которые будут недоступны для ввода
         // array_refer() - список значений $item->code
-        return ['array_calc' => $array_plan, 'array_fill' => $array_fill,  'array_disabled' => $array_disabled, 'array_refer' => $array_refer];
+        return ['array_calc' => $array_plan, 'array_fill' => $array_fill, 'array_disabled' => $array_disabled, 'array_refer' => $array_refer];
     }
 
     private
@@ -5089,15 +5088,18 @@ class ItemController extends Controller
         $links = null;
         if ($item) {
 //             В $links не попадают связанные и вычисляемые связи
-//            $links_ids = Main::select(DB::Raw('mains.link_id'))
-//                ->where('child_item_id', '=', $item->id);
-//            $links = Link::joinSub($links_ids, 'links_ids', function ($join) {
-//                $join->on('links.id', '=', 'links_ids.link_id');
-//        })->get();
+            $links_ids = Main::select(DB::Raw('mains.link_id'))
+                ->where('child_item_id', '=', $item->id);
+            $links_values = Link::joinSub($links_ids, 'links_ids', function ($join) {
+                $join->on('links.id', '=', 'links_ids.link_id');
+            })->get();
 
-            $array_fill = $this->get_array_calc_edit($item)['array_fill'];
-            $links_ids = array_keys($array_fill);
-            $links = Link::whereIn('id', $links_ids)->get();
+            $links = $base->child_links->where('parent_is_parent_related', '=', true)
+                ->union($links_values);
+
+//            $array_fill = $this->get_array_calc_edit($item)['array_fill'];
+//            $links_ids = array_keys($array_fill);
+//            $links = Link::whereIn('id', $links_ids)->get();
         } else {
             $links = $base->child_links;
         }
