@@ -337,9 +337,6 @@ class ItemController extends Controller
         // Находим $current_link
         $current_link = null;  // нужно
 
-//        $next_links_plan = $item->base->parent_links
-//            ->where('parent_is_parent_related', false)
-//            ->where('parent_is_base_link', false);
         $next_links_plan = self::next_links_plan_calc($item->base, $role, $relit_id);
         if (count($next_links_plan) == 0) {
             $current_link = null;
@@ -366,12 +363,7 @@ class ItemController extends Controller
                     // Если найдены - берем первый
                     if (count($next_links_fact1) > 0) {
                         $current_link = Link::find($next_links_fact1->first()[0]->link_id);
-//                } else {
-//                    // Если не найдены - берем первый пустой (без данных)
-//                    $current_link = $next_links_plan[0];
                     }
-//                $current_link = $next_links_plan[1];
-//                $current_link = $next_links_plan[0];
                 };
             }
             // Проверка: есть ли $current_link->id в списке $next_links_plan
@@ -411,24 +403,6 @@ class ItemController extends Controller
             $base_body_right = GlobalController::base_right($current_link->child_base, $role, $relit_id);
             // Используется $relip_project
             $items_body_right = GlobalController::items_right($current_link->child_base, $relip_project, $role, $relit_id, $item->id, $current_link->id);
-//            $body_items1 = $items_body_right['items']->get();
-//            $item_seek = Item::find(1487);
-//            $nstr=$body_items1->search($item_seek);
-//            $body_items = $items_body_right['items']->paginate(1, ['*'], 'body_page',$nstr+1);
-
-//            $nstr = -1;
-//            if ($body_item) {
-//                $body_items_get = $items_body_right['items']->get();
-//                $nstr = $body_items_get->search($body_item);
-//                if($nstr == false){
-//                    $nstr = -1;
-//                }
-//            }
-//            if ($nstr != -1) {
-//                $body_items = $items_body_right['items']->paginate(1, ['*'], 'body_page', $nstr + 1);
-//            } else {
-//                // 'items' нужно, для пагинации
-//                // '->paginate(60)' использовать здесь
             $body_items = $items_body_right['items']->paginate(60, ['*'], 'body_page');
 
             $string_current_next_ids = self::calc_string_current_next_ids($item, $current_link, $tree_array);
@@ -436,7 +410,6 @@ class ItemController extends Controller
             $string_item_ids_current = $string_current_next_ids['string_current_item_ids'];
             $string_link_ids_next = $string_current_next_ids['string_next_link_ids'];
             $string_item_ids_next = $string_current_next_ids['string_next_item_ids'];
-//        }
         }
         //     session(['links' => ((!empty($_SERVER['HTTPS'])) ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . '/' . request()->path()]);
         return view('item/item_index', ['project' => $project, 'item' => $item, 'role' => $role, 'relit_id' => $relit_id, 'par_link' => $par_find_link,
@@ -5096,6 +5069,7 @@ class ItemController extends Controller
 
 //          $links = $base->child_links->(where('parent_is_parent_related', '=', true)
 //                        ->orWhere('parent_is_output_calculated_table_field', '=', true));
+//            связанные и вычисляемые связи
             $links_reca_ids = Link::select(DB::Raw('links.id as link_id'))
                 ->where('child_base_id', '=', $base->id)
                 ->where(function ($query) {
