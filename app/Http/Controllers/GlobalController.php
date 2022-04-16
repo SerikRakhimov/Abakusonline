@@ -998,6 +998,11 @@ class GlobalController extends Controller
         return '- ' . mb_strtolower(trans('main.empty')) . ' -';
     }
 
+    static function option_all()
+    {
+        return '- ' . mb_strtolower(trans('main.all')) . ' -';
+    }
+
 // Алгоритмы одинаковые в types.img.height.blade.php и GlobalController::types_img_height()
     static function types_img_height($size)
     {

@@ -338,6 +338,7 @@ class ItemController extends Controller
         $current_link = null;  // нужно
 
         $next_links_plan = self::next_links_plan_calc($item->base, $role, $relit_id);
+        $next_mains_all = null;
         if (count($next_links_plan) == 0) {
             $current_link = null;
         } else {
@@ -347,23 +348,29 @@ class ItemController extends Controller
             if (!$current_link) {
                 // Находим заполненный подчиненный link
                 if (count($next_links_plan) > 0) {
-                    // Условия одинаковые в item_index() и next_links_plan_calc()
-                    // 'where('parent_is_parent_related', false)'
-                    // 'where('parent_is_base_link', false)'
-                    $next_links_fact1 = DB::table('mains')
-                        ->select('link_id')
+//                    // Условия одинаковые в item_index() и next_links_plan_calc()
+//                    // 'where('parent_is_parent_related', false)'
+//                    // 'where('parent_is_base_link', false)'
+//                    $next_links_fact1 = DB::table('mains')
+//                        ->select('link_id')
+//                        ->join('links', 'mains.link_id', '=', 'links.id')
+//                        ->where('links.parent_base_id', '=', $item->base_id)
+//                        ->where('links.parent_is_parent_related', '=', false)
+//                        ->where('links.parent_is_base_link', '=', false)
+//                        ->where('parent_item_id', $item->id)
+//                        ->distinct()
+//                        ->get()
+//                        ->groupBy('link_id');
+//                    // Если найдены - берем первый
+//                    if (count($next_links_fact1) > 0) {
+//                        $current_link = Link::find($next_links_fact1->first()[0]->link_id);
+//                    }
+                    // Все записи, со всеми links, по факту
+                    $next_mains_all = Main::select('mains.*')
                         ->join('links', 'mains.link_id', '=', 'links.id')
-                        ->where('links.parent_base_id', '=', $item->base_id)
-                        ->where('links.parent_is_parent_related', '=', false)
                         ->where('links.parent_is_base_link', '=', false)
                         ->where('parent_item_id', $item->id)
-                        ->distinct()
-                        ->get()
-                        ->groupBy('link_id');
-                    // Если найдены - берем первый
-                    if (count($next_links_fact1) > 0) {
-                        $current_link = Link::find($next_links_fact1->first()[0]->link_id);
-                    }
+                        ->orderBy('links.parent_base_number');
                 };
             }
             // Проверка: есть ли $current_link->id в списке $next_links_plan
@@ -390,10 +397,10 @@ class ItemController extends Controller
                     $current_link = null;
                 }
             }
-            if (!$current_link) {
-                // Если не найдены - берем первый пустой (без данных)
-                $current_link = $next_links_plan[0];
-            }
+//            if (!$current_link) {
+//                // Если не найдены - берем первый пустой (без данных)
+//                $current_link = $next_links_plan[0];
+//            }
         }
         $child_body_links_info = null;
         $base_body_right = null;
@@ -411,6 +418,9 @@ class ItemController extends Controller
             $string_link_ids_next = $string_current_next_ids['string_next_link_ids'];
             $string_item_ids_next = $string_current_next_ids['string_next_item_ids'];
         }
+        if ($next_mains_all) {
+            $next_mains_all = $next_mains_all->paginate(60, ['*'], 'body_all_page');
+        }
         //     session(['links' => ((!empty($_SERVER['HTTPS'])) ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . '/' . request()->path()]);
         return view('item/item_index', ['project' => $project, 'item' => $item, 'role' => $role, 'relit_id' => $relit_id, 'par_link' => $par_find_link,
             'base_right' => $base_right, 'items' => $items,
@@ -421,7 +431,8 @@ class ItemController extends Controller
             'child_body_links_info' => $child_body_links_info, 'body_items' => $body_items,
             'base_body_right' => $base_body_right, 'tree_array' => $tree_array,
             'string_link_ids_current' => $string_link_ids_current, 'string_item_ids_current' => $string_item_ids_current,
-            'string_link_ids_next' => $string_link_ids_next, 'string_item_ids_next' => $string_item_ids_next]);
+            'string_link_ids_next' => $string_link_ids_next, 'string_item_ids_next' => $string_item_ids_next,
+            'next_mains_all' => $next_mains_all]);
     }
 
     function calc_tree_array($string_link_ids_tree, $string_item_ids_tree)
@@ -459,7 +470,8 @@ class ItemController extends Controller
                                 $result[$i]['string_link_ids'] = $str;
                                 // Проверка на правильность поиска $link_id выше
                                 $link = Link::findOrFail($link_id);
-                                $result[$i]['title_name'] = $link->parent_label();
+//                              $result[$i]['title_name'] = $link->parent_label();
+                                $result[$i]['title_name'] = $link->parent_base->name();
                                 $i = $i + 1;
                             }
                             $i = 0;
@@ -622,7 +634,7 @@ class ItemController extends Controller
         // array_disabled() - список полей, которые будут недоступны для ввода
         // array_refer() - список значений $item->code
 //      return ['array_calc' => $array_plan, 'array_fill' => $array_fill, 'array_disabled' => $array_disabled, 'array_refer' => $array_refer];
-        return ['array_calc' => $array_plan, 'array_fill' => $array_fill, 'array_disabled' => $array_disabled, 'array_refer' => $array_refer];
+        return ['array_calc' => $array_plan, 'array_disabled' => $array_disabled, 'array_refer' => $array_refer];
     }
 
     private

@@ -136,6 +136,7 @@ return [
     'dc_int' => 'Internal description',
     'setup' => 'Setup',
     'configuring_templates' => 'Configuring templates',
+    'all' => 'All',
     'is_code_needed' => 'Code needed',
     'is_code_number' => 'Numeric code (otherwise string)',
     'is_limit_sign_code' => 'Limit the significance of the code',

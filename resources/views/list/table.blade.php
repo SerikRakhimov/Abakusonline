@@ -2,9 +2,7 @@
 use App\Models\Link;
 use \App\Http\Controllers\GlobalController;
 $link_id_array = $links_info['link_id_array'];
-//dd($links_info['link_base_right_array']);
 $link_base_right_array = $links_info['link_base_right_array'];
-//dd($link_base_right_array);
 $matrix = $links_info['matrix'];
 $rows = $links_info['rows'];
 $cols = $links_info['cols'];
@@ -23,10 +21,10 @@ $i = 0;
             <th rowspan="{{$rows + 1}}" class="text-center align-top">#</th>
         @endif
         {{--        <th rowspan="{{$rows + 1}}" class="text-center align-top">Id</th>--}}
-        @if($base->is_code_needed == true)
-            <th class="text-center align-top" rowspan="{{$rows + 1}}">{{trans('main.code')}}</th>
-        @endif
         @if($base_index || $item_body_base)
+            @if($base->is_code_needed == true)
+                <th class="text-center align-top" rowspan="{{$rows + 1}}">{{trans('main.code')}}</th>
+            @endif
             @if($base_right['is_list_base_enable'] == true)
                 {{--                Если тип-вычисляемое наименование и Показывать Основу с вычисляемым наименованием--}}
                 {{--                или если тип-не вычисляемое наименование--}}
@@ -92,7 +90,7 @@ $i = 0;
                     <a href="{{route('item.ext_show', ['item'=>$item, 'project'=>$project, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id,
     'heading'=>$heading, 'body_page'=>$body_page, 'body_count'=>$body_count,'body_perpage'=>$body_perpage,
     'par_link'=>$par_link, 'parent_item'=>$parent_item])}}">
-                        {{$i}}...
+                        -{{$i}}-
                     </a>
                 </td>
             @endif
@@ -112,20 +110,20 @@ $i = 0;
             {{--                    </a>--}}
             {{--                @endif--}}
             {{--            </td>--}}
-            @if($base->is_code_needed == true)
-                <td class="text-center">
-                    @if($base_index || $item_body_base)
-                        <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,
-       'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id,'par_link'=>$par_link])}}"
-                           title="{{$item->name()}}">
-                            @endif
-                            {{$item->code}}
-                            @if($base_index || $item_body_base)
-                        </a>
-                    @endif
-                </td>
-            @endif
             @if($base_index || $item_body_base)
+                @if($base->is_code_needed == true)
+                    <td class="text-center">
+                        @if($base_index || $item_body_base)
+                            <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,
+       'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id,'par_link'=>$par_link])}}"
+                               title="{{$item->name()}}">
+                                @endif
+                                {{$item->code}}
+                                @if($base_index || $item_body_base)
+                            </a>
+                        @endif
+                    </td>
+                @endif
                 @if($base_right['is_list_base_enable'] == true)
                     {{--                Если тип-вычисляемое наименование и Показывать Основу с вычисляемым наименованием--}}
                     {{--                или если тип-не вычисляемое наименование--}}

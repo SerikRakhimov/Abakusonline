@@ -136,6 +136,7 @@ return [
     'dc_int' => 'Ішкі сипаттама',
     'setup' => 'Теңшеу',
     'configuring_templates'=>'Үлгілерді теңшеу',
+    'all' => 'Бәрі',
     'is_code_needed' => 'Код қажет',
     'is_code_number' => 'Сандық код (басқаша жол)',
     'is_limit_sign_code' => 'Кодтың маңыздылығын шектеңіз',

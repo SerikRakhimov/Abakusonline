@@ -22,6 +22,15 @@
         $body_count = $body_items->count();
         $body_perpage = $body_items->perPage();
     }
+    $body_all_page = 0;
+    $body_all_count = 0;
+    $body_all_perpage = 0;
+    //dd($next_mains_all->currentPage());
+    if ($next_mains_all!=null) {
+//        $body_all_page = $next_mains_all->currentPage();
+//        $body_all_count = $next_mains_all->count();
+//        $body_all_perpage = next_mains_all->perPage();
+    }
     ?>
     @include('layouts.project.show_project_role',['project'=>$project, 'role'=>$role, 'relit_id'=>$relit_id])
     {{--    <h3 class="display-5">--}}
@@ -53,25 +62,34 @@
                     }
                     ?>
                     @if(GlobalController::is_base_calcname_check($item->base, $base_right))
-                        @if ($base_right['is_list_base_calc'] == true)
-                            <a href="{{route('item.base_index', ['base'=>$item->base,
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="col-8 text-left">
+                                    @if ($base_right['is_list_base_calc'] == true)
+                                        <a href="{{route('item.base_index', ['base'=>$item->base,
                             'project'=>$project, 'role'=>$role, 'relit_id'=>$relit_id])}}"
-                               title="{{$item->base->names()}}">
-                                @endif
-                                {{$title}}:
-                                @if ($base_right['is_list_base_calc'] == true)
-                            </a>
-                        @endif
-                        {{--                        @if ($base_right['is_list_base_calc'] == true)--}}
-                        {{--                            <a href="{{route('item.ext_show', ['item'=>$item, 'project'=>$project, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id])}}"--}}
-                        {{--                               title="{{$item->cdnm()}}">--}}
-                        {{--                                {{$item->cdnm()}}--}}
-                        {{--                            </a>--}}
-                        {{--                        @else--}}
-
-                        {{$item->cdnm()}}
-
-                        {{--                        @endif--}}
+                                           title="{{$item->base->names()}}">
+                                            @endif
+                                            {{$title}}:
+                                            @if ($base_right['is_list_base_calc'] == true)
+                                        </a>
+                                    @endif
+                                    {{--                        @if ($base_right['is_list_base_calc'] == true)--}}
+                                    {{--                            <a href="{{route('item.ext_show', ['item'=>$item, 'project'=>$project, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id])}}"--}}
+                                    {{--                               title="{{$item->cdnm()}}">--}}
+                                    {{--                                {{$item->cdnm()}}--}}
+                                    {{--                            </a>--}}
+                                    {{--                        @else--}}
+                                    {{$item->name()}}
+                                    {{--                        @endif--}}
+                                </div>
+                                <div class="col-4 text-left">
+                                    @if($item->base->is_code_needed == true)
+                                        {{trans('main.code')}}: <strong>{{$item->code}}</strong>
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
                 </h5>
                 @else
                     <small><small><small>
@@ -81,6 +99,9 @@
                                        title="{{$item->base->names()}}">
                                         @endif
                                         {{$title}}:
+                                        @if($item->base->is_code_needed == true)
+                                            {{trans('main.code')}}: <strong>{{$item->code}}</strong>
+                                        @endif
                                         @if ($base_right['is_list_base_calc'] == true)
                                     </a>
                                 @endif
@@ -91,6 +112,9 @@
                             <h6>
                                 {{$calcname_main->link->parent_label()}}:
                                 <strong>{{$calcname_main->parent_item->name()}}</strong>
+                                @if($calcname_main->parent_item->base->is_code_needed == true)
+                                    {{trans('main.code')}}: <strong>{{$calcname_main->parent_item->code}}</strong>
+                                @endif
                             </h6>
                         @endforeach
                     @endforeach
@@ -152,44 +176,83 @@
     {{--        &#8595;	&#8195; &#8595;	&#8195; &#8595;	&#8195; &#8595;	&#8195; &#8595;	&#8195; &#8595;	&#8195; &#8595;	&#8195; &#8595;	&#8195; &#8595;	&#8195; &#8595;	&#8195; &#8595;	&#8195;--}}
     {{--        <hr>--}}
     {{--        <div class="text-center">&#8595;</div>--}}
-    @if(($prev_item) ||($next_item))
-        <ul class="pagination">
-            {{--        <li class="page-item"><a class="page-link"--}}
-            {{--                                 @if($prev_item)--}}
-            {{--                                 href="{{route('item.item_index', ['project'=>$project, 'item'=>$prev_item, 'role'=>$role,--}}
-            {{--                                'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id, 'par_link'=>$current_link])}}"--}}
-            {{--                                 title="{{$prev_item->cdnm()}}"--}}
-            {{--                                 @else--}}
-            {{--                                 style="cursor:default" href="#" title="{{trans('main.none')}}"--}}
-            {{--                @endif--}}
-            {{--            ><</a></li>--}}
-            @if($prev_item)
-                <li class="page-item">
-                    <a class="page-link" href="{{route('item.item_index', ['project'=>$project, 'item'=>$prev_item, 'role'=>$role,
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-10 text-left">
+                @if(($prev_item) ||($next_item))
+                    <ul class="pagination">
+                        {{--        <li class="page-item"><a class="page-link"--}}
+                        {{--                                 @if($prev_item)--}}
+                        {{--                                 href="{{route('item.item_index', ['project'=>$project, 'item'=>$prev_item, 'role'=>$role,--}}
+                        {{--                                'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id, 'par_link'=>$current_link])}}"--}}
+                        {{--                                 title="{{$prev_item->cdnm()}}"--}}
+                        {{--                                 @else--}}
+                        {{--                                 style="cursor:default" href="#" title="{{trans('main.none')}}"--}}
+                        {{--                @endif--}}
+                        {{--            ><</a></li>--}}
+                        @if($prev_item)
+                            <li class="page-item">
+                                <a class="page-link" href="{{route('item.item_index', ['project'=>$project, 'item'=>$prev_item, 'role'=>$role,
                                 'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id, 'par_link'=>GlobalController::par_link_textnull($current_link),
                                         'string_link_ids_tree'=>$string_link_ids_current, 'string_item_ids_tree'=>$string_item_ids_current])}}"
-                       title="{{$prev_item->cdnm()}}"><</a>
-                </li>
-            @endif
-            {{--        <li class="page-item"><a class="page-link"--}}
-            {{--                                 @if($next_item)--}}
-            {{--                                 href="{{route('item.item_index', ['project'=>$project, 'item'=>$next_item, 'role'=>$role,--}}
-            {{--                                'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id, 'par_link'=>$current_link])}}"--}}
-            {{--                                 title="{{$next_item->cdnm()}}"--}}
-            {{--                                 @else--}}
-            {{--                                 style="cursor:default" href="#" title="{{trans('main.none')}}"--}}
-            {{--                @endif--}}
-            {{--            >></a></li>--}}
-            @if($next_item)
-                <li class="page-item">
-                    <a class="page-link" href="{{route('item.item_index', ['project'=>$project, 'item'=>$next_item, 'role'=>$role,
+                                   title="{{$prev_item->cdnm()}}"><</a>
+                            </li>
+                        @endif
+                        {{--        <li class="page-item"><a class="page-link"--}}
+                        {{--                                 @if($next_item)--}}
+                        {{--                                 href="{{route('item.item_index', ['project'=>$project, 'item'=>$next_item, 'role'=>$role,--}}
+                        {{--                                'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id, 'par_link'=>$current_link])}}"--}}
+                        {{--                                 title="{{$next_item->cdnm()}}"--}}
+                        {{--                                 @else--}}
+                        {{--                                 style="cursor:default" href="#" title="{{trans('main.none')}}"--}}
+                        {{--                @endif--}}
+                        {{--            >></a></li>--}}
+                        @if($next_item)
+                            <li class="page-item">
+                                <a class="page-link" href="{{route('item.item_index', ['project'=>$project, 'item'=>$next_item, 'role'=>$role,
                                 'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id, 'par_link'=>GlobalController::par_link_textnull($current_link),
                                         'string_link_ids_tree'=>$string_link_ids_current, 'string_item_ids_tree'=>$string_item_ids_current])}}"
-                       title="{{$next_item->cdnm()}}">></a>
-                </li>
-            @endif
-        </ul>
-    @endif
+                                   title="{{$next_item->cdnm()}}">></a>
+                            </li>
+                        @endif
+                    </ul>
+                @endif
+            </div>
+            <div class="col-2 text-right">
+                <div class="row">
+                    <div class="col-12 text-right">
+                        <div class="dropdown">
+                            <button type="button" class="btn btn-dreamer dropdown-toggle" data-toggle="dropdown">
+                                {{trans('main.link')}}
+                            </button>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" href="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,
+       'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id,'par_link'=>GlobalController::par_link_const_textnull(),
+       'string_link_ids_tree'=>$string_link_ids_current, 'string_item_ids_tree'=>$string_item_ids_current])}}"
+                                   title="{{$item->name()}}">{{GlobalController::option_all()}}</a>
+                                @foreach($next_links_plan as $key=>$value)
+                                    <a class="dropdown-item" href="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,
+       'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id,'par_link'=>$value->id,
+       'string_link_ids_tree'=>$string_link_ids_current, 'string_item_ids_tree'=>$string_item_ids_current])}}"
+                                       title="{{$item->name()}}">
+                                        {{$value->child_labels()}}
+                                        @if($current_link)
+                                            @if($value->id == $current_link->id)
+                                                &#10003;
+                                            @endif
+                                        @endif
+                                        @if(isset($array["\x00*\x00items"][$value->id]))
+                                            *
+                                        @endif
+                                    </a>
+                                @endforeach
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     @if($current_link)
         {{--        <hr>--}}
         {{--        <br>--}}
@@ -323,62 +386,75 @@
                     {{--            {{$body_perpage = $body_items->perPage()}}--}}
                 @endif
             @endif
-            @if (count($next_links_plan) > 1)
-                <hr>
-                <form action="{{route('item.store_link_change')}}" method="POST" enctype=multipart/form-data>
-                    <div class="form-row">
-                        @csrf
-                        <input type="hidden" name="project_id" value="{{$project->id}}">
-                        <input type="hidden" name="item_id" value="{{$item->id}}">
-                        <input type="hidden" name="role_id" value="{{$role->id}}">
-                        <input type="hidden" name="relit_id" value="{{$relit_id}}">
-                        <input type="hidden" name="string_link_ids_current" value="{{$string_link_ids_current}}">
-                        <input type="hidden" name="string_item_ids_current" value="{{$string_item_ids_current}}">
-                        <div class="d-flex justify-content-end align-items-center mt-0">
-                            <div class="col-auto">
-                                {{--                            <label for="link_id">{{trans('main.another_attitude')}} = </label>--}}
-                                <label for="link_id">{{trans('main.link')}} = </label>
-                            </div>
-                            <div class="">
-                                <select class="form-control"
-                                        name="link_id"
-                                        id="link_id"
-                                        class="form-control @error('link_id') is-invalid @enderror">
-                                    @foreach($next_links_plan as $key=>$value)
-                                        <option value="{{$value->id}}"
-                                                {{--                                                                                    @if(!isset($array["\x00*\x00items"][$value->id]))--}}
-                                                {{--                                                                                    disabled--}}
-                                                {{--                                                                                @endif--}}
-                                                @if($value->id == $current_link->id)
-                                                selected
-                                            @endif
-                                        >
-                                            {{--                                                                                {{$value->parent_label()}} {{$main->child_item->name()}} ({{mb_strtolower(trans('main.on'))}} {{$value->child_labels()}})--}}
-                                            {{--                                        {{$value->child_labels()}} ({{$value->parent_label()}})--}}
-                                            {{$value->child_labels()}}
-                                            @if($value->id == $current_link->id)
-                                                &#10003;
-                                            @endif
-                                            @if(isset($array["\x00*\x00items"][$value->id]))
-                                                *
-                                            @endif
-                                        </option>
-                                    @endforeach
-                                </select>
-                                @error('link_id')
-                                <div class="text-danger">
-                                    {{$message}}
-                                </div>
-                                @enderror
-                            </div>
-                            <div class="col-2 ml-auto">
-                                <button type="submit" class="btn btn-dreamer"
-                                >{{trans('main.select')}}
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </form>
+            {{--            @if (count($next_links_plan) > 1)--}}
+            {{--                <hr>--}}
+            {{--                <form action="{{route('item.store_link_change')}}" method="POST" enctype=multipart/form-data>--}}
+            {{--                    <div class="form-row">--}}
+            {{--                        @csrf--}}
+            {{--                        <input type="hidden" name="project_id" value="{{$project->id}}">--}}
+            {{--                        <input type="hidden" name="item_id" value="{{$item->id}}">--}}
+            {{--                        <input type="hidden" name="role_id" value="{{$role->id}}">--}}
+            {{--                        <input type="hidden" name="relit_id" value="{{$relit_id}}">--}}
+            {{--                        <input type="hidden" name="string_link_ids_current" value="{{$string_link_ids_current}}">--}}
+            {{--                        <input type="hidden" name="string_item_ids_current" value="{{$string_item_ids_current}}">--}}
+            {{--                        <div class="d-flex justify-content-end align-items-center mt-0">--}}
+            {{--                            <div class="col-auto">--}}
+            {{--                                --}}{{--                            <label for="link_id">{{trans('main.another_attitude')}} = </label>--}}
+            {{--                                <label for="link_id">{{trans('main.link')}} = </label>--}}
+            {{--                            </div>--}}
+            {{--                            <div class="">--}}
+            {{--                                <select class="form-control"--}}
+            {{--                                        name="link_id"--}}
+            {{--                                        id="link_id"--}}
+            {{--                                        class="form-control @error('link_id') is-invalid @enderror">--}}
+            {{--                                    @foreach($next_links_plan as $key=>$value)--}}
+            {{--                                        <option value="{{$value->id}}"--}}
+            {{--                                                --}}{{--                                                                                    @if(!isset($array["\x00*\x00items"][$value->id]))--}}
+            {{--                                                --}}{{--                                                                                    disabled--}}
+            {{--                                                --}}{{--                                                                                @endif--}}
+            {{--                                                @if($value->id == $current_link->id)--}}
+            {{--                                                selected--}}
+            {{--                                            @endif--}}
+            {{--                                        >--}}
+            {{--                                            --}}{{--                                                                                {{$value->parent_label()}} {{$main->child_item->name()}} ({{mb_strtolower(trans('main.on'))}} {{$value->child_labels()}})--}}
+            {{--                                            --}}{{--                                        {{$value->child_labels()}} ({{$value->parent_label()}})--}}
+            {{--                                            {{$value->child_labels()}}--}}
+            {{--                                            @if($value->id == $current_link->id)--}}
+            {{--                                                &#10003;--}}
+            {{--                                            @endif--}}
+            {{--                                            @if(isset($array["\x00*\x00items"][$value->id]))--}}
+            {{--                                                *--}}
+            {{--                                            @endif--}}
+            {{--                                        </option>--}}
+            {{--                                    @endforeach--}}
+            {{--                                </select>--}}
+            {{--                                @error('link_id')--}}
+            {{--                                <div class="text-danger">--}}
+            {{--                                    {{$message}}--}}
+            {{--                                </div>--}}
+            {{--                                @enderror--}}
+            {{--                            </div>--}}
+            {{--                            <div class="col-2 ml-auto">--}}
+            {{--                                <button type="submit" class="btn btn-dreamer"--}}
+            {{--                                >{{trans('main.select')}}--}}
+            {{--                                </button>--}}
+            {{--                            </div>--}}
+            {{--                        </div>--}}
+            {{--                    </div>--}}
+            {{--                </form>--}}
+            {{--            @endif--}}
+{{--            Вывод всех записей, с разным link--}}
+        @else
+            @if($next_mains_all != null)
+                @if(count($next_mains_all) > 0)
+                    @include('list.all',['project'=>$project, 'next_mains_all'=>$next_mains_all,
+                'relit_id'=>$relit_id,
+                'heading'=>intval(false), 'body_all_page'=>$body_all_page, 'body_all_count'=>$body_all_count,'body_all_perpage'=>$body_all_perpage,
+                'parent_item'=>$item, 'is_table_body'=>false,
+                    'base_index'=>false, 'item_heading_base'=>false, 'item_body_base'=>true,
+                    'string_link_ids_next'=>$string_link_ids_next, 'string_item_ids_next'=>$string_item_ids_next])
+                    {{$next_mains_all->links()}}
+                @endif
             @endif
         @endif
 @endsection
