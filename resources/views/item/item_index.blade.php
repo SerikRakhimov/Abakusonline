@@ -447,6 +447,38 @@
         @else
             @if($next_mains_all != null)
                 @if(count($next_mains_all) > 0)
+                        <hr>
+                        <p>
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="col-10 text-left">
+                                    <h3>
+                                        {{--                        @if($current_link)--}}
+                                        {{--                        {{$current_link->child_labels()}}:{{$current_link->child_base->name()}}--}}
+                                        {{--                        @else--}}
+                                        {{--                            {{$item->base->name()}}:--}}
+                                        {{--                        @endif--}}
+                                            {{trans('main.all')}}:
+                                    </h3>
+                                </div>
+                                <div class="col-2 text-right">
+                                        {{--            Не удалять: используются $message_link и $message_item --}}
+{{--                                        @if($message_link == "" && $message_item == "")--}}
+{{--                                            <button type="button" class="btn btn-dreamer"--}}
+{{--                                                    --}}{{--                        Выводится $message_mc--}}
+{{--                                                    title="{{trans('main.add') . $message_mc}}"--}}
+{{--                                                    onclick="document.location='{{route('item.ext_create', ['base'=>$current_link->child_base_id,--}}
+{{--                                        'project'=>$project, 'role'=>$role,--}}
+{{--                                         'usercode' =>GlobalController::usercode_calc(),--}}
+{{--                             'relit_id' =>$relit_id,--}}
+{{--                             'heading'=>intval(false), 'body_page'=>$body_page, 'body_count'=>$body_count,'body_perpage'=>$body_perpage,--}}
+{{--                             'par_link'=>$current_link, 'parent_item'=>$item])}}'">--}}
+{{--                                                <i class="fas fa-plus d-inline"></i>&nbsp;{{trans('main.add')}}--}}
+{{--                                            </button>--}}
+{{--                                        @endif--}}
+                                </div>
+                            </div>
+                        </div>
                     @include('list.all',['project'=>$project, 'next_mains_all'=>$next_mains_all,
                 'relit_id'=>$relit_id,
                 'heading'=>intval(false), 'body_all_page'=>$body_all_page, 'body_all_count'=>$body_all_count,'body_all_perpage'=>$body_all_perpage,
