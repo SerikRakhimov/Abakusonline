@@ -40,7 +40,7 @@ $i = 0;
                 {{$main->link->child_labels()}}
             </td>
             <td class="text-left">
-                {{$main->link->child_base->name()}}
+                {{$main->link->child_label()}}
             </td>
             <td class="text-left">
                 {{$main->child_item->name()}}
