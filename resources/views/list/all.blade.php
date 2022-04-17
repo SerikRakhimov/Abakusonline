@@ -9,6 +9,7 @@ $i = 0;
     <thead>
     <tr>
         <th class="text-center align-top">#</th>
+        <th class="text-left align-top">{{trans('main.link')}}</th>
         <th class="text-left align-top">{{trans('main.base')}}</th>
         <th class="text-left align-top">{{trans('main.code')}}</th>
         <th class="text-left align-top">{{trans('main.name')}}</th>
@@ -34,6 +35,9 @@ $i = 0;
         <tr>
             <td class="text-center">
                 -{{$i}}-
+            </td>
+            <td class="text-left">
+                {{$main->link->child_labels()}}
             </td>
             <td class="text-left">
                 {{$main->link->child_base->name()}}
