@@ -90,7 +90,7 @@ $i = 0;
                     <a href="{{route('item.ext_show', ['item'=>$item, 'project'=>$project, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id,
     'heading'=>$heading, 'body_page'=>$body_page, 'body_count'=>$body_count,'body_perpage'=>$body_perpage,
     'par_link'=>$par_link, 'parent_item'=>$parent_item])}}">
-                        /{{$i}}.
+                        .{{$i}}.
                     </a>
                 </td>
             @endif
