@@ -343,7 +343,13 @@ class ItemController extends Controller
             $current_link = null;
         } else {
             if ($par_find_link) {
-                $current_link = $par_find_link;
+                // Проверка, есть ли $par_find_link в $next_links_plan
+                foreach ($next_links_plan as $next_link) {
+                    if ($next_link->id == $par_find_link->id) {
+                        $current_link = $par_find_link;
+                        break;
+                    }
+                }
             }
             if (!$current_link) {
                 // Находим заполненный подчиненный link
