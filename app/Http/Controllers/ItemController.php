@@ -365,12 +365,16 @@ class ItemController extends Controller
 //                    if (count($next_links_fact1) > 0) {
 //                        $current_link = Link::find($next_links_fact1->first()[0]->link_id);
 //                    }
+                    $item_name_lang = GlobalController::calc_item_name_lang();
                     // Все записи, со всеми links, по факту
                     $next_mains_all = Main::select('mains.*')
                         ->join('links', 'mains.link_id', '=', 'links.id')
+                        ->join('items', 'mains.child_item_id', '=', 'items.id')
                         ->where('links.parent_is_base_link', '=', false)
                         ->where('parent_item_id', $item->id)
-                        ->orderBy('links.parent_base_number');
+                        ->orderBy('links.child_base_number')
+                        ->orderBy('links.child_base_id')
+                        ->orderBy('items.' . $item_name_lang);
                 };
             }
             // Проверка: есть ли $current_link->id в списке $next_links_plan

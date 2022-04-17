@@ -1684,6 +1684,17 @@ class GlobalController extends Controller
         return $result;
     }
 
+    static function calc_item_name_lang()
+    {
+        //$name = "";  // нужно, не удалять
+        $name = "name_lang_0";  // нужно, не удалять
+        $index = array_search(App::getLocale(), config('app.locales'));
+        if ($index !== false) {   // '!==' использовать, '!=' не использовать
+            $name = 'name_lang_' . $index;
+        }
+        return $name;
+    }
+
 //    function get_display()
 //    {
 //        return config('app.display');

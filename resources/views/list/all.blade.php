@@ -11,8 +11,8 @@ $i = 0;
         <th class="text-center align-top">#</th>
         <th class="text-left align-top">{{trans('main.link')}}</th>
         <th class="text-left align-top">{{trans('main.base')}}</th>
-        <th class="text-left align-top">{{trans('main.code')}}</th>
         <th class="text-left align-top">{{trans('main.name')}}</th>
+        <th class="text-left align-top">{{trans('main.code')}}</th>
     @if($base_right['is_list_base_enable'] == true)
         {{--                Если тип-вычисляемое наименование и Показывать Основу с вычисляемым наименованием--}}
         {{--                или если тип-не вычисляемое наименование--}}
@@ -34,7 +34,7 @@ $i = 0;
         ?>
         <tr>
             <td class="text-center">
-                -{{$i}}-
+                .{{$i}}.
             </td>
             <td class="text-left">
                 {{$main->link->child_labels()}}
@@ -43,12 +43,12 @@ $i = 0;
                 {{$main->link->child_base->name()}}
             </td>
             <td class="text-left">
+                {{$main->child_item->name()}}
+            </td>
+            <td class="text-left">
                 @if($main->link->child_base->is_code_needed == true)
                     {{$main->child_item->code}}
                 @endif
-            </td>
-            <td class="text-left">
-                {{$main->child_item->name()}}
             </td>
         </tr>
     @endforeach
