@@ -250,8 +250,6 @@ class ItemController extends Controller
         $items_right = GlobalController::items_right($base, $relip_project, $role, $relit_id);
         $items = $items_right['items'];
 
-        //$next_links_plan = self::next_links_plan_calc($base, $role);
-        //$is_table_body = (count($next_links_plan) == 0);
         $is_table_body = true;
 
 //      Похожая проверка в GlobalController::get_project_bases(), ItemController::base_index() и project/start.php
@@ -337,15 +335,26 @@ class ItemController extends Controller
         // Находим $current_link
         $current_link = null;  // нужно
 
-        $next_links_plan = self::next_links_plan_calc($item->base, $role, $relit_id);
-        $next_mains_all = null;
-        if (count($next_links_plan) == 0) {
+        $next_all_links_mains_calc = self::next_all_links_mains_calc($project, $item->base, $item, $role, $relit_id, $tree_array);
+        $next_all_links = $next_all_links_mains_calc['next_all_links'];
+        $next_all_mains = $next_all_links_mains_calc['next_all_mains'];
+        $next_all_first_link = $next_all_links_mains_calc['next_all_first_link'];
+        $next_all_is_code_enable = $next_all_links_mains_calc['next_all_is_code_enable'];
+        $string_link_ids_array_next = $next_all_links_mains_calc['string_link_ids_array_next'];
+        $string_item_ids_array_next = $next_all_links_mains_calc['string_item_ids_array_next'];
+        $message_mc_array_info = $next_all_links_mains_calc['message_mc_array_info'];
+        $message_mc_link_array_item = $next_all_links_mains_calc['message_mc_link_array_item'];
+
+        $message_mc_info = '';
+        $message_mc_link_item = '';
+
+        if (count($next_all_links) == 0) {
             $current_link = null;
         } else {
             if ($par_find_link) {
-                // Проверка, есть ли $par_find_link в $next_links_plan
-                foreach ($next_links_plan as $next_link) {
-                    if ($next_link->id == $par_find_link->id) {
+                // Проверка, есть ли $par_find_link в $next_all_links
+                foreach ($next_all_links as $next_all_link) {
+                    if ($next_all_link->id == $par_find_link->id) {
                         $current_link = $par_find_link;
                         break;
                     }
@@ -353,11 +362,11 @@ class ItemController extends Controller
             }
             if (!$current_link) {
                 // Находим заполненный подчиненный link
-                if (count($next_links_plan) > 0) {
-//                    // Условия одинаковые в item_index() и next_links_plan_calc()
+                if (count($next_all_links) > 0) {
+//                    // Условия одинаковые в item_index() и next_all_links_calc()
 //                    // 'where('parent_is_parent_related', false)'
 //                    // 'where('parent_is_base_link', false)'
-//                    $next_links_fact1 = DB::table('mains')
+//                    $next_all_links_fact1 = DB::table('mains')
 //                        ->select('link_id')
 //                        ->join('links', 'mains.link_id', '=', 'links.id')
 //                        ->where('links.parent_base_id', '=', $item->base_id)
@@ -368,48 +377,48 @@ class ItemController extends Controller
 //                        ->get()
 //                        ->groupBy('link_id');
 //                    // Если найдены - берем первый
-//                    if (count($next_links_fact1) > 0) {
-//                        $current_link = Link::find($next_links_fact1->first()[0]->link_id);
+//                    if (count($next_all_links_fact1) > 0) {
+//                        $current_link = Link::find($next_all_links_fact1->first()[0]->link_id);
 //                    }
-                    $item_name_lang = GlobalController::calc_item_name_lang();
-                    // Все записи, со всеми links, по факту
-                    $next_mains_all = Main::select('mains.*')
-                        ->join('links', 'mains.link_id', '=', 'links.id')
-                        ->join('items', 'mains.child_item_id', '=', 'items.id')
-                        ->where('links.parent_is_base_link', '=', false)
-                        ->where('parent_item_id', $item->id)
-                        ->orderBy('links.child_base_number')
-                        ->orderBy('links.child_base_id')
-                        ->orderBy('items.' . $item_name_lang);
+//                    $item_name_lang = GlobalController::calc_item_name_lang();
+//                    // Все записи, со всеми links, по факту
+//                    $next_all_mains = Main::select('mains.*')
+//                        ->join('links', 'mains.link_id', '=', 'links.id')
+//                        ->join('items', 'mains.child_item_id', '=', 'items.id')
+//                        ->where('links.parent_is_base_link', '=', false)
+//                        ->where('parent_item_id', $item->id)
+//                        ->orderBy('links.child_base_number')
+//                        ->orderBy('links.child_base_id')
+//                        ->orderBy('items.' . $item_name_lang);
                 };
             }
-            // Проверка: есть ли $current_link->id в списке $next_links_plan
-            if ($current_link) {
-                //            // Использовать '== false'
-//            if ($next_links_plan->search($current_link) == false) {
+            // Проверка: есть ли $current_link->id в списке $next_all_links
+//            if ($current_link) {
+            //            // Использовать '== false'
+//            if ($next_all_links->search($current_link) == false) {
 //                $current_link = null;
 //            }
 
 //            Не удалять - так поиск не работает
 //            // Использовать '== false'
-//            if (in_array($current_link, $next_links_plan) == false) {
+//            if (in_array($current_link, $next_all_links) == false) {
 //                $current_link = null;
 //            }
 
-                $found_current_link = false;
-                foreach ($next_links_plan as $link) {
-                    if ($link->id == $current_link->id) {
-                        $found_current_link = true;
-                        break;
-                    }
-                }
-                if ($found_current_link == false) {
-                    $current_link = null;
-                }
-            }
+//                $found_current_link = false;
+//                foreach ($next_all_links as $link) {
+//                    if ($link->id == $current_link->id) {
+//                        $found_current_link = true;
+//                        break;
+//                    }
+//                }
+//                if ($found_current_link == false) {
+//                    $current_link = null;
+//                }
+//            }
 //            if (!$current_link) {
 //                // Если не найдены - берем первый пустой (без данных)
-//                $current_link = $next_links_plan[0];
+//                $current_link = $next_all_links[0];
 //            }
         }
         $child_body_links_info = null;
@@ -427,9 +436,14 @@ class ItemController extends Controller
             $string_item_ids_current = $string_current_next_ids['string_current_item_ids'];
             $string_link_ids_next = $string_current_next_ids['string_next_link_ids'];
             $string_item_ids_next = $string_current_next_ids['string_next_item_ids'];
+
+            $message_mc_calc = self::message_mc_calc($project, $item, $current_link);
+            $message_mc_info = $message_mc_calc['message_mc_info'];
+            $message_mc_link_item = $message_mc_calc['message_mc_link_item'];
+
         }
-        if ($next_mains_all) {
-            $next_mains_all = $next_mains_all->paginate(60, ['*'], 'body_all_page');
+        if ($next_all_mains) {
+            $next_all_mains = $next_all_mains->paginate(60, ['*'], 'body_all_page');
         }
         //     session(['links' => ((!empty($_SERVER['HTTPS'])) ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . '/' . request()->path()]);
         return view('item/item_index', ['project' => $project, 'item' => $item, 'role' => $role, 'relit_id' => $relit_id, 'par_link' => $par_find_link,
@@ -437,12 +451,16 @@ class ItemController extends Controller
             'prev_item' => $prev_item, 'next_item' => $next_item,
             'child_links' => $child_links, 'child_links_info' => $child_links_info,
             'child_mains_link_is_calcname' => $child_mains_link_is_calcname,
-            'current_link' => $current_link, 'next_links_plan' => $next_links_plan,
+            'current_link' => $current_link,
             'child_body_links_info' => $child_body_links_info, 'body_items' => $body_items,
             'base_body_right' => $base_body_right, 'tree_array' => $tree_array,
             'string_link_ids_current' => $string_link_ids_current, 'string_item_ids_current' => $string_item_ids_current,
             'string_link_ids_next' => $string_link_ids_next, 'string_item_ids_next' => $string_item_ids_next,
-            'next_mains_all' => $next_mains_all]);
+            'next_all_links' => $next_all_links, 'next_all_mains' => $next_all_mains,
+            'next_all_first_link' => $next_all_first_link, 'next_all_is_code_enable' => $next_all_is_code_enable,
+            'message_mc_info' => $message_mc_info, 'message_mc_link_item' => $message_mc_link_item,
+            'string_link_ids_array_next' => $string_link_ids_array_next, 'string_item_ids_array_next' => $string_item_ids_array_next,
+            'message_mc_array_info' => $message_mc_array_info, 'message_mc_link_array_item' => $message_mc_link_array_item]);
     }
 
     function calc_tree_array($string_link_ids_tree, $string_item_ids_tree)
@@ -525,26 +543,100 @@ class ItemController extends Controller
         ];
     }
 
-    function next_links_plan_calc(Base $base, Role $role, $relit_id = 0)
+    function next_all_links_mains_calc(Project $project, Base $base, Item $item, Role $role, $relit_id = 0, $tree_array)
     {
-        // Условия одинаковые в item_index() и next_links_plan_calc()
+        // Условия одинаковые в item_index() и next_all_links_mains_calc()
         // 'where('parent_is_parent_related', false)'
         // 'where('parent_is_base_link', false)'
+//        $links = $base->parent_links
+//            ->where('parent_is_parent_related', false)
+//            ->where('parent_is_base_link', false);
+        // Список доступных связей $base->parent_links
+        // Условия одинаковые 'where('parent_is_base_link', false)'
         $links = $base->parent_links
-            ->where('parent_is_parent_related', false)
-            ->where('parent_is_base_link', false);
-        $result = array();
+            ->where('parent_is_base_link', false)
+            ->sortBy('child_base_id');
+        $next_all_links = array();
+        $next_all_links_ids = array();
         foreach ($links as $link) {
             $base_link_right = GlobalController::base_link_right($link, $role, $relit_id, true);
-//            if ($base_link_right['is_list_link_enable'] == true) {
-//                $result[] = $link;
-//            }
             // Использовать эту проверку
-            if ($base_link_right['is_list_base_calc'] == true) {
-                $result[] = $link;
+            if ($base_link_right['is_list_link_enable'] == true) {
+                $next_all_links[] = $link;
+                $next_all_links_ids[] = $link->id;
+            }
+//            if ($base_link_right['is_list_base_calc'] == true) {
+//                $next_all_links[] = $link;
+//            }
+        }
+
+        $item_name_lang = GlobalController::calc_item_name_lang();
+        // Все записи, со всеми links, по факту
+        // Условия одинаковые 'where('parent_is_base_link', false)'
+        $next_all_mains = Main::select('mains.*')
+            ->join('links', 'mains.link_id', '=', 'links.id')
+            ->join('items', 'mains.child_item_id', '=', 'items.id')
+            ->whereIn('links.id', $next_all_links_ids)
+            ->where('links.parent_is_base_link', '=', false)
+            ->where('parent_item_id', $item->id)
+            ->orderBy('links.child_base_number')
+            ->orderBy('links.child_base_id')
+            ->orderBy('items.' . $item_name_lang);
+
+        // Первая связь (по сортировке)
+        $next_all_first_link = null;
+        if (count($next_all_links) > 0) {
+            $next_all_first_link = $next_all_links[0];
+        }
+
+        // Есть ли хотя бы в одной связи код,
+        // Нужно для вывода столбца "Код" (list\all.php)
+        $next_all_is_code_enable = false;
+        foreach ($next_all_links as $link) {
+            if ($link->child_base->is_code_needed == true) {
+                $next_all_is_code_enable = true;
+                break;
             }
         }
-        return $result;
+
+        // Ссылки link_next, item_next
+        $string_link_ids_array_next = array();
+        $string_item_ids_array_next = array();
+        foreach ($next_all_links as $link) {
+            $string_current_next_ids = self::calc_string_current_next_ids($item, $link, $tree_array);
+            $string_link_ids_array_next[$link->id] = $string_current_next_ids['string_next_link_ids'];
+            $string_item_ids_array_next[$link->id] = $string_current_next_ids['string_next_item_ids'];
+        }
+
+        // Проверки link_maxcount, item_maxcount
+        $message_mc_array_info = array();
+        $message_mc_link_array_item = array();
+        foreach ($next_all_links as $link) {
+            $message_mc_calc = self::message_mc_calc($project, $item, $link);
+            $message_mc_array_info[$link->id] = $message_mc_calc['message_mc_info'];
+            $message_mc_link_array_item[$link->id] = $message_mc_calc['message_mc_link_item'];
+        }
+
+        return ['next_all_links' => $next_all_links, 'next_all_mains' => $next_all_mains,
+            'next_all_first_link' => $next_all_first_link, 'next_all_is_code_enable' => $next_all_is_code_enable,
+            'string_link_ids_array_next' => $string_link_ids_array_next, 'string_item_ids_array_next' => $string_item_ids_array_next,
+            'message_mc_array_info' => $message_mc_array_info, 'message_mc_link_array_item' => $message_mc_link_array_item];
+    }
+
+    function message_mc_calc(Project $project, Item $item, $current_link)
+    {
+        $message_bs_mc = GlobalController::base_maxcount_message($current_link->child_base);
+        $message_bs_byuser_mc = GlobalController::base_byuser_maxcount_message($current_link->child_base);
+        $message_ln_mc = GlobalController::link_maxcount_message($current_link);
+        $message_it_mc = GlobalController::link_item_maxcount_message($current_link);
+        $message_mc_info = ($message_bs_mc == "" ? "" : ', ' . PHP_EOL . $message_bs_mc)
+            . ($message_bs_byuser_mc == "" ? "" : ', ' . PHP_EOL . $message_bs_byuser_mc)
+            . ($message_ln_mc == "" ? "" : ', ' . PHP_EOL . $message_ln_mc)
+            . ($message_it_mc == "" ? "" : ', ' . PHP_EOL . $message_it_mc);
+        $message_link = GlobalController::link_maxcount_validate($project, $current_link, true);
+        $message_item = GlobalController::link_item_maxcount_validate($project, $item, $current_link, true);
+        $message_mc_link_item = $message_link . $message_item;
+        return['message_mc_info'=>$message_mc_info, 'message_mc_link_item'=>$message_mc_link_item];
     }
 
     function store_link_change(Request $request)
@@ -5082,7 +5174,7 @@ class ItemController extends Controller
         $matrix = array(array());
         $links = null;
         if ($item) {
-//          В $links_values не попадают связанные и вычисляемые связи
+//          В $links_values попадают фактические записи, не попадают связанные и вычисляемые связи
             $links_ids = Main::select(DB::Raw('mains.link_id'))
                 ->where('child_item_id', '=', $item->id);
             $links_values = Link::joinSub($links_ids, 'links_ids', function ($join) {
@@ -5279,6 +5371,7 @@ class ItemController extends Controller
             'matrix' => $matrix, 'rows' => $rows, 'cols' => $cols, 'error_message' => $error_message];
     }
 
+    // Список полей, для вычисляемого наименования
     static function mains_link_is_calcname(Item $item, Role $role, $relit_id, $tree_array = [])
     {
         $base = $item->base;

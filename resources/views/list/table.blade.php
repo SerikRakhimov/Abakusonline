@@ -255,17 +255,17 @@ $i = 0;
                                 {{--                                        Вызывается item_index.php--}}
                                 <?php
                                 $i_item = null;
-                                $i_par_link = null;
+//                                $i_par_link = null;
                                 if ($item_heading_base) {
                                     $i_item = $item_find;
-                                    $i_par_link = $link;
+//                                    $i_par_link = $link;
                                 } else {
                                     $i_item = $item;
-                                    $i_par_link = $par_link;
+//                                    $i_par_link = $par_link;
                                 }
                                 ?>
                                 <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$i_item, 'role'=>$role,
-        'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id, 'par_link'=>$i_par_link,
+        'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id, 'par_link'=>GlobalController::par_link_const_textnull(),
         'string_link_ids_tree'=>$string_link_ids_next, 'string_item_ids_tree'=>$string_item_ids_next])}}"
                                    title="">
                                     @endif

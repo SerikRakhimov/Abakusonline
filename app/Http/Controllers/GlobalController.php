@@ -1695,6 +1695,11 @@ class GlobalController extends Controller
         return $name;
     }
 
+    static function calc_title_name($name)
+    {
+        return mb_strtolower($name);
+    }
+
 //    function get_display()
 //    {
 //        return config('app.display');
