@@ -594,10 +594,12 @@ class ItemController extends Controller
         $next_all_mains = Main::select('mains.*')
             ->join('links', 'mains.link_id', '=', 'links.id')
             ->join('items', 'mains.child_item_id', '=', 'items.id')
-            ->whereIn('links.id', $next_all_links_ids)
-            ->where(function ($query) use ($next_all_links_byuser_ids) {
-                $query->whereIn('links.id', $next_all_links_byuser_ids)
-                    ->where('items.created_user_id', GlobalController::glo_user_id());
+            ->where(function ($query) use ($next_all_links_ids, $next_all_links_byuser_ids) {
+                $query->whereIn('links.id', $next_all_links_ids)
+                    ->orWhere(function ($query) use ($next_all_links_byuser_ids) {
+                        $query->whereIn('links.id', $next_all_links_byuser_ids)
+                            ->where('items.created_user_id', GlobalController::glo_user_id());
+                    });
             })
             ->where('links.parent_is_base_link', '=', false)
             ->where('parent_item_id', $item->id)
