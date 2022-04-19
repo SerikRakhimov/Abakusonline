@@ -340,6 +340,7 @@ class ItemController extends Controller
         $next_all_mains = $next_all_links_mains_calc['next_all_mains'];
         $next_all_first_link = $next_all_links_mains_calc['next_all_first_link'];
         $next_all_is_code_enable = $next_all_links_mains_calc['next_all_is_code_enable'];
+        $next_all_first_link = $next_all_links_mains_calc['next_all_first_link'];
         $string_link_ids_array_next = $next_all_links_mains_calc['string_link_ids_array_next'];
         $string_item_ids_array_next = $next_all_links_mains_calc['string_item_ids_array_next'];
         $message_mc_array_info = $next_all_links_mains_calc['message_mc_array_info'];
@@ -416,10 +417,10 @@ class ItemController extends Controller
 //                    $current_link = null;
 //                }
 //            }
-//            if (!$current_link) {
-//                // Если не найдены - берем первый пустой (без данных)
-//                $current_link = $next_all_links[0];
-//            }
+            if (!$current_link) {
+                // Если не найдены - берем первый пустой (без данных)
+                $current_link = $next_all_first_link;
+            }
         }
         $child_body_links_info = null;
         $base_body_right = null;

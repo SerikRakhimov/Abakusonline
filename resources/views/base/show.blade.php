@@ -49,6 +49,7 @@
     <p>{{trans('main.is_suggest_max_code')}}: <b>{{GlobalController::name_is_boolean($base->is_suggest_max_code)}}</b></p>
     <p>{{trans('main.is_recalc_code')}}: <b>{{GlobalController::name_is_boolean($base->is_recalc_code)}}</b></p>
     <p>{{trans('main.is_default_list_base_byuser')}}: <b>{{GlobalController::name_is_boolean($base->is_default_list_base_byuser)}}</b></p>
+    <p>{{trans('main.is_default_heading')}}: <b>{{GlobalController::name_is_boolean($base->is_default_heading)}}</b></p>
     <p>{{trans('main.digits_num')}}: <b>{{$base->digits_num}}</b></p>
     <p>{{trans('main.is_one_value_lst_str_txt')}}: <b>{{GlobalController::name_is_boolean($base->is_one_value_lst_str_txt)}}</b></p>
     <p>{{trans('main.is_calcname_lst')}}: <b>{{GlobalController::name_is_boolean($base->is_calcname_lst)}}</b></p>

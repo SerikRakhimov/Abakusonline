@@ -215,6 +215,7 @@ return [
     'is_list_base_used_delete' => 'Егер Негіз басқа Негіздерде пайдаланылса, жою',
     'is_list_base_byuser' => 'Тізімде пайдаланушы бойынша сүзу',
     'is_default_list_base_byuser' => 'Әдепкі тізімде пайдаланушы бойынша сүзу',
+    'is_default_heading' => 'Әдепкі негізгі тақырып',
     'is_list_link_baselink' => '"Негізге сілтеме" Байланысты көрсету',
     'is_edit_base_read' => 'Пішіндегі Негіздерді оқу',
     'is_edit_base_update' => 'Пішіндегі Негіздерді түзету',

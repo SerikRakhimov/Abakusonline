@@ -85,6 +85,7 @@ class GlobalController extends Controller
         $is_list_base_delete = $role->is_list_base_delete;
         $is_list_base_used_delete = $role->is_list_base_used_delete;
         $is_list_base_byuser = $role->is_list_base_byuser;
+        $is_heading = false;
         $is_edit_base_read = $role->is_edit_base_read;
         $is_edit_base_update = $role->is_edit_base_update;
         $is_list_base_enable = $role->is_list_base_enable;
@@ -172,6 +173,11 @@ class GlobalController extends Controller
 //      По умолчанию фильтровать по пользователю в списке
         if (($is_list_base_byuser == true) && ($base->is_default_list_base_byuser == true)) {
             $is_list_base_byuser = true;
+        }
+
+        //      По умолчанию основа-заголовок
+        if ($base->is_default_heading == true) {
+            $is_heading = true;
         }
 
         // Для вычисляемых base
@@ -278,6 +284,7 @@ class GlobalController extends Controller
             'is_list_base_delete' => $is_list_base_delete,
             'is_list_base_used_delete' => $is_list_base_used_delete,
             'is_list_base_byuser' => $is_list_base_byuser,
+            'is_heading' => $is_heading,
             'is_edit_base_enable' => $is_edit_base_enable,
             'is_edit_base_read' => $is_edit_base_read,
             'is_edit_base_update' => $is_edit_base_update,
@@ -326,6 +333,7 @@ class GlobalController extends Controller
         $is_list_base_delete = $base_right['is_list_base_delete'];
         $is_list_base_used_delete = $base_right['is_list_base_used_delete'];
         $is_list_base_byuser = $base_right['is_list_base_byuser'];
+        $is_heading = $base_right['is_heading'];
         $is_edit_base_enable = $base_right['is_edit_base_enable'];
         $is_edit_base_read = $base_right['is_edit_base_read'];
         $is_edit_base_update = $base_right['is_edit_base_update'];
@@ -388,6 +396,7 @@ class GlobalController extends Controller
             'is_list_base_delete' => $is_list_base_delete,
             'is_list_base_used_delete' => $is_list_base_used_delete,
             'is_list_base_byuser' => $is_list_base_byuser,
+            'is_heading' => $is_heading,
             'is_edit_base_enable' => $is_edit_base_enable,
             'is_edit_base_read' => $is_edit_base_read,
             'is_edit_base_update' => $is_edit_base_update,

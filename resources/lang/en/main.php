@@ -215,6 +215,7 @@ return [
     'is_list_base_used_delete' => 'Delete if the Base is used in other Bases',
     'is_list_base_byuser' => 'Filter by user in the list',
     'is_default_list_base_byuser' => 'By default, filter by user in the list',
+    'is_default_heading' => 'By default, the header base',
     'is_list_link_baselink' => 'Show Link "Link to the base"',
     'is_edit_base_read' => 'Reading Bases in the form',
     'is_edit_base_update' => 'Update the Bases in the form',
