@@ -565,10 +565,10 @@ class ItemController extends Controller
                 $next_all_links[] = $link;
                 $next_all_links_ids[] = $link->id;
             }
-//            if ($base_link_right['is_list_base_calc'] == true) {
-//                $next_all_links[] = $link;
-//                $next_all_links_ids[] = $link->id;
-//            }
+            if ($base_link_right['is_list_base_calc'] == true) {
+                $next_all_links[] = $link;
+                $next_all_links_ids[] = $link->id;
+            }
         }
 
         $item_name_lang = GlobalController::calc_item_name_lang();
