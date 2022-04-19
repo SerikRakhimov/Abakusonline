@@ -291,63 +291,63 @@
         {{--        </p>--}}
 
         @if($base_body_right['is_list_base_calc'] == true)
-            @if ((count($body_items) > 0) || ($base_body_right['is_list_base_create'] == true))
-                <?php
-                //                $message_bs_mc = GlobalController::base_maxcount_message($current_link->child_base);
-                //                $message_bs_byuser_mc = GlobalController::base_byuser_maxcount_message($current_link->child_base);
-                //                $message_ln_mc = GlobalController::link_maxcount_message($current_link);
-                //                $message_it_mc = GlobalController::link_item_maxcount_message($current_link);
-                //                $message_mc = ($message_bs_mc == "" ? "" : ', ' . PHP_EOL . $message_bs_mc)
-                //                    . ($message_bs_byuser_mc == "" ? "" : ', ' . PHP_EOL . $message_bs_byuser_mc)
-                //                    . ($message_ln_mc == "" ? "" : ', ' . PHP_EOL . $message_ln_mc)
-                //                    . ($message_it_mc == "" ? "" : ', ' . PHP_EOL . $message_it_mc);
-                //                $message_link = GlobalController::link_maxcount_validate($project, $current_link, true);
-                //                $message_item = GlobalController::link_item_maxcount_validate($project, $item, $current_link, true);
+            <?php
+            //                $message_bs_mc = GlobalController::base_maxcount_message($current_link->child_base);
+            //                $message_bs_byuser_mc = GlobalController::base_byuser_maxcount_message($current_link->child_base);
+            //                $message_ln_mc = GlobalController::link_maxcount_message($current_link);
+            //                $message_it_mc = GlobalController::link_item_maxcount_message($current_link);
+            //                $message_mc = ($message_bs_mc == "" ? "" : ', ' . PHP_EOL . $message_bs_mc)
+            //                    . ($message_bs_byuser_mc == "" ? "" : ', ' . PHP_EOL . $message_bs_byuser_mc)
+            //                    . ($message_ln_mc == "" ? "" : ', ' . PHP_EOL . $message_ln_mc)
+            //                    . ($message_it_mc == "" ? "" : ', ' . PHP_EOL . $message_it_mc);
+            //                $message_link = GlobalController::link_maxcount_validate($project, $current_link, true);
+            //                $message_item = GlobalController::link_item_maxcount_validate($project, $item, $current_link, true);
 
-                //      $next_all_links = $item->base->parent_links->where('id', '!=', $current_link->id);
-                // исключить вычисляемые поля
-                // Не удалять
-                //        $next_all_links = $item->base->parent_links->where('parent_is_parent_related', false)->where('id', '!=', $current_link->id);
-                //
-                //        $next_all_links_fact = DB::table('mains')
-                //            ->select('link_id')
-                //            ->where('parent_item_id', $item->id)
-                //            ->where('link_id', '!=', $current_link->id)
-                //            ->distinct()
-                //            ->get()
-                //            ->groupBy('link_id');
+            //      $next_all_links = $item->base->parent_links->where('id', '!=', $current_link->id);
+            // исключить вычисляемые поля
+            // Не удалять
+            //        $next_all_links = $item->base->parent_links->where('parent_is_parent_related', false)->where('id', '!=', $current_link->id);
+            //
+            //        $next_all_links_fact = DB::table('mains')
+            //            ->select('link_id')
+            //            ->where('parent_item_id', $item->id)
+            //            ->where('link_id', '!=', $current_link->id)
+            //            ->distinct()
+            //            ->get()
+            //            ->groupBy('link_id');
 
-                // $next_all_links = $item->base->parent_links->where('parent_is_parent_related', false);
-                // Не удалять
-                //                $next_all_links_fact = DB::table('mains')
-                //                    ->select('link_id')
-                //                    ->where('parent_item_id', $item->id)
-                //                    ->distinct()
-                //                    ->get()
-                //                    ->groupBy('link_id');
+            // $next_all_links = $item->base->parent_links->where('parent_is_parent_related', false);
+            // Не удалять
+            //                $next_all_links_fact = DB::table('mains')
+            //                    ->select('link_id')
+            //                    ->where('parent_item_id', $item->id)
+            //                    ->distinct()
+            //                    ->get()
+            //                    ->groupBy('link_id');
 
-                //                $array = objectToarray($next_all_links_fact);
+            //                $array = objectToarray($next_all_links_fact);
 
-                ?>
-                <hr>
-                <p>
-                <div class="container-fluid">
-                    <div class="row">
-                        <div class="col-10 text-left">
-                            <h3>
-                                {{--                        @if($current_link)--}}
-                                {{--                        {{$current_link->child_labels()}}:{{$current_link->child_base->name()}}--}}
-                                {{--                        @else--}}
-                                {{--                            {{$item->base->name()}}:--}}
-                                {{--                        @endif--}}
-                                <a href="{{route('item.base_index', ['base'=>$current_link->child_base,
+            ?>
+            <hr>
+            <p>
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-10 text-left">
+                        <h3>
+                            {{--                        @if($current_link)--}}
+                            {{--                        {{$current_link->child_labels()}}:{{$current_link->child_base->name()}}--}}
+                            {{--                        @else--}}
+                            {{--                            {{$item->base->name()}}:--}}
+                            {{--                        @endif--}}
+                            <a href="{{route('item.base_index', ['base'=>$current_link->child_base,
                             'project'=>$project, 'role'=>$role, 'relit_id'=>$relit_id])}}"
-                                   title="{{$current_link->child_base->names() . $message_mc_info}}">
-                                    {{$current_link->child_labels()}}:
-                                </a>
-                            </h3>
-                        </div>
-                        <div class="col-2 text-right">
+                               title="{{$current_link->child_base->names() . $message_mc_info}}">
+                                {{$current_link->child_labels()}}:
+                            </a>
+                        </h3>
+                    </div>
+                    <div class="col-2 text-right">
+                        @if ((count($body_items) > 0) || ($base_body_right['is_list_base_create'] == true))
                             @if ($base_body_right['is_list_base_create'] == true)
                                 {{--            Не удалять: используются $message_link и $message_item --}}
                                 {{--                                @if($message_link == "" && $message_item == "")--}}
@@ -365,35 +365,35 @@
                                     </button>
                                 @endif
                             @endif
-                        </div>
+                        @endif
                     </div>
                 </div>
-                @endif
-                {{--        <div class="container-fluid">--}}
-                {{--            <div class="row">--}}
-                {{--                <div class="col text-right">--}}
-                {{--                    <a href="{{route('item.ext_create', ['base'=>$current_link->child_base_id,--}}
-                {{--                            'project'=>$project, 'role'=>$role, 'heading'=>intval(false), 'par_link'=>$current_link->id, 'parent_item'=>$item->id])}}"--}}
-                {{--                       title="{{trans('main.add')}}">--}}
-                {{--                        <img src="{{Storage::url('add_record.png')}}" width="15" height="15"--}}
-                {{--                             alt="{{trans('main.add')}}">--}}
-                {{--                    </a>--}}
-                {{--                </div>--}}
-                {{--            </div>--}}
-                {{--        </div>--}}
-                </p>
-                @if (count($body_items) > 0)
-                    @include('list.table',['base'=>$current_link->child_base, 'project'=>$project, 'links_info'=>$child_body_links_info, 'items'=>$body_items,
-                'base_right'=>$base_body_right, 'relit_id'=>$relit_id,
-                'heading'=>intval(false), 'body_page'=>$body_page, 'body_count'=>$body_count,'body_perpage'=>$body_perpage,
-                'par_link'=>$current_link, 'parent_item'=>$item, 'is_table_body'=>false,
-                    'base_index'=>false, 'item_heading_base'=>false, 'item_body_base'=>true,
-                    'string_link_ids_next'=>$string_link_ids_next, 'string_item_ids_next'=>$string_item_ids_next])
-                    {{$body_items->links()}}
-                    {{--            {{$body_items->currentPage()}}--}}
-                    {{--            {{$body_count = $body_items->count()}}--}}
-                    {{--            {{$body_perpage = $body_items->perPage()}}--}}
-                @endif
+            </div>
+            @endif
+            {{--        <div class="container-fluid">--}}
+            {{--            <div class="row">--}}
+            {{--                <div class="col text-right">--}}
+            {{--                    <a href="{{route('item.ext_create', ['base'=>$current_link->child_base_id,--}}
+            {{--                            'project'=>$project, 'role'=>$role, 'heading'=>intval(false), 'par_link'=>$current_link->id, 'parent_item'=>$item->id])}}"--}}
+            {{--                       title="{{trans('main.add')}}">--}}
+            {{--                        <img src="{{Storage::url('add_record.png')}}" width="15" height="15"--}}
+            {{--                             alt="{{trans('main.add')}}">--}}
+            {{--                    </a>--}}
+            {{--                </div>--}}
+            {{--            </div>--}}
+            {{--        </div>--}}
+            </p>
+            @if (count($body_items) > 0)
+                @include('list.table',['base'=>$current_link->child_base, 'project'=>$project, 'links_info'=>$child_body_links_info, 'items'=>$body_items,
+            'base_right'=>$base_body_right, 'relit_id'=>$relit_id,
+            'heading'=>intval(false), 'body_page'=>$body_page, 'body_count'=>$body_count,'body_perpage'=>$body_perpage,
+            'par_link'=>$current_link, 'parent_item'=>$item, 'is_table_body'=>false,
+                'base_index'=>false, 'item_heading_base'=>false, 'item_body_base'=>true,
+                'string_link_ids_next'=>$string_link_ids_next, 'string_item_ids_next'=>$string_item_ids_next])
+                {{$body_items->links()}}
+                {{--            {{$body_items->currentPage()}}--}}
+                {{--            {{$body_count = $body_items->count()}}--}}
+                {{--            {{$body_perpage = $body_items->perPage()}}--}}
             @endif
             {{--            @if (count($next_all_links) > 1)--}}
             {{--                <hr>--}}
