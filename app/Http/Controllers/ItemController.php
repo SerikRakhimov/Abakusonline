@@ -561,12 +561,13 @@ class ItemController extends Controller
         $next_all_links_byuser_ids = array();
         $filter = false;
         foreach ($links as $link) {
-            $base_link_right = GlobalController::base_link_right($link, $role, $relit_id, true);
+            $base_link_right_child = GlobalController::base_link_right($link, $role, $relit_id, true);
+            $base_link_right_parent = GlobalController::base_link_right($link, $role, $relit_id, false);
             // Использовать две этих проверки
-            if (($base_link_right['is_body_link_enable'] == true) && ($base_link_right['is_list_base_calc'] == true)) {
+            if (($base_link_right_child['is_body_link_enable'] == true) && ($base_link_right_parent['is_list_base_calc'] == true)) {
                 // Такая же проверка и в GlobalController (function items_right()),
                 // в ItemController (function next_all_links_mains_calc(), browser(), get_items_for_link(), get_items_ext_edit_for_link())
-                if ($base_link_right['is_list_base_byuser'] == true) {
+                if ($base_link_right_parent['is_list_base_byuser'] == true) {
                     if (Auth::check()) {
                         $next_all_links_byuser_ids[] = $link->id;
                     } else {

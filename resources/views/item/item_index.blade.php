@@ -218,44 +218,46 @@
                 @endif
             </div>
             <div class="col-2 text-right">
-                <div class="row">
-                    <div class="col-12 text-right">
-                        <div class="dropdown">
-                            <button type="button" class="btn btn-dreamer dropdown-toggle" data-toggle="dropdown">
-                                {{trans('main.link')}}
-                            </button>
-                            <div class="dropdown-menu">
-                                <a class="dropdown-item" href="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,
-       'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id,'par_link'=>GlobalController::par_link_const_textnull(),
-       'string_link_ids_tree'=>$string_link_ids_current, 'string_item_ids_tree'=>$string_item_ids_current])}}"
-                                   title="{{$item->name()}}">
-                                    {{GlobalController::option_all()}}
-                                    @if($current_link == null)
-                                        {{--                                        Этот символ используется в двух местах--}}
-                                        &#10003;
-                                    @endif
-                                </a>
-                                @foreach($next_all_links as $key=>$value)
+                @if(count($next_all_links)>0)
+                    <div class="row">
+                        <div class="col-12 text-right">
+                            <div class="dropdown">
+                                <button type="button" class="btn btn-dreamer dropdown-toggle" data-toggle="dropdown">
+                                    {{trans('main.link')}}
+                                </button>
+                                <div class="dropdown-menu">
                                     <a class="dropdown-item" href="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,
-       'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id,'par_link'=>$value->id,
-       'string_link_ids_tree'=>$string_link_ids_current, 'string_item_ids_tree'=>$string_item_ids_current])}}"
+                                  'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id,'par_link'=>GlobalController::par_link_const_textnull(),
+                                  'string_link_ids_tree'=>$string_link_ids_current, 'string_item_ids_tree'=>$string_item_ids_current])}}"
                                        title="{{$item->name()}}">
-                                        {{$value->child_labels()}}
-                                        @if($current_link)
-                                            @if($value->id == $current_link->id)
-                                                {{--                                        Этот символ используется в двух местах--}}
-                                                &#10003;
-                                            @endif
-                                        @endif
-                                        @if(isset($array["\x00*\x00items"][$value->id]))
-                                            *
+                                        {{GlobalController::option_all()}}
+                                        @if($current_link == null)
+                                            {{--                                        Этот символ используется в двух местах--}}
+                                            &#10003;
                                         @endif
                                     </a>
-                                @endforeach
+                                    @foreach($next_all_links as $key=>$value)
+                                        <a class="dropdown-item" href="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,
+                                          'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id,'par_link'=>$value->id,
+                                          'string_link_ids_tree'=>$string_link_ids_current, 'string_item_ids_tree'=>$string_item_ids_current])}}"
+                                           title="{{$item->name()}}">
+                                            {{$value->child_labels()}}
+                                            @if($current_link)
+                                                @if($value->id == $current_link->id)
+                                                    {{--                                        Этот символ используется в двух местах--}}
+                                                    &#10003;
+                                                @endif
+                                            @endif
+                                            @if(isset($array["\x00*\x00items"][$value->id]))
+                                                *
+                                            @endif
+                                        </a>
+                                    @endforeach
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                @endif
             </div>
         </div>
     </div>
@@ -484,7 +486,7 @@
                                                                                      'par_link'=>$value, 'parent_item'=>$item])}}"
                                                title="{{trans('main.add') . $message_mc_array_info[$value->id]}}">
                                                 {{$value->child_labels()}}
-{{--                                                <i class="fas fa-plus d-inline"></i>--}}
+                                                {{--                                                <i class="fas fa-plus d-inline"></i>--}}
                                                 @if(isset($array["\x00*\x00items"][$value->id]))
                                                     *
                                                 @endif
