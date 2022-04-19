@@ -356,7 +356,8 @@ class GlobalController extends Controller
         //  Проверка скрывать поле или нет
         if ($link->parent_is_hidden_field == true) {
             $is_list_link_enable = false;
-            $is_body_link_enable = false;
+            // Не нужно '$is_body_link_enable = false;' - чтобы при прросмотре Пространство связь отображалась
+            //$is_body_link_enable = false;
             $is_show_link_enable = false;
             $is_edit_link_read = false;
             //$is_edit_link_update = false;
