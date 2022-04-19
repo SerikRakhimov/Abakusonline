@@ -61,7 +61,7 @@ $i = 0;
                                 @if($item_heading_base && $matrix[$x][$y]["fin_link"] == true)
                                     <a href="{{route('item.base_index',['base'=>$link->parent_base_id, 'project'=>$project, 'role'=>$role, 'relit_id' => $relit_id])}}"
                                        title="{{$link->parent_base->names()}}">
-                                        {{$matrix[$x][$y]["view_name"]}}:
+                                        {{$matrix[$x][$y]["view_name"]}}
                                     </a>
                                 @else
                                     {{$matrix[$x][$y]["view_name"]}}
