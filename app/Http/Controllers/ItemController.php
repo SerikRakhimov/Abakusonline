@@ -178,9 +178,9 @@ class ItemController extends Controller
 //            }
 //        }
 //        if ($items != null) {
-//            // Такая же проверка и в GlobalController (function items_right()),
-//            // в ItemController (function browser(), get_items_for_link(), get_items_ext_edit_for_link())
-//            if ($base_right['is_list_base_byuser'] == true) {
+            // Такая же проверка и в GlobalController (function items_right()),
+            // в ItemController (function next_all_links_mains_calc(), browser(), get_items_for_link(), get_items_ext_edit_for_link())
+            //            if ($base_right['is_list_base_byuser'] == true) {
 //                $items = $items->where('created_user_id', GlobalController::glo_user_id());
 //            }
 //            if ($search != "") {
@@ -558,32 +558,56 @@ class ItemController extends Controller
             ->sortBy('child_base_id');
         $next_all_links = array();
         $next_all_links_ids = array();
+        $next_all_links_byuser_ids = array();
+        $filter = false;
         foreach ($links as $link) {
             $base_link_right = GlobalController::base_link_right($link, $role, $relit_id, true);
-            // Использовать эту проверку
-            if ($base_link_right['is_body_link_enable'] == true) {
-                $next_all_links[] = $link;
-                $next_all_links_ids[] = $link->id;
-            }
-            if ($base_link_right['is_list_base_calc'] == true) {
-                $next_all_links[] = $link;
-                $next_all_links_ids[] = $link->id;
+            // Использовать две этих проверки
+            if (($base_link_right['is_body_link_enable'] == true) && ($base_link_right['is_list_base_calc'] == true)) {
+                // Такая же проверка и в GlobalController (function items_right()),
+                // в ItemController (function next_all_links_mains_calc(), browser(), get_items_for_link(), get_items_ext_edit_for_link())
+                if ($base_link_right['is_list_base_byuser'] == true) {
+                    if (Auth::check()) {
+                        $next_all_links_byuser_ids[] = $link->id;
+                    } else {
+                        // Данные не добавляются
+                    }
+                } else {
+                    $next_all_links[] = $link;
+                    $next_all_links_ids[] = $link->id;
+                }
             }
         }
-
+//        foreach ($links as $link) {
+//            $base_link_right = GlobalController::base_link_right($link, $role, $relit_id, true);
+//            if ($base_link_right['is_list_base_byuser'] == true) {
+//                if (Auth::check()) {
+//                }
+//            }
+//
+//        }
         $item_name_lang = GlobalController::calc_item_name_lang();
         // Все записи, со всеми links, по факту
         // Условия одинаковые 'where('parent_is_base_link', false)'
+        // Такая же проверка и в GlobalController (function items_right()),
+        // в ItemController (function next_all_links_mains_calc(), browser(), get_items_for_link(), get_items_ext_edit_for_link())
         $next_all_mains = Main::select('mains.*')
             ->join('links', 'mains.link_id', '=', 'links.id')
             ->join('items', 'mains.child_item_id', '=', 'items.id')
             ->whereIn('links.id', $next_all_links_ids)
+            ->where(function ($query) use ($next_all_links_byuser_ids) {
+                $query->whereIn('links.id', $next_all_links_byuser_ids)
+                    ->where('items.created_user_id', GlobalController::glo_user_id());
+            })
             ->where('links.parent_is_base_link', '=', false)
             ->where('parent_item_id', $item->id)
             ->orderBy('links.child_base_number')
             ->orderBy('links.child_base_id')
             ->orderBy('items.' . $item_name_lang);
-
+//        ->whereNot(function ($query) use ($next_all_links_byuser_ids) {
+//        $query->whereIn('links.id', $next_all_links_byuser_ids)
+//            ->where('items.created_user_id', GlobalController::glo_user_id());
+//    })
         // Первая связь (по сортировке)
         $next_all_first_link = null;
         if (count($next_all_links) > 0) {
@@ -4142,7 +4166,7 @@ class ItemController extends Controller
 //                        ->orderBy($name);
             }
             // Такая же проверка и в GlobalController (function items_right()),
-            // в ItemController (function browser(), get_items_for_link(), get_items_ext_edit_for_link())
+            // в ItemController (function next_all_links_mains_calc(), browser(), get_items_for_link(), get_items_ext_edit_for_link())
             if ($base_right['is_list_base_byuser'] == true) {
                 $result_parent_base_items = $result_parent_base_items->where('created_user_id', GlobalController::glo_user_id());
             }
@@ -4188,7 +4212,7 @@ class ItemController extends Controller
             $base_right = GlobalController::base_right($link->parent_base, $role, $relit_id);
             $result_parent_base_items = Item::select(['id', 'base_id', 'name_lang_0', 'name_lang_1', 'name_lang_2', 'name_lang_3', 'created_user_id'])->where('base_id', $link->parent_base_id)->where('project_id', $project->id)->orderBy($name);
             // Такая же проверка и в GlobalController (function items_right()),
-            // в ItemController (function browser(), get_items_for_link(), get_items_ext_edit_for_link())
+            // в ItemController (function next_all_links_mains_calc(), browser(), get_items_for_link(), get_items_ext_edit_for_link())
             if ($base_right['is_list_base_byuser'] == true) {
                 $result_parent_base_items = $result_parent_base_items->where('created_user_id', GlobalController::glo_user_id());
             }
@@ -5466,7 +5490,7 @@ class ItemController extends Controller
             }
 
             // Такая же проверка и в GlobalController (function items_right()),
-            // в ItemController (function browser(), get_items_for_link(), get_items_ext_edit_for_link())
+            // в ItemController (function next_all_links_mains_calc(), browser(), get_items_for_link(), get_items_ext_edit_for_link())
             if ($base_right['is_list_base_byuser'] == true) {
                 $items = $items->where('created_user_id', GlobalController::glo_user_id());
             }

@@ -482,7 +482,7 @@ class GlobalController extends Controller
             $items = Item::where('base_id', $base->id)->where('project_id', $project->id);
         }
         // Такая же проверка и в GlobalController (function items_right()),
-        // в ItemController (function browser(), get_items_for_link(), get_items_ext_edit_for_link())
+        // в ItemController (function next_all_links_mains_calc(), browser(), get_items_for_link(), get_items_ext_edit_for_link())
         if ($base_right['is_list_base_byuser'] == true) {
             if (Auth::check()) {
                 $items = $items->where('created_user_id', GlobalController::glo_user_id());
@@ -513,7 +513,7 @@ class GlobalController extends Controller
 
                 //if (count($items->get()) > 0) {
                 // Такая же проверка и в GlobalController (function items_right()),
-                // в ItemController (function browser(), get_items_for_link(), get_items_ext_edit_for_link())
+                // в ItemController (function next_all_links_mains_calc(), browser(), get_items_for_link(), get_items_ext_edit_for_link())
 //            if ($base_right['is_list_base_byuser'] == true) {
 //                if (Auth::check()) {
 //                    $items = $items->where('created_user_id', GlobalController::glo_user_id());
