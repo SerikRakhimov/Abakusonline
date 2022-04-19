@@ -9,8 +9,8 @@ $cols = $links_info['cols'];
 //$i = $items->firstItem() - 1;
 $i = 0;
 ?>
-{{--<table class="table table-sm table-bordered table-hover">--}}
-<table class="table table-sm table-borderless table-hover">
+<table class="table table-sm table-bordered table-hover">
+{{--<table class="table table-sm table-borderless table-hover">--}}
     @if(!$heading)
         <caption>{{trans('main.select_record_for_work')}}</caption>
     @endif
@@ -50,10 +50,13 @@ $i = 0;
                         $link = Link::findOrFail($matrix[$x][$y]["link_id"]);
                         ?>
                         @if($matrix[$x][$y]["view_field"] != null)
-                            {{--                                class="text-center align-top"--}}
                             <th rowspan="{{$matrix[$x][$y]["rowspan"]}}"
                                 colspan="{{$matrix[$x][$y]["colspan"]}}"
+                                @if($x == 0)
                                 @include('layouts.class_from_base',['base'=>$link->parent_base, 'align_top'=>true])
+                                @else
+                                class="text-center align-top"
+                                @endif
                             >
                                 @if($item_heading_base && $matrix[$x][$y]["fin_link"] == true)
                                     <a href="{{route('item.base_index',['base'=>$link->parent_base_id, 'project'=>$project, 'role'=>$role, 'relit_id' => $relit_id])}}"
@@ -255,7 +258,7 @@ $i = 0;
                                 {{--                                        Вызывается item_index.php--}}
                                 <?php
                                 $i_item = null;
-//                                $i_par_link = null;
+                                //                                $i_par_link = null;
                                 if ($item_heading_base) {
                                     $i_item = $item_find;
 //                                    $i_par_link = $link;
