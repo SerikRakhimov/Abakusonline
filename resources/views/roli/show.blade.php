@@ -37,6 +37,7 @@
         <p>{{trans('main.link')}}: <b>{{$roli->link->name()}}</b></p>
     @endif
     <p>{{trans('main.is_list_link_enable')}}: <b>{{GlobalController::name_is_boolean($roli->is_list_link_enable)}}</b></p>
+    <p>{{trans('main.is_body_link_enable')}}: <b>{{GlobalController::name_is_boolean($roli->is_body_link_enable)}}</b></p>
     <p>{{trans('main.is_show_link_enable')}}: <b>{{GlobalController::name_is_boolean($roli->is_show_link_enable)}}</b></p>
     <p>{{trans('main.is_edit_link_read')}}: <b>{{GlobalController::name_is_boolean($roli->is_edit_link_read)}}</b></p>
     <p>{{trans('main.is_edit_link_update')}}: <b>{{GlobalController::name_is_boolean($roli->is_edit_link_update)}}</b></p>

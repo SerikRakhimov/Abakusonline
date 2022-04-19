@@ -561,14 +561,14 @@ class ItemController extends Controller
         foreach ($links as $link) {
             $base_link_right = GlobalController::base_link_right($link, $role, $relit_id, true);
             // Использовать эту проверку
-//            if ($base_link_right['is_list_link_enable'] == true) {
+            if ($base_link_right['is_body_link_enable'] == true) {
+                $next_all_links[] = $link;
+                $next_all_links_ids[] = $link->id;
+            }
+//            if ($base_link_right['is_list_base_calc'] == true) {
 //                $next_all_links[] = $link;
 //                $next_all_links_ids[] = $link->id;
 //            }
-            if ($base_link_right['is_list_base_calc'] == true) {
-                $next_all_links[] = $link;
-            $next_all_links_ids[] = $link->id;
-            }
         }
 
         $item_name_lang = GlobalController::calc_item_name_lang();
@@ -637,7 +637,7 @@ class ItemController extends Controller
         $message_link = GlobalController::link_maxcount_validate($project, $current_link, true);
         $message_item = GlobalController::link_item_maxcount_validate($project, $item, $current_link, true);
         $message_mc_link_item = $message_link . $message_item;
-        return['message_mc_info'=>$message_mc_info, 'message_mc_link_item'=>$message_mc_link_item];
+        return ['message_mc_info' => $message_mc_info, 'message_mc_link_item' => $message_mc_link_item];
     }
 
     function store_link_change(Request $request)

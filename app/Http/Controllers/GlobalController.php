@@ -89,6 +89,7 @@ class GlobalController extends Controller
         $is_edit_base_update = $role->is_edit_base_update;
         $is_list_base_enable = $role->is_list_base_enable;
         $is_list_link_enable = $role->is_list_link_enable;
+        $is_body_link_enable = $role->is_body_link_enable;
         $is_show_base_enable = $role->is_show_base_enable;
         $is_show_link_enable = $role->is_show_link_enable;
         $is_edit_link_read = $role->is_edit_link_read;
@@ -202,6 +203,7 @@ class GlobalController extends Controller
             $is_roba_edit_base_update = $roba->is_edit_base_update;
             $is_roba_list_base_enable = $roba->is_list_base_enable;
             $is_roba_list_link_enable = $roba->is_list_link_enable;
+            $is_roba_body_link_enable = $roba->is_body_link_enable;
             $is_roba_show_base_enable = $roba->is_show_base_enable;
             $is_roba_show_link_enable = $roba->is_show_link_enable;
             $is_roba_edit_link_read = $roba->is_edit_link_read;
@@ -249,7 +251,7 @@ class GlobalController extends Controller
             $is_edit_base_read = $is_roba_edit_base_read;
             $is_edit_base_update = $is_roba_edit_base_update;
             $is_list_base_enable = $is_roba_list_base_enable;
-            $is_list_link_enable = $is_roba_list_link_enable;
+            $is_body_link_enable = $is_roba_body_link_enable;
 //            $is_edit_link_enable = $is_roba_edit_link_enable;
             $is_show_base_enable = $is_roba_show_base_enable;
             $is_show_link_enable = $is_roba_show_link_enable;
@@ -281,6 +283,7 @@ class GlobalController extends Controller
             'is_edit_base_update' => $is_edit_base_update,
             'is_list_base_enable' => $is_list_base_enable,
             'is_list_link_enable' => $is_list_link_enable,
+            'is_body_link_enable' => $is_body_link_enable,
             'is_show_base_enable' => $is_show_base_enable,
             'is_show_link_enable' => $is_show_link_enable,
             'is_edit_link_enable' => $is_edit_link_enable,
@@ -328,6 +331,7 @@ class GlobalController extends Controller
         $is_edit_base_update = $base_right['is_edit_base_update'];
         $is_list_base_enable = $base_right['is_list_base_enable'];
         $is_list_link_enable = $base_right['is_list_link_enable'];
+        $is_body_link_enable = $base_right['is_body_link_enable'];
         $is_show_base_enable = $base_right['is_show_base_enable'];
         $is_show_link_enable = $base_right['is_show_link_enable'];
         $is_edit_link_read = $base_right['is_edit_link_read'];
@@ -343,6 +347,7 @@ class GlobalController extends Controller
         //  Проверка Показывать Связь с признаком "Ссылка на основу"
         if ($role->is_list_link_baselink == false && $link->parent_is_base_link == true) {
             $is_list_link_enable = false;
+            $is_body_link_enable = false;
             $is_show_link_enable = false;
             $is_edit_link_read = false;
             $is_hier_base_enable = false;
@@ -351,6 +356,7 @@ class GlobalController extends Controller
         //  Проверка скрывать поле или нет
         if ($link->parent_is_hidden_field == true) {
             $is_list_link_enable = false;
+            $is_body_link_enable = false;
             $is_show_link_enable = false;
             $is_edit_link_read = false;
             //$is_edit_link_update = false;
@@ -363,6 +369,7 @@ class GlobalController extends Controller
         $roli = Roli::where('role_id', $role->id)->where('relit_id', $relit_id)->where('link_id', $link->id)->first();
         if ($roli != null) {
             $is_list_link_enable = $roli->is_list_link_enable;
+            $is_body_link_enable = $roli->is_body_link_enable;
             $is_show_link_enable = $roli->is_show_link_enable;
             $is_edit_link_read = $roli->is_edit_link_read;
             $is_edit_link_update = $roli->is_edit_link_update;
@@ -385,6 +392,7 @@ class GlobalController extends Controller
             'is_edit_base_update' => $is_edit_base_update,
             'is_list_base_enable' => $is_list_base_enable,
             'is_list_link_enable' => $is_list_link_enable,
+            'is_body_link_enable' => $is_body_link_enable,
             'is_show_base_enable' => $is_show_base_enable,
             'is_show_link_enable' => $is_show_link_enable,
             'is_edit_link_enable' => $is_edit_link_enable,

@@ -220,6 +220,7 @@ return [
     'is_edit_base_update' => 'Update the Bases in the form',
     'is_list_base_enable' => 'Show Base in list',
     'is_list_link_enable' => 'Show Link in list',
+    'is_body_link_enable' => 'Show Link in list Space-body',
     'is_show_base_enable' => 'Reading Bases when viewing',
     'is_show_link_enable' => 'Read Links when viewing',
     'is_edit_link_read' => 'Reading Links in the form',

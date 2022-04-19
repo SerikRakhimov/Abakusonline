@@ -48,6 +48,7 @@
     <p>{{trans('main.is_edit_base_update')}}: <b>{{GlobalController::name_is_boolean($role->is_edit_base_update)}}</b></p>
     <p>{{trans('main.is_list_base_enable')}}: <b>{{GlobalController::name_is_boolean($role->is_list_base_enable)}}</b></p>
     <p>{{trans('main.is_list_link_enable')}}: <b>{{GlobalController::name_is_boolean($role->is_list_link_enable)}}</b></p>
+    <p>{{trans('main.is_body_link_enable')}}: <b>{{GlobalController::name_is_boolean($role->is_body_link_enable)}}</b></p>
     <p>{{trans('main.is_show_base_enable')}}: <b>{{GlobalController::name_is_boolean($role->is_show_base_enable)}}</b></p>
     <p>{{trans('main.is_show_link_enable')}}: <b>{{GlobalController::name_is_boolean($role->is_show_link_enable)}}</b></p>
     <p>{{trans('main.is_edit_link_read')}}: <b>{{GlobalController::name_is_boolean($role->is_edit_link_read)}}</b></p>

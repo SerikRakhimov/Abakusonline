@@ -220,6 +220,7 @@ return [
     'is_edit_base_update' => 'Корректировка Основы в форме',
     'is_list_base_enable' => 'Показывать Основу в списке',
     'is_list_link_enable' => 'Показывать Связь в списке',
+    'is_body_link_enable' => 'Показывать Связь в списке Пространство-тело',
     'is_show_base_enable' => 'Чтение Основы при просмотре',
     'is_show_link_enable' => 'Чтение Связи при просмотре',
     'is_edit_link_read' => 'Чтение Связи в форме',

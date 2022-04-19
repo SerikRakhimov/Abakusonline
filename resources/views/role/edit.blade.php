@@ -652,6 +652,31 @@
             </div>
         </div>
 
+        <div class="form-group row" id="is_body_link_enable_form_group">
+            <div class="col-sm-3 text-right">
+                <label class="form-label"
+                       for="is_body_link_enable">{{trans('main.is_body_link_enable')}}</label>
+            </div>
+            <div class="col-sm-7">
+                <input class="@error('is_body_link_enable') is-invalid @enderror"
+                       type="checkbox"
+                       name="is_body_link_enable"
+                       placeholder=""
+                       {{--                       "$role->is_body_link_enable ?? true" - "true" значение по умолчанию--}}
+                       @if ((old('is_body_link_enable') ?? ($role->is_body_link_enable ?? true)) ==  true)
+                       checked
+                    @endif
+                >
+                @error('is_body_link_enable')
+                <div class="invalid-feedback">
+                    {{$message}}
+                </div>
+                @enderror
+            </div>
+            <div class="col-sm-2">
+            </div>
+        </div>
+
         <div class="form-group row" id="is_show_base_enable_form_group">
             <div class="col-sm-3 text-right">
                 <label class="form-label"
