@@ -64,7 +64,7 @@ $i = 0;
                                         {{$matrix[$x][$y]["view_name"]}}:
                                     </a>
                                 @else
-                                    {{$matrix[$x][$y]["view_name"]}}:
+                                    {{$matrix[$x][$y]["view_name"]}}
                                 @endif
                             </th>
                             {{--                    {{$x}} {{$y}}  rowspan = {{$matrix[$x][$y]["rowspan"]}} colspan = {{$matrix[$x][$y]["colspan"]}} view_level_id = {{$matrix[$x][$y]["view_level_id"]}} view_level_name = {{$matrix[$x][$y]["view_level_name"]}}--}}
