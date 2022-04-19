@@ -569,11 +569,14 @@ class ItemController extends Controller
                 // в ItemController (function next_all_links_mains_calc(), browser(), get_items_for_link(), get_items_ext_edit_for_link())
                 if ($base_link_right['is_list_base_byuser'] == true) {
                     if (Auth::check()) {
+                        // Нужно '$next_all_links[] = $link;'
+                        $next_all_links[] = $link;
                         $next_all_links_byuser_ids[] = $link->id;
                     } else {
                         // Данные не добавляются
                     }
                 } else {
+                    // Нужно '$next_all_links[] = $link;'
                     $next_all_links[] = $link;
                     $next_all_links_ids[] = $link->id;
                 }
