@@ -1687,6 +1687,10 @@ class GlobalController extends Controller
     {
         return 'textnull';
     }
+    static function par_link_const_text_base_null()
+    {
+        return 'text_base_null';
+    }
 
     // Функция нужна, что в строке запуска не было без параметра
     // (http://abakusonline:8080/item/item_index/33/2789/21/18/0//195/2787) - неправильно

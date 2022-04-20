@@ -10,8 +10,8 @@ $i = 0;
     <tr>
         <th class="text-center align-top">#</th>
         {{--        <th class="text-left align-top">{{trans('main.link')}}</th>--}}
-        <th class="text-left align-top">{{trans('main.base')}}</th>
         <th class="text-left align-top">{{trans('main.name')}}</th>
+        <th class="text-left align-top">{{trans('main.base')}}</th>
         @if($next_all_is_code_enable == true)
             <th class="text-left align-top">{{trans('main.code')}}</th>
     @endif
@@ -52,8 +52,8 @@ $i = 0;
         'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id,'par_link'=>GlobalController::par_link_const_textnull(),
         'string_link_ids_tree'=>$string_link_ids_array_next[$main->link_id],
         'string_item_ids_tree'=>$string_item_ids_array_next[$main->link_id]])}}"
-                   title="{{$item->name()}}">
-                {{GlobalController::calc_title_name($main->link->child_label())}}
+                   title="{{$main->link->child_label()}}">
+                    {{$main->child_item->name()}}
                 </a>
             </td>
             <td class="text-left">
@@ -62,7 +62,7 @@ $i = 0;
         'string_link_ids_tree'=>$string_link_ids_array_next[$main->link_id],
         'string_item_ids_tree'=>$string_item_ids_array_next[$main->link_id]])}}"
                    title="{{$item->name()}}">
-                    {{$main->child_item->name()}}
+                    {{GlobalController::calc_title_name($main->link->child_label())}}
                 </a>
             </td>
             @if($next_all_is_code_enable == true)

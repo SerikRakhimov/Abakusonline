@@ -292,7 +292,7 @@ class ItemController extends Controller
             return view('message', ['message' => trans('main.no_access')]);
         }
         $par_find_link = null;
-        if ($par_link == GlobalController::par_link_const_textnull() || $par_link == null) {
+        if ($par_link == null || $par_link == GlobalController::par_link_const_textnull() ||  $par_link == GlobalController::par_link_const_text_base_null()) {
             $par_find_link = null;
         } else {
             $par_find_link = Link::find($par_link);
@@ -417,9 +417,12 @@ class ItemController extends Controller
 //                    $current_link = null;
 //                }
 //            }
-            if (!$current_link) {
-                // Если не найдены - берем первый пустой (без данных)
-                $current_link = $next_all_first_link;
+            // item_index() вызвано из base_index()
+            if ($par_link == GlobalController::par_link_const_text_base_null()) {
+                if ($base_right['is_heading']) {
+                        // Если не найдены - берем первый пустой (без данных)
+                        $current_link = $next_all_first_link;
+                }
             }
         }
         $child_body_links_info = null;

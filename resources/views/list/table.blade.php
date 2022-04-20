@@ -260,15 +260,21 @@ $i = 0;
                                 $i_item = null;
                                 //                                $i_par_link = null;
                                 if ($item_heading_base) {
-                                    $i_item = $item_find;
-//                                    $i_par_link = $link;
+                                    $i_item = $item_find;//
                                 } else {
-                                    $i_item = $item;
-//                                    $i_par_link = $par_link;
+                                    $i_item = $item;//
+                                }
+                                    $i_par_link = null;
+                                // Вызов list\table.php из base_index.php
+                                if($base_index == true){
+                                    $i_par_link = GlobalController::par_link_const_text_base_null();
+                                }
+                                else{
+                                    $i_par_link = GlobalController::par_link_const_textnull();
                                 }
                                 ?>
                                 <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$i_item, 'role'=>$role,
-        'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id, 'par_link'=>GlobalController::par_link_const_textnull(),
+        'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id, 'par_link'=>$i_par_link,
         'string_link_ids_tree'=>$string_link_ids_next, 'string_item_ids_tree'=>$string_item_ids_next])}}"
                                    title="">
                                     @endif
