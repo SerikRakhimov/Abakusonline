@@ -39,10 +39,10 @@
     @foreach($tree_array as $value)
         <h6>{{GlobalController::calc_title_name($value['title_name'])}}:
             <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$value['item_id'], 'role'=>$role,
-                                        'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id, 'par_link'=>$value['link_id'],
+                                        'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id, 'par_link'=>$value['str_link'],
                                         'string_link_ids_tree'=>$value['string_prev_link_ids'],
                                         'string_item_ids_tree'=>$value['string_prev_item_ids']])}}"
-               title="">
+               title="{{$value['info_name']}}">
                 {{$value['item_name']}}
             </a>
         </h6>

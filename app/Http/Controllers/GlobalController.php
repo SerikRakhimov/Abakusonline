@@ -474,7 +474,20 @@ class GlobalController extends Controller
 //            }
 //            $ids = $coll_mains->keys()->toArray();
 //            $items = Item::whereIn('id', $ids);
-
+            $items_ids = null;
+            // Запросы одинаковые, разница только в одной последней строке
+            if ($mains_link_id == GlobalController::par_link_const_textnull()) {
+                $items_ids = Main::select(DB::Raw('mains.child_item_id as id'))
+                    ->join('items', 'mains.child_item_id', '=', 'items.id')
+                    ->where('items.project_id', '=', $project->id)
+                    ->where('mains.parent_item_id', '=', $mains_item_id);
+            } else {
+                $items_ids = Main::select(DB::Raw('mains.child_item_id as id'))
+                    ->join('items', 'mains.child_item_id', '=', 'items.id')
+                    ->where('items.project_id', '=', $project->id)
+                    ->where('mains.parent_item_id', '=', $mains_item_id)
+                    ->where('mains.link_id', '=', $mains_link_id);
+            }
             $items_ids = Main::select(DB::Raw('mains.child_item_id as id'))
                 ->join('items', 'mains.child_item_id', '=', 'items.id')
                 ->where('items.project_id', '=', $project->id)
@@ -1687,6 +1700,7 @@ class GlobalController extends Controller
     {
         return 'textnull';
     }
+
     static function par_link_const_text_base_null()
     {
         return 'text_base_null';
@@ -1698,9 +1712,9 @@ class GlobalController extends Controller
     static function par_link_textnull($par_link)
     {
         $result = null;
-        if ($par_link){
+        if ($par_link) {
             $result = $par_link;
-        }else{
+        } else {
             $result = self::par_link_const_textnull();
         }
         return $result;

@@ -292,7 +292,7 @@ class ItemController extends Controller
             return view('message', ['message' => trans('main.no_access')]);
         }
         $par_find_link = null;
-        if ($par_link == null || $par_link == GlobalController::par_link_const_textnull() ||  $par_link == GlobalController::par_link_const_text_base_null()) {
+        if ($par_link == null || $par_link == GlobalController::par_link_const_textnull() || $par_link == GlobalController::par_link_const_text_base_null()) {
             $par_find_link = null;
         } else {
             $par_find_link = Link::find($par_link);
@@ -324,7 +324,8 @@ class ItemController extends Controller
             $items_right = GlobalController::items_right($item->base, $relip_project, $role, $relit_id, null, null, $item->id);
         } else {
             // Используем последний элемент массива $tree_array[$count - 1], '- 1' - т.к. нумерация массива с 0
-            $items_right = GlobalController::items_right($item->base, $relip_project, $role, $relit_id, $tree_array[$count - 1]['item_id'], $tree_array[$count - 1]['link_id'], $item->id);
+            $items_right = GlobalController::items_right($item->base, $relip_project, $role, $relit_id,
+                $tree_array[$count - 1]['item_id'], $tree_array[$count - 1]['str_link'], $item->id);
         }
 
         // 'itget' нужно
@@ -420,8 +421,8 @@ class ItemController extends Controller
             // item_index() вызвано из base_index()
             if ($par_link == GlobalController::par_link_const_text_base_null()) {
                 if ($base_right['is_heading']) {
-                        // Если не найдены - берем первый пустой (без данных)
-                        $current_link = $next_all_first_link;
+                    // Если не найдены - берем первый пустой (без данных)
+                    $current_link = $next_all_first_link;
                 }
             }
         }
@@ -435,7 +436,9 @@ class ItemController extends Controller
             $items_body_right = GlobalController::items_right($current_link->child_base, $relip_project, $role, $relit_id, $item->id, $current_link->id);
             $body_items = $items_body_right['items']->paginate(60, ['*'], 'body_page');
 
-            $string_current_next_ids = self::calc_string_current_next_ids($item, $current_link, $tree_array);
+            // $item, $current_link присоединяются к списку $tree_array
+            // Нужно '$current_link->id'
+            $string_current_next_ids = self::calc_string_current_next_ids($item, $current_link->id, $tree_array);
             $string_link_ids_current = $string_current_next_ids['string_current_link_ids'];
             $string_item_ids_current = $string_current_next_ids['string_current_item_ids'];
             $string_link_ids_next = $string_current_next_ids['string_next_link_ids'];
@@ -473,15 +476,19 @@ class ItemController extends Controller
         if (($string_link_ids_tree != "") && ($string_item_ids_tree != "")) {
             $array_link_ids = explode(",", $string_link_ids_tree);
             $array_item_ids = explode(",", $string_item_ids_tree);
+            // Количества переданных $links и $items должны совпадать
             if (count($array_link_ids) == count($array_item_ids)) {
                 if (count($array_link_ids) > 0) {
                     // Сначала проверка, затем заполнение массива $result
                     $error = false;
-                    foreach ($array_link_ids as $link_id) {
-                        $link = link::find($link_id);
-                        if (!$link) {
-                            $error = true;
-                            break;
+                    foreach ($array_link_ids as $str_link) {
+                        // $array_link_ids - допускается в массиве либо $link->id, либо GlobalController::par_link_const_textnull()
+                        if ($str_link != GlobalController::par_link_const_textnull()) {
+                            $link = link::find($str_link);
+                            if (!$link) {
+                                $error = true;
+                                break;
+                            }
                         }
                     }
                     if (!$error) {
@@ -495,15 +502,19 @@ class ItemController extends Controller
                         if (!$error) {
                             $i = 0;
                             $str = '';
-                            foreach ($array_link_ids as $link_id) {
+                            foreach ($array_link_ids as $str_link) {
                                 $result[$i]['string_prev_link_ids'] = $str;
-                                $str = $str . ($i == 0 ? '' : ',') . $link_id;
-                                $result[$i]['link_id'] = $link_id;
-                                $result[$i]['string_link_ids'] = $str;
-                                // Проверка на правильность поиска $link_id выше
-                                $link = Link::findOrFail($link_id);
-//                              $result[$i]['title_name'] = $link->parent_label();
-                                $result[$i]['title_name'] = $link->parent_base->name();
+                                $str = $str . ($i == 0 ? '' : ',') . $str_link;
+                                $result[$i]['str_link'] = $str_link;
+                                $result[$i]['string_str_links'] = $str;
+                                if ($str_link == GlobalController::par_link_const_textnull()) {
+                                    $result[$i]['info_name'] = trans('main.all');
+                                } else {
+                                    // Проверка на правильность поиска $link_id выше
+                                    $link = Link::findOrFail($str_link);
+                                    $result[$i]['info_name'] = $link->child_labels();
+                                    //                        $result[$i]['info_name'] = $link->child_base->names();
+                                }
                                 $i = $i + 1;
                             }
                             $i = 0;
@@ -515,7 +526,10 @@ class ItemController extends Controller
                                 $result[$i]['string_item_ids'] = $str;
                                 // Проверка на правильность поиска $item_id выше
                                 $item = Item::findOrFail($item_id);
+                                // Эти массивы используются в item_index.php при выводе $tree_array
+                                $result[$i]['title_name'] = $item->base->name();
                                 $result[$i]['item_name'] = $item->name();
+                                $result[$i]['info_name'] = $result[$i]['item_name'] . ' - ' . mb_strtolower($result[$i]['info_name']);
                                 $i = $i + 1;
                             }
                         }
@@ -526,18 +540,19 @@ class ItemController extends Controller
         return $result;
     }
 
-    function calc_string_current_next_ids(Item $item, Link $link, $tree_array)
+    // $str_link - допускается передавать либо $link->id, либо GlobalController::par_link_const_textnull()
+    function calc_string_current_next_ids(Item $item, $str_link, $tree_array)
     {
         $string_current_link_ids = '';
         $string_current_item_ids = '';
-        $string_next_link_ids = $link->id;
+        $string_next_link_ids = $str_link;
         $string_next_item_ids = $item->id;
         $count = count($tree_array);
         if ($count > 0) {
             // '- 1' т.к. нумерация элементов массива начинается с 0
-            $string_current_link_ids = $tree_array[$count - 1]['string_link_ids'];
+            $string_current_link_ids = $tree_array[$count - 1]['string_str_links'];
             $string_current_item_ids = $tree_array[$count - 1]['string_item_ids'];
-            $string_next_link_ids = $tree_array[$count - 1]['string_link_ids'] . ',' . $string_next_link_ids;
+            $string_next_link_ids = $tree_array[$count - 1]['string_str_links'] . ',' . $string_next_link_ids;
             $string_next_item_ids = $tree_array[$count - 1]['string_item_ids'] . ',' . $string_next_item_ids;
         }
         return ['string_current_link_ids' => $string_current_link_ids,
@@ -638,7 +653,11 @@ class ItemController extends Controller
         $string_link_ids_array_next = array();
         $string_item_ids_array_next = array();
         foreach ($next_all_links as $link) {
-            $string_current_next_ids = self::calc_string_current_next_ids($item, $link, $tree_array);
+            // Предыдущий вариант - $item, $link присоединяются к списку $tree_array
+            //$string_current_next_ids = self::calc_string_current_next_ids($item, $link, $tree_array);
+            // $item, GlobalController::par_link_const_textnull() присоединяются к списку $tree_array
+            // В all.php par_link = GlobalController::par_link_const_textnull() при формировании ссылки на item_index()
+            $string_current_next_ids = self::calc_string_current_next_ids($item, GlobalController::par_link_const_textnull(), $tree_array);
             $string_link_ids_array_next[$link->id] = $string_current_next_ids['string_next_link_ids'];
             $string_item_ids_array_next[$link->id] = $string_current_next_ids['string_next_item_ids'];
         }
@@ -5263,7 +5282,9 @@ class ItemController extends Controller
         // Исключить links из переданного массива $tree_array
         if (count($tree_array) > 0) {
             foreach ($tree_array as $value) {
-                $links = $links->where('id', '!=', $value['link_id']);
+                if ($value['str_link'] != GlobalController::par_link_const_textnull()) {
+                    $links = $links->where('id', '!=', $value['str_link']);
+                }
             }
         }
         $links = $links->sortBy('parent_base_number');
@@ -5406,7 +5427,8 @@ class ItemController extends Controller
             'matrix' => $matrix, 'rows' => $rows, 'cols' => $cols, 'error_message' => $error_message];
     }
 
-    // Список полей, для вычисляемого наименования
+    // Список полей, для вычисляемого наименования item_index.php
+    // типа 'содержимое документа состоит из склада, номенклатурного номера, цены'
     static function mains_link_is_calcname(Item $item, Role $role, $relit_id, $tree_array = [])
     {
         $base = $item->base;
@@ -5432,7 +5454,9 @@ class ItemController extends Controller
         // Исключить links из переданного массива $tree_array
         if (count($tree_array) > 0) {
             foreach ($tree_array as $value) {
-                $mains = $mains->where('link_id', '!=', $value['link_id']);
+                if ($value['str_link'] != GlobalController::par_link_const_textnull()) {
+                    $mains = $mains->where('link_id', '!=', $value['str_link']);
+                }
             }
         }
         $mains = $mains->get()->sortBy('link.parent_base_number');
