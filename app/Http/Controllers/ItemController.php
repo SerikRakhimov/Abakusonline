@@ -341,9 +341,10 @@ class ItemController extends Controller
         $next_all_links_mains_calc = self::next_all_links_mains_calc($project, $item->base, $item, $role, $relit_id, $tree_array);
         $next_all_links = $next_all_links_mains_calc['next_all_links'];
         $next_all_mains = $next_all_links_mains_calc['next_all_mains'];
-        $next_all_first_link = $next_all_links_mains_calc['next_all_first_link'];
+        $next_all_is_calcname = $next_all_links_mains_calc['next_all_is_calcname'];
         $next_all_is_code_enable = $next_all_links_mains_calc['next_all_is_code_enable'];
         $next_all_first_link = $next_all_links_mains_calc['next_all_first_link'];
+        $next_all_is_enable = $next_all_links_mains_calc['next_all_is_enable'];
         $string_link_ids_array_next = $next_all_links_mains_calc['string_link_ids_array_next'];
         $string_item_ids_array_next = $next_all_links_mains_calc['string_item_ids_array_next'];
         $string_all_codes_array_next = $next_all_links_mains_calc['string_all_codes_array_next'];
@@ -472,8 +473,12 @@ class ItemController extends Controller
             'string_link_ids_next' => $string_link_ids_next,
             'string_item_ids_next' => $string_item_ids_next,
             'string_all_codes_next' => $string_all_codes_next,
-            'next_all_links' => $next_all_links, 'next_all_mains' => $next_all_mains,
-            'next_all_first_link' => $next_all_first_link, 'next_all_is_code_enable' => $next_all_is_code_enable,
+            'next_all_links' => $next_all_links,
+            'next_all_mains' => $next_all_mains,
+            'next_all_is_calcname' => $next_all_is_calcname,
+            'next_all_first_link' => $next_all_first_link,
+            'next_all_is_code_enable' => $next_all_is_code_enable,
+            'next_all_is_enable' => $next_all_is_enable,
             'message_mc_info' => $message_mc_info, 'message_mc_link_item' => $message_mc_link_item,
             'string_link_ids_array_next' => $string_link_ids_array_next,
             'string_item_ids_array_next' => $string_item_ids_array_next,
@@ -484,7 +489,7 @@ class ItemController extends Controller
     function calc_tree_array($string_link_ids_tree, $string_item_ids_tree, $string_all_codes_tree)
     {
         $result = array();
-        if (($string_link_ids_tree != "") && ($string_item_ids_tree != "")) {
+        if (($string_link_ids_tree != "") && ($string_item_ids_tree != "") && ($string_all_codes_tree != "")) {
             $array_link_ids = explode(",", $string_link_ids_tree);
             $array_item_ids = explode(",", $string_item_ids_tree);
             $array_all_codes = explode(",", $string_all_codes_tree);
@@ -560,7 +565,6 @@ class ItemController extends Controller
         return $result;
     }
 
-    // $str_link - допускается передавать либо $link->id, либо GlobalController::par_link_const_textnull()
     function calc_string_current_next_ids(Item $item, Link $link, $tree_array, $all_code)
     {
         $string_current_link_ids = '';
@@ -604,8 +608,14 @@ class ItemController extends Controller
         $next_all_links = array();
         $next_all_links_ids = array();
         $next_all_links_byuser_ids = array();
+        $next_all_is_calcname = array();
         $filter = false;
+        $base_right = null;
         foreach ($links as $link) {
+            // Использовать '$link->child_base'
+            $base_right = GlobalController::base_right($link->child_base, $role, $relit_id);
+            // Использовать '$link->child_base'
+            $is_calcname = GlobalController::is_base_calcname_check($link->child_base, $base_right);
             // Использовать true в '$base_link_right = GlobalController::base_link_right($link, $role, $relit_id, true);'
             $base_link_right = GlobalController::base_link_right($link, $role, $relit_id, true);
             // Использовать две этих проверки
@@ -617,6 +627,7 @@ class ItemController extends Controller
                         // Нужно '$next_all_links[] = $link;'
                         $next_all_links[] = $link;
                         $next_all_links_byuser_ids[] = $link->id;
+                        $next_all_is_calcname[] = $is_calcname;
                     } else {
                         // Данные не добавляются
                     }
@@ -624,6 +635,7 @@ class ItemController extends Controller
                     // Нужно '$next_all_links[] = $link;'
                     $next_all_links[] = $link;
                     $next_all_links_ids[] = $link->id;
+                    $next_all_is_calcname[] = $is_calcname;
                 }
             }
         }
@@ -675,6 +687,16 @@ class ItemController extends Controller
             }
         }
 
+        // Есть ли хотя бы в одной связи код,
+        // Нужно для вывода столбца "Код" (list\all.php)
+        $next_all_is_code_enable = false;
+        foreach ($next_all_links as $link) {
+            if ($link->child_base->is_code_needed == true) {
+                $next_all_is_code_enable = true;
+                break;
+            }
+        }
+
         // Ссылки link_next, item_next
         $string_link_ids_array_next = array();
         $string_item_ids_array_next = array();
@@ -700,8 +722,22 @@ class ItemController extends Controller
             $message_mc_link_array_item[$link->id] = $message_mc_calc['message_mc_link_item'];
         }
 
-        return ['next_all_links' => $next_all_links, 'next_all_mains' => $next_all_mains,
-            'next_all_first_link' => $next_all_first_link, 'next_all_is_code_enable' => $next_all_is_code_enable,
+        // Есть ли записи $next_all_is_calcname = true, то $next_all_is_enable = true
+        // Нужно '$next_all_is_enable = true;'
+        $next_all_is_enable = true;
+        foreach ($next_all_is_calcname as $value) {
+            if ($value == false) {
+                $next_all_is_enable = false;
+                break;
+            }
+        }
+
+        return ['next_all_links' => $next_all_links,
+            'next_all_mains' => $next_all_mains,
+            'next_all_is_calcname' => $next_all_is_calcname,
+            'next_all_first_link' => $next_all_first_link,
+            'next_all_is_code_enable' => $next_all_is_code_enable,
+            'next_all_is_enable' => $next_all_is_enable,
             'string_link_ids_array_next' => $string_link_ids_array_next,
             'string_item_ids_array_next' => $string_item_ids_array_next,
             'string_all_codes_array_next' => $string_all_codes_array_next,
