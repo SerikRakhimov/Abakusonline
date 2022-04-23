@@ -58,11 +58,13 @@ $i = 0;
         'string_all_codes_tree'=>$string_all_codes_array_next[$main->link_id]
         ])}}"
                    title="{{GlobalController::calc_title_name($main->link->child_label())}}">
-{{--                    Выводить вычисляемое наименование--}}
+                    {{--                    Выводить вычисляемое наименование--}}
                     @if(GlobalController::is_base_calcname_check($base, $base_right))
                         {{$main->child_item->name()}}
                     @else
+                        <span class="text-danger">
                         {{mb_strtolower(trans('main.empty'))}}
+                        </span>
                     @endif
                 </a>
             </td>
