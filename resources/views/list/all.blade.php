@@ -62,7 +62,7 @@ $i = 0;
                     @if(GlobalController::is_base_calcname_check($base, $base_right))
                         {{$main->child_item->name()}}
                     @else
-                        {{trans('main.empty')}}
+                        {{mb_strtolower(trans('main.empty'))}}
                     @endif
                 </a>
             </td>
