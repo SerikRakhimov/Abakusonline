@@ -309,13 +309,13 @@
             }
             if ($link->parent_base->type_is_list()) {
                 // если это фильтрируемое поле - то, тогда загружать весь список не нужно
-                $link_exists = Link::where('parent_is_child_related', true)->where('parent_child_related_result_link_id', $link->id)->exists();
+                $link_exists = Link::where('parent_is_child_related', true)->where('parent_child_related_start_link_id', $link->id)->exists();
                 if ($link_exists) {
                     $items_default = false;
                 }
             }
             $items = [];
-            if ($items_default = true && $link->parent_base->type_is_list()) {
+            if ($items_default == true && $link->parent_base->type_is_list()) {
                 //$result = ItemController::get_items_main($link_parent_base, $project, $role, $link->parent_relit_id, $link);
                 $result = ItemController::get_items_main($link_parent_base, $project, $role, $relit_id, $link);
                 $items = $result['items_no_get']->get();
