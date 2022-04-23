@@ -40,7 +40,7 @@
         <h6>{{GlobalController::calc_title_name($value['title_name'])}}:
             <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$value['item_id'], 'role'=>$role,
                                         'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id,
-                                        'par_link'=>$value['all_code'] =='true'? GlobalController::par_link_const_textnull():$value['link_id'],
+                                        'par_link'=>$value['all_code'] ==GlobalController::const_alltrue() ? GlobalController::par_link_const_textnull():$value['link_id'],
                                         'string_link_ids_tree'=>$value['string_prev_link_ids'],
                                         'string_item_ids_tree'=>$value['string_prev_item_ids'],
                                         'string_all_codes_tree'=>$value['string_prev_all_codes']

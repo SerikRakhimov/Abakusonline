@@ -1720,6 +1720,16 @@ class GlobalController extends Controller
         return $result;
     }
 
+    static function const_alltrue()
+    {
+        return 'alltrue';
+    }
+
+    static function const_allfalse()
+    {
+        return 'allfalse';
+    }
+
     static function calc_item_name_lang()
     {
         //$name = "";  // нужно, не удалять

@@ -440,8 +440,8 @@ class ItemController extends Controller
             $body_items = $items_body_right['items']->paginate(60, ['*'], 'body_page');
 
             // $item, $current_link присоединяются к списку $tree_array
-            // Нужно '$current_link->id'
-            $string_current_next_ids = self::calc_string_current_next_ids($item, $current_link, $tree_array, 'false');
+            // Нужно '$current_link'
+            $string_current_next_ids = self::calc_string_current_next_ids($item, $current_link, $tree_array, GlobalController::const_allfalse());
             $string_link_ids_current = $string_current_next_ids['string_current_link_ids'];
             $string_item_ids_current = $string_current_next_ids['string_current_item_ids'];
             $string_all_codes_current = $string_current_next_ids['string_current_all_codes'];
@@ -542,7 +542,7 @@ class ItemController extends Controller
                                 $result[$i]['string_all_codes'] = $str;
                                 $info = '';
                                 // Похожие команды в ItemController::calc_tree_array() и item_index.php                                //
-                                if($all_code == 'true'){
+                                if($all_code == GlobalController::const_alltrue()){
                                     $info = trans('main.all');
                                 }else{
                                     // Проверка на правильность поиска $link_id выше
@@ -685,7 +685,7 @@ class ItemController extends Controller
             // $item, GlobalController::par_link_const_textnull() присоединяются к списку $tree_array
             // В all.php par_link = GlobalController::par_link_const_textnull() при формировании ссылки на item_index()
             //$string_current_next_ids = self::calc_string_current_next_ids($item, GlobalController::par_link_const_textnull(), $tree_array);
-            $string_current_next_ids = self::calc_string_current_next_ids($item, $link, $tree_array, 'true');
+            $string_current_next_ids = self::calc_string_current_next_ids($item, $link, $tree_array, GlobalController::const_alltrue());
             $string_link_ids_array_next[$link->id] = $string_current_next_ids['string_next_link_ids'];
             $string_item_ids_array_next[$link->id] = $string_current_next_ids['string_next_item_ids'];
             $string_all_codes_array_next[$link->id] = $string_current_next_ids['string_next_all_codes'];
