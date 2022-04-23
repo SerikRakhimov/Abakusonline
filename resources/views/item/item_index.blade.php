@@ -46,7 +46,7 @@
                                         'string_all_codes_tree'=>$value['string_prev_all_codes']
                                         ])}}"
                title="{{$value['info_name']}}">
-{{--                {{$value['item_name']}}--}}
+                {{--                {{$value['item_name']}}--}}
                 {{$value['info_name']}}
             </a>
         </h6>
@@ -64,6 +64,7 @@
                         $title = $item->base->name();
                     }
                     ?>
+                    {{--                    Выводить вычисляемое наименование--}}
                     @if(GlobalController::is_base_calcname_check($item->base, $base_right))
                         <div class="container-fluid">
                             <div class="row">
@@ -274,7 +275,7 @@
             </div>
         </div>
     </div>
-{{--Похожие команды в ItemController::calc_tree_array() и item_index.php--}}
+    {{--Похожие команды в ItemController::calc_tree_array() и item_index.php--}}
     @if($current_link)
         {{--        <hr>--}}
         {{--        <br>--}}
