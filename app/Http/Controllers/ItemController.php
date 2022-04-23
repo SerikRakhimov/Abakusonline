@@ -3591,7 +3591,6 @@ class ItemController extends Controller
                                 $array_mess[$name_lang_key] = trans('main.no_data_on') . ' "' . $link->parent_base->name() . '"!';
                                 $errors = true;
                             }
-
                             $i = $i + 1;
                         }
                     }
