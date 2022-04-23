@@ -542,9 +542,9 @@ class ItemController extends Controller
                                 $result[$i]['string_all_codes'] = $str;
                                 $info = '';
                                 // Похожие команды в ItemController::calc_tree_array() и item_index.php                                //
-                                if($all_code == GlobalController::const_alltrue()){
+                                if ($all_code == GlobalController::const_alltrue()) {
                                     $info = trans('main.all');
-                                }else{
+                                } else {
                                     // Проверка на правильность поиска $link_id выше
                                     $link = Link::findOrFail($result[$i]['link_id']);
                                     $info = $link->child_labels();
@@ -4164,7 +4164,7 @@ class ItemController extends Controller
             $base_right = GlobalController::base_right($link->parent_base, $role, $relit_id);
 
             // если это фильтрируемое поле - то, тогда загружать весь список не нужно
-            $link_exists = Link::where('parent_is_child_related', true)->where('parent_child_related_start_link_id', $link->id)->exists();
+            //$link_exists = Link::where('parent_is_child_related', true)->where('parent_child_related_start_link_id', $link->id)->exists();
             //if ($link_exists == false || $link_exists == null) {
             //if ($link_exists == true) {
             // 1.0 В списке выбора использовать поле вычисляемой таблицы
@@ -5515,8 +5515,13 @@ class ItemController extends Controller
         if ($relip_proj) {
             if ($link) {
                 if ($item) {
-                    // Если это фильтрируемое поле (в связка ЕдинИзмерения-Материал - поле Материал является фильтрируемым полем)
-                    $is_filter = Link::where('parent_is_child_related', true)->where('parent_child_related_start_link_id', $link->id)->exists();
+                    // Если это фильтрируемое поле (в связка ЕдинИзмерения-Материал - поле Материал(parent_child_related_start_link_id) является фильтрируемым полем)
+                    // Первый вариант
+                    //$is_filter = Link::where('parent_is_child_related', true)->where('parent_child_related_start_link_id', $link->id)->exists();
+                    $is_filter = Link::where('child_base_id', $link->child_base_id)
+                        ->where('parent_is_child_related', true)
+                        ->where('parent_child_related_start_link_id', $link->id)
+                        ->exists();
                 }
                 // 1.0 В списке выбора использовать поле вычисляемой таблицы
                 $is_calcuse = $link->parent_is_in_the_selection_list_use_the_calculated_table_field;
@@ -5700,8 +5705,13 @@ class ItemController extends Controller
         // Результат, no get()
         $items = null;
         // Находим $link_find - (из примера) ЕдиницуИзмерения, $link передано в функцию как Материал
-        // Если это фильтрируемое поле (например: в связка ЕдинИзмерения-Материал - поле Материал является фильтрируемым полем)
-        $link_find = Link::where('parent_is_child_related', true)->where('parent_child_related_start_link_id', $link_filter->id)->first();
+        // Если это фильтрируемое поле (например: в связка ЕдинИзмерения-Материал - поле Материал(parent_child_related_start_link_id) является фильтрируемым полем)
+        // Первый вариант
+        //$link_find = Link::where('parent_is_child_related', true)->where('parent_child_related_start_link_id', $link_filter->id)->first();
+        $link_find = Link::where('child_base_id', $link_filter->child_base_id)
+            ->where('parent_is_child_related', true)
+            ->where('parent_child_related_start_link_id', $link_filter->id)
+            ->first();
         if ($link_find) {
             $link_result = Link::find($link_find->parent_child_related_result_link_id);
             $result_items = null;
