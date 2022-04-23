@@ -309,7 +309,7 @@
             }
             if ($link->parent_base->type_is_list()) {
                 // если это фильтрируемое поле - то, тогда загружать весь список не нужно
-                $link_exists = Link::where('parent_is_child_related', true)->where('parent_child_related_start_link_id', $link->id)->exists();
+                $link_exists = Link::where('parent_is_child_related', true)->where('parent_child_related_result_link_id', $link->id)->exists();
                 if ($link_exists) {
                     $items_default = false;
                 }
