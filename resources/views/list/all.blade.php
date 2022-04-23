@@ -34,7 +34,7 @@ $i = 0;
         <?php
         $i++;
         $base = $main->link->child_base;
-        $base_right = GlobalController::base_right($base, $role, $relit_id)
+        $base_right = GlobalController::base_right($base, $role, $relit_id);
         ?>
         <tr>
             <td class="text-center">
@@ -66,7 +66,7 @@ $i = 0;
                         {{mb_strtolower(trans('main.empty'))}}
                         </span>
                     @endif
-                    {{$next_all_is_calcname[$main->link_id]}} - {{$next_all_is_enable}}
+{{--                    {{$next_all_is_calcname[$main->link_id]}} - {{$next_all_is_enable}}--}}
                 </a>
             </td>
             <td class="text-left">
