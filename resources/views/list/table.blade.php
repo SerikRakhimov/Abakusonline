@@ -174,7 +174,10 @@ $i = 0;
                                 @if ($item_index_view)
                                     <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,
        'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id,'par_link'=>$par_link,
-        'string_link_ids_tree'=>$string_link_ids_next, 'string_item_ids_tree'=>$string_item_ids_next])}}"
+        'string_link_ids_tree'=>$string_link_ids_next,
+        'string_item_ids_tree'=>$string_item_ids_next,
+        'string_all_codes_tree'=>$string_all_codes_next
+        ])}}"
                                        title="{{$item->name()}}">
                                         @endif
                                         {{$item->name()}}
@@ -275,7 +278,10 @@ $i = 0;
                                 ?>
                                 <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$i_item, 'role'=>$role,
         'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id, 'par_link'=>$i_par_link,
-        'string_link_ids_tree'=>$string_link_ids_next, 'string_item_ids_tree'=>$string_item_ids_next])}}"
+        'string_link_ids_tree'=>$string_link_ids_next,
+        'string_item_ids_tree'=>$string_item_ids_next,
+        'string_all_codes_tree'=>$string_all_codes_next
+        ])}}"
                                    title="">
                                     @endif
                                     {{--                                    @endif--}}

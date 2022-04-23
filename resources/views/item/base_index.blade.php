@@ -292,7 +292,7 @@
                     'relit_id'=>$relit_id, 'heading'=>0, 'body_page'=>0, 'body_count'=>0,'body_perpage'=>0,
                     'par_link'=>null, 'parent_item'=>null, 'is_table_body'=>$is_table_body,
                     'base_index'=>true, 'item_heading_base'=>false, 'item_body_base'=>false,
-                    'string_link_ids_next'=>'', 'string_item_ids_next'=>''])
+                    'string_link_ids_next'=>'', 'string_item_ids_next'=>'', 'string_all_codes_next'=>''])
         {{--                            @if(1==2)--}}
         {{--                                @foreach($link_id_array as $value)--}}
         {{--                                    <?php--}}
