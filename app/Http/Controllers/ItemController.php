@@ -341,7 +341,6 @@ class ItemController extends Controller
         $next_all_links_mains_calc = self::next_all_links_mains_calc($project, $item->base, $item, $role, $relit_id, $tree_array);
         $next_all_links = $next_all_links_mains_calc['next_all_links'];
         $next_all_mains = $next_all_links_mains_calc['next_all_mains'];
-        $next_all_alls = $next_all_links_mains_calc['next_all_alls'];
         $next_all_first_link = $next_all_links_mains_calc['next_all_first_link'];
         $next_all_is_code_enable = $next_all_links_mains_calc['next_all_is_code_enable'];
         $next_all_first_link = $next_all_links_mains_calc['next_all_first_link'];
@@ -473,7 +472,7 @@ class ItemController extends Controller
             'string_link_ids_next' => $string_link_ids_next,
             'string_item_ids_next' => $string_item_ids_next,
             'string_all_codes_next' => $string_all_codes_next,
-            'next_all_links' => $next_all_links, 'next_all_mains' => $next_all_mains, 'next_all_alls' => $next_all_alls,
+            'next_all_links' => $next_all_links, 'next_all_mains' => $next_all_mains,
             'next_all_first_link' => $next_all_first_link, 'next_all_is_code_enable' => $next_all_is_code_enable,
             'message_mc_info' => $message_mc_info, 'message_mc_link_item' => $message_mc_link_item,
             'string_link_ids_array_next' => $string_link_ids_array_next,
@@ -701,13 +700,7 @@ class ItemController extends Controller
             $message_mc_link_array_item[$link->id] = $message_mc_calc['message_mc_link_item'];
         }
 
-        $next_all_alls = '';
-        //dd($string_all_codes_array_next);
-        //foreach($string_all_codes_array_next as $value){
-            //$next_all_alls = $next_all_alls . '';
-        //}
-
-        return ['next_all_links' => $next_all_links, 'next_all_mains' => $next_all_mains, 'next_all_alls' => $next_all_alls,
+        return ['next_all_links' => $next_all_links, 'next_all_mains' => $next_all_mains,
             'next_all_first_link' => $next_all_first_link, 'next_all_is_code_enable' => $next_all_is_code_enable,
             'string_link_ids_array_next' => $string_link_ids_array_next,
             'string_item_ids_array_next' => $string_item_ids_array_next,
