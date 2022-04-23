@@ -627,7 +627,7 @@ class ItemController extends Controller
                         // Нужно '$next_all_links[] = $link;'
                         $next_all_links[] = $link;
                         $next_all_links_byuser_ids[] = $link->id;
-                        $next_all_is_calcname[] = $is_calcname;
+                        $next_all_is_calcname[$link->id] = $is_calcname . ' ' . $link->child_base->name();
                     } else {
                         // Данные не добавляются
                     }
@@ -635,7 +635,7 @@ class ItemController extends Controller
                     // Нужно '$next_all_links[] = $link;'
                     $next_all_links[] = $link;
                     $next_all_links_ids[] = $link->id;
-                    $next_all_is_calcname[] = $is_calcname;
+                    $next_all_is_calcname[$link->id] = $is_calcname . ' ' . $link->child_base->name();
                 }
             }
         }

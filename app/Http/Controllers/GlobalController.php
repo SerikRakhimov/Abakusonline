@@ -320,8 +320,6 @@ class GlobalController extends Controller
             $relit_id = $parent_relit_id;
         }
 
-        //$base_right = self::base_right($base, $role, true);
-        //$base_right = self::base_right($base, $role, false);
         $base_right = self::base_right($base, $role, $relit_id);
 
         $is_list_base_calc = $base_right['is_list_base_calc'];

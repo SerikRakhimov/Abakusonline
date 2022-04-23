@@ -520,6 +520,8 @@
             'relit_id'=>$relit_id,
             'next_all_mains'=>$next_all_mains,
             'next_all_is_code_enable'=>$next_all_is_code_enable,
+            'next_all_is_calcname' => $next_all_is_calcname,
+            'next_all_is_enable' => $next_all_is_enable,
             'heading'=>intval(false), 'body_all_page'=>$body_all_page, 'body_all_count'=>$body_all_count,'body_all_perpage'=>$body_all_perpage,
             'parent_item'=>$item, 'is_table_body'=>false,
                 'base_index'=>false, 'item_heading_base'=>false, 'item_body_base'=>true,
@@ -527,7 +529,8 @@
             'string_link_ids_array_next' => $string_link_ids_array_next,
             'string_item_ids_array_next' => $string_item_ids_array_next,
             'string_all_codes_array_next' => $string_all_codes_array_next,
-            'message_mc_array_info' => $message_mc_array_info, 'message_mc_link_array_item' => $message_mc_link_array_item])
+            'message_mc_array_info' => $message_mc_array_info, 'message_mc_link_array_item' => $message_mc_link_array_item
+            ])
                 {{$next_all_mains->links()}}
             @endif
         @endif

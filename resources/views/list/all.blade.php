@@ -66,6 +66,7 @@ $i = 0;
                         {{mb_strtolower(trans('main.empty'))}}
                         </span>
                     @endif
+                    {{$next_all_is_calcname[$main->link_id]}} - {{$next_all_is_enable}}
                 </a>
             </td>
             <td class="text-left">
