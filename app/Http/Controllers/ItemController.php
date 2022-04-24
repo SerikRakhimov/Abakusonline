@@ -1470,7 +1470,6 @@ class ItemController extends Controller
                     $control_required = true;
                 }
             }
-
             // при типе корректировки поля "строка", "логический" проверять на обязательность заполнения не нужно
             if ($control_required == true) {
                 // Тип - строка или текст
