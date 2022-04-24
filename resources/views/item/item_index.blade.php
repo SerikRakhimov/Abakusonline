@@ -365,25 +365,25 @@
                         </h3>
                     </div>
                     <div class="col-2 text-right">
-                        @if ((count($body_items) > 0) || ($base_body_right['is_list_base_create'] == true))
-                            @if ($base_body_right['is_list_base_create'] == true)
-                                {{--            Не удалять: используются $message_link и $message_item --}}
-                                {{--                                @if($message_link == "" && $message_item == "")--}}
-                                @if($message_mc_link_item == "")
-                                    <button type="button" class="btn btn-dreamer"
-                                            {{--                        Выводится $message_mc--}}
-                                            title="{{trans('main.add') . $message_mc_info}}"
-                                            onclick="document.location='{{route('item.ext_create', ['base'=>$current_link->child_base_id,
+                        {{--                        @if ((count($body_items) > 0) || ($base_body_right['is_list_base_create'] == true))--}}
+                        @if ($base_body_right['is_list_base_create'] == true)
+                            {{--            Не удалять: используются $message_link и $message_item --}}
+                            {{--                                @if($message_link == "" && $message_item == "")--}}
+                            @if($message_mc_link_item == "")
+                                <button type="button" class="btn btn-dreamer"
+                                        {{--                        Выводится $message_mc--}}
+                                        title="{{trans('main.add') . $message_mc_info}}"
+                                        onclick="document.location='{{route('item.ext_create', ['base'=>$current_link->child_base_id,
                                         'project'=>$project, 'role'=>$role,
                                         'usercode' =>GlobalController::usercode_calc(),
                              'relit_id' =>$relit_id,
                              'heading'=>intval(false), 'body_page'=>$body_page, 'body_count'=>$body_count,'body_perpage'=>$body_perpage,
                              'par_link'=>$current_link, 'parent_item'=>$item])}}'">
-                                        <i class="fas fa-plus d-inline"></i>&nbsp;{{trans('main.add')}}
-                                    </button>
-                                @endif
+                                    <i class="fas fa-plus d-inline"></i>&nbsp;{{trans('main.add')}}
+                                </button>
                             @endif
                         @endif
+                        {{--                        @endif--}}
                     </div>
                 </div>
             </div>
@@ -491,31 +491,36 @@
                             </h3>
                         </div>
                         <div class="col-2 text-right">
-                            <div class="dropdown">
-                                <button type="button" class="btn btn-dreamer dropdown-toggle"
-                                        data-toggle="dropdown">
-                                    {{trans('main.add')}}
-                                </button>
-                                <div class="dropdown-menu">
-                                    @foreach($next_all_links as $key=>$value)
-                                        @if($message_mc_link_array_item[$value->id] == "")
-                                            <a class="dropdown-item" href="{{route('item.ext_create', ['base'=>$value->child_base_id,
+                            {{-- Вся кнопка 'Добавить' доступна (для связей)--}}
+                            @if($next_all_is_all_create == true)
+                                <div class="dropdown">
+                                    <button type="button" class="btn btn-dreamer dropdown-toggle"
+                                            data-toggle="dropdown">
+                                        {{trans('main.add')}}
+                                    </button>
+                                    <div class="dropdown-menu">
+                                        @foreach($next_all_links as $key=>$value)
+                                            @if($next_all_is_create[$value->id] == true)
+                                                @if($message_mc_link_array_item[$value->id] == "")
+                                                    <a class="dropdown-item" href="{{route('item.ext_create', ['base'=>$value->child_base_id,
                                                                                                 'project'=>$project, 'role'=>$role,
                                                                                                  'usercode' =>GlobalController::usercode_calc(),
                                                                                      'relit_id' =>$relit_id,
                                                                                      'heading'=>intval(false), 'body_page'=>$body_page, 'body_count'=>$body_count,'body_perpage'=>$body_perpage,
                                                                                      'par_link'=>$value, 'parent_item'=>$item])}}"
-                                               title="{{trans('main.add') . $message_mc_array_info[$value->id]}}">
-                                                {{$value->child_labels()}}
-                                                {{--                                                <i class="fas fa-plus d-inline"></i>--}}
-                                                @if(isset($array["\x00*\x00items"][$value->id]))
-                                                    *
+                                                       title="{{trans('main.add') . $message_mc_array_info[$value->id]}}">
+                                                        {{$value->child_labels()}}
+                                                        {{--                                                <i class="fas fa-plus d-inline"></i>--}}
+                                                        @if(isset($array["\x00*\x00items"][$value->id]))
+                                                            *
+                                                        @endif
+                                                    </a>
                                                 @endif
-                                            </a>
-                                        @endif
-                                    @endforeach
+                                            @endif
+                                        @endforeach
+                                    </div>
                                 </div>
-                            </div>
+                            @endif
                         </div>
                     </div>
                 </div>

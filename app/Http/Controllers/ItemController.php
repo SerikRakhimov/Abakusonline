@@ -341,6 +341,8 @@ class ItemController extends Controller
         $next_all_links_mains_calc = self::next_all_links_mains_calc($project, $item->base, $item, $role, $relit_id, $tree_array);
         $next_all_links = $next_all_links_mains_calc['next_all_links'];
         $next_all_mains = $next_all_links_mains_calc['next_all_mains'];
+        $next_all_is_create = $next_all_links_mains_calc['next_all_is_create'];
+        $next_all_is_all_create = $next_all_links_mains_calc['next_all_is_all_create'];
         $next_all_is_calcname = $next_all_links_mains_calc['next_all_is_calcname'];
         $next_all_is_code_enable = $next_all_links_mains_calc['next_all_is_code_enable'];
         $next_all_first_link = $next_all_links_mains_calc['next_all_first_link'];
@@ -481,6 +483,8 @@ class ItemController extends Controller
             'string_all_codes_next' => $string_all_codes_next,
             'next_all_links' => $next_all_links,
             'next_all_mains' => $next_all_mains,
+            'next_all_is_create' =>$next_all_is_create,
+            'next_all_is_all_create' =>$next_all_is_all_create,
             'next_all_is_calcname' => $next_all_is_calcname,
             'next_all_first_link' => $next_all_first_link,
             'next_all_is_code_enable' => $next_all_is_code_enable,
@@ -631,18 +635,22 @@ class ItemController extends Controller
                 // в ItemController (function next_all_links_mains_calc(), browser(), get_items_for_link(), get_items_ext_edit_for_link())
                 if ($base_link_right['is_list_base_byuser'] == true) {
                     if (Auth::check()) {
+                        // Два блока одинаковых команд
                         // Нужно '$next_all_links[] = $link;'
                         $next_all_links[] = $link;
                         $next_all_links_byuser_ids[] = $link->id;
                         $next_all_is_calcname[$link->id] = $is_calcname;
+                        $next_all_is_create[$link->id] = $base_right['is_list_base_create'];
                     } else {
                         // Данные не добавляются
                     }
                 } else {
+                    // Два блока одинаковых команд
                     // Нужно '$next_all_links[] = $link;'
                     $next_all_links[] = $link;
                     $next_all_links_ids[] = $link->id;
                     $next_all_is_calcname[$link->id] = $is_calcname;
+                    $next_all_is_create[$link->id] = $base_right['is_list_base_create'];
                 }
             }
         }
@@ -684,15 +692,6 @@ class ItemController extends Controller
             $next_all_first_link = $next_all_links[0];
         }
 
-        // Есть ли хотя бы в одной связи код,
-        // Нужно для вывода столбца "Код" (list\all.php)
-        $next_all_is_code_enable = false;
-        foreach ($next_all_links as $link) {
-            if ($link->child_base->is_code_needed == true) {
-                $next_all_is_code_enable = true;
-                break;
-            }
-        }
 
         // Есть ли хотя бы в одной связи код,
         // Нужно для вывода столбца "Код" (list\all.php)
@@ -729,7 +728,8 @@ class ItemController extends Controller
             $message_mc_link_array_item[$link->id] = $message_mc_calc['message_mc_link_item'];
         }
 
-        // Есть ли записи $next_all_is_calcname = true, то $next_all_is_enable = true
+        // Есть все записи $next_all_is_calcname = true, то $next_all_is_enable = true
+        // (в кнопке 'Связь' вариант 'все' доступен)
         // Нужно '$next_all_is_enable = true;'
         $next_all_is_enable = true;
         foreach ($next_all_is_calcname as $value) {
@@ -739,8 +739,21 @@ class ItemController extends Controller
             }
         }
 
+        // Есть хотя бы одна запись $next_all_is_create = true, то $next_all_is_all_create = true
+        // (т.е. вся кнопка 'Добавить' доступна (для связей))
+        // Нужно '$next_all_is_all_create = false;'
+        $next_all_is_all_create = false;
+        foreach ($next_all_is_create as $value) {
+            if ($value == true) {
+                $next_all_is_all_create = true;
+                break;
+            }
+        }
+
         return ['next_all_links' => $next_all_links,
             'next_all_mains' => $next_all_mains,
+            'next_all_is_create' =>$next_all_is_create,
+            'next_all_is_all_create' =>$next_all_is_all_create,
             'next_all_is_calcname' => $next_all_is_calcname,
             'next_all_first_link' => $next_all_first_link,
             'next_all_is_code_enable' => $next_all_is_code_enable,
