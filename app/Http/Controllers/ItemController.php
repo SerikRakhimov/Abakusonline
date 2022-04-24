@@ -423,8 +423,8 @@ class ItemController extends Controller
 //                }
 //            }
             // item_index() вызвано из base_index()
-            // Нужно '!$next_all_is_enable'
-            if (!$next_all_is_enable) {
+            // Нужно '!$next_all_is_enable && $par_find_link'
+            if (!$next_all_is_enable && $par_find_link) {
                 // Если во всех $links не выводятся вычисляемые наименования, то берем первый $link по списку
                 $current_link = $next_all_first_link;
             } else {
