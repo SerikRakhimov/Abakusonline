@@ -1440,32 +1440,35 @@ class ItemController extends Controller
             $work_base = $link->parent_base;
             // при типе "логический" проверять на обязательность заполнения не нужно
             $control_required = false;
-            // Тип - список
-            if ($work_base->type_is_list()) {
-                // так не использовать
-                // Проверка на обязательность ввода
-                if ($work_base->is_required_lst_num_str_txt_img_doc == true) {
-                    $control_required = true;
-                }
-                // это правильно
+            // При ссылке '$link->parent_is_base_link == false' не проверять на обязательность заполнения
+            if ($link->parent_is_base_link == false) {
+                // Тип - список
+                if ($work_base->type_is_list()) {
+                    // так не использовать
+                    // Проверка на обязательность ввода
+                    if ($work_base->is_required_lst_num_str_txt_img_doc == true) {
+                        $control_required = true;
+                    }
+                    // это правильно
 
-                //$control_required = true;
+                    //$control_required = true;
 
-            } // Тип - число
-            elseif ($work_base->type_is_number()) {
-                // Проверка на обязательность ввода
-                if ($work_base->is_required_lst_num_str_txt_img_doc == true) {
+                } // Тип - число
+                elseif ($work_base->type_is_number()) {
+                    // Проверка на обязательность ввода
+                    if ($work_base->is_required_lst_num_str_txt_img_doc == true) {
+                        $control_required = true;
+                    }
+                } // Тип - строка или текст
+                elseif ($work_base->type_is_string() || $work_base->type_is_text()) {
+                    // Проверка на обязательность ввода
+                    if ($work_base->is_required_lst_num_str_txt_img_doc == true) {
+                        $control_required = true;
+                    }
+                } // Тип - дата
+                elseif ($work_base->type_is_date()) {
                     $control_required = true;
                 }
-            } // Тип - строка или текст
-            elseif ($work_base->type_is_string() || $work_base->type_is_text()) {
-                // Проверка на обязательность ввода
-                if ($work_base->is_required_lst_num_str_txt_img_doc == true) {
-                    $control_required = true;
-                }
-            } // Тип - дата
-            elseif ($work_base->type_is_date()) {
-                $control_required = true;
             }
 
             // при типе корректировки поля "строка", "логический" проверять на обязательность заполнения не нужно
@@ -3581,32 +3584,34 @@ class ItemController extends Controller
             $work_base = $link->parent_base;
             // при типе "логический" проверять на обязательность заполнения не нужно
             $control_required = false;
-            // Тип - список
-            if ($work_base->type_is_list()) {
-                // так не использовать
-                // Проверка на обязательность ввода
-                if ($work_base->is_required_lst_num_str_txt_img_doc == true) {
+            // При ссылке '$link->parent_is_base_link == false' не проверять на обязательность заполнения
+            if ($link->parent_is_base_link == false) {
+                // Тип - список
+                if ($work_base->type_is_list()) {
+                    // так не использовать
+                    // Проверка на обязательность ввода
+                    if ($work_base->is_required_lst_num_str_txt_img_doc == true) {
+                        $control_required = true;
+                    }
+                    // это правильно
+                    //$control_required = true;
+                } // Тип - число
+                elseif ($work_base->type_is_number()) {
+                    // Проверка на обязательность ввода
+                    if ($work_base->is_required_lst_num_str_txt_img_doc == true) {
+                        $control_required = true;
+                    }
+                } // Тип - строка или текст
+                elseif ($work_base->type_is_string() || $work_base->type_is_text()) {
+                    // Проверка на обязательность ввода
+                    if ($work_base->is_required_lst_num_str_txt_img_doc == true) {
+                        $control_required = true;
+                    }
+                } // Тип - дата
+                elseif ($work_base->type_is_date()) {
                     $control_required = true;
                 }
-                // это правильно
-                //$control_required = true;
-            } // Тип - число
-            elseif ($work_base->type_is_number()) {
-                // Проверка на обязательность ввода
-                if ($work_base->is_required_lst_num_str_txt_img_doc == true) {
-                    $control_required = true;
-                }
-            } // Тип - строка или текст
-            elseif ($work_base->type_is_string() || $work_base->type_is_text()) {
-                // Проверка на обязательность ввода
-                if ($work_base->is_required_lst_num_str_txt_img_doc == true) {
-                    $control_required = true;
-                }
-            } // Тип - дата
-            elseif ($work_base->type_is_date()) {
-                $control_required = true;
             }
-
             // при типе корректировки поля "строка", "логический" проверять на обязательность заполнения не нужно
             if ($control_required == true) {
                 // Тип - строка или текст
