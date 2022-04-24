@@ -423,10 +423,15 @@ class ItemController extends Controller
 //                }
 //            }
             // item_index() вызвано из base_index()
-            if ($par_link == GlobalController::par_link_const_text_base_null()) {
-                if ($base_right['is_heading']) {
-                    // Если не найдены - берем первый пустой (без данных)
-                    $current_link = $next_all_first_link;
+            if ($next_all_is_enable) {
+                // Если во всех $links не выводятся вычисляемые наименования, то берем первый $link по списку
+                $current_link = $next_all_first_link;
+            } else {
+                if ($par_link == GlobalController::par_link_const_text_base_null()) {
+                    if ($base_right['is_heading']) {
+                        // Если не найдены, то берем первый $link по списку
+                        $current_link = $next_all_first_link;
+                    }
                 }
             }
         }

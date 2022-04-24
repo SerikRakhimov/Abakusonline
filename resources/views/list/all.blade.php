@@ -59,18 +59,14 @@ $i = 0;
         ])}}"
                    title="{{GlobalController::calc_title_name($main->link->child_label())}}">
                     {{--                    Выводить вычисляемое наименование--}}
-                    @if(GlobalController::is_base_calcname_check($base, $base_right))
+                    @if($next_all_is_calcname[$main->link_id])
                         {{$main->child_item->name()}}
                     @else
                         <span class="text-danger">
                         {{mb_strtolower(trans('main.empty'))}}
                         </span>
                     @endif
-                    {{$next_all_is_calcname[$main->link_id]}} - {{$next_all_is_enable}},
                 </a>
-                @foreach($next_all_is_calcname as $key=>$value)
-                {{$key}}  - {{$value}},
-@endforeach
             </td>
             <td class="text-left">
                 <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$main->child_item, 'role'=>$role,

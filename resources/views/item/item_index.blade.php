@@ -234,19 +234,22 @@
                                     {{trans('main.link')}}
                                 </button>
                                 <div class="dropdown-menu">
-                                    <a class="dropdown-item" href="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,
+                                    {{-- Если во всех $links не выводятся вычисляемые наименования, то выводится вариант 'all'--}}
+                                    @if($next_all_is_enable)
+                                        <a class="dropdown-item" href="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,
                                   'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id,'par_link'=>GlobalController::par_link_const_textnull(),
                                   'string_link_ids_tree'=>$string_link_ids_current,
                                   'string_item_ids_tree'=>$string_item_ids_current,
                                   'string_all_codes_tree'=>$string_all_codes_current
                                   ])}}"
-                                       title="{{$item->name()}}">
-                                        {{GlobalController::option_all()}}
-                                        @if($current_link == null)
-                                            {{--                                        Этот символ используется в двух местах--}}
-                                            &#10003;
-                                        @endif
-                                    </a>
+                                           title="{{$item->name()}}">
+                                            {{GlobalController::option_all()}}
+                                            @if($current_link == null)
+                                                {{--                                        Этот символ используется в двух местах--}}
+                                                &#10003;
+                                            @endif
+                                        </a>
+                                    @endif
                                     @foreach($next_all_links as $key=>$value)
                                         <a class="dropdown-item" href="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,
                                           'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id,'par_link'=>$value->id,
