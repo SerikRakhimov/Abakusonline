@@ -66,8 +66,11 @@ $i = 0;
                         {{mb_strtolower(trans('main.empty'))}}
                         </span>
                     @endif
-                    {{$next_all_is_calcname[$main->link_id]}} - {{$next_all_is_enable}}
+                    {{$next_all_is_calcname[$main->link_id]}} - {{$next_all_is_enable}},
                 </a>
+                @foreach($next_all_is_calcname as $key=>$value)
+                {{$key}}  - {{$value}},
+@endforeach
             </td>
             <td class="text-left">
                 <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$main->child_item, 'role'=>$role,
