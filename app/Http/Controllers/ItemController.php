@@ -620,6 +620,7 @@ class ItemController extends Controller
         $next_all_links_ids = array();
         $next_all_links_byuser_ids = array();
         $next_all_is_calcname = array();
+        $next_all_is_create = array();
         $filter = false;
         $base_right = null;
         foreach ($links as $link) {

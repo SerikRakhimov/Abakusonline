@@ -387,143 +387,87 @@
                     </div>
                 </div>
             </div>
-            @endif
-            {{--        <div class="container-fluid">--}}
-            {{--            <div class="row">--}}
-            {{--                <div class="col text-right">--}}
-            {{--                    <a href="{{route('item.ext_create', ['base'=>$current_link->child_base_id,--}}
-            {{--                            'project'=>$project, 'role'=>$role, 'heading'=>intval(false), 'par_link'=>$current_link->id, 'parent_item'=>$item->id])}}"--}}
-            {{--                       title="{{trans('main.add')}}">--}}
-            {{--                        <img src="{{Storage::url('add_record.png')}}" width="15" height="15"--}}
-            {{--                             alt="{{trans('main.add')}}">--}}
-            {{--                    </a>--}}
-            {{--                </div>--}}
-            {{--            </div>--}}
-            {{--        </div>--}}
             </p>
-            @if (count($body_items) > 0)
-                @include('list.table',['base'=>$current_link->child_base, 'project'=>$project, 'links_info'=>$child_body_links_info, 'items'=>$body_items,
-            'base_right'=>$base_body_right, 'relit_id'=>$relit_id,
-            'heading'=>intval(false), 'body_page'=>$body_page, 'body_count'=>$body_count,'body_perpage'=>$body_perpage,
-            'par_link'=>$current_link, 'parent_item'=>$item, 'is_table_body'=>false,
-                'base_index'=>false, 'item_heading_base'=>false, 'item_body_base'=>true,
-                'string_link_ids_next'=>$string_link_ids_next,
-                'string_item_ids_next'=>$string_item_ids_next,
-                'string_all_codes_next'=>$string_all_codes_next])
-                {{$body_items->links()}}
-                {{--            {{$body_items->currentPage()}}--}}
-                {{--            {{$body_count = $body_items->count()}}--}}
-                {{--            {{$body_perpage = $body_items->perPage()}}--}}
-            @endif
-            {{--            @if (count($next_all_links) > 1)--}}
-            {{--                <hr>--}}
-            {{--                <form action="{{route('item.store_link_change')}}" method="POST" enctype=multipart/form-data>--}}
-            {{--                    <div class="form-row">--}}
-            {{--                        @csrf--}}
-            {{--                        <input type="hidden" name="project_id" value="{{$project->id}}">--}}
-            {{--                        <input type="hidden" name="item_id" value="{{$item->id}}">--}}
-            {{--                        <input type="hidden" name="role_id" value="{{$role->id}}">--}}
-            {{--                        <input type="hidden" name="relit_id" value="{{$relit_id}}">--}}
-            {{--                        <input type="hidden" name="string_link_ids_current" value="{{$string_link_ids_current}}">--}}
-            {{--                        <input type="hidden" name="string_item_ids_current" value="{{$string_item_ids_current}}">--}}
-            {{--                        <div class="d-flex justify-content-end align-items-center mt-0">--}}
-            {{--                            <div class="col-auto">--}}
-            {{--                                --}}{{--                            <label for="link_id">{{trans('main.another_attitude')}} = </label>--}}
-            {{--                                <label for="link_id">{{trans('main.link')}} = </label>--}}
-            {{--                            </div>--}}
-            {{--                            <div class="">--}}
-            {{--                                <select class="form-control"--}}
-            {{--                                        name="link_id"--}}
-            {{--                                        id="link_id"--}}
-            {{--                                        class="form-control @error('link_id') is-invalid @enderror">--}}
-            {{--                                    @foreach($next_all_links as $key=>$value)--}}
-            {{--                                        <option value="{{$value->id}}"--}}
-            {{--                                                --}}{{--                                                                                    @if(!isset($array["\x00*\x00items"][$value->id]))--}}
-            {{--                                                --}}{{--                                                                                    disabled--}}
-            {{--                                                --}}{{--                                                                                @endif--}}
-            {{--                                                @if($value->id == $current_link->id)--}}
-            {{--                                                selected--}}
-            {{--                                            @endif--}}
-            {{--                                        >--}}
-            {{--                                            --}}{{--                                                                                {{$value->parent_label()}} {{$main->child_item->name()}} ({{mb_strtolower(trans('main.on'))}} {{$value->child_labels()}})--}}
-            {{--                                            --}}{{--                                        {{$value->child_labels()}} ({{$value->parent_label()}})--}}
-            {{--                                            {{$value->child_labels()}}--}}
-            {{--                                            @if($value->id == $current_link->id)--}}
-            {{--                                                &#10003;--}}
-            {{--                                            @endif--}}
-            {{--                                            @if(isset($array["\x00*\x00items"][$value->id]))--}}
-            {{--                                                *--}}
-            {{--                                            @endif--}}
-            {{--                                        </option>--}}
-            {{--                                    @endforeach--}}
-            {{--                                </select>--}}
-            {{--                                @error('link_id')--}}
-            {{--                                <div class="text-danger">--}}
-            {{--                                    {{$message}}--}}
-            {{--                                </div>--}}
-            {{--                                @enderror--}}
-            {{--                            </div>--}}
-            {{--                            <div class="col-2 ml-auto">--}}
-            {{--                                <button type="submit" class="btn btn-dreamer"--}}
-            {{--                                >{{trans('main.select')}}--}}
-            {{--                                </button>--}}
-            {{--                            </div>--}}
-            {{--                        </div>--}}
-            {{--                    </div>--}}
-            {{--                </form>--}}
-            {{--            @endif--}}
-            {{--            Вывод всех записей, с разным link--}}
-            {{--Похожие команды в ItemController::calc_tree_array() и item_index.php--}}
-        @else
-            @if(count($next_all_mains) > 0)
-                <hr>
-                <p>
-                <div class="container-fluid">
-                    <div class="row">
-                        <div class="col-10 text-left">
-                            <h3>
-                                {{--                        @if($current_link)--}}
-                                {{--                        {{$current_link->child_labels()}}:{{$current_link->child_base->name()}}--}}
-                                {{--                        @else--}}
-                                {{--                            {{$item->base->name()}}:--}}
-                                {{--                        @endif--}}
-                                {{trans('main.all')}}:
-                            </h3>
-                        </div>
-                        <div class="col-2 text-right">
-                            {{-- Вся кнопка 'Добавить' доступна (для связей)--}}
-                            @if($next_all_is_all_create == true)
-                                <div class="dropdown">
-                                    <button type="button" class="btn btn-dreamer dropdown-toggle"
-                                            data-toggle="dropdown">
-                                        {{trans('main.add')}}
-                                    </button>
-                                    <div class="dropdown-menu">
-                                        @foreach($next_all_links as $key=>$value)
-                                            @if($next_all_is_create[$value->id] == true)
-                                                @if($message_mc_link_array_item[$value->id] == "")
-                                                    <a class="dropdown-item" href="{{route('item.ext_create', ['base'=>$value->child_base_id,
+        @endif
+        {{--        <div class="container-fluid">--}}
+        {{--            <div class="row">--}}
+        {{--                <div class="col text-right">--}}
+        {{--                    <a href="{{route('item.ext_create', ['base'=>$current_link->child_base_id,--}}
+        {{--                            'project'=>$project, 'role'=>$role, 'heading'=>intval(false), 'par_link'=>$current_link->id, 'parent_item'=>$item->id])}}"--}}
+        {{--                       title="{{trans('main.add')}}">--}}
+        {{--                        <img src="{{Storage::url('add_record.png')}}" width="15" height="15"--}}
+        {{--                             alt="{{trans('main.add')}}">--}}
+        {{--                    </a>--}}
+        {{--                </div>--}}
+        {{--            </div>--}}
+        {{--        </div>--}}
+        @if (count($body_items) > 0)
+            @include('list.table',['base'=>$current_link->child_base, 'project'=>$project, 'links_info'=>$child_body_links_info, 'items'=>$body_items,
+        'base_right'=>$base_body_right, 'relit_id'=>$relit_id,
+        'heading'=>intval(false), 'body_page'=>$body_page, 'body_count'=>$body_count,'body_perpage'=>$body_perpage,
+        'par_link'=>$current_link, 'parent_item'=>$item, 'is_table_body'=>false,
+            'base_index'=>false, 'item_heading_base'=>false, 'item_body_base'=>true,
+            'string_link_ids_next'=>$string_link_ids_next,
+            'string_item_ids_next'=>$string_item_ids_next,
+            'string_all_codes_next'=>$string_all_codes_next])
+            {{$body_items->links()}}
+            {{--            {{$body_items->currentPage()}}--}}
+            {{--            {{$body_count = $body_items->count()}}--}}
+            {{--            {{$body_perpage = $body_items->perPage()}}--}}
+        @endif
+        {{--            Вывод всех записей, с разным link--}}
+        {{--Похожие команды в ItemController::calc_tree_array() и item_index.php--}}
+    @else
+        @if(count($next_all_links)>0)
+            <hr>
+            <p>
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-10 text-left">
+                        <h3>
+                            {{--                        @if($current_link)--}}
+                            {{--                        {{$current_link->child_labels()}}:{{$current_link->child_base->name()}}--}}
+                            {{--                        @else--}}
+                            {{--                            {{$item->base->name()}}:--}}
+                            {{--                        @endif--}}
+                            {{trans('main.all')}}:
+                        </h3>
+                    </div>
+                    <div class="col-2 text-right">
+                        {{-- Вся кнопка 'Добавить' доступна (для связей)--}}
+                        @if($next_all_is_all_create == true)
+                            <div class="dropdown">
+                                <button type="button" class="btn btn-dreamer dropdown-toggle"
+                                        data-toggle="dropdown">
+                                    {{trans('main.add')}}
+                                </button>
+                                <div class="dropdown-menu">
+                                    @foreach($next_all_links as $key=>$value)
+                                        @if($next_all_is_create[$value->id] == true)
+                                            @if($message_mc_link_array_item[$value->id] == "")
+                                                <a class="dropdown-item" href="{{route('item.ext_create', ['base'=>$value->child_base_id,
                                                                                                 'project'=>$project, 'role'=>$role,
                                                                                                  'usercode' =>GlobalController::usercode_calc(),
                                                                                      'relit_id' =>$relit_id,
                                                                                      'heading'=>intval(false), 'body_page'=>$body_page, 'body_count'=>$body_count,'body_perpage'=>$body_perpage,
                                                                                      'par_link'=>$value, 'parent_item'=>$item])}}"
-                                                       title="{{trans('main.add') . $message_mc_array_info[$value->id]}}">
-                                                        {{$value->child_labels()}}
-                                                        {{--                                                <i class="fas fa-plus d-inline"></i>--}}
-                                                        @if(isset($array["\x00*\x00items"][$value->id]))
-                                                            *
-                                                        @endif
-                                                    </a>
-                                                @endif
+                                                   title="{{trans('main.add') . $message_mc_array_info[$value->id]}}">
+                                                    {{$value->child_labels()}}
+                                                    {{--                                                <i class="fas fa-plus d-inline"></i>--}}
+                                                    @if(isset($array["\x00*\x00items"][$value->id]))
+                                                        *
+                                                    @endif
+                                                </a>
                                             @endif
-                                        @endforeach
-                                    </div>
+                                        @endif
+                                    @endforeach
                                 </div>
-                            @endif
-                        </div>
+                            </div>
+                        @endif
                     </div>
                 </div>
+            </div>
+            @if(count($next_all_mains) > 0)
                 @include('list.all',['project'=>$project,
             'relit_id'=>$relit_id,
             'next_all_mains'=>$next_all_mains,
@@ -542,4 +486,5 @@
                 {{$next_all_mains->links()}}
             @endif
         @endif
+    @endif
 @endsection
