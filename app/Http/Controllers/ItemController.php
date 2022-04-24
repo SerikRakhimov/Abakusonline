@@ -609,6 +609,7 @@ class ItemController extends Controller
         // Список доступных связей $base->parent_links
         // Условия одинаковые 'where('parent_is_base_link', false)'
         $links = $base->parent_links
+            ->where('parent_is_parent_related', false)
             ->where('parent_is_base_link', false)
             ->sortBy('child_base_id');
         $next_all_links = array();
