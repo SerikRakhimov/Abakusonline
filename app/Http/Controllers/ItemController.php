@@ -368,7 +368,7 @@ class ItemController extends Controller
             }
             if (!$current_link) {
                 // Находим заполненный подчиненный link
-                if (count($next_all_links) > 0) {
+                //               if (count($next_all_links) > 0) {
 //                    // Условия одинаковые в item_index() и next_all_links_calc()
 //                    // 'where('parent_is_parent_related', false)'
 //                    // 'where('parent_is_base_link', false)'
@@ -396,7 +396,7 @@ class ItemController extends Controller
 //                        ->orderBy('links.child_base_number')
 //                        ->orderBy('links.child_base_id')
 //                        ->orderBy('items.' . $item_name_lang);
-                };
+                //               };
             }
             // Проверка: есть ли $current_link->id в списке $next_all_links
 //            if ($current_link) {
