@@ -38,8 +38,8 @@
     {{--    https://qastack.ru/programming/1191113/how-to-ensure-a-select-form-field-is-submitted-when-it-is-disabled--}}
     <form
         action="{{$update ?
-        route('item.ext_update', ['item'=>$item, 'project' => $project, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(), 'relit_id' =>$relit_id, 'heading'=>$heading, 'body_page'=>$body_page, 'body_count'=>$body_count, 'body_perpage'=>$body_perpage, 'par_link' => $par_link, 'parent_item' => $parent_item]):
-        route('item.ext_store', ['base'=>$base, 'project' => $project, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(), 'relit_id' =>$relit_id, 'heading'=>$heading, 'body_page'=>$body_page, 'body_count'=>$body_count,'body_perpage'=>$body_perpage, 'par_link' => $par_link, 'parent_item' => $parent_item])}}"
+        route('item.ext_update', ['item'=>$item, 'project' => $project, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(), 'relit_id' =>$relit_id, 'heading'=>$heading, 'body_link_page'=>$body_link_page, 'body_link_count'=>$body_link_count, 'body_link_perpage'=>$body_link_perpage, 'par_link' => $par_link, 'parent_item' => $parent_item]):
+        route('item.ext_store', ['base'=>$base, 'project' => $project, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(), 'relit_id' =>$relit_id, 'heading'=>$heading, 'body_link_page'=>$body_link_page, 'body_link_count'=>$body_link_count,'body_link_perpage'=>$body_link_perpage, 'par_link' => $par_link, 'parent_item' => $parent_item])}}"
         method="POST"
         enctype=multipart/form-data
         @if($par_link)

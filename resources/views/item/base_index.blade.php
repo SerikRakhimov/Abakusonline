@@ -190,7 +190,7 @@
                 <div class="card shadow">
                     @if($base->is_code_needed == true)
                         <a href="{{route('item.ext_show', ['item'=>$item, 'project'=>$project, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id,
-                                    'heading'=>0,'body_page'=>0, 'body_count'=>0,'body_perpage'=>0,
+                                    'heading'=>0,'body_link_page'=>0, 'body_link_count'=>0,'body_link_perpage'=>0,
                                     'par_link'=>null, 'parent_item'=>null])}}" title="{{$item->name()}}">
                             <p class="card-header text-center text-label">{{trans('main.code')}}: {{$item->code}}</p>
                         </a>
@@ -201,7 +201,7 @@
                             <div class="text-center">
                                 {{-- https://askdev.ru/q/kak-vyzvat-funkciyu-javascript-iz-tega-href-v-html-276225/--}}
                                 <a href="{{route('item.ext_show', ['item'=>$item, 'project'=>$project, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id,
-                                    'heading'=>0,'body_page'=>0, 'body_count'=>0,'body_perpage'=>0,
+                                    'heading'=>0,'body_link_page'=>0, 'body_link_count'=>0,'body_link_perpage'=>0,
                                     'par_link'=>null, 'parent_item'=>null])}}"
                                    title="{{$item->name()}}">
                                     @include('view.img',['item'=>$item_find, 'size'=>"medium", 'filenametrue'=>false, 'link'=>false, 'img_fluid'=>true, 'title'=>$item->name()])
@@ -211,7 +211,7 @@
                         {{--                    <div class="card-footer">--}}
                         <h5 class="card-title text-center"><a
                                 href="{{route('item.ext_show', ['item'=>$item, 'project'=>$project, 'role'=>$role, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id,
-                                    'heading'=>0,'body_page'=>0, 'body_count'=>0,'body_perpage'=>0,
+                                    'heading'=>0,'body_link_page'=>0, 'body_link_count'=>0,'body_link_perpage'=>0,
                                     'par_link'=>null, 'parent_item'=>null])}}"
                                 title="{{$item->name()}}">
                                 {{--                            Где $item->name() выходит в cards выводить "<?php echo GlobalController::to_html();?>"--}}
@@ -289,7 +289,7 @@
         {{--        Используется 'heading'=>0'--}}
         @include('list.table',['base'=>$base, 'links_info'=>$links_info, 'items'=>$items,
                     'base_right'=>$base_right, 'item_view'=>true,
-                    'relit_id'=>$relit_id, 'heading'=>0, 'body_page'=>0, 'body_count'=>0,'body_perpage'=>0,
+                    'relit_id'=>$relit_id, 'heading'=>0, 'body_link_page'=>0, 'body_link_count'=>0,'body_link_perpage'=>0,
                     'par_link'=>null, 'parent_item'=>null, 'is_table_body'=>$is_table_body,
                     'base_index'=>true, 'item_heading_base'=>false, 'item_body_base'=>false,
                     'string_link_ids_next'=>'', 'string_item_ids_next'=>'', 'string_all_codes_next'=>''])

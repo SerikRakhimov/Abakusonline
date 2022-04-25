@@ -38,12 +38,9 @@ $i = 0;
         ?>
         <tr>
             <td class="text-center">
-                <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$main->child_item, 'role'=>$role,
-        'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id,'par_link'=>GlobalController::par_link_const_textnull(),
-        'string_link_ids_tree'=>$string_link_ids_array_next[$main->link_id],
-        'string_item_ids_tree'=>$string_item_ids_array_next[$main->link_id],
-        'string_all_codes_tree'=>$string_all_codes_array_next[$main->link_id]])}}"
-                   title="{{$item->name()}}">
+                <a href="{{route('item.ext_show', ['item'=>$item, 'project'=>$project, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id,
+    'heading'=>$heading, 'body_link_page'=>$body_link_page, 'body_link_count'=>$body_link_count,'body_link_perpage'=>$body_link_perpage
+    ])}}">
                     .{{$i}}.
                 </a>
             </td>

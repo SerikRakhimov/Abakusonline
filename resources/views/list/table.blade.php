@@ -91,7 +91,7 @@ $i = 0;
                     {{--                    Не удалять--}}
                     {{--                    <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc()])}}">--}}
                     <a href="{{route('item.ext_show', ['item'=>$item, 'project'=>$project, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id,
-    'heading'=>$heading, 'body_page'=>$body_page, 'body_count'=>$body_count,'body_perpage'=>$body_perpage,
+    'heading'=>$heading, 'body_link_page'=>$body_link_page, 'body_link_count'=>$body_link_count,'body_link_perpage'=>$body_link_perpage,
     'par_link'=>$par_link, 'parent_item'=>$parent_item])}}">
                         .{{$i}}.
                     </a>
@@ -101,7 +101,7 @@ $i = 0;
             {{--                    Не удалять--}}
             {{--                    <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc()])}}">--}}
             {{--                <a href="{{route('item.ext_show', ['item'=>$item, 'project'=>$project, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id,--}}
-            {{--                                    'heading'=>$heading, 'body_page'=>$body_page, 'body_count'=>$body_count,'body_perpage'=>$body_perpage,--}}
+            {{--                                    'heading'=>$heading, 'body_link_page'=>$body_link_page, 'body_link_count'=>$body_link_count,'body_link_perpage'=>$body_link_perpage,--}}
             {{--                                    'par_link'=>$par_link, 'parent_item'=>$parent_item])}}">--}}
             {{--                @if($base_index || $item_body_base)--}}
             {{--                    <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,--}}
@@ -139,7 +139,7 @@ $i = 0;
                                 @include('view.doc',['item'=>$item, 'usercode'=>GlobalController::usercode_calc()])
                             @else
                                 {{--                                <a href="{{route('item.ext_show', ['item'=>$item, 'project'=>$project, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(),--}}
-                                {{--                                    'heading'=>$heading, 'body_page'=>$body_page, 'body_count'=>$body_count,'body_perpage'=>$body_perpage,--}}
+                                {{--                                    'heading'=>$heading, 'body_link_page'=>$body_link_page, 'body_link_count'=>$body_link_count,'body_link_perpage'=>$body_link_perpage,--}}
                                 {{--                                    'par_link'=>$par_link, 'parent_item'=>$parent_item])}}">--}}
                                 {{--                                    --}}{{--                                                                Где $item->name() выходит в cards выводить "<?php echo GlobalController::to_html();?>"--}}
                                 {{--                                    {{$item->name()}}--}}
@@ -166,7 +166,7 @@ $i = 0;
                                 {{--                                @if($ext_show_view)--}}
                                 {{--                                    --}}{{--                                        Вызывается ext_show.php--}}
                                 {{--                                    <a href="{{route('item.ext_show', ['item'=>$item, 'project'=>$project, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id,--}}
-                                {{--                                    'heading'=>$heading, 'body_page'=>$body_page, 'body_count'=>$body_count,'body_perpage'=>$body_perpage,--}}
+                                {{--                                    'heading'=>$heading, 'body_link_page'=>$body_link_page, 'body_link_count'=>$body_link_count,'body_link_perpage'=>$body_link_perpage,--}}
                                 {{--                                    'par_link'=>$par_link, 'parent_item'=>$parent_item])}}">--}}
                                 {{--                                        {{$item->name()}}--}}
                                 {{--                                    </a>--}}
@@ -217,7 +217,7 @@ $i = 0;
                             {{--                                                    @endif--}}
                             {{--                                             Так использовать: 'item'=>$item--}}
                             {{--                            <a href="{{route('item.ext_show', ['item'=>$item, 'project'=>$project, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(),--}}
-                            {{--                                'heading'=>$heading, 'body_page'=>$body_page, 'body_count'=>$body_count,'body_perpage'=>$body_perpage,--}}
+                            {{--                                'heading'=>$heading, 'body_link_page'=>$body_link_page, 'body_link_count'=>$body_link_count,'body_link_perpage'=>$body_link_perpage,--}}
                             {{--                                'par_link'=>$par_link, 'parent_item'=>$parent_item])}}">--}}
                             {{--                                --}}{{--                            Где $item->name() выходит в cards выводить "<?php echo GlobalController::to_html();?>"--}}
                             {{--                                {{$item_find->name(false,false,false)}}--}}
@@ -254,7 +254,7 @@ $i = 0;
                             {{--                                @if($ext_show_view)--}}
                             {{--                                        Вызывается ext_show.php--}}
                             {{--                                <a href="{{route('item.ext_show', ['item'=>$item, 'project'=>$project, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id,--}}
-                            {{--                                        'heading'=>$heading, 'body_page'=>$body_page, 'body_count'=>$body_count,'body_perpage'=>$body_perpage,--}}
+                            {{--                                        'heading'=>$heading, 'body_link_page'=>$body_link_page, 'body_link_count'=>$body_link_count,'body_link_perpage'=>$body_link_perpage,--}}
                             {{--                                    'par_link'=>$par_link, 'parent_item'=>$parent_item])}}">--}}
                             {{--                                    @else--}}
                             @if ($item_index_view)

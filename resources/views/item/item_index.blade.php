@@ -14,21 +14,21 @@
     //            return $array;
     //        }
     $relip_project = GlobalController::calc_relip_project($relit_id, $project);
-    $body_page = 0;
-    $body_count = 0;
-    $body_perpage = 0;
+    $body_link_page = 0;
+    $body_link_count = 0;
+    $body_link_perpage = 0;
     if ($body_items) {
-        $body_page = $body_items->currentPage();
-        $body_count = $body_items->count();
-        $body_perpage = $body_items->perPage();
+        $body_link_page = $body_items->currentPage();
+        $body_link_count = $body_items->count();
+        $body_link_perpage = $body_items->perPage();
     }
     $body_all_page = 0;
     $body_all_count = 0;
     $body_all_perpage = 0;
-    if ($next_all_mains != null) {
-//        $body_all_page = $next_all_mains->currentPage();
-//        $body_all_count = $next_all_mains->count();
-//        $body_all_perpage = next_all_mains_all->perPage();
+    if ($next_all_mains) {
+        $body_all_page = $next_all_mains->currentPage();
+        $body_all_count = $next_all_mains->count();
+        $body_all_perpage = $next_all_mains->perPage();
     }
     ?>
     @include('layouts.project.show_project_role',['project'=>$project, 'role'=>$role, 'relit_id'=>$relit_id])
@@ -130,7 +130,7 @@
                 {{--                            onclick="document.location='{{route('item.ext_create', ['base'=>$item->base,--}}
                 {{--                             'project'=>$project, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(),--}}
                 {{--                             'relit_id' =>$relit_id,--}}
-                {{--                             'heading'=>intval(true), 'body_page'=>$body_page, 'body_count'=>$body_count,'body_perpage'=>$body_perpage,--}}
+                {{--                             'heading'=>intval(true), 'body_link_page'=>$body_link_page, 'body_link_count'=>$body_link_count,'body_link_perpage'=>$body_link_perpage,--}}
                 {{--                             'par_link'=>$current_link, 'parent_item'=>null])}}'">--}}
                 {{--                        <i class="fas fa-plus d-inline"></i>&nbsp;{{trans('main.add')}}--}}
                 {{--                    </button>--}}
@@ -171,7 +171,7 @@
         ?>
         @include('list.table',['base'=>$item->base, 'project'=>$project, 'links_info'=>$child_links_info, 'items'=>$items,
                 'base_right'=>$base_right, 'relit_id'=>$relit_id,
-                'heading'=>intval(true), 'body_page'=>$body_page, 'body_count'=>$body_count,'body_perpage'=>$body_perpage,
+                'heading'=>intval(true), 'body_link_page'=>$body_link_page, 'body_link_count'=>$body_link_count,'body_link_perpage'=>$body_link_perpage,
                 'par_link'=>$i_par_link, 'parent_item'=>$i_parent_item, 'is_table_body'=>false,
                     'base_index'=>false, 'item_heading_base'=>true, 'item_body_base'=>false,
                     'string_link_ids_next'=>'', 'string_item_ids_next'=>'', 'string_all_codes_next'=>''])
@@ -377,7 +377,7 @@
                                         'project'=>$project, 'role'=>$role,
                                         'usercode' =>GlobalController::usercode_calc(),
                              'relit_id' =>$relit_id,
-                             'heading'=>intval(false), 'body_page'=>$body_page, 'body_count'=>$body_count,'body_perpage'=>$body_perpage,
+                             'heading'=>intval(false), 'body_link_page'=>$body_link_page, 'body_link_count'=>$body_link_count,'body_link_perpage'=>$body_link_perpage,
                              'par_link'=>$current_link, 'parent_item'=>$item])}}'">
                                     <i class="fas fa-plus d-inline"></i>&nbsp;{{trans('main.add')}}
                                 </button>
@@ -404,7 +404,7 @@
         @if (count($body_items) > 0)
             @include('list.table',['base'=>$current_link->child_base, 'project'=>$project, 'links_info'=>$child_body_links_info, 'items'=>$body_items,
         'base_right'=>$base_body_right, 'relit_id'=>$relit_id,
-        'heading'=>intval(false), 'body_page'=>$body_page, 'body_count'=>$body_count,'body_perpage'=>$body_perpage,
+        'heading'=>intval(false), 'body_link_page'=>$body_link_page, 'body_link_count'=>$body_link_count,'body_link_perpage'=>$body_link_perpage,
         'par_link'=>$current_link, 'parent_item'=>$item, 'is_table_body'=>false,
             'base_index'=>false, 'item_heading_base'=>false, 'item_body_base'=>true,
             'string_link_ids_next'=>$string_link_ids_next,
@@ -412,8 +412,8 @@
             'string_all_codes_next'=>$string_all_codes_next])
             {{$body_items->links()}}
             {{--            {{$body_items->currentPage()}}--}}
-            {{--            {{$body_count = $body_items->count()}}--}}
-            {{--            {{$body_perpage = $body_items->perPage()}}--}}
+            {{--            {{$body_link_count = $body_items->count()}}--}}
+            {{--            {{$body_link_perpage = $body_items->perPage()}}--}}
         @endif
         {{--            Вывод всех записей, с разным link--}}
         {{--Похожие команды в ItemController::calc_tree_array() и item_index.php--}}
@@ -449,7 +449,7 @@
                                                                                                 'project'=>$project, 'role'=>$role,
                                                                                                  'usercode' =>GlobalController::usercode_calc(),
                                                                                      'relit_id' =>$relit_id,
-                                                                                     'heading'=>intval(false), 'body_page'=>$body_page, 'body_count'=>$body_count,'body_perpage'=>$body_perpage,
+                                                                                     'heading'=>intval(false), 'body_link_page'=>$body_link_page, 'body_link_count'=>$body_link_count,'body_link_perpage'=>$body_link_perpage,
                                                                                      'par_link'=>$value, 'parent_item'=>$item])}}"
                                                    title="{{trans('main.add') . $message_mc_array_info[$value->id]}}">
                                                     {{$value->child_labels()}}

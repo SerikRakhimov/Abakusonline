@@ -202,7 +202,7 @@
             ['item'=>$item,'project'=>$project, 'role'=>$role,
             'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id,
             'heading' => $heading,
-            'body_page' => $body_page, 'body_count' => $body_count, 'body_perpage' => $body_perpage,
+            'body_link_page' => $body_link_page, 'body_link_count' => $body_link_count, 'body_link_perpage' => $body_link_perpage,
             'par_link' => $par_link, 'parent_item' => $parent_item])}}"'
                         title="{{trans('main.edit')}}">
                     <i class="fas fa-edit"></i>
@@ -217,7 +217,7 @@
             'usercode' =>GlobalController::usercode_calc(),
             'relit_id'=>$relit_id,
             'heading' => $heading,
-            'body_page' => $body_page, 'body_count' => $body_count, 'body_perpage' => $body_perpage,
+            'body_link_page' => $body_link_page, 'body_link_count' => $body_link_count, 'body_link_perpage' => $body_link_perpage,
             'par_link' => $par_link, 'parent_item' => $parent_item])}}"'
                         title="{{trans('main.delete')}}">
                     <i class="fas fa-trash"></i>
@@ -270,7 +270,7 @@
             'usercode' =>GlobalController::usercode_calc(),
             'heading' => $heading,
             'relit_id' => $relit_id,
-            'body_page' => $body_page, 'body_count' => $body_count, 'body_perpage' => $body_perpage,
+            'body_link_page' => $body_link_page, 'body_link_count' => $body_link_count, 'body_link_perpage' => $body_link_perpage,
             'par_link' => $par_link, 'parent_item' => $parent_item])}}"
               method="POST"
               id='delete-form'>
