@@ -3911,13 +3911,13 @@ class ItemController extends Controller
         //  Похожий текст в функциях ext_store(), ext_update(), ext_delete();
         //  По алгоритму передается $base_index_page, $body_link_page, $body_all_page - сохраненные номера страниц;
         $str_link = '';
-        if (!$par_link && !$heading && $base_index_page>0) {
+        if (!$par_link && !$heading && $base_index_page > 0) {
             // Использовать "project' => $project"
             return redirect()->route('item.base_index', ['base' => $item->base, 'project' => $project, 'role' => $role, 'relit_id' => $relit_id,
                 'base_index_page' => $base_index_page, 'body_link_page' => $body_link_page, 'body_all_page' => $body_all_page]);
         } else {
             // Если $heading = true - нажата Добавить из "heading", false - из "body" (только при добавлении записи)
-            $str_link='';
+            $str_link = '';
             if ($body_all_page > 0) {
                 // Вызываем item_index.php с body - все
                 $str_link = GlobalController::par_link_const_textnull();
@@ -4133,13 +4133,17 @@ class ItemController extends Controller
             //  Похожий текст в функциях ext_store(), ext_update(), ext_delete();
             //  По алгоритму передается $base_index_page, $body_link_page, $body_all_page - сохраненные номера страниц;
             $str_link = '';
-            if (!$par_link && !$heading && $base_index_page>0) {
+            if (!$par_link && !$heading && $base_index_page > 0) {
+                // Только при удалении эти строки
+                if ($base_index_page > 1) {
+                    $base_index_page = $base_index_page - 1;
+                }
                 // Использовать "project' => $project"
                 return redirect()->route('item.base_index', ['base' => $item->base, 'project' => $project, 'role' => $role, 'relit_id' => $relit_id,
                     'base_index_page' => $base_index_page, 'body_link_page' => $body_link_page, 'body_all_page' => $body_all_page]);
             } else {
                 // Если $heading = true - нажата Добавить из "heading", false - из "body" (только при добавлении записи)
-                $str_link='';
+                $str_link = '';
                 if ($body_all_page > 0) {
                     // Вызываем item_index.php с body - все
                     $str_link = GlobalController::par_link_const_textnull();

@@ -18,7 +18,7 @@
     $body_link_page = 0;
     $body_all_page = 0;
     if ($body_items) {
-        $body_link_page = $body_items->count();
+        $body_link_page = $body_items->currentPage();
     }
     if ($next_all_mains) {
         $body_all_page = $next_all_mains->currentPage();
@@ -30,7 +30,8 @@
     {{--        <span class="text-label">-</span> <span class="text-title">{{$item->base->info()}}</span>--}}
     {{--    </h3>--}}
     @foreach($tree_array as $value)
-        <h6>{{GlobalController::calc_title_name($value['title_name'])}}:
+        <h6>
+            {{GlobalController::calc_title_name($value['title_name'])}}:
             <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$value['item_id'], 'role'=>$role,
                                         'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id,
                                         'par_link'=>$value['all_code'] ==GlobalController::const_alltrue() ? GlobalController::par_link_const_textnull():$value['link_id'],
@@ -72,7 +73,10 @@
                                         </a>
                                     @endif
                                     @if ($base_right['is_list_base_calc'] == true)
-                                        <a href="{{route('item.ext_show', ['item'=>$item, 'project'=>$project, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id])}}"
+                                        <a href="{{route('item.ext_show', ['item'=>$item, 'project'=>$project, 'role'=>$role,
+                                            'usercode' =>GlobalController::usercode_calc(),
+                                            'relit_id'=>$relit_id
+                                            ])}}"
                                            title="{{$item->cdnm()}}">
                                             {{$item->cdnm()}}
                                         </a>
@@ -89,20 +93,20 @@
                         </div>
                 </h5>
                 @else
-                    <small><small><small>
-                                @if ($base_right['is_list_base_calc'] == true)
-                                    <a href="{{route('item.base_index', ['base'=>$item->base,
+                    <h5>
+                        @if ($base_right['is_list_base_calc'] == true)
+                            <a href="{{route('item.base_index', ['base'=>$item->base,
                             'project'=>$project, 'role'=>$role, 'relit_id'=>$relit_id])}}"
-                                       title="{{$item->base->names()}}">
-                                        @endif
-                                        {{$title}}:
-                                        @if($item->base->is_code_needed == true)
-                                            {{trans('main.code')}}: <strong>{{$item->code}}</strong>
-                                        @endif
-                                        @if ($base_right['is_list_base_calc'] == true)
-                                    </a>
+                               title="{{$item->base->names()}}">
                                 @endif
-                            </small></small></small>
+                                {{$title}}:
+                                @if($item->base->is_code_needed == true)
+                                    {{trans('main.code')}}: <strong>{{$item->code}}</strong>
+                                @endif
+                                @if ($base_right['is_list_base_calc'] == true)
+                            </a>
+                        @endif
+                    </h5>
                     {{--                    Нужно '@foreach($child_mains_link_is_calcname as $calcname_mains)'--}}
                     @foreach($child_mains_link_is_calcname as $calcname_mains)
                         @foreach($calcname_mains as $calcname_main)
@@ -193,7 +197,10 @@
                             <li class="page-item">
                                 <a class="page-link" href="{{route('item.item_index', ['project'=>$project, 'item'=>$prev_item, 'role'=>$role,
                                 'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id, 'par_link'=>GlobalController::par_link_textnull($current_link),
-                                        'string_link_ids_tree'=>$string_link_ids_current, 'string_item_ids_tree'=>$string_item_ids_current])}}"
+                                        'string_link_ids_tree'=>$string_link_ids_current,
+                                         'string_item_ids_tree'=>$string_item_ids_current,
+                                         'string_all_codes_tree'=>$string_all_codes_current
+                                         ])}}"
                                    title="{{$prev_item->cdnm()}}"><</a>
                             </li>
                         @endif
@@ -470,7 +477,7 @@
             'next_all_is_calcname' => $next_all_is_calcname,
             'next_all_is_enable' => $next_all_is_enable,
             'heading'=>intval(false),
-            'body_all_page'=>$body_all_page, 'body_all_count'=>$body_all_count,'body_all_perpage'=>$body_all_perpage,
+            'base_index_page'=>$base_index_page, 'body_link_page'=>$body_link_page,'body_all_page'=>$body_all_page,
             'parent_item'=>$item, 'is_table_body'=>false,
                 'base_index'=>false, 'item_heading_base'=>false, 'item_body_base'=>true,
                 'string_link_ids_next'=>$string_link_ids_next, 'string_item_ids_next'=>$string_item_ids_next,

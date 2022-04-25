@@ -20,7 +20,7 @@
     $body_link_page = 0;
     $body_all_page = 0;
     if ($items) {
-        $base_index_page = $items->count();
+        $base_index_page = $items->currentPage();
     }
     ?>
     @include('layouts.project.show_project_role',['project'=>$project, 'role'=>$role, 'relit_id'=>$relit_id])
