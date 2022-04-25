@@ -78,14 +78,14 @@
                                             @if ($base_right['is_list_base_calc'] == true)
                                         </a>
                                     @endif
-                                    {{--                        @if ($base_right['is_list_base_calc'] == true)--}}
-                                    {{--                            <a href="{{route('item.ext_show', ['item'=>$item, 'project'=>$project, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id])}}"--}}
-                                    {{--                               title="{{$item->cdnm()}}">--}}
-                                    {{--                                {{$item->cdnm()}}--}}
-                                    {{--                            </a>--}}
-                                    {{--                        @else--}}
+                                                            @if ($base_right['is_list_base_calc'] == true)
+                                                                <a href="{{route('item.ext_show', ['item'=>$item, 'project'=>$project, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id])}}"
+                                                                   title="{{$item->cdnm()}}">
+                                                                    {{$item->cdnm()}}
+                                                                </a>
+                                                            @else
                                     {{$item->name()}}
-                                    {{--                        @endif--}}
+                                                            @endif
                                 </div>
                                 <div class="col-4 text-left">
                                     @if($item->base->is_code_needed == true)
@@ -125,16 +125,16 @@
                 @endif
             </div>
             <div class="col-2 text-right">
-                {{--                @if ($base_right['is_list_base_create'] == true)--}}
-                {{--                    <button type="button" class="btn btn-dreamer" title="{{trans('main.add')}}"--}}
-                {{--                            onclick="document.location='{{route('item.ext_create', ['base'=>$item->base,--}}
-                {{--                             'project'=>$project, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(),--}}
-                {{--                             'relit_id' =>$relit_id,--}}
-                {{--                             'heading'=>intval(true), 'body_link_page'=>$body_link_page, 'body_link_count'=>$body_link_count,'body_link_perpage'=>$body_link_perpage,--}}
-                {{--                             'par_link'=>$current_link, 'parent_item'=>null])}}'">--}}
-                {{--                        <i class="fas fa-plus d-inline"></i>&nbsp;{{trans('main.add')}}--}}
-                {{--                    </button>--}}
-                {{--                @endif--}}
+                @if ($base_right['is_list_base_create'] == true)
+                    <button type="button" class="btn btn-dreamer" title="{{trans('main.add')}}"
+                            onclick="document.location='{{route('item.ext_create', ['base'=>$item->base,
+                                             'project'=>$project, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(),
+                                             'relit_id' =>$relit_id,
+                                             'heading'=>intval(true), 'body_link_page'=>$body_link_page, 'body_link_count'=>$body_link_count,'body_link_perpage'=>$body_link_perpage,
+                                             'par_link'=>$current_link, 'parent_item'=>null])}}'">
+                        <i class="fas fa-plus d-inline"></i>&nbsp;{{trans('main.add')}}
+                    </button>
+                @endif
             </div>
             {{--            <div class="col-1 text-center">--}}
             {{--                <a href="{{route('item.ext_show', ['item'=>$item, 'role'=>$role])}}"--}}

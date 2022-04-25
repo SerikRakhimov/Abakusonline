@@ -251,6 +251,7 @@ class ItemController extends Controller
         $items = $items_right['items'];
 
         $is_table_body = true;
+        $items = $items->paginate(3, ['*'], 'base_index_page');
 
 //      Похожая проверка в GlobalController::get_project_bases(), ItemController::base_index() и project/start.php
         if ($base_right['is_list_base_calc'] == false) {
@@ -259,7 +260,7 @@ class ItemController extends Controller
         if ($items) {
             session(['base_index_previous_url' => ((!empty($_SERVER['HTTPS'])) ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . '/' . request()->path()]);
             return view('item/base_index', ['base_right' => $base_right, 'base' => $base, 'project' => $project, 'role' => $role, 'relit_id' => $relit_id,
-                'items' => $items->paginate(3), 'links_info' => $links_info, 'is_table_body' => $is_table_body]);
+                'items' => $items, 'links_info' => $links_info, 'is_table_body' => $is_table_body]);
         } else {
             return view('message', ['message' => trans('main.no_access_for_unregistered_users')]);
         }
