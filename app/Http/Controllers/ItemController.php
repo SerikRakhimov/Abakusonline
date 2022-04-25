@@ -447,7 +447,7 @@ class ItemController extends Controller
             $base_body_right = GlobalController::base_right($current_link->child_base, $role, $relit_id);
             // Используется $relip_project
             $items_body_right = GlobalController::items_right($current_link->child_base, $relip_project, $role, $relit_id, $item->id, $current_link->id);
-            $body_items = $items_body_right['items']->paginate(3, ['*'], 'body_link_page');
+            $body_items = $items_body_right['items']->paginate(3, ['*'], 'base_index_page');
 
             // $item, $current_link присоединяются к списку $tree_array
             // Нужно '$current_link'
@@ -484,8 +484,8 @@ class ItemController extends Controller
             'string_all_codes_next' => $string_all_codes_next,
             'next_all_links' => $next_all_links,
             'next_all_mains' => $next_all_mains,
-            'next_all_is_create' =>$next_all_is_create,
-            'next_all_is_all_create' =>$next_all_is_all_create,
+            'next_all_is_create' => $next_all_is_create,
+            'next_all_is_all_create' => $next_all_is_all_create,
             'next_all_is_calcname' => $next_all_is_calcname,
             'next_all_first_link' => $next_all_first_link,
             'next_all_is_code_enable' => $next_all_is_code_enable,
@@ -754,8 +754,8 @@ class ItemController extends Controller
 
         return ['next_all_links' => $next_all_links,
             'next_all_mains' => $next_all_mains,
-            'next_all_is_create' =>$next_all_is_create,
-            'next_all_is_all_create' =>$next_all_is_all_create,
+            'next_all_is_create' => $next_all_is_create,
+            'next_all_is_all_create' => $next_all_is_all_create,
             'next_all_is_calcname' => $next_all_is_calcname,
             'next_all_first_link' => $next_all_first_link,
             'next_all_is_code_enable' => $next_all_is_code_enable,
@@ -924,7 +924,7 @@ class ItemController extends Controller
     function ext_show(Item $item, Project $project, Role $role, $usercode,
                            $relit_id,
                            $heading = 0,
-                           $body_link_page = 0, $body_link_count = 0, $body_link_perpage = 0,
+                           $base_index_page = 0, $body_link_page = 0, $body_all_page = 0,
                       Link $par_link = null, Item $parent_item = null)
     {
         if (GlobalController::check_project_item_user($project, $item, $role, $usercode) == false) {
@@ -947,12 +947,12 @@ class ItemController extends Controller
             'relit_id' => $relit_id,
             'array_calc' => $this->get_array_calc_edit($item)['array_calc'],
             'heading' => $heading,
-            'body_link_page' => $body_link_page, 'body_link_count' => $body_link_count, 'body_link_perpage' => $body_link_perpage,
+            'base_index_page' => $base_index_page, 'body_link_page' => $body_link_page, 'body_all_page' => $body_all_page,
             'par_link' => $par_link, 'parent_item' => $parent_item]);
     }
 
     function ext_create(Base $base, Project $project, Role $role, $usercode, $relit_id,
-                             $heading = 0, $body_link_page = 0, $body_link_count = 0, $body_link_perpage = 0,
+                             $heading = 0, $base_index_page = 0, $body_link_page = 0, $body_all_page = 0,
                         Link $par_link = null, Item $parent_item = null)
         // '$heading = 0' использовать; аналог '$heading = false', в этом случае так /item/ext_create/{base}//
 
@@ -988,7 +988,7 @@ class ItemController extends Controller
             'relit_id' => $relit_id,
             'array_calc' => $array_calc,
             'array_disabled' => $array_disabled,
-            'body_link_page' => $body_link_page, 'body_link_count' => $body_link_count, 'body_link_perpage' => $body_link_perpage,
+            'base_index_page' => $base_index_page, 'body_link_page' => $body_link_page, 'body_all_page' => $body_all_page,
             'par_link' => $par_link, 'parent_item' => $parent_item]);
     }
 
@@ -999,7 +999,7 @@ class ItemController extends Controller
 
     function ext_store(Request $request, Base $base, Project $project, Role $role, $usercode,
                                $relit_id,
-                               $heading = 0, $body_link_page = 0, $body_link_count = 0, $body_link_perpage = 0,
+                               $heading = 0, $base_index_page = 0, $body_link_page = 0, $body_all_page = 0,
                        Link    $par_link = null, Item $parent_item = null)
     {
 
@@ -1779,19 +1779,30 @@ class ItemController extends Controller
         }
 
         //  Похожий текст в функциях ext_store(), ext_update(), ext_delete();
-        //  По алгоритму передается $body_link_perpage - сохраненный номер страницы $body_link_perpage;
-        if (!$par_link && !$heading) {
+        //  По алгоритму передается $base_index_page, $body_link_page, $body_all_page - сохраненные номера страниц;
+        $str_link = '';
+        if (!$par_link && !$heading && $base_index_page > 0) {
             // Использовать "project' => $project"
-            return redirect()->route('item.base_index', ['base' => $item->base, 'project' => $project, 'role' => $role, 'relit_id' => $relit_id]);
+            return redirect()->route('item.base_index', ['base' => $item->base, 'project' => $project, 'role' => $role, 'relit_id' => $relit_id,
+                'base_index_page' => $base_index_page, 'body_link_page' => $body_link_page, 'body_all_page' => $body_all_page]);
         } else {
             // Если $heading = true - нажата Добавить из "heading", false - из "body" (только при добавлении записи)
+            $str_link = '';
+            if ($body_all_page > 0) {
+                // Вызываем item_index.php с body - все
+                $str_link = GlobalController::par_link_const_textnull();
+            } else {
+                // Вызываем item_index.php с body - связь $par_link
+                $str_link = $par_link;
+            }
             if ($par_link && !$heading && $parent_item) {
                 return redirect()->route('item.item_index', ['project' => $item->project, 'item' => $parent_item, 'role' => $role,
-                    'usercode' => GlobalController::usercode_calc(), 'relit_id' => $relit_id, 'par_link' => $par_link,
-                    'body_link_page' => $body_link_page]);
+                    'usercode' => GlobalController::usercode_calc(), 'relit_id' => $relit_id, 'par_link' => $str_link,
+                    'base_index_page' => $base_index_page, 'body_link_page' => $body_link_page, 'body_all_page' => $body_all_page]);
             } else {
                 return redirect()->route('item.item_index', ['project' => $item->project, 'item' => $item, 'role' => $role,
-                    'usercode' => GlobalController::usercode_calc(), 'relit_id' => $relit_id, 'par_link' => $par_link, 'body_link_page' => $body_link_page]);
+                    'usercode' => GlobalController::usercode_calc(), 'relit_id' => $relit_id, 'par_link' => $str_link,
+                    'base_index_page' => $base_index_page, 'body_link_page' => $body_link_page, 'body_all_page' => $body_all_page]);
             }
         }
     }
@@ -3125,7 +3136,7 @@ class ItemController extends Controller
     }
 
     function ext_update(Request $request, Item $item, Project $project, Role $role, $usercode,
-                                $relit_id, $heading = 0, $body_link_page = 0, $body_link_count = 0, $body_link_perpage = 0,
+                                $relit_id, $heading = 0, $base_index_page = 0, $body_link_page = 0, $body_all_page = 0,
                         Link    $par_link = null, Item $parent_item = null)
     {
         // установка часового пояса нужно для сохранения времени
@@ -3898,19 +3909,30 @@ class ItemController extends Controller
 //        }
 
         //  Похожий текст в функциях ext_store(), ext_update(), ext_delete();
-        //  По алгоритму передается $body_link_perpage - сохраненный номер страницы $body_link_perpage;
-        if (!$par_link && !$heading) {
+        //  По алгоритму передается $base_index_page, $body_link_page, $body_all_page - сохраненные номера страниц;
+        $str_link = '';
+        if (!$par_link && !$heading && $base_index_page>0) {
             // Использовать "project' => $project"
-            return redirect()->route('item.base_index', ['base' => $item->base, 'project' => $project, 'role' => $role, 'relit_id' => $relit_id]);
+            return redirect()->route('item.base_index', ['base' => $item->base, 'project' => $project, 'role' => $role, 'relit_id' => $relit_id,
+                'base_index_page' => $base_index_page, 'body_link_page' => $body_link_page, 'body_all_page' => $body_all_page]);
         } else {
             // Если $heading = true - нажата Добавить из "heading", false - из "body" (только при добавлении записи)
+            $str_link='';
+            if ($body_all_page > 0) {
+                // Вызываем item_index.php с body - все
+                $str_link = GlobalController::par_link_const_textnull();
+            } else {
+                // Вызываем item_index.php с body - связь $par_link
+                $str_link = $par_link;
+            }
             if ($par_link && !$heading && $parent_item) {
                 return redirect()->route('item.item_index', ['project' => $item->project, 'item' => $parent_item, 'role' => $role,
-                    'usercode' => GlobalController::usercode_calc(), 'relit_id' => $relit_id, 'par_link' => $par_link,
-                    'body_link_page' => $body_link_page]);
+                    'usercode' => GlobalController::usercode_calc(), 'relit_id' => $relit_id, 'par_link' => $str_link,
+                    'base_index_page' => $base_index_page, 'body_link_page' => $body_link_page, 'body_all_page' => $body_all_page]);
             } else {
                 return redirect()->route('item.item_index', ['project' => $item->project, 'item' => $item, 'role' => $role,
-                    'usercode' => GlobalController::usercode_calc(), 'relit_id' => $relit_id, 'par_link' => $par_link, 'body_link_page' => $body_link_page]);
+                    'usercode' => GlobalController::usercode_calc(), 'relit_id' => $relit_id, 'par_link' => $str_link,
+                    'base_index_page' => $base_index_page, 'body_link_page' => $body_link_page, 'body_all_page' => $body_all_page]);
             }
         }
     }
@@ -3957,7 +3979,7 @@ class ItemController extends Controller
     }
 
     function ext_edit(Item $item, Project $project, Role $role, $usercode, $relit_id, $heading = 0,
-                           $body_link_page = 0, $body_link_count = 0, $body_link_perpage = 0,
+                           $base_index_page = 0, $body_link_page = 0, $body_all_page = 0,
                       Link $par_link = null, Item $parent_item = null)
     {
 
@@ -3990,10 +4012,10 @@ class ItemController extends Controller
             'array_calc' => $array_calc,
             'array_disabled' => $array_disabled,
             'heading' => $heading,
+            'base_index_page' => $base_index_page,
             'body_link_page' => $body_link_page,
-            'body_link_count' => $body_link_count,
-            'body_link_perpage' => $body_link_perpage,
-            'body_link_page' => $body_link_page, 'body_link_count' => $body_link_count, 'body_link_perpage' => $body_link_perpage,
+            'body_all_page' => $body_all_page,
+            'base_index_page' => $base_index_page, 'body_link_page' => $body_link_page, 'body_all_page' => $body_all_page,
             'par_link' => $par_link, 'parent_item' => $parent_item]);
     }
 
@@ -4001,7 +4023,7 @@ class ItemController extends Controller
                                       $usercode,
                                       $relit_id,
                                       $heading = 0,
-                                      $body_link_page = 0, $body_link_count = 0, $body_link_perpage = 0,
+                                      $base_index_page = 0, $body_link_page = 0, $body_all_page = 0,
                                  Link $par_link = null, Item $parent_item = null)
 
     {
@@ -4018,9 +4040,9 @@ class ItemController extends Controller
             'relit_id' => $relit_id,
             'array_calc' => $this->get_array_calc_edit($item)['array_calc'],
             'heading' => $heading,
+            'base_index_page' => $base_index_page,
             'body_link_page' => $body_link_page,
-            'body_link_count' => $body_link_count,
-            'body_link_perpage' => $body_link_perpage,
+            'body_all_page' => $body_all_page,
             'par_link' => $par_link, 'parent_item' => $parent_item]);
 
     }
@@ -4028,7 +4050,7 @@ class ItemController extends Controller
     function ext_delete(Item $item, Project $project, Role $role,
                              $usercode,
                              $relit_id,
-                             $heading = 0, $body_link_page = 0, $body_link_count = 0, $body_link_perpage = 0,
+                             $heading = 0, $base_index_page = 0, $body_link_page = 0, $body_all_page = 0,
                         Link $par_link = null, Item $parent_item = null)
     {
 
@@ -4109,19 +4131,30 @@ class ItemController extends Controller
             return redirect()->route('item.base_index', ['base' => $item->base, 'project' => $item->project, 'role' => $role, 'relit_id' => $relit_id]);
         } else {
             //  Похожий текст в функциях ext_store(), ext_update(), ext_delete();
-            //  По алгоритму передается $body_link_perpage - сохраненный номер страницы $body_link_perpage;
-            if (!$par_link && !$heading) {
+            //  По алгоритму передается $base_index_page, $body_link_page, $body_all_page - сохраненные номера страниц;
+            $str_link = '';
+            if (!$par_link && !$heading && $base_index_page>0) {
                 // Использовать "project' => $project"
-                return redirect()->route('item.base_index', ['base' => $item->base, 'project' => $project, 'role' => $role, 'relit_id' => $relit_id]);
+                return redirect()->route('item.base_index', ['base' => $item->base, 'project' => $project, 'role' => $role, 'relit_id' => $relit_id,
+                    'base_index_page' => $base_index_page, 'body_link_page' => $body_link_page, 'body_all_page' => $body_all_page]);
             } else {
                 // Если $heading = true - нажата Добавить из "heading", false - из "body" (только при добавлении записи)
+                $str_link='';
+                if ($body_all_page > 0) {
+                    // Вызываем item_index.php с body - все
+                    $str_link = GlobalController::par_link_const_textnull();
+                } else {
+                    // Вызываем item_index.php с body - связь $par_link
+                    $str_link = $par_link;
+                }
                 if ($par_link && !$heading && $parent_item) {
                     return redirect()->route('item.item_index', ['project' => $item->project, 'item' => $parent_item, 'role' => $role,
-                        'usercode' => GlobalController::usercode_calc(), 'relit_id' => $relit_id, 'par_link' => $par_link,
-                        'body_link_page' => $body_link_page]);
+                        'usercode' => GlobalController::usercode_calc(), 'relit_id' => $relit_id, 'par_link' => $str_link,
+                        'base_index_page' => $base_index_page, 'body_link_page' => $body_link_page, 'body_all_page' => $body_all_page]);
                 } else {
                     return redirect()->route('item.item_index', ['project' => $item->project, 'item' => $item, 'role' => $role,
-                        'usercode' => GlobalController::usercode_calc(), 'relit_id' => $relit_id, 'par_link' => $par_link, 'body_link_page' => $body_link_page]);
+                        'usercode' => GlobalController::usercode_calc(), 'relit_id' => $relit_id, 'par_link' => $str_link,
+                        'base_index_page' => $base_index_page, 'body_link_page' => $body_link_page, 'body_all_page' => $body_all_page]);
                 }
             }
 
