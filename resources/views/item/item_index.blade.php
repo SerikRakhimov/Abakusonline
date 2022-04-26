@@ -40,8 +40,8 @@
                                         'string_all_codes_tree'=>$value['string_prev_all_codes']
                                         ])}}"
                title="{{$value['info_name']}}">
-                {{--                {{$value['item_name']}}--}}
-                {{$value['info_name']}}
+                                {{$value['item_name']}}
+{{--                {{$value['info_name']}}--}}
             </a>
         </h6>
     @endforeach

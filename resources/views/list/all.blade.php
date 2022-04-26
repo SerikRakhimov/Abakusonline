@@ -72,7 +72,7 @@ $i = 0;
         'string_item_ids_tree'=>$string_item_ids_array_next[$main->link_id],
         'string_all_codes_tree'=>$string_all_codes_array_next[$main->link_id]
         ])}}"
-                   title="{{$item->name()}}">
+                   title="{{GlobalController::calc_title_name($main->link->child_label())}}">
                     {{GlobalController::calc_title_name($main->link->child_label())}}
                 </a>
             </td>

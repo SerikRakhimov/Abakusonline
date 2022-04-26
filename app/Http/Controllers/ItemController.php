@@ -565,7 +565,7 @@ class ItemController extends Controller
                                     $link = Link::findOrFail($result[$i]['link_id']);
                                     $info = $link->child_labels();
                                 }
-                                $result[$i]['info_name'] = $result[$i]['item_name'] . ' - ' . mb_strtolower($info);
+                                $result[$i]['info_name'] = $result[$i]['item_name'] . ' (' . mb_strtolower($info) . ')';
                                 $i = $i + 1;
                             }
                         }
