@@ -46,7 +46,6 @@
         </h6>
     @endforeach
     <hr>
-    <p>
     <div class="container-fluid">
         <div class="row">
             <div class="col-10 text-left">
@@ -156,7 +155,6 @@
             {{--            </div>--}}
         </div>
     </div>
-    </p>
     @if(count($child_links) != 0)
         <?php
         //          Присваивания нужны
