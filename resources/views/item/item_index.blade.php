@@ -122,7 +122,7 @@
             </div>
             <div class="col-2 text-right">
                 @if ($base_right['is_list_base_create'] == true)
-                    <button type="button" class="btn btn-dreamer" title="{{trans('main.add')}}"
+                    <button type="button" class="btn btn-dreamer" title="{{trans('main.add')}} '{{$item->base->name()}}'"
                             onclick="document.location='{{route('item.ext_create', ['base'=>$item->base,
                                              'project'=>$project, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(),
                                              'relit_id' =>$relit_id,
@@ -230,7 +230,8 @@
                     <div class="row">
                         <div class="col-12 text-right">
                             <div class="dropdown">
-                                <button type="button" class="btn btn-dreamer dropdown-toggle" data-toggle="dropdown">
+                                <button type="button" class="btn btn-dreamer dropdown-toggle" data-toggle="dropdown" title="{{trans('main.link')}}">
+                                    <i class="fas fa-link d-inline"></i>
                                     {{trans('main.link')}}
                                 </button>
                                 <div class="dropdown-menu">
@@ -307,7 +308,6 @@
         {{--            </div>--}}
         {{--        </div>--}}
         {{--        </p>--}}
-
         @if($base_body_right['is_list_base_calc'] == true)
             <?php
             //                $message_bs_mc = GlobalController::base_maxcount_message($current_link->child_base);
@@ -372,7 +372,7 @@
                             @if($message_mc_link_item == "")
                                 <button type="button" class="btn btn-dreamer"
                                         {{--                        Выводится $message_mc--}}
-                                        title="{{trans('main.add') . $message_mc_info}}"
+                                        title="{{trans('main.add'). " '" . $current_link->child_base->name() . "'" . $message_mc_info}}"
                                         onclick="document.location='{{route('item.ext_create', ['base'=>$current_link->child_base_id,
                                         'project'=>$project, 'role'=>$role,
                                         'usercode' =>GlobalController::usercode_calc(),
@@ -437,7 +437,9 @@
                         @if($next_all_is_all_create == true)
                             <div class="dropdown">
                                 <button type="button" class="btn btn-dreamer dropdown-toggle"
-                                        data-toggle="dropdown">
+                                        data-toggle="dropdown"
+                                title="{{trans('main.add')}}">
+                                    <i class="fas fa-plus d-inline"></i>
                                     {{trans('main.add')}}
                                 </button>
                                 <div class="dropdown-menu">
@@ -453,7 +455,6 @@
                                                                                      'par_link'=>$value, 'parent_item'=>$item])}}"
                                                    title="{{trans('main.add') . $message_mc_array_info[$value->id]}}">
                                                     {{$value->child_labels()}}
-                                                    {{--                                                <i class="fas fa-plus d-inline"></i>--}}
                                                     @if(isset($array["\x00*\x00items"][$value->id]))
                                                         *
                                                     @endif
