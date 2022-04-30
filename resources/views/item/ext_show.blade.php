@@ -201,6 +201,9 @@
                         onclick='document.location="{{route('item.ext_edit',
             ['item'=>$item,'project'=>$project, 'role'=>$role,
             'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id,
+            'string_link_ids_current' => $string_link_ids_current,
+            'string_item_ids_current' => $string_item_ids_current,
+            'string_all_codes_current' => $string_all_codes_current,
             'heading' => $heading,
             'base_index_page' => $base_index_page, 'body_link_page' => $body_link_page, 'body_all_page' => $body_all_page,
             'par_link' => $par_link, 'parent_item' => $parent_item])}}"'
@@ -216,6 +219,7 @@
             ['item'=>$item,'project'=>$project, 'role'=>$role,
             'usercode' =>GlobalController::usercode_calc(),
             'relit_id'=>$relit_id,
+            'string_link_ids_current' => $string_link_ids_current, 'string_item_ids_current' => $string_item_ids_current, 'string_all_codes_current' => $string_all_codes_current,
             'heading' => $heading,
             'base_index_page' => $base_index_page, 'body_link_page' => $body_link_page, 'body_all_page' => $body_all_page,
             'par_link' => $par_link, 'parent_item' => $parent_item])}}"'
@@ -233,7 +237,7 @@
             {{--                                                            <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item_find, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(), 'par_link'=>$link])}}">--}}
             {{--                                                                @endif--}}
             {{--            Не удалять--}}
-            @if(1==1)
+            @if(1==2)
                 <button type="button" class="btn btn-dreamer mb-1 mb-sm-0"
                         onclick='document.location="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,
                          'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id,
@@ -268,6 +272,9 @@
     @elseif($type_form == 'delete_question')
         <form action="{{route('item.ext_delete',['item'=>$item,'project'=>$project, 'role'=>$role,
             'usercode' =>GlobalController::usercode_calc(),
+            'string_link_ids_current' => $string_link_ids_current,
+            'string_item_ids_current' => $string_item_ids_current,
+            'string_all_codes_current' => $string_all_codes_current,
             'heading' => $heading,
             'relit_id' => $relit_id,
             'base_index_page' => $base_index_page, 'body_link_page' => $body_link_page, 'body_all_page' => $body_all_page,

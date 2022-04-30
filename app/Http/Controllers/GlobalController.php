@@ -1694,6 +1694,7 @@ class GlobalController extends Controller
         return $result;
     }
 
+    // В функции ItemController::item_index(..., $par_link = 'textnull', ...) используется 'textnull' в явном виде
     static function par_link_const_textnull()
     {
         return 'textnull';
@@ -1726,6 +1727,11 @@ class GlobalController extends Controller
     static function const_allfalse()
     {
         return 'allfalse';
+    }
+
+    static function const_null()
+    {
+        return 'null';
     }
 
     static function calc_item_name_lang()

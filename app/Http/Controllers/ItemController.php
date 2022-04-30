@@ -259,7 +259,11 @@ class ItemController extends Controller
         }
         if ($items) {
             session(['base_index_previous_url' => ((!empty($_SERVER['HTTPS'])) ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . '/' . request()->path()]);
+            // Нужно 'GlobalController::const_null()' 'null/null/null/', иначе в строке с параметрами будет '///' (дает ошибку)
             return view('item/base_index', ['base_right' => $base_right, 'base' => $base, 'project' => $project, 'role' => $role, 'relit_id' => $relit_id,
+                'string_all_codes_current' => GlobalController::const_null(),
+                'string_link_ids_current' => GlobalController::const_null(),
+                'string_item_ids_current' => GlobalController::const_null(),
                 'items' => $items, 'links_info' => $links_info, 'is_table_body' => $is_table_body]);
         } else {
             return view('message', ['message' => trans('main.no_access_for_unregistered_users')]);
@@ -272,9 +276,9 @@ class ItemController extends Controller
     //  и вставить в адресную строку другого пользователя платформы www.abakusonline.com
     // - должно работать только на текущем проекте
 //    function item_index(Project $project, Item $item, Role $role, $usercode, $relit_id = 0, Link $par_link = null,
-//                                $string_link_ids_tree = '', $string_item_ids_tree = '')
+//                                $string_link_ids_current = '', $string_item_ids_current = '')
     function item_index(Project $project, Item $item, Role $role, $usercode, $relit_id = 0, $par_link = 'textnull',
-                                $string_link_ids_tree = '', $string_item_ids_tree = '', $string_all_codes_tree = '')
+                                $string_link_ids_current = '', $string_item_ids_current = '', $string_all_codes_current = '')
     {
         if (GlobalController::check_project_item_user($project, $item, $role, $usercode) == false) {
             return view('message', ['message' => trans('main.no_access')]);
@@ -304,13 +308,10 @@ class ItemController extends Controller
 
         // Пустой массив
         $tree_array = array();
-        if ($string_link_ids_tree && $string_item_ids_tree && $string_all_codes_tree) {
-            $tree_array = self::calc_tree_array($string_link_ids_tree, $string_item_ids_tree, $string_all_codes_tree);
+        if ($string_link_ids_current && $string_item_ids_current && $string_all_codes_current) {
+            $tree_array = self::calc_tree_array($string_link_ids_current, $string_item_ids_current, $string_all_codes_current);
         }
         // Нужно
-        $string_link_ids_current = $string_link_ids_tree;
-        $string_item_ids_current = $string_item_ids_tree;
-        $string_all_codes_current = $string_all_codes_tree;
         $string_link_ids_next = $string_link_ids_current;
         $string_item_ids_next = $string_item_ids_current;
         $string_all_codes_next = $string_all_codes_current;
@@ -467,6 +468,16 @@ class ItemController extends Controller
         if ($next_all_mains) {
             $next_all_mains = $next_all_mains->paginate(3, ['*'], 'body_all_page');
         }
+        // Команды ниже нужны
+        if ($string_link_ids_current == ''){
+            $string_link_ids_current = GlobalController::const_null();
+        }
+        if ($string_item_ids_current == ''){
+            $string_item_ids_current = GlobalController::const_null();
+        }
+        if ($string_all_codes_current == ''){
+            $string_all_codes_current = GlobalController::const_null();
+        }
         //     session(['links' => ((!empty($_SERVER['HTTPS'])) ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . '/' . request()->path()]);
         return view('item/item_index', ['project' => $project, 'item' => $item, 'role' => $role, 'relit_id' => $relit_id, 'par_link' => $par_find_link,
             'base_right' => $base_right, 'items' => $items,
@@ -497,13 +508,14 @@ class ItemController extends Controller
             'message_mc_array_info' => $message_mc_array_info, 'message_mc_link_array_item' => $message_mc_link_array_item]);
     }
 
-    function calc_tree_array($string_link_ids_tree, $string_item_ids_tree, $string_all_codes_tree)
+    function calc_tree_array($string_link_ids_current, $string_item_ids_current, $string_all_codes_current)
     {
         $result = array();
-        if (($string_link_ids_tree != "") && ($string_item_ids_tree != "") && ($string_all_codes_tree != "")) {
-            $array_link_ids = explode(",", $string_link_ids_tree);
-            $array_item_ids = explode(",", $string_item_ids_tree);
-            $array_all_codes = explode(",", $string_all_codes_tree);
+        if (($string_link_ids_current != "") && ($string_item_ids_current != "") && ($string_all_codes_current != "") &&
+            ($string_link_ids_current != GlobalController::const_null()) && ($string_item_ids_current != GlobalController::const_null()) && ($string_all_codes_current != GlobalController::const_null())) {
+            $array_link_ids = explode(",", $string_link_ids_current);
+            $array_item_ids = explode(",", $string_item_ids_current);
+            $array_all_codes = explode(",", $string_all_codes_current);
             // Количества переданных $links и $items должны совпадать
             if (count($array_link_ids) == count($array_item_ids)) {
                 if (count($array_link_ids) > 0) {
@@ -565,7 +577,8 @@ class ItemController extends Controller
                                     $link = Link::findOrFail($result[$i]['link_id']);
                                     $info = $link->child_labels();
                                 }
-                                $result[$i]['info_name'] = $result[$i]['item_name'] . ' (' . mb_strtolower($info) . ')';
+                                //$result[$i]['info_name'] = $result[$i]['item_name'] . ' (' . mb_strtolower($info) . ')';
+                                $result[$i]['info_name'] = '(' . mb_strtolower($info) . ')';
                                 $i = $i + 1;
                             }
                         }
@@ -578,9 +591,13 @@ class ItemController extends Controller
 
     function calc_string_current_next_ids(Item $item, Link $link, $tree_array, $all_code)
     {
-        $string_current_link_ids = '';
-        $string_current_item_ids = '';
-        $string_current_all_codes = '';
+//        $string_current_link_ids = '';
+//        $string_current_item_ids = '';
+//        $string_current_all_codes = '';
+        // Нужно использовать 'GlobalController::const_null()'
+        $string_current_link_ids = GlobalController::const_null();
+        $string_current_item_ids = GlobalController::const_null();
+        $string_current_all_codes = GlobalController::const_null();
         $string_next_link_ids = $link->id;
         $string_next_item_ids = $item->id;
         $string_next_all_codes = $all_code;
@@ -791,9 +808,10 @@ class ItemController extends Controller
         $link = Link::find($request['link_id']);
         $string_link_ids_current = $request['string_link_ids_current'];
         $string_item_ids_current = $request['string_item_ids_current'];
+        $string_all_codes_current = $request['string_all_codes_current'];
         return redirect()->route('item.item_index', ['project' => $project, 'item' => $item, 'role' => $role, 'relit_id' => $relit_id,
             'usercode' => GlobalController::usercode_calc(), 'relit_id' => $relit_id, 'par_link' => $link,
-            'string_link_ids_tree' => $string_link_ids_current, 'string_item_ids_tree' => $string_item_ids_current]);
+            'string_link_ids_current' => $string_link_ids_current, 'string_item_ids_current' => $string_item_ids_current, 'string_all_codes_current' => $string_all_codes_current]);
     }
 
     private
@@ -923,6 +941,7 @@ class ItemController extends Controller
 
     function ext_show(Item $item, Project $project, Role $role, $usercode,
                            $relit_id,
+                           $string_link_ids_current = '', $string_item_ids_current = '', $string_all_codes_current = '',
                            $heading = 0,
                            $base_index_page = 0, $body_link_page = 0, $body_all_page = 0,
                       Link $par_link = null, Item $parent_item = null)
@@ -946,12 +965,16 @@ class ItemController extends Controller
             'project' => $project,
             'relit_id' => $relit_id,
             'array_calc' => $this->get_array_calc_edit($item)['array_calc'],
+            'string_all_codes_current' => $string_all_codes_current,
+            'string_link_ids_current' => $string_link_ids_current,
+            'string_item_ids_current' => $string_item_ids_current,
             'heading' => $heading,
             'base_index_page' => $base_index_page, 'body_link_page' => $body_link_page, 'body_all_page' => $body_all_page,
             'par_link' => $par_link, 'parent_item' => $parent_item]);
     }
 
     function ext_create(Base $base, Project $project, Role $role, $usercode, $relit_id,
+                             $string_link_ids_current = '', $string_item_ids_current = '', $string_all_codes_current = '',
                              $heading = 0, $base_index_page = 0, $body_link_page = 0, $body_all_page = 0,
                         Link $par_link = null, Item $parent_item = null)
         // '$heading = 0' использовать; аналог '$heading = false', в этом случае так /item/ext_create/{base}//
@@ -986,6 +1009,9 @@ class ItemController extends Controller
             'project' => $project,
             'role' => $role,
             'relit_id' => $relit_id,
+            'string_all_codes_current' => $string_all_codes_current,
+            'string_link_ids_current' => $string_link_ids_current,
+            'string_item_ids_current' => $string_item_ids_current,
             'array_calc' => $array_calc,
             'array_disabled' => $array_disabled,
             'base_index_page' => $base_index_page, 'body_link_page' => $body_link_page, 'body_all_page' => $body_all_page,
@@ -999,6 +1025,7 @@ class ItemController extends Controller
 
     function ext_store(Request $request, Base $base, Project $project, Role $role, $usercode,
                                $relit_id,
+                               $string_link_ids_current = '', $string_item_ids_current = '', $string_all_codes_current = '',
                                $heading = 0, $base_index_page = 0, $body_link_page = 0, $body_all_page = 0,
                        Link    $par_link = null, Item $parent_item = null)
     {
@@ -1798,10 +1825,12 @@ class ItemController extends Controller
             if ($par_link && !$heading && $parent_item) {
                 return redirect()->route('item.item_index', ['project' => $item->project, 'item' => $parent_item, 'role' => $role,
                     'usercode' => GlobalController::usercode_calc(), 'relit_id' => $relit_id, 'par_link' => $str_link,
+                    'string_link_ids_current' => $string_link_ids_current, 'string_item_ids_current' => $string_item_ids_current, 'string_all_codes_current' => $string_all_codes_current,
                     'base_index_page' => $base_index_page, 'body_link_page' => $body_link_page, 'body_all_page' => $body_all_page]);
             } else {
                 return redirect()->route('item.item_index', ['project' => $item->project, 'item' => $item, 'role' => $role,
                     'usercode' => GlobalController::usercode_calc(), 'relit_id' => $relit_id, 'par_link' => $str_link,
+                    'string_link_ids_current' => $string_link_ids_current, 'string_item_ids_current' => $string_item_ids_current, 'string_all_codes_current' => $string_all_codes_current,
                     'base_index_page' => $base_index_page, 'body_link_page' => $body_link_page, 'body_all_page' => $body_all_page]);
             }
         }
@@ -3136,7 +3165,9 @@ class ItemController extends Controller
     }
 
     function ext_update(Request $request, Item $item, Project $project, Role $role, $usercode,
-                                $relit_id, $heading = 0, $base_index_page = 0, $body_link_page = 0, $body_all_page = 0,
+                                $relit_id,
+                                $string_link_ids_current = '', $string_item_ids_current = '', $string_all_codes_current = '',
+                                $heading = 0, $base_index_page = 0, $body_link_page = 0, $body_all_page = 0,
                         Link    $par_link = null, Item $parent_item = null)
     {
         // установка часового пояса нужно для сохранения времени
@@ -3928,10 +3959,12 @@ class ItemController extends Controller
             if ($par_link && !$heading && $parent_item) {
                 return redirect()->route('item.item_index', ['project' => $item->project, 'item' => $parent_item, 'role' => $role,
                     'usercode' => GlobalController::usercode_calc(), 'relit_id' => $relit_id, 'par_link' => $str_link,
+                    'string_link_ids_current' => $string_link_ids_current, 'string_item_ids_current' => $string_item_ids_current, 'string_all_codes_current' => $string_all_codes_current,
                     'base_index_page' => $base_index_page, 'body_link_page' => $body_link_page, 'body_all_page' => $body_all_page]);
             } else {
                 return redirect()->route('item.item_index', ['project' => $item->project, 'item' => $item, 'role' => $role,
                     'usercode' => GlobalController::usercode_calc(), 'relit_id' => $relit_id, 'par_link' => $str_link,
+                    'string_link_ids_current' => $string_link_ids_current, 'string_item_ids_current' => $string_item_ids_current, 'string_all_codes_current' => $string_all_codes_current,
                     'base_index_page' => $base_index_page, 'body_link_page' => $body_link_page, 'body_all_page' => $body_all_page]);
             }
         }
@@ -3978,7 +4011,9 @@ class ItemController extends Controller
         return view('item/edit', ['item' => $item, 'bases' => Base::all()]);
     }
 
-    function ext_edit(Item $item, Project $project, Role $role, $usercode, $relit_id, $heading = 0,
+    function ext_edit(Item $item, Project $project, Role $role, $usercode, $relit_id,
+                      $string_link_ids_current = '', $string_item_ids_current = '', $string_all_codes_current = '',
+                        $heading = 0,
                            $base_index_page = 0, $body_link_page = 0, $body_all_page = 0,
                       Link $par_link = null, Item $parent_item = null)
     {
@@ -4011,6 +4046,7 @@ class ItemController extends Controller
             'relit_id' => $relit_id,
             'array_calc' => $array_calc,
             'array_disabled' => $array_disabled,
+            'string_link_ids_current' => $string_link_ids_current, 'string_item_ids_current' => $string_item_ids_current, 'string_all_codes_current' => $string_all_codes_current,
             'heading' => $heading,
             'base_index_page' => $base_index_page,
             'body_link_page' => $body_link_page,
@@ -4022,7 +4058,8 @@ class ItemController extends Controller
     function ext_delete_question(Item $item, Project $project, Role $role,
                                       $usercode,
                                       $relit_id,
-                                      $heading = 0,
+                                 $string_link_ids_current = '', $string_item_ids_current = '', $string_all_codes_current = '',
+                                 $heading = 0,
                                       $base_index_page = 0, $body_link_page = 0, $body_all_page = 0,
                                  Link $par_link = null, Item $parent_item = null)
 
@@ -4039,6 +4076,7 @@ class ItemController extends Controller
             'project' => $project,
             'relit_id' => $relit_id,
             'array_calc' => $this->get_array_calc_edit($item)['array_calc'],
+            'string_link_ids_current' => $string_link_ids_current, 'string_item_ids_current' => $string_item_ids_current, 'string_all_codes_current' => $string_all_codes_current,
             'heading' => $heading,
             'base_index_page' => $base_index_page,
             'body_link_page' => $body_link_page,
@@ -4048,8 +4086,8 @@ class ItemController extends Controller
     }
 
     function ext_delete(Item $item, Project $project, Role $role,
-                             $usercode,
-                             $relit_id,
+                             $usercode, $relit_id,
+                             $string_link_ids_current = '', $string_item_ids_current = '', $string_all_codes_current = '',
                              $heading = 0, $base_index_page = 0, $body_link_page = 0, $body_all_page = 0,
                         Link $par_link = null, Item $parent_item = null)
     {
@@ -4154,10 +4192,12 @@ class ItemController extends Controller
                 if ($par_link && !$heading && $parent_item) {
                     return redirect()->route('item.item_index', ['project' => $item->project, 'item' => $parent_item, 'role' => $role,
                         'usercode' => GlobalController::usercode_calc(), 'relit_id' => $relit_id, 'par_link' => $str_link,
+                        'string_link_ids_current' => $string_link_ids_current, 'string_item_ids_current' => $string_item_ids_current, 'string_all_codes_current' => $string_all_codes_current,
                         'base_index_page' => $base_index_page, 'body_link_page' => $body_link_page, 'body_all_page' => $body_all_page]);
                 } else {
                     return redirect()->route('item.item_index', ['project' => $item->project, 'item' => $item, 'role' => $role,
                         'usercode' => GlobalController::usercode_calc(), 'relit_id' => $relit_id, 'par_link' => $str_link,
+                        'string_link_ids_current' => $string_link_ids_current, 'string_item_ids_current' => $string_item_ids_current, 'string_all_codes_current' => $string_all_codes_current,
                         'base_index_page' => $base_index_page, 'body_link_page' => $body_link_page, 'body_all_page' => $body_all_page]);
                 }
             }

@@ -41,6 +41,9 @@
                             onclick="document.location='{{route('item.ext_create',
                             ['base'=>$base, 'project'=>$project, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(),
                              'relit_id' =>$relit_id,
+                             'string_all_codes_current' => $string_all_codes_current,
+                             'string_link_ids_current' => $string_link_ids_current,
+                             'string_item_ids_current' => $string_item_ids_current,
                              'heading' =>intval(false),
                              'base_index_page'=>$base_index_page, 'body_link_page'=>$body_link_page,'body_all_page'=>$body_all_page])}}'">
                         <i class="fas fa-plus d-inline"></i>&nbsp;{{trans('main.add')}}
@@ -199,7 +202,11 @@
                     @if($base->is_code_needed == true)
                         <a href="{{route('item.ext_show', ['item'=>$item, 'project'=>$project, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id,
                                     'heading'=>0,'base_index_page'=>$base_index_page, 'body_link_page'=>$body_link_page,'body_all_page'=>$body_all_page,
-                                    'par_link'=>null, 'parent_item'=>null])}}" title="{{$item->name()}}">
+                                    'par_link'=>null, 'parent_item'=>null,
+                             'string_all_codes_current' => $string_all_codes_current,
+                             'string_link_ids_current' => $string_link_ids_current,
+                             'string_item_ids_current' => $string_item_ids_current,
+                                    ])}}" title="{{$item->name()}}">
                             <p class="card-header text-center text-label">{{trans('main.code')}}: {{$item->code}}</p>
                         </a>
                     @endif
@@ -210,7 +217,11 @@
                                 {{-- https://askdev.ru/q/kak-vyzvat-funkciyu-javascript-iz-tega-href-v-html-276225/--}}
                                 <a href="{{route('item.ext_show', ['item'=>$item, 'project'=>$project, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id,
                                     'heading'=>0,'base_index_page'=>$base_index_page, 'body_link_page'=>$body_link_page,'body_all_page'=>$body_all_page,
-                                    'par_link'=>null, 'parent_item'=>null])}}"
+                                    'par_link'=>null, 'parent_item'=>null,
+                             'string_all_codes_current' => $string_all_codes_current,
+                             'string_link_ids_current' => $string_link_ids_current,
+                             'string_item_ids_current' => $string_item_ids_current,
+                                    ])}}"
                                    title="{{$item->name()}}">
                                     @include('view.img',['item'=>$item_find, 'size'=>"medium", 'filenametrue'=>false, 'link'=>false, 'img_fluid'=>true, 'title'=>$item->name()])
                                 </a>
@@ -220,7 +231,11 @@
                         <h5 class="card-title text-center"><a
                                 href="{{route('item.ext_show', ['item'=>$item, 'project'=>$project, 'role'=>$role, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id,
                                     'heading'=>0,'base_index_page'=>$base_index_page, 'body_link_page'=>$body_link_page,'body_all_page'=>$body_all_page,
-                                    'par_link'=>null, 'parent_item'=>null])}}"
+                                    'par_link'=>null, 'parent_item'=>null,
+                             'string_all_codes_current' => $string_all_codes_current,
+                             'string_link_ids_current' => $string_link_ids_current,
+                             'string_item_ids_current' => $string_item_ids_current,
+                                    ])}}"
                                 title="{{$item->name()}}">
                                 {{--                            Где $item->name() выходит в cards выводить "<?php echo GlobalController::to_html();?>"--}}
                                 <?php echo $item->nmbr(false);?>
@@ -295,16 +310,20 @@
         {{--                        </tr>--}}
         {{--                    @endif--}}
         {{--        Используется 'heading'=>0'--}}
-        <?php
-        //dd($base_index_page);
-        ?>
         @include('list.table',['base'=>$base, 'links_info'=>$links_info, 'items'=>$items,
                     'base_right'=>$base_right, 'item_view'=>true,
-                    'relit_id'=>$relit_id, 'heading'=>0,
+                    'relit_id'=>$relit_id,
+                    'string_all_codes_current' => $string_all_codes_current,
+                    'string_link_ids_current' => $string_link_ids_current,
+                    'string_item_ids_current' => $string_item_ids_current,
+                    'string_all_codes_next' => $string_all_codes_current,
+                    'string_link_ids_next' => $string_link_ids_current,
+                    'string_item_ids_next' => $string_item_ids_current,
+                    'heading'=> 0,
                     'base_index_page'=>$base_index_page, 'body_link_page'=>$body_link_page,'body_all_page'=>$body_all_page,
                     'par_link'=>null, 'parent_item'=>null, 'is_table_body'=>$is_table_body,
-                    'base_index'=>true, 'item_heading_base'=>false, 'item_body_base'=>false,
-                    'string_link_ids_next'=>'', 'string_item_ids_next'=>'', 'string_all_codes_next'=>''])
+                    'base_index'=>true, 'item_heading_base'=>false, 'item_body_base'=>false
+                    ])
         {{--                            @if(1==2)--}}
         {{--                                @foreach($link_id_array as $value)--}}
         {{--                                    <?php--}}

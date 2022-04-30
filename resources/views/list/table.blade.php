@@ -8,7 +8,14 @@ $rows = $links_info['rows'];
 $cols = $links_info['cols'];
 //$i = $items->firstItem() - 1;
 $i = 0;
-//dd($base_index_page);
+$i_par_link = null;
+// Вызов list\table.php из base_index.php
+if($base_index == true){
+    $i_par_link = GlobalController::par_link_const_text_base_null();
+}
+else{
+    $i_par_link = GlobalController::par_link_const_textnull();
+}
 ?>
 <table class="table table-sm table-bordered table-hover">
 {{--<table class="table table-sm table-borderless table-hover">--}}
@@ -93,7 +100,11 @@ $i = 0;
                     {{--                    <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc()])}}">--}}
                     <a href="{{route('item.ext_show', ['item'=>$item, 'project'=>$project, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id,
     'heading'=>$heading, 'base_index_page'=>$base_index_page, 'body_link_page'=>$body_link_page,'body_all_page'=>$body_all_page,
-    'par_link'=>$par_link, 'parent_item'=>$parent_item])}}">
+    'par_link'=>$par_link, 'parent_item'=>$parent_item,
+    'string_link_ids_current' => $string_link_ids_current,
+    'string_item_ids_current' => $string_item_ids_current,
+    'string_all_codes_current'=> $string_all_codes_current
+    ])}}">
                         .{{$i}}.
                     </a>
                 </td>
@@ -119,7 +130,11 @@ $i = 0;
                     <td class="text-center">
                         @if($base_index || $item_body_base)
                             <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,
-       'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id,'par_link'=>$par_link])}}"
+       'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id,'par_link'=>$i_par_link,
+               'string_link_ids_current'=>$string_link_ids_next,
+        'string_item_ids_current'=>$string_item_ids_next,
+        'string_all_codes_current'=>$string_all_codes_next
+        ])}}"
                                title="{{$item->name()}}">
                                 @endif
                                 {{$item->code}}
@@ -174,10 +189,10 @@ $i = 0;
                                 {{--                                @else--}}
                                 @if ($item_index_view)
                                     <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,
-       'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id,'par_link'=>$par_link,
-        'string_link_ids_tree'=>$string_link_ids_next,
-        'string_item_ids_tree'=>$string_item_ids_next,
-        'string_all_codes_tree'=>$string_all_codes_next
+       'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id,'par_link'=>$i_par_link,
+        'string_link_ids_current'=>$string_link_ids_next,
+        'string_item_ids_current'=>$string_item_ids_next,
+        'string_all_codes_current'=>$string_all_codes_next
         ])}}"
                                        title="{{$item->name()}}">
                                         @endif
@@ -268,20 +283,12 @@ $i = 0;
                                 } else {
                                     $i_item = $item;//
                                 }
-                                    $i_par_link = null;
-                                // Вызов list\table.php из base_index.php
-                                if($base_index == true){
-                                    $i_par_link = GlobalController::par_link_const_text_base_null();
-                                }
-                                else{
-                                    $i_par_link = GlobalController::par_link_const_textnull();
-                                }
                                 ?>
                                 <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$i_item, 'role'=>$role,
         'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id, 'par_link'=>$i_par_link,
-        'string_link_ids_tree'=>$string_link_ids_next,
-        'string_item_ids_tree'=>$string_item_ids_next,
-        'string_all_codes_tree'=>$string_all_codes_next
+        'string_link_ids_current'=>$string_link_ids_next,
+        'string_item_ids_current'=>$string_item_ids_next,
+        'string_all_codes_current'=>$string_all_codes_next
         ])}}"
                                    title="">
                                     @endif

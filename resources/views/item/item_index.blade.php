@@ -23,6 +23,8 @@
     if ($next_all_mains) {
         $body_all_page = $next_all_mains->currentPage();
     }
+    $i_heading_par_link_id = null;
+    $i_heading_parent_item_id = null;
     ?>
     @include('layouts.project.show_project_role',['project'=>$project, 'role'=>$role, 'relit_id'=>$relit_id])
     {{--    <h3 class="display-5">--}}
@@ -35,17 +37,26 @@
             <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$value['item_id'], 'role'=>$role,
                                         'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id,
                                         'par_link'=>$value['all_code'] ==GlobalController::const_alltrue() ? GlobalController::par_link_const_textnull():$value['link_id'],
-                                        'string_link_ids_tree'=>$value['string_prev_link_ids'],
-                                        'string_item_ids_tree'=>$value['string_prev_item_ids'],
-                                        'string_all_codes_tree'=>$value['string_prev_all_codes']
+                                        'string_link_ids_current'=>$value['string_prev_link_ids'],
+                                        'string_item_ids_current'=>$value['string_prev_item_ids'],
+                                        'string_all_codes_current'=>$value['string_prev_all_codes']
                                         ])}}"
-               title="{{$value['info_name']}}">
-                                {{$value['item_name']}}
+               title="{{$value['item_name'] . ' ' . $value['info_name']}}">
+{{--                {{$value['item_name']}}--}}
 {{--                {{$value['info_name']}}--}}
+                <mark class="text-project">{{$value['item_name']}}</mark>
+{{--                <span class="badge badge-related">{{$value['info_name']}}</span>--}}
+                <small><small><small>{{$value['info_name']}}</small></small></small>
             </a>
         </h6>
+        <?php
+        $i_heading_par_link_id = $value['link_id'];
+        $i_heading_parent_item_id = $value['item_id'];
+        ?>
     @endforeach
+    @if(count($tree_array)>0)
     <hr>
+    @endif
     <div class="container-fluid">
         <div class="row">
             <div class="col-10 text-left">
@@ -74,7 +85,13 @@
                                     @if ($base_right['is_list_base_calc'] == true)
                                         <a href="{{route('item.ext_show', ['item'=>$item, 'project'=>$project, 'role'=>$role,
                                             'usercode' =>GlobalController::usercode_calc(),
-                                            'relit_id'=>$relit_id
+                                            'relit_id'=>$relit_id,
+            'string_link_ids_current' => $string_link_ids_current,
+            'string_item_ids_current' => $string_item_ids_current,
+            'string_all_codes_current'=>$string_all_codes_current,
+            'heading' => intval(true),
+            'base_index_page' => $base_index_page, 'body_link_page' => $body_link_page, 'body_all_page' => $body_all_page,
+            'par_link'=>$i_heading_par_link_id, 'parent_item'=>$i_heading_parent_item_id
                                             ])}}"
                                            title="{{$item->cdnm()}}">
                                             {{$item->cdnm()}}
@@ -122,13 +139,18 @@
             </div>
             <div class="col-2 text-right">
                 @if ($base_right['is_list_base_create'] == true)
-                    <button type="button" class="btn btn-dreamer" title="{{trans('main.add')}} '{{$item->base->name()}}'"
+                    <button type="button" class="btn btn-dreamer"
+                            title="{{trans('main.add')}} '{{$item->base->name()}}'"
                             onclick="document.location='{{route('item.ext_create', ['base'=>$item->base,
                                              'project'=>$project, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(),
                                              'relit_id' =>$relit_id,
+                                             'string_link_ids_current'=>$string_link_ids_current,
+                                             'string_item_ids_current'=>$string_item_ids_current,
+                                             'string_all_codes_current'=>$string_all_codes_current,
                                              'heading'=>intval(true),
                                              'base_index_page'=>$base_index_page, 'body_link_page'=>$body_link_page,'body_all_page'=>$body_all_page,
-                                             'par_link'=>$current_link, 'parent_item'=>null])}}'">
+                                             'par_link'=>$i_heading_par_link_id, 'parent_item'=>$i_heading_parent_item_id
+                                             ])}}'">
                         <i class="fas fa-plus d-inline"></i>&nbsp;{{trans('main.add')}}
                     </button>
                 @endif
@@ -171,7 +193,12 @@
                 'base_index_page'=>$base_index_page, 'body_link_page'=>$body_link_page,'body_all_page'=>$body_all_page,
                 'par_link'=>$i_par_link, 'parent_item'=>$i_parent_item, 'is_table_body'=>false,
                     'base_index'=>false, 'item_heading_base'=>true, 'item_body_base'=>false,
-                    'string_link_ids_next'=>'', 'string_item_ids_next'=>'', 'string_all_codes_next'=>''])
+                    'string_link_ids_current' => $string_link_ids_current,
+                    'string_item_ids_current' => $string_item_ids_current,
+                    'string_all_codes_current' => $string_all_codes_current,
+                    'string_link_ids_next'=>'',
+                    'string_item_ids_next'=>'',
+                    'string_all_codes_next'=>''])
     @endif
     {{--    <hr align="center" width="100%" size="2" color="#ff0000"/>--}}
     {{--        &#8595;	&#8195; &#8595;	&#8195; &#8595;	&#8195; &#8595;	&#8195; &#8595;	&#8195; &#8595;	&#8195; &#8595;	&#8195; &#8595;	&#8195; &#8595;	&#8195; &#8595;	&#8195; &#8595;	&#8195;--}}
@@ -195,9 +222,9 @@
                             <li class="page-item">
                                 <a class="page-link" href="{{route('item.item_index', ['project'=>$project, 'item'=>$prev_item, 'role'=>$role,
                                 'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id, 'par_link'=>GlobalController::par_link_textnull($current_link),
-                                        'string_link_ids_tree'=>$string_link_ids_current,
-                                         'string_item_ids_tree'=>$string_item_ids_current,
-                                         'string_all_codes_tree'=>$string_all_codes_current
+                                        'string_link_ids_current'=>$string_link_ids_current,
+                                         'string_item_ids_current'=>$string_item_ids_current,
+                                         'string_all_codes_current'=>$string_all_codes_current
                                          ])}}"
                                    title="{{$prev_item->cdnm()}}"><</a>
                             </li>
@@ -215,9 +242,9 @@
                             <li class="page-item">
                                 <a class="page-link" href="{{route('item.item_index', ['project'=>$project, 'item'=>$next_item, 'role'=>$role,
                                 'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id, 'par_link'=>GlobalController::par_link_textnull($current_link),
-                                        'string_link_ids_tree'=>$string_link_ids_current,
-                                        'string_item_ids_tree'=>$string_item_ids_current,
-                                        'string_all_codes_tree'=>$string_all_codes_current
+                                        'string_link_ids_current'=>$string_link_ids_current,
+                                        'string_item_ids_current'=>$string_item_ids_current,
+                                        'string_all_codes_current'=>$string_all_codes_current
                                         ])}}"
                                    title="{{$next_item->cdnm()}}">></a>
                             </li>
@@ -230,7 +257,8 @@
                     <div class="row">
                         <div class="col-12 text-right">
                             <div class="dropdown">
-                                <button type="button" class="btn btn-dreamer dropdown-toggle" data-toggle="dropdown" title="{{trans('main.link')}}">
+                                <button type="button" class="btn btn-dreamer dropdown-toggle" data-toggle="dropdown"
+                                        title="{{trans('main.link')}}">
                                     <i class="fas fa-link d-inline"></i>
                                     {{trans('main.link')}}
                                 </button>
@@ -239,9 +267,9 @@
                                     @if($next_all_is_enable)
                                         <a class="dropdown-item" href="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,
                                   'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id,'par_link'=>GlobalController::par_link_const_textnull(),
-                                  'string_link_ids_tree'=>$string_link_ids_current,
-                                  'string_item_ids_tree'=>$string_item_ids_current,
-                                  'string_all_codes_tree'=>$string_all_codes_current
+                                  'string_link_ids_current'=>$string_link_ids_current,
+                                  'string_item_ids_current'=>$string_item_ids_current,
+                                  'string_all_codes_current'=>$string_all_codes_current
                                   ])}}"
                                            title="{{$item->name()}}">
                                             {{GlobalController::option_all()}}
@@ -254,9 +282,9 @@
                                     @foreach($next_all_links as $key=>$value)
                                         <a class="dropdown-item" href="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,
                                           'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id,'par_link'=>$value->id,
-                                          'string_link_ids_tree'=>$string_link_ids_current,
-                                           'string_item_ids_tree'=>$string_item_ids_current,
-                                           'string_all_codes_tree'=>$string_all_codes_current
+                                          'string_link_ids_current'=>$string_link_ids_current,
+                                           'string_item_ids_current'=>$string_item_ids_current,
+                                           'string_all_codes_current'=>$string_all_codes_current
                                            ])}}"
                                            title="{{$item->name()}}">
                                             {{$value->child_labels()}}
@@ -279,6 +307,7 @@
             </div>
         </div>
     </div>
+    <hr>
     {{--Похожие команды в ItemController::calc_tree_array() и item_index.php--}}
     @if($current_link)
         {{--        <hr>--}}
@@ -346,7 +375,6 @@
             //                $array = objectToarray($next_all_links_fact);
 
             ?>
-            <hr>
             <p>
             <div class="container-fluid">
                 <div class="row">
@@ -377,6 +405,9 @@
                                         'project'=>$project, 'role'=>$role,
                                         'usercode' =>GlobalController::usercode_calc(),
                              'relit_id' =>$relit_id,
+                             'string_all_codes_current' => $string_all_codes_current,
+                             'string_link_ids_current' => $string_link_ids_current,
+                             'string_item_ids_current' => $string_item_ids_current,
                              'heading'=>intval(false),
                              'base_index_page'=>$base_index_page, 'body_link_page'=>$body_link_page,'body_all_page'=>$body_all_page,
                              'par_link'=>$current_link, 'parent_item'=>$item])}}'">
@@ -409,16 +440,19 @@
         'base_index_page'=>$base_index_page, 'body_link_page'=>$body_link_page,'body_all_page'=>$body_all_page,
         'par_link'=>$current_link, 'parent_item'=>$item, 'is_table_body'=>false,
             'base_index'=>false, 'item_heading_base'=>false, 'item_body_base'=>true,
+            'string_link_ids_current' => $string_link_ids_current,
+            'string_item_ids_current' => $string_item_ids_current,
+            'string_all_codes_current' => $string_all_codes_current,
             'string_link_ids_next'=>$string_link_ids_next,
             'string_item_ids_next'=>$string_item_ids_next,
-            'string_all_codes_next'=>$string_all_codes_next])
+            'string_all_codes_next'=>$string_all_codes_next
+            ])
             {{$body_items->links()}}
         @endif
         {{--            Вывод всех записей, с разным link--}}
         {{--Похожие команды в ItemController::calc_tree_array() и item_index.php--}}
     @else
         @if(count($next_all_links)>0)
-            <hr>
             <p>
             <div class="container-fluid">
                 <div class="row">
@@ -438,7 +472,7 @@
                             <div class="dropdown">
                                 <button type="button" class="btn btn-dreamer dropdown-toggle"
                                         data-toggle="dropdown"
-                                title="{{trans('main.add')}}">
+                                        title="{{trans('main.add')}}">
                                     <i class="fas fa-plus d-inline"></i>
                                     {{trans('main.add')}}
                                 </button>
@@ -446,10 +480,16 @@
                                     @foreach($next_all_links as $key=>$value)
                                         @if($next_all_is_create[$value->id] == true)
                                             @if($message_mc_link_array_item[$value->id] == "")
-                                                <a class="dropdown-item" href="{{route('item.ext_create', ['base'=>$value->child_base_id,
+                                                <h1>{{$value->id}}</h1>
+                                                - <h5>{{$par_link}}</h5>
+                                                <h1>{{$item->name()}}</h1>
+                                               <a class="dropdown-item" href="{{route('item.ext_create', ['base'=>$value->child_base_id,
                                                                                                 'project'=>$project, 'role'=>$role,
                                                                                                  'usercode' =>GlobalController::usercode_calc(),
                                                                                      'relit_id' =>$relit_id,
+                                                                                     'string_all_codes_current' => $string_all_codes_current,
+                                                                                     'string_link_ids_current' => $string_link_ids_current,
+                                                                                     'string_item_ids_current' => $string_item_ids_current,
                                                                                      'heading'=>intval(false),
                                                                                      'base_index_page'=>$base_index_page, 'body_link_page'=>$body_link_page,'body_all_page'=>$body_all_page,
                                                                                      'par_link'=>$value, 'parent_item'=>$item])}}"
@@ -479,7 +519,12 @@
             'base_index_page'=>$base_index_page, 'body_link_page'=>$body_link_page,'body_all_page'=>$body_all_page,
             'parent_item'=>$item, 'is_table_body'=>false,
             'base_index'=>false, 'item_heading_base'=>false, 'item_body_base'=>true,
-            'string_link_ids_next'=>$string_link_ids_next, 'string_item_ids_next'=>$string_item_ids_next,
+            'string_link_ids_current' => $string_link_ids_current,
+            'string_item_ids_current' => $string_item_ids_current,
+            'string_all_codes_current' => $string_all_codes_current,
+            'string_link_ids_next'=>$string_link_ids_next,
+            'string_item_ids_next'=>$string_item_ids_next,
+            'string_all_codes_next'=>$string_all_codes_next,
             'string_link_ids_array_next' => $string_link_ids_array_next,
             'string_item_ids_array_next' => $string_item_ids_array_next,
             'string_all_codes_array_next' => $string_all_codes_array_next,
