@@ -578,7 +578,7 @@ class ItemController extends Controller
                                 $info = '';
                                 // Похожие команды в ItemController::calc_tree_array() и item_index.php                                //
                                 if ($all_code == GlobalController::const_alltrue()) {
-                                    $info = trans('main.all');
+                                    $info = trans('main.all_links');
                                 } else {
                                     // Проверка на правильность поиска $link_id выше
                                     $link = Link::findOrFail($result[$i]['link_id']);
@@ -4192,9 +4192,17 @@ class ItemController extends Controller
                 if ($body_all_page > 0) {
                     // Вызываем item_index.php с body - все
                     $str_link = GlobalController::par_link_const_textnull();
+                    // Только при удалении эти строки
+                    if ($body_all_page > 1) {
+                        $body_all_page = $body_all_page - 1;
+                    }
                 } else {
                     // Вызываем item_index.php с body - связь $par_link
                     $str_link = $par_link;
+                    // Только при удалении эти строки
+                    if ($body_link_page > 1) {
+                        $body_link_page = $body_link_page - 1;
+                    }
                 }
                 if ($par_link && !$heading && $parent_item) {
                     return redirect()->route('item.item_index', ['project' => $item->project, 'item' => $parent_item, 'role' => $role,

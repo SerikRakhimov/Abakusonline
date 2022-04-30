@@ -46,10 +46,10 @@
                                         'string_all_codes_current'=>$value['string_prev_all_codes']
                                         ])}}"
                title="{{$value['item_name'] . ' ' . $value['info_name']}}">
-{{--                {{$value['item_name']}}--}}
-{{--                {{$value['info_name']}}--}}
+                {{--                {{$value['item_name']}}--}}
+                {{--                {{$value['info_name']}}--}}
                 <mark class="text-project">{{$value['item_name']}}</mark>
-{{--                <span class="badge badge-related">{{$value['info_name']}}</span>--}}
+                {{--                <span class="badge badge-related">{{$value['info_name']}}</span>--}}
                 <small><small><small>{{$value['info_name']}}</small></small></small>
             </a>
         </h6>
@@ -59,7 +59,7 @@
         ?>
     @endforeach
     @if(count($tree_array)>0)
-    <hr>
+        <hr>
     @endif
     <div class="container-fluid">
         <div class="row">
@@ -86,7 +86,9 @@
                                             @if ($base_right['is_list_base_calc'] == true)
                                         </a>
                                     @endif
+                                    {{-- Одинаковые строки рядом (route('item.ext_show'))--}}
                                     @if ($base_right['is_list_base_calc'] == true)
+                                        {{--              Использовать "'heading' => intval(true)", проверяется в окончании функции ItemController:ext_delete()--}}
                                         <a href="{{route('item.ext_show', ['item'=>$item, 'project'=>$project, 'role'=>$role,
                                             'usercode' =>GlobalController::usercode_calc(),
                                             'relit_id'=>$relit_id,
@@ -97,7 +99,7 @@
             'base_index_page' => $base_index_page, 'body_link_page' => $body_link_page, 'body_all_page' => $body_all_page,
             'par_link'=>$i_heading_par_link_id, 'parent_item'=>$i_heading_parent_item_id
                                             ])}}"
-                                           title="{{$item->cdnm()}}">
+                                           title="{{trans('main.details')}}: {{$item->cdnm()}}">
                                             {{$item->cdnm()}}
                                         </a>
                                     @else
@@ -127,18 +129,37 @@
                             </a>
                         @endif
                     </h5>
-                    {{--                    Нужно '@foreach($child_mains_link_is_calcname as $calcname_mains)'--}}
-                    @foreach($child_mains_link_is_calcname as $calcname_mains)
-                        @foreach($calcname_mains as $calcname_main)
-                            <h6>
-                                {{GlobalController::calc_title_name($calcname_main->link->parent_label())}}:
-                                <strong>{{$calcname_main->parent_item->name()}}</strong>
-                                @if($calcname_main->parent_item->base->is_code_needed == true)
-                                    {{trans('main.code')}}: <strong>{{$calcname_main->parent_item->code}}</strong>
-                                @endif
-                            </h6>
-                        @endforeach
-                    @endforeach
+                    {{-- Одинаковые строки рядом (route('item.ext_show'))--}}
+                    @if ($base_right['is_list_base_calc'] == true)
+                        {{--              Использовать "'heading' => intval(true)", проверяется в окончании функции ItemController:ext_delete()--}}
+                        <a href="{{route('item.ext_show', ['item'=>$item, 'project'=>$project, 'role'=>$role,
+                                            'usercode' =>GlobalController::usercode_calc(),
+                                            'relit_id'=>$relit_id,
+            'string_link_ids_current' => $string_link_ids_current,
+            'string_item_ids_current' => $string_item_ids_current,
+            'string_all_codes_current'=>$string_all_codes_current,
+            'heading' => intval(true),
+            'base_index_page' => $base_index_page, 'body_link_page' => $body_link_page, 'body_all_page' => $body_all_page,
+            'par_link'=>$i_heading_par_link_id, 'parent_item'=>$i_heading_parent_item_id
+                                            ])}}"
+                           title="{{trans('main.details')}}: {{$item->cdnm()}}">
+                            @endif
+                            {{--                    Нужно '@foreach($child_mains_link_is_calcname as $calcname_mains)'--}}
+                            @foreach($child_mains_link_is_calcname as $calcname_mains)
+                                @foreach($calcname_mains as $calcname_main)
+                                    <h6>
+                                        {{GlobalController::calc_title_name($calcname_main->link->parent_label())}}:
+                                        <strong>{{$calcname_main->parent_item->name()}}</strong>
+                                        @if($calcname_main->parent_item->base->is_code_needed == true)
+                                            {{trans('main.code')}}:
+                                            <strong>{{$calcname_main->parent_item->code}}</strong>
+                                        @endif
+                                    </h6>
+                                @endforeach
+                            @endforeach
+                            @if ($base_right['is_list_base_calc'] == true)
+                        </a>
+                    @endif
                 @endif
             </div>
             <div class="col-2 text-right">
@@ -191,6 +212,8 @@
             $i_parent_item = $item;
         }
         ?>
+        {{--        Выводится одна запись в шапке(все родительские links - столбы)--}}
+        {{--        Используется "'heading'=>intval(true)"--}}
         @include('list.table',['base'=>$item->base, 'project'=>$project, 'links_info'=>$child_links_info, 'items'=>$items,
                 'base_right'=>$base_right, 'relit_id'=>$relit_id,
                 'heading'=>intval(true),
@@ -438,6 +461,8 @@
         {{--            </div>--}}
         {{--        </div>--}}
         @if (count($body_items) > 0)
+            {{--        Выводится список записей по одной связи $current_link--}}
+            {{--        Используется "'heading'=>intval(false)"--}}
             @include('list.table',['base'=>$current_link->child_base, 'project'=>$project, 'links_info'=>$child_body_links_info, 'items'=>$body_items,
         'base_right'=>$base_body_right, 'relit_id'=>$relit_id,
         'heading'=>intval(false),
@@ -467,7 +492,7 @@
                             {{--                        @else--}}
                             {{--                            {{$item->base->name()}}:--}}
                             {{--                        @endif--}}
-                            {{trans('main.all')}}:
+                            {{trans('main.all_links')}}:
                         </h3>
                     </div>
                     <div class="col-2 text-right">
@@ -484,7 +509,7 @@
                                     @foreach($next_all_links as $key=>$value)
                                         @if($next_all_is_create[$value->id] == true)
                                             @if($message_mc_link_array_item[$value->id] == "")
-                                               <a class="dropdown-item" href="{{route('item.ext_create', ['base'=>$value->child_base_id,
+                                                <a class="dropdown-item" href="{{route('item.ext_create', ['base'=>$value->child_base_id,
                                                                                                 'project'=>$project, 'role'=>$role,
                                                                                                  'usercode' =>GlobalController::usercode_calc(),
                                                                                      'relit_id' =>$relit_id,
@@ -511,6 +536,8 @@
                 </div>
             </div>
             @if(count($next_all_mains) > 0)
+                {{--        Выводится список записей по всем связям--}}
+                {{--        Используется "'heading'=>intval(false)"--}}
                 @include('list.all',['project'=>$project,
             'relit_id'=>$relit_id,
             'next_all_mains'=>$next_all_mains,

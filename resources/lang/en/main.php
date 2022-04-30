@@ -90,6 +90,7 @@ return [
     'my_project' => 'My project',
     'all_projects' => 'All projects',
     'all_project' => 'Project',
+    'all_links' => 'All links',
     'subscriptions' => 'Subscriptions',
     'subscription' => 'Subscription',
     'my_subscriptions' => 'My subscriptions',

@@ -90,6 +90,7 @@ return [
     'my_project' => 'Мой проект',
     'all_projects' => 'Все проекты',
     'all_project' => 'Проект',
+    'all_links' => 'Все связи',
     'subscriptions' => 'Подписки',
     'subscription' => 'Подписка',
     'my_subscriptions' => 'Мои подписки',

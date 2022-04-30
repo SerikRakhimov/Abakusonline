@@ -60,7 +60,7 @@ $i = 0;
         'string_all_codes_current'=>$string_all_codes_array_next[$main->link_id]
         ])}}"
                    title="{{GlobalController::calc_title_name($main->link->child_label())}}">
-                    {{GlobalController::calc_title_name($main->link->child_label())}}
+                    <small>{{GlobalController::calc_title_name($main->link->child_label())}}</small>
                 </a>
             </td>
             <td class="text-left">

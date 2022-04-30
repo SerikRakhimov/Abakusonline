@@ -90,6 +90,7 @@ return [
     'my_project' => 'Менің жобам',
     'all_projects' => 'Барлық жобалар',
     'all_project' => 'Жоба',
+    'all_links' => 'Барлық байланыстар',
     'subscriptions' => 'Жазылымдар',
     'subscription' => 'Жазылу',
     'my_subscriptions' => 'Менің жазылымдарым',
