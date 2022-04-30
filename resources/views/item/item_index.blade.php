@@ -35,9 +35,18 @@
     {{--        {{trans('main.space')}}--}}
     {{--        <span class="text-label">-</span> <span class="text-title">{{$item->base->info()}}</span>--}}
     {{--    </h3>--}}
+    {{-- Вывод дерева пройденных ссылок --}}
     @foreach($tree_array as $value)
         <h6>
+            @if($value['is_list_base_calc'] == true)
+                <a href="{{route('item.base_index', ['base'=>$value['base_id'],
+                            'project'=>$project, 'role'=>$role, 'relit_id'=>$relit_id])}}"
+                   title="{{$value['base_names']}}">
+            @endif
             {{GlobalController::calc_title_name($value['title_name'])}}:
+            @if($value['is_list_base_calc'] == true)
+                </a>
+            @endif
             <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$value['item_id'], 'role'=>$role,
                                         'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id,
                                         'par_link'=>$value['all_code'] ==GlobalController::const_alltrue() ? GlobalController::par_link_const_textnull():$value['link_id'],

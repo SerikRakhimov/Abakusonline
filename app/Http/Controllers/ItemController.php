@@ -277,7 +277,7 @@ class ItemController extends Controller
     // - должно работать только на текущем проекте
 //    function item_index(Project $project, Item $item, Role $role, $usercode, $relit_id = 0, Link $par_link = null,
 //                                $string_link_ids_current = '', $string_item_ids_current = '')
-    function item_index(Project $project, Item $item, Role $role, $usercode, $relit_id = 0, $par_link = 'textnull',
+    function item_index(Project $project, Item $item, Role $role, $usercode, $relit_id, $par_link = 'textnull',
                                 $string_link_ids_current = '', $string_item_ids_current = '', $string_all_codes_current = '')
     {
         if (GlobalController::check_project_item_user($project, $item, $role, $usercode) == false) {
@@ -313,7 +313,7 @@ class ItemController extends Controller
         // Пустой массив
         $tree_array = array();
         if ($string_link_ids_current && $string_item_ids_current && $string_all_codes_current) {
-            $tree_array = self::calc_tree_array($string_link_ids_current, $string_item_ids_current, $string_all_codes_current);
+            $tree_array = self::calc_tree_array($role, $relit_id, $string_link_ids_current, $string_item_ids_current, $string_all_codes_current);
         }
         // Нужно
         $string_link_ids_next = $string_link_ids_current;
@@ -523,7 +523,7 @@ class ItemController extends Controller
             'message_mc_array_info' => $message_mc_array_info, 'message_mc_link_array_item' => $message_mc_link_array_item]);
     }
 
-    function calc_tree_array($string_link_ids_current, $string_item_ids_current, $string_all_codes_current)
+    function calc_tree_array(Role $role, $relit_id, $string_link_ids_current, $string_item_ids_current, $string_all_codes_current)
     {
         $result = array();
         if (($string_link_ids_current != "") && ($string_item_ids_current != "") && ($string_all_codes_current != "") &&
@@ -571,8 +571,13 @@ class ItemController extends Controller
                                 // Проверка на правильность поиска $item_id выше
                                 $item = Item::findOrFail($item_id);
                                 // Эти массивы используются в item_index.php при выводе $tree_array
+                                $result[$i]['base_id'] = $item->base_id;
+                                $result[$i]['base_names'] = $item->base->names();
                                 $result[$i]['title_name'] = $item->base->name();
                                 $result[$i]['item_name'] = $item->name();
+                                $base_right = GlobalController::base_right($item->base, $role, $relit_id);
+                                // Для вызова 'item.base_index' нужно
+                                $result[$i]['is_list_base_calc'] = $base_right['is_list_base_calc'];
                                 $i = $i + 1;
                             }
                             $i = 0;
@@ -635,7 +640,7 @@ class ItemController extends Controller
         ];
     }
 
-    function next_all_links_mains_calc(Project $project, Base $base, Item $item, Role $role, $relit_id = 0, $tree_array)
+    function next_all_links_mains_calc(Project $project, Base $base, Item $item, Role $role, $relit_id, $tree_array)
     {
         // Условия одинаковые в item_index() и next_all_links_mains_calc()
         // 'where('parent_is_parent_related', false)'
