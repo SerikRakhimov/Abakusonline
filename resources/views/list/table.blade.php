@@ -104,8 +104,9 @@ else{
     'string_link_ids_current' => $string_link_ids_current,
     'string_item_ids_current' => $string_item_ids_current,
     'string_all_codes_current'=> $string_all_codes_current
-    ])}}">
-                        .{{$i}}.
+    ])}}"
+                    title = "{{trans('main.details')}}">
+                        <span class="badge badge-related">{{$i}}</span>
                     </a>
                 </td>
             @endif
