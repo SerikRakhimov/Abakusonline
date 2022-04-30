@@ -284,7 +284,7 @@ class ItemController extends Controller
             return view('message', ['message' => trans('main.no_access')]);
         }
 
-//        $links_info = ItemController::links_info($base, $role);
+        //        $links_info = ItemController::links_info($base, $role);
 //        if ($links_info['error_message'] != "") {
 //            return view('message', ['message' => $links_info['error_message']]);
 //        }
@@ -448,7 +448,9 @@ class ItemController extends Controller
             $base_body_right = GlobalController::base_right($current_link->child_base, $role, $relit_id);
             // Используется $relip_project
             $items_body_right = GlobalController::items_right($current_link->child_base, $relip_project, $role, $relit_id, $item->id, $current_link->id);
-            $body_items = $items_body_right['items']->paginate(3, ['*'], 'base_index_page');
+            $body_items = $items_body_right['items']->paginate(3, ['*'], 'body_link_page');
+            // Нужно
+            $next_all_mains = null;
 
             // $item, $current_link присоединяются к списку $tree_array
             // Нужно '$current_link'
@@ -479,7 +481,8 @@ class ItemController extends Controller
             $string_all_codes_current = GlobalController::const_null();
         }
         //     session(['links' => ((!empty($_SERVER['HTTPS'])) ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . '/' . request()->path()]);
-        return view('item/item_index', ['project' => $project, 'item' => $item, 'role' => $role, 'relit_id' => $relit_id, 'par_link' => $par_find_link,
+        return view('item/item_index', ['project' => $project, 'item' => $item, 'role' => $role, 'relit_id' => $relit_id,
+            'par_link' => $par_find_link,
             'base_right' => $base_right, 'items' => $items,
             'prev_item' => $prev_item, 'next_item' => $next_item,
             'child_links' => $child_links, 'child_links_info' => $child_links_info,

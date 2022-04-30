@@ -17,6 +17,10 @@
     $base_index_page = 0;
     $body_link_page = 0;
     $body_all_page = 0;
+    // Проверки ниже нужны
+    // При вызове item_index.php должно быть либо так '$body_items!=null и $next_all_mains=null',
+    // либо так '$body_items=null и $next_all_mains!=null'
+    // Это регулируется в функции ItemController::item_index()
     if ($body_items) {
         $body_link_page = $body_items->currentPage();
     }
@@ -480,9 +484,6 @@
                                     @foreach($next_all_links as $key=>$value)
                                         @if($next_all_is_create[$value->id] == true)
                                             @if($message_mc_link_array_item[$value->id] == "")
-                                                <h1>{{$value->id}}</h1>
-                                                - <h5>{{$par_link}}</h5>
-                                                <h1>{{$item->name()}}</h1>
                                                <a class="dropdown-item" href="{{route('item.ext_create', ['base'=>$value->child_base_id,
                                                                                                 'project'=>$project, 'role'=>$role,
                                                                                                  'usercode' =>GlobalController::usercode_calc(),
@@ -492,7 +493,8 @@
                                                                                      'string_item_ids_current' => $string_item_ids_current,
                                                                                      'heading'=>intval(false),
                                                                                      'base_index_page'=>$base_index_page, 'body_link_page'=>$body_link_page,'body_all_page'=>$body_all_page,
-                                                                                     'par_link'=>$value, 'parent_item'=>$item])}}"
+                                                                                     'par_link'=>$value, 'parent_item'=>$item
+                                                                                     ])}}"
                                                    title="{{trans('main.add') . $message_mc_array_info[$value->id]}}">
                                                     {{$value->child_labels()}}
                                                     @if(isset($array["\x00*\x00items"][$value->id]))
