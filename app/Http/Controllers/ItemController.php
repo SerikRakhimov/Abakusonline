@@ -448,7 +448,15 @@ class ItemController extends Controller
         $base_body_right = null;
         $body_items = null;
         if ($current_link) {
+            // Исключить переданный $nolink - $current_link
             $child_body_links_info = self::links_info($current_link->child_base, $role, $relit_id, null, $current_link);
+            if(count($child_body_links_info['link_id_array']) == 0){
+                // Не исключать переданный $nolink - null
+                // В таблице 'item_body_base' должно быть как минимум два столбца: номер строки с вызовом 'item.show'
+                // и вычисляемое наименование, код, связи для вызова 'item.item_index'.
+                // Проверка выше для этого нужна, чтобы как минимум один столбец был для вызова 'item.item_index'.
+                $child_body_links_info = self::links_info($current_link->child_base, $role, $relit_id, null, null);
+            }
             $base_body_right = GlobalController::base_right($current_link->child_base, $role, $relit_id);
             // Используется $relip_project
             $items_body_right = GlobalController::items_right($current_link->child_base, $relip_project, $role, $relit_id, $item->id, $current_link->id);
@@ -5441,6 +5449,7 @@ class ItemController extends Controller
             $links = $base->child_links;
         }
 
+        $links_control = null;
         if ($nolink == null) {
             //$links = $links;
         } else {

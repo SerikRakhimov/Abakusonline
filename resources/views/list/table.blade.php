@@ -16,6 +16,9 @@ if($base_index == true){
 else{
     $i_par_link = GlobalController::par_link_const_textnull();
 }
+if($heading == 0){
+//dd(count($link_id_array));
+    }
 ?>
 <table class="table table-sm table-bordered table-hover">
 {{--<table class="table table-sm table-borderless table-hover">--}}

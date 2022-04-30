@@ -146,16 +146,23 @@
                             @endif
                             {{--                    Нужно '@foreach($child_mains_link_is_calcname as $calcname_mains)'--}}
                             @foreach($child_mains_link_is_calcname as $calcname_mains)
-                                @foreach($calcname_mains as $calcname_main)
+                                {{-- Если нет записей, вывести trans('main.details'), чтобы ссылка вызова 'item.ext_show' работала--}}
+                                @if(count($calcname_mains) == 0)
                                     <h6>
-                                        {{GlobalController::calc_title_name($calcname_main->link->parent_label())}}:
-                                        <strong>{{$calcname_main->parent_item->name()}}</strong>
-                                        @if($calcname_main->parent_item->base->is_code_needed == true)
-                                            {{trans('main.code')}}:
-                                            <strong>{{$calcname_main->parent_item->code}}</strong>
-                                        @endif
+                                        {{trans('main.details')}}
                                     </h6>
-                                @endforeach
+                                @else
+                                    @foreach($calcname_mains as $calcname_main)
+                                        <h6>
+                                            {{GlobalController::calc_title_name($calcname_main->link->parent_label())}}:
+                                            <strong>{{$calcname_main->parent_item->name()}}</strong>
+                                            @if($calcname_main->parent_item->base->is_code_needed == true)
+                                                {{trans('main.code')}}:
+                                                <strong>{{$calcname_main->parent_item->code}}</strong>
+                                            @endif
+                                        </h6>
+                                    @endforeach
+                                @endif
                             @endforeach
                             @if ($base_right['is_list_base_calc'] == true)
                         </a>
