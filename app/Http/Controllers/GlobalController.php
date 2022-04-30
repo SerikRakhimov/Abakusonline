@@ -1694,15 +1694,14 @@ class GlobalController extends Controller
         return $result;
     }
 
-    // В функции ItemController::item_index(..., $par_link = 'textnull', ...) используется 'textnull' в явном виде
     static function par_link_const_textnull()
     {
-        return 'textnull';
+        return 'linknull';
     }
 
     static function par_link_const_text_base_null()
     {
-        return 'text_base_null';
+        return 'link_base_null';
     }
 
     // Функция нужна, что в строке запуска не было без параметра

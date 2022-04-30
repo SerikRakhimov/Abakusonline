@@ -296,6 +296,10 @@ class ItemController extends Controller
         if ($base_right['is_list_base_calc'] == false) {
             return view('message', ['message' => trans('main.no_access')]);
         }
+        if ($par_link == '') {
+            // Значение по умолчанию
+            $par_link = 'textnull';
+        }
         $par_find_link = null;
         if ($par_link == null || $par_link == GlobalController::par_link_const_textnull() || $par_link == GlobalController::par_link_const_text_base_null()) {
             $par_find_link = null;
@@ -471,13 +475,13 @@ class ItemController extends Controller
             $next_all_mains = $next_all_mains->paginate(3, ['*'], 'body_all_page');
         }
         // Команды ниже нужны
-        if ($string_link_ids_current == ''){
+        if ($string_link_ids_current == '') {
             $string_link_ids_current = GlobalController::const_null();
         }
-        if ($string_item_ids_current == ''){
+        if ($string_item_ids_current == '') {
             $string_item_ids_current = GlobalController::const_null();
         }
-        if ($string_all_codes_current == ''){
+        if ($string_all_codes_current == '') {
             $string_all_codes_current = GlobalController::const_null();
         }
         //     session(['links' => ((!empty($_SERVER['HTTPS'])) ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . '/' . request()->path()]);
@@ -4015,8 +4019,8 @@ class ItemController extends Controller
     }
 
     function ext_edit(Item $item, Project $project, Role $role, $usercode, $relit_id,
-                      $string_link_ids_current = '', $string_item_ids_current = '', $string_all_codes_current = '',
-                        $heading = 0,
+                           $string_link_ids_current = '', $string_item_ids_current = '', $string_all_codes_current = '',
+                           $heading = 0,
                            $base_index_page = 0, $body_link_page = 0, $body_all_page = 0,
                       Link $par_link = null, Item $parent_item = null)
     {
@@ -4061,8 +4065,8 @@ class ItemController extends Controller
     function ext_delete_question(Item $item, Project $project, Role $role,
                                       $usercode,
                                       $relit_id,
-                                 $string_link_ids_current = '', $string_item_ids_current = '', $string_all_codes_current = '',
-                                 $heading = 0,
+                                      $string_link_ids_current = '', $string_item_ids_current = '', $string_all_codes_current = '',
+                                      $heading = 0,
                                       $base_index_page = 0, $body_link_page = 0, $body_all_page = 0,
                                  Link $par_link = null, Item $parent_item = null)
 
