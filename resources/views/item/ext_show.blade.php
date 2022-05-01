@@ -206,6 +206,7 @@
             'string_all_codes_current' => $string_all_codes_current,
             'heading' => $heading,
             'base_index_page' => $base_index_page, 'body_link_page' => $body_link_page, 'body_all_page' => $body_all_page,
+            'view_link' => $view_link,
             'par_link' => $par_link, 'parent_item' => $parent_item])}}"'
                         title="{{trans('main.edit')}}">
                     <i class="fas fa-edit"></i>
@@ -222,7 +223,8 @@
             'string_link_ids_current' => $string_link_ids_current, 'string_item_ids_current' => $string_item_ids_current, 'string_all_codes_current' => $string_all_codes_current,
             'heading' => $heading,
             'base_index_page' => $base_index_page, 'body_link_page' => $body_link_page, 'body_all_page' => $body_all_page,
-            'par_link' => $par_link, 'parent_item' => $parent_item])}}"'
+            'view_link' => $view_link,
+            'parent_item' => $parent_item])}}"'
                         title="{{trans('main.delete')}}">
                     <i class="fas fa-trash"></i>
                     {{trans('main.delete')}}

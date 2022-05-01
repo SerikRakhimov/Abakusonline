@@ -40,11 +40,12 @@ $i = 0;
             <td class="text-center">
                 <a href="{{route('item.ext_show', ['item'=>$main->child_item, 'project'=>$project, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id,
     'heading'=>$heading, 'base_index_page'=>$base_index_page, 'body_link_page'=>$body_link_page,'body_all_page'=>$body_all_page,
+            'view_link' => $view_link,
             'par_link'=>$main->link, 'parent_item'=>$item,
         'string_link_ids_current'=>$string_link_ids_current,
         'string_item_ids_current'=>$string_item_ids_current,
         'string_all_codes_current'=>$string_all_codes_current
-    ])}}
+    ])}}"
                     title = "{{trans('main.details')}}">
                 <span class="badge badge-related">{{$i}}</span>
                 </a>
@@ -54,7 +55,7 @@ $i = 0;
             {{--            </td>--}}
             <td class="text-left">
                 <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$main->child_item, 'role'=>$role,
-        'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id,'par_link'=>GlobalController::par_link_const_textnull(),
+        'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id,'view_link'=>GlobalController::par_link_const_textnull(),
         'string_link_ids_current'=>$string_link_ids_array_next[$main->link_id],
         'string_item_ids_current'=>$string_item_ids_array_next[$main->link_id],
         'string_all_codes_current'=>$string_all_codes_array_next[$main->link_id]
@@ -65,7 +66,7 @@ $i = 0;
             </td>
             <td class="text-left">
                 <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$main->child_item, 'role'=>$role,
-        'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id,'par_link'=>GlobalController::par_link_const_textnull(),
+        'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id,'view_link'=>GlobalController::par_link_const_textnull(),
         'string_link_ids_current'=>$string_link_ids_array_next[$main->link_id],
         'string_item_ids_current'=>$string_item_ids_array_next[$main->link_id],
         'string_all_codes_current'=>$string_all_codes_array_next[$main->link_id]
@@ -85,7 +86,7 @@ $i = 0;
                 <td class="text-left">
                     @if($main->link->child_base->is_code_needed == true)
                         <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$main->child_item, 'role'=>$role,
-        'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id,'par_link'=>GlobalController::par_link_const_textnull(),
+        'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id,'view_link'=>GlobalController::par_link_const_textnull(),
         'string_link_ids_current'=>$string_link_ids_array_next[$main->link_id],
         'string_item_ids_current'=>$string_item_ids_array_next[$main->link_id],
         'string_all_codes_current'=>$string_all_codes_array_next[$main->link_id]

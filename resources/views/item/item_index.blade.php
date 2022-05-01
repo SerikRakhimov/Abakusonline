@@ -49,7 +49,7 @@
             @endif
             <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$value['item_id'], 'role'=>$role,
                                         'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id,
-                                        'par_link'=>$value['all_code'] ==GlobalController::const_alltrue() ? GlobalController::par_link_const_textnull():$value['link_id'],
+                                        'view_link'=>$value['all_code'] ==GlobalController::const_alltrue() ? GlobalController::par_link_const_textnull():$value['link_id'],
                                         'string_link_ids_current'=>$value['string_prev_link_ids'],
                                         'string_item_ids_current'=>$value['string_prev_item_ids'],
                                         'string_all_codes_current'=>$value['string_prev_all_codes']
@@ -106,6 +106,7 @@
             'string_all_codes_current'=>$string_all_codes_current,
             'heading' => intval(true),
             'base_index_page' => $base_index_page, 'body_link_page' => $body_link_page, 'body_all_page' => $body_all_page,
+            'view_link'=>$view_link,
             'par_link'=>$i_heading_par_link_id, 'parent_item'=>$i_heading_parent_item_id
                                             ])}}"
                                            title="{{trans('main.details')}}: {{$item->cdnm()}}">
@@ -149,6 +150,7 @@
             'string_all_codes_current'=>$string_all_codes_current,
             'heading' => intval(true),
             'base_index_page' => $base_index_page, 'body_link_page' => $body_link_page, 'body_all_page' => $body_all_page,
+            'view_link'=>$view_link,
             'par_link'=>$i_heading_par_link_id, 'parent_item'=>$i_heading_parent_item_id
                                             ])}}"
                            title="{{trans('main.details')}}: {{$item->cdnm()}}">
@@ -190,6 +192,7 @@
                                              'string_all_codes_current'=>$string_all_codes_current,
                                              'heading'=>intval(true),
                                              'base_index_page'=>$base_index_page, 'body_link_page'=>$body_link_page,'body_all_page'=>$body_all_page,
+                                             'view_link'=>$view_link,
                                              'par_link'=>$i_heading_par_link_id, 'parent_item'=>$i_heading_parent_item_id
                                              ])}}'">
                         <i class="fas fa-plus d-inline"></i>&nbsp;{{trans('main.add')}}
@@ -234,6 +237,7 @@
                 'base_right'=>$base_right, 'relit_id'=>$relit_id,
                 'heading'=>intval(true),
                 'base_index_page'=>$base_index_page, 'body_link_page'=>$body_link_page,'body_all_page'=>$body_all_page,
+                'view_link'=>$view_link,
                 'par_link'=>$i_par_link, 'parent_item'=>$i_parent_item, 'is_table_body'=>false,
                     'base_index'=>false, 'item_heading_base'=>true, 'item_body_base'=>false,
                     'string_link_ids_current' => $string_link_ids_current,
@@ -264,7 +268,7 @@
                         @if($prev_item)
                             <li class="page-item">
                                 <a class="page-link" href="{{route('item.item_index', ['project'=>$project, 'item'=>$prev_item, 'role'=>$role,
-                                'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id, 'par_link'=>GlobalController::par_link_textnull($current_link),
+                                'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id, 'view_link'=>GlobalController::par_link_textnull($current_link),
                                         'string_link_ids_current'=>$string_link_ids_current,
                                          'string_item_ids_current'=>$string_item_ids_current,
                                          'string_all_codes_current'=>$string_all_codes_current
@@ -284,7 +288,7 @@
                         @if($next_item)
                             <li class="page-item">
                                 <a class="page-link" href="{{route('item.item_index', ['project'=>$project, 'item'=>$next_item, 'role'=>$role,
-                                'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id, 'par_link'=>GlobalController::par_link_textnull($current_link),
+                                'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id, 'view_link'=>GlobalController::par_link_textnull($current_link),
                                         'string_link_ids_current'=>$string_link_ids_current,
                                         'string_item_ids_current'=>$string_item_ids_current,
                                         'string_all_codes_current'=>$string_all_codes_current
@@ -309,7 +313,7 @@
                                     {{-- Если во всех $links не выводятся вычисляемые наименования, то выводится вариант 'all'--}}
                                     @if($next_all_is_enable)
                                         <a class="dropdown-item" href="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,
-                                  'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id,'par_link'=>GlobalController::par_link_const_textnull(),
+                                  'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id,'view_link'=>GlobalController::par_link_const_textnull(),
                                   'string_link_ids_current'=>$string_link_ids_current,
                                   'string_item_ids_current'=>$string_item_ids_current,
                                   'string_all_codes_current'=>$string_all_codes_current
@@ -324,7 +328,7 @@
                                     @endif
                                     @foreach($next_all_links as $key=>$value)
                                         <a class="dropdown-item" href="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,
-                                          'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id,'par_link'=>$value->id,
+                                          'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id,'view_link'=>$value->id,
                                           'string_link_ids_current'=>$string_link_ids_current,
                                            'string_item_ids_current'=>$string_item_ids_current,
                                            'string_all_codes_current'=>$string_all_codes_current
@@ -483,6 +487,7 @@
         'base_right'=>$base_body_right, 'relit_id'=>$relit_id,
         'heading'=>intval(false),
         'base_index_page'=>$base_index_page, 'body_link_page'=>$body_link_page,'body_all_page'=>$body_all_page,
+        'view_link'=>$view_link,
         'par_link'=>$current_link, 'parent_item'=>$item, 'is_table_body'=>false,
             'base_index'=>false, 'item_heading_base'=>false, 'item_body_base'=>true,
             'string_link_ids_current' => $string_link_ids_current,
@@ -534,6 +539,7 @@
                                                                                      'string_item_ids_current' => $string_item_ids_current,
                                                                                      'heading'=>intval(false),
                                                                                      'base_index_page'=>$base_index_page, 'body_link_page'=>$body_link_page,'body_all_page'=>$body_all_page,
+                                                                                     'view_link'=>$view_link,
                                                                                      'par_link'=>$value, 'parent_item'=>$item
                                                                                      ])}}"
                                                    title="{{trans('main.add') . $message_mc_array_info[$value->id]}}">
@@ -556,6 +562,7 @@
                 {{--        Используется "'heading'=>intval(false)"--}}
                 @include('list.all',['project'=>$project,
             'relit_id'=>$relit_id,
+            'view_link'=>$view_link,
             'next_all_mains'=>$next_all_mains,
             'next_all_is_code_enable'=>$next_all_is_code_enable,
             'next_all_is_calcname' => $next_all_is_calcname,

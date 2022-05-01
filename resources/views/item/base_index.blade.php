@@ -321,6 +321,7 @@
                     'string_item_ids_next' => $string_item_ids_current,
                     'heading'=> 0,
                     'base_index_page'=>$base_index_page, 'body_link_page'=>$body_link_page,'body_all_page'=>$body_all_page,
+                    'view_link'=>null,
                     'par_link'=>null, 'parent_item'=>null, 'is_table_body'=>$is_table_body,
                     'base_index'=>true, 'item_heading_base'=>false, 'item_body_base'=>false
                     ])

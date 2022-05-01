@@ -44,7 +44,7 @@
     'string_all_codes_current'=> $string_all_codes_current,
          'heading'=>$heading,
          'base_index_page'=>$base_index_page, 'body_link_page'=>$body_link_page, 'body_all_page'=>$body_all_page,
-          'par_link' => $par_link, 'parent_item' => $parent_item]):
+          'par_link' => $par_link ? $par_link : GlobalController::par_link_const_textnull(), 'parent_item' => $parent_item]):
         route('item.ext_store', ['base'=>$base, 'project' => $project, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(),
          'relit_id' =>$relit_id,
     'string_link_ids_current' => $string_link_ids_current,
@@ -52,7 +52,7 @@
     'string_all_codes_current'=> $string_all_codes_current,
             'heading'=>$heading,
             'base_index_page'=>$base_index_page, 'body_link_page'=>$body_link_page,'body_all_page'=>$body_all_page,
-            'par_link' => $par_link, 'parent_item' => $parent_item])}}"
+            'par_link' => $par_link ? $par_link : GlobalController::par_link_const_textnull(), 'parent_item' => $parent_item])}}"
         method="POST"
         enctype=multipart/form-data
         @if($par_link)

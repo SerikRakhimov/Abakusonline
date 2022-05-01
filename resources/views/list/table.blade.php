@@ -16,9 +16,6 @@ if($base_index == true){
 else{
     $i_par_link = GlobalController::par_link_const_textnull();
 }
-if($heading == 0){
-//dd(count($link_id_array));
-    }
 ?>
 <table class="table table-sm table-bordered table-hover">
 {{--<table class="table table-sm table-borderless table-hover">--}}
@@ -42,8 +39,8 @@ if($heading == 0){
                 {{--            похожая проверка в ext_show.blade.php--}}
                 @if(GlobalController::is_base_calcname_check($base, $base_right))
                     <th rowspan="{{$rows + 1}}" @include('layouts.class_from_base',['base'=>$base, 'align_top'=>true])>
-                        @if($par_link)
-                            {{$par_link->child_label()}}
+                        @if($view_link)
+                            {{$view_link->child_label()}}
                         @else
                             {{$base->name()}}
                         @endif
@@ -103,6 +100,7 @@ if($heading == 0){
                     {{--                    <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc()])}}">--}}
                     <a href="{{route('item.ext_show', ['item'=>$item, 'project'=>$project, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id,
     'heading'=>$heading, 'base_index_page'=>$base_index_page, 'body_link_page'=>$body_link_page,'body_all_page'=>$body_all_page,
+    'view_link' => $view_link,
     'par_link'=>$par_link, 'parent_item'=>$parent_item,
     'string_link_ids_current' => $string_link_ids_current,
     'string_item_ids_current' => $string_item_ids_current,
@@ -134,7 +132,7 @@ if($heading == 0){
                     <td class="text-center">
                         @if($base_index || $item_body_base)
                             <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,
-       'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id,'par_link'=>$i_par_link,
+       'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id,'view_link'=>$i_par_link,
                'string_link_ids_current'=>$string_link_ids_next,
         'string_item_ids_current'=>$string_item_ids_next,
         'string_all_codes_current'=>$string_all_codes_next
@@ -193,7 +191,7 @@ if($heading == 0){
                                 {{--                                @else--}}
                                 @if ($item_index_view)
                                     <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,
-       'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id,'par_link'=>$i_par_link,
+       'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id,'view_link'=>$i_par_link,
         'string_link_ids_current'=>$string_link_ids_next,
         'string_item_ids_current'=>$string_item_ids_next,
         'string_all_codes_current'=>$string_all_codes_next
@@ -289,7 +287,7 @@ if($heading == 0){
                                 }
                                 ?>
                                 <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$i_item, 'role'=>$role,
-        'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id, 'par_link'=>$i_par_link,
+        'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id, 'view_link'=>$i_par_link,
         'string_link_ids_current'=>$string_link_ids_next,
         'string_item_ids_current'=>$string_item_ids_next,
         'string_all_codes_current'=>$string_all_codes_next
