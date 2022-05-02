@@ -832,7 +832,7 @@ Route::get('/item/edit/{item}', [ItemController::class, 'edit'])
     ->name('item.edit')
     ->middleware('auth');
 
-Route::get('/item/ext_edit/{item}/{project}/{role}/{usercode}/{relit_id}/{string_link_ids_current?}/{string_item_ids_current?}/{string_all_codes_current?}/{heading?}/{base_index_page?}/{body_link_page?}/{body_all_page?}/{par_link?}/{parent_item?}', [ItemController::class, 'ext_edit'])
+Route::get('/item/ext_edit/{item}/{project}/{role}/{usercode}/{relit_id}/{string_link_ids_current?}/{string_item_ids_current?}/{string_all_codes_current?}/{heading?}/{base_index_page?}/{body_link_page?}/{body_all_page?}/{view_link?}/{par_link?}/{parent_item?}', [ItemController::class, 'ext_edit'])
     ->name('item.ext_edit')
     ->middleware('auth');
 
@@ -849,7 +849,7 @@ Route::put('/item/edit/{item}', [ItemController::class, 'update'])
     ->name('item.update')
     ->middleware('auth');
 
-Route::put('/item/ext_edit/{item}/{project}/{role}/{usercode}/{relit_id}/{string_link_ids_current?}/{string_item_ids_current?}/{string_all_codes_current?}/{heading?}/{base_index_page?}/{body_link_page?}/{body_all_page?}/{par_link?}/{parent_item?}', [ItemController::class, 'ext_update'])
+Route::put('/item/ext_edit/{item}/{project}/{role}/{usercode}/{relit_id}/{string_link_ids_current?}/{string_item_ids_current?}/{string_all_codes_current?}/{heading?}/{base_index_page?}/{body_link_page?}/{body_all_page?}/{view_link?}/{par_link?}/{parent_item?}', [ItemController::class, 'ext_update'])
     ->name('item.ext_update')
     ->middleware('auth');
 

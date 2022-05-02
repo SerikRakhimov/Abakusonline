@@ -368,7 +368,6 @@ class ItemController extends Controller
             $current_link = null;
         } else {
             if ($view_link) {
-                //dd($view_link);
                 // Проверка, есть ли $view_link в $next_all_links
                 foreach ($next_all_links as $next_all_link) {
                     if ($next_all_link->id == $view_link->id) {
@@ -1849,7 +1848,7 @@ class ItemController extends Controller
                 $str_link = GlobalController::par_link_const_textnull();
             } else {
                 // Вызываем item_index.php с body - связь $par_link
-                $str_link = $par_link;
+                $str_link = $view_link;
             }
             if ($par_link && !$heading && $parent_item) {
                 return redirect()->route('item.item_index', ['project' => $item->project, 'item' => $parent_item, 'role' => $role,
@@ -3197,20 +3196,14 @@ class ItemController extends Controller
                                 $relit_id,
                                 $string_link_ids_current = '', $string_item_ids_current = '', $string_all_codes_current = '',
                                 $heading = 0, $base_index_page = 0, $body_link_page = 0, $body_all_page = 0,
-                                $par_link = null, Item $parent_item = null)
+                                $view_link = null,
+                                Link $par_link = null, Item $parent_item = null)
     {
         // установка часового пояса нужно для сохранения времени
         date_default_timezone_set('Asia/Almaty');
 
         if (GlobalController::check_project_item_user($project, $item, $role, $usercode) == false) {
             return view('message', ['message' => trans('main.no_access')]);
-        }
-
-        if($par_link == GlobalController::const_null()){
-            $par_link = null;
-        }
-        if($par_link){
-            $par_link = Link::find($par_link);
         }
 
         //    if (GlobalController::check_project_user($project, $role) == false) {
@@ -3990,16 +3983,16 @@ class ItemController extends Controller
                 $str_link = GlobalController::par_link_const_textnull();
             } else {
                 // Вызываем item_index.php с body - связь $par_link
-                $str_link = $par_link ? $par_link : GlobalController::par_link_const_textnull();
+                $str_link = $view_link;
             }
-            if ($par_link && !$heading && $parent_item) {
+            if ($view_link && !$heading && $parent_item) {
                 return redirect()->route('item.item_index', ['project' => $item->project, 'item' => $parent_item, 'role' => $role,
-                    'usercode' => GlobalController::usercode_calc(), 'relit_id' => $relit_id, 'par_link' => $str_link,
+                    'usercode' => GlobalController::usercode_calc(), 'relit_id' => $relit_id, 'view_link' => $str_link,
                     'string_link_ids_current' => $string_link_ids_current, 'string_item_ids_current' => $string_item_ids_current, 'string_all_codes_current' => $string_all_codes_current,
                     'base_index_page' => $base_index_page, 'body_link_page' => $body_link_page, 'body_all_page' => $body_all_page]);
             } else {
                 return redirect()->route('item.item_index', ['project' => $item->project, 'item' => $item, 'role' => $role,
-                    'usercode' => GlobalController::usercode_calc(), 'relit_id' => $relit_id, 'par_link' => $str_link,
+                    'usercode' => GlobalController::usercode_calc(), 'relit_id' => $relit_id, 'view_link' => $str_link,
                     'string_link_ids_current' => $string_link_ids_current, 'string_item_ids_current' => $string_item_ids_current, 'string_all_codes_current' => $string_all_codes_current,
                     'base_index_page' => $base_index_page, 'body_link_page' => $body_link_page, 'body_all_page' => $body_all_page]);
             }
@@ -4051,7 +4044,8 @@ class ItemController extends Controller
                            $string_link_ids_current = '', $string_item_ids_current = '', $string_all_codes_current = '',
                            $heading = 0,
                            $base_index_page = 0, $body_link_page = 0, $body_all_page = 0,
-                      Link $par_link = null, Item $parent_item = null)
+                           $view_link = null,
+                           Link $par_link = null, Item $parent_item = null)
     {
 
         if (GlobalController::check_project_item_user($project, $item, $role, $usercode) == false) {
@@ -4088,7 +4082,9 @@ class ItemController extends Controller
             'body_link_page' => $body_link_page,
             'body_all_page' => $body_all_page,
             'base_index_page' => $base_index_page, 'body_link_page' => $body_link_page, 'body_all_page' => $body_all_page,
-            'par_link' => $par_link, 'parent_item' => $parent_item]);
+            'view_link' => $view_link,
+            'par_link' => $par_link,
+            'parent_item' => $parent_item]);
     }
 
     function ext_delete_question(Item $item, Project $project, Role $role,
@@ -4097,7 +4093,8 @@ class ItemController extends Controller
                                       $string_link_ids_current = '', $string_item_ids_current = '', $string_all_codes_current = '',
                                       $heading = 0,
                                       $base_index_page = 0, $body_link_page = 0, $body_all_page = 0,
-                                 Link $par_link = null, Item $parent_item = null)
+                                      $view_link = null,
+                                      Link $par_link = null, Item $parent_item = null)
 
     {
         if (GlobalController::check_project_item_user($project, $item, $role, $usercode) == false) {
@@ -4117,6 +4114,7 @@ class ItemController extends Controller
             'base_index_page' => $base_index_page,
             'body_link_page' => $body_link_page,
             'body_all_page' => $body_all_page,
+            'view_link' => $view_link,
             'par_link' => $par_link, 'parent_item' => $parent_item]);
 
     }
@@ -4125,18 +4123,12 @@ class ItemController extends Controller
                              $usercode, $relit_id,
                              $string_link_ids_current = '', $string_item_ids_current = '', $string_all_codes_current = '',
                              $heading = 0, $base_index_page = 0, $body_link_page = 0, $body_all_page = 0,
-                             $par_link = null, Item $parent_item = null)
+                             $view_link = null,
+                             Link $par_link = null, Item $parent_item = null)
     {
 
         if (GlobalController::check_project_item_user($project, $item, $role, $usercode) == false) {
             return view('message', ['message' => trans('main.no_access')]);
-        }
-
-        if($par_link == GlobalController::const_null()){
-            $par_link = null;
-        }
-        if($par_link){
-            $par_link = Link::find($par_link);
         }
 
 //        if (GlobalController::check_project_user($project, $role) == false) {
@@ -4234,20 +4226,20 @@ class ItemController extends Controller
                     }
                 } else {
                     // Вызываем item_index.php с body - связь $par_link
-                    $str_link = $par_link ? $par_link : GlobalController::par_link_const_textnull();
+                    $str_link = $view_link;
                     // Только при удалении эти строки
                     if ($body_link_page > 1) {
                         $body_link_page = $body_link_page - 1;
                     }
                 }
-                if ($par_link && !$heading && $parent_item) {
+                if ($view_link && !$heading && $parent_item) {
                     return redirect()->route('item.item_index', ['project' => $item->project, 'item' => $parent_item, 'role' => $role,
-                        'usercode' => GlobalController::usercode_calc(), 'relit_id' => $relit_id, 'par_link' => $str_link,
+                        'usercode' => GlobalController::usercode_calc(), 'relit_id' => $relit_id,  'view_link' => $str_link,
                         'string_link_ids_current' => $string_link_ids_current, 'string_item_ids_current' => $string_item_ids_current, 'string_all_codes_current' => $string_all_codes_current,
                         'base_index_page' => $base_index_page, 'body_link_page' => $body_link_page, 'body_all_page' => $body_all_page]);
                 } else {
                     return redirect()->route('item.item_index', ['project' => $item->project, 'item' => $item, 'role' => $role,
-                        'usercode' => GlobalController::usercode_calc(), 'relit_id' => $relit_id, 'par_link' => $str_link,
+                        'usercode' => GlobalController::usercode_calc(), 'relit_id' => $relit_id, 'view_link' => $str_link,
                         'string_link_ids_current' => $string_link_ids_current, 'string_item_ids_current' => $string_item_ids_current, 'string_all_codes_current' => $string_all_codes_current,
                         'base_index_page' => $base_index_page, 'body_link_page' => $body_link_page, 'body_all_page' => $body_all_page]);
                 }
