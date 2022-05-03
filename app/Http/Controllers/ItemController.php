@@ -4228,7 +4228,7 @@ class ItemController extends Controller
                         $body_all_page = $body_all_page - 1;
                     }
                 } else {
-                    // Вызываем item_index.php с body - связь $par_link
+                    // Вызываем item_index.php с body - связь $view_link
                     $str_link = $view_link;
                     // Только при удалении эти строки
                     if ($body_link_page > 1) {

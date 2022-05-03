@@ -1696,12 +1696,12 @@ class GlobalController extends Controller
 
     static function par_link_const_textnull()
     {
-        return 'linknull';
+        return 'textnull';
     }
 
     static function par_link_const_text_base_null()
     {
-        return 'link_base_null';
+        return 'text_base_null';
     }
 
     // Функция нужна, что в строке запуска не было без параметра
