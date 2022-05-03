@@ -457,6 +457,7 @@
                              'string_item_ids_current' => $string_item_ids_current,
                              'heading'=>intval(false),
                              'base_index_page'=>$base_index_page, 'body_link_page'=>$body_link_page,'body_all_page'=>$body_all_page,
+                             'view_link'=>$view_link,
                              'par_link'=>$current_link, 'parent_item'=>$item])}}'">
                                     <i class="fas fa-plus d-inline"></i>&nbsp;{{trans('main.add')}}
                                 </button>
@@ -539,7 +540,7 @@
                                                                                      'string_item_ids_current' => $string_item_ids_current,
                                                                                      'heading'=>intval(false),
                                                                                      'base_index_page'=>$base_index_page, 'body_link_page'=>$body_link_page,'body_all_page'=>$body_all_page,
-                                                                                     'view_link'=>$view_link,
+                                                                                     'view_link'=>$value,
                                                                                      'par_link'=>$value, 'parent_item'=>$item
                                                                                      ])}}"
                                                    title="{{trans('main.add') . $message_mc_array_info[$value->id]}}">

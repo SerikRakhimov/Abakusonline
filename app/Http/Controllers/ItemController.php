@@ -277,7 +277,7 @@ class ItemController extends Controller
     // - должно работать только на текущем проекте
 //    function item_index(Project $project, Item $item, Role $role, $usercode, $relit_id = 0, Link $par_link = null,
 //                                $string_link_ids_current = '', $string_item_ids_current = '')
-    function item_index(Project $project, Item $item, Role $role, $usercode, $relit_id, $view_link = '',
+    function item_index(Project $project, Item $item, Role $role, $usercode, $relit_id, $view_link = null,
                                 $string_link_ids_current = '', $string_item_ids_current = '', $string_all_codes_current = '')
     {
         if (GlobalController::check_project_item_user($project, $item, $role, $usercode) == false) {
@@ -305,7 +305,8 @@ class ItemController extends Controller
 //            $par_find_link = null;
 //        }
 
-        if ($view_link == '' || $view_link == GlobalController::par_link_const_textnull() || $view_link == GlobalController::par_link_const_text_base_null()) {
+        if ($view_link == null || $view_link == GlobalController::par_link_const_textnull() || $view_link == GlobalController::par_link_const_text_base_null()) {
+            // Нужно '$view_link = null;'
             $view_link = null;
         }
         else{
@@ -496,7 +497,7 @@ class ItemController extends Controller
         }
         //     session(['links' => ((!empty($_SERVER['HTTPS'])) ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . '/' . request()->path()]);
         return view('item/item_index', ['project' => $project, 'item' => $item, 'role' => $role, 'relit_id' => $relit_id,
-            'view_link' => $view_link,
+            'view_link' => GlobalController::set_par_view_link_null($view_link),
             'base_right' => $base_right, 'items' => $items,
             'prev_item' => $prev_item, 'next_item' => $next_item,
             'child_links' => $child_links, 'child_links_info' => $child_links_info,
@@ -993,7 +994,7 @@ class ItemController extends Controller
             'string_item_ids_current' => $string_item_ids_current,
             'heading' => $heading,
             'base_index_page' => $base_index_page, 'body_link_page' => $body_link_page, 'body_all_page' => $body_all_page,
-            'view_link' => $view_link,
+            'view_link' => GlobalController::set_par_view_link_null($view_link),
             'par_link' => $par_link, 'parent_item' => $parent_item]);
     }
 
@@ -1020,12 +1021,14 @@ class ItemController extends Controller
         }
 
         $relip_project = GlobalController::calc_relip_project($relit_id, $project);
-        $arrays = $this->get_array_calc_create($base, $par_link_calc, $parent_item);
+        $arrays = $this->get_array_calc_create($base, $par_link, $parent_item);
         $array_calc = $arrays['array_calc'];
         $array_disabled = $arrays['array_disabled'];
         $code_new = $this->calculate_new_code($base, $relip_project);
         // Похожая строка внизу
         $code_uniqid = uniqid($base->id . '_', true);
+
+        //$view_link = GlobalController::set_view_link_null($view_link);
 
         //$array_parent_related = GlobalController::get_array_parent_related($base);
         return view('item/ext_edit', ['base' => $base,
@@ -1040,7 +1043,7 @@ class ItemController extends Controller
             'array_calc' => $array_calc,
             'array_disabled' => $array_disabled,
             'base_index_page' => $base_index_page, 'body_link_page' => $body_link_page, 'body_all_page' => $body_all_page,
-            'view_link' => $view_link,
+            'view_link' => GlobalController::set_par_view_link_null($view_link),
             'par_link' => $par_link,
             'parent_item' => $parent_item]);
     }

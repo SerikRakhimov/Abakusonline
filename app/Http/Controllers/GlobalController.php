@@ -1733,6 +1733,15 @@ class GlobalController extends Controller
         return 'null';
     }
 
+    static function set_par_view_link_null($view_link)
+    {
+        $result = $view_link;
+        if ($result == null) {
+            $result = GlobalController::par_link_const_textnull();
+        }
+        return $result;
+    }
+
     static function calc_item_name_lang()
     {
         //$name = "";  // нужно, не удалять
