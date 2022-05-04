@@ -254,6 +254,7 @@
     {{--        &#8595;	&#8195; &#8595;	&#8195; &#8595;	&#8195; &#8595;	&#8195; &#8595;	&#8195; &#8595;	&#8195; &#8595;	&#8195; &#8595;	&#8195; &#8595;	&#8195; &#8595;	&#8195; &#8595;	&#8195;--}}
     {{--        <hr>--}}
     {{--        <div class="text-center">&#8595;</div>--}}
+    <p>
     <div class="container-fluid">
         <div class="row">
             <div class="col-10 text-left">
@@ -357,6 +358,7 @@
             </div>
         </div>
     </div>
+    </p>
     <hr>
     {{--Похожие команды в ItemController::calc_tree_array() и item_index.php--}}
     @if($current_link)
