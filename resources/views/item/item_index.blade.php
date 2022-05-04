@@ -353,10 +353,10 @@
                             </div>
                         </div>
                     @endif
-                @else
-                    <span class="text-title">
-                    {{trans('main.without links')}}
-                    </span>
+{{--                @else--}}
+{{--                    <span class="text-title">--}}
+{{--                    {{trans('main.without links')}}--}}
+{{--                    </span>--}}
                 @endif
             </div>
         </div>
