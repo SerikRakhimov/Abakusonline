@@ -111,7 +111,9 @@
             'par_link'=>$i_heading_par_link_id, 'parent_item'=>$i_heading_parent_item_id
                                             ])}}"
                                            title="{{trans('main.details')}}: {{$item->cdnm()}}">
+                                            <mark class="text-project">
                                             @include('layouts.item.empty_name', ['name'=>$item->cdnm()])
+                                            </mark>
                                         </a>
                                     @else
                                         {{$item->name()}}
