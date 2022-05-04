@@ -739,7 +739,6 @@ class ItemController extends Controller
             $next_all_first_link = $next_all_links[0];
         }
 
-
         // Есть ли хотя бы в одной связи код,
         // Нужно для вывода столбца "Код" (list\all.php)
         $next_all_is_code_enable = false;
