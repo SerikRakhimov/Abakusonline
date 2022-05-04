@@ -60,6 +60,7 @@ return [
     'no_data_on' => 'Деректер жоқ',
     'no_access' => 'Қатынас жоқ',
     'no_access_for_unregistered_users' => 'Тіркелмеген пайдаланушылар үшін қатынас жоқ. "Кіру" немесе "Тіркеу" орындаңыз.',
+    'without links' => 'Байланыссыз',
     'transaction_not_completed' => 'Деректер жоқ',
     'another_attitude' => 'Тағы бір көзқарас',
     'serial_number' => 'Нөмір',
