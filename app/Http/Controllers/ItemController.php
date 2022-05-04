@@ -989,6 +989,17 @@ class ItemController extends Controller
             return view('message', ['message' => trans('main.no_access')]);
         }
 
+        // Команды ниже нужны
+        if ($string_link_ids_current == '') {
+            $string_link_ids_current = GlobalController::const_null();
+        }
+        if ($string_item_ids_current == '') {
+            $string_item_ids_current = GlobalController::const_null();
+        }
+        if ($string_all_codes_current == '') {
+            $string_all_codes_current = GlobalController::const_null();
+        }
+
         return view('item/ext_show', ['type_form' => 'show', 'item' => $item,
             'role' => $role,
             'project' => $project,
