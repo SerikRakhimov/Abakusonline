@@ -46,7 +46,7 @@ $i = 0;
         'string_item_ids_current'=>$string_item_ids_current,
         'string_all_codes_current'=>$string_all_codes_current
     ])}}"
-                    title = "{{trans('main.details')}}">
+                    title = "{{trans('main.viewing_record')}}">
                 <span class="badge badge-related">{{$i}}</span>
                 </a>
             </td>

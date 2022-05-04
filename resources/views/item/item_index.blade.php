@@ -110,7 +110,7 @@
             'view_link'=>$view_link,
             'par_link'=>$i_heading_par_link_id, 'parent_item'=>$i_heading_parent_item_id
                                             ])}}"
-                                           title="{{trans('main.details')}}: {{$item->cdnm()}}">
+                                           title="{{trans('main.viewing_record')}}: {{$item->cdnm()}}">
                                             <mark class="text-project">
                                             @include('layouts.item.empty_name', ['name'=>$item->cdnm()])
                                             </mark>
@@ -156,14 +156,14 @@
             'view_link'=>$view_link,
             'par_link'=>$i_heading_par_link_id, 'parent_item'=>$i_heading_parent_item_id
                                             ])}}"
-                           title="{{trans('main.details')}}: {{$item->cdnm()}}">
+                           title="{{trans('main.viewing_record')}}: {{$item->cdnm()}}">
                             @endif
                             {{--                    Нужно '@foreach($child_mains_link_is_calcname as $calcname_mains)'--}}
                             @foreach($child_mains_link_is_calcname as $calcname_mains)
-                                {{-- Если нет записей, вывести trans('main.details'), чтобы ссылка вызова 'item.ext_show' работала--}}
+                                {{-- Если нет записей, вывести trans('main.viewing_record'), чтобы ссылка вызова 'item.ext_show' работала--}}
                                 @if(count($calcname_mains) == 0)
                                     <h6>
-                                        {{trans('main.details')}}
+                                        {{trans('main.viewing_record')}}
                                     </h6>
                                 @else
                                     @foreach($calcname_mains as $calcname_main)
