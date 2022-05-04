@@ -224,7 +224,7 @@
             'heading' => $heading,
             'base_index_page' => $base_index_page, 'body_link_page' => $body_link_page, 'body_all_page' => $body_all_page,
             'view_link' => $view_link,
-            'parent_item' => $parent_item])}}"'
+            'par_link' => $par_link, 'parent_item' => $parent_item])}}"'
                         title="{{trans('main.delete')}}">
                     <i class="fas fa-trash"></i>
                     {{trans('main.delete')}}
@@ -280,7 +280,8 @@
             'heading' => $heading,
             'relit_id' => $relit_id,
             'base_index_page' => $base_index_page, 'body_link_page' => $body_link_page, 'body_all_page' => $body_all_page,
-            'view_link' => $view_link, 'parent_item' => $parent_item])}}"
+            'view_link' => $view_link,
+            'par_link' => $par_link, 'parent_item' => $parent_item])}}"
               method="POST"
               id='delete-form'>
             @csrf

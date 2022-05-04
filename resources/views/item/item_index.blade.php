@@ -63,6 +63,7 @@
             </a>
         </h6>
         <?php
+        // Используется последнее значение массива $tree_array
         $i_heading_par_link_id = $value['link_id'];
         $i_heading_parent_item_id = $value['item_id'];
         ?>
@@ -110,7 +111,7 @@
             'par_link'=>$i_heading_par_link_id, 'parent_item'=>$i_heading_parent_item_id
                                             ])}}"
                                            title="{{trans('main.details')}}: {{$item->cdnm()}}">
-                                            {{$item->cdnm()}}
+                                            @include('layouts.item.empty_name', ['name'=>$item->cdnm()])
                                         </a>
                                     @else
                                         {{$item->name()}}

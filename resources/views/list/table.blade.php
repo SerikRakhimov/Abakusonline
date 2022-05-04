@@ -149,7 +149,7 @@ else{
                 @if($base_right['is_list_base_enable'] == true)
                     {{--                Если тип-вычисляемое наименование и Показывать Основу с вычисляемым наименованием--}}
                     {{--                или если тип-не вычисляемое наименование--}}
-                    {{--            похожая проверка в ext_show.blade.php--}}
+                    {{--                похожая проверка в list\table.php, ItemController::item_index() и ext_show.php--}}
                     @if(GlobalController::is_base_calcname_check($base, $base_right))
                         <td @include('layouts.class_from_base',['base'=>$base])>
                             @if($base->type_is_image)
@@ -199,7 +199,7 @@ else{
         ])}}"
                                        title="{{$item->name()}}">
                                         @endif
-                                        {{$item->name()}}
+                                        @include('layouts.item.empty_name', ['name'=>$item->name()])
                                         @if ($item_index_view)
                                     </a>
                                 @endif
@@ -296,7 +296,7 @@ else{
                                    title="">
                                     @endif
                                     {{--                                    @endif--}}
-                                    {{$item_find->name(false,false,false)}}
+                                    @include('layouts.item.empty_name', ['name'=>$item_find->name(false,false,false)])
                                     {{--                                    @if ($ext_show_view || $item_index_view)--}}
                                     @if ($item_index_view)
                                 </a>

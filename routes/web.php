@@ -857,11 +857,15 @@ Route::get('/item/delete_question/{item}', [ItemController::class, 'delete_quest
     ->name('item.delete_question')
     ->middleware('auth');
 
-Route::get('/item/ext_delete_question/{item}/{project}/{role}/{usercode}/{relit_id}/{string_link_ids_current?}/{string_item_ids_current?}/{string_all_codes_current?}/{heading?}/{base_index_page?}/{body_link_page?}/{body_all_page?}/{view_link?}/{parent_item?}', [ItemController::class, 'ext_delete_question'])
+//  Нужно '/{par_link?}', при просмотре ext_show.php подчеркивается главная связь (из item_index.php)
+//  Нужно '/{parent_item?}', в ней передается $item_id главной записи item_index (при удалении записи с body)
+Route::get('/item/ext_delete_question/{item}/{project}/{role}/{usercode}/{relit_id}/{string_link_ids_current?}/{string_item_ids_current?}/{string_all_codes_current?}/{heading?}/{base_index_page?}/{body_link_page?}/{body_all_page?}/{view_link?}/{par_link?}/{parent_item?}', [ItemController::class, 'ext_delete_question'])
     ->name('item.ext_delete_question')
     ->middleware('auth');
 
-Route::delete('/item/ext_delete/{item}/{project}/{role}/{usercode}/{relit_id}/{string_link_ids_current?}/{string_item_ids_current?}/{string_all_codes_current?}/{heading?}/{base_index_page?}/{body_link_page?}/{body_all_page?}/{view_link?}/{parent_item?}', [ItemController::class, 'ext_delete'])
+//  Нужно '/{par_link?}', при просмотре ext_show.php подчеркивается главная связь (из item_index.php)
+//  Нужно '/{parent_item?}', в ней передается $item_id главной записи item_index (при удалении записи с body)
+Route::delete('/item/ext_delete/{item}/{project}/{role}/{usercode}/{relit_id}/{string_link_ids_current?}/{string_item_ids_current?}/{string_all_codes_current?}/{heading?}/{base_index_page?}/{body_link_page?}/{body_all_page?}/{view_link?}/{par_link?}/{parent_item?}', [ItemController::class, 'ext_delete'])
     ->name('item.ext_delete')
     ->middleware('auth');
 

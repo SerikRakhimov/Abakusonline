@@ -74,7 +74,7 @@ $i = 0;
                    title="{{GlobalController::calc_title_name($main->link->child_label())}}">
                     {{--                    Выводить вычисляемое наименование--}}
                     @if($next_all_is_calcname[$main->link_id])
-                        {{$main->child_item->name()}}
+                        @include('layouts.item.empty_name', ['name'=>$main->child_item->name()])
                     @else
                         <span class="text-danger">
                         {{mb_strtolower(trans('main.empty'))}}
