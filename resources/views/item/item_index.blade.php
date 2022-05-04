@@ -304,53 +304,55 @@
                 @endif
             </div>
             <div class="col-2 text-right">
-{{--                Не высвечивать кнопку "Связи", если одна связь и $next_all_is_enable=false--}}
-                @if(($next_all_is_enable) || (count($next_all_links)>1))
-                    <div class="dropdown">
-                        <button type="button" class="btn btn-dreamer dropdown-toggle" data-toggle="dropdown"
-                                title="{{trans('main.link')}}">
-                            <i class="fas fa-link d-inline"></i>
-                            {{trans('main.link')}}
-                        </button>
-                        <div class="dropdown-menu">
-                            {{-- Если во всех $links не выводятся вычисляемые наименования, то выводится вариант 'all'--}}
-                            @if($next_all_is_enable)
-                                <a class="dropdown-item" href="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,
+                @if(count($next_all_links)>0)
+                    {{--                Не высвечивать кнопку "Связи", если одна связь и $next_all_is_enable=false--}}
+                    @if(($next_all_is_enable) || (count($next_all_links)>1))
+                        <div class="dropdown">
+                            <button type="button" class="btn btn-dreamer dropdown-toggle" data-toggle="dropdown"
+                                    title="{{trans('main.link')}}">
+                                <i class="fas fa-link d-inline"></i>
+                                {{trans('main.link')}}
+                            </button>
+                            <div class="dropdown-menu">
+                                {{-- Если во всех $links не выводятся вычисляемые наименования, то выводится вариант 'all'--}}
+                                @if($next_all_is_enable)
+                                    <a class="dropdown-item" href="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,
                                   'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id,'view_link'=>GlobalController::par_link_const_textnull(),
                                   'string_link_ids_current'=>$string_link_ids_current,
                                   'string_item_ids_current'=>$string_item_ids_current,
                                   'string_all_codes_current'=>$string_all_codes_current
                                   ])}}"
-                                   title="{{$item->name()}}">
-                                    {{GlobalController::option_all()}}
-                                    @if($current_link == null)
-                                        {{--                                        Этот символ используется в двух местах--}}
-                                        &#10003;
-                                    @endif
-                                </a>
-                            @endif
-                            @foreach($next_all_links as $key=>$value)
-                                <a class="dropdown-item" href="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,
+                                       title="{{$item->name()}}">
+                                        {{GlobalController::option_all()}}
+                                        @if($current_link == null)
+                                            {{--                                        Этот символ используется в двух местах--}}
+                                            &#10003;
+                                        @endif
+                                    </a>
+                                @endif
+                                @foreach($next_all_links as $key=>$value)
+                                    <a class="dropdown-item" href="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,
                                           'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id,'view_link'=>$value->id,
                                           'string_link_ids_current'=>$string_link_ids_current,
                                            'string_item_ids_current'=>$string_item_ids_current,
                                            'string_all_codes_current'=>$string_all_codes_current
                                            ])}}"
-                                   title="{{$item->name()}}">
-                                    {{$value->child_labels()}}
-                                    @if($current_link)
-                                        @if($value->id == $current_link->id)
-                                            {{--                                        Этот символ используется в двух местах--}}
-                                            &#10003;
+                                       title="{{$item->name()}}">
+                                        {{$value->child_labels()}}
+                                        @if($current_link)
+                                            @if($value->id == $current_link->id)
+                                                {{--                                        Этот символ используется в двух местах--}}
+                                                &#10003;
+                                            @endif
                                         @endif
-                                    @endif
-                                    @if(isset($array["\x00*\x00items"][$value->id]))
-                                        *
-                                    @endif
-                                </a>
-                            @endforeach
+                                        @if(isset($array["\x00*\x00items"][$value->id]))
+                                            *
+                                        @endif
+                                    </a>
+                                @endforeach
+                            </div>
                         </div>
-                    </div>
+                    @endif
                 @else
                     <span class="text-title">
                     {{trans('main.without links')}}
