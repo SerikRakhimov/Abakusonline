@@ -304,7 +304,8 @@
                 @endif
             </div>
             <div class="col-2 text-right">
-                @if(count($next_all_links)>0)
+{{--                Не высвечивать кнопку "Связи", если одна связь и $next_all_is_enable=false--}}
+                @if(($next_all_is_enable) || (count($next_all_links)>1))
                     <div class="dropdown">
                         <button type="button" class="btn btn-dreamer dropdown-toggle" data-toggle="dropdown"
                                 title="{{trans('main.link')}}">
