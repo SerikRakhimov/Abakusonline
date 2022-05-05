@@ -4299,7 +4299,7 @@ class ItemController extends Controller
             if ($count == 1) {
                 $main = $mains->first();
                 $link = $main->link;
-                if ($link->child_base_id == $link->parent_base_id) {
+                if ($link->parent_is_base_link == true) {
                     $result = false;
                 }
             } else {
@@ -4309,7 +4309,7 @@ class ItemController extends Controller
                 $i = 0;
                 foreach ($mn as $m) {
                     $link = $m->link;
-                    if ($link->child_base_id == $link->parent_base_id) {
+                    if ($link->parent_is_base_link == true) {
                         $i = $i + 1;
                     } else {
                         if ($m->child_item->base->is_calculated_lst == true)
