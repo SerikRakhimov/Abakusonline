@@ -213,7 +213,6 @@ else{
                                         @endif
                                         @include('layouts.item.empty_name', ['name'=>$item->name()])
                                         ----{{$base_index_page}}----{{$body_link_page}}----{{$body_all_page}}
-                                        ----{{$prev_base_index_page}}----{{$prev_body_link_page}}----{{$prev_body_all_page}}
                                         @if ($item_index_view)
                                     </a>
                                 @endif

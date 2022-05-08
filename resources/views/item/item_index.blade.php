@@ -221,10 +221,7 @@
                     'string_all_codes_current' => $string_all_codes_current,
                     'string_link_ids_next'=>'',
                     'string_item_ids_next'=>'',
-                    'string_all_codes_next'=>'',
-                    'prev_base_index_page'=>$prev_base_index_page,
-                    'prev_body_link_page'=>$prev_body_link_page,
-                    'prev_body_all_page'=>$prev_body_all_page
+                    'string_all_codes_next'=>''
         ])
     @endif
     {{--    <hr align="center" width="100%" size="2" color="#ff0000"/>--}}
@@ -272,7 +269,10 @@
                                 'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id, 'view_link'=>GlobalController::par_link_textnull($current_link),
                                         'string_link_ids_current'=>$string_link_ids_current,
                                         'string_item_ids_current'=>$string_item_ids_current,
-                                        'string_all_codes_current'=>$string_all_codes_current
+                                        'string_all_codes_current'=>$string_all_codes_current,
+                                        'prev_base_index_page'=>$base_index_page,
+                                        'prev_body_link_page'=>$body_link_page,
+                                        'prev_body_all_page'=>$body_all_page
                                         ])}}"
                                    title="{{$next_item->cdnm()}}">></a>
                             </li>
@@ -302,7 +302,10 @@
                                   'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id,'view_link'=>GlobalController::par_link_const_textnull(),
                                   'string_link_ids_current'=>$string_link_ids_current,
                                   'string_item_ids_current'=>$string_item_ids_current,
-                                  'string_all_codes_current'=>$string_all_codes_current
+                                  'string_all_codes_current'=>$string_all_codes_current,
+                                  'prev_base_index_page'=>$base_index_page,
+                                  'prev_body_link_page'=>$body_link_page,
+                                  'prev_body_all_page'=>$body_all_page
                                   ])}}"
                                        title="{{$item->name()}}">
                                         {{GlobalController::option_all()}}
@@ -317,7 +320,10 @@
                                           'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id,'view_link'=>$value->id,
                                           'string_link_ids_current'=>$string_link_ids_current,
                                            'string_item_ids_current'=>$string_item_ids_current,
-                                           'string_all_codes_current'=>$string_all_codes_current
+                                           'string_all_codes_current'=>$string_all_codes_current,
+                                           'prev_base_index_page'=>$base_index_page,
+                                           'prev_body_link_page'=>$body_link_page,
+                                           'prev_body_all_page'=>$body_all_page
                                            ])}}"
                                        title="{{$item->name()}}">
                                         {{$value->child_labels()}}
@@ -487,10 +493,7 @@
             'string_all_codes_current' => $string_all_codes_current,
             'string_link_ids_next'=>$string_link_ids_next,
             'string_item_ids_next'=>$string_item_ids_next,
-            'string_all_codes_next'=>$string_all_codes_next,
-            'prev_base_index_page'=>$prev_base_index_page,
-            'prev_body_link_page'=>$prev_body_link_page,
-            'prev_body_all_page'=>$prev_body_all_page
+            'string_all_codes_next'=>$string_all_codes_next
             ])
             {{$body_items->links()}}
         @endif
@@ -576,10 +579,7 @@
             'string_link_ids_array_next' => $string_link_ids_array_next,
             'string_item_ids_array_next' => $string_item_ids_array_next,
             'string_all_codes_array_next' => $string_all_codes_array_next,
-            'message_mc_array_info' => $message_mc_array_info, 'message_mc_link_array_item' => $message_mc_link_array_item,
-            'prev_base_index_page'=>$prev_base_index_page,
-            'prev_body_link_page'=>$prev_body_link_page,
-            'prev_body_all_page'=>$prev_body_all_page
+            'message_mc_array_info' => $message_mc_array_info, 'message_mc_link_array_item' => $message_mc_link_array_item
             ])
                 {{$next_all_mains->links()}}
             @endif

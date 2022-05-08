@@ -293,7 +293,7 @@ class ItemController extends Controller
 //                                $string_link_ids_current = '', $string_item_ids_current = '')
     function item_index(Project $project, Item $item, Role $role, $usercode, $relit_id, $view_link = null,
                                 $string_link_ids_current = '', $string_item_ids_current = '', $string_all_codes_current = '',
-                                $prev_base_index_page = 0, $prev_body_link_page = 0, $prev_body_all_page = 0)
+                                $prev_base_index_page, $prev_body_link_page, $prev_body_all_page)
     {
         if (GlobalController::check_project_item_user($project, $item, $role, $usercode) == false) {
             return view('message', ['message' => trans('main.no_access')]);
@@ -560,6 +560,7 @@ class ItemController extends Controller
         $tree_array_last_string_prev_all_codes = GlobalController::set_str_const_null($tree_array_last_string_prev_all_codes);
 
         if (count($next_all_links) == 0) {
+            //dd($base_index_page);
             return redirect()->route('item.ext_show', ['item' => $item, 'project' => $project, 'role' => $role,
                 'usercode' => GlobalController::usercode_calc(),
                 'relit_id' => $relit_id,
@@ -605,10 +606,7 @@ class ItemController extends Controller
                 'string_item_ids_array_next' => $string_item_ids_array_next,
                 'string_all_codes_array_next' => $string_all_codes_array_next,
                 'message_mc_array_info' => $message_mc_array_info, 'message_mc_link_array_item' => $message_mc_link_array_item,
-                'base_index_page' => $base_index_page, 'body_link_page' => $body_link_page, 'body_all_page' => $body_all_page,
-                'prev_base_index_page' => $prev_base_index_page,
-                'prev_body_link_page' => $prev_body_link_page,
-                'prev_body_all_page' => $prev_body_all_page
+                'base_index_page' => $base_index_page, 'body_link_page' => $body_link_page, 'body_all_page' => $body_all_page
             ]);
         }
     }
@@ -1957,12 +1955,18 @@ class ItemController extends Controller
                 return redirect()->route('item.item_index', ['project' => $item->project, 'item' => $parent_item, 'role' => $role,
                     'usercode' => GlobalController::usercode_calc(), 'relit_id' => $relit_id, 'view_link' => $str_link,
                     'string_link_ids_current' => $string_link_ids_current, 'string_item_ids_current' => $string_item_ids_current, 'string_all_codes_current' => $string_all_codes_current,
-                    'base_index_page' => $base_index_page, 'body_link_page' => $body_link_page, 'body_all_page' => $body_all_page]);
+                    'base_index_page' => $base_index_page, 'body_link_page' => $body_link_page, 'body_all_page' => $body_all_page,
+                    'prev_base_index_page'=>$base_index_page,
+                    'prev_body_link_page'=>$body_link_page,
+                    'prev_body_all_page'=>$body_all_page]);
             } else {
                 return redirect()->route('item.item_index', ['project' => $item->project, 'item' => $item, 'role' => $role,
                     'usercode' => GlobalController::usercode_calc(), 'relit_id' => $relit_id, 'view_link' => $str_link,
                     'string_link_ids_current' => $string_link_ids_current, 'string_item_ids_current' => $string_item_ids_current, 'string_all_codes_current' => $string_all_codes_current,
-                    'base_index_page' => $base_index_page, 'body_link_page' => $body_link_page, 'body_all_page' => $body_all_page]);
+                    'base_index_page' => $base_index_page, 'body_link_page' => $body_link_page, 'body_all_page' => $body_all_page,
+                    'prev_base_index_page'=>$base_index_page,
+                    'prev_body_link_page'=>$body_link_page,
+                    'prev_body_all_page'=>$body_all_page]);
             }
         }
     }
@@ -4092,12 +4096,18 @@ class ItemController extends Controller
                 return redirect()->route('item.item_index', ['project' => $item->project, 'item' => $parent_item, 'role' => $role,
                     'usercode' => GlobalController::usercode_calc(), 'relit_id' => $relit_id, 'view_link' => $str_link,
                     'string_link_ids_current' => $string_link_ids_current, 'string_item_ids_current' => $string_item_ids_current, 'string_all_codes_current' => $string_all_codes_current,
-                    'base_index_page' => $base_index_page, 'body_link_page' => $body_link_page, 'body_all_page' => $body_all_page]);
+                    'base_index_page' => $base_index_page, 'body_link_page' => $body_link_page, 'body_all_page' => $body_all_page,
+                    'prev_base_index_page'=>$base_index_page,
+                    'prev_body_link_page'=>$body_link_page,
+                    'prev_body_all_page'=>$body_all_page]);
             } else {
                 return redirect()->route('item.item_index', ['project' => $item->project, 'item' => $item, 'role' => $role,
                     'usercode' => GlobalController::usercode_calc(), 'relit_id' => $relit_id, 'view_link' => $str_link,
                     'string_link_ids_current' => $string_link_ids_current, 'string_item_ids_current' => $string_item_ids_current, 'string_all_codes_current' => $string_all_codes_current,
-                    'base_index_page' => $base_index_page, 'body_link_page' => $body_link_page, 'body_all_page' => $body_all_page]);
+                    'base_index_page' => $base_index_page, 'body_link_page' => $body_link_page, 'body_all_page' => $body_all_page,
+                    'prev_base_index_page'=>$base_index_page,
+                    'prev_body_link_page'=>$body_link_page,
+                    'prev_body_all_page'=>$body_all_page]);
             }
         }
     }
@@ -4340,12 +4350,18 @@ class ItemController extends Controller
                     return redirect()->route('item.item_index', ['project' => $item->project, 'item' => $parent_item, 'role' => $role,
                         'usercode' => GlobalController::usercode_calc(), 'relit_id' => $relit_id, 'view_link' => $str_link,
                         'string_link_ids_current' => $string_link_ids_current, 'string_item_ids_current' => $string_item_ids_current, 'string_all_codes_current' => $string_all_codes_current,
-                        'base_index_page' => $base_index_page, 'body_link_page' => $body_link_page, 'body_all_page' => $body_all_page]);
+                        'base_index_page' => $base_index_page, 'body_link_page' => $body_link_page, 'body_all_page' => $body_all_page,
+                        'prev_base_index_page'=>$base_index_page,
+                        'prev_body_link_page'=>$body_link_page,
+                        'prev_body_all_page'=>$body_all_page]);
                 } else {
                     return redirect()->route('item.item_index', ['project' => $item->project, 'item' => $item, 'role' => $role,
                         'usercode' => GlobalController::usercode_calc(), 'relit_id' => $relit_id, 'view_link' => $str_link,
                         'string_link_ids_current' => $string_link_ids_current, 'string_item_ids_current' => $string_item_ids_current, 'string_all_codes_current' => $string_all_codes_current,
-                        'base_index_page' => $base_index_page, 'body_link_page' => $body_link_page, 'body_all_page' => $body_all_page]);
+                        'base_index_page' => $base_index_page, 'body_link_page' => $body_link_page, 'body_all_page' => $body_all_page,
+                        'prev_base_index_page'=>$base_index_page,
+                        'prev_body_link_page'=>$body_link_page,
+                        'prev_body_all_page'=>$body_all_page]);
                 }
             }
 

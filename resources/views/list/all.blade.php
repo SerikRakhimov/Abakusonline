@@ -87,7 +87,6 @@ $i = 0;
                         </span>
                     @endif
                     ----{{$base_index_page}}----{{$body_link_page}}----{{$body_all_page}}
-                    ----{{$prev_base_index_page}}----{{$prev_body_link_page}}----{{$prev_body_all_page}}
                 </a>
             </td>
             @if($next_all_is_code_enable == true)
