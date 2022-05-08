@@ -330,9 +330,9 @@ class ItemController extends Controller
 
         $relip_project = GlobalController::calc_relip_project($relit_id, $project);
         $child_links = $item->base->child_links->sortBy('parent_base_number');
-        // Нужно передать в функцию links_info() $item
-        $child_links_info = ItemController::links_info($item->base, $role, $relit_id, $item, null, true, $tree_array);
         $child_mains_link_is_calcname = ItemController::mains_link_is_calcname($item, $role, $relit_id, $tree_array);
+        // Нужно передать в функцию links_info() $item
+        $child_links_info = ItemController::links_info($item->base, $role, $relit_id, $item, null, true, $tree_array, $child_mains_link_is_calcname);
         // Используется $relip_project
         // Используется фильтр на равенство одному $item->id (для вывода таблицы из одной строки)
         $count = count($tree_array);
@@ -547,9 +547,9 @@ class ItemController extends Controller
         // Используется последний элемент массива $tree_array
         $tree_array_last_link_id = null;
         $tree_array_last_item_id = null;
-        $count_tree_array =  count($tree_array);
-        if($count_tree_array > 0){
-        // ' - 1' т.к. нумерация массива $tree_array с нуля начинается
+        $count_tree_array = count($tree_array);
+        if ($count_tree_array > 0) {
+            // ' - 1' т.к. нумерация массива $tree_array с нуля начинается
             $tree_array_last_link_id = $tree_array[$count_tree_array - 1]['link_id'];
             $tree_array_last_item_id = $tree_array[$count_tree_array - 1]['item_id'];
         }
@@ -568,41 +568,41 @@ class ItemController extends Controller
 //                'par_link' => $tree_array_last_link_id, 'parent_item' => $tree_array_last_item_id
 //            ]);
 //        } else {
-            //     session(['links' => ((!empty($_SERVER['HTTPS'])) ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . '/' . request()->path()]);
-            return view('item/item_index', ['project' => $project, 'item' => $item, 'role' => $role, 'relit_id' => $relit_id,
-                'view_link' => GlobalController::set_par_view_link_null($view_link),
-                'base_right' => $base_right, 'items' => $items,
-                'prev_item' => $prev_item, 'next_item' => $next_item,
-                'child_links' => $child_links, 'child_links_info' => $child_links_info,
-                'child_mains_link_is_calcname' => $child_mains_link_is_calcname,
-                'current_link' => $current_link,
-                'parent_item' => $parent_item,
-                'child_body_links_info' => $child_body_links_info, 'body_items' => $body_items,
-                'base_body_right' => $base_body_right,
-                'tree_array' => $tree_array,
-                'tree_array_last_link_id' => $tree_array_last_link_id,
-                'tree_array_last_item_id' => $tree_array_last_item_id,
-                'string_link_ids_current' => $string_link_ids_current,
-                'string_item_ids_current' => $string_item_ids_current,
-                'string_all_codes_current' => $string_all_codes_current,
-                'string_link_ids_next' => $string_link_ids_next,
-                'string_item_ids_next' => $string_item_ids_next,
-                'string_all_codes_next' => $string_all_codes_next,
-                'next_all_links' => $next_all_links,
-                'next_all_mains' => $next_all_mains,
-                'next_all_is_create' => $next_all_is_create,
-                'next_all_is_all_create' => $next_all_is_all_create,
-                'next_all_is_calcname' => $next_all_is_calcname,
-                'next_all_first_link' => $next_all_first_link,
-                'next_all_is_code_enable' => $next_all_is_code_enable,
-                'next_all_is_enable' => $next_all_is_enable,
-                'message_mc_info' => $message_mc_info, 'message_mc_link_item' => $message_mc_link_item,
-                'string_link_ids_array_next' => $string_link_ids_array_next,
-                'string_item_ids_array_next' => $string_item_ids_array_next,
-                'string_all_codes_array_next' => $string_all_codes_array_next,
-                'message_mc_array_info' => $message_mc_array_info, 'message_mc_link_array_item' => $message_mc_link_array_item,
-                'base_index_page' => $base_index_page, 'body_link_page' => $body_link_page, 'body_all_page' => $body_all_page
-            ]);
+        //     session(['links' => ((!empty($_SERVER['HTTPS'])) ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . '/' . request()->path()]);
+        return view('item/item_index', ['project' => $project, 'item' => $item, 'role' => $role, 'relit_id' => $relit_id,
+            'view_link' => GlobalController::set_par_view_link_null($view_link),
+            'base_right' => $base_right, 'items' => $items,
+            'prev_item' => $prev_item, 'next_item' => $next_item,
+            'child_links' => $child_links, 'child_links_info' => $child_links_info,
+            'child_mains_link_is_calcname' => $child_mains_link_is_calcname,
+            'current_link' => $current_link,
+            'parent_item' => $parent_item,
+            'child_body_links_info' => $child_body_links_info, 'body_items' => $body_items,
+            'base_body_right' => $base_body_right,
+            'tree_array' => $tree_array,
+            'tree_array_last_link_id' => $tree_array_last_link_id,
+            'tree_array_last_item_id' => $tree_array_last_item_id,
+            'string_link_ids_current' => $string_link_ids_current,
+            'string_item_ids_current' => $string_item_ids_current,
+            'string_all_codes_current' => $string_all_codes_current,
+            'string_link_ids_next' => $string_link_ids_next,
+            'string_item_ids_next' => $string_item_ids_next,
+            'string_all_codes_next' => $string_all_codes_next,
+            'next_all_links' => $next_all_links,
+            'next_all_mains' => $next_all_mains,
+            'next_all_is_create' => $next_all_is_create,
+            'next_all_is_all_create' => $next_all_is_all_create,
+            'next_all_is_calcname' => $next_all_is_calcname,
+            'next_all_first_link' => $next_all_first_link,
+            'next_all_is_code_enable' => $next_all_is_code_enable,
+            'next_all_is_enable' => $next_all_is_enable,
+            'message_mc_info' => $message_mc_info, 'message_mc_link_item' => $message_mc_link_item,
+            'string_link_ids_array_next' => $string_link_ids_array_next,
+            'string_item_ids_array_next' => $string_item_ids_array_next,
+            'string_all_codes_array_next' => $string_all_codes_array_next,
+            'message_mc_array_info' => $message_mc_array_info, 'message_mc_link_array_item' => $message_mc_link_array_item,
+            'base_index_page' => $base_index_page, 'body_link_page' => $body_link_page, 'body_all_page' => $body_all_page
+        ]);
 //        }
     }
 
@@ -5529,7 +5529,8 @@ class ItemController extends Controller
             . mb_strtolower(trans('main.must_less_equal')) . ' (' . $mx . ' ' . mb_strtolower(trans('main.byte')) . ') !';
     }
 
-    static function links_info(Base $base, Role $role, $relit_id, Item $item = null, Link $nolink = null, $item_heading_base = false, $tree_array = [])
+    static function links_info(Base $base, Role $role, $relit_id, Item $item = null, Link $nolink = null,
+                                    $item_heading_base = false, $tree_array = [], $child_mains_link_is_calcname = null)
     {
         $base_right = GlobalController::base_right($base, $role, $relit_id);
         $link_id_array = array();
@@ -5584,9 +5585,19 @@ class ItemController extends Controller
         //        Если тип-вычисляемое наименование и Показывать Основу с вычисляемым наименованием
         //        или если тип-не вычисляемое наименование
         // или показывать в заголовке item_index.php
-        if (GlobalController::is_base_calcname_check($base, $base_right) || $item_heading_base == true) {
-            // Исключить links с признаком 'Для вычисляемого наименования'
-            $links = $links->where('parent_is_calcname', '=', false);
+//        if (GlobalController::is_base_calcname_check($base, $base_right) || $item_heading_base == true) {
+//            // Исключить links с признаком 'Для вычисляемого наименования'
+//            $links = $links->where('parent_is_calcname', '=', false);
+//        }
+
+        // Исключить links из переданного массива $child_mains_link_is_calcname
+        if ($child_mains_link_is_calcname) {
+//            Нужно 'foreach($child_mains_link_is_calcname as $calcname_mains)'
+            foreach ($child_mains_link_is_calcname as $calcname_mains) {
+                foreach ($calcname_mains as $calcname_main) {
+                    $links = $links->where('id', '!=', $calcname_main->link_id);
+                }
+            }
         }
 
         // Исключить links из переданного массива $tree_array
@@ -5620,23 +5631,23 @@ class ItemController extends Controller
             }
         }
 
-        // 0-ая строка с link->id + 4 строки с уровнями
+// 0-ая строка с link->id + 4 строки с уровнями
         $rows = 5;
         $cols = $k;
 
         $error_message = "";
 
-        // Заполнение $matrix[$i][$j]['work_field'] и $matrix[$i][$j]['work_link']
-        // 0-ая строка с link->id
+// Заполнение $matrix[$i][$j]['work_field'] и $matrix[$i][$j]['work_link']
+// 0-ая строка с link->id
         $i = 0;
         for ($j = 0; $j < $cols; $j++) {
             $matrix[$i][$j]['work_field'] = 'link' . $matrix[$i][$j]['link_id'];
             $matrix[$i][$j]['work_link'] = true;
         }
-        // Сколько строк полностью заполнено
-        // $rowmax - максимальная строка
+// Сколько строк полностью заполнено
+// $rowmax - максимальная строка
         $rowmax = 0;  // "$rowmax = 0;" нужно, как минимум одна 0-ая строка есть
-        // "$i = 1" - начинать с 1-ой строки, т.к. 0-ая заполнена link->id
+// "$i = 1" - начинать с 1-ой строки, т.к. 0-ая заполнена link->id
         for ($i = 1; $i < $rows; $i++) {
             $k = 0;
             for ($j = 0; $j < $cols; $j++) {
@@ -5659,7 +5670,7 @@ class ItemController extends Controller
             }
         }
 
-        // "$i = 1" - начинать с 1-ой строки, т.к. 0-ая заполнена link->id
+// "$i = 1" - начинать с 1-ой строки, т.к. 0-ая заполнена link->id
         for ($i = 1; $i < $rowmax; $i++) {
             for ($j = 0; $j < $cols; $j++) {
                 if ($matrix[$i][$j]['work_field'] == null) {
@@ -5670,7 +5681,7 @@ class ItemController extends Controller
             }
         }
 
-        // Если нет ошибки и есть строки для вывода
+// Если нет ошибки и есть строки для вывода
         if ($error_message == '') {
             // "$rows = $rowmax + 1;" нужно
             $rows = $rowmax + 1;
@@ -5735,8 +5746,8 @@ class ItemController extends Controller
             'matrix' => $matrix, 'rows' => $rows, 'cols' => $cols, 'error_message' => $error_message];
     }
 
-    // Список полей, для вычисляемого наименования item_index.php
-    // типа 'содержимое документа состоит из склада, номенклатурного номера, цены'
+// Список полей, для вычисляемого наименования item_index.php
+// типа 'содержимое документа состоит из склада, номенклатурного номера, цены'
     static function mains_link_is_calcname(Item $item, Role $role, $relit_id, $tree_array = [])
     {
         $base = $item->base;
