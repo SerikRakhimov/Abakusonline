@@ -16,6 +16,7 @@
     $relip_project = GlobalController::calc_relip_project($relit_id, $project);
     ?>
     @include('layouts.project.show_project_role',['project'=>$project, 'role'=>$role, 'relit_id'=>$relit_id])
+    =={{$base_index_page}}==
     {{--    <h3 class="display-5">--}}
     {{--        {{trans('main.space')}}--}}
     {{--        <span class="text-label">-</span> <span class="text-title">{{$item->base->info()}}</span>--}}
@@ -220,7 +221,11 @@
                     'string_all_codes_current' => $string_all_codes_current,
                     'string_link_ids_next'=>'',
                     'string_item_ids_next'=>'',
-                    'string_all_codes_next'=>''])
+                    'string_all_codes_next'=>'',
+                    'prev_base_index_page'=>$prev_base_index_page,
+                    'prev_body_link_page'=>$prev_body_link_page,
+                    'prev_body_all_page'=>$prev_body_all_page
+        ])
     @endif
     {{--    <hr align="center" width="100%" size="2" color="#ff0000"/>--}}
     {{--        &#8595;	&#8195; &#8595;	&#8195; &#8595;	&#8195; &#8595;	&#8195; &#8595;	&#8195; &#8595;	&#8195; &#8595;	&#8195; &#8595;	&#8195; &#8595;	&#8195; &#8595;	&#8195; &#8595;	&#8195;--}}
@@ -482,7 +487,10 @@
             'string_all_codes_current' => $string_all_codes_current,
             'string_link_ids_next'=>$string_link_ids_next,
             'string_item_ids_next'=>$string_item_ids_next,
-            'string_all_codes_next'=>$string_all_codes_next
+            'string_all_codes_next'=>$string_all_codes_next,
+            'prev_base_index_page'=>$prev_base_index_page,
+            'prev_body_link_page'=>$prev_body_link_page,
+            'prev_body_all_page'=>$prev_body_all_page
             ])
             {{$body_items->links()}}
         @endif
@@ -568,7 +576,10 @@
             'string_link_ids_array_next' => $string_link_ids_array_next,
             'string_item_ids_array_next' => $string_item_ids_array_next,
             'string_all_codes_array_next' => $string_all_codes_array_next,
-            'message_mc_array_info' => $message_mc_array_info, 'message_mc_link_array_item' => $message_mc_link_array_item
+            'message_mc_array_info' => $message_mc_array_info, 'message_mc_link_array_item' => $message_mc_link_array_item,
+            'prev_base_index_page'=>$prev_base_index_page,
+            'prev_body_link_page'=>$prev_body_link_page,
+            'prev_body_all_page'=>$prev_body_all_page
             ])
                 {{$next_all_mains->links()}}
             @endif

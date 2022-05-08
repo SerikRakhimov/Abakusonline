@@ -251,7 +251,7 @@ class ItemController extends Controller
         $items = $items_right['items'];
 
         $is_table_body = true;
-        $items = $items->paginate(60, ['*'], 'base_index_page');
+        $items = $items->paginate(3, ['*'], 'base_index_page');
 
         $base_index_page = 0;
         $body_link_page = 0;
@@ -292,7 +292,8 @@ class ItemController extends Controller
 //    function item_index(Project $project, Item $item, Role $role, $usercode, $relit_id = 0, Link $par_link = null,
 //                                $string_link_ids_current = '', $string_item_ids_current = '')
     function item_index(Project $project, Item $item, Role $role, $usercode, $relit_id, $view_link = null,
-                                $string_link_ids_current = '', $string_item_ids_current = '', $string_all_codes_current = '')
+                                $string_link_ids_current = '', $string_item_ids_current = '', $string_all_codes_current = '',
+                                $prev_base_index_page = 0, $prev_body_link_page = 0, $prev_body_all_page = 0)
     {
         if (GlobalController::check_project_item_user($project, $item, $role, $usercode) == false) {
             return view('message', ['message' => trans('main.no_access')]);
@@ -491,7 +492,7 @@ class ItemController extends Controller
             }
             // Используется $relip_project
             $items_body_right = GlobalController::items_right($current_link->child_base, $relip_project, $role, $relit_id, $item->id, $current_link->id);
-            $body_items = $items_body_right['items']->paginate(60, ['*'], 'body_link_page');
+            $body_items = $items_body_right['items']->paginate(3, ['*'], 'body_link_page');
             // Нужно
             $next_all_mains = null;
 
@@ -517,7 +518,7 @@ class ItemController extends Controller
         }
 
         if ($next_all_mains) {
-            $next_all_mains = $next_all_mains->paginate(60, ['*'], 'body_all_page');
+            $next_all_mains = $next_all_mains->paginate(3, ['*'], 'body_all_page');
         }
 
         // Команды ниже нужны
@@ -566,8 +567,8 @@ class ItemController extends Controller
                 'string_item_ids_current' => $tree_array_last_string_prev_item_ids,
                 'string_all_codes_current' => $tree_array_last_string_prev_all_codes,
                 'heading' => intval(false),
-                'base_index_page' => $base_index_page, 'body_link_page' => $body_link_page, 'body_all_page' => $body_all_page,
-                'view_link' => GlobalController::set_par_view_link_null($view_link),
+                'base_index_page' => $prev_base_index_page, 'body_link_page' => $prev_body_link_page, 'body_all_page' => $prev_body_all_page,
+                'view_link' => GlobalController::set_par_view_link_null($tree_array_last_link_id),
                 'par_link' => $tree_array_last_link_id, 'parent_item' => $tree_array_last_item_id
             ]);
         } else {
@@ -604,7 +605,10 @@ class ItemController extends Controller
                 'string_item_ids_array_next' => $string_item_ids_array_next,
                 'string_all_codes_array_next' => $string_all_codes_array_next,
                 'message_mc_array_info' => $message_mc_array_info, 'message_mc_link_array_item' => $message_mc_link_array_item,
-                'base_index_page' => $base_index_page, 'body_link_page' => $body_link_page, 'body_all_page' => $body_all_page
+                'base_index_page' => $base_index_page, 'body_link_page' => $body_link_page, 'body_all_page' => $body_all_page,
+                'prev_base_index_page' => $prev_base_index_page,
+                'prev_body_link_page' => $prev_body_link_page,
+                'prev_body_all_page' => $prev_body_all_page
             ]);
         }
     }

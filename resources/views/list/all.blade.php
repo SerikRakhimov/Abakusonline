@@ -58,7 +58,10 @@ $i = 0;
         'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id,'view_link'=>GlobalController::par_link_const_textnull(),
         'string_link_ids_current'=>$string_link_ids_array_next[$main->link_id],
         'string_item_ids_current'=>$string_item_ids_array_next[$main->link_id],
-        'string_all_codes_current'=>$string_all_codes_array_next[$main->link_id]
+        'string_all_codes_current'=>$string_all_codes_array_next[$main->link_id],
+        'prev_base_index_page'=>$base_index_page,
+        'prev_body_link_page'=>$body_link_page,
+        'prev_body_all_page'=>$body_all_page
         ])}}"
                    title="{{GlobalController::calc_title_name($main->link->child_label())}}">
                     <small>{{GlobalController::calc_title_name($main->link->child_label())}}</small>
@@ -69,7 +72,10 @@ $i = 0;
         'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id,'view_link'=>GlobalController::par_link_const_textnull(),
         'string_link_ids_current'=>$string_link_ids_array_next[$main->link_id],
         'string_item_ids_current'=>$string_item_ids_array_next[$main->link_id],
-        'string_all_codes_current'=>$string_all_codes_array_next[$main->link_id]
+        'string_all_codes_current'=>$string_all_codes_array_next[$main->link_id],
+        'prev_base_index_page'=>$base_index_page,
+        'prev_body_link_page'=>$body_link_page,
+        'prev_body_all_page'=>$body_all_page
         ])}}"
                    title="{{GlobalController::calc_title_name($main->link->child_label())}}">
                     {{--                    Выводить вычисляемое наименование--}}
@@ -80,6 +86,8 @@ $i = 0;
                         {{mb_strtolower(trans('main.empty'))}}
                         </span>
                     @endif
+                    ----{{$base_index_page}}----{{$body_link_page}}----{{$body_all_page}}
+                    ----{{$prev_base_index_page}}----{{$prev_body_link_page}}----{{$prev_body_all_page}}
                 </a>
             </td>
             @if($next_all_is_code_enable == true)
@@ -89,7 +97,10 @@ $i = 0;
         'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id,'view_link'=>GlobalController::par_link_const_textnull(),
         'string_link_ids_current'=>$string_link_ids_array_next[$main->link_id],
         'string_item_ids_current'=>$string_item_ids_array_next[$main->link_id],
-        'string_all_codes_current'=>$string_all_codes_array_next[$main->link_id]
+        'string_all_codes_current'=>$string_all_codes_array_next[$main->link_id],
+        'prev_base_index_page'=>$base_index_page,
+        'prev_body_link_page'=>$body_link_page,
+        'prev_body_all_page'=>$body_all_page
         ])}}"
                            title="{{$item->name()}}">
                             {{$main->child_item->code}}

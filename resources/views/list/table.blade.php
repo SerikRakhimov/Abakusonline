@@ -18,6 +18,7 @@ else{
 //    $i_par_link = $view_link;
 }
 ?>
+=={{$base_index_page}}
 <table class="table table-sm table-bordered table-hover">
 {{--<table class="table table-sm table-borderless table-hover">--}}
     @if(!$heading)
@@ -141,7 +142,10 @@ else{
        'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id,'view_link'=>$i_par_link,
                'string_link_ids_current'=>$string_link_ids_next,
         'string_item_ids_current'=>$string_item_ids_next,
-        'string_all_codes_current'=>$string_all_codes_next
+        'string_all_codes_current'=>$string_all_codes_next,
+        'prev_base_index_page'=>$base_index_page,
+        'prev_body_link_page'=>$body_link_page,
+        'prev_body_all_page'=>$body_all_page,
         ])}}"
                                title="{{$item->name()}}">
                                 @endif
@@ -200,11 +204,16 @@ else{
        'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id,'view_link'=>$i_par_link,
         'string_link_ids_current'=>$string_link_ids_next,
         'string_item_ids_current'=>$string_item_ids_next,
-        'string_all_codes_current'=>$string_all_codes_next
+        'string_all_codes_current'=>$string_all_codes_next,
+        'prev_base_index_page'=>$base_index_page,
+        'prev_body_link_page'=>$body_link_page,
+        'prev_body_all_page'=>$body_all_page
         ])}}"
                                        title="{{$item->name()}}">
                                         @endif
                                         @include('layouts.item.empty_name', ['name'=>$item->name()])
+                                        ----{{$base_index_page}}----{{$body_link_page}}----{{$body_all_page}}
+                                        ----{{$prev_base_index_page}}----{{$prev_body_link_page}}----{{$prev_body_all_page}}
                                         @if ($item_index_view)
                                     </a>
                                 @endif
@@ -296,7 +305,10 @@ else{
         'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id, 'view_link'=>$i_par_link,
         'string_link_ids_current'=>$string_link_ids_next,
         'string_item_ids_current'=>$string_item_ids_next,
-        'string_all_codes_current'=>$string_all_codes_next
+        'string_all_codes_current'=>$string_all_codes_next,
+        'prev_base_index_page'=>$base_index_page,
+        'prev_body_link_page'=>$body_link_page,
+        'prev_body_all_page'=>$body_all_page
         ])}}"
                                    title="">
                                     @endif

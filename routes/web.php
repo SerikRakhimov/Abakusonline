@@ -807,7 +807,7 @@ Route::get('/item/base_index/{base}/{project}/{role}/{relit_id}', [ItemControlle
     ->name('item.base_index');
 //->middleware('auth');
 
-Route::get('/item/item_index/{project}/{item}/{role}/{usercode}/{relit_id}/{view_link?}/{string_link_ids_current?}/{string_item_ids_current?}/{string_all_codes_current?}', [ItemController::class, 'item_index'])
+Route::get('/item/item_index/{project}/{item}/{role}/{usercode}/{relit_id}/{view_link?}/{string_link_ids_current?}/{string_item_ids_current?}/{string_all_codes_current?}/{prev_base_index_page?}/{prev_body_link_page?}/{prev_body_all_page?}', [ItemController::class, 'item_index'])
     ->name('item.item_index')
     ->middleware('auth');
 
