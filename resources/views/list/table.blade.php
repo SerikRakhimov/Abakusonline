@@ -18,7 +18,6 @@ else{
 //    $i_par_link = $view_link;
 }
 ?>
-=={{$base_index_page}}
 <table class="table table-sm table-bordered table-hover">
 {{--<table class="table table-sm table-borderless table-hover">--}}
     @if(!$heading)

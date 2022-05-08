@@ -16,7 +16,6 @@
     $relip_project = GlobalController::calc_relip_project($relit_id, $project);
     ?>
     @include('layouts.project.show_project_role',['project'=>$project, 'role'=>$role, 'relit_id'=>$relit_id])
-    =={{$base_index_page}}==
     {{--    <h3 class="display-5">--}}
     {{--        {{trans('main.space')}}--}}
     {{--        <span class="text-label">-</span> <span class="text-title">{{$item->base->info()}}</span>--}}
