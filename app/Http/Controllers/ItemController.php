@@ -251,7 +251,7 @@ class ItemController extends Controller
         $items = $items_right['items'];
 
         $is_table_body = true;
-        $items = $items->paginate(3, ['*'], 'base_index_page');
+        $items = $items->paginate(60, ['*'], 'base_index_page');
 
         $base_index_page = 0;
         $body_link_page = 0;
@@ -490,7 +490,7 @@ class ItemController extends Controller
             }
             // Используется $relip_project
             $items_body_right = GlobalController::items_right($current_link->child_base, $relip_project, $role, $relit_id, $item->id, $current_link->id);
-            $body_items = $items_body_right['items']->paginate(3, ['*'], 'body_link_page');
+            $body_items = $items_body_right['items']->paginate(60, ['*'], 'body_link_page');
             // Нужно
             $next_all_mains = null;
 
@@ -516,7 +516,7 @@ class ItemController extends Controller
         }
 
         if ($next_all_mains) {
-            $next_all_mains = $next_all_mains->paginate(3, ['*'], 'body_all_page');
+            $next_all_mains = $next_all_mains->paginate(60, ['*'], 'body_all_page');
         }
 
         // Команды ниже нужны
