@@ -323,6 +323,7 @@ class ItemController extends Controller
         if ($string_link_ids_current && $string_item_ids_current && $string_all_codes_current) {
             $tree_array = self::calc_tree_array($role, $relit_id, $string_link_ids_current, $string_item_ids_current, $string_all_codes_current);
         }
+
         // Нужно
         $string_link_ids_next = $string_link_ids_current;
         $string_item_ids_next = $string_item_ids_current;
@@ -520,15 +521,9 @@ class ItemController extends Controller
         }
 
         // Команды ниже нужны
-        if ($string_link_ids_current == '') {
-            $string_link_ids_current = GlobalController::const_null();
-        }
-        if ($string_item_ids_current == '') {
-            $string_item_ids_current = GlobalController::const_null();
-        }
-        if ($string_all_codes_current == '') {
-            $string_all_codes_current = GlobalController::const_null();
-        }
+        $string_link_ids_current = GlobalController::set_str_const_null($string_link_ids_current);
+        $string_item_ids_current = GlobalController::set_str_const_null($string_item_ids_current);
+        $string_all_codes_current = GlobalController::set_str_const_null($string_all_codes_current);
 
         $base_index_page = 0;
         $body_link_page = 0;
@@ -547,63 +542,71 @@ class ItemController extends Controller
         // Используется последний элемент массива $tree_array
         $tree_array_last_link_id = null;
         $tree_array_last_item_id = null;
+        $tree_array_last_string_prev_link_ids = '';
+        $tree_array_last_string_prev_item_ids = '';
+        $tree_array_last_string_prev_all_codes = '';
         $count_tree_array = count($tree_array);
         if ($count_tree_array > 0) {
             // ' - 1' т.к. нумерация массива $tree_array с нуля начинается
             $tree_array_last_link_id = $tree_array[$count_tree_array - 1]['link_id'];
             $tree_array_last_item_id = $tree_array[$count_tree_array - 1]['item_id'];
+            $tree_array_last_string_prev_link_ids = $tree_array[$count_tree_array - 1]['string_prev_link_ids'];
+            $tree_array_last_string_prev_item_ids = $tree_array[$count_tree_array - 1]['string_prev_item_ids'];
+            $tree_array_last_string_prev_all_codes = $tree_array[$count_tree_array - 1]['string_prev_all_codes'];
         }
+        $tree_array_last_string_prev_link_ids = GlobalController::set_str_const_null($tree_array_last_string_prev_link_ids);
+        $tree_array_last_string_prev_item_ids = GlobalController::set_str_const_null($tree_array_last_string_prev_item_ids);
+        $tree_array_last_string_prev_all_codes = GlobalController::set_str_const_null($tree_array_last_string_prev_all_codes);
 
-//        Не удалять
-//       if (count($next_all_links) == 0) {
-//            return redirect()->route('item.ext_show', ['item' => $item, 'project' => $project, 'role' => $role,
-//                'usercode' => GlobalController::usercode_calc(),
-//                'relit_id' => $relit_id,
-//                'string_link_ids_current' => $string_link_ids_current,
-//                'string_item_ids_current' => $string_item_ids_current,
-//                'string_all_codes_current' => $string_all_codes_current,
-//                'heading' => intval(true),
-//                'base_index_page' => $base_index_page, 'body_link_page' => $body_link_page, 'body_all_page' => $body_all_page,
-//                'view_link' => GlobalController::set_par_view_link_null($view_link),
-//                'par_link' => $tree_array_last_link_id, 'parent_item' => $tree_array_last_item_id
-//            ]);
-//        } else {
-        //     session(['links' => ((!empty($_SERVER['HTTPS'])) ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . '/' . request()->path()]);
-        return view('item/item_index', ['project' => $project, 'item' => $item, 'role' => $role, 'relit_id' => $relit_id,
-            'view_link' => GlobalController::set_par_view_link_null($view_link),
-            'base_right' => $base_right, 'items' => $items,
-            'prev_item' => $prev_item, 'next_item' => $next_item,
-            'child_links' => $child_links, 'child_links_info' => $child_links_info,
-            'child_mains_link_is_calcname' => $child_mains_link_is_calcname,
-            'current_link' => $current_link,
-            'parent_item' => $parent_item,
-            'child_body_links_info' => $child_body_links_info, 'body_items' => $body_items,
-            'base_body_right' => $base_body_right,
-            'tree_array' => $tree_array,
-            'tree_array_last_link_id' => $tree_array_last_link_id,
-            'tree_array_last_item_id' => $tree_array_last_item_id,
-            'string_link_ids_current' => $string_link_ids_current,
-            'string_item_ids_current' => $string_item_ids_current,
-            'string_all_codes_current' => $string_all_codes_current,
-            'string_link_ids_next' => $string_link_ids_next,
-            'string_item_ids_next' => $string_item_ids_next,
-            'string_all_codes_next' => $string_all_codes_next,
-            'next_all_links' => $next_all_links,
-            'next_all_mains' => $next_all_mains,
-            'next_all_is_create' => $next_all_is_create,
-            'next_all_is_all_create' => $next_all_is_all_create,
-            'next_all_is_calcname' => $next_all_is_calcname,
-            'next_all_first_link' => $next_all_first_link,
-            'next_all_is_code_enable' => $next_all_is_code_enable,
-            'next_all_is_enable' => $next_all_is_enable,
-            'message_mc_info' => $message_mc_info, 'message_mc_link_item' => $message_mc_link_item,
-            'string_link_ids_array_next' => $string_link_ids_array_next,
-            'string_item_ids_array_next' => $string_item_ids_array_next,
-            'string_all_codes_array_next' => $string_all_codes_array_next,
-            'message_mc_array_info' => $message_mc_array_info, 'message_mc_link_array_item' => $message_mc_link_array_item,
-            'base_index_page' => $base_index_page, 'body_link_page' => $body_link_page, 'body_all_page' => $body_all_page
-        ]);
-//        }
+        if (count($next_all_links) == 0) {
+            return redirect()->route('item.ext_show', ['item' => $item, 'project' => $project, 'role' => $role,
+                'usercode' => GlobalController::usercode_calc(),
+                'relit_id' => $relit_id,
+                'string_link_ids_current' => $tree_array_last_string_prev_link_ids,
+                'string_item_ids_current' => $tree_array_last_string_prev_item_ids,
+                'string_all_codes_current' => $tree_array_last_string_prev_all_codes,
+                'heading' => intval(false),
+                'base_index_page' => $base_index_page, 'body_link_page' => $body_link_page, 'body_all_page' => $body_all_page,
+                'view_link' => GlobalController::set_par_view_link_null($view_link),
+                'par_link' => $tree_array_last_link_id, 'parent_item' => $tree_array_last_item_id
+            ]);
+        } else {
+            //     session(['links' => ((!empty($_SERVER['HTTPS'])) ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . '/' . request()->path()]);
+            return view('item/item_index', ['project' => $project, 'item' => $item, 'role' => $role, 'relit_id' => $relit_id,
+                'view_link' => GlobalController::set_par_view_link_null($view_link),
+                'base_right' => $base_right, 'items' => $items,
+                'prev_item' => $prev_item, 'next_item' => $next_item,
+                'child_links' => $child_links, 'child_links_info' => $child_links_info,
+                'child_mains_link_is_calcname' => $child_mains_link_is_calcname,
+                'current_link' => $current_link,
+                'parent_item' => $parent_item,
+                'child_body_links_info' => $child_body_links_info, 'body_items' => $body_items,
+                'base_body_right' => $base_body_right,
+                'tree_array' => $tree_array,
+                'tree_array_last_link_id' => $tree_array_last_link_id,
+                'tree_array_last_item_id' => $tree_array_last_item_id,
+                'string_link_ids_current' => $string_link_ids_current,
+                'string_item_ids_current' => $string_item_ids_current,
+                'string_all_codes_current' => $string_all_codes_current,
+                'string_link_ids_next' => $string_link_ids_next,
+                'string_item_ids_next' => $string_item_ids_next,
+                'string_all_codes_next' => $string_all_codes_next,
+                'next_all_links' => $next_all_links,
+                'next_all_mains' => $next_all_mains,
+                'next_all_is_create' => $next_all_is_create,
+                'next_all_is_all_create' => $next_all_is_all_create,
+                'next_all_is_calcname' => $next_all_is_calcname,
+                'next_all_first_link' => $next_all_first_link,
+                'next_all_is_code_enable' => $next_all_is_code_enable,
+                'next_all_is_enable' => $next_all_is_enable,
+                'message_mc_info' => $message_mc_info, 'message_mc_link_item' => $message_mc_link_item,
+                'string_link_ids_array_next' => $string_link_ids_array_next,
+                'string_item_ids_array_next' => $string_item_ids_array_next,
+                'string_all_codes_array_next' => $string_all_codes_array_next,
+                'message_mc_array_info' => $message_mc_array_info, 'message_mc_link_array_item' => $message_mc_link_array_item,
+                'base_index_page' => $base_index_page, 'body_link_page' => $body_link_page, 'body_all_page' => $body_all_page
+            ]);
+        }
     }
 
     function calc_tree_array(Role $role, $relit_id, $string_link_ids_current, $string_item_ids_current, $string_all_codes_current)

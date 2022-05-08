@@ -1742,6 +1742,15 @@ class GlobalController extends Controller
         return $result;
     }
 
+    static function set_str_const_null($str)
+    {
+        $result = $str;
+        if ($str == '') {
+            $result = GlobalController::const_null();
+        }
+        return $result;
+    }
+
     static function calc_item_name_lang()
     {
         //$name = "";  // нужно, не удалять
