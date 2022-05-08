@@ -16,12 +16,6 @@
 
     $relip_project = GlobalController::calc_relip_project($relit_id, $project);
     //    Config::set('app.display', 'table');
-    $base_index_page = 0;
-    $body_link_page = 0;
-    $body_all_page = 0;
-    if ($items) {
-        $base_index_page = $items->currentPage();
-    }
     ?>
     @include('layouts.project.show_project_role',['project'=>$project, 'role'=>$role, 'relit_id'=>$relit_id])
     <div class="container-fluid">
@@ -322,7 +316,7 @@
                     'heading'=> 0,
                     'base_index_page'=>$base_index_page, 'body_link_page'=>$body_link_page,'body_all_page'=>$body_all_page,
                     'view_link'=>null,
-                    'par_link'=>null, 'parent_item'=>null, 'is_table_body'=>$is_table_body,
+                    'current_link'=>null, 'parent_item'=>null, 'is_table_body'=>$is_table_body,
                     'base_index'=>true, 'item_heading_base'=>false, 'item_body_base'=>false
                     ])
         {{--                            @if(1==2)--}}

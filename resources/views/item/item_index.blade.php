@@ -14,21 +14,6 @@
     //            return $array;
     //        }
     $relip_project = GlobalController::calc_relip_project($relit_id, $project);
-    $base_index_page = 0;
-    $body_link_page = 0;
-    $body_all_page = 0;
-    // Проверки ниже нужны
-    // При вызове item_index.php должно быть либо так '$body_items!=null и $next_all_mains=null',
-    // либо так '$body_items=null и $next_all_mains!=null'
-    // Это регулируется в функции ItemController::item_index()
-    if ($body_items) {
-        $body_link_page = $body_items->currentPage();
-    }
-    if ($next_all_mains) {
-        $body_all_page = $next_all_mains->currentPage();
-    }
-    $i_heading_par_link_id = null;
-    $i_heading_parent_item_id = null;
     ?>
     @include('layouts.project.show_project_role',['project'=>$project, 'role'=>$role, 'relit_id'=>$relit_id])
     {{--    <h3 class="display-5">--}}
@@ -62,11 +47,6 @@
                 <small><small><small>{{$value['info_name']}}</small></small></small>
             </a>
         </h6>
-        <?php
-        // Используется последнее значение массива $tree_array
-        $i_heading_par_link_id = $value['link_id'];
-        $i_heading_parent_item_id = $value['item_id'];
-        ?>
     @endforeach
     @if(count($tree_array)>0)
         <hr>
@@ -108,7 +88,7 @@
             'heading' => intval(true),
             'base_index_page' => $base_index_page, 'body_link_page' => $body_link_page, 'body_all_page' => $body_all_page,
             'view_link'=>$view_link,
-            'par_link'=>$i_heading_par_link_id, 'parent_item'=>$i_heading_parent_item_id
+            'par_link'=>$tree_array_last_link_id, 'parent_item'=>$tree_array_last_item_id
                                             ])}}"
                                            title="{{trans('main.viewing_record')}}: {{$item->cdnm()}}">
                                             <mark class="text-project">
@@ -154,7 +134,7 @@
             'heading' => intval(true),
             'base_index_page' => $base_index_page, 'body_link_page' => $body_link_page, 'body_all_page' => $body_all_page,
             'view_link'=>$view_link,
-            'par_link'=>$i_heading_par_link_id, 'parent_item'=>$i_heading_parent_item_id
+            'par_link'=>$tree_array_last_link_id, 'parent_item'=>$tree_array_last_item_id
                                             ])}}"
                            title="{{trans('main.viewing_record')}}: {{$item->cdnm()}}">
                             @endif
@@ -196,7 +176,7 @@
                                              'heading'=>intval(true),
                                              'base_index_page'=>$base_index_page, 'body_link_page'=>$body_link_page,'body_all_page'=>$body_all_page,
                                              'view_link'=>$view_link,
-                                             'par_link'=>$i_heading_par_link_id, 'parent_item'=>$i_heading_parent_item_id
+                                             'par_link'=>$tree_array_last_link_id, 'parent_item'=>$tree_array_last_item_id
                                              ])}}'">
                         <i class="fas fa-plus d-inline"></i>&nbsp;{{trans('main.add')}}
                     </button>
@@ -225,15 +205,7 @@
         </div>
     </div>
     @if(count($child_links) != 0)
-        <?php
-        //          Присваивания нужны
-        $i_par_link = null;
-        $i_parent_item = null;
-        if ($current_link) {
-            $i_par_link = $current_link;
-            $i_parent_item = $item;
-        }
-        ?>
+        <br>
         {{--        Выводится одна запись в шапке(все родительские links - столбы)--}}
         {{--        Используется "'heading'=>intval(true)"--}}
         @include('list.table',['base'=>$item->base, 'project'=>$project, 'links_info'=>$child_links_info, 'items'=>$items,
@@ -241,7 +213,7 @@
                 'heading'=>intval(true),
                 'base_index_page'=>$base_index_page, 'body_link_page'=>$body_link_page,'body_all_page'=>$body_all_page,
                 'view_link'=>$view_link,
-                'par_link'=>$i_par_link, 'parent_item'=>$i_parent_item, 'is_table_body'=>false,
+                'current_link'=>$current_link, 'parent_item'=>$parent_item, 'is_table_body'=>false,
                     'base_index'=>false, 'item_heading_base'=>true, 'item_body_base'=>false,
                     'string_link_ids_current' => $string_link_ids_current,
                     'string_item_ids_current' => $string_item_ids_current,
@@ -304,9 +276,14 @@
                 @endif
             </div>
             <div class="col-2 text-right">
+                {{-- Нужно '@if(count($next_all_links)>0)'--}}
+                {{-- Для команды '@if(!($current_link && count($next_all_links) == 1))', чтобы исключить вариант count($next_all_links) == 0--}}
                 @if(count($next_all_links)>0)
                     {{--                Не высвечивать кнопку "Связи", если одна связь и $next_all_is_enable=false--}}
-                    @if(($next_all_is_enable) || (count($next_all_links)>1))
+                    {{--                    @if(($next_all_is_enable) || (count($next_all_links)>1))--}}
+                    {{--                Не высвечивать кнопку "Связи", если одна связь и $current_link!=false--}}
+                    {{-- Похожая проверка по смыслу 'count($next_all_links) == 1' в ItemController::item_index() и item_index.php--}}
+                    @if(!($current_link && count($next_all_links) == 1))
                         <div class="dropdown">
                             <button type="button" class="btn btn-dreamer dropdown-toggle" data-toggle="dropdown"
                                     title="{{trans('main.link')}}">
@@ -353,10 +330,10 @@
                             </div>
                         </div>
                     @endif
-{{--                @else--}}
-{{--                    <span class="text-title">--}}
-{{--                    {{trans('main.without links')}}--}}
-{{--                    </span>--}}
+                    {{--                @else--}}
+                    {{--                    <span class="text-title">--}}
+                    {{--                    {{trans('main.without links')}}--}}
+                    {{--                    </span>--}}
                 @endif
             </div>
         </div>
@@ -492,12 +469,13 @@
         @if (count($body_items) > 0)
             {{--        Выводится список записей по одной связи $current_link--}}
             {{--        Используется "'heading'=>intval(false)"--}}
+            {{-- 'current_link' передается затем (в list\table.php) в 'item.ext_show' как 'par_link'--}}
             @include('list.table',['base'=>$current_link->child_base, 'project'=>$project, 'links_info'=>$child_body_links_info, 'items'=>$body_items,
         'base_right'=>$base_body_right, 'relit_id'=>$relit_id,
         'heading'=>intval(false),
         'base_index_page'=>$base_index_page, 'body_link_page'=>$body_link_page,'body_all_page'=>$body_all_page,
         'view_link'=>$view_link,
-        'par_link'=>$current_link, 'parent_item'=>$item, 'is_table_body'=>false,
+        'current_link'=>$current_link, 'parent_item'=>$item, 'is_table_body'=>false,
             'base_index'=>false, 'item_heading_base'=>false, 'item_body_base'=>true,
             'string_link_ids_current' => $string_link_ids_current,
             'string_item_ids_current' => $string_item_ids_current,
@@ -569,6 +547,7 @@
             @if(count($next_all_mains) > 0)
                 {{--        Выводится список записей по всем связям--}}
                 {{--        Используется "'heading'=>intval(false)"--}}
+                {{-- 'current_link' передавать не нужно, затем (в list\all.php) в 'item.ext_show' как 'par_link' передается $main->link--}}
                 @include('list.all',['project'=>$project,
             'relit_id'=>$relit_id,
             'view_link'=>$view_link,

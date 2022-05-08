@@ -473,19 +473,19 @@ class GlobalController extends Controller
 //            $ids = $coll_mains->keys()->toArray();
 //            $items = Item::whereIn('id', $ids);
             $items_ids = null;
-            // Запросы одинаковые, разница только в одной последней строке
-            if ($mains_link_id == GlobalController::par_link_const_textnull()) {
-                $items_ids = Main::select(DB::Raw('mains.child_item_id as id'))
-                    ->join('items', 'mains.child_item_id', '=', 'items.id')
-                    ->where('items.project_id', '=', $project->id)
-                    ->where('mains.parent_item_id', '=', $mains_item_id);
-            } else {
-                $items_ids = Main::select(DB::Raw('mains.child_item_id as id'))
-                    ->join('items', 'mains.child_item_id', '=', 'items.id')
-                    ->where('items.project_id', '=', $project->id)
-                    ->where('mains.parent_item_id', '=', $mains_item_id)
-                    ->where('mains.link_id', '=', $mains_link_id);
-            }
+//            // Запросы одинаковые, разница только в одной последней строке
+//            if ($mains_link_id == GlobalController::par_link_const_textnull()) {
+//                $items_ids = Main::select(DB::Raw('mains.child_item_id as id'))
+//                    ->join('items', 'mains.child_item_id', '=', 'items.id')
+//                    ->where('items.project_id', '=', $project->id)
+//                    ->where('mains.parent_item_id', '=', $mains_item_id);
+//            } else {
+//                $items_ids = Main::select(DB::Raw('mains.child_item_id as id'))
+//                    ->join('items', 'mains.child_item_id', '=', 'items.id')
+//                    ->where('items.project_id', '=', $project->id)
+//                    ->where('mains.parent_item_id', '=', $mains_item_id)
+//                    ->where('mains.link_id', '=', $mains_link_id);
+//            }
             $items_ids = Main::select(DB::Raw('mains.child_item_id as id'))
                 ->join('items', 'mains.child_item_id', '=', 'items.id')
                 ->where('items.project_id', '=', $project->id)

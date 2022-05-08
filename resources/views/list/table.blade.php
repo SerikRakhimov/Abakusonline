@@ -40,11 +40,16 @@ else{
                 {{--            похожая проверка в ext_show.blade.php--}}
                 @if(GlobalController::is_base_calcname_check($base, $base_right))
                     <th rowspan="{{$rows + 1}}" @include('layouts.class_from_base',['base'=>$base, 'align_top'=>true])>
-                        @if($view_link)
-                            {{$view_link->child_label()}}
-                        @else
-                            {{$base->name()}}
-                        @endif
+{{--                        @if($view_link)--}}
+{{--                            {{$view_link->child_label()}}--}}
+{{--                        @else--}}
+{{--                            {{$base->name()}}--}}
+{{--                        @endif--}}
+                                                @if($current_link)
+                                                    {{$current_link->child_label()}}
+                                                @else
+                                                    {{$base->name()}}
+                                                @endif
                     </th>
     @endif
     @endif
@@ -102,7 +107,7 @@ else{
                     <a href="{{route('item.ext_show', ['item'=>$item, 'project'=>$project, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id,
     'heading'=>$heading, 'base_index_page'=>$base_index_page, 'body_link_page'=>$body_link_page,'body_all_page'=>$body_all_page,
     'view_link' => $view_link,
-    'par_link'=>$par_link, 'parent_item'=>$parent_item,
+    'par_link'=>$current_link, 'parent_item'=>$parent_item,
     'string_link_ids_current' => $string_link_ids_current,
     'string_item_ids_current' => $string_item_ids_current,
     'string_all_codes_current'=> $string_all_codes_current

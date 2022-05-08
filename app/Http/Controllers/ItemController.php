@@ -251,7 +251,14 @@ class ItemController extends Controller
         $items = $items_right['items'];
 
         $is_table_body = true;
-        $items = $items->paginate(60, ['*'], 'base_index_page');
+        $items = $items->paginate(3, ['*'], 'base_index_page');
+
+        $base_index_page = 0;
+        $body_link_page = 0;
+        $body_all_page = 0;
+        if ($items) {
+            $base_index_page = $items->currentPage();
+        }
 
 //      Похожая проверка в GlobalController::get_project_bases(), ItemController::base_index() и project/start.php
         if ($base_right['is_list_base_calc'] == false) {
@@ -264,7 +271,9 @@ class ItemController extends Controller
                 'string_all_codes_current' => GlobalController::const_null(),
                 'string_link_ids_current' => GlobalController::const_null(),
                 'string_item_ids_current' => GlobalController::const_null(),
-                'items' => $items, 'links_info' => $links_info, 'is_table_body' => $is_table_body]);
+                'items' => $items, 'links_info' => $links_info, 'is_table_body' => $is_table_body,
+                'base_index_page' => $base_index_page, 'body_link_page' => $body_link_page, 'body_all_page' => $body_all_page
+            ]);
         } else {
             return view('message', ['message' => trans('main.no_access_for_unregistered_users')]);
         }
@@ -275,6 +284,11 @@ class ItemController extends Controller
     // и чтобы невозможно было скопировать адресную строку с item_index с параметрами
     //  и вставить в адресную строку другого пользователя платформы www.abakusonline.com
     // - должно работать только на текущем проекте
+    // $view_link передается в функцию item_index(),
+    // может иметь значения null, GlobalController::par_link_const_textnull(), GlobalController::par_link_const_text_base_null() - вызов из base_index.php)
+    // $current_link расчитывается в item_index() и передается в index_item.php
+    // $par_link используется (index_item.php, list\table.php, list\all.php, ext_show.php, ext_edit.php)
+    // для вызова 'item.ext_show', 'item.ext_show', 'item.ext_create', get:'item.ext_edit', 'item.ext_store', put:'item.ext_edit', 'item.ext_delete', 'item.ext_delete_question'
 //    function item_index(Project $project, Item $item, Role $role, $usercode, $relit_id = 0, Link $par_link = null,
 //                                $string_link_ids_current = '', $string_item_ids_current = '')
     function item_index(Project $project, Item $item, Role $role, $usercode, $relit_id, $view_link = null,
@@ -296,14 +310,6 @@ class ItemController extends Controller
         if ($base_right['is_list_base_calc'] == false) {
             return view('message', ['message' => trans('main.no_access')]);
         }
-//        if ($view_link == '') {
-//            // Значение по умолчанию
-//            $view_link = GlobalController::par_link_const_textnull();
-//        }
-//        $par_find_link = null;
-//        if ($par_link == null || $par_link == GlobalController::par_link_const_textnull() || $par_link == GlobalController::par_link_const_text_base_null()) {
-//            $par_find_link = null;
-//        }
 
         if ($view_link == null || $view_link == GlobalController::par_link_const_textnull() || $view_link == GlobalController::par_link_const_text_base_null()) {
             // Нужно '$view_link = null;'
@@ -433,16 +439,32 @@ class ItemController extends Controller
 //                }
 //            }
             // item_index() вызвано из base_index()
-            // Нужно '!$next_all_is_enable && !$par_find_link'
-            if (!$next_all_is_enable && !$view_link) {
-                // Если во всех $links не выводятся вычисляемые наименования, то берем первый $link по списку
-                $current_link = $next_all_first_link;
-            } else {
+            // Нужно '!$next_all_is_enable && !$view_link'
+//            if (!$next_all_is_enable && !$view_link) {
+//                // Если во всех $links не выводятся вычисляемые наименования, то берем первый $link по списку
+//                $current_link = $next_all_first_link;
+//                //dd($current_link);
+//            } else {
+//                if ($view_link == GlobalController::par_link_const_text_base_null()) {
+//                    if ($base_right['is_heading']) {
+//                        // Если не найдены, то берем первый $link по списку
+//                        $current_link = $next_all_first_link;
+//                    }
+//                }
+//            }
+            if ($view_link) {
                 if ($view_link == GlobalController::par_link_const_text_base_null()) {
                     if ($base_right['is_heading']) {
                         // Если не найдены, то берем первый $link по списку
                         $current_link = $next_all_first_link;
                     }
+                }
+            } else {
+                // Если во всех $links не выводятся вычисляемые наименования или количество связей = 1,
+                // То берем первый $link по списку.
+                // Похожая проверка по смыслу 'count($next_all_links) == 1' в ItemController::item_index() и item_index.php
+                if ($next_all_is_enable == false || count($next_all_links) == 1) {
+                    $current_link = $next_all_first_link;
                 }
             }
         }
@@ -468,12 +490,12 @@ class ItemController extends Controller
             }
             // Используется $relip_project
             $items_body_right = GlobalController::items_right($current_link->child_base, $relip_project, $role, $relit_id, $item->id, $current_link->id);
-            $body_items = $items_body_right['items']->paginate(60, ['*'], 'body_link_page');
+            $body_items = $items_body_right['items']->paginate(3, ['*'], 'body_link_page');
             // Нужно
             $next_all_mains = null;
 
             // $item, $current_link присоединяются к списку $tree_array
-            // Нужно '$current_link'
+            // Нужно '$current_link' передавать
             $string_current_next_ids = self::calc_string_current_next_ids($item, $current_link, $tree_array, GlobalController::const_allfalse());
             $string_link_ids_current = $string_current_next_ids['string_current_link_ids'];
             $string_item_ids_current = $string_current_next_ids['string_current_item_ids'];
@@ -485,11 +507,18 @@ class ItemController extends Controller
             $message_mc_calc = self::message_mc_calc($project, $item, $current_link);
             $message_mc_info = $message_mc_calc['message_mc_info'];
             $message_mc_link_item = $message_mc_calc['message_mc_link_item'];
+        }
 
+        //          Присваивания нужны
+        $parent_item = null;
+        if ($current_link) {
+            $parent_item = $item;
         }
+
         if ($next_all_mains) {
-            $next_all_mains = $next_all_mains->paginate(60, ['*'], 'body_all_page');
+            $next_all_mains = $next_all_mains->paginate(3, ['*'], 'body_all_page');
         }
+
         // Команды ниже нужны
         if ($string_link_ids_current == '') {
             $string_link_ids_current = GlobalController::const_null();
@@ -500,35 +529,80 @@ class ItemController extends Controller
         if ($string_all_codes_current == '') {
             $string_all_codes_current = GlobalController::const_null();
         }
-        //     session(['links' => ((!empty($_SERVER['HTTPS'])) ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . '/' . request()->path()]);
-        return view('item/item_index', ['project' => $project, 'item' => $item, 'role' => $role, 'relit_id' => $relit_id,
-            'view_link' => GlobalController::set_par_view_link_null($view_link),
-            'base_right' => $base_right, 'items' => $items,
-            'prev_item' => $prev_item, 'next_item' => $next_item,
-            'child_links' => $child_links, 'child_links_info' => $child_links_info,
-            'child_mains_link_is_calcname' => $child_mains_link_is_calcname,
-            'current_link' => $current_link,
-            'child_body_links_info' => $child_body_links_info, 'body_items' => $body_items,
-            'base_body_right' => $base_body_right, 'tree_array' => $tree_array,
-            'string_link_ids_current' => $string_link_ids_current,
-            'string_item_ids_current' => $string_item_ids_current,
-            'string_all_codes_current' => $string_all_codes_current,
-            'string_link_ids_next' => $string_link_ids_next,
-            'string_item_ids_next' => $string_item_ids_next,
-            'string_all_codes_next' => $string_all_codes_next,
-            'next_all_links' => $next_all_links,
-            'next_all_mains' => $next_all_mains,
-            'next_all_is_create' => $next_all_is_create,
-            'next_all_is_all_create' => $next_all_is_all_create,
-            'next_all_is_calcname' => $next_all_is_calcname,
-            'next_all_first_link' => $next_all_first_link,
-            'next_all_is_code_enable' => $next_all_is_code_enable,
-            'next_all_is_enable' => $next_all_is_enable,
-            'message_mc_info' => $message_mc_info, 'message_mc_link_item' => $message_mc_link_item,
-            'string_link_ids_array_next' => $string_link_ids_array_next,
-            'string_item_ids_array_next' => $string_item_ids_array_next,
-            'string_all_codes_array_next' => $string_all_codes_array_next,
-            'message_mc_array_info' => $message_mc_array_info, 'message_mc_link_array_item' => $message_mc_link_array_item]);
+
+        $base_index_page = 0;
+        $body_link_page = 0;
+        $body_all_page = 0;
+        // Проверки ниже нужны
+        // При вызове item_index.php должно быть либо так '$body_items!=null и $next_all_mains=null',
+        // либо так '$body_items=null и $next_all_mains!=null'
+        // Это регулируется в функции ItemController::item_index()
+        if ($body_items) {
+            $body_link_page = $body_items->currentPage();
+        }
+        if ($next_all_mains) {
+            $body_all_page = $next_all_mains->currentPage();
+        }
+
+        // Используется последний элемент массива $tree_array
+        $tree_array_last_link_id = null;
+        $tree_array_last_item_id = null;
+        $count_tree_array =  count($tree_array);
+        if($count_tree_array > 0){
+        // ' - 1' т.к. нумерация массива $tree_array с нуля начинается
+            $tree_array_last_link_id = $tree_array[$count_tree_array - 1]['link_id'];
+            $tree_array_last_item_id = $tree_array[$count_tree_array - 1]['item_id'];
+        }
+        if (count($next_all_links) == 0) {
+            return redirect()->route('item.ext_show', ['item' => $item, 'project' => $project, 'role' => $role,
+                'usercode' => GlobalController::usercode_calc(),
+                'relit_id' => $relit_id,
+                'string_link_ids_current' => $string_link_ids_current,
+                'string_item_ids_current' => $string_item_ids_current,
+                'string_all_codes_current' => $string_all_codes_current,
+                'heading' => intval(true),
+                'base_index_page' => $base_index_page, 'body_link_page' => $body_link_page, 'body_all_page' => $body_all_page,
+                'view_link' => GlobalController::set_par_view_link_null($view_link),
+                'par_link' => $tree_array_last_link_id, 'parent_item' => $tree_array_last_item_id
+            ]);
+        } else {
+
+            //     session(['links' => ((!empty($_SERVER['HTTPS'])) ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . '/' . request()->path()]);
+            return view('item/item_index', ['project' => $project, 'item' => $item, 'role' => $role, 'relit_id' => $relit_id,
+                'view_link' => GlobalController::set_par_view_link_null($view_link),
+                'base_right' => $base_right, 'items' => $items,
+                'prev_item' => $prev_item, 'next_item' => $next_item,
+                'child_links' => $child_links, 'child_links_info' => $child_links_info,
+                'child_mains_link_is_calcname' => $child_mains_link_is_calcname,
+                'current_link' => $current_link,
+                'parent_item' => $parent_item,
+                'child_body_links_info' => $child_body_links_info, 'body_items' => $body_items,
+                'base_body_right' => $base_body_right,
+                'tree_array' => $tree_array,
+                'tree_array_last_link_id' => $tree_array_last_link_id,
+                'tree_array_last_item_id' => $tree_array_last_item_id,
+                'string_link_ids_current' => $string_link_ids_current,
+                'string_item_ids_current' => $string_item_ids_current,
+                'string_all_codes_current' => $string_all_codes_current,
+                'string_link_ids_next' => $string_link_ids_next,
+                'string_item_ids_next' => $string_item_ids_next,
+                'string_all_codes_next' => $string_all_codes_next,
+                'next_all_links' => $next_all_links,
+                'next_all_mains' => $next_all_mains,
+                'next_all_is_create' => $next_all_is_create,
+                'next_all_is_all_create' => $next_all_is_all_create,
+                'next_all_is_calcname' => $next_all_is_calcname,
+                'next_all_first_link' => $next_all_first_link,
+                'next_all_is_code_enable' => $next_all_is_code_enable,
+                'next_all_is_enable' => $next_all_is_enable,
+                'message_mc_info' => $message_mc_info, 'message_mc_link_item' => $message_mc_link_item,
+                'string_link_ids_array_next' => $string_link_ids_array_next,
+                'string_item_ids_array_next' => $string_item_ids_array_next,
+                'string_all_codes_array_next' => $string_all_codes_array_next,
+                'message_mc_array_info' => $message_mc_array_info, 'message_mc_link_array_item' => $message_mc_link_array_item,
+                'base_index_page' => $base_index_page, 'body_link_page' => $body_link_page, 'body_all_page' => $body_all_page
+            ]);
+        }
     }
 
     function calc_tree_array(Role $role, $relit_id, $string_link_ids_current, $string_item_ids_current, $string_all_codes_current)
@@ -672,6 +746,7 @@ class ItemController extends Controller
         foreach ($links as $link) {
             // Использовать '$link->child_base'
             $base_right = GlobalController::base_right($link->child_base, $role, $relit_id);
+            // Выводить вычисляемое наименование
             // Использовать '$link->child_base'
             $is_calcname = GlobalController::is_base_calcname_check($link->child_base, $base_right);
             // Использовать true в '$base_link_right = GlobalController::base_link_right($link, $role, $relit_id, true);'
@@ -774,10 +849,12 @@ class ItemController extends Controller
             $message_mc_link_array_item[$link->id] = $message_mc_calc['message_mc_link_item'];
         }
 
+        // $next_all_is_enable равен истина, если во всех links выводить вычисляемое наименование
         // Есть все записи $next_all_is_calcname = true, то $next_all_is_enable = true
         // (в кнопке 'Связь' вариант 'все' доступен)
         // Нужно '$next_all_is_enable = true;'
         $next_all_is_enable = true;
+        // $next_all_is_calcname - массив 'Выводить вычисляемое наименование'
         foreach ($next_all_is_calcname as $value) {
             if ($value == false) {
                 $next_all_is_enable = false;
@@ -789,8 +866,8 @@ class ItemController extends Controller
         // (т.е. вся кнопка 'Добавить' доступна (для связей))
         // Нужно '$next_all_is_all_create = false;'
         $next_all_is_all_create = false;
-        foreach ($next_all_is_create as $value) {
-            if ($value == true) {
+        foreach ($next_all_is_create as $key => $value) {
+            if ($value == true && $message_mc_link_array_item[$key] == "") {
                 $next_all_is_all_create = true;
                 break;
             }
