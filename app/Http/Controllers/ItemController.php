@@ -553,20 +553,21 @@ class ItemController extends Controller
             $tree_array_last_link_id = $tree_array[$count_tree_array - 1]['link_id'];
             $tree_array_last_item_id = $tree_array[$count_tree_array - 1]['item_id'];
         }
-        if (count($next_all_links) == 0) {
-            return redirect()->route('item.ext_show', ['item' => $item, 'project' => $project, 'role' => $role,
-                'usercode' => GlobalController::usercode_calc(),
-                'relit_id' => $relit_id,
-                'string_link_ids_current' => $string_link_ids_current,
-                'string_item_ids_current' => $string_item_ids_current,
-                'string_all_codes_current' => $string_all_codes_current,
-                'heading' => intval(true),
-                'base_index_page' => $base_index_page, 'body_link_page' => $body_link_page, 'body_all_page' => $body_all_page,
-                'view_link' => GlobalController::set_par_view_link_null($view_link),
-                'par_link' => $tree_array_last_link_id, 'parent_item' => $tree_array_last_item_id
-            ]);
-        } else {
 
+//        Не удалять
+//       if (count($next_all_links) == 0) {
+//            return redirect()->route('item.ext_show', ['item' => $item, 'project' => $project, 'role' => $role,
+//                'usercode' => GlobalController::usercode_calc(),
+//                'relit_id' => $relit_id,
+//                'string_link_ids_current' => $string_link_ids_current,
+//                'string_item_ids_current' => $string_item_ids_current,
+//                'string_all_codes_current' => $string_all_codes_current,
+//                'heading' => intval(true),
+//                'base_index_page' => $base_index_page, 'body_link_page' => $body_link_page, 'body_all_page' => $body_all_page,
+//                'view_link' => GlobalController::set_par_view_link_null($view_link),
+//                'par_link' => $tree_array_last_link_id, 'parent_item' => $tree_array_last_item_id
+//            ]);
+//        } else {
             //     session(['links' => ((!empty($_SERVER['HTTPS'])) ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . '/' . request()->path()]);
             return view('item/item_index', ['project' => $project, 'item' => $item, 'role' => $role, 'relit_id' => $relit_id,
                 'view_link' => GlobalController::set_par_view_link_null($view_link),
@@ -602,7 +603,7 @@ class ItemController extends Controller
                 'message_mc_array_info' => $message_mc_array_info, 'message_mc_link_array_item' => $message_mc_link_array_item,
                 'base_index_page' => $base_index_page, 'body_link_page' => $body_link_page, 'body_all_page' => $body_all_page
             ]);
-        }
+//        }
     }
 
     function calc_tree_array(Role $role, $relit_id, $string_link_ids_current, $string_item_ids_current, $string_all_codes_current)
