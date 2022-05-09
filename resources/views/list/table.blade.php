@@ -211,7 +211,6 @@ else{
                                        title="{{$item->name()}}">
                                         @endif
                                         @include('layouts.item.empty_name', ['name'=>$item->name()])
-                                        ----{{$base_index_page}}----{{$body_link_page}}----{{$body_all_page}}
                                         @if ($item_index_view)
                                     </a>
                                 @endif

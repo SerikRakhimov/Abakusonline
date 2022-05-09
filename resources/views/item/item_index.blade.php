@@ -150,6 +150,7 @@
                                         <h6>
                                             {{GlobalController::calc_title_name($calcname_main->link->parent_label())}}:
                                             <strong>{{$calcname_main->parent_item->name()}}</strong>
+                                            {{$calcname_main->link_id}}
                                             @if($calcname_main->parent_item->base->is_code_needed == true)
                                                 {{trans('main.code')}}:
                                                 <strong>{{$calcname_main->parent_item->code}}</strong>

@@ -86,7 +86,6 @@ $i = 0;
                         {{mb_strtolower(trans('main.empty'))}}
                         </span>
                     @endif
-                    ----{{$base_index_page}}----{{$body_link_page}}----{{$body_all_page}}
                 </a>
             </td>
             @if($next_all_is_code_enable == true)
