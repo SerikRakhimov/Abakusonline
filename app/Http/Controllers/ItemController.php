@@ -350,7 +350,7 @@ class ItemController extends Controller
         $para_child_mains_link_is_calcname = null;
         // Одинаковые проверки должны быть в ItemController::item_index() и в item_index.php
         if (GlobalController::is_base_calcname_check($item->base, $base_right) == false) {
-            $para_child_mains_link_is_calcname = $child_mains_link_is_calcname;
+           // $para_child_mains_link_is_calcname = $child_mains_link_is_calcname;
         }
         // Нужно передать в функцию links_info() $item
         $child_links_info = ItemController::links_info($item->base, $role, $relit_id,
