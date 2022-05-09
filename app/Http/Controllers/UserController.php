@@ -70,6 +70,11 @@ class UserController extends Controller
 
     function show(User $user)
     {
+        if (!Auth::user()->isAdmin()) {
+            if (GlobalController::glo_user_id() != $user->id) {
+                return redirect()->route('project.all_index');
+            }
+        }
         // $is_delete = true - можно удалить пользователя
         // $is_delete = false - нельзя удалить пользователя
         $is_delete = $user->isAdmin() == false;
