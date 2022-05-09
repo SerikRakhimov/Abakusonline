@@ -444,7 +444,8 @@ class GlobalController extends Controller
 //                $query->whereDate('name_lang_0', '>','2020-02-09');});
 //        });
 
-    static function items_right(Base $base, Project $project, Role $role, $relit_id, $mains_item_id = null, $mains_link_id = null, $current_item_id = null)
+    static function items_right(Base $base, Project $project, Role $role, $relit_id,
+                                     $mains_item_id = null, $mains_link_id = null, $parent_proj = null, $current_item_id = null)
     {
         $base_right = self::base_right($base, $role, $relit_id);
         $items = null;
@@ -487,22 +488,28 @@ class GlobalController extends Controller
 //                    ->where('mains.link_id', '=', $mains_link_id);
 //            }
 
-//            $items_ids = Main::select(DB::Raw('mains.child_item_id as id'))
-//                ->join('items', 'mains.child_item_id', '=', 'items.id')
-//                ->where('items.project_id', '=', $project->id)
-//                ->where('mains.parent_item_id', '=', $mains_item_id)
-//                ->where('mains.link_id', '=', $mains_link_id);
-
             $items_ids = Main::select(DB::Raw('mains.child_item_id as id'))
                 ->join('items', 'mains.child_item_id', '=', 'items.id')
+                ->where('items.project_id', '=', $project->id)
                 ->where('mains.parent_item_id', '=', $mains_item_id)
                 ->where('mains.link_id', '=', $mains_link_id);
+
+            // '->distinct()' нужно
+            $items_relips_ids = Main::select(DB::Raw('mains.child_item_id as id'))
+                ->join('items', 'mains.child_item_id', '=', 'items.id')
+                ->join('relips', 'items.project_id', '=', 'relips.parent_project_id')
+                ->where('relips.child_project_id', '=', $parent_proj->id)
+                ->where('mains.parent_item_id', '=', $mains_item_id)
+                ->where('mains.link_id', '=', $mains_link_id)
+                ->distinct();
+
+            $items_ids = $items_ids->unionall($items_relips_ids);
 
             $items = Item::joinSub($items_ids, 'items_ids', function ($join) {
                 $join->on('items.id', '=', 'items_ids.id');
             });
 
-            // Выборка из items
+        // Выборка из items
         } else {
             // Обязательно фильтр на два запроса:
             // where('base_id', $base->id)->where('project_id', $project->id)
@@ -571,14 +578,16 @@ class GlobalController extends Controller
                         // Не попадают в список $links изображения/документы
                         // и с признаком "Ссылка на Основу"
                         //->where('links.parent_is_base_link', false)
+                        // '->orderBy('links.parent_base_number')' обязательно нужно, в таком порядке и на экран записи выходят
                         $links = Link::select(DB::Raw('links.*'))
                             ->join('bases as pb', 'links.parent_base_id', '=', 'pb.id')
                             ->where('links.child_base_id', '=', $base->id)
                             ->where('links.parent_is_base_link', false)
                             ->where('pb.type_is_image', false)
                             ->where('pb.type_is_document', false)
-                            ->orderBy('links.parent_base_number')->get();
+                            ->orderBy('links.parent_base_number');
 
+                        // '$items = $items->get();' нужно
                         $items = $items->get();
                         $str = "";
                         foreach ($items as $item) {
@@ -626,25 +635,28 @@ class GlobalController extends Controller
                         $ids = $collection->keys()->toArray();
                         $items = Item::whereIn('id', $ids)
                             ->orderBy(\DB::raw("FIELD(id, " . implode(',', $ids) . ")"));
+
                     }
                 }
                 //}
                 //}
             }
         }
-        $itget = null;
-        if ($items != null) {
-            // Одинаковые строка/строки в этой функции
-            $itget = $items->get();
-        } else {
-            $itget = null;
-        }
-
-        if ($itget) {
+//        $itget = null;
+//        if ($items != null) {
+//            // Одинаковые строка/строки в этой функции
+//            $itget = $items->get();
+//        } else {
+//            $itget = null;
+//        }
+//
+//        if ($itget) {
+        if ($items) {
+            // Поиск предыдущей/следующей записи относительно переданного $current_item_id
             if ($current_item_id != null) {
                 $current_item = Item::find($current_item_id);
-                //$current_item = Item::find(1649);
                 if ($current_item) {
+                    $itget = $items->get();
                     $current_index = $itget->search($current_item);
                     // Использовать '!==' для правильного сравнения
                     if ($current_index !== false) {
@@ -666,19 +678,21 @@ class GlobalController extends Controller
                     // Одинаковые строка/строки в этой функции
                     // Нужно 'items.id', иначе - сообщение об ошибке
                     $items = $items->where('items.id', $current_item_id);
-                    $itget = $items->get();
+                    //$itget = $items->get();
                 }
             }
-            $view_count = count($itget);
-            // Такая же проверка в GlobalController::items_right() и start.php
-            if ($base_right['is_list_base_create'] == true) {
-                //$view_count = $view_count . self::base_max_count_for_start($base);
-                $view_count = $view_count;
-            }
-        } else {
-            $view_count = mb_strtolower(trans('main.no_access'));
+//            $view_count = count($itget);
+//            // Такая же проверка в GlobalController::items_right() и start.php
+//            if ($base_right['is_list_base_create'] == true) {
+//                //$view_count = $view_count . self::base_max_count_for_start($base);
+//                $view_count = $view_count;
+//            }
+//        } else {
+//            $view_count = mb_strtolower(trans('main.no_access'));
         }
-        return ['items' => $items, 'itget' => $itget, 'view_count' => '(' . $view_count . ')',
+//        return ['items' => $items, 'itget' => $itget, 'view_count' => '(' . $view_count . ')',
+//            'prev_item' => $prev_item, 'next_item' => $next_item];
+        return ['items' => $items,
             'prev_item' => $prev_item, 'next_item' => $next_item];
     }
 

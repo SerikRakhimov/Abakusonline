@@ -344,11 +344,13 @@ class ItemController extends Controller
         $string_all_codes_next = $string_all_codes_current;
 
         $relip_project = GlobalController::calc_relip_project($relit_id, $project);
+
         $child_links = $item->base->child_links->sortBy('parent_base_number');
         $child_mains_link_is_calcname = ItemController::mains_link_is_calcname($item, $role, $relit_id, $tree_array);
 
         $para_child_mains_link_is_calcname = null;
-        // Одинаковые проверки должны быть в ItemController::item_index() и в item_index.php
+        // Одинаковые проверки должны быть в ItemController::item_index() и в item_index.php,
+        // здесь равно false
         // Исключить link_id из $child_mains_link_is_calcname в итоговом результате функции links_info()
         if (GlobalController::is_base_calcname_check($item->base, $base_right) == false) {
             $para_child_mains_link_is_calcname = $child_mains_link_is_calcname;
@@ -357,19 +359,34 @@ class ItemController extends Controller
         $child_links_info = ItemController::links_info($item->base, $role, $relit_id,
             $item, null, true, $tree_array, $para_child_mains_link_is_calcname);
 
+        // Используется последний элемент массива $tree_array
+        $tree_array_last_link_id = null;
+        $tree_array_last_item_id = null;
+        $tree_array_last_string_prev_link_ids = '';
+        $tree_array_last_string_prev_item_ids = '';
+        $tree_array_last_string_prev_all_codes = '';
+        $count_tree_array = count($tree_array);
+        if ($count_tree_array > 0) {
+            // ' - 1' т.к. нумерация массива $tree_array с нуля начинается
+            $tree_array_last_link_id = $tree_array[$count_tree_array - 1]['link_id'];
+            $tree_array_last_item_id = $tree_array[$count_tree_array - 1]['item_id'];
+            $tree_array_last_string_prev_link_ids = $tree_array[$count_tree_array - 1]['string_prev_link_ids'];
+            $tree_array_last_string_prev_item_ids = $tree_array[$count_tree_array - 1]['string_prev_item_ids'];
+            $tree_array_last_string_prev_all_codes = $tree_array[$count_tree_array - 1]['string_prev_all_codes'];
+        }
+
         // Используется $relip_project
         // Используется фильтр на равенство одному $item->id (для вывода таблицы из одной строки)
         $count = count($tree_array);
         if ($count == 0) {
-            $items_right = GlobalController::items_right($item->base, $relip_project, $role, $relit_id, null, null, $item->id);
+            $items_right = GlobalController::items_right($item->base, $relip_project, $role, $relit_id, null, null, null, $item->id);
         } else {
-            // Используем последний элемент массива $tree_array[$count - 1], '- 1' - т.к. нумерация массива с 0
-            $items_right = GlobalController::items_right($item->base, $relip_project, $role, $relit_id,
-                $tree_array[$count - 1]['item_id'], $tree_array[$count - 1]['link_id'], $item->id);
+            $items_right = GlobalController::items_right($item->base, $relip_project, $role, $relit_id, $tree_array_last_item_id, $tree_array_last_link_id, $project, $item->id);
         }
 
-        // 'itget' нужно
-        $items = $items_right['itget'];
+//        // 'itget' нужно
+//        $items = $items_right['itget'];
+        $items = $items_right['items'];
         $prev_item = $items_right['prev_item'];
         $next_item = $items_right['next_item'];
 
@@ -513,7 +530,7 @@ class ItemController extends Controller
                 }
             }
             // Используется $relip_project
-            $items_body_right = GlobalController::items_right($current_link->child_base, $relip_project, $role, $relit_id, $item->id, $current_link->id);
+            $items_body_right = GlobalController::items_right($current_link->child_base, $relip_project, $role, $relit_id, $item->id, $current_link->id, $project);
             $body_items = $items_body_right['items']->paginate(60, ['*'], 'body_link_page');
             // Нужно
             $next_all_mains = null;
@@ -565,21 +582,6 @@ class ItemController extends Controller
             $body_all_page_current = $next_all_mains->currentPage();
         }
 
-        // Используется последний элемент массива $tree_array
-        $tree_array_last_link_id = null;
-        $tree_array_last_item_id = null;
-        $tree_array_last_string_prev_link_ids = '';
-        $tree_array_last_string_prev_item_ids = '';
-        $tree_array_last_string_prev_all_codes = '';
-        $count_tree_array = count($tree_array);
-        if ($count_tree_array > 0) {
-            // ' - 1' т.к. нумерация массива $tree_array с нуля начинается
-            $tree_array_last_link_id = $tree_array[$count_tree_array - 1]['link_id'];
-            $tree_array_last_item_id = $tree_array[$count_tree_array - 1]['item_id'];
-            $tree_array_last_string_prev_link_ids = $tree_array[$count_tree_array - 1]['string_prev_link_ids'];
-            $tree_array_last_string_prev_item_ids = $tree_array[$count_tree_array - 1]['string_prev_item_ids'];
-            $tree_array_last_string_prev_all_codes = $tree_array[$count_tree_array - 1]['string_prev_all_codes'];
-        }
         $tree_array_last_string_prev_link_ids = GlobalController::set_str_const_null($tree_array_last_string_prev_link_ids);
         $tree_array_last_string_prev_item_ids = GlobalController::set_str_const_null($tree_array_last_string_prev_item_ids);
         $tree_array_last_string_prev_all_codes = GlobalController::set_str_const_null($tree_array_last_string_prev_all_codes);
