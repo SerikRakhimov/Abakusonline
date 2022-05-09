@@ -63,6 +63,7 @@
                     }
                     ?>
                     {{--                    Выводить вычисляемое наименование--}}
+                    {{-- Одинаковые проверки должны быть в ItemController::item_index() и в item_index.php--}}
                     @if(GlobalController::is_base_calcname_check($item->base, $base_right))
                         <div class="container-fluid">
                             <div class="row">
@@ -218,9 +219,9 @@
                     'string_link_ids_current' => $string_link_ids_current,
                     'string_item_ids_current' => $string_item_ids_current,
                     'string_all_codes_current' => $string_all_codes_current,
-                    'string_link_ids_next'=>'',
-                    'string_item_ids_next'=>'',
-                    'string_all_codes_next'=>''
+                    'string_link_ids_next'=>GlobalController::set_str_const_null(''),
+                    'string_item_ids_next'=>GlobalController::set_str_const_null(''),
+                    'string_all_codes_next'=>GlobalController::set_str_const_null('')
         ])
     @endif
     {{--    <hr align="center" width="100%" size="2" color="#ff0000"/>--}}

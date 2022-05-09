@@ -486,9 +486,15 @@ class GlobalController extends Controller
 //                    ->where('mains.parent_item_id', '=', $mains_item_id)
 //                    ->where('mains.link_id', '=', $mains_link_id);
 //            }
+
+//            $items_ids = Main::select(DB::Raw('mains.child_item_id as id'))
+//                ->join('items', 'mains.child_item_id', '=', 'items.id')
+//                ->where('items.project_id', '=', $project->id)
+//                ->where('mains.parent_item_id', '=', $mains_item_id)
+//                ->where('mains.link_id', '=', $mains_link_id);
+
             $items_ids = Main::select(DB::Raw('mains.child_item_id as id'))
                 ->join('items', 'mains.child_item_id', '=', 'items.id')
-                ->where('items.project_id', '=', $project->id)
                 ->where('mains.parent_item_id', '=', $mains_item_id)
                 ->where('mains.link_id', '=', $mains_link_id);
 
@@ -781,6 +787,7 @@ class GlobalController extends Controller
     static function check_project_item_user(Project $project, Item $item = null, Role $role, $usercode)
     {
         $result = false;
+
 //        // Если проекты равны
 //        if ($project->id == $item->project_id) {
 //            // Стандартная проверка

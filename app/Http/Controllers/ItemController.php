@@ -245,7 +245,14 @@ class ItemController extends Controller
             return view('message', ['message' => $links_info['error_message']]);
         }
         $relip_project = GlobalController::calc_relip_project($relit_id, $project);
+
         $base_right = GlobalController::base_right($base, $role, $relit_id);
+//      Похожая проверка в ItemController::base_index() и project/start.php
+//      Используется 'is_list_base_calc' в ext_show.php и ItemController::item_index()
+        if ($base_right['is_list_base_calc'] == false) {
+            return view('message', ['message' => trans('main.no_access')]);
+        }
+
         // Используется $relip_project
         $items_right = GlobalController::items_right($base, $relip_project, $role, $relit_id);
         $items = $items_right['items'];
@@ -312,7 +319,6 @@ class ItemController extends Controller
 //        }
 
         $base_right = GlobalController::base_right($item->base, $role, $relit_id);
-
 //      Похожая проверка в ItemController::base_index() и project/start.php
 //      Используется 'is_list_base_calc' в ext_show.php и ItemController::item_index()
         if ($base_right['is_list_base_calc'] == false) {
@@ -340,8 +346,16 @@ class ItemController extends Controller
         $relip_project = GlobalController::calc_relip_project($relit_id, $project);
         $child_links = $item->base->child_links->sortBy('parent_base_number');
         $child_mains_link_is_calcname = ItemController::mains_link_is_calcname($item, $role, $relit_id, $tree_array);
+
+        $para_child_mains_link_is_calcname = null;
+        // Одинаковые проверки должны быть в ItemController::item_index() и в item_index.php
+        if (GlobalController::is_base_calcname_check($item->base, $base_right) == false) {
+            $para_child_mains_link_is_calcname = $child_mains_link_is_calcname;
+        }
         // Нужно передать в функцию links_info() $item
-        $child_links_info = ItemController::links_info($item->base, $role, $relit_id, $item, null, true, $tree_array, $child_mains_link_is_calcname);
+        $child_links_info = ItemController::links_info($item->base, $role, $relit_id,
+            $item, null, true, $tree_array, $para_child_mains_link_is_calcname);
+
         // Используется $relip_project
         // Используется фильтр на равенство одному $item->id (для вывода таблицы из одной строки)
         $count = count($tree_array);
@@ -532,6 +546,9 @@ class ItemController extends Controller
         $string_link_ids_current = GlobalController::set_str_const_null($string_link_ids_current);
         $string_item_ids_current = GlobalController::set_str_const_null($string_item_ids_current);
         $string_all_codes_current = GlobalController::set_str_const_null($string_all_codes_current);
+        $string_link_ids_next = GlobalController::set_str_const_null($string_link_ids_next);
+        $string_item_ids_next = GlobalController::set_str_const_null($string_item_ids_next);
+        $string_all_codes_next = GlobalController::set_str_const_null($string_all_codes_next);
 
         $base_index_page_current = 0;
         $body_link_page_current = 0;
@@ -1112,7 +1129,6 @@ class ItemController extends Controller
                              $view_link = null,
                         Link $par_link = null, Item $parent_item = null)
         // '$heading = 0' использовать; аналог '$heading = false', в этом случае так /item/ext_create/{base}//
-
     {
         if (GlobalController::check_project_item_user($project, null, $role, $usercode) == false) {
             return view('message', ['message' => trans('main.no_access')]);
@@ -1962,21 +1978,21 @@ class ItemController extends Controller
                 $str_link = $view_link;
             }
             if (!$heading && $parent_item) {
-                return redirect()->route('item.item_index', ['project' => $item->project, 'item' => $parent_item, 'role' => $role,
+                return redirect()->route('item.item_index', ['project' => $project, 'item' => $parent_item, 'role' => $role,
                     'usercode' => GlobalController::usercode_calc(), 'relit_id' => $relit_id, 'view_link' => $str_link,
                     'string_link_ids_current' => $string_link_ids_current, 'string_item_ids_current' => $string_item_ids_current, 'string_all_codes_current' => $string_all_codes_current,
                     'base_index_page' => $base_index_page, 'body_link_page' => $body_link_page, 'body_all_page' => $body_all_page,
-                    'prev_base_index_page'=>$base_index_page,
-                    'prev_body_link_page'=>$body_link_page,
-                    'prev_body_all_page'=>$body_all_page]);
+                    'prev_base_index_page' => $base_index_page,
+                    'prev_body_link_page' => $body_link_page,
+                    'prev_body_all_page' => $body_all_page]);
             } else {
-                return redirect()->route('item.item_index', ['project' => $item->project, 'item' => $item, 'role' => $role,
+                return redirect()->route('item.item_index', ['project' => $project, 'item' => $item, 'role' => $role,
                     'usercode' => GlobalController::usercode_calc(), 'relit_id' => $relit_id, 'view_link' => $str_link,
                     'string_link_ids_current' => $string_link_ids_current, 'string_item_ids_current' => $string_item_ids_current, 'string_all_codes_current' => $string_all_codes_current,
                     'base_index_page' => $base_index_page, 'body_link_page' => $body_link_page, 'body_all_page' => $body_all_page,
-                    'prev_base_index_page'=>$base_index_page,
-                    'prev_body_link_page'=>$body_link_page,
-                    'prev_body_all_page'=>$body_all_page]);
+                    'prev_base_index_page' => $base_index_page,
+                    'prev_body_link_page' => $body_link_page,
+                    'prev_body_all_page' => $body_all_page]);
             }
         }
     }
@@ -4103,21 +4119,21 @@ class ItemController extends Controller
                 $str_link = $view_link;
             }
             if (!$heading && $parent_item) {
-                return redirect()->route('item.item_index', ['project' => $item->project, 'item' => $parent_item, 'role' => $role,
+                return redirect()->route('item.item_index', ['project' => $project, 'item' => $parent_item, 'role' => $role,
                     'usercode' => GlobalController::usercode_calc(), 'relit_id' => $relit_id, 'view_link' => $str_link,
                     'string_link_ids_current' => $string_link_ids_current, 'string_item_ids_current' => $string_item_ids_current, 'string_all_codes_current' => $string_all_codes_current,
                     'base_index_page' => $base_index_page, 'body_link_page' => $body_link_page, 'body_all_page' => $body_all_page,
-                    'prev_base_index_page'=>$base_index_page,
-                    'prev_body_link_page'=>$body_link_page,
-                    'prev_body_all_page'=>$body_all_page]);
+                    'prev_base_index_page' => $base_index_page,
+                    'prev_body_link_page' => $body_link_page,
+                    'prev_body_all_page' => $body_all_page]);
             } else {
-                return redirect()->route('item.item_index', ['project' => $item->project, 'item' => $item, 'role' => $role,
+                return redirect()->route('item.item_index', ['project' => $project, 'item' => $item, 'role' => $role,
                     'usercode' => GlobalController::usercode_calc(), 'relit_id' => $relit_id, 'view_link' => $str_link,
                     'string_link_ids_current' => $string_link_ids_current, 'string_item_ids_current' => $string_item_ids_current, 'string_all_codes_current' => $string_all_codes_current,
                     'base_index_page' => $base_index_page, 'body_link_page' => $body_link_page, 'body_all_page' => $body_all_page,
-                    'prev_base_index_page'=>$base_index_page,
-                    'prev_body_link_page'=>$body_link_page,
-                    'prev_body_all_page'=>$body_all_page]);
+                    'prev_base_index_page' => $base_index_page,
+                    'prev_body_link_page' => $body_link_page,
+                    'prev_body_all_page' => $body_all_page]);
             }
         }
     }
@@ -4170,7 +4186,6 @@ class ItemController extends Controller
                            $view_link = null,
                       Link $par_link = null, Item $parent_item = null)
     {
-
         if (GlobalController::check_project_item_user($project, $item, $role, $usercode) == false) {
             return view('message', ['message' => trans('main.no_access')]);
         }
@@ -4357,21 +4372,21 @@ class ItemController extends Controller
                     }
                 }
                 if (!$heading && $parent_item) {
-                    return redirect()->route('item.item_index', ['project' => $item->project, 'item' => $parent_item, 'role' => $role,
+                    return redirect()->route('item.item_index', ['project' => $project, 'item' => $parent_item, 'role' => $role,
                         'usercode' => GlobalController::usercode_calc(), 'relit_id' => $relit_id, 'view_link' => $str_link,
                         'string_link_ids_current' => $string_link_ids_current, 'string_item_ids_current' => $string_item_ids_current, 'string_all_codes_current' => $string_all_codes_current,
                         'base_index_page' => $base_index_page, 'body_link_page' => $body_link_page, 'body_all_page' => $body_all_page,
-                        'prev_base_index_page'=>$base_index_page,
-                        'prev_body_link_page'=>$body_link_page,
-                        'prev_body_all_page'=>$body_all_page]);
+                        'prev_base_index_page' => $base_index_page,
+                        'prev_body_link_page' => $body_link_page,
+                        'prev_body_all_page' => $body_all_page]);
                 } else {
-                    return redirect()->route('item.item_index', ['project' => $item->project, 'item' => $item, 'role' => $role,
+                    return redirect()->route('item.item_index', ['project' => $project, 'item' => $item, 'role' => $role,
                         'usercode' => GlobalController::usercode_calc(), 'relit_id' => $relit_id, 'view_link' => $str_link,
                         'string_link_ids_current' => $string_link_ids_current, 'string_item_ids_current' => $string_item_ids_current, 'string_all_codes_current' => $string_all_codes_current,
                         'base_index_page' => $base_index_page, 'body_link_page' => $body_link_page, 'body_all_page' => $body_all_page,
-                        'prev_base_index_page'=>$base_index_page,
-                        'prev_body_link_page'=>$body_link_page,
-                        'prev_body_all_page'=>$body_all_page]);
+                        'prev_base_index_page' => $base_index_page,
+                        'prev_body_link_page' => $body_link_page,
+                        'prev_body_all_page' => $body_all_page]);
                 }
             }
 
