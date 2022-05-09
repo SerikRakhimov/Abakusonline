@@ -17,7 +17,7 @@
 
     @if ($type_form == 'show')
         <p>
-{{--            Не удалять--}}
+            {{--            Не удалять--}}
             @if(1==2)
                 <button type="button" class="btn btn-dreamer mb-1 mb-sm-0"
                         onclick="document.location='{{route('user.edit', $user)}}'" title="{{trans('main.edit')}}">
@@ -46,12 +46,14 @@
                 <i class="fas fa-cube"></i>
                 {{trans('main.projects')}}
             </button>
-            <button type="button" class="btn btn-dreamer" title="{{trans('main.accesses')}}"
-                    onclick="document.location='{{route('access.index_user', $user)}}'"
-            >
-                <i class="fas fa-universal-access"></i>
-                {{trans('main.accesses')}}
-            </button>
+            @if (Auth::user()->isAdmin())
+                <button type="button" class="btn btn-dreamer" title="{{trans('main.accesses')}}"
+                        onclick="document.location='{{route('access.index_user', $user)}}'"
+                >
+                    <i class="fas fa-universal-access"></i>
+                    {{trans('main.accesses')}}
+                </button>
+            @endif
             <button type="button" class="btn btn-dreamer mb-1 mb-sm-0"
                     title="{{trans('main.cancel')}}" @include('layouts.user.previous_url')>
                 <i class="fas fa-arrow-left"></i>

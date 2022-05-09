@@ -2,7 +2,7 @@
     <div class="row">
         <div class="col-12 text-center">
             <h4>
-                @if ( Auth::user()->isAdmin())
+                @if (Auth::user()->isAdmin())
                 <a href="{{route('user.index')}}" title="{{trans('main.user')}}"
                    class="text-warning">{{trans('main.user')}}:</a>
                 @else
