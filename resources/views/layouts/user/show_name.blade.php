@@ -8,7 +8,7 @@
                 @else
                     {{trans('main.user')}}:
                 @endif
-                    <a href={{route('user.show', $user)}}title="{{$user->name()}}">{{$user->name()}}</a>
+                    <a href="{{route('user.show', $user)}}" title="{{$user->name()}}">{{$user->name()}}</a>
             </h4>
         </div>
     </div>
