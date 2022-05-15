@@ -17,6 +17,9 @@
     //            return $array;
     //        }
     $relip_project = GlobalController::calc_relip_project($relit_id, $project);
+    $relip_body_project = GlobalController::calc_relip_project($view_ret_id, $project);
+    // Нужно
+    $view_link = GlobalController::set_un_par_view_link_null($view_link);
     ?>
     @include('layouts.project.show_project_role',['project'=>$project, 'role'=>$role, 'relit_id'=>$relit_id])
     {{--    <h3 class="display-5">--}}
@@ -54,29 +57,13 @@
     @if(count($tree_array)>0)
         <hr>
     @endif
-    project = {{$project->id}},
-    relit_id = {{$relit_id}},
-    item_id = {{$item->id}},
-    relip_project = {{$relip_project->id}},
-    @if(isset($view_link->id))
-        view_link = {{$view_link->id}},
-    @else
-        view_link = {{$view_link}},
-    @endif
-    @if($current_link)
-        current_link = {{$current_link->id}},
-    @else
-        current_link = {{$current_link}},
-    @endif
-    view_ret_id = {{$view_ret_id}}
-
     <div class="container-fluid">
         <div class="row">
             <div class="col-10 text-left">
                 <h5>
                     <?php
-                    if ($current_link) {
-                        $title = $current_link->parent_label();
+                    if ($view_link) {
+                        $title = $view_link->parent_label();
                     } else {
                         $title = $item->base->name();
                     }
@@ -248,7 +235,7 @@
                 'base_index_page'=>$base_index_page, 'body_link_page'=>$body_link_page,'body_all_page'=>$body_all_page,
                 'view_link'=>$view_link,
                 'view_ret_id'=>$view_ret_id,
-                'current_link'=>$current_link, 'parent_item'=>$item, 'is_table_body'=>false,
+                 'parent_item'=>$item, 'is_table_body'=>false,
                     'base_index'=>false, 'item_heading_base'=>true, 'item_body_base'=>false,
                     'string_link_ids_current' => $string_link_ids_current,
                     'string_item_ids_current' => $string_item_ids_current,
@@ -271,7 +258,7 @@
                         {{--        <li class="page-item"><a class="page-link"--}}
                         {{--                                 @if($prev_item)--}}
                         {{--                                 href="{{route('item.item_index', ['project'=>$project, 'item'=>$prev_item, 'role'=>$role,--}}
-                        {{--                                'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id, 'par_link'=>$current_link])}}"--}}
+                        {{--                                'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id, 'par_link'=>$view_link])}}"--}}
                         {{--                                 title="{{$prev_item->cdnm()}}"--}}
                         {{--                                 @else--}}
                         {{--                                 style="cursor:default" href="#" title="{{trans('main.none')}}"--}}
@@ -282,7 +269,7 @@
                                 <a class="page-link" href="{{route('item.item_index', ['project'=>$project, 'item'=>$prev_item, 'role'=>$role,
                                 'usercode' =>GlobalController::usercode_calc(),
                                         'relit_id'=>$relit_id,
-                                        'view_link'=>GlobalController::par_link_textnull($current_link),
+                                        'view_link'=>GlobalController::par_link_textnull($view_link),
                                         'string_link_ids_current'=>$string_link_ids_current,
                                         'string_item_ids_current'=>$string_item_ids_current,
                                         'string_all_codes_current'=>$string_all_codes_current,
@@ -297,7 +284,7 @@
                         {{--        <li class="page-item"><a class="page-link"--}}
                         {{--                                 @if($next_item)--}}
                         {{--                                 href="{{route('item.item_index', ['project'=>$project, 'item'=>$next_item, 'role'=>$role,--}}
-                        {{--                                'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id, 'par_link'=>$current_link])}}"--}}
+                        {{--                                'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id, 'par_link'=>$view_link])}}"--}}
                         {{--                                 title="{{$next_item->cdnm()}}"--}}
                         {{--                                 @else--}}
                         {{--                                 style="cursor:default" href="#" title="{{trans('main.none')}}"--}}
@@ -308,7 +295,7 @@
                                 <a class="page-link" href="{{route('item.item_index', ['project'=>$project, 'item'=>$next_item, 'role'=>$role,
                                 'usercode' =>GlobalController::usercode_calc(),
                                         'relit_id'=>$relit_id,
-                                         'view_link'=>GlobalController::par_link_textnull($current_link),
+                                         'view_link'=>GlobalController::par_link_textnull($view_link),
                                         'string_link_ids_current'=>$string_link_ids_current,
                                         'string_item_ids_current'=>$string_item_ids_current,
                                         'string_all_codes_current'=>$string_all_codes_current,
@@ -325,13 +312,13 @@
             </div>
             <div class="col-2 text-right">
                 {{-- Нужно '@if(count($next_all_links)>0)'--}}
-                {{-- Для команды '@if(!($current_link && count($next_all_links) == 1))', чтобы исключить вариант count($next_all_links) == 0--}}
+                {{-- Для команды '@if(!($view_link && count($next_all_links) == 1))', чтобы исключить вариант count($next_all_links) == 0--}}
                 @if(count($next_all_links)>0)
                     {{--                Не высвечивать кнопку "Связи", если одна связь и $next_all_is_enable=false--}}
                     {{--                    @if(($next_all_is_enable) || (count($next_all_links)>1))--}}
-                    {{--                Не высвечивать кнопку "Связи", если одна связь и $current_link!=false--}}
+                    {{--                Не высвечивать кнопку "Связи", если одна связь и $view_link!=false--}}
                     {{-- Похожая проверка по смыслу 'count($next_all_links) == 1' в ItemController::item_index() и item_index.php--}}
-                    @if(!($current_link && count($next_all_links) == 1))
+                    @if(!($view_link && count($next_all_links) == 1))
                         <div class="dropdown">
                             <button type="button" class="btn btn-dreamer dropdown-toggle" data-toggle="dropdown"
                                     title="{{trans('main.link')}}">
@@ -355,7 +342,7 @@
                                   ])}}"
                                        title="{{$item->name()}}">
                                         {{GlobalController::option_all()}}
-                                        @if($current_link == null)
+                                        @if($view_link == null)
                                             {{--                                        Этот символ используется в двух местах--}}
                                             &#10003;
                                         @endif
@@ -376,8 +363,8 @@
                                           ])}}"
                                        title="{{$value->child_labels()}}">
                                         {{$value->child_labels()}}
-                                        @if($current_link)
-                                            @if($value->id == $current_link->id)
+                                        @if($view_link)
+                                            @if($value->id == $view_link->id)
                                                 {{--                                        Этот символ используется в двух местах--}}
                                                 &#10003;
                                             @endif
@@ -416,9 +403,9 @@
                                     $relit = Relit::findOrFail($relit_key_id);
                                 }
                                 // Находим родительский проект
-                                $relip_body_project = Project::findOrFail($array_relip['project_id']);
-                                if ($current_link) {
-                                    $view_value_link = $current_link->id;
+                                $relip_select_body_project = Project::findOrFail($array_relip['project_id']);
+                                if ($view_link) {
+                                    $view_value_link = $view_link->id;
                                 } else {
                                     $view_value_link = GlobalController::const_null();
                                 }
@@ -435,12 +422,12 @@
                                            'prev_body_link_page'=>$body_link_page,
                                            'prev_body_all_page'=>$body_all_page
                                            ])}}"
-                                   title="{{$relip_body_project->name()}}">
-                                    {{$relip_body_project->name()}}
+                                   title="{{$relip_select_body_project->name()}}">
+                                    {{$relip_select_body_project->name()}}
                                     @if($relit)
                                         ({{$relit->title()}})
                                     @endif
-                                    - {{$relit_key_id}}- {{$relip_body_project->id}}
+{{--                                    - {{$relit_key_id}}- {{$relip_select_body_project->id}}--}}
                                     @if($view_ret_id)
                                         @if($relit_key_id == $view_ret_id)
                                             {{-- Этот символ используется в двух местах--}}
@@ -461,12 +448,12 @@
     </p>
     <hr>
     {{--Похожие команды в ItemController::calc_tree_array() и item_index.php--}}
-    @if($current_link)
+    @if($view_link)
         {{--        <hr>--}}
         {{--        <br>--}}
         {{--        <div class="text-center">&#8595;</div>--}}
         <!--                --><?php
-        //                $mains = Main::all()->where('parent_item_id', $item->id)->where('link_id', $current_link->id)->sortBy(function ($main) {
+        //                $mains = Main::all()->where('parent_item_id', $item->id)->where('link_id', $view_link->id)->sortBy(function ($main) {
         //                    return $main->link->child_base->name() . $main->child_item->name();
         //                });
         //                ?>
@@ -478,12 +465,12 @@
         {{--                    <h3>--}}
         {{--                    </h3>--}}
         {{--                    <h3>--}}
-        {{--                        <a href="{{route('item.base_index', ['base'=>$current_link->child_base,--}}
+        {{--                        <a href="{{route('item.base_index', ['base'=>$view_link->child_base,--}}
         {{--                            'project'=>$project, 'role'=>$role, 'relit_id'=>$relit_id])}}"--}}
-        {{--                           title="{{$current_link->child_base->names()}}">--}}
-        {{--                            {{$current_link->child_labels()}}--}}
+        {{--                           title="{{$view_link->child_base->names()}}">--}}
+        {{--                            {{$view_link->child_labels()}}--}}
         {{--                        </a>--}}
-        {{--                        ({{$current_link->parent_label()}} = {{$item->name()}}):--}}
+        {{--                        ({{$view_link->parent_label()}} = {{$item->name()}}):--}}
         {{--                    </h3>--}}
         {{--                </div>--}}
         {{--            </div>--}}
@@ -491,26 +478,26 @@
         {{--        </p>--}}
         @if($base_body_right['is_list_base_calc'] == true)
             <?php
-            //                $message_bs_mc = GlobalController::base_maxcount_message($current_link->child_base);
-            //                $message_bs_byuser_mc = GlobalController::base_byuser_maxcount_message($current_link->child_base);
-            //                $message_ln_mc = GlobalController::link_maxcount_message($current_link);
-            //                $message_it_mc = GlobalController::link_item_maxcount_message($current_link);
+            //                $message_bs_mc = GlobalController::base_maxcount_message($view_link->child_base);
+            //                $message_bs_byuser_mc = GlobalController::base_byuser_maxcount_message($view_link->child_base);
+            //                $message_ln_mc = GlobalController::link_maxcount_message($view_link);
+            //                $message_it_mc = GlobalController::link_item_maxcount_message($view_link);
             //                $message_mc = ($message_bs_mc == "" ? "" : ', ' . PHP_EOL . $message_bs_mc)
             //                    . ($message_bs_byuser_mc == "" ? "" : ', ' . PHP_EOL . $message_bs_byuser_mc)
             //                    . ($message_ln_mc == "" ? "" : ', ' . PHP_EOL . $message_ln_mc)
             //                    . ($message_it_mc == "" ? "" : ', ' . PHP_EOL . $message_it_mc);
-            //                $message_link = GlobalController::link_maxcount_validate($project, $current_link, true);
-            //                $message_item = GlobalController::link_item_maxcount_validate($project, $item, $current_link, true);
+            //                $message_link = GlobalController::link_maxcount_validate($project, $view_link, true);
+            //                $message_item = GlobalController::link_item_maxcount_validate($project, $item, $view_link, true);
 
-            //      $next_all_links = $item->base->parent_links->where('id', '!=', $current_link->id);
+            //      $next_all_links = $item->base->parent_links->where('id', '!=', $view_link->id);
             // исключить вычисляемые поля
             // Не удалять
-            //        $next_all_links = $item->base->parent_links->where('parent_is_parent_related', false)->where('id', '!=', $current_link->id);
+            //        $next_all_links = $item->base->parent_links->where('parent_is_parent_related', false)->where('id', '!=', $view_link->id);
             //
             //        $next_all_links_fact = DB::table('mains')
             //            ->select('link_id')
             //            ->where('parent_item_id', $item->id)
-            //            ->where('link_id', '!=', $current_link->id)
+            //            ->where('link_id', '!=', $view_link->id)
             //            ->distinct()
             //            ->get()
             //            ->groupBy('link_id');
@@ -532,18 +519,19 @@
                 <div class="row">
                     <div class="col-10 text-left">
                         <h3>
-                            {{--                        @if($current_link)--}}
-                            {{--                        {{$current_link->child_labels()}}:{{$current_link->child_base->name()}}--}}
+                            {{--                        @if($view_link)--}}
+                            {{--                        {{$view_link->child_labels()}}:{{$view_link->child_base->name()}}--}}
                             {{--                        @else--}}
                             {{--                            {{$item->base->name()}}:--}}
                             {{--                        @endif--}}
-                            <a href="{{route('item.base_index', ['base'=>$current_link->child_base,
+                            <a href="{{route('item.base_index', ['base'=>$view_link->child_base,
                             'project'=>$project, 'role'=>$role, 'relit_id'=>$relit_id])}}"
-                               title="{{$current_link->child_base->names() . $message_mc_info}}">
-                                {{$current_link->child_labels()}}:
+                               title="{{$view_link->child_base->names() . $message_mc_info}}">
+                                {{$view_link->child_labels()}}:
                             </a>
                         </h3>
-                        <small>{{$view_ret_id}}</small>
+                        <small><small><small>{{trans('main.project')}}: </small></small></small>
+                        <small><small>{{$relip_body_project->name()}}</small></small>
                     </div>
                     <div class="col-2 text-right">
                         {{--                        @if ((count($body_items) > 0) || ($base_body_right['is_list_base_create'] == true))--}}
@@ -565,8 +553,8 @@
                                 ?>
                                 <button type="button" class="btn btn-dreamer"
                                         {{--                        Выводится $message_mc--}}
-                                        title="{{trans('main.add'). " '" . $current_link->child_base->name() . "'" . $message_mc_info}}"
-                                        onclick="document.location='{{route('item.ext_create', ['base'=>$current_link->child_base_id,
+                                        title="{{trans('main.add'). " '" . $view_link->child_base->name() . "'" . $message_mc_info}}"
+                                        onclick="document.location='{{route('item.ext_create', ['base'=>$view_link->child_base_id,
                                         'project'=>$project, 'role'=>$role,
                                         'usercode' =>GlobalController::usercode_calc(),
                              'relit_id' => $relit_id_par,
@@ -576,7 +564,7 @@
                              'heading'=>intval(false),
                              'base_index_page'=>$base_index_page, 'body_link_page'=>$body_link_page,'body_all_page'=>$body_all_page,
                              'view_link'=>$view_link,
-                             'par_link'=>$current_link, 'parent_item'=>$item,
+                             'par_link'=>$view_link, 'parent_item'=>$item,
                              'parent_ret_id' => $parent_ret_id_par])}}'">
                                     <i class="fas fa-plus d-inline"></i>&nbsp;{{trans('main.add')}}
                                 </button>
@@ -591,8 +579,8 @@
         {{--        <div class="container-fluid">--}}
         {{--            <div class="row">--}}
         {{--                <div class="col text-right">--}}
-        {{--                    <a href="{{route('item.ext_create', ['base'=>$current_link->child_base_id,--}}
-        {{--                            'project'=>$project, 'role'=>$role, 'heading'=>intval(false), 'par_link'=>$current_link->id, 'parent_item'=>$item->id])}}"--}}
+        {{--                    <a href="{{route('item.ext_create', ['base'=>$view_link->child_base_id,--}}
+        {{--                            'project'=>$project, 'role'=>$role, 'heading'=>intval(false), 'par_link'=>$view_link->id, 'parent_item'=>$item->id])}}"--}}
         {{--                       title="{{trans('main.add')}}">--}}
         {{--                        <img src="{{Storage::url('add_record.png')}}" width="15" height="15"--}}
         {{--                             alt="{{trans('main.add')}}">--}}
@@ -601,16 +589,15 @@
         {{--            </div>--}}
         {{--        </div>--}}
         @if (count($body_items) > 0)
-            {{--        Выводится список записей по одной связи $current_link--}}
+            {{--        Выводится список записей по одной связи $view_link--}}
             {{--        Используется "'heading'=>intval(false)"--}}
-            {{-- 'current_link' передается затем (в list\table.php) в 'item.ext_show' как 'par_link'--}}
-            @include('list.table',['base'=>$current_link->child_base, 'project'=>$project, 'links_info'=>$child_body_links_info, 'items'=>$body_items,
+            {{-- 'view_link' передается затем (в list\table.php) в 'item.ext_show' как 'par_link'--}}
+            @include('list.table',['base'=>$view_link->child_base, 'project'=>$project, 'links_info'=>$child_body_links_info, 'items'=>$body_items,
         'base_right'=>$base_body_right, 'relit_id'=>$relit_id,
         'heading'=>intval(false),
         'base_index_page'=>$base_index_page, 'body_link_page'=>$body_link_page,'body_all_page'=>$body_all_page,
         'view_link'=>$view_link,
-        'view_ret_id'=>$view_ret_id,
-        'current_link'=>$current_link, 'parent_item'=>$item, 'is_table_body'=>false,
+        'view_ret_id'=>$view_ret_id, 'parent_item'=>$item, 'is_table_body'=>false,
             'base_index'=>false, 'item_heading_base'=>false, 'item_body_base'=>true,
             'string_link_ids_current' => $string_link_ids_current,
             'string_item_ids_current' => $string_item_ids_current,
@@ -630,14 +617,15 @@
                 <div class="row">
                     <div class="col-10 text-left">
                         <h3>
-                            {{--                        @if($current_link)--}}
-                            {{--                        {{$current_link->child_labels()}}:{{$current_link->child_base->name()}}--}}
+                            {{--                        @if($view_link)--}}
+                            {{--                        {{$view_link->child_labels()}}:{{$view_link->child_base->name()}}--}}
                             {{--                        @else--}}
                             {{--                            {{$item->base->name()}}:--}}
                             {{--                        @endif--}}
                             {{trans('main.all_links')}}:
                         </h3>
-                        <small>{{$view_ret_id}}</small>
+                        <small><small><small>{{trans('main.project')}}: </small></small></small>
+                        <small><small>{{$relip_body_project->name()}}</small></small>
                     </div>
                     <div class="col-2 text-right">
                         {{-- Вся кнопка 'Добавить' доступна (для связей)--}}
@@ -696,10 +684,9 @@
             @if(count($next_all_mains) > 0)
                 {{--        Выводится список записей по всем связям--}}
                 {{--        Используется "'heading'=>intval(false)"--}}
-                {{-- 'current_link' передавать не нужно, затем (в list\all.php) в 'item.ext_show' как 'par_link' передается $main->link--}}
+                {{-- 'view_link' передавать не нужно, затем (в list\all.php) в 'item.ext_show' как 'par_link' передается $main->link--}}
                 @include('list.all',['project'=>$project,
             'relit_id'=>$relit_id,
-            'view_link'=>$view_link,
             'view_ret_id'=>$view_ret_id,
             'next_all_mains'=>$next_all_mains,
             'next_all_is_code_enable'=>$next_all_is_code_enable,

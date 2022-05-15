@@ -295,7 +295,7 @@ class ItemController extends Controller
     // - должно работать только на текущем проекте
     // $view_link передается в функцию item_index(),
     // может иметь значения null, GlobalController::par_link_const_textnull(), GlobalController::par_link_const_text_base_null() - вызов из base_index.php)
-    // $current_link расчитывается в item_index() и передается в index_item.php
+    // $current_link расчитывается в item_index(), затем $view_link присваивается $current_link и передается в index_item.php
     // $par_link используется (index_item.php, list\table.php, list\all.php, ext_show.php, ext_edit.php)
     // для вызова 'item.ext_show', 'item.ext_show', 'item.ext_create', get:'item.ext_edit', 'item.ext_store', put:'item.ext_edit', 'item.ext_delete', 'item.ext_delete_question'
     // $prev_base_index_page, $prev_body_link_page, $prev_body_all_page - "предыдущие"/"текущие" номера страниц при пагинации
@@ -591,6 +591,9 @@ class ItemController extends Controller
         $tree_array_last_string_prev_item_ids = GlobalController::set_str_const_null($tree_array_last_string_prev_item_ids);
         $tree_array_last_string_prev_all_codes = GlobalController::set_str_const_null($tree_array_last_string_prev_all_codes);
 
+        // Нужно
+        $view_link = $current_link;
+
         if (count($next_all_links) == 0) {
             return redirect()->route('item.ext_show', ['item' => $item, 'project' => $project, 'role' => $role,
                 'usercode' => GlobalController::usercode_calc(),
@@ -617,7 +620,6 @@ class ItemController extends Controller
                 'prev_item' => $prev_item, 'next_item' => $next_item,
                 'child_links' => $child_links, 'child_links_info' => $child_links_info,
                 'child_mains_link_is_calcname' => $child_mains_link_is_calcname,
-                'current_link' => $current_link,
                 'child_body_links_info' => $child_body_links_info, 'body_items' => $body_items,
                 'base_body_right' => $base_body_right,
                 'tree_array' => $tree_array,
@@ -4457,7 +4459,6 @@ class ItemController extends Controller
                         'view_ret_id' => $relit_id]);
                 }
             }
-
 //            if (Session::has('base_index_previous_url')) {
 //                return redirect(session('base_index_previous_url'));
 //            } else {

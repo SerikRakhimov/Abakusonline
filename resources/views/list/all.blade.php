@@ -2,20 +2,6 @@
 use App\Models\Link;
 use \App\Http\Controllers\GlobalController;
 $i = 0;
-
-// Одинаковые строки в list\table.php и list\all.php
-$relit_id_par = null;
-$parent_ret_id_par = null;
-if($heading == 0){
-    $relit_id_par = $relit_id;
-    $parent_ret_id_par = $view_ret_id;
-}
-else{
-    $relit_id_par = $view_ret_id;
-    $parent_ret_id_par = $relit_id;
-}
-$relit_id_par = $relit_id;
-$parent_ret_id_par = $view_ret_id;
 ?>
 {{--<table class="table table-sm table-bordered table-hover">--}}
 <table class="table table-sm table-borderless table-hover">
@@ -53,25 +39,17 @@ $parent_ret_id_par = $view_ret_id;
         <tr>
             <td class="text-center">
                 <a href="{{route('item.ext_show', ['item'=>$main->child_item, 'project'=>$project, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(),
-    'relit_id'=>$relit_id_par,
+    'relit_id'=>$relit_id,
     'heading'=>$heading, 'base_index_page'=>$base_index_page, 'body_link_page'=>$body_link_page,'body_all_page'=>$body_all_page,
-            'view_link' => $view_link,
+            'view_link' => GlobalController::set_par_view_link_null($view_link),
             'par_link'=>$main->link, 'parent_item'=>$item,
-        'parent_ret_id' => $parent_ret_id_par,
+        'parent_ret_id' => $view_ret_id,
         'string_link_ids_current'=>$string_link_ids_current,
         'string_item_ids_current'=>$string_item_ids_current,
         'string_all_codes_current'=>$string_all_codes_current
     ])}}"
                     title = "{{trans('main.viewing_record')}}">
                 <span class="badge badge-related">{{$i}}</span>
-                    <small>
-                        ,
-                        project_id = {{$project->id}},
-                        item->project_id = {{$item->project->id}},
-                        relit_id = {{$relit_id}},
-                        relip_project = {{$relip_project->id}},
-                        main->child_item->id = {{$main->child_item->id}}
-                    </small>
                 </a>
             </td>
             {{--            <td class="text-left">--}}

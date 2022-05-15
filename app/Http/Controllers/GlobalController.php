@@ -1390,7 +1390,7 @@ class GlobalController extends Controller
     {
         $project = null;
         $mess = '';
-        if ($relit_id == 0) {
+        if ($relit_id == 0 || $relit_id == null) {
             // Возвращается текущий проект
             $project = $current_project;
         } else {
@@ -1745,6 +1745,15 @@ class GlobalController extends Controller
         $result = $view_link;
         if ($result == null) {
             $result = GlobalController::par_link_const_textnull();
+        }
+        return $result;
+    }
+
+    static function set_un_par_view_link_null($view_link)
+    {
+        $result = $view_link;
+        if ($result == GlobalController::par_link_const_textnull()) {
+            $result = null;
         }
         return $result;
     }
