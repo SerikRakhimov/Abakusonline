@@ -230,13 +230,13 @@
                         onclick='document.location="{{route('item.ext_edit',
             ['item'=>$item,'project'=>$project, 'role'=>$role,
             'usercode' =>GlobalController::usercode_calc(),
-            'relit_id'=>$parent_ret_id,
+            'relit_id'=>GlobalController::set_relit_id($parent_ret_id),
             'string_link_ids_current' => $string_link_ids_current,
             'string_item_ids_current' => $string_item_ids_current,
             'string_all_codes_current' => $string_all_codes_current,
             'heading' => $heading,
             'base_index_page' => $base_index_page, 'body_link_page' => $body_link_page, 'body_all_page' => $body_all_page,
-            'parent_ret_id' => $relit_id,
+            'parent_ret_id' => GlobalController::set_relit_id($relit_id),
             'view_link' => $view_link,
             'par_link' => $par_link, 'parent_item' => $parent_item])}}"'
                         title="{{trans('main.edit')}}">
@@ -251,11 +251,11 @@
                         onclick='document.location="{{route('item.ext_delete_question',
             ['item'=>$item,'project'=>$project, 'role'=>$role,
             'usercode' =>GlobalController::usercode_calc(),
-            'relit_id'=>$parent_ret_id,
+            'relit_id'=>GlobalController::set_relit_id($parent_ret_id),
             'string_link_ids_current' => $string_link_ids_current, 'string_item_ids_current' => $string_item_ids_current, 'string_all_codes_current' => $string_all_codes_current,
             'heading' => $heading,
             'base_index_page' => $base_index_page, 'body_link_page' => $body_link_page, 'body_all_page' => $body_all_page,
-            'parent_ret_id' => $relit_id,
+            'parent_ret_id' => GlobalController::set_relit_id($relit_id),
             'view_link' => $view_link,
             'par_link' => $par_link, 'parent_item' => $parent_item])}}"'
                         title="{{trans('main.delete')}}">
@@ -275,7 +275,7 @@
             @if(1==2)
                 <button type="button" class="btn btn-dreamer mb-1 mb-sm-0"
                         onclick='document.location="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,
-                         'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id,
+                         'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>GlobalController::set_relit_id($relit_id),
                          'par_link' => null])}}"'
                         title="{{trans('main.space')}}">
                     <i class="fas fa-atlas"></i>
@@ -312,9 +312,9 @@
             'string_item_ids_current' => $string_item_ids_current,
             'string_all_codes_current' => $string_all_codes_current,
             'heading' => $heading,
-            'relit_id'=>$relit_id_par,
+            'relit_id'=>GlobalController::set_relit_id($relit_id_par),
             'base_index_page' => $base_index_page, 'body_link_page' => $body_link_page, 'body_all_page' => $body_all_page,
-            'parent_ret_id' => $parent_ret_id_par,
+            'parent_ret_id' => GlobalController::set_relit_id($parent_ret_id_par),
             'view_link' => $view_link,
             'par_link' => $par_link, 'parent_item' => $parent_item])}}"
               method="POST"
