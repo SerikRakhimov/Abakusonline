@@ -44,6 +44,7 @@
         </div>
     </div>
     @foreach($array_relips as $relit_id=>$array_relip)
+        <hr>
         <?php
         $relit = null;
         if ($relit_id == 0) {
@@ -58,8 +59,9 @@
         @if($relit_id != 0 && $role->is_view_info_relits == true)
             <div class="row ml-5">
                 <div class="col-12 text-left">
-                    <h6>{{$relit->title()}}</h6>
+                    <small><small>{{trans('main.project')}}: </small></small>
                     <small>{{$relip_project->name()}}</small>
+                    <h6>{{$relit->title()}}</h6>
                 </div>
             </div>
         @endif
@@ -98,6 +100,7 @@
                             {{--                                </span>--}}
                         </a>
                         <?php
+                        // Вывести иконки для вычисляемых основ и настроек
                         $menu_type_name = $base->menu_type_name();
                         ?>
                         <a

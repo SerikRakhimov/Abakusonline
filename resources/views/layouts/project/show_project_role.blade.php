@@ -10,13 +10,15 @@ if ($is_relit_id) {
     <p class="text-center">
         <a href="{{route('project.start', ['project' => $project->id, 'role' => $role])}}"
            title="{{trans('main.mainmenu')}}">
-            <mark class="text-project">{{$project->name()}}<br>
+            <mark class="text-project">{{$project->name()}}</mark>
+            <br>
                 @if($is_relit_id)
                     @if($relit_id != 0 && $role->is_view_info_relits == true)
+                        <small><small><small>{{trans('main.project')}}: </small></small></small>
                         <small><small>{{$relip_project->name()}}</small></small>
                     @endif
                 @endif
-                @include('layouts.project.show_icons',['project'=>$project])</mark>
+                @include('layouts.project.show_icons',['project'=>$project])
         </a>
     </p>
     <div class="row">

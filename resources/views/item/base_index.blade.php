@@ -9,12 +9,29 @@
     use \App\Http\Controllers\GlobalController;
     use \App\Http\Controllers\ItemController;
     use \App\Http\Controllers\MainController;
-    $message_bs_mc = GlobalController::base_maxcount_message($base);
-    $message_bs_byuser_mc = GlobalController::base_byuser_maxcount_message($base);
+    $relip_project = GlobalController::calc_relip_project($relit_id, $project);
+//  $message_bs_mc = GlobalController::base_maxcount_message($base);
+    $message_bs_mc = GlobalController::base_maxcount_validate($relip_project, $base, true);
+
+//  $message_bs_byuser_mc = GlobalController::base_byuser_maxcount_message($base);
+    $message_bs_byuser_mc = GlobalController::base_byuser_maxcount_validate($project, $base, true);
+
     $message_mc = ($message_bs_mc == "" ? "" : ', ' . PHP_EOL . $message_bs_mc)
         . ($message_bs_byuser_mc == "" ? "" : ', ' . PHP_EOL . $message_bs_byuser_mc);
 
-    $relip_project = GlobalController::calc_relip_project($relit_id, $project);
+    $heading = 1;
+    $parent_ret_id = 0;
+    $relit_id_par = null;
+    $parent_ret_id_par = null;
+    if($heading == 1){
+        $relit_id_par = $relit_id;
+        $parent_ret_id_par = $parent_ret_id;
+    }
+    else{
+        $relit_id_par = $parent_ret_id;
+        $parent_ret_id_par = $relit_id;
+    }
+
     //    Config::set('app.display', 'table');
     ?>
     @include('layouts.project.show_project_role',['project'=>$project, 'role'=>$role, 'relit_id'=>$relit_id])
@@ -29,17 +46,19 @@
             <div class="col-12 text-right">
                 {{--            Не удалять: используется $message_bs_m --}}
                 @if($message_bs_mc == "")
+                    {{-- Используется "'parent_ret_id' => 0"--}}
                     <button type="button" class="btn btn-dreamer"
                             {{--                        Выводится $message_mc--}}
                             title="{{trans('main.add') . ', ' . $message_mc}}"
                             onclick="document.location='{{route('item.ext_create',
                             ['base'=>$base, 'project'=>$project, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(),
-                             'relit_id' =>$relit_id,
+                             'relit_id' =>$relit_id_par,
                              'string_all_codes_current' => $string_all_codes_current,
                              'string_link_ids_current' => $string_link_ids_current,
                              'string_item_ids_current' => $string_item_ids_current,
                              'heading' =>intval(false),
-                             'base_index_page'=>$base_index_page, 'body_link_page'=>$body_link_page,'body_all_page'=>$body_all_page])}}'">
+                             'base_index_page'=>$base_index_page, 'body_link_page'=>$body_link_page,'body_all_page'=>$body_all_page,
+                             'parent_ret_id' => $parent_ret_id_par])}}'">
                         <i class="fas fa-plus d-inline"></i>&nbsp;{{trans('main.add')}}
                     </button>
                 @endif
@@ -304,6 +323,7 @@
         {{--                        </tr>--}}
         {{--                    @endif--}}
         {{--        Используется 'heading'=>0'--}}
+        {{-- "'view_ret_id'=>0", 0 - текущий проект--}}
         @include('list.table',['base'=>$base, 'links_info'=>$links_info, 'items'=>$items,
                     'base_right'=>$base_right, 'item_view'=>true,
                     'relit_id'=>$relit_id,
@@ -316,6 +336,7 @@
                     'heading'=> 0,
                     'base_index_page'=>$base_index_page, 'body_link_page'=>$body_link_page,'body_all_page'=>$body_all_page,
                     'view_link'=>null,
+                    'view_ret_id'=>0,
                     'current_link'=>null, 'parent_item'=>null, 'is_table_body'=>$is_table_body,
                     'base_index'=>true, 'item_heading_base'=>false, 'item_body_base'=>false
                     ])

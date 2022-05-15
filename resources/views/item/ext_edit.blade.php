@@ -38,22 +38,25 @@
     {{--    https://qastack.ru/programming/1191113/how-to-ensure-a-select-form-field-is-submitted-when-it-is-disabled--}}
     <form
         action="{{$update ?
-        route('item.ext_update', ['item'=>$item, 'project' => $project, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(), 'relit_id' =>$relit_id,
+        route('item.ext_update', ['item'=>$item, 'project' => $project, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(),
+        'relit_id' => $relit_id,
     'string_link_ids_current' => $string_link_ids_current,
     'string_item_ids_current' => $string_item_ids_current,
     'string_all_codes_current'=> $string_all_codes_current,
          'heading'=>$heading,
          'base_index_page'=>$base_index_page, 'body_link_page'=>$body_link_page, 'body_all_page'=>$body_all_page,
+         'parent_ret_id' => $parent_ret_id,
          'view_link'=>GlobalController::set_par_view_link_null($view_link),
          'par_link' =>$par_link,
          'parent_item' => $parent_item]):
         route('item.ext_store', ['base'=>$base, 'project' => $project, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(),
-         'relit_id' =>$relit_id,
+         'relit_id' => $relit_id,
     'string_link_ids_current' => $string_link_ids_current,
     'string_item_ids_current' => $string_item_ids_current,
     'string_all_codes_current'=> $string_all_codes_current,
             'heading'=>$heading,
             'base_index_page'=>$base_index_page, 'body_link_page'=>$body_link_page,'body_all_page'=>$body_all_page,
+            'parent_ret_id' => $parent_ret_id,
             'view_link'=>GlobalController::set_par_view_link_null($view_link),
             'par_link' =>$par_link,
             'parent_item' => $parent_item])}}"

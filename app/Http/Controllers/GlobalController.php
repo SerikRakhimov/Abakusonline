@@ -445,7 +445,7 @@ class GlobalController extends Controller
 //        });
 
     static function items_right(Base $base, Project $project, Role $role, $relit_id,
-                                     $mains_item_id = null, $mains_link_id = null, $parent_proj = null, $current_item_id = null)
+                                     $mains_item_id = null, $mains_link_id = null, $parent_proj = null, $view_ret_id = null, $current_item_id = null)
     {
         $base_right = self::base_right($base, $role, $relit_id);
         $items = null;
@@ -458,7 +458,8 @@ class GlobalController extends Controller
         $seek_item = null;
 
         // Выборка из mains
-        if ($mains_item_id && $mains_link_id) {
+//      "if ($mains_item_id && $mains_link_id && $parent_proj && $view_ret_id)" так некорректно
+        if ($mains_item_id && $mains_link_id && $parent_proj) {
             //        $mains = Main::all()->where('parent_item_id', $item->id)->where('link_id', $current_link->id)->sortBy(function ($main) {
             //            return $main->link->child_base->name() . $main->child_item->name();
             //        });
@@ -473,47 +474,32 @@ class GlobalController extends Controller
 //            }
 //            $ids = $coll_mains->keys()->toArray();
 //            $items = Item::whereIn('id', $ids);
-            $items_ids = null;
-//            // Запросы одинаковые, разница только в одной последней строке
-//            if ($mains_link_id == GlobalController::par_link_const_textnull()) {
-//                $items_ids = Main::select(DB::Raw('mains.child_item_id as id'))
-//                    ->join('items', 'mains.child_item_id', '=', 'items.id')
-//                    ->where('items.project_id', '=', $project->id)
-//                    ->where('mains.parent_item_id', '=', $mains_item_id);
-//            } else {
-//                $items_ids = Main::select(DB::Raw('mains.child_item_id as id'))
-//                    ->join('items', 'mains.child_item_id', '=', 'items.id')
-//                    ->where('items.project_id', '=', $project->id)
-//                    ->where('mains.parent_item_id', '=', $mains_item_id)
-//                    ->where('mains.link_id', '=', $mains_link_id);
-//            }
 
             $items_ids = Main::select(DB::Raw('mains.child_item_id as id'))
                 ->join('items', 'mains.child_item_id', '=', 'items.id')
-                ->where('items.project_id', '=', $project->id)
                 ->where('mains.parent_item_id', '=', $mains_item_id)
                 ->where('mains.link_id', '=', $mains_link_id);
 
-            // '->distinct()' нужно
-            $items_relips_ids = Main::select(DB::Raw('mains.child_item_id as id'))
-                ->join('items', 'mains.child_item_id', '=', 'items.id')
-                ->join('relips', 'items.project_id', '=', 'relips.parent_project_id')
-                ->where('relips.child_project_id', '=', $parent_proj->id)
-                ->where('mains.parent_item_id', '=', $mains_item_id)
-                ->where('mains.link_id', '=', $mains_link_id)
-                ->distinct();
-
-            $items_ids = $items_ids->unionall($items_relips_ids);
+            if ($view_ret_id == 0) {
+                $items_ids = $items_ids
+                    ->where('items.project_id', '=', $parent_proj->id);
+            } else {
+                $items_ids = $items_ids
+                    ->join('relips', 'items.project_id', '=', 'relips.parent_project_id')
+                    ->where('relips.relit_id', '=', $view_ret_id)
+                    ->where('relips.child_project_id', '=', $parent_proj->id);
+            }
 
             $items = Item::joinSub($items_ids, 'items_ids', function ($join) {
                 $join->on('items.id', '=', 'items_ids.id');
             });
 
-        // Выборка из items
+            // Выборка из items
         } else {
             // Обязательно фильтр на два запроса:
             // where('base_id', $base->id)->where('project_id', $project->id)
             $items = Item::where('base_id', $base->id)->where('project_id', $project->id);
+
         }
         // Такая же проверка и в GlobalController (function items_right()),
         // в ItemController (function next_all_links_mains_calc(), browser(), get_items_for_link(), get_items_ext_edit_for_link())

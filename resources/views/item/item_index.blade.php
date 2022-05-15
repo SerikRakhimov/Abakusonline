@@ -2,6 +2,9 @@
 
 @section('content')
     <?php
+    use App\Models\Relit;
+    use App\Models\Relip;
+    use App\Models\Project;
     use App\Models\Item;
     use App\Models\Link;
     use App\Models\Main;
@@ -51,6 +54,22 @@
     @if(count($tree_array)>0)
         <hr>
     @endif
+    project = {{$project->id}},
+    relit_id = {{$relit_id}},
+    item_id = {{$item->id}},
+    relip_project = {{$relip_project->id}},
+    @if(isset($view_link->id))
+        view_link = {{$view_link->id}},
+    @else
+        view_link = {{$view_link}},
+    @endif
+    @if($current_link)
+        current_link = {{$current_link->id}},
+    @else
+        current_link = {{$current_link}},
+    @endif
+    view_ret_id = {{$view_ret_id}}
+
     <div class="container-fluid">
         <div class="row">
             <div class="col-10 text-left">
@@ -90,8 +109,8 @@
             'heading' => intval(true),
             'base_index_page' => $base_index_page, 'body_link_page' => $body_link_page, 'body_all_page' => $body_all_page,
             'view_link'=>$view_link,
-            'par_link'=>$tree_array_last_link_id, 'parent_item'=>$tree_array_last_item_id
-                                            ])}}"
+            'par_link'=>$tree_array_last_link_id, 'parent_item'=>$tree_array_last_item_id,
+            'parent_ret_id' => $view_ret_id])}}"
                                            title="{{trans('main.viewing_record')}}: {{$item->cdnm()}}">
                                             <mark class="text-project">
                                                 @include('layouts.item.empty_name', ['name'=>$item->cdnm()])
@@ -136,8 +155,8 @@
             'heading' => intval(true),
             'base_index_page' => $base_index_page, 'body_link_page' => $body_link_page, 'body_all_page' => $body_all_page,
             'view_link'=>$view_link,
-            'par_link'=>$tree_array_last_link_id, 'parent_item'=>$tree_array_last_item_id
-                                            ])}}"
+            'par_link'=>$tree_array_last_link_id, 'parent_item'=>$tree_array_last_item_id,
+            'parent_ret_id' => $relit_id])}}"
                            title="{{trans('main.viewing_record')}}: {{$item->cdnm()}}">
                             @endif
                             {{--                    Нужно '@foreach($child_mains_link_is_calcname as $calcname_mains)'--}}
@@ -167,18 +186,31 @@
             </div>
             <div class="col-2 text-right">
                 @if ($base_right['is_list_base_create'] == true)
+                    <?php
+                    $heading = 1;
+                    $relit_id_par = null;
+                    $parent_ret_id_par = null;
+                    if ($heading == 1) {
+                        $relit_id_par = $relit_id;
+                        $parent_ret_id_par = $view_ret_id;
+                    } else {
+                        $relit_id_par = $view_ret_id;
+                        $parent_ret_id_par = $relit_id;
+                    }
+                    ?>
                     <button type="button" class="btn btn-dreamer"
                             title="{{trans('main.add')}} '{{$item->base->name()}}'"
                             onclick="document.location='{{route('item.ext_create', ['base'=>$item->base,
                                              'project'=>$project, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(),
-                                             'relit_id' =>$relit_id,
+                                             'relit_id' => $relit_id_par,
                                              'string_link_ids_current'=>$string_link_ids_current,
                                              'string_item_ids_current'=>$string_item_ids_current,
                                              'string_all_codes_current'=>$string_all_codes_current,
                                              'heading'=>intval(true),
                                              'base_index_page'=>$base_index_page, 'body_link_page'=>$body_link_page,'body_all_page'=>$body_all_page,
                                              'view_link'=>$view_link,
-                                             'par_link'=>$tree_array_last_link_id, 'parent_item'=>$tree_array_last_item_id
+                                             'par_link'=>$tree_array_last_link_id, 'parent_item'=>$tree_array_last_item_id,
+                                             'parent_ret_id' => $parent_ret_id_par
                                              ])}}'">
                         <i class="fas fa-plus d-inline"></i>&nbsp;{{trans('main.add')}}
                     </button>
@@ -215,7 +247,8 @@
                 'heading'=>intval(true),
                 'base_index_page'=>$base_index_page, 'body_link_page'=>$body_link_page,'body_all_page'=>$body_all_page,
                 'view_link'=>$view_link,
-                'current_link'=>$current_link, 'parent_item'=>$parent_item, 'is_table_body'=>false,
+                'view_ret_id'=>$view_ret_id,
+                'current_link'=>$current_link, 'parent_item'=>$item, 'is_table_body'=>false,
                     'base_index'=>false, 'item_heading_base'=>true, 'item_body_base'=>false,
                     'string_link_ids_current' => $string_link_ids_current,
                     'string_item_ids_current' => $string_item_ids_current,
@@ -247,10 +280,16 @@
                         @if($prev_item)
                             <li class="page-item">
                                 <a class="page-link" href="{{route('item.item_index', ['project'=>$project, 'item'=>$prev_item, 'role'=>$role,
-                                'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id, 'view_link'=>GlobalController::par_link_textnull($current_link),
+                                'usercode' =>GlobalController::usercode_calc(),
+                                        'relit_id'=>$relit_id,
+                                        'view_link'=>GlobalController::par_link_textnull($current_link),
                                         'string_link_ids_current'=>$string_link_ids_current,
-                                         'string_item_ids_current'=>$string_item_ids_current,
-                                         'string_all_codes_current'=>$string_all_codes_current
+                                        'string_item_ids_current'=>$string_item_ids_current,
+                                        'string_all_codes_current'=>$string_all_codes_current,
+                                        'prev_base_index_page'=>$base_index_page,
+                                        'prev_body_link_page'=>$body_link_page,
+                                        'prev_body_all_page'=>$body_all_page,
+                                        'view_ret_id' => $view_ret_id
                                          ])}}"
                                    title="{{$prev_item->cdnm()}}"><</a>
                             </li>
@@ -267,13 +306,16 @@
                         @if($next_item)
                             <li class="page-item">
                                 <a class="page-link" href="{{route('item.item_index', ['project'=>$project, 'item'=>$next_item, 'role'=>$role,
-                                'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id, 'view_link'=>GlobalController::par_link_textnull($current_link),
+                                'usercode' =>GlobalController::usercode_calc(),
+                                        'relit_id'=>$relit_id,
+                                         'view_link'=>GlobalController::par_link_textnull($current_link),
                                         'string_link_ids_current'=>$string_link_ids_current,
                                         'string_item_ids_current'=>$string_item_ids_current,
                                         'string_all_codes_current'=>$string_all_codes_current,
                                         'prev_base_index_page'=>$base_index_page,
                                         'prev_body_link_page'=>$body_link_page,
-                                        'prev_body_all_page'=>$body_all_page
+                                        'prev_body_all_page'=>$body_all_page,
+                                        'view_ret_id' => $view_ret_id
                                         ])}}"
                                    title="{{$next_item->cdnm()}}">></a>
                             </li>
@@ -300,7 +342,10 @@
                                 {{-- Если во всех $links не выводятся вычисляемые наименования, то выводится вариант 'all'--}}
                                 @if($next_all_is_enable)
                                     <a class="dropdown-item" href="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,
-                                  'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id,'view_link'=>GlobalController::par_link_const_textnull(),
+                                  'usercode' =>GlobalController::usercode_calc(),
+                                  'relit_id'=>$relit_id,
+                                  'view_link'=>GlobalController::par_link_const_textnull(),
+                                  'view_ret_id'=>$view_ret_id,
                                   'string_link_ids_current'=>$string_link_ids_current,
                                   'string_item_ids_current'=>$string_item_ids_current,
                                   'string_all_codes_current'=>$string_all_codes_current,
@@ -318,15 +363,18 @@
                                 @endif
                                 @foreach($next_all_links as $key=>$value)
                                     <a class="dropdown-item" href="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,
-                                          'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id,'view_link'=>$value->id,
+                                          'usercode' =>GlobalController::usercode_calc(),
+                                          'relit_id'=>$relit_id,
+                                          'view_link'=>$value->id,
+                                          'view_ret_id'=>$view_ret_id,
                                           'string_link_ids_current'=>$string_link_ids_current,
-                                           'string_item_ids_current'=>$string_item_ids_current,
-                                           'string_all_codes_current'=>$string_all_codes_current,
-                                           'prev_base_index_page'=>$base_index_page,
-                                           'prev_body_link_page'=>$body_link_page,
-                                           'prev_body_all_page'=>$body_all_page
-                                           ])}}"
-                                       title="{{$item->name()}}">
+                                          'string_item_ids_current'=>$string_item_ids_current,
+                                          'string_all_codes_current'=>$string_all_codes_current,
+                                          'prev_base_index_page'=>$base_index_page,
+                                          'prev_body_link_page'=>$body_link_page,
+                                          'prev_body_all_page'=>$body_all_page
+                                          ])}}"
+                                       title="{{$value->child_labels()}}">
                                         {{$value->child_labels()}}
                                         @if($current_link)
                                             @if($value->id == $current_link->id)
@@ -346,6 +394,66 @@
                     {{--                    <span class="text-title">--}}
                     {{--                    {{trans('main.without links')}}--}}
                     {{--                    </span>--}}
+                @endif
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 text-right">
+                @if(count($array_relips)>1)
+                    <div class="dropdown">
+                        <button type="button" class="btn btn-dreamer dropdown-toggle" data-toggle="dropdown"
+                                title="{{trans('main.relip')}}">
+                            <i class="fas fa-link d-inline"></i>
+                            {{trans('main.project')}}
+                        </button>
+                        <div class="dropdown-menu">
+                            @foreach($array_relips as $relit_key_id=>$array_relip)
+                                <?php
+                                $relit = null;
+                                if ($relit_key_id == 0) {
+                                    $relit = null;
+                                } else {
+                                    $relit = Relit::findOrFail($relit_key_id);
+                                }
+                                // Находим родительский проект
+                                $relip_body_project = Project::findOrFail($array_relip['project_id']);
+                                if ($current_link) {
+                                    $view_value_link = $current_link->id;
+                                } else {
+                                    $view_value_link = GlobalController::const_null();
+                                }
+                                ?>
+                                <a class="dropdown-item" href="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,
+                                          'usercode' =>GlobalController::usercode_calc(),
+                                          'relit_id'=>$relit_id,
+                                          'view_link'=>$view_value_link,
+                                          'view_ret_id'=>$relit_key_id,
+                                          'string_link_ids_current'=>$string_link_ids_current,
+                                           'string_item_ids_current'=>$string_item_ids_current,
+                                           'string_all_codes_current'=>$string_all_codes_current,
+                                           'prev_base_index_page'=>$base_index_page,
+                                           'prev_body_link_page'=>$body_link_page,
+                                           'prev_body_all_page'=>$body_all_page
+                                           ])}}"
+                                   title="{{$relip_body_project->name()}}">
+                                    {{$relip_body_project->name()}}
+                                    @if($relit)
+                                        ({{$relit->title()}})
+                                    @endif
+                                    - {{$relit_key_id}}- {{$relip_body_project->id}}
+                                    @if($view_ret_id)
+                                        @if($relit_key_id == $view_ret_id)
+                                            {{-- Этот символ используется в двух местах--}}
+                                            &#10003;
+                                        @endif
+                                    @endif
+                                    {{--                                    @if(isset($array["\x00*\x00items"][$value->id]))--}}
+                                    {{--                                        *--}}
+                                    {{--                                    @endif--}}
+                                </a>
+                            @endforeach
+                        </div>
+                    </div>
                 @endif
             </div>
         </div>
@@ -435,6 +543,7 @@
                                 {{$current_link->child_labels()}}:
                             </a>
                         </h3>
+                        <small>{{$view_ret_id}}</small>
                     </div>
                     <div class="col-2 text-right">
                         {{--                        @if ((count($body_items) > 0) || ($base_body_right['is_list_base_create'] == true))--}}
@@ -442,20 +551,33 @@
                             {{--            Не удалять: используются $message_link и $message_item --}}
                             {{--                                @if($message_link == "" && $message_item == "")--}}
                             @if($message_mc_link_item == "")
+                                <?php
+                                $heading = 0;
+                                $relit_id_par = null;
+                                $parent_ret_id_par = null;
+                                if ($heading == 1) {
+                                    $relit_id_par = $relit_id;
+                                    $parent_ret_id_par = $view_ret_id;
+                                } else {
+                                    $relit_id_par = $view_ret_id;
+                                    $parent_ret_id_par = $relit_id;
+                                }
+                                ?>
                                 <button type="button" class="btn btn-dreamer"
                                         {{--                        Выводится $message_mc--}}
                                         title="{{trans('main.add'). " '" . $current_link->child_base->name() . "'" . $message_mc_info}}"
                                         onclick="document.location='{{route('item.ext_create', ['base'=>$current_link->child_base_id,
                                         'project'=>$project, 'role'=>$role,
                                         'usercode' =>GlobalController::usercode_calc(),
-                             'relit_id' =>$relit_id,
+                             'relit_id' => $relit_id_par,
                              'string_all_codes_current' => $string_all_codes_current,
                              'string_link_ids_current' => $string_link_ids_current,
                              'string_item_ids_current' => $string_item_ids_current,
                              'heading'=>intval(false),
                              'base_index_page'=>$base_index_page, 'body_link_page'=>$body_link_page,'body_all_page'=>$body_all_page,
                              'view_link'=>$view_link,
-                             'par_link'=>$current_link, 'parent_item'=>$item])}}'">
+                             'par_link'=>$current_link, 'parent_item'=>$item,
+                             'parent_ret_id' => $parent_ret_id_par])}}'">
                                     <i class="fas fa-plus d-inline"></i>&nbsp;{{trans('main.add')}}
                                 </button>
                             @endif
@@ -487,6 +609,7 @@
         'heading'=>intval(false),
         'base_index_page'=>$base_index_page, 'body_link_page'=>$body_link_page,'body_all_page'=>$body_all_page,
         'view_link'=>$view_link,
+        'view_ret_id'=>$view_ret_id,
         'current_link'=>$current_link, 'parent_item'=>$item, 'is_table_body'=>false,
             'base_index'=>false, 'item_heading_base'=>false, 'item_body_base'=>true,
             'string_link_ids_current' => $string_link_ids_current,
@@ -514,6 +637,7 @@
                             {{--                        @endif--}}
                             {{trans('main.all_links')}}:
                         </h3>
+                        <small>{{$view_ret_id}}</small>
                     </div>
                     <div class="col-2 text-right">
                         {{-- Вся кнопка 'Добавить' доступна (для связей)--}}
@@ -529,17 +653,30 @@
                                     @foreach($next_all_links as $key=>$value)
                                         @if($next_all_is_create[$value->id] == true)
                                             @if($message_mc_link_array_item[$value->id] == "")
+                                                <?php
+                                                $heading = 0;
+                                                $relit_id_par = null;
+                                                $parent_ret_id_par = null;
+                                                if ($heading == 1) {
+                                                    $relit_id_par = $relit_id;
+                                                    $parent_ret_id_par = $view_ret_id;
+                                                } else {
+                                                    $relit_id_par = $view_ret_id;
+                                                    $parent_ret_id_par = $relit_id;
+                                                }
+                                                ?>
                                                 <a class="dropdown-item" href="{{route('item.ext_create', ['base'=>$value->child_base_id,
                                                                                                 'project'=>$project, 'role'=>$role,
                                                                                                  'usercode' =>GlobalController::usercode_calc(),
-                                                                                     'relit_id' =>$relit_id,
+                                                                                     'relit_id' => $relit_id_par,
                                                                                      'string_all_codes_current' => $string_all_codes_current,
                                                                                      'string_link_ids_current' => $string_link_ids_current,
                                                                                      'string_item_ids_current' => $string_item_ids_current,
                                                                                      'heading'=>intval(false),
                                                                                      'base_index_page'=>$base_index_page, 'body_link_page'=>$body_link_page,'body_all_page'=>$body_all_page,
                                                                                      'view_link'=>$value,
-                                                                                     'par_link'=>$value, 'parent_item'=>$item
+                                                                                     'par_link'=>$value, 'parent_item'=>$item,
+                                                                                     'parent_ret_id' => $parent_ret_id_par
                                                                                      ])}}"
                                                    title="{{trans('main.add') . $message_mc_array_info[$value->id]}}">
                                                     {{$value->child_labels()}}
@@ -563,6 +700,7 @@
                 @include('list.all',['project'=>$project,
             'relit_id'=>$relit_id,
             'view_link'=>$view_link,
+            'view_ret_id'=>$view_ret_id,
             'next_all_mains'=>$next_all_mains,
             'next_all_is_code_enable'=>$next_all_is_code_enable,
             'next_all_is_calcname' => $next_all_is_calcname,

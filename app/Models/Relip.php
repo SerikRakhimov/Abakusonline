@@ -24,4 +24,5 @@ class Relip extends Model
     {
         return $this->belongsTo(Project::class, 'parent_project_id');
     }
+
 }

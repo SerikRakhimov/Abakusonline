@@ -17,6 +17,21 @@ else{
    $i_par_link = GlobalController::par_link_const_textnull();
 //    $i_par_link = $view_link;
 }
+
+// Одинаковые строки в list\table.php и list\all.php
+$relit_id_par = null;
+$parent_ret_id_par = null;
+if($heading == 0){
+    $relit_id_par = $relit_id;
+    $parent_ret_id_par = $view_ret_id;
+}
+else{
+    $relit_id_par = $view_ret_id;
+    $parent_ret_id_par = $relit_id;
+}
+$relit_id_par = $relit_id;
+$parent_ret_id_par = $view_ret_id;
+
 ?>
 <table class="table table-sm table-bordered table-hover">
 {{--<table class="table table-sm table-borderless table-hover">--}}
@@ -104,16 +119,27 @@ else{
                 <td class="text-center">
                     {{--                    Не удалять--}}
                     {{--                    <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc()])}}">--}}
-                    <a href="{{route('item.ext_show', ['item'=>$item, 'project'=>$project, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id,
+                    <a href="{{route('item.ext_show', ['item'=>$item, 'project'=>$project, 'role'=>$role,
+    'usercode' =>GlobalController::usercode_calc(),
+    'relit_id'=>$relit_id_par,
     'heading'=>$heading, 'base_index_page'=>$base_index_page, 'body_link_page'=>$body_link_page,'body_all_page'=>$body_all_page,
     'view_link' => $view_link,
     'par_link'=>$current_link, 'parent_item'=>$parent_item,
+    'parent_ret_id'=>$parent_ret_id_par,
     'string_link_ids_current' => $string_link_ids_current,
     'string_item_ids_current' => $string_item_ids_current,
     'string_all_codes_current'=> $string_all_codes_current
     ])}}"
                     title = "{{trans('main.viewing_record')}}">
                         <span class="badge badge-related">{{$i}}</span>
+                        <small>
+                        ,
+                        project_id = {{$project->id}},
+                        item->project_id = {{$item->project->id}},
+                        relit_id = {{$relit_id}},
+                            relip_project = {{$relip_project->id}},
+                        $item->id = {{$item->id}}
+                            </small>
                     </a>
                 </td>
             @endif
@@ -138,8 +164,11 @@ else{
                     <td class="text-center">
                         @if($base_index || $item_body_base)
                             <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,
-       'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id,'view_link'=>$i_par_link,
-               'string_link_ids_current'=>$string_link_ids_next,
+        'usercode' =>GlobalController::usercode_calc(),
+        'relit_id'=>$relit_id,
+        'view_link'=>$i_par_link,
+        'view_ret_id'=>$view_ret_id,
+        'string_link_ids_current'=>$string_link_ids_next,
         'string_item_ids_current'=>$string_item_ids_next,
         'string_all_codes_current'=>$string_all_codes_next,
         'prev_base_index_page'=>$base_index_page,
@@ -200,7 +229,10 @@ else{
                                 {{--                                @else--}}
                                 @if ($item_index_view)
                                     <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,
-       'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id,'view_link'=>$i_par_link,
+        'usercode' =>GlobalController::usercode_calc(),
+        'relit_id'=>$relit_id,
+        'view_link'=>$i_par_link,
+        'view_ret_id'=>$view_ret_id,
         'string_link_ids_current'=>$string_link_ids_next,
         'string_item_ids_current'=>$string_item_ids_next,
         'string_all_codes_current'=>$string_all_codes_next,
@@ -299,7 +331,10 @@ else{
                                 }
                                 ?>
                                 <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$i_item, 'role'=>$role,
-        'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id, 'view_link'=>$i_par_link,
+        'usercode' =>GlobalController::usercode_calc(),
+        'relit_id'=>$relit_id,
+        'view_link'=>$i_par_link,
+        'view_ret_id'=>$view_ret_id,
         'string_link_ids_current'=>$string_link_ids_next,
         'string_item_ids_current'=>$string_item_ids_next,
         'string_all_codes_current'=>$string_all_codes_next,
