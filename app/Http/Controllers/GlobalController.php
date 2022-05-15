@@ -1740,6 +1740,15 @@ class GlobalController extends Controller
         return 'null';
     }
 
+    static function set_relit_id($relit_id)
+    {
+        $result = $relit_id;
+        if ($result == null || $result == self::const_null()) {
+            $result = 0;
+        }
+        return $result;
+    }
+
     static function set_par_view_link_null($view_link)
     {
         $result = $view_link;

@@ -18,6 +18,10 @@
     //        }
     $relip_project = GlobalController::calc_relip_project($relit_id, $project);
     $relip_body_project = GlobalController::calc_relip_project($view_ret_id, $project);
+    $relip_body_name_project = '';
+    if ($relip_body_project->id != $project->id){
+        $relip_body_name_project = trans('main.project') . ': ' . $relip_body_name_project->name();
+    }
     // Нужно
     $view_link = GlobalController::set_un_par_view_link_null($view_link);
     ?>
@@ -189,7 +193,7 @@
                             title="{{trans('main.add')}} '{{$item->base->name()}}'"
                             onclick="document.location='{{route('item.ext_create', ['base'=>$item->base,
                                              'project'=>$project, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(),
-                                             'relit_id' => $relit_id_par,
+                                             'relit_id' => GlobalController::set_relit_id($relit_id_par),
                                              'string_link_ids_current'=>$string_link_ids_current,
                                              'string_item_ids_current'=>$string_item_ids_current,
                                              'string_all_codes_current'=>$string_all_codes_current,
@@ -197,7 +201,7 @@
                                              'base_index_page'=>$base_index_page, 'body_link_page'=>$body_link_page,'body_all_page'=>$body_all_page,
                                              'view_link'=>$view_link,
                                              'par_link'=>$tree_array_last_link_id, 'parent_item'=>$tree_array_last_item_id,
-                                             'parent_ret_id' => $parent_ret_id_par
+                                             'parent_ret_id' => GlobalController::set_relit_id($parent_ret_id_par)
                                              ])}}'">
                         <i class="fas fa-plus d-inline"></i>&nbsp;{{trans('main.add')}}
                     </button>
@@ -229,7 +233,8 @@
         <br>
         {{--        Выводится одна запись в шапке(все родительские links - столбы)--}}
         {{--        Используется "'heading'=>intval(true)"--}}
-        @include('list.table',['base'=>$item->base, 'project'=>$project, 'links_info'=>$child_links_info, 'items'=>$items,
+        {{--        Используется "'items'=>$items->get()"--}}
+        @include('list.table',['base'=>$item->base, 'project'=>$project, 'links_info'=>$child_links_info, 'items'=>$items->get(),
                 'base_right'=>$base_right, 'relit_id'=>$relit_id,
                 'heading'=>intval(true),
                 'base_index_page'=>$base_index_page, 'body_link_page'=>$body_link_page,'body_all_page'=>$body_all_page,
@@ -530,8 +535,7 @@
                                 {{$view_link->child_labels()}}:
                             </a>
                         </h3>
-                        <small><small><small>{{trans('main.project')}}: </small></small></small>
-                        <small><small>{{$relip_body_project->name()}}</small></small>
+                        <small><small>{{$relip_body_name_project}}</small></small>
                     </div>
                     <div class="col-2 text-right">
                         {{--                        @if ((count($body_items) > 0) || ($base_body_right['is_list_base_create'] == true))--}}
@@ -551,13 +555,13 @@
                                     $parent_ret_id_par = $relit_id;
                                 }
                                 ?>
+                                    {{-- Выводится $message_mc--}}
                                 <button type="button" class="btn btn-dreamer"
-                                        {{--                        Выводится $message_mc--}}
                                         title="{{trans('main.add'). " '" . $view_link->child_base->name() . "'" . $message_mc_info}}"
                                         onclick="document.location='{{route('item.ext_create', ['base'=>$view_link->child_base_id,
                                         'project'=>$project, 'role'=>$role,
                                         'usercode' =>GlobalController::usercode_calc(),
-                             'relit_id' => $relit_id_par,
+                             'relit_id' => GlobalController::set_relit_id($relit_id_par),
                              'string_all_codes_current' => $string_all_codes_current,
                              'string_link_ids_current' => $string_link_ids_current,
                              'string_item_ids_current' => $string_item_ids_current,
@@ -565,7 +569,7 @@
                              'base_index_page'=>$base_index_page, 'body_link_page'=>$body_link_page,'body_all_page'=>$body_all_page,
                              'view_link'=>$view_link,
                              'par_link'=>$view_link, 'parent_item'=>$item,
-                             'parent_ret_id' => $parent_ret_id_par])}}'">
+                             'parent_ret_id' => GlobalController::set_relit_id($parent_ret_id_par)])}}'">
                                     <i class="fas fa-plus d-inline"></i>&nbsp;{{trans('main.add')}}
                                 </button>
                             @endif
@@ -624,8 +628,7 @@
                             {{--                        @endif--}}
                             {{trans('main.all_links')}}:
                         </h3>
-                        <small><small><small>{{trans('main.project')}}: </small></small></small>
-                        <small><small>{{$relip_body_project->name()}}</small></small>
+                        <small><small>{{$relip_body_name_project}}</small></small>
                     </div>
                     <div class="col-2 text-right">
                         {{-- Вся кнопка 'Добавить' доступна (для связей)--}}
@@ -656,7 +659,7 @@
                                                 <a class="dropdown-item" href="{{route('item.ext_create', ['base'=>$value->child_base_id,
                                                                                                 'project'=>$project, 'role'=>$role,
                                                                                                  'usercode' =>GlobalController::usercode_calc(),
-                                                                                     'relit_id' => $relit_id_par,
+                                                                                     'relit_id' => GlobalController::set_relit_id($relit_id_par),
                                                                                      'string_all_codes_current' => $string_all_codes_current,
                                                                                      'string_link_ids_current' => $string_link_ids_current,
                                                                                      'string_item_ids_current' => $string_item_ids_current,
@@ -664,7 +667,7 @@
                                                                                      'base_index_page'=>$base_index_page, 'body_link_page'=>$body_link_page,'body_all_page'=>$body_all_page,
                                                                                      'view_link'=>$value,
                                                                                      'par_link'=>$value, 'parent_item'=>$item,
-                                                                                     'parent_ret_id' => $parent_ret_id_par
+                                                                                     'parent_ret_id' => GlobalController::set_relit_id($parent_ret_id_par)
                                                                                      ])}}"
                                                    title="{{trans('main.add') . $message_mc_array_info[$value->id]}}">
                                                     {{$value->child_labels()}}

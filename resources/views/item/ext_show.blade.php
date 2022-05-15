@@ -211,14 +211,14 @@
                     onclick="document.location='{{route('item.ext_create', ['base'=>$item->base,
                                         'project'=>$project, 'role'=>$role,
                                         'usercode' =>GlobalController::usercode_calc(),
-                             'relit_id' => $relit_id_par,
+                             'relit_id' => GlobalController::set_relit_id($relit_id_par),
                              'string_all_codes_current' => $string_all_codes_current,
                              'string_link_ids_current' => $string_link_ids_current,
                              'string_item_ids_current' => $string_item_ids_current,
                              'heading'=>intval(false),
                              'base_index_page'=>$base_index_page, 'body_link_page'=>$body_link_page,'body_all_page'=>$body_all_page,
                              'view_link'=>$view_link,
-                             'parent_ret_id' => $parent_ret_id_par,
+                             'parent_ret_id' => GlobalController::set_relit_id($parent_ret_id_par),
                              'par_link'=>$par_link, 'parent_item'=>$parent_item])}}'">
                 <i class="fas fa-edit"></i>
                 {{trans('main.add')}}

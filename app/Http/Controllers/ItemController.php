@@ -336,9 +336,10 @@ class ItemController extends Controller
 
 //        // Нужно '$view_ret_id!=0', 0 - текущий проект
 //        if(!$view_ret_id && $view_ret_id!=0){
-//            $view_ret_id = $relit_id;
+//            GlobalController::set_relit_id($parent_ret_id_par) = $relit_id;
 //        }
 
+        $view_ret_id = GlobalController::set_relit_id($view_ret_id);
         $array_relips = GlobalController::get_project_bases($project, $role);
 
         // Пустой массив
