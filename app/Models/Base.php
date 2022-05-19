@@ -275,7 +275,6 @@ class Base extends Model
         return $link;
     }
 
-
     // Возвращает $link  с признаками 'parent_is_setup_project_external_description_txt' и 'parent_is_setup_project_internal_description_txt',
     // признаки передаются как параметры функции
     function get_link_project_description($name)

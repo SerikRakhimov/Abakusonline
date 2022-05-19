@@ -417,11 +417,11 @@ class ItemController extends Controller
         $string_link_ids_array_next = $next_all_links_mains_calc['string_link_ids_array_next'];
         $string_item_ids_array_next = $next_all_links_mains_calc['string_item_ids_array_next'];
         $string_all_codes_array_next = $next_all_links_mains_calc['string_all_codes_array_next'];
-        $message_mc_array_info = $next_all_links_mains_calc['message_mc_array_info'];
-        $message_mc_link_array_item = $next_all_links_mains_calc['message_mc_link_array_item'];
+        $message_ln_array_info = $next_all_links_mains_calc['message_ln_array_info'];
+        $message_ln_link_array_item = $next_all_links_mains_calc['message_ln_link_array_item'];
 
-        $message_mc_info = '';
-        $message_mc_link_item = '';
+        $message_ln_info = '';
+        $message_ln_validate = '';
 
         if (count($next_all_links) == 0) {
             $current_link = null;
@@ -496,7 +496,6 @@ class ItemController extends Controller
 //            if (!$next_all_is_enable && !$view_link) {
 //                // Если во всех $links не выводятся вычисляемые наименования, то берем первый $link по списку
 //                $current_link = $next_all_first_link;
-//                //dd($current_link);
 //            } else {
 //                if ($view_link == GlobalController::par_link_const_text_base_null()) {
 //                    if ($base_right['is_heading']) {
@@ -557,9 +556,9 @@ class ItemController extends Controller
             $string_item_ids_next = $string_current_next_ids['string_next_item_ids'];
             $string_all_codes_next = $string_current_next_ids['string_next_all_codes'];
 
-            $message_mc_calc = self::message_mc_calc($project, $item, $current_link);
-            $message_mc_info = $message_mc_calc['message_mc_info'];
-            $message_mc_link_item = $message_mc_calc['message_mc_link_item'];
+            $message_ln_calc = self::message_ln_calc($project, $item, $current_link);
+            $message_ln_info = $message_ln_calc['message_ln_info'];
+            $message_ln_validate = $message_ln_calc['message_ln_validate'];
         }
 
         if ($next_all_mains) {
@@ -612,6 +611,11 @@ class ItemController extends Controller
             ]);
         } else {
             //     session(['links' => ((!empty($_SERVER['HTTPS'])) ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . '/' . request()->path()]);
+
+            $message_bs_calc = ItemController::message_bs_calc($relip_project, $item->base);
+            $message_bs_info = $message_bs_calc['message_bs_info'];
+            $message_bs_validate = $message_bs_calc['message_bs_validate'];
+
             return view('item/item_index', ['project' => $project, 'item' => $item, 'role' => $role,
                 'relit_id' => $relit_id,
                 'view_link' => GlobalController::set_par_view_link_null($view_link),
@@ -640,13 +644,15 @@ class ItemController extends Controller
                 'next_all_first_link' => $next_all_first_link,
                 'next_all_is_code_enable' => $next_all_is_code_enable,
                 'next_all_is_enable' => $next_all_is_enable,
-                'message_mc_info' => $message_mc_info,
-                'message_mc_link_item' => $message_mc_link_item,
+                'message_bs_info' => $message_bs_info,
+                'message_bs_validate' => $message_bs_validate,
+                'message_ln_info' => $message_ln_info,
+                'message_ln_validate' => $message_ln_validate,
                 'string_link_ids_array_next' => $string_link_ids_array_next,
                 'string_item_ids_array_next' => $string_item_ids_array_next,
                 'string_all_codes_array_next' => $string_all_codes_array_next,
-                'message_mc_array_info' => $message_mc_array_info,
-                'message_mc_link_array_item' => $message_mc_link_array_item,
+                'message_ln_array_info' => $message_ln_array_info,
+                'message_ln_link_array_item' => $message_ln_link_array_item,
                 'base_index_page' => $base_index_page_current,
                 'body_link_page' => $body_link_page_current,
                 'body_all_page' => $body_all_page_current
@@ -901,12 +907,12 @@ class ItemController extends Controller
         }
 
         // Проверки link_maxcount, item_maxcount
-        $message_mc_array_info = array();
-        $message_mc_link_array_item = array();
+        $message_ln_array_info = array();
+        $message_ln_link_array_item = array();
         foreach ($next_all_links as $link) {
-            $message_mc_calc = self::message_mc_calc($parent_proj, $item, $link);
-            $message_mc_array_info[$link->id] = $message_mc_calc['message_mc_info'];
-            $message_mc_link_array_item[$link->id] = $message_mc_calc['message_mc_link_item'];
+            $message_ln_calc = self::message_ln_calc($parent_proj, $item, $link);
+            $message_ln_array_info[$link->id] = $message_ln_calc['message_ln_info'];
+            $message_ln_link_array_item[$link->id] = $message_ln_calc['message_ln_validate'];
         }
 
         // $next_all_is_enable равен истина, если во всех links выводить вычисляемое наименование
@@ -927,7 +933,7 @@ class ItemController extends Controller
         // Нужно '$next_all_is_all_create = false;'
         $next_all_is_all_create = false;
         foreach ($next_all_is_create as $key => $value) {
-            if ($value == true && $message_mc_link_array_item[$key] == "") {
+            if ($value == true && $message_ln_link_array_item[$key] == "") {
                 $next_all_is_all_create = true;
                 break;
             }
@@ -944,23 +950,37 @@ class ItemController extends Controller
             'string_link_ids_array_next' => $string_link_ids_array_next,
             'string_item_ids_array_next' => $string_item_ids_array_next,
             'string_all_codes_array_next' => $string_all_codes_array_next,
-            'message_mc_array_info' => $message_mc_array_info, 'message_mc_link_array_item' => $message_mc_link_array_item];
+            'message_ln_array_info' => $message_ln_array_info, 'message_ln_link_array_item' => $message_ln_link_array_item];
     }
 
-    function message_mc_calc(Project $project, Item $item, $current_link)
+    function message_bs_calc(Project $project, Base $base)
+    {
+        $message_bs_mc = GlobalController::base_maxcount_message($base);
+        $message_bs_byuser_mc = GlobalController::base_byuser_maxcount_message($base);
+        $message_bs_info = ($message_bs_mc == "" ? "" : ', ' . PHP_EOL . $message_bs_mc)
+            . ($message_bs_byuser_mc == "" ? "" : ', ' . PHP_EOL . $message_bs_byuser_mc);
+        $message_base = GlobalController::base_maxcount_validate($project, $base, true);
+        $message_byuser_base = GlobalController::base_byuser_maxcount_validate($project, $base, true);
+        $message_bs_validate = $message_base . $message_byuser_base;
+        return ['message_bs_info' => $message_bs_info, 'message_bs_validate' => $message_bs_validate];
+    }
+
+    function message_ln_calc(Project $project, Item $item, Link $current_link)
     {
         $message_bs_mc = GlobalController::base_maxcount_message($current_link->child_base);
         $message_bs_byuser_mc = GlobalController::base_byuser_maxcount_message($current_link->child_base);
         $message_ln_mc = GlobalController::link_maxcount_message($current_link);
         $message_it_mc = GlobalController::link_item_maxcount_message($current_link);
-        $message_mc_info = ($message_bs_mc == "" ? "" : ', ' . PHP_EOL . $message_bs_mc)
+        $message_ln_info = ($message_bs_mc == "" ? "" : ', ' . PHP_EOL . $message_bs_mc)
             . ($message_bs_byuser_mc == "" ? "" : ', ' . PHP_EOL . $message_bs_byuser_mc)
             . ($message_ln_mc == "" ? "" : ', ' . PHP_EOL . $message_ln_mc)
             . ($message_it_mc == "" ? "" : ', ' . PHP_EOL . $message_it_mc);
+        $message_base = GlobalController::base_maxcount_validate($project, $current_link->child_base, true);
+        $message_byuser_base = GlobalController::base_byuser_maxcount_validate($project, $current_link->child_base, true);
         $message_link = GlobalController::link_maxcount_validate($project, $current_link, true);
         $message_item = GlobalController::link_item_maxcount_validate($project, $item, $current_link, true);
-        $message_mc_link_item = $message_link . $message_item;
-        return ['message_mc_info' => $message_mc_info, 'message_mc_link_item' => $message_mc_link_item];
+        $message_ln_validate = $message_base . $message_byuser_base . $message_link . $message_item;
+        return ['message_ln_info' => $message_ln_info, 'message_ln_validate' => $message_ln_validate];
     }
 
     function store_link_change(Request $request)
@@ -2255,6 +2275,7 @@ class ItemController extends Controller
                             if ($relip_project) {
                                 $item_seek->project_id = $relip_project->id;
                             } else {
+                                // Нужно
                                 dd(trans('main.parent_project_not_found' . '!'));
                             }
                             $item_seek->code = uniqid($item_seek->id . '_', true);

@@ -5,16 +5,26 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">{{ __('Dashboard') }}</div>
-
+                <div class="card-header">{{trans('main.information')}}</div>
                 <div class="card-body">
                     @if (session('status'))
                         <div class="alert alert-success" role="alert">
                             {{ session('status') }}
                         </div>
                     @endif
-
-                    {{ __('You are logged in!') }}
+                    {{(trans('main.you_are_logged_in') . '!')}}
+                        <br>
+                        <?php
+                        // Ссылка на проект Настройки пользователя
+                        $usersetup_link = env('USERSETUP_LINK');
+                        ?>
+                        @if($usersetup_link !='')
+                            {{(trans('main.specify_additional_settings'))}}:
+                            <a href="{{$usersetup_link}}"
+                               title="{{trans('main.personal_account_of_the_user')}}">
+                                <big>{{trans('main.personal_account_of_the_user')}}</big>
+                            </a>
+                        @endif
                 </div>
             </div>
         </div>

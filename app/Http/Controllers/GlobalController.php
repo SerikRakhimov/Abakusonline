@@ -171,7 +171,7 @@ class GlobalController extends Controller
 //        }
 
 //      По умолчанию фильтровать по пользователю в списке
-        if (($is_list_base_byuser == true) && ($base->is_default_list_base_byuser == true)) {
+        if (($is_list_base_byuser == false) && ($base->is_default_list_base_byuser == true)) {
             $is_list_base_byuser = true;
         }
 
@@ -1644,30 +1644,35 @@ class GlobalController extends Controller
         return $path;
     }
 
-    function get_author_roles_projects($project_id = null)
+    function get_author_roles_projects($project_id)
     {
         // Проекты, у которых в accesses есть записи для текущего пользователя
         // с ролью Автор
         $projects = null;
-        if ($project_id) {
-            $projects = Project::where('id', $project_id)
-                ->whereHas('accesses', function ($query) use ($project_id) {
-                    $query->where('user_id', GlobalController::glo_user_id())
-                        ->where('project_id', $project_id);
-                })->whereHas('template.roles', function ($query) {
-                    $query->where('is_author', true);
-                });
-        } else {
-            $projects = Project::whereHas('accesses', function ($query) {
-                $query->where('user_id', GlobalController::glo_user_id());
+        $projects = Project::where('id', $project_id)
+            ->whereHas('accesses', function ($query) use ($project_id) {
+                $query->where('user_id', GlobalController::glo_user_id())
+                    ->where('project_id', $project_id);
             })->whereHas('template.roles', function ($query) {
                 $query->where('is_author', true);
             });
-        }
         return $projects;
     }
 
-    function is_author_roles_project($project_id = null)
+    function get_author_users_projects($user_id)
+    {
+        // Проекты, у которых в accesses есть записи для текущего пользователя
+        // с ролью Автор
+        $projects = null;
+        $projects = Project::whereHas('accesses', function ($query) use ($user_id) {
+            $query->where('user_id', $user_id);
+        })->whereHas('template.roles', function ($query) {
+            $query->where('is_author', true);
+        });
+        return $projects;
+    }
+
+    function is_author_roles_project($project_id)
     {
         $projects = self::get_author_roles_projects($project_id);
         $project = $projects->first();

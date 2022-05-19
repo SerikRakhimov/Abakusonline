@@ -10,24 +10,19 @@
     use \App\Http\Controllers\ItemController;
     use \App\Http\Controllers\MainController;
     $relip_project = GlobalController::calc_relip_project($relit_id, $project);
-//  $message_bs_mc = GlobalController::base_maxcount_message($base);
-    $message_bs_mc = GlobalController::base_maxcount_validate($relip_project, $base, true);
 
-//  $message_bs_byuser_mc = GlobalController::base_byuser_maxcount_message($base);
-    $message_bs_byuser_mc = GlobalController::base_byuser_maxcount_validate($project, $base, true);
-
-    $message_mc = ($message_bs_mc == "" ? "" : ', ' . PHP_EOL . $message_bs_mc)
-        . ($message_bs_byuser_mc == "" ? "" : ', ' . PHP_EOL . $message_bs_byuser_mc);
+    $message_bs_calc = ItemController::message_bs_calc($relip_project, $base);
+    $message_bs_info = $message_bs_calc['message_bs_info'];
+    $message_bs_validate = $message_bs_calc['message_bs_validate'];
 
     $heading = 1;
     $parent_ret_id = 0;
     $relit_id_par = null;
     $parent_ret_id_par = null;
-    if($heading == 1){
+    if ($heading == 1) {
         $relit_id_par = $relit_id;
         $parent_ret_id_par = $parent_ret_id;
-    }
-    else{
+    } else {
         $relit_id_par = $parent_ret_id;
         $parent_ret_id_par = $relit_id;
     }
@@ -38,18 +33,26 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-12 text-left align-top">
-                <h3>{{$base->names()}}</h3>
+                <h3>
+                    @if($message_bs_info != '')
+                        <a href="#" title="{{$message_bs_info}}">
+                            {{$base->names()}}
+                        </a>
+                    @else
+                        {{$base->names()}}
+                    @endif
+                </h3>
             </div>
         </div>
         {{--        Похожая проверка в ItemController::ext_create() и base_index.php--}}
         @if($base_right['is_list_base_create'] == true)
             <div class="col-12 text-right">
-                {{--            Не удалять: используется $message_bs_m --}}
-                @if($message_bs_mc == "")
+                {{--            Не удалять: используется $message_bs_validate --}}
+                @if($message_bs_validate == "")
                     {{-- Используется "'parent_ret_id' => 0"--}}
                     <button type="button" class="btn btn-dreamer"
                             {{--                        Выводится $message_mc--}}
-                            title="{{trans('main.add') . ', ' . $message_mc}}"
+                            title="{{trans('main.add') . ', ' . $message_bs_info}}"
                             onclick="document.location='{{route('item.ext_create',
                             ['base'=>$base, 'project'=>$project, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(),
                              'relit_id' =>$relit_id_par,

@@ -11,7 +11,6 @@ class Project extends Model
 {
     protected $fillable = ['name_lang_0', 'name_lang_1', 'name_lang_2', 'name_lang_3'];
 
-
     function template()
     {
         return $this->belongsTo(Template::class, 'template_id');
@@ -83,7 +82,7 @@ class Project extends Model
 
             }
         }
-        $result['logo'] = $item_logo;
+        $result['logo_item'] = $item_logo;
         $result['ext_desc'] = $item_ext_desc;
         $result['int_desc'] = $item_int_desc;
         return $result;

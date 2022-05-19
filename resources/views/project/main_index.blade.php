@@ -13,7 +13,7 @@
     <?php
     $i = $projects->firstItem() - 1;
     ?>
-<div class="card-columns">
+    <div class="card-columns">
         @foreach($projects as $project)
             <?php
             $i++;
@@ -33,6 +33,9 @@
             //            }
             $get_items_setup = $project->get_items_setup();
             $roles = ProjectController::get_roles($project, $all_projects, $subs_projects, $my_projects, $mysubs_projects);
+            $get_project_logo_item = $get_items_setup['logo_item'];
+            $get_user_author_avatar_item = null;
+            $get_user_author_avatar_item = $project->user->get_user_avatar_item();
             ?>
             @if(count($roles) == 0)
                 @continue
@@ -65,8 +68,8 @@
                 {{--                <img class="card-img-top" src="{{Storage::url('background.png')}}" alt="Card image">--}}
                 <div class="card-header">
                     <div class="row">
-{{--                        <div class="col-sm-6 text-left text-title">--}}
-                            <div class="col-sm-8 text-left text-label">
+                        {{--                        <div class="col-sm-6 text-left text-title">--}}
+                        <div class="col-sm-8 text-left text-label">
                             <small>{{$project->account}}</small>
                         </div>
                         <div class="col-sm-4 text-right">
@@ -79,10 +82,10 @@
                     </p>
                 </div>
                 <div class="card-body">
-                    @if($get_items_setup['logo'])
+                    @if($get_project_logo_item)
                         {{--                            <div class="card-block text-center">--}}
                         <div class="card-block text-center">
-                            @include('view.img',['item'=>$get_items_setup['logo'], 'size'=>"medium", 'filenametrue'=>false, 'link'=>false, 'img_fluid'=>true, 'title'=>'empty'])
+                            @include('view.img',['item'=>$get_project_logo_item, 'size'=>"medium", 'filenametrue'=>false, 'link'=>false, 'img_fluid'=>true, 'title'=>'empty'])
                         </div>
                     @endif
                     <p>
@@ -93,10 +96,14 @@
                     <form action="{{route('project.start_check')}}" method=GET" enctype=multipart/form-data>
                         @csrf
                         <input type="hidden" name="project_id" value="{{$project->id}}">
-                        <input type="hidden" name="is_cancel_all_projects" value="{{GlobalController::num_is_boolean($all_projects)}}">
-                        <input type="hidden" name="is_cancel_subs_projects" value="{{GlobalController::num_is_boolean($subs_projects)}}">
-                        <input type="hidden" name="is_cancel_my_projects" value="{{GlobalController::num_is_boolean($my_projects)}}">
-                        <input type="hidden" name="is_cancel_mysubs_projects" value="{{GlobalController::num_is_boolean($mysubs_projects)}}">
+                        <input type="hidden" name="is_cancel_all_projects"
+                               value="{{GlobalController::num_is_boolean($all_projects)}}">
+                        <input type="hidden" name="is_cancel_subs_projects"
+                               value="{{GlobalController::num_is_boolean($subs_projects)}}">
+                        <input type="hidden" name="is_cancel_my_projects"
+                               value="{{GlobalController::num_is_boolean($my_projects)}}">
+                        <input type="hidden" name="is_cancel_mysubs_projects"
+                               value="{{GlobalController::num_is_boolean($mysubs_projects)}}">
                         <div class="form-group row">
                             <div class="col-sm-2 text-right">
                                 <label for="role_id" class="col-form-label">{{trans('main.role')}}</label>
@@ -149,7 +156,12 @@
                             <small class="text-muted">Id: {{$project->id}}</small>
                         </div>
                         <div class="col-sm-8 text-right">
-                            <small class="text-muted">{{trans('main.author')}}: {{$project->user->name()}}</small>
+                            <small class="text-muted">
+                                {{trans('main.author')}}: {{$project->user->name()}}
+                                @if($get_user_author_avatar_item)
+                                    @include('view.img',['item'=>$get_user_author_avatar_item, 'size'=>"avatar", 'filenametrue'=>false, 'link'=>false, 'img_fluid'=>false, 'title'=>'empty'])
+                                @endif
+                            </small>
                         </div>
                     </div>
                 </div>

@@ -351,6 +351,9 @@ return [
     'parent_is_setup_project_logo_img' => '"Setup" - project logo (for images)',
     'parent_is_setup_project_external_description_txt' => '"Setup" - external project description (for texts)',
     'parent_is_setup_project_internal_description_txt' => '"Setup" - internal project description (for texts)',
+    'parent_is_user_login_str' => 'User name (for strings)',
+    'parent_is_user_email_str' => 'User E-Mail (for strings)',
+    'parent_is_user_avatar_img' => 'User avatar (for images)',
     'length_txt' => 'Length in characters (0 - unlimited)',
     'length_txt_rule' => 'Maximum number of characters must be no more than',
     'delete_image'=>'Delete image',
@@ -409,4 +412,7 @@ return [
     'is_list_base_relits_setup' => 'Show Bases - related project settings',
     'need_to_uncheck' => 'Need to uncheck',
     'value_uniqueness_violation' => 'Value uniqueness violation',
+    'you_are_logged_in' => 'You are logged in',
+    'personal_account_of_the_user' => 'Personal account of the user',
+    'specify_additional_settings' => 'Specify additional settings',
     ];

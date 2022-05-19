@@ -351,6 +351,9 @@ return [
     'parent_is_setup_project_logo_img' => '"Настройка" - логотип проекта (для изображений)',
     'parent_is_setup_project_external_description_txt' => '"Настройка" - внешнее описание проекта (для текста)',
     'parent_is_setup_project_internal_description_txt' => '"Настройка" - внутреннее описание проекта (для текста)',
+    'parent_is_user_login_str' => 'Имя пользователя (для строк)',
+    'parent_is_user_email_str' => 'E-Mail пользователя (для строк)',
+    'parent_is_user_avatar_img' => 'Аватар пользователя (для изображений)',
     'length_txt' => 'Длина в символах (0 - без ограничений)',
     'length_txt_rule' => 'Максимальное количество символов должно быть не более',
     'delete_image'=>'Удалить изображение',
@@ -409,4 +412,7 @@ return [
     'is_list_base_relits_setup' => 'Показывать Основы - настройки взаимосвязанных проектов',
     'need_to_uncheck' => 'Нужно убрать отметку',
     'value_uniqueness_violation' => 'Нарушение уникальности значений',
+    'you_are_logged_in' => 'Вы вошли в систему',
+    'personal_account_of_the_user' => 'Личный кабинет пользователя',
+    'specify_additional_settings' => 'Укажите дополнительные настройки',
     ];

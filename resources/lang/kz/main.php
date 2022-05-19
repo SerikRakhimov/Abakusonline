@@ -351,6 +351,9 @@ return [
     'parent_is_setup_project_logo_img' => '"Теңшеу" - жоба логотипі (суреттер үшін)',
     'parent_is_setup_project_external_description_txt' => '"Теңшеу" - жобаның сыртқы сипаттамасы (мәтіндер үшін)',
     'parent_is_setup_project_internal_description_txt' => '"Теңшеу" - жобаның ішкі сипаттамасы (мәтіндер үшін)',
+    'parent_is_user_login_str' => 'Пайдаланушы аты (жолдар үшін)',
+    'parent_is_user_email_str' => 'Пайдаланушының E-Mail (жолдар үшін)',
+    'parent_is_user_avatar_img' => 'Пайдаланушы аватары (суреттер үшін)',
     'length_txt' => 'Таңбалардағы ұзындық (0 - шектеусіз)',
     'length_txt_rule' => 'Таңбалардың ең көп саны',
     'delete_image'=>'Суретті жою',
@@ -409,4 +412,7 @@ return [
     'is_list_base_relits_setup' => 'Өзара байланысты жобалардың Негіздерін көрсету',
     'need_to_uncheck' => 'Құсбелгіні алып тастау қажет',
     'value_uniqueness_violation' => 'Мәндердің бірегейлігінің бұзылуы',
+    'you_are_logged_in' => 'Жүйеге кірдіңіз',
+    'personal_account_of_the_user' => 'Пайдаланушының жеке кабинеті',
+    'specify_additional_settings' => 'Қосымша параметрлерді көрсетіңіз',
     ];

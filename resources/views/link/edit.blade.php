@@ -27,7 +27,7 @@
         @endif
 
         <div class="form-group">
-            <label for="link_maxcount">{{trans('main.child')}}_{{trans('main.link_maxcount')}}<span
+            <label for="link_maxcount">{{trans('main.child')}}_{{trans('main.link')}}_{{trans('main.link_maxcount')}}<span
                     class="text-danger">*</span></label>
             <input type="number"
                    name="link_maxcount"
@@ -614,6 +614,49 @@
                        for="parent_is_setup_project_internal_description_txt">{{trans('main.parent_is_setup_project_internal_description_txt')}}</label>
             </div>
         </div>
+
+        <div class="form-group" id="parent_is_user_login_str_form_group">
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" name="parent_is_user_login_str"
+                       id="parent_is_user_login_str"
+                       {{--            "false" - значение по умолчанию --}}
+                       @if ((old('parent_is_user_login_str') ?? ($link->parent_is_user_login_str ?? false)) ==  true)
+                       checked
+                    @endif
+                >
+                <label class="form-check-label"
+                       for="parent_is_user_login_str">{{trans('main.parent_is_user_login_str')}}</label>
+            </div>
+        </div>
+
+        <div class="form-group" id="parent_is_user_email_str_form_group">
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" name="parent_is_user_email_str"
+                       id="parent_is_user_email_str"
+                       {{--            "false" - значение по умолчанию --}}
+                       @if ((old('parent_is_user_email_str') ?? ($link->parent_is_user_email_str ?? false)) ==  true)
+                       checked
+                    @endif
+                >
+                <label class="form-check-label"
+                       for="parent_is_user_email_str">{{trans('main.parent_is_user_email_str')}}</label>
+            </div>
+        </div>
+
+        <div class="form-group" id="parent_is_user_avatar_img_form_group">
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" name="parent_is_user_avatar_img"
+                       id="parent_is_user_avatar_img"
+                       {{--            "false" - значение по умолчанию --}}
+                       @if ((old('parent_is_user_avatar_img') ?? ($link->parent_is_user_avatar_img ?? false)) ==  true)
+                       checked
+                    @endif
+                >
+                <label class="form-check-label"
+                       for="parent_is_user_avatar_img">{{trans('main.parent_is_user_avatar_img')}}</label>
+            </div>
+        </div>
+
         {{--        1.0 В списке выбора использовать поле вычисляемой таблицы--}}
         <div class="form-group" id="parent_is_in_the_selection_list_use_the_calculated_table_field_form_group">
             <div class="form-check form-check-inline">

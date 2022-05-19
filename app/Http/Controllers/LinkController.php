@@ -157,6 +157,9 @@ class LinkController extends Controller
         $link->parent_is_setup_project_logo_img = isset($request->parent_is_setup_project_logo_img) ? true : false;
         $link->parent_is_setup_project_external_description_txt = isset($request->parent_is_setup_project_external_description_txt) ? true : false;
         $link->parent_is_setup_project_internal_description_txt = isset($request->parent_is_setup_project_internal_description_txt) ? true : false;
+        $link->parent_is_user_login_str = isset($request->parent_is_user_login_str) ? true : false;
+        $link->parent_is_user_email_str = isset($request->parent_is_user_email_str) ? true : false;
+        $link->parent_is_user_avatar_img = isset($request->parent_is_user_avatar_img) ? true : false;
 
         if ($link->parent_is_calcname == false) {
             $link->parent_is_small_calcname = false;
@@ -338,6 +341,21 @@ class LinkController extends Controller
                 $link->parent_is_setup_project_internal_description_txt = false;
             }
         }
+        if ($link->parent_is_user_login_str == true) {
+            if (!($link->parent_base->type_is_string())) {
+                $link->parent_is_user_login_str = false;
+            }
+        }
+        if ($link->parent_is_user_email_str == true) {
+            if (!($link->parent_base->type_is_string())) {
+                $link->parent_is_user_email_str = false;
+            }
+        }
+        if ($link->parent_is_user_avatar_img == true) {
+            if (!($link->parent_base->type_is_image())) {
+                $link->parent_is_user_avatar_img = false;
+            }
+        }
 
         if ($link->parent_is_enabled_boolean_value) {
             $link->parent_enabled_boolean_value_link_id = $request->parent_enabled_boolean_value_link_id;
@@ -422,6 +440,9 @@ class LinkController extends Controller
         $link->parent_is_setup_project_logo_img = isset($request->parent_is_setup_project_logo_img) ? true : false;
         $link->parent_is_setup_project_external_description_txt = isset($request->parent_is_setup_project_external_description_txt) ? true : false;
         $link->parent_is_setup_project_internal_description_txt = isset($request->parent_is_setup_project_internal_description_txt) ? true : false;
+        $link->parent_is_user_login_str = isset($request->parent_is_user_login_str) ? true : false;
+        $link->parent_is_user_email_str = isset($request->parent_is_user_email_str) ? true : false;
+        $link->parent_is_user_avatar_img = isset($request->parent_is_user_avatar_img) ? true : false;
 
         if ($link->parent_is_calcname == false) {
             $link->parent_is_small_calcname = false;
@@ -603,6 +624,22 @@ class LinkController extends Controller
                 $link->parent_is_setup_project_internal_description_txt = false;
             }
         }
+        if ($link->parent_is_user_login_str == true) {
+            if (!($link->parent_base->type_is_string())) {
+                $link->parent_is_user_login_str = false;
+            }
+        }
+        if ($link->parent_is_user_email_str == true) {
+            if (!($link->parent_base->type_is_string())) {
+                $link->parent_is_user_email_str = false;
+            }
+        }
+        if ($link->parent_is_user_avatar_img == true) {
+            if (!($link->parent_base->type_is_image())) {
+                $link->parent_is_user_avatar_img = false;
+            }
+        }
+
         if ($link->parent_is_enabled_boolean_value) {
             $link->parent_enabled_boolean_value_link_id = $request->parent_enabled_boolean_value_link_id;
 //            Проверка '$request->parent_enabled_boolean_value_link_id == $link->id'

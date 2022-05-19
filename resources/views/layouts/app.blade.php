@@ -30,6 +30,8 @@ use \App\Http\Controllers\GlobalController;
 
 
 
+
+
         }
     </style>
 </head>
@@ -109,16 +111,16 @@ use \App\Http\Controllers\GlobalController;
                     >{{mb_strtoupper($value)}}</span>
                 </a>
             @endforeach
-{{--            @foreach (config('app.displays') as $value)--}}
-{{--                <a class="navbar-brand" href="{{route('global.set_display',--}}
-{{--                            ['display'=>$value])}}">--}}
-{{--                    <span--}}
-{{--                        @if(GlobalController::get_display() == $value)--}}
-{{--                        style="text-decoration: underline"--}}
-{{--                        @endif--}}
-{{--                    >{{mb_strtoupper($value)}}</span>--}}
-{{--                </a>--}}
-{{--            @endforeach--}}
+            {{--            @foreach (config('app.displays') as $value)--}}
+            {{--                <a class="navbar-brand" href="{{route('global.set_display',--}}
+            {{--                            ['display'=>$value])}}">--}}
+            {{--                    <span--}}
+            {{--                        @if(GlobalController::get_display() == $value)--}}
+            {{--                        style="text-decoration: underline"--}}
+            {{--                        @endif--}}
+            {{--                    >{{mb_strtoupper($value)}}</span>--}}
+            {{--                </a>--}}
+            {{--            @endforeach--}}
             <a class="navbar-brand" href="{{ url('/') }}" title="{{config('app.name')}}">
                 <img src="{{Storage::url('logotype.png')}}" width="30" height="30" class="d-inline-block align-top"
                      alt="" loading="lazy">
@@ -273,6 +275,16 @@ use \App\Http\Controllers\GlobalController;
                                        title="{{trans('main.setup')}}">
                                         {{trans('main.setup')}}
                                     </a>
+                                    <?php
+                                    // Ссылка на проект Настройки пользователя
+                                    $usersetup_link = env('USERSETUP_LINK');
+                                    ?>
+                                    @if($usersetup_link !='')
+                                        <a class="dropdown-item" href="{{$usersetup_link}}"
+                                           title="{{trans('main.personal_account_of_the_user')}}">
+                                            {{trans('main.personal_account_of_the_user')}}
+                                        </a>
+                                    @endif
                                     {{--                                    <a class="dropdown-item" href="#">--}}
                                     {{--                                        {{trans('main.all_projects')}}--}}
                                     {{--                                    </a>--}}

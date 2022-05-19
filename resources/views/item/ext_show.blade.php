@@ -37,7 +37,17 @@
                    title="">
                 {{$item->id}}
                 </a>
-            </span></p>
+            </span>
+        </p>
+        @if($base->is_code_needed == true)
+            <p class="text-label">{{trans('main.code')}}: <span class="text-related">
+                        <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,
+                                'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id])}}"
+                           title="">
+                        {{$item->code}}
+                        </a>
+                    </span></p>
+        @endif
         {{--    @foreach($array_plan as $key=>$value)--}}
         {{--        <?php--}}
         {{--        $result = ItemController::get_items_for_link(Link::find($key));--}}
@@ -117,15 +127,6 @@
                     </p>
                     @if($base_right['is_show_base_enable'] == true)
                         {{--        <p>--}}
-                        @if($base->is_code_needed == true)
-                            <p class="text-label">{{trans('main.code')}}: <span class="text-related">
-                        <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,
-                                'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id])}}"
-                           title="">
-                        {{$item->code}}
-                                                            </a>
-                    </span></p>
-                        @endif
                         {{--        @foreach (config('app.locales') as $key=>$value)--}}
                         {{--            {{trans('main.name')}} ({{trans('main.' . $value)}}): <span class="text-related">{{$item['name_lang_' . $key]}}</span><br>--}}
                         {{--        @endforeach--}}
@@ -188,11 +189,10 @@
     }
     $relit_id_par = null;
     $parent_ret_id_par = null;
-    if($heading == 1){
+    if ($heading == 1) {
         $relit_id_par = $relit_id;
         $parent_ret_id_par = $parent_ret_id;
-    }
-    else{
+    } else {
         $relit_id_par = $parent_ret_id;
         $parent_ret_id_par = $relit_id;
     }
@@ -205,27 +205,29 @@
     </i>
     @if ($type_form == 'show')
         <p>
-            <button type="button" class="btn btn-dreamer"
-                    {{--                        Выводится $message_mc--}}
-                    title="{{trans('main.add')}}"
-                    onclick="document.location='{{route('item.ext_create', ['base'=>$item->base,
-                                        'project'=>$project, 'role'=>$role,
-                                        'usercode' =>GlobalController::usercode_calc(),
-                             'relit_id' => GlobalController::set_relit_id($relit_id_par),
-                             'string_all_codes_current' => $string_all_codes_current,
-                             'string_link_ids_current' => $string_link_ids_current,
-                             'string_item_ids_current' => $string_item_ids_current,
-                             'heading'=>intval(false),
-                             'base_index_page'=>$base_index_page, 'body_link_page'=>$body_link_page,'body_all_page'=>$body_all_page,
-                             'view_link'=>$view_link,
-                             'parent_ret_id' => GlobalController::set_relit_id($parent_ret_id_par),
-                             'par_link'=>$par_link, 'parent_item'=>$parent_item])}}'">
-                <i class="fas fa-edit"></i>
-                {{trans('main.add')}}
-            </button>
+            {{--            @if($base_right['is_list_base_create'] == true)--}}
+            {{--            <button type="button" class="btn btn-dreamer"--}}
+            {{--                    --}}{{--                        Выводится $message_mc--}}
+            {{--                    title="{{trans('main.add')}}"--}}
+            {{--                    onclick="document.location='{{route('item.ext_create', ['base'=>$item->base,--}}
+            {{--                                        'project'=>$project, 'role'=>$role,--}}
+            {{--                                        'usercode' =>GlobalController::usercode_calc(),--}}
+            {{--                             'relit_id' => GlobalController::set_relit_id($relit_id_par),--}}
+            {{--                             'string_all_codes_current' => $string_all_codes_current,--}}
+            {{--                             'string_link_ids_current' => $string_link_ids_current,--}}
+            {{--                             'string_item_ids_current' => $string_item_ids_current,--}}
+            {{--                             'heading'=>intval(false),--}}
+            {{--                             'base_index_page'=>$base_index_page, 'body_link_page'=>$body_link_page,'body_all_page'=>$body_all_page,--}}
+            {{--                             'view_link'=>$view_link,--}}
+            {{--                             'parent_ret_id' => GlobalController::set_relit_id($parent_ret_id_par),--}}
+            {{--                             'par_link'=>$par_link, 'parent_item'=>$parent_item])}}'">--}}
+            {{--                <i class="fas fa-edit"></i>--}}
+            {{--                {{trans('main.add')}}--}}
+            {{--            </button>--}}
+            {{--            @endif--}}
             {{--Похожая проверка в ItemController::ext_edit() и ext_show.php--}}
             @if($base_right['is_list_base_update'] == true)
-            {{-- Используется "'relit_id'=>$parent_ret_id, 'parent_ret_id' => $relit_id"--}}
+                {{-- Используется "'relit_id'=>$parent_ret_id, 'parent_ret_id' => $relit_id"--}}
                 <button type="button" class="btn btn-dreamer mb-1 mb-sm-0"
                         onclick='document.location="{{route('item.ext_edit',
             ['item'=>$item,'project'=>$project, 'role'=>$role,

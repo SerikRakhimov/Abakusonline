@@ -726,13 +726,34 @@
                                                 class="text-danger">*</span></label>
                                     </div>
                                     <div class="col-sm-7">
+                                        <?php
+                                        $fix_name = '';
+                                        // Если корректировка
+                                        if ($base_link_right['is_edit_link_update'] == true) {
+                                            if (Auth::check()) {
+                                                if ($link->parent_is_user_login_str == true) {
+                                                    $fix_name = Auth::user()->name();
+                                                } elseif ($link->parent_is_user_email_str == true) {
+                                                    $fix_name = Auth::user()->email();
+                                                }
+                                            }
+                                        }
+                                        ?>
                                         <input type="text"
                                                name="{{$input_name}}"
                                                id="link{{$input_name}}"
                                                class="form-control @error($input_name) is-invalid @enderror"
                                                placeholder=""
+                                               @if($fix_name == '')
                                                value="{{(old($input_name)) ?? (($value != null) ? Item::find($value)['name_lang_'.$lang_key] : '')}}"
-                                               maxlength="255">
+                                               @else
+                                               value="{{$fix_name}}"
+                                               @endif
+                                               maxlength="255"
+                                               @if($fix_name != '')
+                                               readonly
+                                            @endif
+                                        >
                                         @error($input_name)
                                         <div class="invalid-feedback">
                                             {{--                                    <div class="text-danger">--}}

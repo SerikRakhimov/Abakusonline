@@ -19,7 +19,7 @@
     $relip_project = GlobalController::calc_relip_project($relit_id, $project);
     $relip_body_project = GlobalController::calc_relip_project($view_ret_id, $project);
     $relip_body_name_project = '';
-    if ($relip_body_project->id != $project->id){
+    if ($relip_body_project->id != $project->id) {
         $relip_body_name_project = trans('main.project') . ': ' . $relip_body_name_project->name();
     }
     // Нужно
@@ -82,7 +82,7 @@
                                     @if ($base_right['is_list_base_calc'] == true)
                                         <a href="{{route('item.base_index', ['base'=>$item->base,
                             'project'=>$project, 'role'=>$role, 'relit_id'=>$relit_id])}}"
-                                           title="{{$item->base->names()}}">
+                                           title="{{$item->base->names() . $message_bs_info}}">
                                             @endif
                                             {{$title}}:
                                             @if ($base_right['is_list_base_calc'] == true)
@@ -99,7 +99,7 @@
             'string_all_codes_current'=>$string_all_codes_current,
             'heading' => intval(true),
             'base_index_page' => $base_index_page, 'body_link_page' => $body_link_page, 'body_all_page' => $body_all_page,
-            'view_link'=>$view_link,
+            'view_link'=> GlobalController::set_par_view_link_null($view_link),
             'par_link'=>$tree_array_last_link_id, 'parent_item'=>$tree_array_last_item_id,
             'parent_ret_id' => $view_ret_id])}}"
                                            title="{{trans('main.viewing_record')}}: {{$item->cdnm()}}">
@@ -124,7 +124,7 @@
                         @if ($base_right['is_list_base_calc'] == true)
                             <a href="{{route('item.base_index', ['base'=>$item->base,
                             'project'=>$project, 'role'=>$role, 'relit_id'=>$relit_id])}}"
-                               title="{{$item->base->names()}}">
+                               title="{{$item->base->names() . $message_bs_info}}">
                                 @endif
                                 {{$title}}:
                                 @if($item->base->is_code_needed == true)
@@ -145,7 +145,7 @@
             'string_all_codes_current'=>$string_all_codes_current,
             'heading' => intval(true),
             'base_index_page' => $base_index_page, 'body_link_page' => $body_link_page, 'body_all_page' => $body_all_page,
-            'view_link'=>$view_link,
+            'view_link'=> GlobalController::set_par_view_link_null($view_link),
             'par_link'=>$tree_array_last_link_id, 'parent_item'=>$tree_array_last_item_id,
             'parent_ret_id' => $relit_id])}}"
                            title="{{trans('main.viewing_record')}}: {{$item->cdnm()}}">
@@ -177,21 +177,22 @@
             </div>
             <div class="col-2 text-right">
                 @if ($base_right['is_list_base_create'] == true)
-                    <?php
-                    $heading = 1;
-                    $relit_id_par = null;
-                    $parent_ret_id_par = null;
-                    if ($heading == 1) {
-                        $relit_id_par = $relit_id;
-                        $parent_ret_id_par = $view_ret_id;
-                    } else {
-                        $relit_id_par = $view_ret_id;
-                        $parent_ret_id_par = $relit_id;
-                    }
-                    ?>
-                    <button type="button" class="btn btn-dreamer"
-                            title="{{trans('main.add')}} '{{$item->base->name()}}'"
-                            onclick="document.location='{{route('item.ext_create', ['base'=>$item->base,
+                    @if($message_bs_validate == "")
+                        <?php
+                        $heading = 1;
+                        $relit_id_par = null;
+                        $parent_ret_id_par = null;
+                        if ($heading == 1) {
+                            $relit_id_par = $relit_id;
+                            $parent_ret_id_par = $view_ret_id;
+                        } else {
+                            $relit_id_par = $view_ret_id;
+                            $parent_ret_id_par = $relit_id;
+                        }
+                        ?>
+                        <button type="button" class="btn btn-dreamer"
+                                title="{{trans('main.add') . " '". $item->base->name() . "' " . $message_bs_info}}"
+                                onclick="document.location='{{route('item.ext_create', ['base'=>$item->base,
                                              'project'=>$project, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(),
                                              'relit_id' => GlobalController::set_relit_id($relit_id_par),
                                              'string_link_ids_current'=>$string_link_ids_current,
@@ -203,8 +204,9 @@
                                              'par_link'=>$tree_array_last_link_id, 'parent_item'=>$tree_array_last_item_id,
                                              'parent_ret_id' => GlobalController::set_relit_id($parent_ret_id_par)
                                              ])}}'">
-                        <i class="fas fa-plus d-inline"></i>&nbsp;{{trans('main.add')}}
-                    </button>
+                            <i class="fas fa-plus d-inline"></i>&nbsp;{{trans('main.add')}}
+                        </button>
+                    @endif
                 @endif
             </div>
             {{--            <div class="col-1 text-center">--}}
@@ -432,7 +434,7 @@
                                     @if($relit)
                                         ({{$relit->title()}})
                                     @endif
-{{--                                    - {{$relit_key_id}}- {{$relip_select_body_project->id}}--}}
+                                    {{--                                    - {{$relit_key_id}}- {{$relip_select_body_project->id}}--}}
                                     @if($view_ret_id)
                                         @if($relit_key_id == $view_ret_id)
                                             {{-- Этот символ используется в двух местах--}}
@@ -531,7 +533,7 @@
                             {{--                        @endif--}}
                             <a href="{{route('item.base_index', ['base'=>$view_link->child_base,
                             'project'=>$project, 'role'=>$role, 'relit_id'=>$relit_id])}}"
-                               title="{{$view_link->child_base->names() . $message_mc_info}}">
+                               title="{{$view_link->child_base->names() . $message_ln_info}}">
                                 {{$view_link->child_labels()}}:
                             </a>
                         </h3>
@@ -540,9 +542,7 @@
                     <div class="col-2 text-right">
                         {{--                        @if ((count($body_items) > 0) || ($base_body_right['is_list_base_create'] == true))--}}
                         @if ($base_body_right['is_list_base_create'] == true)
-                            {{--            Не удалять: используются $message_link и $message_item --}}
-                            {{--                                @if($message_link == "" && $message_item == "")--}}
-                            @if($message_mc_link_item == "")
+                            @if($message_ln_validate == "")
                                 <?php
                                 $heading = 0;
                                 $relit_id_par = null;
@@ -555,9 +555,9 @@
                                     $parent_ret_id_par = $relit_id;
                                 }
                                 ?>
-                                    {{-- Выводится $message_mc--}}
+                                {{-- Выводится $message_mc--}}
                                 <button type="button" class="btn btn-dreamer"
-                                        title="{{trans('main.add'). " '" . $view_link->child_base->name() . "'" . $message_mc_info}}"
+                                        title="{{trans('main.add'). " '" . $view_link->child_base->name() . "'" . $message_ln_info}}"
                                         onclick="document.location='{{route('item.ext_create', ['base'=>$view_link->child_base_id,
                                         'project'=>$project, 'role'=>$role,
                                         'usercode' =>GlobalController::usercode_calc(),
@@ -643,7 +643,7 @@
                                 <div class="dropdown-menu">
                                     @foreach($next_all_links as $key=>$value)
                                         @if($next_all_is_create[$value->id] == true)
-                                            @if($message_mc_link_array_item[$value->id] == "")
+                                            @if($message_ln_link_array_item[$value->id] == "")
                                                 <?php
                                                 $heading = 0;
                                                 $relit_id_par = null;
@@ -669,7 +669,7 @@
                                                                                      'par_link'=>$value, 'parent_item'=>$item,
                                                                                      'parent_ret_id' => GlobalController::set_relit_id($parent_ret_id_par)
                                                                                      ])}}"
-                                                   title="{{trans('main.add') . $message_mc_array_info[$value->id]}}">
+                                                   title="{{trans('main.add') . $message_ln_array_info[$value->id]}}">
                                                     {{$value->child_labels()}}
                                                     @if(isset($array["\x00*\x00items"][$value->id]))
                                                         *
@@ -708,7 +708,7 @@
             'string_link_ids_array_next' => $string_link_ids_array_next,
             'string_item_ids_array_next' => $string_item_ids_array_next,
             'string_all_codes_array_next' => $string_all_codes_array_next,
-            'message_mc_array_info' => $message_mc_array_info, 'message_mc_link_array_item' => $message_mc_link_array_item
+            'message_ln_array_info' => $message_ln_array_info, 'message_ln_link_array_item' => $message_ln_link_array_item
             ])
                 {{$next_all_mains->links()}}
             @endif

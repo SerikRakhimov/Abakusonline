@@ -755,7 +755,7 @@ class ProjectController extends Controller
 //
         // Проекты, у которых в accesses есть записи для текущего пользователя
         // с ролью Автор
-        $projects = GlobalController::get_author_roles_projects();
+        $projects = GlobalController::get_author_users_projects($user->id);
 
         $name = "";  // нужно, не удалять
         $index = array_search(App::getLocale(), config('app.locales'));
@@ -796,7 +796,6 @@ class ProjectController extends Controller
                 return redirect()->route('project.all_index');
             }
         }
-
         $child_relits_info = $this->child_relits_info($project->template, $project);
         return view('project/show', ['type_form' => 'show', 'user' => $user, 'project' => $project,
             'array_calc' => $child_relits_info['array_calc']]);
@@ -1386,8 +1385,6 @@ class ProjectController extends Controller
 //            ->joinSub($bases, 'bases', function ($join) {
 //                $join->on('items.id', 1);
 //            })->get();
-
-        //dd($items);
 
     }
 
