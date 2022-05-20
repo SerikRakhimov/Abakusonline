@@ -250,14 +250,22 @@ use \App\Http\Controllers\GlobalController;
                             </li>
                         @endif
                     @else
+                        <?php
+                            $get_user_author_avatar_item = Auth::user()->get_user_avatar_item();
+                        ?>
                         <li class="nav-item dropdown">
                             <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
-                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                {{ Auth::user()->name }}<span class="caret"></span>
+                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre title="{{Auth::user()->name}}">
+                                {{Auth::user()->name}}
+                                @if($get_user_author_avatar_item)
+                                    @include('view.img',['item'=>$get_user_author_avatar_item, 'size'=>"avatar", 'filenametrue'=>false, 'link'=>false, 'img_fluid'=>false, 'title'=>'empty'])
+                                @endif
+                                <span class="caret"></span>
                             </a>
                             @if(Auth::user()->isAdmin())
                                 <span class="badge badge-related">{{trans('main.admin')}}</span>
                             @endif
+
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                                 <a class="dropdown-item" href="{{ route('logout') }}"
                                    onclick="event.preventDefault();

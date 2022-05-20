@@ -34,7 +34,6 @@
             $get_items_setup = $project->get_items_setup();
             $roles = ProjectController::get_roles($project, $all_projects, $subs_projects, $my_projects, $mysubs_projects);
             $get_project_logo_item = $get_items_setup['logo_item'];
-            $get_user_author_avatar_item = null;
             $get_user_author_avatar_item = $project->user->get_user_avatar_item();
             ?>
             @if(count($roles) == 0)

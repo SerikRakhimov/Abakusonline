@@ -73,12 +73,12 @@ class User extends Authenticatable
         $result_item = null;
         $usersetup_project_id = env('USERSETUP_PROJECT_ID');
         $usersetup_base_id = env('USERSETUP_BASE_ID');
-        $usersetup_link_id = env('USERSETUP_LINK_ID');
+        $usersetup_avatar_link_id = env('USERSETUP_AVATAR_LINK_ID');
         if (Auth::check()) {
-            if ($usersetup_project_id != '' && $usersetup_base_id != '' && $usersetup_link_id != '') {
+            if ($usersetup_project_id != '' && $usersetup_base_id != '' && $usersetup_avatar_link_id != '') {
                 $project = Project::find($usersetup_project_id);
                 $base = Base::find($usersetup_base_id);
-                $link = Link::find($usersetup_link_id);
+                $link = Link::find($usersetup_avatar_link_id);
                 if ($project && $base && $link) {
                     $username = $this->name();
 
