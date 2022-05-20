@@ -158,7 +158,7 @@
                             <small class="text-muted">
                                 {{trans('main.author')}}: {{$project->user->name()}}
                                 @if($get_user_author_avatar_item)
-                                    @include('view.img',['item'=>$get_user_author_avatar_item, 'size'=>"avatar", 'filenametrue'=>false, 'link'=>false, 'img_fluid'=>false, 'title'=>'empty'])
+                                    @include('view.img',['item'=>$get_user_author_avatar_item, 'size'=>"avatar", 'filenametrue'=>false, 'link'=>true, 'img_fluid'=>false, 'title'=>'empty'])
                                 @endif
                             </small>
                         </div>
