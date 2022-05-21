@@ -351,7 +351,7 @@ return [
     'parent_is_setup_project_logo_img' => '"Теңшеу" - жоба логотипі (суреттер үшін)',
     'parent_is_setup_project_external_description_txt' => '"Теңшеу" - жобаның сыртқы сипаттамасы (мәтіндер үшін)',
     'parent_is_setup_project_internal_description_txt' => '"Теңшеу" - жобаның ішкі сипаттамасы (мәтіндер үшін)',
-    'parent_is_user_login_str' => 'Пайдаланушы аты (жолдар үшін)',
+    'parent_is_user_login_str' => 'Пайдаланушы логині (жолдар үшін)',
     'parent_is_user_email_str' => 'Пайдаланушының E-Mail (жолдар үшін)',
     'parent_is_user_avatar_img' => 'Пайдаланушы аватары (суреттер үшін)',
     'length_txt' => 'Таңбалардағы ұзындық (0 - шектеусіз)',

@@ -78,7 +78,7 @@
                     @if(GlobalController::is_base_calcname_check($item->base, $base_right))
                         <div class="container-fluid">
                             <div class="row">
-                                <div class="col-8 text-left">
+                                <div class="col-12 text-left">
                                     @if ($base_right['is_list_base_calc'] == true)
                                         <a href="{{route('item.base_index', ['base'=>$item->base,
                             'project'=>$project, 'role'=>$role, 'relit_id'=>$relit_id])}}"
@@ -111,11 +111,11 @@
                                         {{$item->name()}}
                                     @endif
                                 </div>
-                                <div class="col-4 text-left">
-                                    @if($item->base->is_code_needed == true)
-                                        {{trans('main.code')}}: <strong>{{$item->code}}</strong>
-                                    @endif
-                                </div>
+{{--                                <div class="col-4 text-left">--}}
+{{--                                    @if($item->base->is_code_needed == true)--}}
+{{--                                        {{trans('main.code')}}: <strong>{{$item->code}}</strong>--}}
+{{--                                    @endif--}}
+{{--                                </div>--}}
                             </div>
                         </div>
                 </h5>
@@ -127,9 +127,6 @@
                                title="{{$item->base->names() . $message_bs_info}}">
                                 @endif
                                 {{$title}}:
-                                @if($item->base->is_code_needed == true)
-                                    {{trans('main.code')}}: <strong>{{$item->code}}</strong>
-                                @endif
                                 @if ($base_right['is_list_base_calc'] == true)
                             </a>
                         @endif
@@ -149,6 +146,9 @@
             'par_link'=>$tree_array_last_link_id, 'parent_item'=>$tree_array_last_item_id,
             'parent_ret_id' => $relit_id])}}"
                            title="{{trans('main.viewing_record')}}: {{$item->cdnm()}}">
+                            @endif
+                            @if($item->base->is_code_needed == true)
+                                {{trans('main.code')}}: <strong>{{$item->code}}</strong>
                             @endif
                             {{--                    Нужно '@foreach($child_mains_link_is_calcname as $calcname_mains)'--}}
                             @foreach($child_mains_link_is_calcname as $calcname_mains)

@@ -351,7 +351,7 @@ return [
     'parent_is_setup_project_logo_img' => '"Настройка" - логотип проекта (для изображений)',
     'parent_is_setup_project_external_description_txt' => '"Настройка" - внешнее описание проекта (для текста)',
     'parent_is_setup_project_internal_description_txt' => '"Настройка" - внутреннее описание проекта (для текста)',
-    'parent_is_user_login_str' => 'Имя пользователя (для строк)',
+    'parent_is_user_login_str' => 'Логин пользователя (для строк)',
     'parent_is_user_email_str' => 'E-Mail пользователя (для строк)',
     'parent_is_user_avatar_img' => 'Аватар пользователя (для изображений)',
     'length_txt' => 'Длина в символах (0 - без ограничений)',

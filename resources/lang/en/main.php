@@ -351,7 +351,7 @@ return [
     'parent_is_setup_project_logo_img' => '"Setup" - project logo (for images)',
     'parent_is_setup_project_external_description_txt' => '"Setup" - external project description (for texts)',
     'parent_is_setup_project_internal_description_txt' => '"Setup" - internal project description (for texts)',
-    'parent_is_user_login_str' => 'User name (for strings)',
+    'parent_is_user_login_str' => 'User login (for strings)',
     'parent_is_user_email_str' => 'User E-Mail (for strings)',
     'parent_is_user_avatar_img' => 'User avatar (for images)',
     'length_txt' => 'Length in characters (0 - unlimited)',
