@@ -158,7 +158,7 @@
                             <small class="text-muted">
                                 {{trans('main.author')}}: {{$project->user->name()}}
                                 @if($get_user_author_avatar_item)
-                                    @include('view.img',['item'=>$get_user_author_avatar_item, 'size'=>"avatar", 'filenametrue'=>false, 'link'=>true, 'img_fluid'=>false, 'title'=>'empty'])
+                                    @include('view.img',['item'=>$get_user_author_avatar_item, 'size'=>"avatar", 'filenametrue'=>false, 'link'=>false, 'img_fluid'=>false, 'title'=>'empty'])
                                 @endif
                             </small>
                         </div>
@@ -195,6 +195,35 @@
 
     {{$projects->links()}}
 
+{{--    <div class="card shadow w-100 mt-2">--}}
+{{--        <div class="card-block">--}}
+{{--            <p class="card-text ml-3"><small class="text-muted">{{Auth::user()->name()}}</small>--}}
+{{--            </p>--}}
+{{--        </div>--}}
+{{--        <div class="card-body">--}}
+{{--            <span class="card-text">Принеси воды...</span></p>--}}
+{{--        </div>--}}
+{{--    </div>--}}
+
+{{--    <div class="card shadow w-100 mt-2">--}}
+{{--        <div class="card-block">--}}
+{{--            <p class="card-text ml-3"><small class="text-muted">{{Auth::user()->name()}}</small>--}}
+{{--            </p>--}}
+{{--        </div>--}}
+{{--        <div class="card-body">--}}
+{{--            <span class="card-text">http://abakusonline/project/start/30 - ссылка на проект (ее можно отправить пользователям или разместить в вашем аккаунте любой социальной сети для привлечения клиентов)</span></p>--}}
+{{--        </div>--}}
+{{--    </div>--}}
+
+{{--    <div class="card shadow w-100 mt-2">--}}
+{{--        <div class="card-block">--}}
+{{--            <p class="card-text ml-3"><small class="text-muted">{{Auth::user()->name()}}</small>--}}
+{{--            </p>--}}
+{{--        </div>--}}
+{{--        <div class="card-body">--}}
+{{--            <span class="card-text">Принеси молоко...</span></p>--}}
+{{--        </div>--}}
+{{--    </div>--}}
 
     {{--    <div class="card mt-4 text-label">--}}
     {{--        <p class="card-header text-label">header</p>--}}

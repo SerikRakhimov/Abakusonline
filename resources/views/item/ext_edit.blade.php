@@ -292,8 +292,8 @@
         @foreach($array_calc as $key=>$value)
             <?php
             $link = Link::find($key);
-            //$base_link_right = GlobalController::base_link_right($link, $role, $relit_id);
-            $base_link_right = GlobalController::base_link_right($link, $role, $link->parent_relit_id);
+            //$base_link_right = GlobalController::base_link_right($link, $role, $link->parent_relit_id);
+            $base_link_right = GlobalController::base_link_right($link, $role, $relit_id);
             ?>
             @if($base_link_right['is_edit_link_enable'] == false)
                 @continue
