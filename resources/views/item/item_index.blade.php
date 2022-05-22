@@ -434,7 +434,7 @@
                                            'prev_body_all_page'=>$body_all_page
                                            ])}}"
                                    title="{{$relip_select_body_project->name()}}">
-                                    {{$relip_select_body_project->name()}}
+                                    {{$relip_select_body_project->name()}} {{$relit_key_id}} {{$view_ret_id}}
                                     @if($relit)
                                         ({{$relit->title()}})
                                     @endif
