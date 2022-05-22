@@ -3,8 +3,8 @@ use App\Models\Link;
 use \App\Http\Controllers\GlobalController;
 $i = 0;
 ?>
-{{--<table class="table table-sm table-bordered table-hover">--}}
-<table class="table table-sm table-borderless table-hover">
+<table class="table table-sm table-bordered table-hover">
+{{--<table class="table table-sm table-borderless table-hover">--}}
     <caption>{{trans('main.select_record_for_work')}}</caption>
     <thead>
     <tr>

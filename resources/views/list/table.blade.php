@@ -10,16 +10,22 @@ $cols = $links_info['cols'];
 $i = 0;
 $i_par_link = null;
 // Вызов list\table.php из base_index.php
-if($base_index == true){
+if ($base_index == true) {
     $i_par_link = GlobalController::par_link_const_text_base_null();
-}
-else{
-   $i_par_link = GlobalController::par_link_const_textnull();
+} else {
+    $i_par_link = GlobalController::par_link_const_textnull();
 //    $i_par_link = $view_link;
 }
 ?>
-<table class="table table-sm table-bordered table-hover">
+{{--<table class="table table-sm table-bordered table-hover">--}}
 {{--<table class="table table-sm table-borderless table-hover">--}}
+<table class="table table-sm table-hover
+@if($heading)
+    table-borderless
+@else
+    table-bordered
+@endif
+    ">
     @if(!$heading)
         <caption>{{trans('main.select_record_for_work')}}</caption>
     @endif
@@ -40,16 +46,16 @@ else{
                 {{--            похожая проверка в ext_show.blade.php--}}
                 @if(GlobalController::is_base_calcname_check($base, $base_right))
                     <th rowspan="{{$rows + 1}}" @include('layouts.class_from_base',['base'=>$base, 'align_top'=>true])>
-{{--                        @if($view_link)--}}
-{{--                            {{$view_link->child_label()}}--}}
-{{--                        @else--}}
-{{--                            {{$base->name()}}--}}
-{{--                        @endif--}}
-                                                @if($view_link)
-                                                    {{$view_link->child_label()}}
-                                                @else
-                                                    {{$base->name()}}
-                                                @endif
+                        {{--                        @if($view_link)--}}
+                        {{--                            {{$view_link->child_label()}}--}}
+                        {{--                        @else--}}
+                        {{--                            {{$base->name()}}--}}
+                        {{--                        @endif--}}
+                        @if($view_link)
+                            {{$view_link->child_label()}}@if($heading):@endif
+                        @else
+                            {{$base->name()}}@if($heading):@endif
+                        @endif
                     </th>
     @endif
     @endif
@@ -75,10 +81,10 @@ else{
                                 @if($item_heading_base && $matrix[$x][$y]["fin_link"] == true)
                                     <a href="{{route('item.base_index',['base'=>$link->parent_base_id, 'project'=>$project, 'role'=>$role, 'relit_id' => $relit_id])}}"
                                        title="{{$link->parent_base->names()}}">
-                                        {{$matrix[$x][$y]["view_name"]}}
+                                        {{$matrix[$x][$y]["view_name"]}}@if($heading):@endif
                                     </a>
                                 @else
-                                    {{$matrix[$x][$y]["view_name"]}}
+                                    {{$matrix[$x][$y]["view_name"]}}@if($heading):@endif
                                 @endif
                             </th>
                             {{--                    {{$x}} {{$y}}  rowspan = {{$matrix[$x][$y]["rowspan"]}} colspan = {{$matrix[$x][$y]["colspan"]}} view_level_id = {{$matrix[$x][$y]["view_level_id"]}} view_level_name = {{$matrix[$x][$y]["view_level_name"]}}--}}
@@ -115,7 +121,7 @@ else{
     'string_item_ids_current' => $string_item_ids_current,
     'string_all_codes_current'=> $string_all_codes_current
     ])}}"
-                    title = "{{trans('main.viewing_record')}}">
+                       title="{{trans('main.viewing_record')}}">
                         <span class="badge badge-related">{{$i}}</span>
                     </a>
                 </td>
