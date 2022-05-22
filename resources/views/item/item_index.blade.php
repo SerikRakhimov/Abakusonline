@@ -21,10 +21,7 @@
     $relip_body_name_project = '';
     if ($relip_body_project) {
         if ($relip_body_project->id != $project->id) {
-            //dd($relip_body_name_project);
             $relip_body_name_project = trans('main.project') . ': ' . $relip_body_project->name();
-            //$relip_body_name_project = trans('main.project') . ': view_ret_id = ' . $view_ret_id . ' project->id = ' . $project->id
-            //. ' getclass = ' . get_class($relip_body_project);
         }
     }
     // Нужно
@@ -440,12 +437,12 @@
                                         ({{$relit->title()}})
                                     @endif
                                     {{--                                    - {{$relit_key_id}}- {{$relip_select_body_project->id}}--}}
-{{--                                    @if($view_ret_id)--}}
+                                    @if(isset($view_ret_id))
                                         @if($relit_key_id == $view_ret_id)
                                             {{-- Этот символ используется в двух местах--}}
                                             &#10003;
                                         @endif
-{{--                                    @endif--}}
+                                    @endif
                                     {{--                                    @if(isset($array["\x00*\x00items"][$value->id]))--}}
                                     {{--                                        *--}}
                                     {{--                                    @endif--}}
