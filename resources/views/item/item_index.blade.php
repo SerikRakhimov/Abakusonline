@@ -375,7 +375,7 @@
                                           ])}}"
                                        title="{{$value->child_labels()}}">
                                         {{$value->child_labels()}}
-                                        @if($view_link)
+                                        @if(isset($view_link))
                                             @if($value->id == $view_link->id)
                                                 {{--                                        Этот символ используется в двух местах--}}
                                                 &#10003;
@@ -435,7 +435,7 @@
                                            'prev_body_all_page'=>$body_all_page
                                            ])}}"
                                    title="{{$relip_select_body_project->name()}}">
-                                    {{$relip_select_body_project->name()}} {{$relit_key_id}} {{$view_ret_id}}
+                                    {{$relip_select_body_project->name()}}
                                     @if($relit)
                                         ({{$relit->title()}})
                                     @endif
