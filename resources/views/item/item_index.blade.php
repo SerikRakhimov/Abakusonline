@@ -398,7 +398,8 @@
         </div>
         <div class="row">
             <div class="col-12 text-right">
-                @if(count($array_relips)>1)
+                {{-- "count($array_relips) > 1" - т.е. есть взаимосвязанные шаблоны--}}
+                @if(count($array_relips) > 1)
                     <div class="dropdown">
                         <button type="button" class="btn btn-dreamer dropdown-toggle" data-toggle="dropdown"
                                 title="{{trans('main.relip')}}">
@@ -461,7 +462,7 @@
     <hr>
     {{--Похожие команды в ItemController::calc_tree_array() и item_index.php--}}
     @if($view_link)
-        view_link_id = {{$view_link->id}}, parent_relit_id = {{$view_link->parent_relit_id}}, child_base = {{$view_link->child_base_id}} {{$view_link->child_base->name()}}, child_base_template = {{$view_link->child_base->template_id}} {{$view_link->child_base->template->name()}}
+        view_link_id = {{$view_link->id}}, view_ret_id = {{$view_ret_id}}, parent_relit_id = {{$view_link->parent_relit_id}}, child_base = {{$view_link->child_base_id}} {{$view_link->child_base->name()}}, child_base_template = {{$view_link->child_base->template_id}} {{$view_link->child_base->template->name()}}
         {{--        <hr>--}}
         {{--        <br>--}}
         {{--        <div class="text-center">&#8595;</div>--}}
