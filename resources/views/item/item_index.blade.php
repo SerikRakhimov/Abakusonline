@@ -439,12 +439,12 @@
                                         ({{$relit->title()}})
                                     @endif
                                     {{--                                    - {{$relit_key_id}}- {{$relip_select_body_project->id}}--}}
-                                    @if($view_ret_id)
+{{--                                    @if($view_ret_id)--}}
                                         @if($relit_key_id == $view_ret_id)
                                             {{-- Этот символ используется в двух местах--}}
                                             &#10003;
                                         @endif
-                                    @endif
+{{--                                    @endif--}}
                                     {{--                                    @if(isset($array["\x00*\x00items"][$value->id]))--}}
                                     {{--                                        *--}}
                                     {{--                                    @endif--}}
