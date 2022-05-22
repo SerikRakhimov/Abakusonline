@@ -1514,7 +1514,7 @@ class GlobalController extends Controller
                     }
                 }
             }
-dd($array_project_relips);
+
         }
 
         foreach ($array_project_relips as $relit_id => $value) {
