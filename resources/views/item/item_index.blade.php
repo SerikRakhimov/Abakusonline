@@ -374,7 +374,7 @@
                                           'prev_body_all_page'=>$body_all_page
                                           ])}}"
                                        title="{{$value->child_labels()}}">
-                                        {{$value->child_labels()}} {{$value->id}} {{$value->parent_relit_id}}
+                                        {{$value->child_labels()}}
                                         @if(isset($view_link))
                                             @if($value->id == $view_link->id)
                                                 {{--                                        Этот символ используется в двух местах--}}
@@ -436,9 +436,9 @@
                                            'prev_body_all_page'=>$body_all_page
                                            ])}}"
                                    title="{{$relip_select_body_project->name()}}">
-                                    {{$relip_select_body_project->name()}} relit_key_id ={{$relit_key_id}}, view_ret_id = {{$view_ret_id}}
+                                    {{$relip_select_body_project->name()}}
                                     @if($relit)
-                                        ({{$relit->title()}}) {{$relit->child_template->id}} {{$relit->parent_template->id}}
+                                        ({{$relit->title()}})
                                     @endif
                                     {{--                                    - {{$relit_key_id}}- {{$relip_select_body_project->id}}--}}
                                     @if(isset($view_ret_id))
@@ -462,7 +462,6 @@
     <hr>
     {{--Похожие команды в ItemController::calc_tree_array() и item_index.php--}}
     @if($view_link)
-        view_link_id = {{$view_link->id}}, view_ret_id = {{$view_ret_id}}, parent_relit_id = {{$view_link->parent_relit_id}}, child_base = {{$view_link->child_base_id}} {{$view_link->child_base->name()}}, child_base_template = {{$view_link->child_base->template_id}} {{$view_link->child_base->template->name()}}
         {{--        <hr>--}}
         {{--        <br>--}}
         {{--        <div class="text-center">&#8595;</div>--}}
