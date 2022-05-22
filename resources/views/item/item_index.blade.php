@@ -19,8 +19,10 @@
     $relip_project = GlobalController::calc_relip_project($relit_id, $project);
     $relip_body_project = GlobalController::calc_relip_project($view_ret_id, $project);
     $relip_body_name_project = '';
-    if ($relip_body_project->id != $project->id) {
-        $relip_body_name_project = trans('main.project') . ': ' . $relip_body_name_project->name();
+    if ($relip_body_project) {
+        if ($relip_body_project->id != $project->id) {
+            $relip_body_name_project = trans('main.project') . ': ' . $relip_body_name_project->name();
+        }
     }
     // Нужно
     $view_link = GlobalController::set_un_par_view_link_null($view_link);
@@ -111,11 +113,11 @@
                                         {{$item->name()}}
                                     @endif
                                 </div>
-{{--                                <div class="col-4 text-left">--}}
-{{--                                    @if($item->base->is_code_needed == true)--}}
-{{--                                        {{trans('main.code')}}: <strong>{{$item->code}}</strong>--}}
-{{--                                    @endif--}}
-{{--                                </div>--}}
+                                {{--                                <div class="col-4 text-left">--}}
+                                {{--                                    @if($item->base->is_code_needed == true)--}}
+                                {{--                                        {{trans('main.code')}}: <strong>{{$item->code}}</strong>--}}
+                                {{--                                    @endif--}}
+                                {{--                                </div>--}}
                             </div>
                         </div>
                 </h5>
