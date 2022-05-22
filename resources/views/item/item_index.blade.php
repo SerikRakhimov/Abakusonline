@@ -317,6 +317,9 @@
                             </li>
                         @endif
                     </ul>
+                @else
+                    {{-- Нужно "<br><br>", чтобы кнопка Проект была не рядом с кнопкой Связь--}}
+                    <br><br>
                 @endif
             </div>
             <div class="col-2 text-right">
