@@ -21,7 +21,8 @@
     $relip_body_name_project = '';
     if ($relip_body_project) {
         if ($relip_body_project->id != $project->id) {
-            $relip_body_name_project = trans('main.project') . ': ' . $relip_body_name_project->name();
+            //$relip_body_name_project = trans('main.project') . ': ' . $relip_body_name_project->name();
+            $relip_body_name_project = trans('main.project') . ': ' . $relip_body_name_project->id;
         }
     }
     // Нужно
