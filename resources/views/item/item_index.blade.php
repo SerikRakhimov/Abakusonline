@@ -374,7 +374,7 @@
                                           'prev_body_all_page'=>$body_all_page
                                           ])}}"
                                        title="{{$value->child_labels()}}">
-                                        {{$value->child_labels()}}
+                                        {{$value->child_labels()}} {{$value->id}} {{$value->parent_relit_id}}
                                         @if(isset($view_link))
                                             @if($value->id == $view_link->id)
                                                 {{--                                        Этот символ используется в двух местах--}}
