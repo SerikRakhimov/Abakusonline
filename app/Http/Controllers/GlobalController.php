@@ -1497,19 +1497,15 @@ class GlobalController extends Controller
             }
             foreach ($array_project_relips as $relit_id => $value) {
                 $template_id = 0;
-                // Если текущий шаблон
-                if ($relit_id == 0) {
-                    $template_id = $current_project->template_id;
-                } // Взаимосвязанные шаблоны
-                else {
+                // Кроме текущего шаблона
+                if ($relit_id != 0) {
                     $relit = Relit::find($relit_id);
                     if ($relit) {
-                        $template_id = $relit->parent_template_id;
+                        if ($relit->parent_template_id != $link->child_base->template_id) {
+                            // Удаляем элемент массива с $relit_id, если количество "$template_id == $link->child_base->template_id"
+                            unset($array_project_relips[$relit_id]);
+                        }
                     }
-                }
-                if ($template_id != $link->child_base->template_id) {
-                    // Удаляем элемент массива с $relit_id, если количество "$template_id == $link->child_base->template_id"
-                    unset($array_project_relips[$relit_id]);
                 }
             }
 
