@@ -1540,7 +1540,6 @@ class GlobalController extends Controller
                 unset($array_project_relips[$relit_id]);
             }
         }
-        dd($array_project_relips);
         return $array_project_relips;
 
     }
