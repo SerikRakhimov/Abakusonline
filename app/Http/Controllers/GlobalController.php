@@ -1500,20 +1500,20 @@ class GlobalController extends Controller
                     }
                 }
             }
-//            foreach ($array_project_relips as $relit_id => $value) {
-//                // Кроме текущего шаблона
-//                if ($relit_id != 0) {
-//                    $relit = Relit::find($relit_id);
-//                    if ($relit) {
-//                        if ($relit->parent_template_id != $link->child_base->template_id) {
-//                            // Удаляем элемент массива с $relit_id, если "$relit->parent_template_id != $link->child_base->template_id"
-//                            unset($array_project_relips[$relit_id]);
-//                            // Не нужно "break"
-//                            // break;
-//                        }
-//                    }
-//                }
-//            }
+            foreach ($array_project_relips as $relit_id => $value) {
+                // Кроме текущего шаблона
+                if ($relit_id != 0) {
+                    $relit = Relit::find($relit_id);
+                    if ($relit) {
+                        if ($relit->parent_template_id != $link->child_base->template_id) {
+                            // Удаляем элемент массива с $relit_id, если "$relit->parent_template_id != $link->child_base->template_id"
+                            unset($array_project_relips[$relit_id]);
+                            // Не нужно "break"
+                            // break;
+                        }
+                    }
+                }
+            }
 
         }
 
