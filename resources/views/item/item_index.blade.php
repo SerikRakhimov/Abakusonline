@@ -461,6 +461,7 @@
     <hr>
     {{--Похожие команды в ItemController::calc_tree_array() и item_index.php--}}
     @if($view_link)
+        view_link_id = {{$view_link->id}}, parent_relit_id = {{$view_link->parent_relit_id}}
         {{--        <hr>--}}
         {{--        <br>--}}
         {{--        <div class="text-center">&#8595;</div>--}}
