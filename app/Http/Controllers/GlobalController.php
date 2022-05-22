@@ -1489,17 +1489,17 @@ class GlobalController extends Controller
         }
         // Если передано $link
         if ($link) {
-//            foreach ($array_project_relips as $relit_id => $value) {
-//                // Кроме текущего шаблона
-//                if ($relit_id != 0) {
-//                    if ($relit_id == $link->parent_relit_id) {
-//                        // Удаляем элемент массива с $relit_id, если "$relit_id == $link->parent_relit_id"
-//                        unset($array_project_relips[$relit_id]);
-//                        // Не нужно "break"
-//                        // break;
-//                    }
-//                }
-//            }
+            foreach ($array_project_relips as $relit_id => $value) {
+                // Кроме текущего шаблона
+                if ($relit_id != 0) {
+                    if ($relit_id == $link->parent_relit_id) {
+                        // Удаляем элемент массива с $relit_id, если "$relit_id == $link->parent_relit_id"
+                        unset($array_project_relips[$relit_id]);
+                        // Не нужно "break"
+                        // break;
+                    }
+                }
+            }
 //            foreach ($array_project_relips as $relit_id => $value) {
 //                // Кроме текущего шаблона
 //                if ($relit_id != 0) {
