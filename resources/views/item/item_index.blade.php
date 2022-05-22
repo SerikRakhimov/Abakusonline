@@ -435,9 +435,9 @@
                                            'prev_body_all_page'=>$body_all_page
                                            ])}}"
                                    title="{{$relip_select_body_project->name()}}">
-                                    {{$relip_select_body_project->name()}}
+                                    {{$relip_select_body_project->name()}} relit_key_id ={{$relit_key_id}}, view_ret_id = {{$view_ret_id}}
                                     @if($relit)
-                                        ({{$relit->title()}})
+                                        ({{$relit->title()}}) {{$relit->child_template->id}} {{$relit->parent_template->id}}
                                     @endif
                                     {{--                                    - {{$relit_key_id}}- {{$relip_select_body_project->id}}--}}
                                     @if(isset($view_ret_id))
