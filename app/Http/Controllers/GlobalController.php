@@ -1461,10 +1461,11 @@ class GlobalController extends Controller
         return $array_relits;
     }
 
-    static function get_project_bases(Project $current_project, Role $role)
+    static function get_project_bases(Project $current_project, Role $role, Link $link = null)
     {
         $array_project_relips = [];
         $child_relits = $current_project->template->child_relits;
+        // Заполнение массива для текущего шаблона
         // Похожие строки ниже в этой функции
         // 0 - текущий шаблон (нужно)
         $current_id = 0;
@@ -1473,6 +1474,7 @@ class GlobalController extends Controller
             $array_project_relips[$current_id]['project_id'] = $current_project->id;
             $array_project_relips[$current_id]['base_ids'] = $bases_ids['bases_ids'];
         }
+        // Заполнение массива для шаблонов $child_relits
         foreach ($child_relits as $relit) {
             // Поиск взаимосвязанного проекта
             $project = self::calc_relip_project($relit->id, $current_project);
@@ -1485,6 +1487,25 @@ class GlobalController extends Controller
                 }
             }
         }
+        // Если передано $link
+        if($link){
+            foreach ($array_project_relips as $relit_id => $value) {
+                if ($relit_id == $link->parent_relit_id) {
+                    // Удаляем элемент массива с $relit_id, если "$relit_id == $link->parent_relit_id"
+                    unset($array_project_relips[$relit_id]);
+                }
+            }
+//            foreach ($array_project_relips as $relit_id => $value) {
+//                $project_id = $value['project_id'];
+//                $count = count($value['base_ids']);
+//                if ($count == 0) {
+//                    // Удаляем элемент массива с $relit_id, если количество $bases в массиве равно 0
+//                    unset($array_project_relips[$relit_id]);
+//                }
+//            }
+
+        }
+
         foreach ($array_project_relips as $relit_id => $value) {
             $project_id = $value['project_id'];
             $bases_ids = $value['base_ids'];

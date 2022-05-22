@@ -340,7 +340,6 @@ class ItemController extends Controller
 //        }
 
         $view_ret_id = GlobalController::set_relit_id($view_ret_id);
-        $array_relips = GlobalController::get_project_bases($project, $role);
 
         // Пустой массив
         $tree_array = array();
@@ -593,6 +592,8 @@ class ItemController extends Controller
 
         // Нужно
         $view_link = $current_link;
+        // Передача параметра $view_link нужна
+        $array_relips = GlobalController::get_project_bases($project, $role, $view_link);
 
         if (count($next_all_links) == 0) {
             return redirect()->route('item.ext_show', ['item' => $item, 'project' => $project, 'role' => $role,
