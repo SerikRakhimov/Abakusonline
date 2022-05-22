@@ -21,7 +21,7 @@
     $relip_body_name_project = '';
     if ($relip_body_project) {
         if ($relip_body_project->id != $project->id) {
-            dd($relip_body_project->id);
+            dd($relip_body_project->name());
             //$relip_body_name_project = trans('main.project') . ': ' . $relip_body_name_project->name();
             $relip_body_name_project = trans('main.project') . ': view_ret_id = ' . $view_ret_id . ' project->id = ' . $project->id;
         }
