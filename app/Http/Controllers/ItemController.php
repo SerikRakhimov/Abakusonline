@@ -592,8 +592,8 @@ class ItemController extends Controller
 
         // Нужно
         $view_link = $current_link;
-        // Передача параметра $view_link нужна
-        $array_relips = GlobalController::get_project_bases($project, $role, $view_link);
+        // Передача параметров "$project, $role, $view_link, $item->base" нужна
+        $array_relips = GlobalController::get_project_bases($project, $role, $view_link, $item->base);
 
         if (count($next_all_links) == 0) {
             return redirect()->route('item.ext_show', ['item' => $item, 'project' => $project, 'role' => $role,
@@ -832,6 +832,7 @@ class ItemController extends Controller
                 }
             }
         }
+        //dd($next_all_is_calcname);
 //        foreach ($links as $link) {
 //            $base_link_right = GlobalController::base_link_right($link, $role, $relit_id, true);
 //            if ($base_link_right['is_list_base_byuser'] == true) {

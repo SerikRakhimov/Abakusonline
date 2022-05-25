@@ -37,5 +37,13 @@ class Handler extends ExceptionHandler
         $this->reportable(function (Throwable $e) {
             //
         });
+
+        // https://stackoverflow.com/questions/65061756/419-page-expired-on-logout-laravel-8-jetstream
+        $this->renderable(function (Throwable $e) {
+            if ($e->getPrevious() instanceof \Illuminate\Session\TokenMismatchException) {
+                return redirect()->route('login');
+            }
+        });
     }
+
 }
