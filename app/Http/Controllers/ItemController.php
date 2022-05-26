@@ -5735,13 +5735,6 @@ class ItemController extends Controller
             }
             $links = $links->whereNotIn('id', $link_related_array);
 
-            // Такая команда для Laravel 9.0:
-//            $links = $links
-//                ->whereNot(function ($query) use ($nolink) {
-//                    $query->where('parent_is_parent_related', '=', true)
-//                        ->where('parent_parent_related_start_link_id', '=', $nolink->id);
-//                });
-
             // При параллельной связи $nolink ($nolink->parent_is_parallel == true)
             // другие паралельные связи не доступны при отображении списка в Пространство-тело таблицы
             // (если передано $nolink)
