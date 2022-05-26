@@ -86,6 +86,7 @@ if ($base_index == true) {
                                 @else
                                     {{$matrix[$x][$y]["view_name"]}}@if($heading):@endif
                                 @endif
+                                {{$link->id}} {{$link->parent_is_parent_related}}
                             </th>
                             {{--                    {{$x}} {{$y}}  rowspan = {{$matrix[$x][$y]["rowspan"]}} colspan = {{$matrix[$x][$y]["colspan"]}} view_level_id = {{$matrix[$x][$y]["view_level_id"]}} view_level_name = {{$matrix[$x][$y]["view_level_name"]}}--}}
                             {{--                    <br>--}}

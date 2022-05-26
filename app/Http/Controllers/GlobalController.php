@@ -375,9 +375,13 @@ class GlobalController extends Controller
         }
         // Блок проверки по rolis, используя переменные $role, $relit_id и $link
         $roli = Roli::where('role_id', $role->id)->where('relit_id', $relit_id)->where('link_id', $link->id)->first();
+        $is_roli_list_link_enable = false;
+        $is_roli_body_link_enable = false;
         if ($roli != null) {
+            $is_roli_list_link_enable = $roli->is_list_link_enable;
             $is_list_link_enable = $roli->is_list_link_enable;
-            $is_body_link_enable = $roli->is_body_link_enable;
+            $is_roli_body_link_enable = $roli->is_body_link_enable;
+            $is_body_link_enable = $is_roli_body_link_enable;
             $is_show_link_enable = $roli->is_show_link_enable;
             $is_edit_link_read = $roli->is_edit_link_read;
             $is_edit_link_update = $roli->is_edit_link_update;
@@ -414,7 +418,9 @@ class GlobalController extends Controller
             'is_edit_email_base_update' => $is_edit_email_base_update,
             'is_edit_email_question_base_update' => $is_edit_email_question_base_update,
             'is_show_email_base_delete' => $is_show_email_base_delete,
-            'is_show_email_question_base_delete' => $is_show_email_question_base_delete
+            'is_show_email_question_base_delete' => $is_show_email_question_base_delete,
+            'is_roli_list_link_enable' => $is_roli_list_link_enable,
+            'is_roli_body_link_enable' => $is_roli_body_link_enable,
         ];
     }
 
@@ -482,15 +488,16 @@ class GlobalController extends Controller
                 ->where('mains.link_id', '=', $mains_link_id);
 
             if ($view_ret_id == 0) {
+//                $items_ids = $items_ids
+//                    ->where('items.project_id', '=', $parent_proj->id);
                 $items_ids = $items_ids
-                    ->where('items.project_id', '=', $parent_proj->id);
+                    ->where('items.project_id', '=', $project->id);
             } else {
                 $items_ids = $items_ids
                     ->join('relips', 'items.project_id', '=', 'relips.parent_project_id')
                     ->where('relips.relit_id', '=', $view_ret_id)
                     ->where('relips.child_project_id', '=', $parent_proj->id);
             }
-
             $items = Item::joinSub($items_ids, 'items_ids', function ($join) {
                 $join->on('items.id', '=', 'items_ids.id');
             });
@@ -1462,7 +1469,7 @@ class GlobalController extends Controller
         return $array_relits;
     }
 
-    static function get_project_bases(Project $current_project, Role $role, Link $link = nullLink, Base $item_base = null)
+    static function get_project_bases(Project $current_project, Role $role, Link $link = null)
     {
         $array_project_relips = [];
         $child_relits = $current_project->template->child_relits;
@@ -1488,8 +1495,8 @@ class GlobalController extends Controller
                 }
             }
         }
-        // Если передано $link и $item_base
-        if ($link && $item_base) {
+        // Если передано $link
+        if ($link) {
             foreach ($array_project_relips as $relit_id => $value) {
                 // Кроме текущего шаблона
 //                if ($relit_id != 0) {

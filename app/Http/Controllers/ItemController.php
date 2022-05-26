@@ -404,7 +404,7 @@ class ItemController extends Controller
         $current_link = null;  // нужно
 
         // Используется $project, $view_ret_id
-        $next_all_links_mains_calc = self::next_all_links_mains_calc($project, $item->base, $item, $role, $relit_id, $view_ret_id, $tree_array);
+        $next_all_links_mains_calc = self::next_all_links_mains_calc($project, $item, $role, $relit_id, $view_ret_id, $tree_array);
         $next_all_links = $next_all_links_mains_calc['next_all_links'];
         $next_all_mains = $next_all_links_mains_calc['next_all_mains'];
         $next_all_is_create = $next_all_links_mains_calc['next_all_is_create'];
@@ -592,8 +592,8 @@ class ItemController extends Controller
 
         // Нужно
         $view_link = $current_link;
-        // Передача параметров "$project, $role, $view_link, $item->base" нужна
-        $array_relips = GlobalController::get_project_bases($project, $role, $view_link, $item->base);
+        // Передача параметров "$project, $role, $view_link" нужна
+        $array_relips = GlobalController::get_project_bases($project, $role, $view_link);
 
         if (count($next_all_links) == 0) {
             return redirect()->route('item.ext_show', ['item' => $item, 'project' => $project, 'role' => $role,
@@ -778,7 +778,7 @@ class ItemController extends Controller
         ];
     }
 
-    function next_all_links_mains_calc(Project $parent_proj, Base $base, Item $item, Role $role, $relit_id, $view_ret_id, $tree_array)
+    function next_all_links_mains_calc(Project $parent_proj, Item $item, Role $role, $relit_id, $view_ret_id, $tree_array)
     {
         // Условия одинаковые в item_index() и next_all_links_mains_calc()
         // 'where('parent_is_parent_related', false)'
@@ -788,6 +788,7 @@ class ItemController extends Controller
 //            ->where('parent_is_base_link', false);
         // Список доступных связей $base->parent_links
         // Условия одинаковые 'where('parent_is_base_link', false)'
+        $base = $item->base;
         $links = $base->parent_links
             ->where('parent_is_parent_related', false)
             ->where('parent_is_base_link', false)
@@ -940,7 +941,6 @@ class ItemController extends Controller
                 break;
             }
         }
-
         return ['next_all_links' => $next_all_links,
             'next_all_mains' => $next_all_mains,
             'next_all_is_create' => $next_all_is_create,
@@ -5707,14 +5707,44 @@ class ItemController extends Controller
         } else {
             $links = $base->child_links;
         }
-
         $links_control = null;
+        $link_related_array = array();
+        $check = false;
         if ($nolink == null) {
             //$links = $links;
         } else {
-            //                                    При параллельной связи $nolink
-            //                                    другие паралельные связи не доступны при отображении списка в Пространство-тело таблицы
-            //                                    (если передано $nolink)
+            // Исключить связанные записи по текущей связи (($link->parent_is_parent_related == true) && ($link->parent_parent_related_start_link_id == $nolink->id))
+            foreach ($links as $link) {
+                if (($link->parent_is_parent_related == true) && ($link->parent_parent_related_start_link_id == $nolink->id)) {
+                    $base_link_right = GlobalController::base_link_right($link, $role, $relit_id);
+                    // Если в $heading выполнять одну проверку
+                    if ($item_heading_base == true) {
+                        // Похожие строки в цикле
+                        if ($base_link_right['is_roli_list_link_enable'] == false) {
+                            $link_related_array[] = $link->id;
+                        }
+                        // Если в $body выполнять две проверки
+                    } else {
+                        // Похожие строки в цикле
+                        if (!(($base_link_right['is_roli_list_link_enable'] == true)
+                            && ($base_link_right['is_roli_body_link_enable'] == true))) {
+                            $link_related_array[] = $link->id;
+                        }
+                    }
+                }
+            }
+            $links = $links->whereNotIn('id', $link_related_array);
+
+            // Такая команда для Laravel 9.0:
+//            $links = $links
+//                ->whereNot(function ($query) use ($nolink) {
+//                    $query->where('parent_is_parent_related', '=', true)
+//                        ->where('parent_parent_related_start_link_id', '=', $nolink->id);
+//                });
+
+            // При параллельной связи $nolink ($nolink->parent_is_parallel == true)
+            // другие паралельные связи не доступны при отображении списка в Пространство-тело таблицы
+            // (если передано $nolink)
             if ($nolink->parent_is_parallel == true) {
                 // Исключить child_links с параллельными связями
                 $links = $links->where('parent_is_parallel', '!=', true);
