@@ -206,8 +206,8 @@
                                         {{$base->names()}}
                                     </a>
                                 </h5>
-                                <span
-                                    class="badge badge-related badge-pill">{{GlobalController::items_right($base, $project, $role, 0)['view_count']}}</span>
+{{--                                <span--}}
+{{--                                    class="badge badge-related badge-pill">{{GlobalController::items_right($base, $project, $role, 0)['view_count']}}</span>--}}
                             </li>
                         @endif
                     @endforeach

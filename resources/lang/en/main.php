@@ -415,4 +415,6 @@ return [
     'you_are_logged_in' => 'You are logged in',
     'personal_account_of_the_user' => 'Personal account of the user',
     'specify_additional_settings' => 'Specify additional settings',
-    ];
+    'is_mnmn_base_enable' => 'Show the Base in the main menu',
+    'is_mnmn_base_enable_rule' => 'In this option, "Show Base in the main menu" should be removed (incompatibility with "Create Base in the list," "Read Base in the list," "Adjust Base in the list," "Delete Base in the list")',
+];

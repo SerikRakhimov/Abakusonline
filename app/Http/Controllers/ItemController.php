@@ -268,7 +268,7 @@ class ItemController extends Controller
         }
 
 //      Похожая проверка в GlobalController::get_project_bases(), ItemController::base_index() и project/start.php
-        if ($base_right['is_list_base_calc'] == false) {
+        if ($base_right['is_list_base_calc'] == false || $base_right['is_mnmn_base_enable'] == false) {
             return view('message', ['message' => trans('main.no_access')]);
         }
         if ($items) {
@@ -5714,27 +5714,29 @@ class ItemController extends Controller
             //$links = $links;
         } else {
             // Исключить связанные записи по текущей связи (($link->parent_is_parent_related == true) && ($link->parent_parent_related_start_link_id == $nolink->id))
-            foreach ($links as $link) {
-                if (($link->parent_is_parent_related == true) && ($link->parent_parent_related_start_link_id == $nolink->id)) {
-                    $base_link_right = GlobalController::base_link_right($link, $role, $relit_id);
-                    // Если в $heading выполнять одну проверку
-                    if ($item_heading_base == true) {
-                        // Похожие строки в цикле
-                        if ($base_link_right['is_roli_list_link_enable'] == false) {
-                            $link_related_array[] = $link->id;
-                        }
-                        // Если в $body выполнять две проверки
-                    } else {
+            // Если в $body
+            if ($item_heading_base == false) {
+                foreach ($links as $link) {
+                    if (($link->parent_is_parent_related == true) && ($link->parent_parent_related_start_link_id == $nolink->id)) {
+                        $base_link_right = GlobalController::base_link_right($link, $role, $relit_id);
+//                        // Если в $heading выполнять одну проверку
+//                        if ($item_heading_base == true) {
+//                            // Похожие строки в цикле
+//                            if ($base_link_right['is_roli_list_link_enable'] == false) {
+//                                $link_related_array[] = $link->id;
+//                            }
+//                            // Если в $body выполнять две проверки
+//                        } else {
                         // Похожие строки в цикле
                         if (!(($base_link_right['is_roli_list_link_enable'] == true)
                             && ($base_link_right['is_roli_body_link_enable'] == true))) {
                             $link_related_array[] = $link->id;
                         }
+//                        }
                     }
                 }
+                $links = $links->whereNotIn('id', $link_related_array);
             }
-            $links = $links->whereNotIn('id', $link_related_array);
-
             // При параллельной связи $nolink ($nolink->parent_is_parallel == true)
             // другие паралельные связи не доступны при отображении списка в Пространство-тело таблицы
             // (если передано $nolink)
