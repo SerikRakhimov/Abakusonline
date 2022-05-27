@@ -53,6 +53,7 @@
     <p>{{trans('main.digits_num')}}: <b>{{$base->digits_num}}</b></p>
     <p>{{trans('main.is_one_value_lst_str_txt')}}: <b>{{GlobalController::name_is_boolean($base->is_one_value_lst_str_txt)}}</b></p>
     <p>{{trans('main.is_calcname_lst')}}: <b>{{GlobalController::name_is_boolean($base->is_calcname_lst)}}</b></p>
+    <p>{{trans('main.is_calcnm_correct_lst')}}: <b>{{GlobalController::name_is_boolean($base->is_calcnm_correct_lst)}}</b></p>
     <p>{{trans('main.sepa_calcname')}}: <b>{{$base->sepa_calcname}}</b></p>
     <p>{{trans('main.is_same_small_calcname')}}: <b>{{GlobalController::name_is_boolean($base->is_same_small_calcname)}}</b></p>
     <p>{{trans('main.sepa_same_left_calcname')}}: <b>{{$base->sepa_same_left_calcname}}</b></p>

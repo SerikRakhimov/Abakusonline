@@ -125,7 +125,7 @@ class ItemController extends Controller
         }
         $base_right = GlobalController::base_right($base, $role, $relit_id);
         $name = BaseController::field_name();
-        $items = ItemController::get_items_main($base, $project, $role, $relit_id, $link, $item)['items_no_get'];
+        $items = self::get_items_main($base, $project, $role, $relit_id, $link, $item)['items_no_get'];
         if ($order_by == null) {
             $order_by = "name";
         }
@@ -267,7 +267,8 @@ class ItemController extends Controller
             $base_index_page_current = $items->currentPage();
         }
 
-//      Похожая проверка в GlobalController::get_project_bases(), ItemController::base_index() и project/start.php
+        // Похожая проверка в GlobalController::get_project_bases(), ItemController::base_index() и project/start.php
+        // Две проверки использовать
         if ($base_right['is_list_base_calc'] == false || $base_right['is_mnmn_base_enable'] == false) {
             return view('message', ['message' => trans('main.no_access')]);
         }
@@ -365,7 +366,7 @@ class ItemController extends Controller
             $para_child_mains_link_is_calcname = $child_mains_link_is_calcname;
         }
         // Нужно передать в функцию links_info() $item
-        $child_links_info = ItemController::links_info($item->base, $role, $relit_id,
+        $child_links_info = self::links_info($item->base, $role, $relit_id,
             $item, null, true, $tree_array, $para_child_mains_link_is_calcname);
 
         // Используется последний элемент массива $tree_array
@@ -592,8 +593,8 @@ class ItemController extends Controller
 
         // Нужно
         $view_link = $current_link;
-        // Передача параметров "$project, $role, $view_link" нужна
-        $array_relips = GlobalController::get_project_bases($project, $role, $view_link);
+        // Передача параметров "$project, $role, $view_link, $item->base" нужна
+        $array_relips = GlobalController::get_project_bases($project, $role, $view_link, $item->base);
 
         if (count($next_all_links) == 0) {
             return redirect()->route('item.ext_show', ['item' => $item, 'project' => $project, 'role' => $role,
@@ -805,7 +806,8 @@ class ItemController extends Controller
             $base_right = GlobalController::base_right($link->child_base, $role, $relit_id);
             // Выводить вычисляемое наименование
             // Использовать '$link->child_base'
-            $is_calcname = GlobalController::is_base_calcname_check($link->child_base, $base_right);
+            //$is_calcname = GlobalController::is_base_calcname_check($link->child_base, $base_right);
+            $is_calcname = GlobalController::is_base_calcnm_correct_check($link->child_base, $base_right);
             // Использовать true в '$base_link_right = GlobalController::base_link_right($link, $role, $relit_id, true);'
             $base_link_right = GlobalController::base_link_right($link, $role, $relit_id, true);
             // Использовать две этих проверки

@@ -417,4 +417,5 @@ return [
     'specify_additional_settings' => 'Specify additional settings',
     'is_mnmn_base_enable' => 'Show the Base in the main menu',
     'is_mnmn_base_enable_rule' => 'In this option, "Show Base in the main menu" should be removed (incompatibility with "Create Base in the list," "Read Base in the list," "Adjust Base in the list," "Delete Base in the list")',
-];
+    'is_calcnm_correct_lst' => 'Calculated name is correct',
+    ];
