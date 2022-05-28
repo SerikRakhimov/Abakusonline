@@ -196,7 +196,6 @@
         $relit_id_par = $parent_ret_id;
         $parent_ret_id_par = $relit_id;
     }
-    $base_right_update = GlobalController::base_right($item->base, $role, $relit_id);
     ?>
     <i>
         <p class="text-label">{{trans('main.created_user_date_time')}}:
@@ -227,8 +226,7 @@
             {{--            </button>--}}
             {{--            @endif--}}
             {{--Похожая проверка в ItemController::ext_edit() и ext_show.php--}}
-            {{--            @if($base_right['is_list_base_update'] == true)--}}
-            @if($base_right_update['is_list_base_update'] == true)
+            @if($base_right['is_list_base_update'] == true)
                 {{-- Используется "'relit_id'=>$parent_ret_id, 'parent_ret_id' => $relit_id"--}}
                 <button type="button" class="btn btn-dreamer mb-1 mb-sm-0"
                         onclick='document.location="{{route('item.ext_edit',

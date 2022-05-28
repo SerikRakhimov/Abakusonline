@@ -1147,12 +1147,12 @@ class ItemController extends Controller
 //            return view('message', ['message' => trans('main.info_user_changed')]);
 //        }
 
-        //$base_right = null;
-        //if ($heading == 1 || !$parent_ret_id) {
+        $base_right = null;
+        if ($heading == 1 || !$parent_ret_id) {
             $base_right = GlobalController::base_right($item->base, $role, $relit_id);
-//        } else {
-//            $base_right = GlobalController::base_right($item->base, $role, $parent_ret_id);
-//        }
+        } else {
+            $base_right = GlobalController::base_right($item->base, $role, $parent_ret_id);
+        }
 
         if ($base_right['is_list_base_calc'] == false) {
             return view('message', ['message' => trans('main.no_access')]);
@@ -4281,7 +4281,13 @@ class ItemController extends Controller
 //        return view('message', ['message' => trans('main.info_user_changed')]);
 //    }
 
-        $base_right = GlobalController::base_right($item->base, $role, $relit_id);
+        $base_right = null;
+        if ($heading == 1 || !$parent_ret_id) {
+            $base_right = GlobalController::base_right($item->base, $role, $relit_id);
+        } else {
+            $base_right = GlobalController::base_right($item->base, $role, $parent_ret_id);
+        }
+
 //      Похожая проверка в ItemController::ext_edit() и ext_show.php
         if ($base_right['is_list_base_update'] == false) {
             return view('message', ['message' => trans('main.no_access')]);
