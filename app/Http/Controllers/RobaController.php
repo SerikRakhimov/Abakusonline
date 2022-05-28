@@ -178,7 +178,7 @@ class RobaController extends Controller
     function check(Request $request, &$array_mess)
     {
         if ($request->is_mnmn_base_enable == true
-            && ($request->is_edit_base_read == false && $request->is_list_base_create == false
+            && ($request->is_list_base_create == false && $request->is_list_base_read == false
                 && $request->is_list_base_update == false && $request->is_list_base_delete == false)) {
             $array_mess['is_mnmn_base_enable'] = trans('main.is_mnmn_base_enable_rule') . '!';
         }

@@ -496,6 +496,7 @@ class GlobalController extends Controller
             if ($view_ret_id == 0) {
 //                $items_ids = $items_ids
 //                    ->where('items.project_id', '=', $parent_proj->id);
+                // Использовать '$project->id'
                 $items_ids = $items_ids
                     ->where('items.project_id', '=', $project->id);
             } else {
