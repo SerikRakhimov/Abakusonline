@@ -38,6 +38,7 @@
     @endif
     <p>{{trans('main.is_all_base_calcname_enable')}}: <b>{{GlobalController::name_is_boolean($roba->is_all_base_calcname_enable)}}</b></p>
     <p>{{trans('main.is_list_base_sort_creation_date_desc')}}: <b>{{GlobalController::name_is_boolean($roba->is_list_base_sort_creation_date_desc)}}</b></p>
+    <p>{{trans('main.is_list_base_create')}}: <b>{{GlobalController::name_is_boolean($roba->is_list_base_create)}}</b></p>
     <p>{{trans('main.is_mnmn_base_enable')}}: <b>{{GlobalController::name_is_boolean($roba->is_mnmn_base_enable)}}</b></p>
     <p>{{trans('main.is_list_base_read')}}: <b>{{GlobalController::name_is_boolean($roba->is_list_base_read)}}</b></p>
     <p>{{trans('main.is_list_base_update')}}: <b>{{GlobalController::name_is_boolean($roba->is_list_base_update)}}</b></p>
