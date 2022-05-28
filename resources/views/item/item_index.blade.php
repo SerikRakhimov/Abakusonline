@@ -75,7 +75,7 @@
                     }
                     ?>
                     {{--                    Выводить вычисляемое наименование--}}
-                    {{-- Одинаковые проверки должны быть в ItemController::item_index() и в item_index.php,--}}
+                    {{-- Одинаковые проверки должны быть в ItemController::item_index() и в item_index.php--}}
                     {{-- здесь равно true--}}
                     @if(GlobalController::is_base_calcname_check($item->base, $base_right))
                         <div class="container-fluid">

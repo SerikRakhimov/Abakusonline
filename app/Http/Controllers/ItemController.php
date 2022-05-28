@@ -356,10 +356,10 @@ class ItemController extends Controller
         $relip_project = GlobalController::calc_relip_project($relit_id, $project);
 
         $child_links = $item->base->child_links->sortBy('parent_base_number');
-        $child_mains_link_is_calcname = ItemController::mains_link_is_calcname($item, $role, $relit_id, $tree_array);
+        $child_mains_link_is_calcname = self::mains_link_is_calcname($item, $role, $relit_id, $tree_array);
 
         $para_child_mains_link_is_calcname = null;
-        // Одинаковые проверки должны быть в ItemController::item_index() и в item_index.php,
+        // Одинаковые проверки должны быть в ItemController::item_index() и в item_index.php
         // здесь равно false
         // Исключить link_id из $child_mains_link_is_calcname в итоговом результате функции links_info()
         if (GlobalController::is_base_calcname_check($item->base, $base_right) == false) {
