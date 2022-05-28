@@ -540,8 +540,9 @@ class ItemController extends Controller
                     $child_body_links_info = self::links_info($current_link->child_base, $role, $relit_id, null, null);
                 }
             }
-            // Используется $relip_project, $view_ret_id
-            $items_body_right = GlobalController::items_right($current_link->child_base, $relip_project, $role, $relit_id, $item->id, $current_link->id, $project, $view_ret_id);
+            $relip_body_project = GlobalController::calc_relip_project($view_ret_id, $project);
+            // Используется $relip_body_project, $view_ret_id
+            $items_body_right = GlobalController::items_right($current_link->child_base, $relip_body_project, $role, $relit_id, $item->id, $current_link->id, $project, $view_ret_id);
             $body_items = $items_body_right['items']->paginate(60, ['*'], 'body_link_page');
             // Нужно
             $next_all_mains = null;
