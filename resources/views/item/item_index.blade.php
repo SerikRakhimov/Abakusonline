@@ -460,6 +460,7 @@
     </div>
     </p>
     <hr>
+    relit_id = {{$relit_id}}
     {{--Похожие команды в ItemController::calc_tree_array() и item_index.php--}}
     @if($view_link)
         {{--        <hr>--}}
