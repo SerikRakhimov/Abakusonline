@@ -401,6 +401,11 @@ class ItemController extends Controller
         $prev_item = $items_right['prev_item'];
         $next_item = $items_right['next_item'];
 
+        // Передача параметров "$project, $role, false, true, $view_ret_id" нужна
+        //$get_project_bases = GlobalController::get_project_bases($project, $role, false, true, $view_ret_id);
+        //$array_relips = $get_project_bases['array_relips'];
+        //$view_ret_id = $get_project_bases['view_ret_id'];
+
         // Находим $current_link
         $current_link = null;  // нужно
         // Используется $project, $view_ret_id
@@ -560,6 +565,7 @@ class ItemController extends Controller
             $message_ln_calc = self::message_ln_calc($project, $item, $current_link);
             $message_ln_info = $message_ln_calc['message_ln_info'];
             $message_ln_validate = $message_ln_calc['message_ln_validate'];
+
         }
 
         if ($next_all_mains) {
@@ -594,25 +600,11 @@ class ItemController extends Controller
 
         // Нужно
         $view_link = $current_link;
-        // Передача параметров "$project, $role, $view_link, $item->base" нужна
-        $array_relips = GlobalController::get_project_bases($project, $role, $view_link, $item->base);
 
-        $first_rel_id = null;
-        $view_ret_found_id = false;
-        foreach ($array_relips as $relit_id => $value) {
-            if (!$first_rel_id) {
-                $first_rel_id = $relit_id;
-            }
-            if (!$view_ret_id) {
-                if ($view_ret_id == $relit_id) {
-                    $view_ret_found_id = true;
-                    break;
-                }
-            }
-        }
-        if(!$view_ret_found_id){
-            $view_ret_id = $first_rel_id;
-        }
+        // Передача параметров "$project, $role, false, true, $view_ret_id, $view_link, $item->base" нужна
+        $get_project_bases = GlobalController::get_project_bases($project, $role, false,true, $view_ret_id, $view_link, $item->base);
+        $array_relips = $get_project_bases['array_relips'];
+        //$view_ret_id = $get_project_bases['view_ret_id'];
 
         if (count($next_all_links) == 0) {
             return redirect()->route('item.ext_show', ['item' => $item, 'project' => $project, 'role' => $role,
@@ -1222,7 +1214,7 @@ class ItemController extends Controller
 //            return view('message', ['message' => trans('main.info_user_changed')]);
 //        }
 
-        $base_right = self::base_relit_right($base, $role, $heading, $relit_id, $parent_ret_id);
+        $base_right = self::base_relit_right($base, $role, $heading, $base_index_page, $relit_id, $parent_ret_id);
 
 //      Похожая проверка в ItemController::ext_create() и base_index.php
         if ($base_right['is_list_base_create'] == false) {

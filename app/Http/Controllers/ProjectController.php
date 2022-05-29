@@ -844,7 +844,7 @@ class ProjectController extends Controller
                     break;
             }
         }
-        $array_relips = GlobalController::get_project_bases($project, $role);
+        $array_relips = GlobalController::get_project_bases($project, $role, true)['array_relips'];
 
         session(['projects_previous_url' => request()->url()]);
 

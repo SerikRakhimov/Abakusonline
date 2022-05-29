@@ -460,7 +460,7 @@
     </div>
     </p>
     <hr>
-    relit_id = {{$relit_id}}
+    view_ret_id = {{$view_ret_id}}
     {{--Похожие команды в ItemController::calc_tree_array() и item_index.php--}}
     @if($view_link)
         {{--        <hr>--}}
@@ -603,7 +603,8 @@
             {{--        Выводится список записей по одной связи $view_link--}}
             {{--        Используется "'heading'=>intval(false)"--}}
             {{-- 'view_link' передается затем (в list\table.php) в 'item.ext_show' как 'par_link'--}}
-            @include('list.table',['base'=>$view_link->child_base, 'project'=>$project, 'links_info'=>$child_body_links_info, 'items'=>$body_items,
+            @include('list.table',['base'=>$view_link->child_base, 'project'=>$project,
+        'links_info'=>$child_body_links_info, 'items'=>$body_items,
         'base_right'=>$base_body_right, 'relit_id'=>$relit_id,
         'heading'=>intval(false),
         'base_index_page'=>$base_index_page, 'body_link_page'=>$body_link_page,'body_all_page'=>$body_all_page,
