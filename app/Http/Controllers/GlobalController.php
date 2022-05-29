@@ -320,6 +320,7 @@ class GlobalController extends Controller
             $base = $link->child_base;
             // 0 - текущий проект, по умолчанию
             $relit_id = 0;
+            //$relit_id = $parent_relit_id;
         } else {
             $base = $link->parent_base;
             $relit_id = $parent_relit_id;
@@ -1582,7 +1583,7 @@ class GlobalController extends Controller
                 $base = Base::find($value);
                 if ($base) {
                     $base_right = self::base_right($base, $role, $relit_id);
-                    // Удаляем элемент массива с $base, если '$base_right['is_list_base_calc'] == false'
+                    // Удаляем элемент массива с $base, если '$base_right['is_list_base_calc'] == false || $base_right['is_mnmn_base_enable'] == false'
                     // Похожая проверка в GlobalController::get_project_bases(), ItemController::base_index() и project/start.php
                     // Две проверки использовать
                     if ($base_right['is_list_base_calc'] == false || $base_right['is_mnmn_base_enable'] == false) {

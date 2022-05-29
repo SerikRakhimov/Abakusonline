@@ -187,15 +187,15 @@
         $result = ItemController::form_child_deta_hier($item, $project, $role, $relit_id);
         echo $result;
     }
-    $relit_id_par = null;
-    $parent_ret_id_par = null;
-    if ($heading == 1) {
-        $relit_id_par = $relit_id;
-        $parent_ret_id_par = $parent_ret_id;
-    } else {
-        $relit_id_par = $parent_ret_id;
-        $parent_ret_id_par = $relit_id;
-    }
+//    $relit_id_par = null;
+//    $parent_ret_id_par = null;
+//    if ($heading == 1) {
+//        $relit_id_par = $relit_id;
+//        $parent_ret_id_par = $parent_ret_id;
+//    } else {
+//        $relit_id_par = $parent_ret_id;
+//        $parent_ret_id_par = $relit_id;
+//    }
     ?>
     <i>
         <p class="text-label">{{trans('main.created_user_date_time')}}:
@@ -232,13 +232,13 @@
                         onclick='document.location="{{route('item.ext_edit',
             ['item'=>$item,'project'=>$project, 'role'=>$role,
             'usercode' =>GlobalController::usercode_calc(),
-            'relit_id'=>GlobalController::set_relit_id($parent_ret_id),
+            'relit_id'=>GlobalController::set_relit_id($relit_id),
             'string_link_ids_current' => $string_link_ids_current,
             'string_item_ids_current' => $string_item_ids_current,
             'string_all_codes_current' => $string_all_codes_current,
             'heading' => $heading,
             'base_index_page' => $base_index_page, 'body_link_page' => $body_link_page, 'body_all_page' => $body_all_page,
-            'parent_ret_id' => GlobalController::set_relit_id($relit_id),
+            'parent_ret_id' => GlobalController::set_relit_id($parent_ret_id),
             'view_link' => $view_link,
             'par_link' => $par_link, 'parent_item' => $parent_item])}}"'
                         title="{{trans('main.edit')}}">
@@ -247,17 +247,17 @@
                 </button>
             @endif
             {{--            В ItemController::is_delete() есть необходимые проверки на права по удалению записи--}}
-            @if(ItemController::is_delete($item, $role, $relit_id) == true)
+            @if(ItemController::is_delete($item, $role, $heading, $base_index_page, $relit_id, $parent_ret_id) == true)
                 {{-- Используется "'relit_id'=>$parent_ret_id, 'parent_ret_id' => $relit_id"--}}
                 <button type="button" class="btn btn-dreamer mb-1 mb-sm-0"
                         onclick='document.location="{{route('item.ext_delete_question',
             ['item'=>$item,'project'=>$project, 'role'=>$role,
             'usercode' =>GlobalController::usercode_calc(),
-            'relit_id'=>GlobalController::set_relit_id($parent_ret_id),
+            'relit_id'=>GlobalController::set_relit_id($relit_id),
             'string_link_ids_current' => $string_link_ids_current, 'string_item_ids_current' => $string_item_ids_current, 'string_all_codes_current' => $string_all_codes_current,
             'heading' => $heading,
             'base_index_page' => $base_index_page, 'body_link_page' => $body_link_page, 'body_all_page' => $body_all_page,
-            'parent_ret_id' => GlobalController::set_relit_id($relit_id),
+            'parent_ret_id' => GlobalController::set_relit_id($parent_ret_id),
             'view_link' => $view_link,
             'par_link' => $par_link, 'parent_item' => $parent_item])}}"'
                         title="{{trans('main.delete')}}">
@@ -314,9 +314,9 @@
             'string_item_ids_current' => $string_item_ids_current,
             'string_all_codes_current' => $string_all_codes_current,
             'heading' => $heading,
-            'relit_id'=>GlobalController::set_relit_id($relit_id_par),
+            'relit_id'=>GlobalController::set_relit_id($relit_id),
             'base_index_page' => $base_index_page, 'body_link_page' => $body_link_page, 'body_all_page' => $body_all_page,
-            'parent_ret_id' => GlobalController::set_relit_id($parent_ret_id_par),
+            'parent_ret_id' => GlobalController::set_relit_id($parent_ret_id),
             'view_link' => $view_link,
             'par_link' => $par_link, 'parent_item' => $parent_item])}}"
               method="POST"

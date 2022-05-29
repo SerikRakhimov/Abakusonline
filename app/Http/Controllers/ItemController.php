@@ -403,7 +403,6 @@ class ItemController extends Controller
 
         // Находим $current_link
         $current_link = null;  // нужно
-
         // Используется $project, $view_ret_id
         $next_all_links_mains_calc = self::next_all_links_mains_calc($project, $item, $role, $relit_id, $view_ret_id, $tree_array);
         $next_all_links = $next_all_links_mains_calc['next_all_links'];
@@ -597,6 +596,23 @@ class ItemController extends Controller
         $view_link = $current_link;
         // Передача параметров "$project, $role, $view_link, $item->base" нужна
         $array_relips = GlobalController::get_project_bases($project, $role, $view_link, $item->base);
+
+        $first_rel_id = null;
+        $view_ret_found_id = false;
+        foreach ($array_relips as $relit_id => $value) {
+            if (!$first_rel_id) {
+                $first_rel_id = $relit_id;
+            }
+            if (!$view_ret_id) {
+                if ($view_ret_id == $relit_id) {
+                    $view_ret_found_id = true;
+                    break;
+                }
+            }
+        }
+        if(!$view_ret_found_id){
+            $view_ret_id = $first_rel_id;
+        }
 
         if (count($next_all_links) == 0) {
             return redirect()->route('item.ext_show', ['item' => $item, 'project' => $project, 'role' => $role,
@@ -811,7 +827,8 @@ class ItemController extends Controller
             //$is_calcname = GlobalController::is_base_calcname_check($link->child_base, $base_right);
             $is_calcname = GlobalController::is_base_calcnm_correct_check($link->child_base, $base_right);
             // Использовать true в '$base_link_right = GlobalController::base_link_right($link, $role, $relit_id, true);'
-            $base_link_right = GlobalController::base_link_right($link, $role, $relit_id, true);
+            //$base_link_right = GlobalController::base_link_right($link, $role, $relit_id, true);
+            $base_link_right = GlobalController::base_link_right($link, $role, $view_ret_id, true);
             // Использовать две этих проверки
             if (($base_link_right['is_body_link_enable'] == true) && ($base_link_right['is_list_base_calc'] == true)) {
                 // Такая же проверка и в GlobalController (function items_right()),
@@ -837,7 +854,6 @@ class ItemController extends Controller
                 }
             }
         }
-        //dd($next_all_is_calcname);
 //        foreach ($links as $link) {
 //            $base_link_right = GlobalController::base_link_right($link, $role, $relit_id, true);
 //            if ($base_link_right['is_list_base_byuser'] == true) {
@@ -876,7 +892,6 @@ class ItemController extends Controller
                 ->where('relips.relit_id', '=', $view_ret_id)
                 ->where('relips.child_project_id', '=', $parent_proj->id);
         }
-
 //        ->whereNot(function ($query) use ($next_all_links_byuser_ids) {
 //        $query->whereIn('links.id', $next_all_links_byuser_ids)
 //            ->where('items.created_user_id', GlobalController::glo_user_id());
@@ -1129,6 +1144,18 @@ class ItemController extends Controller
         return view('item/show', ['type_form' => 'show', 'item' => $item]);
     }
 
+    static function base_relit_right(Base $base, Role $role, $heading, $base_index_page, $relit_id, $parent_ret_id)
+    {
+        $result = null;
+        $parent_ret_id = GlobalController::set_relit_id($parent_ret_id);
+        if ($heading == 1 || $base_index_page > 0) {
+            $result = GlobalController::base_right($base, $role, $relit_id);
+        } else {
+            $result = GlobalController::base_right($base, $role, $parent_ret_id);
+        }
+        return $result;
+    }
+
     function ext_show(Item $item, Project $project, Role $role, $usercode,
                            $relit_id,
                            $string_link_ids_current = '', $string_item_ids_current = '', $string_all_codes_current = '',
@@ -1140,22 +1167,17 @@ class ItemController extends Controller
     {
 
         if (GlobalController::check_project_item_user($project, $item, $role, $usercode) == false) {
-            return view('message', ['message' => trans('main.no_access')]);
+            return view('message', ['message' => trans('main.no_access') . '111']);
         }
 
 //        if (GlobalController::check_project_user($project, $role) == false) {
 //            return view('message', ['message' => trans('main.info_user_changed')]);
 //        }
 
-        $base_right = null;
-        if ($heading == 1 || !$parent_ret_id) {
-            $base_right = GlobalController::base_right($item->base, $role, $relit_id);
-        } else {
-            $base_right = GlobalController::base_right($item->base, $role, $parent_ret_id);
-        }
+        $base_right = self::base_relit_right($item->base, $role, $heading, $base_index_page, $relit_id, $parent_ret_id);
 
         if ($base_right['is_list_base_calc'] == false) {
-            return view('message', ['message' => trans('main.no_access')]);
+            return view('message', ['message' => trans('main.no_access') . '222']);
         }
 
         // Команды ниже нужны
@@ -1200,7 +1222,8 @@ class ItemController extends Controller
 //            return view('message', ['message' => trans('main.info_user_changed')]);
 //        }
 
-        $base_right = GlobalController::base_right($base, $role, $relit_id);
+        $base_right = self::base_relit_right($base, $role, $heading, $relit_id, $parent_ret_id);
+
 //      Похожая проверка в ItemController::ext_create() и base_index.php
         if ($base_right['is_list_base_create'] == false) {
             return view('message', ['message' => trans('main.no_access')]);
@@ -4281,12 +4304,7 @@ class ItemController extends Controller
 //        return view('message', ['message' => trans('main.info_user_changed')]);
 //    }
 
-        $base_right = null;
-        if ($heading == 1 || !$parent_ret_id) {
-            $base_right = GlobalController::base_right($item->base, $role, $relit_id);
-        } else {
-            $base_right = GlobalController::base_right($item->base, $role, $parent_ret_id);
-        }
+        $base_right = self::base_relit_right($item->base, $role, $heading, $base_index_page, $relit_id, $parent_ret_id);
 
 //      Похожая проверка в ItemController::ext_edit() и ext_show.php
         if ($base_right['is_list_base_update'] == false) {
@@ -4385,7 +4403,7 @@ class ItemController extends Controller
 
         $relip_project = GlobalController::calc_relip_project($relit_id, $project);
 
-        if (self::is_delete($item, $role, $relit_id) == true) {
+        if (self::is_delete($item, $role, $heading, $base_index_page, $relit_id, $parent_ret_id) == true) {
 
             $item_copy = $item;
 
@@ -4506,11 +4524,11 @@ class ItemController extends Controller
         }
     }
 
-    static function is_delete(Item $item, Role $role, $relit_id)
+    static function is_delete(Item $item, Role $role, $heading, $base_index_page, $relit_id, $parent_ret_id)
     {
         // Нужно "$result = false;"
         $result = false;
-        $base_right = GlobalController::base_right($item->base, $role, $relit_id);
+        $base_right = self::base_relit_right($item->base, $role, $heading, $base_index_page, $relit_id, $parent_ret_id);
         if ($base_right['is_list_base_delete'] == true) {
             if ($base_right['is_list_base_used_delete'] == true) {
                 $result = true;
