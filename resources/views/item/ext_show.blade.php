@@ -180,6 +180,7 @@
                     @endif
     </ul>
     <hr>
+    relit_id = {{$relit_id}}
     <?php
     if ($base_right['is_hier_base_enable'] == true) {
 //        $result = ItemController::form_parent_coll_hier($item->id, $role, $relit_id);
