@@ -1187,6 +1187,7 @@ class ItemController extends Controller
             'role' => $role,
             'project' => $project,
             'relit_id' => $relit_id,
+            'base_right' => $base_right,
             'array_calc' => $this->get_array_calc_edit($item)['array_calc'],
             'string_all_codes_current' => $string_all_codes_current,
             'string_link_ids_current' => $string_link_ids_current,
