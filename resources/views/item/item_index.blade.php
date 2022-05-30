@@ -552,14 +552,14 @@
                             @if($message_ln_validate == "")
                                 <?php
                                 $heading = 0;
-                                $relit_id_par = null;
-                                $parent_ret_id_par = null;
+                                $relit_par_id = null;
+                                $parent_ret_par_id = null;
                                 if ($heading == 1) {
-                                    $relit_id_par = $relit_id;
-                                    $parent_ret_id_par = $view_ret_id;
+                                    $relit_par_id = $relit_id;
+                                    $parent_ret_par_id = $view_ret_id;
                                 } else {
-                                    $relit_id_par = $view_ret_id;
-                                    $parent_ret_id_par = $relit_id;
+                                    $relit_par_id = $view_ret_id;
+                                    $parent_ret_par_id = $relit_id;
                                 }
                                 ?>
                                 {{-- Выводится $message_mc--}}
@@ -568,7 +568,7 @@
                                         onclick="document.location='{{route('item.ext_create', ['base'=>$view_link->child_base_id,
                                         'project'=>$project, 'role'=>$role,
                                         'usercode' =>GlobalController::usercode_calc(),
-                             'relit_id' => GlobalController::set_relit_id($relit_id_par),
+                             'relit_id' => GlobalController::set_relit_id($relit_par_id),
                              'string_all_codes_current' => $string_all_codes_current,
                              'string_link_ids_current' => $string_link_ids_current,
                              'string_item_ids_current' => $string_item_ids_current,
@@ -576,7 +576,7 @@
                              'base_index_page'=>$base_index_page, 'body_link_page'=>$body_link_page,'body_all_page'=>$body_all_page,
                              'view_link'=>$view_link,
                              'par_link'=>$view_link, 'parent_item'=>$item,
-                             'parent_ret_id' => GlobalController::set_relit_id($parent_ret_id_par)])}}'">
+                             'parent_ret_id' => GlobalController::set_relit_id($parent_ret_par_id)])}}'">
                                     <i class="fas fa-plus d-inline"></i>&nbsp;{{trans('main.add')}}
                                 </button>
                             @endif
