@@ -533,10 +533,11 @@ class ItemController extends Controller
         $base_body_right = null;
         $body_items = null;
         if ($current_link) {
-             //$base_body_right = GlobalController::base_right($current_link->child_base, $role, $relit_id);
-            //$base_body_right = GlobalController::base_right($current_link->child_base, $role, $view_ret_id);
+            //$base_body_right = GlobalController::base_right($current_link->child_base, $role, $relit_id);
             //$base_link_right = GlobalController::base_link_right($current_link, $role, $view_ret_id);
-            $base_body_right =  self::base_relit_right($item->base, $role, 0, $base_index_page_current, $relit_id, $view_ret_id);
+            //$base_body_right =  self::base_relit_right($item->base, $role, 0, $base_index_page_current, $relit_id, $view_ret_id);
+            $base_body_right = GlobalController::base_right($current_link->child_base, $role, $view_ret_id);
+
             // Исключить переданный $nolink - $current_link
             $child_body_links_info = self::links_info($current_link->child_base, $role, $relit_id, null, $current_link);
             if (count($child_body_links_info['link_id_array']) == 0) {
