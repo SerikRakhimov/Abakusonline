@@ -229,18 +229,18 @@
             {{--            @endif--}}
             {{--Похожая проверка в ItemController::ext_edit() и ext_show.php--}}
             @if($base_right['is_list_base_update'] == true)
-                {{-- Используется "'relit_id'=>$parent_ret_id_par, 'parent_ret_id' => $relit_id_par"--}}
+                {{-- Используется "'relit_id'=>$relit_id_par, 'parent_ret_id' => $parent_ret_id_par"--}}
                 <button type="button" class="btn btn-dreamer mb-1 mb-sm-0"
                         onclick='document.location="{{route('item.ext_edit',
             ['item'=>$item,'project'=>$project, 'role'=>$role,
             'usercode' =>GlobalController::usercode_calc(),
-            'relit_id'=>GlobalController::set_relit_id($parent_ret_id_par),
+            'relit_id'=>GlobalController::set_relit_id($relit_id),
             'string_link_ids_current' => $string_link_ids_current,
             'string_item_ids_current' => $string_item_ids_current,
             'string_all_codes_current' => $string_all_codes_current,
             'heading' => $heading,
             'base_index_page' => $base_index_page, 'body_link_page' => $body_link_page, 'body_all_page' => $body_all_page,
-            'parent_ret_id' => GlobalController::set_relit_id($relit_id_par),
+            'parent_ret_id' => GlobalController::set_relit_id($parent_ret_id),
             'view_link' => $view_link,
             'par_link' => $par_link,
             'parent_item' => $parent_item])}}"'
