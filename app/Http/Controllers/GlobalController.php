@@ -1488,8 +1488,8 @@ class GlobalController extends Controller
     }
 
     static function get_project_bases(Project $current_project, Role $role,
-                                      $check_main_menu = true,
-                                      $view_ret_isset_id = false, $view_ret_id = null,
+                                              $check_main_menu = true,
+                                              $view_ret_isset_id = false, $view_ret_id = null,
                                       Link    $link = null, $parent_relit_id = null)
     {
         $array_relips = [];
@@ -1591,9 +1591,9 @@ class GlobalController extends Controller
 //            }
 //        }
 
-          foreach ($array_relips as $relit_id => $value) {
-            $project_id = $value['project_id'];
-            $bases_ids = $value['base_ids'];
+        foreach ($array_relips as $relit_id => $val_arr) {
+            $project_id = $val_arr['project_id'];
+            $bases_ids = $val_arr['base_ids'];
             foreach ($bases_ids as $key => $value) {
                 $base = Base::find($value);
                 if ($base) {
@@ -1624,23 +1624,29 @@ class GlobalController extends Controller
         // Если передано $view_ret_id
         if ($view_ret_isset_id == true) {
             foreach ($array_relips as $relit_id => $value) {
-                if (!$first_rel_id) {
-                    // Первый $relit_id
-                    $first_rel_id = $relit_id;
-                }
-                if ($view_ret_id) {
-                    if ($view_ret_id == $relit_id) {
-                        $view_ret_found_id = true;
-                        break;
-                    }
+                if ($view_ret_id == $relit_id) {
+                    $view_ret_found_id = true;
+                    break;
                 }
             }
-            if (!$view_ret_found_id) {
+
+            if (!$view_ret_found_id && $link) {
+                foreach ($array_relips as $relit_id => $val_arr) {
+                    $bases_ids = $val_arr['base_ids'];
+                    foreach ($bases_ids as $key => $base_id) {
+                        if (!$first_rel_id) {
+                            // Первый $relit_id
+                            if ($base_id == $link->child_base_id) {
+                                $first_rel_id = $relit_id;
+                            }
+                        }
+                    }
+                }
                 $view_ret_id = $first_rel_id;
             }
         }
 
-        return ['array_relips' => $array_relips, 'view_ret_id' => $view_ret_id];
+        return ['array_relips' => $array_relips, 'view_ret_found_id' => $view_ret_found_id, 'view_ret_id' => $view_ret_id];
 
     }
 
