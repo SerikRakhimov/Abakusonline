@@ -609,7 +609,7 @@ class ItemController extends Controller
         // Передача параметров "$project, $role, false, true, $view_ret_id, $view_link, $item->base" нужна
         $get_project_bases = GlobalController::get_project_bases($project, $role, false,true, $view_ret_id, $view_link, $relit_id);
         $array_relips = $get_project_bases['array_relips'];
-        //$view_ret_id = $get_project_bases['view_ret_id'];
+        $view_ret_id = $get_project_bases['view_ret_id'];
 
         if (count($next_all_links) == 0) {
             return redirect()->route('item.ext_show', ['item' => $item, 'project' => $project, 'role' => $role,
