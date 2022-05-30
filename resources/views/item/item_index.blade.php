@@ -600,6 +600,7 @@
         {{--            </div>--}}
         {{--        </div>--}}
         @if (count($body_items) > 0)
+            view_ret_id = {{$view_ret_id}}...
             {{--        Выводится список записей по одной связи $view_link--}}
             {{--        Используется "'heading'=>intval(false)"--}}
             {{-- 'view_link' передается затем (в list\table.php) в 'item.ext_show' как 'par_link'--}}
