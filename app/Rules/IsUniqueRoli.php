@@ -27,7 +27,10 @@ class IsUniqueRoli implements Rule
      */
     public function passes($attribute, $value)
     {
-        return !Roli::where('role_id', $this->request->role_id)->where('link_id', $this->request->link_id)->exists();
+        return !Roli::where('role_id', $this->request->role_id)
+            ->where('link_id', $this->request->link_id)
+            ->where('relit_id', $this->request->relit_id)
+            ->exists();
     }
 
     /**
@@ -37,6 +40,6 @@ class IsUniqueRoli implements Rule
      */
     public function message()
     {
-        return trans('main.uniqueness_of_fields_violated') . ' ' . trans('main.role') . ' ' . trans('main.link') . '.';
+        return trans('main.uniqueness_of_fields_violated') . ' ' . trans('main.role') . ' ' . trans('main.link') . ' ' . trans('main.relit') . '.';
     }
 }

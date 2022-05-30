@@ -24,7 +24,8 @@ class CreateRolisTable extends Migration
             $table->timestamps();
             $table->index('role_id');
             $table->index('link_id');
-            $table->unique(['role_id', 'link_id']);
+            //$table->unique(['role_id', 'link_id']);
+            $table->unique(['role_id', 'link_id', 'relit_id']);
             $table->foreign('role_id')->references('id')->on('roles')->onDelete('cascade');
             $table->foreign('link_id')->references('id')->on('links')->onDelete('cascade');
         });

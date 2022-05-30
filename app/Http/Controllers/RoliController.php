@@ -19,6 +19,7 @@ class RoliController extends Controller
         return [
             'role_id' => ['required', new IsUniqueRoli($request)],
             'link_id' => ['required', new IsUniqueRoli($request)],
+            'relit_id' => ['required', new IsUniqueRoli($request)],
         ];
     }
 

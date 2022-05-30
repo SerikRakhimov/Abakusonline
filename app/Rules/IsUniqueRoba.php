@@ -42,6 +42,6 @@ class IsUniqueRoba implements Rule
      */
     public function message()
     {
-        return trans('main.uniqueness_of_fields_violated') . ' ' . trans('main.role') . ' ' . trans('main.base') . '.';
+        return trans('main.uniqueness_of_fields_violated') . ' ' . trans('main.role') . ' ' . trans('main.base') . ' ' . trans('main.relit')  . '.';
     }
 }
