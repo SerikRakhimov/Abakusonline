@@ -189,14 +189,14 @@
         $result = ItemController::form_child_deta_hier($item, $project, $role, $relit_id);
         echo $result;
     }
-    $relit_id_par = null;
-    $parent_ret_id_par = null;
+    $relit_par_id = null;
+    $parent_ret_par_id = null;
     if (($heading == 1) || ($base_index_page > 0)) {
-        $relit_id_par = $relit_id;
-        $parent_ret_id_par = $parent_ret_id;
+        $relit_par_id = $relit_id;
+        $parent_ret_par_id = $parent_ret_id;
     } else {
-        $relit_id_par = $parent_ret_id;
-        $parent_ret_id_par = $relit_id;
+        $relit_par_id = $parent_ret_id;
+        $parent_ret_par_id = $relit_id;
     }
     ?>
     <i>
@@ -214,14 +214,14 @@
             {{--                    onclick="document.location='{{route('item.ext_create', ['base'=>$item->base,--}}
             {{--                                        'project'=>$project, 'role'=>$role,--}}
             {{--                                        'usercode' =>GlobalController::usercode_calc(),--}}
-            {{--                             'relit_id' => GlobalController::set_relit_id($relit_id_par),--}}
+            {{--                             'relit_id' => GlobalController::set_relit_id($relit_par_id),--}}
             {{--                             'string_all_codes_current' => $string_all_codes_current,--}}
             {{--                             'string_link_ids_current' => $string_link_ids_current,--}}
             {{--                             'string_item_ids_current' => $string_item_ids_current,--}}
             {{--                             'heading'=>intval(false),--}}
             {{--                             'base_index_page'=>$base_index_page, 'body_link_page'=>$body_link_page,'body_all_page'=>$body_all_page,--}}
             {{--                             'view_link'=>$view_link,--}}
-            {{--                             'parent_ret_id' => GlobalController::set_relit_id($parent_ret_id_par),--}}
+            {{--                             'parent_ret_id' => GlobalController::set_relit_id($parent_ret_par_id),--}}
             {{--                             'par_link'=>$par_link, 'parent_item'=>$parent_item])}}'">--}}
             {{--                <i class="fas fa-edit"></i>--}}
             {{--                {{trans('main.add')}}--}}
@@ -229,18 +229,18 @@
             {{--            @endif--}}
             {{--Похожая проверка в ItemController::ext_edit() и ext_show.php--}}
             @if($base_right['is_list_base_update'] == true)
-                {{-- Используется "'relit_id'=>$relit_id_par, 'parent_ret_id' => $parent_ret_id_par"--}}
+                {{-- Используется "'relit_id'=>$relit_par_id, 'parent_ret_id' => $parent_ret_par_id"--}}
                 <button type="button" class="btn btn-dreamer mb-1 mb-sm-0"
                         onclick='document.location="{{route('item.ext_edit',
             ['item'=>$item,'project'=>$project, 'role'=>$role,
             'usercode' =>GlobalController::usercode_calc(),
-            'relit_id'=>GlobalController::set_relit_id($relit_id_par),
+            'relit_id'=>GlobalController::set_relit_id($relit_par_id),
             'string_link_ids_current' => $string_link_ids_current,
             'string_item_ids_current' => $string_item_ids_current,
             'string_all_codes_current' => $string_all_codes_current,
             'heading' => $heading,
             'base_index_page' => $base_index_page, 'body_link_page' => $body_link_page, 'body_all_page' => $body_all_page,
-            'parent_ret_id' => GlobalController::set_relit_id($parent_ret_id_par),
+            'parent_ret_id' => GlobalController::set_relit_id($parent_ret_par_id),
             'view_link' => $view_link,
             'par_link' => $par_link,
             'parent_item' => $parent_item])}}"'
@@ -251,16 +251,16 @@
             @endif
             {{--            В ItemController::is_delete() есть необходимые проверки на права по удалению записи--}}
             @if(ItemController::is_delete($item, $role, $heading, $base_index_page, $relit_id, $parent_ret_id) == true)
-                {{-- Используется "'relit_id'=>$parent_ret_id, 'parent_ret_id' => $relit_id"--}}
+                {{-- Используется "'relit_id'=>$relit_par_id, 'parent_ret_id' => $parent_ret_par_id"--}}
                 <button type="button" class="btn btn-dreamer mb-1 mb-sm-0"
                         onclick='document.location="{{route('item.ext_delete_question',
             ['item'=>$item,'project'=>$project, 'role'=>$role,
             'usercode' =>GlobalController::usercode_calc(),
-            'relit_id'=>GlobalController::set_relit_id($relit_id_par),
+            'relit_id'=>GlobalController::set_relit_id($relit_par_id),
             'string_link_ids_current' => $string_link_ids_current, 'string_item_ids_current' => $string_item_ids_current, 'string_all_codes_current' => $string_all_codes_current,
             'heading' => $heading,
             'base_index_page' => $base_index_page, 'body_link_page' => $body_link_page, 'body_all_page' => $body_all_page,
-            'parent_ret_id' => GlobalController::set_relit_id($parent_ret_id_par),
+            'parent_ret_id' => GlobalController::set_relit_id($parent_ret_par_id),
             'view_link' => $view_link,
             'par_link' => $par_link, 'parent_item' => $parent_item])}}"'
                         title="{{trans('main.delete')}}">
