@@ -4199,9 +4199,9 @@ class ItemController extends Controller
         $str_link = '';
         if ($base_index_page > 0) {
             // Использовать "project' => $project"
-            // Используется "'relit_id'=> $relit_id"
+            // Используется "'relit_id'=> $parent_ret_id"
             return redirect()->route('item.base_index', ['base' => $item->base, 'project' => $project, 'role' => $role,
-                'relit_id' => $relit_id,
+                'relit_id' => $parent_ret_id,
                 'base_index_page' => $base_index_page, 'body_link_page' => $body_link_page, 'body_all_page' => $body_all_page]);
         } else {
             // Если $heading = true - нажата Добавить из "heading", false - из "body" (только при добавлении записи)
@@ -4217,26 +4217,26 @@ class ItemController extends Controller
                 // Используется "'relit_id'=>$parent_ret_id, 'view_ret_id' => $relit_id'"
                     return redirect()->route('item.item_index', ['project' => $project, 'item' => $parent_item, 'role' => $role,
                     'usercode' => GlobalController::usercode_calc(),
-                    'relit_id' => $relit_id,
+                    'relit_id' => $parent_ret_id,
                     'view_link' => $str_link,
                     'string_link_ids_current' => $string_link_ids_current, 'string_item_ids_current' => $string_item_ids_current, 'string_all_codes_current' => $string_all_codes_current,
                     'base_index_page' => $base_index_page, 'body_link_page' => $body_link_page, 'body_all_page' => $body_all_page,
                     'prev_base_index_page' => $base_index_page,
                     'prev_body_link_page' => $body_link_page,
                     'prev_body_all_page' => $body_all_page,
-                    'view_ret_id' => $parent_ret_id]);
+                    'view_ret_id' => $relit_id]);
             } else {
                 // Используется "'relit_id'=>$parent_ret_id, 'view_ret_id' => $relit_id'"
                 return redirect()->route('item.item_index', ['project' => $project, 'item' => $item, 'role' => $role,
                     'usercode' => GlobalController::usercode_calc(),
-                    'relit_id' => $relit_id,
+                    'relit_id' => $parent_ret_id,
                     'view_link' => $str_link,
                     'string_link_ids_current' => $string_link_ids_current, 'string_item_ids_current' => $string_item_ids_current, 'string_all_codes_current' => $string_all_codes_current,
                     'base_index_page' => $base_index_page, 'body_link_page' => $body_link_page, 'body_all_page' => $body_all_page,
                     'prev_base_index_page' => $base_index_page,
                     'prev_body_link_page' => $body_link_page,
                     'prev_body_all_page' => $body_all_page,
-                    'view_ret_id' => $parent_ret_id]);
+                    'view_ret_id' => $relit_id]);
             }
         }
     }
