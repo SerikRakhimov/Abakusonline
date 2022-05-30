@@ -524,14 +524,19 @@ class ItemController extends Controller
                 }
             }
         }
+
+        $base_index_page_current = 0;
+        $body_link_page_current = 0;
+        $body_all_page_current = 0;
+
         $child_body_links_info = null;
         $base_body_right = null;
         $body_items = null;
         if ($current_link) {
-             $base_body_right = GlobalController::base_right($current_link->child_base, $role, $relit_id);
+             //$base_body_right = GlobalController::base_right($current_link->child_base, $role, $relit_id);
             //$base_body_right = GlobalController::base_right($current_link->child_base, $role, $view_ret_id);
             //$base_link_right = GlobalController::base_link_right($current_link, $role, $view_ret_id);
-
+            $base_body_right =  self::base_relit_right($item->base, $role, 0, $base_index_page_current, $relit_id, $view_ret_id);
             // Исключить переданный $nolink - $current_link
             $child_body_links_info = self::links_info($current_link->child_base, $role, $relit_id, null, $current_link);
             if (count($child_body_links_info['link_id_array']) == 0) {
@@ -582,9 +587,6 @@ class ItemController extends Controller
         $string_item_ids_next = GlobalController::set_str_const_null($string_item_ids_next);
         $string_all_codes_next = GlobalController::set_str_const_null($string_all_codes_next);
 
-        $base_index_page_current = 0;
-        $body_link_page_current = 0;
-        $body_all_page_current = 0;
         // Проверки ниже нужны
         // При вызове item_index.php должно быть либо так '$body_items!=null и $next_all_mains=null',
         // либо так '$body_items=null и $next_all_mains!=null'
@@ -1216,6 +1218,7 @@ class ItemController extends Controller
 //        if (GlobalController::check_project_user($project, $role) == false) {
 //            return view('message', ['message' => trans('main.info_user_changed')]);
 //        }
+
 
         $base_right = self::base_relit_right($base, $role, $heading, $base_index_page, $relit_id, $parent_ret_id);
 
@@ -4351,9 +4354,12 @@ class ItemController extends Controller
 //            return view('message', ['message' => trans('main.info_user_changed')]);
 //        }
 
+        $base_right = self::base_relit_right($item->base, $role, $heading, $base_index_page, $relit_id, $parent_ret_id);
+
         return view('item/ext_show', ['type_form' => 'delete_question', 'item' => $item, 'role' => $role,
             'project' => $project,
             'relit_id' => $relit_id,
+            'base_right' => $base_right,
             'array_calc' => $this->get_array_calc_edit($item)['array_calc'],
             'string_link_ids_current' => $string_link_ids_current, 'string_item_ids_current' => $string_item_ids_current, 'string_all_codes_current' => $string_all_codes_current,
             'heading' => $heading,
