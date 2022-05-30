@@ -242,7 +242,8 @@
             'base_index_page' => $base_index_page, 'body_link_page' => $body_link_page, 'body_all_page' => $body_all_page,
             'parent_ret_id' => GlobalController::set_relit_id($relit_id_par),
             'view_link' => $view_link,
-            'par_link' => $par_link, 'parent_item' => $parent_item])}}"'
+            'par_link' => $par_link,
+            'parent_item' => $parent_item])}}"'
                         title="{{trans('main.edit')}}">
                     <i class="fas fa-edit"></i>
                     {{trans('main.edit')}}
