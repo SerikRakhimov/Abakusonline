@@ -77,7 +77,8 @@
                     {{--                    Выводить вычисляемое наименование--}}
                     {{-- Одинаковые проверки должны быть в ItemController::item_index() и в item_index.php--}}
                     {{-- здесь равно true--}}
-                    @if(GlobalController::is_base_calcname_check($item->base, $base_right))
+                    {{--                    @if(GlobalController::is_base_calcname_check($item->base, $base_right))--}}
+                    @if(GlobalController::is_base_calcnm_correct_check($item->base, $base_right))
                         <div class="container-fluid">
                             <div class="row">
                                 <div class="col-12 text-left">
@@ -104,13 +105,16 @@
             'view_link'=> GlobalController::set_par_view_link_null($view_link),
             'par_link'=>$tree_array_last_link_id, 'parent_item'=>$tree_array_last_item_id,
             'parent_ret_id' => $view_ret_id])}}"
-                                           title="{{trans('main.viewing_record')}}: {{$item->cdnm()}}">
+                                           title="{{trans('main.viewing_record')}}: {{$item->name()}}">
                                             <mark class="text-project">
-                                                @include('layouts.item.empty_name', ['name'=>$item->cdnm()])
+                                                @include('layouts.item.empty_name', ['name'=>$item->name()])
                                             </mark>
                                         </a>
                                     @else
                                         {{$item->name()}}
+                                    @endif
+                                    @if($item->base->is_code_needed == true)
+                                        {{trans('main.code')}}: <strong>{{$item->code}}</strong>
                                     @endif
                                 </div>
                                 {{--                                <div class="col-4 text-left">--}}

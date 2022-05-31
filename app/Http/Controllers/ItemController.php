@@ -362,7 +362,8 @@ class ItemController extends Controller
         // Одинаковые проверки должны быть в ItemController::item_index() и в item_index.php
         // здесь равно false
         // Исключить link_id из $child_mains_link_is_calcname в итоговом результате функции links_info()
-        if (GlobalController::is_base_calcname_check($item->base, $base_right) == false) {
+//        if (GlobalController::is_base_calcname_check($item->base, $base_right) == false) {
+        if (GlobalController::is_base_calcnm_correct_check($item->base, $base_right) == false) {
             $para_child_mains_link_is_calcname = $child_mains_link_is_calcname;
         }
         // Нужно передать в функцию links_info() $item
@@ -832,7 +833,7 @@ class ItemController extends Controller
         $links = $base->parent_links
             ->where('parent_is_parent_related', false)
             ->where('parent_is_base_link', false)
-            ->sortBy('child_base_id');
+            ->sortBy('child_base_number');
         $next_all_links = array();
         $next_all_links_ids = array();
         $next_all_links_byuser_ids = array();
