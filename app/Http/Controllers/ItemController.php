@@ -362,8 +362,8 @@ class ItemController extends Controller
         // Одинаковые проверки должны быть в ItemController::item_index() и в item_index.php
         // здесь равно false
         // Исключить link_id из $child_mains_link_is_calcname в итоговом результате функции links_info()
-//        if (GlobalController::is_base_calcname_check($item->base, $base_right) == false) {
-        if (GlobalController::is_base_calcnm_correct_check($item->base, $base_right) == false) {
+        if (GlobalController::is_base_calcname_check($item->base, $base_right) == false) {
+//        if (GlobalController::is_base_calcnm_correct_check($item->base, $base_right) == false) {
             $para_child_mains_link_is_calcname = $child_mains_link_is_calcname;
         }
         // Нужно передать в функцию links_info() $item
@@ -576,8 +576,7 @@ class ItemController extends Controller
             $message_ln_info = $message_ln_calc['message_ln_info'];
             $message_ln_validate = $message_ln_calc['message_ln_validate'];
 
-        }
-        else{
+        } else {
             // Используется $project, $view_ret_id, true
             $next_all_links_mains_calc = self::next_all_links_mains_calc($project, $item, $role, $relit_id, $view_ret_id, $tree_array, true);
             $next_all_mains = $next_all_links_mains_calc['next_all_mains'];
@@ -614,12 +613,12 @@ class ItemController extends Controller
         $view_link = $current_link;
 
         // Передача параметров "$project, $role, false, true, $view_ret_id, $view_link, $item->base" нужна
-        $get_project_bases = GlobalController::get_project_bases($project, $role, false,true, $view_ret_id, $view_link, $relit_id);
+        $get_project_bases = GlobalController::get_project_bases($project, $role, false, true, $view_ret_id, $view_link, $relit_id);
         $array_relips = $get_project_bases['array_relips'];
         $view_ret_found_id = $get_project_bases['view_ret_found_id'];
         $view_ret_id = $get_project_bases['view_ret_id'];
         // Если $view_ret_id поменялось
-        if(!$view_ret_found_id){
+        if (!$view_ret_found_id) {
             // Перевызов с правильным значением $view_ret_id
             return redirect()->route('item.item_index', ['project' => $project, 'item' => $item, 'role' => $role,
                 'usercode' => GlobalController::usercode_calc(),
@@ -887,7 +886,7 @@ class ItemController extends Controller
         $item_name_lang = GlobalController::calc_item_name_lang();
         // Нужно
         $next_all_mains = null;
-        if($is_next_all_mains_calc == true) {
+        if ($is_next_all_mains_calc == true) {
             // Все записи, со всеми links, по факту
             // Условия одинаковые 'where('parent_is_base_link', false)'
             // Такая же проверка и в GlobalController (function items_right()),
@@ -4246,7 +4245,7 @@ class ItemController extends Controller
             }
             if (!$heading && $parent_item) {
                 // Используется "'relit_id'=>$parent_ret_id, 'view_ret_id' => $relit_id'"
-                    return redirect()->route('item.item_index', ['project' => $project, 'item' => $parent_item, 'role' => $role,
+                return redirect()->route('item.item_index', ['project' => $project, 'item' => $parent_item, 'role' => $role,
                     'usercode' => GlobalController::usercode_calc(),
                     'relit_id' => $parent_ret_id,
                     'view_link' => $str_link,
