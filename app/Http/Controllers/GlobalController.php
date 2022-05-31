@@ -1482,7 +1482,7 @@ class GlobalController extends Controller
         $array_relits[0] = $template->name() . ' (' . trans('main.current_template') . ')';
         foreach ($child_relits as $relit) {
             $array_relits[$relit->id] = $relit->serial_number . '. ' . $relit->parent_template->name()
-                . ' (Id =' . $relit->id . ')';
+                . ' (Id =' . $relit->id . ', ' . $relit->title() .')';
         }
         return $array_relits;
     }
