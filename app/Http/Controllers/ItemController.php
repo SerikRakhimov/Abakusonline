@@ -408,10 +408,11 @@ class ItemController extends Controller
 
         // Находим $current_link
         $current_link = null;  // нужно
-        // Используется $project, $view_ret_id
-        $next_all_links_mains_calc = self::next_all_links_mains_calc($project, $item, $role, $relit_id, $view_ret_id, $tree_array);
+        // Используется $project, $view_ret_id, false
+        $next_all_links_mains_calc = self::next_all_links_mains_calc($project, $item, $role, $relit_id, $view_ret_id, $tree_array, false);
         $next_all_links = $next_all_links_mains_calc['next_all_links'];
-        $next_all_mains = $next_all_links_mains_calc['next_all_mains'];
+        // Нужно
+        $next_all_mains = null;
         $next_all_is_create = $next_all_links_mains_calc['next_all_is_create'];
         $next_all_is_all_create = $next_all_links_mains_calc['next_all_is_all_create'];
         $next_all_is_calcname = $next_all_links_mains_calc['next_all_is_calcname'];
@@ -558,7 +559,7 @@ class ItemController extends Controller
             $items_body_right = GlobalController::items_right($current_link->child_base, $relip_body_project, $role, $relit_id, $item->id, $current_link->id, $project, $view_ret_id);
             $body_items = $items_body_right['items']->paginate(60, ['*'], 'body_link_page');
             // Нужно
-            $next_all_mains = null;
+            //$next_all_mains = null;
 
             // $item, $current_link присоединяются к списку $tree_array
             // Нужно '$current_link' передавать
@@ -574,6 +575,11 @@ class ItemController extends Controller
             $message_ln_info = $message_ln_calc['message_ln_info'];
             $message_ln_validate = $message_ln_calc['message_ln_validate'];
 
+        }
+        else{
+            // Используется $project, $view_ret_id, true
+            $next_all_links_mains_calc = self::next_all_links_mains_calc($project, $item, $role, $relit_id, $view_ret_id, $tree_array, true);
+            $next_all_mains = $next_all_links_mains_calc['next_all_mains'];
         }
 
         if ($next_all_mains) {
@@ -812,7 +818,7 @@ class ItemController extends Controller
         ];
     }
 
-    function next_all_links_mains_calc(Project $parent_proj, Item $item, Role $role, $relit_id, $view_ret_id, $tree_array)
+    function next_all_links_mains_calc(Project $parent_proj, Item $item, Role $role, $relit_id, $view_ret_id, $tree_array, $is_next_all_mains_calc)
     {
         // Условия одинаковые в item_index() и next_all_links_mains_calc()
         // 'where('parent_is_parent_related', false)'
@@ -878,39 +884,40 @@ class ItemController extends Controller
 //
 //        }
         $item_name_lang = GlobalController::calc_item_name_lang();
-        // Все записи, со всеми links, по факту
-        // Условия одинаковые 'where('parent_is_base_link', false)'
-        // Такая же проверка и в GlobalController (function items_right()),
-        // в ItemController (function next_all_links_mains_calc(), browser(), get_items_for_link(), get_items_ext_edit_for_link())
-        $next_all_mains = Main::select('mains.*')
-            ->join('links', 'mains.link_id', '=', 'links.id')
-            ->join('items', 'mains.child_item_id', '=', 'items.id')
-            ->where(function ($query) use ($next_all_links_ids, $next_all_links_byuser_ids) {
-                $query->whereIn('links.id', $next_all_links_ids)
-                    ->orWhere(function ($query) use ($next_all_links_byuser_ids) {
-                        $query->whereIn('links.id', $next_all_links_byuser_ids)
-                            ->where('items.created_user_id', GlobalController::glo_user_id());
-                    });
-            })
-            ->where('links.parent_is_base_link', '=', false)
-            ->where('parent_item_id', $item->id)
-            ->orderBy('links.child_base_number')
-            ->orderBy('links.child_base_id')
-            ->orderBy('items.' . $item_name_lang);
+        // Нужно
+        $next_all_mains = null;
+        if($is_next_all_mains_calc == true) {
+            // Все записи, со всеми links, по факту
+            // Условия одинаковые 'where('parent_is_base_link', false)'
+            // Такая же проверка и в GlobalController (function items_right()),
+            // в ItemController (function next_all_links_mains_calc(), browser(), get_items_for_link(), get_items_ext_edit_for_link())
+            $next_all_mains = Main::select('mains.*')
+                ->join('links', 'mains.link_id', '=', 'links.id')
+                ->join('items', 'mains.child_item_id', '=', 'items.id')
+                ->where(function ($query) use ($next_all_links_ids, $next_all_links_byuser_ids) {
+                    $query->whereIn('links.id', $next_all_links_ids)
+                        ->orWhere(function ($query) use ($next_all_links_byuser_ids) {
+                            $query->whereIn('links.id', $next_all_links_byuser_ids)
+                                ->where('items.created_user_id', GlobalController::glo_user_id());
+                        });
+                })
+                ->where('links.parent_is_base_link', '=', false)
+                ->where('parent_item_id', $item->id)
+                ->orderBy('links.child_base_number')
+                ->orderBy('links.child_base_id')
+                ->orderBy('items.' . $item_name_lang);
 
-        if ($view_ret_id == 0) {
-            $next_all_mains = $next_all_mains
-                ->where('items.project_id', '=', $parent_proj->id);
-        } else {
-            $next_all_mains = $next_all_mains
-                ->join('relips', 'items.project_id', '=', 'relips.parent_project_id')
-                ->where('relips.relit_id', '=', $view_ret_id)
-                ->where('relips.child_project_id', '=', $parent_proj->id);
+            if ($view_ret_id == 0) {
+                $next_all_mains = $next_all_mains
+                    ->where('items.project_id', '=', $parent_proj->id);
+            } else {
+                $next_all_mains = $next_all_mains
+                    ->join('relips', 'items.project_id', '=', 'relips.parent_project_id')
+                    ->where('relips.relit_id', '=', $view_ret_id)
+                    ->where('relips.child_project_id', '=', $parent_proj->id);
+            }
         }
-//        ->whereNot(function ($query) use ($next_all_links_byuser_ids) {
-//        $query->whereIn('links.id', $next_all_links_byuser_ids)
-//            ->where('items.created_user_id', GlobalController::glo_user_id());
-//    })
+
         // Первая связь (по сортировке)
         $next_all_first_link = null;
         if (count($next_all_links) > 0) {

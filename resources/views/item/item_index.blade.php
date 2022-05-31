@@ -460,7 +460,6 @@
     </div>
     </p>
     <hr>
-    relit_id = {{$relit_id}}, view_ret_id = {{$view_ret_id}}
     {{--Похожие команды в ItemController::calc_tree_array() и item_index.php--}}
     @if($view_link)
         {{--        <hr>--}}
@@ -600,7 +599,6 @@
         {{--            </div>--}}
         {{--        </div>--}}
         @if (count($body_items) > 0)
-            view_ret_id = {{$view_ret_id}}...
             {{--        Выводится список записей по одной связи $view_link--}}
             {{--        Используется "'heading'=>intval(false)"--}}
             {{-- 'view_link' передается затем (в list\table.php) в 'item.ext_show' как 'par_link'--}}
