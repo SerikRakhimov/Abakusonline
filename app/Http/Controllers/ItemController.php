@@ -256,10 +256,9 @@ class ItemController extends Controller
         // Используется $relip_project
         $items_right = GlobalController::items_right($base, $relip_project, $role, $relit_id);
         $items = $items_right['items'];
-
-        $is_table_body = true;
-        $items = $items->paginate(60, ['*'], 'base_index_page');
         if ($items) {
+            $is_table_body = true;
+            $items = $items->paginate(60, ['*'], 'base_index_page');
             $base_index_page_current = 0;
             $body_link_page_current = 0;
             $body_all_page_current = 0;
