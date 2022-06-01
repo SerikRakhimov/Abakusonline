@@ -516,7 +516,6 @@ class GlobalController extends Controller
             // Обязательно фильтр на два запроса:
             // where('base_id', $base->id)->where('project_id', $project->id)
             $items = Item::where('base_id', $base->id)->where('project_id', $project->id);
-
         }
         // Такая же проверка и в GlobalController (function items_right()),
         // в ItemController (function next_all_links_mains_calc(), browser(), get_items_for_link(), get_items_ext_edit_for_link())

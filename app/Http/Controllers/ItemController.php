@@ -259,20 +259,20 @@ class ItemController extends Controller
 
         $is_table_body = true;
         $items = $items->paginate(60, ['*'], 'base_index_page');
-
-        $base_index_page_current = 0;
-        $body_link_page_current = 0;
-        $body_all_page_current = 0;
         if ($items) {
+            $base_index_page_current = 0;
+            $body_link_page_current = 0;
+            $body_all_page_current = 0;
+            //if ($items) {
             $base_index_page_current = $items->currentPage();
-        }
+            //}
 
-        // Похожая проверка в GlobalController::get_project_bases(), ItemController::base_index() и project/start.php
-        // Две проверки использовать
-        if ($base_right['is_list_base_calc'] == false || $base_right['is_mnmn_base_enable'] == false) {
-            return view('message', ['message' => trans('main.no_access')]);
-        }
-        if ($items) {
+            // Похожая проверка в GlobalController::get_project_bases(), ItemController::base_index() и project/start.php
+            // Две проверки использовать
+            if ($base_right['is_list_base_calc'] == false || $base_right['is_mnmn_base_enable'] == false) {
+                return view('message', ['message' => trans('main.no_access')]);
+            }
+
             session(['base_index_previous_url' => ((!empty($_SERVER['HTTPS'])) ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . '/' . request()->path()]);
             // Нужно 'GlobalController::const_null()' 'null/null/null/', иначе в строке с параметрами будет '///' (дает ошибку)
             return view('item/base_index', ['base_right' => $base_right, 'base' => $base, 'project' => $project, 'role' => $role, 'relit_id' => $relit_id,
@@ -362,8 +362,8 @@ class ItemController extends Controller
         // Одинаковые проверки должны быть в ItemController::item_index() и в item_index.php
         // здесь равно false
         // Исключить link_id из $child_mains_link_is_calcname в итоговом результате функции links_info()
+        // if (GlobalController::is_base_calcnm_correct_check($item->base, $base_right) == false) {
         if (GlobalController::is_base_calcname_check($item->base, $base_right) == false) {
-//        if (GlobalController::is_base_calcnm_correct_check($item->base, $base_right) == false) {
             $para_child_mains_link_is_calcname = $child_mains_link_is_calcname;
         }
         // Нужно передать в функцию links_info() $item
@@ -886,6 +886,7 @@ class ItemController extends Controller
         $item_name_lang = GlobalController::calc_item_name_lang();
         // Нужно
         $next_all_mains = null;
+        // Запускать запрос - расчет $next_all_mains
         if ($is_next_all_mains_calc == true) {
             // Все записи, со всеми links, по факту
             // Условия одинаковые 'where('parent_is_base_link', false)'
