@@ -37,7 +37,17 @@ class Item extends Model
         return $this->belongsTo(User::class, 'updated_user_id');
     }
 
-    //    Похожие строки в GlobalController.php
+//  Похожие строки в в GlobalController.php и в Item.php
+    function created_date()
+    {
+        return $this->created_at->Format(trans('main.format_date'));
+    }
+
+    function updated_date()
+    {
+        return $this->updated_at->Format(trans('main.format_date'));
+    }
+
     function created_user_date()
     {
         return $this->created_user->name() . ", " . $this->created_at->Format(trans('main.format_date')) . ", " . $this->created_user->email;

@@ -32,21 +32,29 @@
     ?>
     <ul>
         <p class="text-label">Id: <span class="text-related">
-                <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role, 'relit_id'=>$relit_id,
-                        'usercode' =>GlobalController::usercode_calc()])}}"
-                   title="">
+{{--                <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role, 'relit_id'=>$relit_id,--}}
+{{--                        'usercode' =>GlobalController::usercode_calc()])}}"--}}
+{{--                   title="">--}}
                 {{$item->id}}
-                </a>
+{{--                </a>--}}
             </span>
         </p>
         @if($base->is_code_needed == true)
             <p class="text-label">{{trans('main.code')}}: <span class="text-related">
-                        <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,
-                                'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id])}}"
-                           title="">
+{{--                        <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,--}}
+{{--                                'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id])}}"--}}
+{{--                           title="">--}}
                         {{$item->code}}
-                        </a>
+{{--                        </a>--}}
                     </span></p>
+        @endif
+        <p class="text-label">
+        @if($base_right['is_list_base_sort_creation_date_desc'] == true)
+            <li>
+            {{trans('main.date')}}: <b>
+                        {{$item->created_date()}}
+                    </b>
+            </li>
         @endif
         {{--    @foreach($array_plan as $key=>$value)--}}
         {{--        <?php--}}
@@ -62,7 +70,7 @@
         {{--        @endif--}}
         {{--    @endforeach--}}
 
-        <p class="text-label">
+{{--        Вывод связей--}}
         @foreach($array_calc as $key=>$value)
             <?php
             $link = Link::find($key);
@@ -130,6 +138,7 @@
                     @endif
                     @endforeach
                     </p>
+{{--                    Вывод основы--}}
                     @if($base_right['is_show_base_enable'] == true)
                         {{--        <p>--}}
                         {{--        @foreach (config('app.locales') as $key=>$value)--}}
