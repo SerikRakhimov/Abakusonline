@@ -5806,6 +5806,7 @@ class ItemController extends Controller
             }
         }
 
+        // Проверка на "$base_link_right['is_list_link_enable']"
         foreach ($links as $link) {
             $base_link_right = GlobalController::base_link_right($link, $role, $relit_id);
             if ($base_link_right['is_list_link_enable'] == false) {
@@ -5820,25 +5821,12 @@ class ItemController extends Controller
         //            }"
         $link_related_array = array();
         if ($nolink != null) {
-            // Если в $body
+            // Нужно: если в $body
             if ($item_heading_base == false) {
                 foreach ($links as $link) {
                     if (($link->parent_is_parent_related == true) && ($link->parent_parent_related_start_link_id == $nolink->id)) {
                         $base_link_right = GlobalController::base_link_right($link, $role, $relit_id);
-//                        // Если в $heading выполнять одну проверку
-//                        if ($item_heading_base == true) {
-//                            // Похожие строки в цикле
-//                            if ($base_link_right['is_roli_list_link_enable'] == false) {
-//                                $link_related_array[] = $link->id;
-//                            }
-//                            // Если в $body выполнять две проверки
-//                        } else {
-                        // Похожие строки в цикле
-                        if (!(($base_link_right['is_roli_list_link_enable'] == true)
-                            && ($base_link_right['is_roli_body_link_enable'] == true))) {
-                            $link_related_array[] = $link->id;
-                        }
-//                        }
+                        $link_related_array[] = $link->id;
                     }
                 }
                 $links = $links->whereNotIn('id', $link_related_array);
