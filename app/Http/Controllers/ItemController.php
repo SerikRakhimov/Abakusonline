@@ -5767,13 +5767,48 @@ class ItemController extends Controller
         } else {
             $links = $base->child_links;
         }
-        $links_control = null;
+
+        //        Если тип-вычисляемое наименование и Показывать Основу с вычисляемым наименованием
+        //        или если тип-не вычисляемое наименование
+        // или показывать в заголовке item_index.php
+//        if (GlobalController::is_base_calcname_check($base, $base_right) || $item_heading_base == true) {
+//            // Исключить links с признаком 'Для вычисляемого наименования'
+//            $links = $links->where('parent_is_calcname', '=', false);
+//        }
+
+        // Исключить links из переданного массива $child_mains_link_is_calcname
+        if ($child_mains_link_is_calcname) {
+//            Нужно 'foreach($child_mains_link_is_calcname as $calcname_mains)'
+            foreach ($child_mains_link_is_calcname as $calcname_mains) {
+                foreach ($calcname_mains as $calcname_main) {
+                    $links = $links->where('id', '!=', $calcname_main->link_id);
+                }
+            }
+        }
+
+        // Исключить links из переданного массива $tree_array
+        if (count($tree_array) > 0) {
+            foreach ($tree_array as $value) {
+                $links = $links->where('id', '!=', $value['link_id']);
+            }
+        }
+
+        foreach ($links as $link) {
+            $base_link_right = GlobalController::base_link_right($link, $role, $relit_id);
+            if ($base_link_right['is_list_link_enable'] == false) {
+                $links = $links->where('id', '!=', $link->id);
+            }
+        }
+
+        // Исключить связанные записи по текущей связи (($link->parent_is_parent_related == true) && ($link->parent_parent_related_start_link_id == $nolink->id))
+        // Выполняется в конце, после блока
+        // "            if ($base_link_right['is_list_link_enable'] == false) {
+        //                $links = $links->where('id', '!=', $link->id);
+        //            }"
         $link_related_array = array();
-        $check = false;
         if ($nolink == null) {
             //$links = $links;
         } else {
-            // Исключить связанные записи по текущей связи (($link->parent_is_parent_related == true) && ($link->parent_parent_related_start_link_id == $nolink->id))
             // Если в $body
             if ($item_heading_base == false) {
                 foreach ($links as $link) {
@@ -5808,53 +5843,30 @@ class ItemController extends Controller
                 $links = $links->where('id', '!=', $nolink->id);
             }
         }
-        //        Если тип-вычисляемое наименование и Показывать Основу с вычисляемым наименованием
-        //        или если тип-не вычисляемое наименование
-        // или показывать в заголовке item_index.php
-//        if (GlobalController::is_base_calcname_check($base, $base_right) || $item_heading_base == true) {
-//            // Исключить links с признаком 'Для вычисляемого наименования'
-//            $links = $links->where('parent_is_calcname', '=', false);
-//        }
 
-        // Исключить links из переданного массива $child_mains_link_is_calcname
-        if ($child_mains_link_is_calcname) {
-//            Нужно 'foreach($child_mains_link_is_calcname as $calcname_mains)'
-            foreach ($child_mains_link_is_calcname as $calcname_mains) {
-                foreach ($calcname_mains as $calcname_main) {
-                    $links = $links->where('id', '!=', $calcname_main->link_id);
-                }
-            }
-        }
-
-        // Исключить links из переданного массива $tree_array
-        if (count($tree_array) > 0) {
-            foreach ($tree_array as $value) {
-                $links = $links->where('id', '!=', $value['link_id']);
-            }
-        }
         $links = $links->sortBy('parent_base_number');
 
         $k = 0;
         foreach ($links as $link) {
-            $base_link_right = GlobalController::base_link_right($link, $role, $relit_id);
-            if ($base_link_right['is_list_link_enable'] == true) {
-                $is_list_base_calc = $base_link_right['is_list_base_calc'];
-                $link_id_array[] = $link->id;
-                $link_base_right_array[$link->id] = $base_link_right;
-                // 0-ая строка с link->id
-                $matrix[0][$k] = ['parent_level_id' => null, 'link_id' => $link->id, 'work_field' => null,
-                    'work_link' => null, 'is_list_base_calc' => $is_list_base_calc, 'fin_link' => null, 'view_field' => null, 'view_name' => '', 'colspan' => 0, 'rowspan' => 0];
-                // строки с уровнями
-                $matrix[1][$k] = ['parent_level_id' => $link->parent_level_id_0, 'link_id' => $link->id, 'work_field' => null,
-                    'work_link' => null, 'is_list_base_calc' => $is_list_base_calc, 'fin_link' => null, 'view_field' => null, 'view_name' => '', 'colspan' => 0, 'rowspan' => 0];
-                $matrix[2][$k] = ['parent_level_id' => $link->parent_level_id_1, 'link_id' => $link->id, 'work_field' => null,
-                    'work_link' => null, 'is_list_base_calc' => $is_list_base_calc, 'fin_link' => null, 'view_field' => null, 'view_name' => '', 'colspan' => 0, 'rowspan' => 0];
-                $matrix[3][$k] = ['parent_level_id' => $link->parent_level_id_2, 'link_id' => $link->id, 'work_field' => null,
-                    'work_link' => null, 'is_list_base_calc' => $is_list_base_calc, 'fin_link' => null, 'view_field' => null, 'view_name' => '', 'colspan' => 0, 'rowspan' => 0];
-                $matrix[4][$k] = ['parent_level_id' => $link->parent_level_id_3, 'link_id' => $link->id, 'work_field' => null,
-                    'work_link' => null, 'is_list_base_calc' => $is_list_base_calc, 'fin_link' => null, 'view_field' => null, 'view_name' => '', 'colspan' => 0, 'rowspan' => 0];
-                $k = $k + 1;
-            }
+            //$base_link_right = GlobalController::base_link_right($link, $role, $relit_id);
+            //if ($base_link_right['is_list_link_enable'] == true) {
+            $is_list_base_calc = $base_link_right['is_list_base_calc'];
+            $link_id_array[] = $link->id;
+            $link_base_right_array[$link->id] = $base_link_right;
+            // 0-ая строка с link->id
+            $matrix[0][$k] = ['parent_level_id' => null, 'link_id' => $link->id, 'work_field' => null,
+                'work_link' => null, 'is_list_base_calc' => $is_list_base_calc, 'fin_link' => null, 'view_field' => null, 'view_name' => '', 'colspan' => 0, 'rowspan' => 0];
+            // строки с уровнями
+            $matrix[1][$k] = ['parent_level_id' => $link->parent_level_id_0, 'link_id' => $link->id, 'work_field' => null,
+                'work_link' => null, 'is_list_base_calc' => $is_list_base_calc, 'fin_link' => null, 'view_field' => null, 'view_name' => '', 'colspan' => 0, 'rowspan' => 0];
+            $matrix[2][$k] = ['parent_level_id' => $link->parent_level_id_1, 'link_id' => $link->id, 'work_field' => null,
+                'work_link' => null, 'is_list_base_calc' => $is_list_base_calc, 'fin_link' => null, 'view_field' => null, 'view_name' => '', 'colspan' => 0, 'rowspan' => 0];
+            $matrix[3][$k] = ['parent_level_id' => $link->parent_level_id_2, 'link_id' => $link->id, 'work_field' => null,
+                'work_link' => null, 'is_list_base_calc' => $is_list_base_calc, 'fin_link' => null, 'view_field' => null, 'view_name' => '', 'colspan' => 0, 'rowspan' => 0];
+            $matrix[4][$k] = ['parent_level_id' => $link->parent_level_id_3, 'link_id' => $link->id, 'work_field' => null,
+                'work_link' => null, 'is_list_base_calc' => $is_list_base_calc, 'fin_link' => null, 'view_field' => null, 'view_name' => '', 'colspan' => 0, 'rowspan' => 0];
+            $k = $k + 1;
+            //}
         }
 
 // 0-ая строка с link->id + 4 строки с уровнями
