@@ -203,10 +203,16 @@
     }
     ?>
     <i>
+        <?php
+        $created_user_date_time = $item->created_user_date_time();
+        $updated_user_date_time = $item->updated_user_date_time();
+        ?>
         <p class="text-label">{{trans('main.created_user_date_time')}}:
-            <span class="text-related">{{$item->created_user_date_time()}}</span><br>
-            {{trans('main.updated_user_date_time')}}:
-            <span class="text-related">{{$item->updated_user_date_time()}}</span></p>
+            <span class="text-related">{{$created_user_date_time}}</span><br>
+            @if($created_user_date_time != $updated_user_date_time)
+                {{trans('main.updated_user_date_time')}}:
+                <span class="text-related">{{$updated_user_date_time}}</span></p>
+        @endif
     </i>
     @if ($type_form == 'show')
         <p>
