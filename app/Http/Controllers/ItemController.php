@@ -5793,6 +5793,19 @@ class ItemController extends Controller
             }
         }
 
+        if ($nolink != null) {
+            // При параллельной связи $nolink ($nolink->parent_is_parallel == true)
+            // другие паралельные связи не доступны при отображении списка в Пространство-тело таблицы
+            // (если передано $nolink)
+            if ($nolink->parent_is_parallel == true) {
+                // Исключить child_links с параллельными связями
+                $links = $links->where('parent_is_parallel', '!=', true);
+            } else {
+                // Исключить переданный $nolink
+                $links = $links->where('id', '!=', $nolink->id);
+            }
+        }
+
         foreach ($links as $link) {
             $base_link_right = GlobalController::base_link_right($link, $role, $relit_id);
             if ($base_link_right['is_list_link_enable'] == false) {
@@ -5806,9 +5819,7 @@ class ItemController extends Controller
         //                $links = $links->where('id', '!=', $link->id);
         //            }"
         $link_related_array = array();
-        if ($nolink == null) {
-            //$links = $links;
-        } else {
+        if ($nolink != null) {
             // Если в $body
             if ($item_heading_base == false) {
                 foreach ($links as $link) {
@@ -5831,16 +5842,6 @@ class ItemController extends Controller
                     }
                 }
                 $links = $links->whereNotIn('id', $link_related_array);
-            }
-            // При параллельной связи $nolink ($nolink->parent_is_parallel == true)
-            // другие паралельные связи не доступны при отображении списка в Пространство-тело таблицы
-            // (если передано $nolink)
-            if ($nolink->parent_is_parallel == true) {
-                // Исключить child_links с параллельными связями
-                $links = $links->where('parent_is_parallel', '!=', true);
-            } else {
-                // Исключить переданный $nolink
-                $links = $links->where('id', '!=', $nolink->id);
             }
         }
 
