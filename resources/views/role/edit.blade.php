@@ -404,6 +404,30 @@
             </div>
         </div>
 
+        <div class="form-group row" id="is_exclude_related_records_form_group">
+            <div class="col-sm-3 text-right">
+                <label class="form-label"
+                       for="is_exclude_related_records">{{trans('main.is_exclude_related_records')}}</label>
+            </div>
+            <div class="col-sm-7">
+                <input class="@error('is_exclude_related_records') is-invalid @enderror"
+                       type="checkbox"
+                       name="is_exclude_related_records"
+                       placeholder=""
+                       @if ((old('is_exclude_related_records') ?? ($role->is_exclude_related_records ?? true)) ==  true)
+                       checked
+                    @endif
+                >
+                @error('is_exclude_related_records')
+                <div class="invalid-feedback">
+                    {{$message}}
+                </div>
+                @enderror
+            </div>
+            <div class="col-sm-2">
+            </div>
+        </div>
+
         <div class="form-group row" id="is_list_base_create_form_group">
             <div class="col-sm-3 text-right">
                 <label class="form-label"

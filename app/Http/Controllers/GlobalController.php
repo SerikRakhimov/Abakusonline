@@ -81,6 +81,7 @@ class GlobalController extends Controller
         $is_all_base_calcname_enable = $role->is_all_base_calcname_enable;
         $is_list_base_sort_creation_date_desc = $role->is_list_base_sort_creation_date_desc;
         $is_mnmn_base_enable = $role->is_mnmn_base_enable;
+        $is_exclude_related_records = $role->is_exclude_related_records;
         $is_list_base_create = $role->is_list_base_create;
         $is_list_base_read = $role->is_list_base_read;
         $is_list_base_update = $role->is_list_base_update;
@@ -202,6 +203,7 @@ class GlobalController extends Controller
             $is_roba_all_base_calcname_enable = $roba->is_all_base_calcname_enable;
             $is_roba_list_base_sort_creation_date_desc = $roba->is_list_base_sort_creation_date_desc;
             $is_roba_mnmn_base_enable = $roba->is_mnmn_base_enable;
+            $is_roba_exclude_related_records = $roba->is_exclude_related_records;
             $is_roba_list_base_create = $roba->is_list_base_create;
             $is_roba_list_base_read = $roba->is_list_base_read;
             $is_roba_list_base_update = $roba->is_list_base_update;
@@ -251,6 +253,7 @@ class GlobalController extends Controller
             $is_all_base_calcname_enable = $is_roba_all_base_calcname_enable;
             $is_list_base_sort_creation_date_desc = $is_roba_list_base_sort_creation_date_desc;
             $is_mnmn_base_enable = $is_roba_mnmn_base_enable;
+            $is_exclude_related_records = $is_roba_exclude_related_records;
             $is_list_base_create = $is_roba_list_base_create;
             $is_list_base_read = $is_roba_list_base_read;
             $is_list_base_update = $is_roba_list_base_update;
@@ -283,6 +286,7 @@ class GlobalController extends Controller
             'is_all_base_calcname_enable' => $is_all_base_calcname_enable,
             'is_list_base_sort_creation_date_desc' => $is_list_base_sort_creation_date_desc,
             'is_mnmn_base_enable' => $is_mnmn_base_enable,
+            'is_exclude_related_records' => $is_exclude_related_records,
             'is_list_base_create' => $is_list_base_create,
             'is_list_base_read' => $is_list_base_read,
             'is_list_base_update' => $is_list_base_update,
@@ -333,6 +337,7 @@ class GlobalController extends Controller
         $is_all_base_calcname_enable = $base_right['is_all_base_calcname_enable'];
         $is_list_base_sort_creation_date_desc = $base_right['is_list_base_sort_creation_date_desc'];
         $is_mnmn_base_enable = $base_right['is_mnmn_base_enable'];
+        $is_exclude_related_records = $base_right['is_exclude_related_records'];
         $is_list_base_create = $base_right['is_list_base_create'];
         $is_list_base_read = $base_right['is_list_base_read'];
         $is_list_base_update = $base_right['is_list_base_update'];
@@ -401,6 +406,7 @@ class GlobalController extends Controller
             'is_all_base_calcname_enable' => $is_all_base_calcname_enable,
             'is_list_base_sort_creation_date_desc' => $is_list_base_sort_creation_date_desc,
             'is_mnmn_base_enable' => $is_mnmn_base_enable,
+            'is_exclude_related_records' => $is_exclude_related_records,
             'is_list_base_create' => $is_list_base_create,
             'is_list_base_read' => $is_list_base_read,
             'is_list_base_update' => $is_list_base_update,

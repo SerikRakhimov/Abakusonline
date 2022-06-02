@@ -5737,6 +5737,7 @@ class ItemController extends Controller
         $link_id_array = array();
         $link_base_right_array = array();
         $matrix = array(array());
+        // Нужно
         $links = null;
         if ($item) {
 //          В $links_values попадают фактические записи, не попадают связанные и вычисляемые связи
@@ -5815,21 +5816,23 @@ class ItemController extends Controller
         }
 
         // Исключить связанные записи по текущей связи (($link->parent_is_parent_related == true) && ($link->parent_parent_related_start_link_id == $nolink->id))
-        // Выполняется в конце, после блока
+        // Выполняется последним, после блока
         // "            if ($base_link_right['is_list_link_enable'] == false) {
         //                $links = $links->where('id', '!=', $link->id);
         //            }"
         $link_related_array = array();
-        if ($nolink != null) {
-            // Нужно: если в $body
-            if ($item_heading_base == false) {
-                foreach ($links as $link) {
-                    if (($link->parent_is_parent_related == true) && ($link->parent_parent_related_start_link_id == $nolink->id)) {
-                        $base_link_right = GlobalController::base_link_right($link, $role, $relit_id);
-                        $link_related_array[] = $link->id;
+        if ($base_right['is_exclude_related_records'] == true) {
+            if ($nolink != null) {
+                // Нужно: если в $body
+                if ($item_heading_base == false) {
+                    foreach ($links as $link) {
+                        if (($link->parent_is_parent_related == true) && ($link->parent_parent_related_start_link_id == $nolink->id)) {
+                            $base_link_right = GlobalController::base_link_right($link, $role, $relit_id);
+                            $link_related_array[] = $link->id;
+                        }
                     }
+                    $links = $links->whereNotIn('id', $link_related_array);
                 }
-                $links = $links->whereNotIn('id', $link_related_array);
             }
         }
 
