@@ -287,11 +287,18 @@ use \App\Http\Controllers\GlobalController;
                                     <?php
                                     // Ссылка на проект Настройки пользователя
                                     $usersetup_link = env('USERSETUP_LINK');
+                                    $mail_link = env('MAIL_LINK');
                                     ?>
                                     @if($usersetup_link !='')
                                         <a class="dropdown-item" href="{{$usersetup_link}}"
                                            title="{{trans('main.personal_account_of_the_user')}}">
                                             {{trans('main.personal_account_of_the_user')}}
+                                        </a>
+                                    @endif
+                                    @if($mail_link !='')
+                                        <a class="dropdown-item" href="{{$usersetup_link}}"
+                                           title="{{trans('main.mail')}}">
+                                            {{trans('main.mail')}}
                                         </a>
                                     @endif
                                     {{--                                    <a class="dropdown-item" href="#">--}}

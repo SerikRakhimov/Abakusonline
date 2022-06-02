@@ -481,7 +481,7 @@ class GlobalController extends Controller
         // Выборка из mains
 //      "if ($mains_item_id && $mains_link_id && $parent_proj && $view_ret_id)" так некорректно
         if ($mains_item_id && $mains_link_id && $parent_proj) {
-            if ($view_ret_id != null) {
+//            Не использовать "if ($view_ret_id != null)"
                 $mains_link = Link::find($mains_link_id);
                 if ($mains_link) {
                     $base_right = self::base_right($mains_link->child_base, $role, $view_ret_id);
@@ -521,7 +521,6 @@ class GlobalController extends Controller
                         $join->on('items.id', '=', 'items_ids.id');
                     });
                 }
-            }
             // Выборка из items
         } else {
             $base_right = self::base_right($base, $role, $relit_id);
