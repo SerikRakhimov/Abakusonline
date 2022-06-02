@@ -665,7 +665,8 @@ class ItemController extends Controller
                 'prev_item' => $prev_item, 'next_item' => $next_item,
                 'child_links' => $child_links, 'child_links_info' => $child_links_info,
                 'child_mains_link_is_calcname' => $child_mains_link_is_calcname,
-                'child_body_links_info' => $child_body_links_info, 'body_items' => $body_items,
+                'child_body_links_info' => $child_body_links_info,
+                'body_items' => $body_items,
                 'base_body_right' => $base_body_right,
                 'tree_array' => $tree_array,
                 'tree_array_last_link_id' => $tree_array_last_link_id,
@@ -5827,7 +5828,6 @@ class ItemController extends Controller
                 if ($item_heading_base == false) {
                     foreach ($links as $link) {
                         if (($link->parent_is_parent_related == true) && ($link->parent_parent_related_start_link_id == $nolink->id)) {
-                            $base_link_right = GlobalController::base_link_right($link, $role, $relit_id);
                             $link_related_array[] = $link->id;
                         }
                     }
