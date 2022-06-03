@@ -631,7 +631,10 @@ class ItemController extends Controller
                 'prev_body_all_page' => $prev_body_all_page,
                 'view_ret_id' => $view_ret_id]);
         } else {
-            return view('message', ['message' => 'view_ret_id: ' . mb_strtolower(trans('main.value_not_found'))]);
+            // Если значение $view_ret_id не найдено
+            if (!$view_ret_found_id || $view_ret_new_id == null) {
+                return view('message', ['message' => 'view_ret_id: ' . mb_strtolower(trans('main.value_not_found'))]);
+            }
         }
 
         if (count($next_all_links) == 0) {

@@ -1652,13 +1652,13 @@ class GlobalController extends Controller
                             // Первый $relit_id
                             if ($base_id == $link->child_base_id) {
                                 $first_rel_id = $relit_id;
-                                $view_ret_id = $first_rel_id;
+                                //$view_ret_id = $first_rel_id;
                                 $view_ret_found_id = true;
                             }
                         }
                     }
                 }
-//                $view_ret_id = $first_rel_id;
+                $view_ret_id = $first_rel_id;
             }
         }
 
