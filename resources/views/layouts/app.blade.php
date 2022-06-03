@@ -296,7 +296,7 @@ use \App\Http\Controllers\GlobalController;
                                         </a>
                                     @endif
                                     @if($mail_link !='')
-                                        <a class="dropdown-item" href="{{$usersetup_link}}"
+                                        <a class="dropdown-item" href="{{$mail_link}}"
                                            title="{{trans('main.mail')}}">
                                             {{trans('main.mail')}}
                                         </a>
