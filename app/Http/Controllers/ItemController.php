@@ -631,9 +631,6 @@ class ItemController extends Controller
                 'view_ret_id' => $view_ret_id]);
         }
 
-        //dd($view_link);
-        //dd($get_project_bases);
-
         if (count($next_all_links) == 0) {
             return redirect()->route('item.ext_show', ['item' => $item, 'project' => $project, 'role' => $role,
                 'usercode' => GlobalController::usercode_calc(),

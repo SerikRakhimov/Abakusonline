@@ -482,12 +482,12 @@ class GlobalController extends Controller
 //      "if ($mains_item_id && $mains_link_id && $parent_proj && $view_ret_id)" так некорректно
         if ($mains_item_id && $mains_link_id && $parent_proj) {
 //            Не использовать "if ($view_ret_id != null)"
-                $mains_link = Link::find($mains_link_id);
-                if ($mains_link) {
-                    $base_right = self::base_right($mains_link->child_base, $role, $view_ret_id);
-                    //        $mains = Main::all()->where('parent_item_id', $item->id)->where('link_id', $current_link->id)->sortBy(function ($main) {
-                    //            return $main->link->child_base->name() . $main->child_item->name();
-                    //        });
+            $mains_link = Link::find($mains_link_id);
+            if ($mains_link) {
+                $base_right = self::base_right($mains_link->child_base, $role, $view_ret_id);
+                //        $mains = Main::all()->where('parent_item_id', $item->id)->where('link_id', $current_link->id)->sortBy(function ($main) {
+                //            return $main->link->child_base->name() . $main->child_item->name();
+                //        });
 //            $items_ids = Main::select(DB::Raw('mains.child_item_id as id'))
 //                ->join('items', 'mains.child_item_id', '=', 'items.id')
 //                ->where('mains.parent_item_id', '=', $mains_item_id)
@@ -500,27 +500,27 @@ class GlobalController extends Controller
 //            $ids = $coll_mains->keys()->toArray();
 //            $items = Item::whereIn('id', $ids);
 
-                    $items_ids = Main::select(DB::Raw('mains.child_item_id as id'))
-                        ->join('items', 'mains.child_item_id', '=', 'items.id')
-                        ->where('mains.parent_item_id', '=', $mains_item_id)
-                        ->where('mains.link_id', '=', $mains_link_id);
+                $items_ids = Main::select(DB::Raw('mains.child_item_id as id'))
+                    ->join('items', 'mains.child_item_id', '=', 'items.id')
+                    ->where('mains.parent_item_id', '=', $mains_item_id)
+                    ->where('mains.link_id', '=', $mains_link_id);
 
-                    if ($view_ret_id == 0) {
+                if ($view_ret_id == 0) {
 //                $items_ids = $items_ids
 //                    ->where('items.project_id', '=', $parent_proj->id);
-                        // Использовать '$project->id'
-                        $items_ids = $items_ids
-                            ->where('items.project_id', '=', $project->id);
-                    } else {
-                        $items_ids = $items_ids
-                            ->join('relips', 'items.project_id', '=', 'relips.parent_project_id')
-                            ->where('relips.relit_id', '=', $view_ret_id)
-                            ->where('relips.child_project_id', '=', $parent_proj->id);
-                    }
-                    $items = Item::joinSub($items_ids, 'items_ids', function ($join) {
-                        $join->on('items.id', '=', 'items_ids.id');
-                    });
+                    // Использовать '$project->id'
+                    $items_ids = $items_ids
+                        ->where('items.project_id', '=', $project->id);
+                } else {
+                    $items_ids = $items_ids
+                        ->join('relips', 'items.project_id', '=', 'relips.parent_project_id')
+                        ->where('relips.relit_id', '=', $view_ret_id)
+                        ->where('relips.child_project_id', '=', $parent_proj->id);
                 }
+                $items = Item::joinSub($items_ids, 'items_ids', function ($join) {
+                    $join->on('items.id', '=', 'items_ids.id');
+                });
+            }
             // Выборка из items
         } else {
             $base_right = self::base_right($base, $role, $relit_id);
@@ -1650,11 +1650,13 @@ class GlobalController extends Controller
                             // Первый $relit_id
                             if ($base_id == $link->child_base_id) {
                                 $first_rel_id = $relit_id;
+                                $view_ret_id = $first_rel_id;
+                                $view_ret_found_id = true;
                             }
                         }
                     }
                 }
-                $view_ret_id = $first_rel_id;
+//                $view_ret_id = $first_rel_id;
             }
         }
 
