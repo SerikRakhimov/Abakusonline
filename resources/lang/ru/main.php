@@ -189,6 +189,7 @@ return [
     'is_default_for_external' => 'Роль по умолчанию для внешних пользователей',
     'role_default_for_external_not_found' => 'Роль по умолчанию для внешних пользователей не найдена',
     'admin' => 'Админ',
+    'mail' => 'Почта',
     'e-mail' => 'Электронная почта',
     'password' => 'Пароль',
     'change_password' => 'Смена пароля',

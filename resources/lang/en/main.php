@@ -189,6 +189,7 @@ return [
     'is_default_for_external' => 'Default role for external users',
     'role_default_for_external_not_found' => 'Default role for external users not found',
     'admin' => 'Admin',
+    'mail' => 'Mail',
     'e-mail' => 'E-Mail',
     'password' => 'Password',
     'change_password' => 'Change password',

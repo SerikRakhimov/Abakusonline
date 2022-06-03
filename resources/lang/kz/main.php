@@ -189,6 +189,7 @@ return [
     'is_default_for_external' => 'Сыртқы пайдаланушылар үшін әдепкі рөл',
     'role_default_for_external_not_found'=>'Сыртқы пайдаланушылар үшін әдепкі рөл табылмады',
     'admin' => 'Әкімші',
+    'mail' => 'Пошта',
     'e-mail' => 'Электрондық пошта',
     'password' => 'Құпия сөз',
     'change_password' => 'Құпия сөзді ауыстыру',
