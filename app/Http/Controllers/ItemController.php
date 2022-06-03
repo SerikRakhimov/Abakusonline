@@ -617,7 +617,6 @@ class ItemController extends Controller
         $view_ret_found_id = $get_project_bases['view_ret_found_id'];
         $view_ret_new_id = $get_project_bases['view_ret_id'];
         // Если $view_ret_id поменялось
-//        if (!$view_ret_found_id) {
         if ($view_ret_found_id && $view_ret_new_id != null && $view_ret_id != $view_ret_new_id) {
             $view_ret_id = $view_ret_new_id;
             // Перевызов с правильным значением $view_ret_id
@@ -631,6 +630,8 @@ class ItemController extends Controller
                 'prev_body_link_page' => $prev_body_link_page,
                 'prev_body_all_page' => $prev_body_all_page,
                 'view_ret_id' => $view_ret_id]);
+        } else {
+            return view('message', ['message' => 'view_ret_id: ' . mb_strtolower(trans('main.value_not_found'))]);
         }
 
         if (count($next_all_links) == 0) {

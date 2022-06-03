@@ -1542,6 +1542,7 @@ class GlobalController extends Controller
                     }
                 }
             }
+
             $base_right = null;
             foreach ($array_relips as $relit_id => $value) {
                 $base_right = self::base_link_right($link, $role, $parent_relit_id, true, $relit_id);
@@ -1552,6 +1553,7 @@ class GlobalController extends Controller
                     // break;
                 }
             }
+
             foreach ($array_relips as $relit_id => $value) {
                 // Текущий шаблон
                 if ($relit_id == 0) {
