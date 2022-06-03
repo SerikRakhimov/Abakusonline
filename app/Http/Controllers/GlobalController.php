@@ -1532,15 +1532,15 @@ class GlobalController extends Controller
         // Если передано $link
         if ($link) {
             foreach ($array_relips as $relit_id => $value) {
-                // Кроме текущего шаблона
-//                if ($relit_id != 0) {
-                if ($relit_id == $link->parent_relit_id) {
-                    // Удаляем элемент массива с $relit_id, если "$relit_id == $link->parent_relit_id"
-                    unset($array_relips[$relit_id]);
-                    // Не нужно "break"
-                    // break;
+                // Нужно: кроме текущего шаблона
+                if ($relit_id != 0) {
+                    if ($relit_id == $link->parent_relit_id) {
+                        // Удаляем элемент массива с $relit_id, если "$relit_id == $link->parent_relit_id"
+                        unset($array_relips[$relit_id]);
+                        // Не нужно "break"
+                        // break;
+                    }
                 }
-//                }
             }
             $base_right = null;
             foreach ($array_relips as $relit_id => $value) {

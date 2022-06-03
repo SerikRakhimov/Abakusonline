@@ -615,9 +615,11 @@ class ItemController extends Controller
         $get_project_bases = GlobalController::get_project_bases($project, $role, false, true, $view_ret_id, $view_link, $relit_id);
         $array_relips = $get_project_bases['array_relips'];
         $view_ret_found_id = $get_project_bases['view_ret_found_id'];
-        $view_ret_id = $get_project_bases['view_ret_id'];
+        $view_ret_new_id = $get_project_bases['view_ret_id'];
         // Если $view_ret_id поменялось
-        if (!$view_ret_found_id) {
+//        if (!$view_ret_found_id) {
+        if ($view_ret_found_id && $view_ret_new_id != null && $view_ret_id != $view_ret_new_id) {
+            $view_ret_id = $view_ret_new_id;
             // Перевызов с правильным значением $view_ret_id
             return redirect()->route('item.item_index', ['project' => $project, 'item' => $item, 'role' => $role,
                 'usercode' => GlobalController::usercode_calc(),
