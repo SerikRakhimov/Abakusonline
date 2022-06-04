@@ -1639,8 +1639,10 @@ class GlobalController extends Controller
         $first_found_ret_id = false;
         $first_ret_id = -1;
         $view_found_ret_id = false;
-        // Если передано $view_ret_id && $link
-        if ($view_ret_isset_id == true && $link) {
+        // Если передано $view_ret_id
+        if ($view_ret_isset_id == true) {
+            // Если передано $link
+            if ($link) {
 //            foreach ($array_relips as $relit_id => $value) {
 //                if ($view_ret_id == $relit_id) {
 //                    $view_found_ret_id = true;
@@ -1666,40 +1668,49 @@ class GlobalController extends Controller
 //                }
 //            }
 
-            foreach ($array_relips as $relit_id => $val_arr) {
-                $bases_ids = $val_arr['base_ids'];
-                foreach ($bases_ids as $key => $base_id) {
-                    if ($base_id == $link->child_base_id) {
-                        // Проверка текущего $view_ret_id на равенство $relit_id (приоритетнее)
-                        if ($view_ret_id == $relit_id) {
-                            $view_ret_id = $relit_id;
-                            $view_found_ret_id = true;
-                            // Нужен break
-                            break;
-                        }
-                        // Параллельно ищем первый $relit_id
-                        if (!$first_found_ret_id) {
-                            $first_found_ret_id = true;
-                            $first_ret_id = $relit_id;
-                            // Не нужен break
-                            // break;
+                foreach ($array_relips as $relit_id => $val_arr) {
+                    $bases_ids = $val_arr['base_ids'];
+                    foreach ($bases_ids as $key => $base_id) {
+                        if ($base_id == $link->child_base_id) {
+                            // Проверка текущего $view_ret_id на равенство $relit_id (приоритетнее)
+                            if ($view_ret_id == $relit_id) {
+                                $view_ret_id = $relit_id;
+                                $view_found_ret_id = true;
+                                // Нужен break
+                                break;
+                            }
+                            // Параллельно ищем первый $relit_id
+                            if (!$first_found_ret_id) {
+                                $first_found_ret_id = true;
+                                $first_ret_id = $relit_id;
+                                // Не нужен break
+                                // break;
+                            }
                         }
                     }
+                    if ($view_found_ret_id) {
+                        break;
+                    }
                 }
-                if ($view_found_ret_id) {
-                    break;
+                if ($view_found_ret_id == false) {
+                    // Если первый $relit_id найден
+                    if ($first_found_ret_id) {
+                        $view_found_ret_id = true;
+                        $view_ret_id = $first_ret_id;
+                    }
+                }
+                // Если $link не передано
+            }else{
+                foreach ($array_relips as $relit_id => $value) {
+                    if ($view_ret_id == $relit_id) {
+                        $view_found_ret_id = true;
+                        break;
+                    }
                 }
             }
-
             if ($view_found_ret_id == false) {
-                // Если первый $relit_id найден
-                if ($first_found_ret_id) {
-                    $view_found_ret_id = true;
-                    $view_ret_id = $first_ret_id;
-                } else {
-                    // Нужно для сравнения "if ($view_ret_id != $view_ret_new_id)" в ItemController::item_index()
-                    $view_ret_id = -1;
-                }
+                // Нужно для сравнения "if ($view_ret_id != $view_ret_new_id)" в ItemController::item_index()
+                $view_ret_id = -1;
             }
         }
 
