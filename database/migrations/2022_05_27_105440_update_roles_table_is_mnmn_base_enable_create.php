@@ -14,7 +14,7 @@ class UpdateRolesTableIsMnmnBaseEnableCreate extends Migration
     public function up()
     {
         Schema::table('roles', function (Blueprint $table) {
-            $table->boolean('is_mnmn_base_enable')->default(true);
+            $table->boolean('is_bsin_base_enable')->default(true);
         });
     }
 

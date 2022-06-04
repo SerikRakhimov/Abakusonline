@@ -80,7 +80,7 @@ class GlobalController extends Controller
         $relit_parent_template = self::get_parent_template_from_relit_id($relit_id, $base->template_id)['template'];
         $is_all_base_calcname_enable = $role->is_all_base_calcname_enable;
         $is_list_base_sort_creation_date_desc = $role->is_list_base_sort_creation_date_desc;
-        $is_mnmn_base_enable = $role->is_mnmn_base_enable;
+        $is_bsin_base_enable = $role->is_bsin_base_enable;
         $is_exclude_related_records = $role->is_exclude_related_records;
         $is_list_base_create = $role->is_list_base_create;
         $is_list_base_read = $role->is_list_base_read;
@@ -202,7 +202,7 @@ class GlobalController extends Controller
         if ($roba != null) {
             $is_roba_all_base_calcname_enable = $roba->is_all_base_calcname_enable;
             $is_roba_list_base_sort_creation_date_desc = $roba->is_list_base_sort_creation_date_desc;
-            $is_roba_mnmn_base_enable = $roba->is_mnmn_base_enable;
+            $is_roba_mnmn_base_enable = $roba->is_bsin_base_enable;
             $is_roba_exclude_related_records = $roba->is_exclude_related_records;
             $is_roba_list_base_create = $roba->is_list_base_create;
             $is_roba_list_base_read = $roba->is_list_base_read;
@@ -252,7 +252,7 @@ class GlobalController extends Controller
             $is_list_base_calc = $is_roba_list_base_calc;
             $is_all_base_calcname_enable = $is_roba_all_base_calcname_enable;
             $is_list_base_sort_creation_date_desc = $is_roba_list_base_sort_creation_date_desc;
-            $is_mnmn_base_enable = $is_roba_mnmn_base_enable;
+            $is_bsin_base_enable = $is_roba_mnmn_base_enable;
             $is_exclude_related_records = $is_roba_exclude_related_records;
             $is_list_base_create = $is_roba_list_base_create;
             $is_list_base_read = $is_roba_list_base_read;
@@ -285,8 +285,8 @@ class GlobalController extends Controller
         return ['is_list_base_calc' => $is_list_base_calc,
             'is_all_base_calcname_enable' => $is_all_base_calcname_enable,
             'is_list_base_sort_creation_date_desc' => $is_list_base_sort_creation_date_desc,
-            'is_mnmn_base_enable' => $is_mnmn_base_enable,
-            'is_bsmn_base_enable' => $is_list_base_calc && $is_mnmn_base_enable,
+            'is_bsin_base_enable' => $is_bsin_base_enable,
+            'is_bsmn_base_enable' => $is_list_base_calc && $is_bsin_base_enable,
             'is_exclude_related_records' => $is_exclude_related_records,
             'is_list_base_create' => $is_list_base_create,
             'is_list_base_read' => $is_list_base_read,
@@ -337,7 +337,7 @@ class GlobalController extends Controller
         $is_list_base_calc = $base_right['is_list_base_calc'];
         $is_all_base_calcname_enable = $base_right['is_all_base_calcname_enable'];
         $is_list_base_sort_creation_date_desc = $base_right['is_list_base_sort_creation_date_desc'];
-        $is_mnmn_base_enable = $base_right['is_mnmn_base_enable'];
+        $is_bsin_base_enable = $base_right['is_bsin_base_enable'];
         $is_exclude_related_records = $base_right['is_exclude_related_records'];
         $is_list_base_create = $base_right['is_list_base_create'];
         $is_list_base_read = $base_right['is_list_base_read'];
@@ -406,8 +406,8 @@ class GlobalController extends Controller
         return ['is_list_base_calc' => $is_list_base_calc,
             'is_all_base_calcname_enable' => $is_all_base_calcname_enable,
             'is_list_base_sort_creation_date_desc' => $is_list_base_sort_creation_date_desc,
-            'is_mnmn_base_enable' => $is_mnmn_base_enable,
-            'is_bsmn_base_enable' => $is_list_base_calc && $is_mnmn_base_enable,
+            'is_bsin_base_enable' => $is_bsin_base_enable,
+            'is_bsmn_base_enable' => $is_list_base_calc && $is_bsin_base_enable,
             'is_exclude_related_records' => $is_exclude_related_records,
             'is_list_base_create' => $is_list_base_create,
             'is_list_base_read' => $is_list_base_read,
@@ -1614,9 +1614,10 @@ class GlobalController extends Controller
                 $base = Base::find($value);
                 if ($base) {
                     $base_right = self::base_right($base, $role, $relit_id);
-                    // Удаляем элемент массива с $base, если '$base_right['is_list_base_calc'] == false || $base_right['is_mnmn_base_enable'] == false'
+                    // Удаляем элемент массива с $base, если '$base_right['is_list_base_calc'] == false || $base_right['is_bsin_base_enable'] == false'
                     // Похожая проверка в GlobalController::get_project_bases(), ItemController::base_index() и project/start.php
 //                  if ($base_right['is_bsmn_base_enable'] == false) {
+                    // Нужно использовать '$base_right['is_list_base_calc'] == false'
                     if ($base_right['is_list_base_calc'] == false) {
                         unset($array_relips[$relit_id]['base_ids'][$key]);
                     }

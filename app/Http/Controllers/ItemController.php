@@ -272,7 +272,7 @@ class ItemController extends Controller
 
 //            // Похожая проверка в GlobalController::get_project_bases(), ItemController::base_index() и project/start.php
 //            // Две проверки использовать
-//            if ($base_right['is_list_base_calc'] == false || $base_right['is_mnmn_base_enable'] == false) {
+//            if ($base_right['is_list_base_calc'] == false || $base_right['is_bsin_base_enable'] == false) {
 //                return view('message', ['message' => trans('main.no_access')]);
 //            }
 

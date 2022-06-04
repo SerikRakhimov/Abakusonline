@@ -177,10 +177,10 @@ class RobaController extends Controller
 
     function check(Request $request, &$array_mess)
     {
-        if ($request->is_mnmn_base_enable == true
+        if ($request->is_bsin_base_enable == true
             && ($request->is_list_base_create == false && $request->is_list_base_read == false
                 && $request->is_list_base_update == false && $request->is_list_base_delete == false)) {
-            $array_mess['is_mnmn_base_enable'] = trans('main.is_mnmn_base_enable_rule') . '!';
+            $array_mess['is_bsin_base_enable'] = trans('main.is_bsin_base_enable_rule') . '!';
         }
         if ($request->is_list_base_create == true && $request->is_edit_base_read == true) {
             $array_mess['is_edit_base_read'] = trans('main.is_list_base_create_rule') . '!';
@@ -215,7 +215,7 @@ class RobaController extends Controller
         $roba->base_id = $request->base_id;
         $roba->is_all_base_calcname_enable = isset($request->is_all_base_calcname_enable) ? true : false;
         $roba->is_list_base_sort_creation_date_desc = isset($request->is_list_base_sort_creation_date_desc) ? true : false;
-        $roba->is_mnmn_base_enable = isset($request->is_mnmn_base_enable) ? true : false;
+        $roba->is_bsin_base_enable = isset($request->is_bsin_base_enable) ? true : false;
         $roba->is_exclude_related_records = isset($request->is_exclude_related_records) ? true : false;
         $roba->is_list_base_create = isset($request->is_list_base_create) ? true : false;
         $roba->is_list_base_read = isset($request->is_list_base_read) ? true : false;

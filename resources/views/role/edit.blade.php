@@ -380,21 +380,21 @@
             </div>
         </div>
 
-        <div class="form-group row" id="is_mnmn_base_enable_form_group">
+        <div class="form-group row" id="is_bsin_base_enable_form_group">
             <div class="col-sm-3 text-right">
                 <label class="form-label"
-                       for="is_mnmn_base_enable">{{trans('main.is_mnmn_base_enable')}}</label>
+                       for="is_bsin_base_enable">{{trans('main.is_bsin_base_enable')}}</label>
             </div>
             <div class="col-sm-7">
-                <input class="@error('is_mnmn_base_enable') is-invalid @enderror"
+                <input class="@error('is_bsin_base_enable') is-invalid @enderror"
                        type="checkbox"
-                       name="is_mnmn_base_enable"
+                       name="is_bsin_base_enable"
                        placeholder=""
-                       @if ((old('is_mnmn_base_enable') ?? ($role->is_mnmn_base_enable ?? true)) ==  true)
+                       @if ((old('is_bsin_base_enable') ?? ($role->is_bsin_base_enable ?? true)) ==  true)
                        checked
                     @endif
                 >
-                @error('is_mnmn_base_enable')
+                @error('is_bsin_base_enable')
                 <div class="invalid-feedback">
                     {{$message}}
                 </div>
