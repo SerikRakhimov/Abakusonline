@@ -543,7 +543,7 @@
                             {{--                        @endif--}}
                             @if($base_body_right['is_bsmn_base_enable'] == true)
                                 <a href="{{route('item.base_index', ['base'=>$view_link->child_base,
-                            'project'=>$project, 'role'=>$role, 'relit_id'=>$relit_id])}}"
+                            'project'=>$project, 'role'=>$role, 'relit_id'=>$view_ret_id])}}"
                                    title="{{$view_link->child_base->names() . $message_ln_info}}">
                                     @endif
                                     {{$view_link->child_labels()}}:
