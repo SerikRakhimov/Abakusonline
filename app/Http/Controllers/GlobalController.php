@@ -1619,8 +1619,7 @@ class GlobalController extends Controller
 //                  if ($base_right['is_bsmn_base_enable'] == false) {
                     // Нужно использовать '$base_right['is_list_base_calc'] == false'
                     // При $check_main_menu = true - дополнительная проверка '$base_right['is_bsin_base_enable'] == false'
-                    //dd(($base_right['is_list_base_calc'] == false));
-                    if (($base_right['is_list_base_calc'] == false) || (($check_main_menu == false) && ($base_right['is_bsin_base_enable'] == false))) {
+                      if (($base_right['is_list_base_calc'] == false) || (($check_main_menu == true) && ($base_right['is_bsin_base_enable'] == false))) {
                         unset($array_relips[$relit_id]['base_ids'][$key]);
                     }
                 }
