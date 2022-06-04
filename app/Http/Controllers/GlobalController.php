@@ -1694,7 +1694,7 @@ class GlobalController extends Controller
             if ($view_found_ret_id == false) {
                 // Если первый $relit_id найден
                 if ($first_found_ret_id) {
-                    $view_found_ret_id == true;
+                    $view_found_ret_id = true;
                     $view_ret_id = $first_ret_id;
                 } else {
                     // Нужно для сравнения "if ($view_ret_id != $view_ret_new_id)" в ItemController::item_index()
