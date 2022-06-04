@@ -35,13 +35,13 @@
     {{-- Вывод дерева пройденных ссылок --}}
     @foreach($tree_array as $value)
         <h6>
-            @if($value['is_list_base_calc'] == true)
+            @if($value['is_bsmn_base_enable'] == true)
                 <a href="{{route('item.base_index', ['base'=>$value['base_id'],
                             'project'=>$project, 'role'=>$role, 'relit_id'=>$relit_id])}}"
                    title="{{$value['base_names']}}">
                     @endif
                     {{GlobalController::calc_title_name($value['title_name'])}}:
-                    @if($value['is_list_base_calc'] == true)
+                    @if($value['is_bsmn_base_enable'] == true)
                 </a>
             @endif
             <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$value['item_id'], 'role'=>$role,
@@ -82,13 +82,13 @@
                         <div class="container-fluid">
                             <div class="row">
                                 <div class="col-12 text-left">
-                                    @if ($base_right['is_list_base_calc'] == true)
+                                    @if($base_right['is_bsmn_base_enable'] == true)
                                         <a href="{{route('item.base_index', ['base'=>$item->base,
                             'project'=>$project, 'role'=>$role, 'relit_id'=>$relit_id])}}"
                                            title="{{$item->base->names() . $message_bs_info}}">
                                             @endif
                                             {{$title}}:
-                                            @if ($base_right['is_list_base_calc'] == true)
+                                            @if ($base_right['is_bsmn_base_enable'] == true)
                                         </a>
                                     @endif
                                     {{-- Одинаковые строки рядом (route('item.ext_show'))--}}
@@ -127,13 +127,13 @@
                 </h5>
                 @else
                     <h5>
-                        @if ($base_right['is_list_base_calc'] == true)
+                        @if($base_right['is_bsmn_base_enable'] == true)
                             <a href="{{route('item.base_index', ['base'=>$item->base,
                             'project'=>$project, 'role'=>$role, 'relit_id'=>$relit_id])}}"
                                title="{{$item->base->names() . $message_bs_info}}">
                                 @endif
                                 {{$title}}:
-                                @if ($base_right['is_list_base_calc'] == true)
+                                @if ($base_right['is_bsmn_base_enable'] == true)
                             </a>
                         @endif
                     </h5>
@@ -541,11 +541,15 @@
                             {{--                        @else--}}
                             {{--                            {{$item->base->name()}}:--}}
                             {{--                        @endif--}}
-                            <a href="{{route('item.base_index', ['base'=>$view_link->child_base,
+                            @if($base_body_right['is_bsmn_base_enable'] == true)
+                                <a href="{{route('item.base_index', ['base'=>$view_link->child_base,
                             'project'=>$project, 'role'=>$role, 'relit_id'=>$relit_id])}}"
-                               title="{{$view_link->child_base->names() . $message_ln_info}}">
-                                {{$view_link->child_labels()}}:
-                            </a>
+                                   title="{{$view_link->child_base->names() . $message_ln_info}}">
+                                    @endif
+                                    {{$view_link->child_labels()}}:
+                                    @if($base_body_right['is_bsmn_base_enable'] == true)
+                                </a>
+                            @endif
                         </h3>
                         <small><small>{{$relip_body_name_project}}</small></small>
                     </div>

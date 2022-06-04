@@ -286,6 +286,7 @@ class GlobalController extends Controller
             'is_all_base_calcname_enable' => $is_all_base_calcname_enable,
             'is_list_base_sort_creation_date_desc' => $is_list_base_sort_creation_date_desc,
             'is_mnmn_base_enable' => $is_mnmn_base_enable,
+            'is_bsmn_base_enable' => $is_list_base_calc && $is_mnmn_base_enable,
             'is_exclude_related_records' => $is_exclude_related_records,
             'is_list_base_create' => $is_list_base_create,
             'is_list_base_read' => $is_list_base_read,
@@ -406,6 +407,7 @@ class GlobalController extends Controller
             'is_all_base_calcname_enable' => $is_all_base_calcname_enable,
             'is_list_base_sort_creation_date_desc' => $is_list_base_sort_creation_date_desc,
             'is_mnmn_base_enable' => $is_mnmn_base_enable,
+            'is_bsmn_base_enable' => $is_list_base_calc && $is_mnmn_base_enable,
             'is_exclude_related_records' => $is_exclude_related_records,
             'is_list_base_create' => $is_list_base_create,
             'is_list_base_read' => $is_list_base_read,
@@ -1614,9 +1616,7 @@ class GlobalController extends Controller
                     $base_right = self::base_right($base, $role, $relit_id);
                     // Удаляем элемент массива с $base, если '$base_right['is_list_base_calc'] == false || $base_right['is_mnmn_base_enable'] == false'
                     // Похожая проверка в GlobalController::get_project_bases(), ItemController::base_index() и project/start.php
-                    // Две проверки использовать
-                    if ($base_right['is_list_base_calc'] == false
-                        || ($check_main_menu && $base_right['is_mnmn_base_enable'] == false)) {
+                    if ($base_right['is_bsmn_base_enable'] == false) {
                         unset($array_relips[$relit_id]['base_ids'][$key]);
                     }
                 }

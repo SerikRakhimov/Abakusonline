@@ -247,9 +247,13 @@ class ItemController extends Controller
         $relip_project = GlobalController::calc_relip_project($relit_id, $project);
 
         $base_right = GlobalController::base_right($base, $role, $relit_id);
-//      Похожая проверка в ItemController::base_index() и project/start.php
-//      Используется 'is_list_base_calc' в ext_show.php и ItemController::item_index()
-        if ($base_right['is_list_base_calc'] == false) {
+////      Похожая проверка в ItemController::base_index() и project/start.php
+////      Используется 'is_list_base_calc' в ext_show.php и ItemController::item_index()
+//        if ($base_right['is_list_base_calc'] == false) {
+//            return view('message', ['message' => trans('main.no_access')]);
+//        }
+        // Похожая проверка в GlobalController::get_project_bases(), ItemController::base_index() и project/start.php
+        if ($base_right['is_bsmn_base_enable'] == false) {
             return view('message', ['message' => trans('main.no_access')]);
         }
 
@@ -266,11 +270,11 @@ class ItemController extends Controller
             $base_index_page_current = $items->currentPage();
             //}
 
-            // Похожая проверка в GlobalController::get_project_bases(), ItemController::base_index() и project/start.php
-            // Две проверки использовать
-            if ($base_right['is_list_base_calc'] == false || $base_right['is_mnmn_base_enable'] == false) {
-                return view('message', ['message' => trans('main.no_access')]);
-            }
+//            // Похожая проверка в GlobalController::get_project_bases(), ItemController::base_index() и project/start.php
+//            // Две проверки использовать
+//            if ($base_right['is_list_base_calc'] == false || $base_right['is_mnmn_base_enable'] == false) {
+//                return view('message', ['message' => trans('main.no_access')]);
+//            }
 
             session(['base_index_previous_url' => ((!empty($_SERVER['HTTPS'])) ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . '/' . request()->path()]);
             // Нужно 'GlobalController::const_null()' 'null/null/null/', иначе в строке с параметрами будет '///' (дает ошибку)
@@ -758,7 +762,7 @@ class ItemController extends Controller
                                 $result[$i]['item_name'] = $item->name();
                                 $base_right = GlobalController::base_right($item->base, $role, $relit_id);
                                 // Для вызова 'item.base_index' нужно
-                                $result[$i]['is_list_base_calc'] = $base_right['is_list_base_calc'];
+                                $result[$i]['is_bsmn_base_enable'] = $base_right['is_bsmn_base_enable'];
                                 $i = $i + 1;
                             }
                             $i = 0;
