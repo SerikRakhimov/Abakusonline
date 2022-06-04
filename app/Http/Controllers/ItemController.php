@@ -621,7 +621,8 @@ class ItemController extends Controller
         $view_ret_found_id = $get_project_bases['view_ret_found_id'];
         $view_ret_new_id = $get_project_bases['view_ret_id'];
         // Если $view_ret_id поменялось
-        if ($view_ret_found_id && $view_ret_new_id != null && $view_ret_id != $view_ret_new_id) {
+        // if ($view_ret_found_id && $view_ret_new_id != null && $view_ret_id != $view_ret_new_id) {
+        if ($view_ret_found_id && $view_ret_new_id != -1 && $view_ret_id != $view_ret_new_id) {
             $view_ret_id = $view_ret_new_id;
             // Перевызов с правильным значением $view_ret_id
             return redirect()->route('item.item_index', ['project' => $project, 'item' => $item, 'role' => $role,

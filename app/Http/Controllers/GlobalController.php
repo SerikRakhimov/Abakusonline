@@ -1636,7 +1636,7 @@ class GlobalController extends Controller
             }
         }
 
-        $first_rel_id = null;
+        $first_rel_id = -1;
         $view_ret_found_id = false;
         // Если передано $view_ret_id
         if ($view_ret_isset_id == true) {
