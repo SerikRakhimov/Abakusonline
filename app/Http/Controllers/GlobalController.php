@@ -1639,15 +1639,15 @@ class GlobalController extends Controller
         $first_rel_id = -1;
         $view_ret_found_id = false;
         // Если передано $view_ret_id
-        if ($view_ret_isset_id == true) {
-            foreach ($array_relips as $relit_id => $value) {
-                if ($view_ret_id == $relit_id) {
-                    $view_ret_found_id = true;
-                    break;
-                }
-            }
+        if ($view_ret_isset_id == true && $link) {
+//            foreach ($array_relips as $relit_id => $value) {
+//                if ($view_ret_id == $relit_id) {
+//                    $view_ret_found_id = true;
+//                    break;
+//                }
+//            }
 
-            if (!$view_ret_found_id && $link) {
+//            if (!$view_ret_found_id && $link) {
                 foreach ($array_relips as $relit_id => $val_arr) {
                     $bases_ids = $val_arr['base_ids'];
                     foreach ($bases_ids as $key => $base_id) {
@@ -1662,7 +1662,7 @@ class GlobalController extends Controller
                     }
                 }
                 $view_ret_id = $first_rel_id;
-            }
+//            }
         }
 
         return ['array_relips' => $array_relips, 'view_ret_found_id' => $view_ret_found_id, 'view_ret_id' => $view_ret_id];
