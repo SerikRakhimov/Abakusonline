@@ -1636,42 +1636,74 @@ class GlobalController extends Controller
             }
         }
 
-        $first_rel_id = false;
-        $view_ret_found_id = false;
-        // Если передано $view_ret_id
+        $first_found_ret_id = false;
+        $first_ret_id = -1;
+        $view_found_ret_id = false;
+        // Если передано $view_ret_id && $link
         if ($view_ret_isset_id == true && $link) {
 //            foreach ($array_relips as $relit_id => $value) {
 //                if ($view_ret_id == $relit_id) {
-//                    $view_ret_found_id = true;
+//                    $view_found_ret_id = true;
 //                    break;
 //                }
 //            }
 
-//            if (!$view_ret_found_id && $link) {
+//            foreach ($array_relips as $relit_id => $val_arr) {
+//                $bases_ids = $val_arr['base_ids'];
+//                foreach ($bases_ids as $key => $base_id) {
+//                    if (!$first_found_ret_id) {
+//                        // Первый $relit_id
+//                        if ($base_id == $link->child_base_id) {
+//                            $first_found_ret_id = true;
+//                            $view_ret_id = $relit_id;
+//                            $view_found_ret_id = true;
+//                            break;
+//                        }
+//                    }
+//                }
+//                if ($view_found_ret_id) {
+//                    break;
+//                }
+//            }
+
             foreach ($array_relips as $relit_id => $val_arr) {
                 $bases_ids = $val_arr['base_ids'];
                 foreach ($bases_ids as $key => $base_id) {
-                    if (!$first_rel_id) {
-                        // Первый $relit_id
-                        if ($base_id == $link->child_base_id) {
-                            $first_rel_id = true;
+                    if ($base_id == $link->child_base_id) {
+                        // Проверка текущего $view_ret_id на равенство $relit_id (приоритетнее)
+                        if ($view_ret_id == $relit_id) {
                             $view_ret_id = $relit_id;
-                            $view_ret_found_id = true;
+                            $view_found_ret_id = true;
+                            // Нужен break
                             break;
+                        }
+                        // Параллельно ищем первый $relit_id
+                        if (!$first_found_ret_id) {
+                            $first_found_ret_id = true;
+                            $first_ret_id = $relit_id;
+                            // Не нужен break
+                            // break;
                         }
                     }
                 }
-                if ($view_ret_found_id) {
+                if ($view_found_ret_id) {
                     break;
                 }
             }
-            if ($view_ret_found_id == false) {
-                $view_ret_id = -1;
+
+            if ($view_found_ret_id == false) {
+                // Если первый $relit_id найден
+                if ($first_found_ret_id) {
+                    $view_found_ret_id == true;
+                    $view_ret_id = $first_ret_id;
+                } else {
+                    // Нужно для сравнения "if ($view_ret_id != $view_ret_new_id)" в ItemController::item_index()
+                    $view_ret_id = -1;
+                }
             }
-//            }
         }
 
-        return ['array_relips' => $array_relips, 'view_ret_found_id' => $view_ret_found_id, 'view_ret_id' => $view_ret_id];
+        return ['array_relips' => $array_relips, 'view_found_ret_id' => $view_found_ret_id, 'view_ret_id' => $view_ret_id];
 
     }
 
