@@ -1504,6 +1504,7 @@ class GlobalController extends Controller
     static function get_project_bases(Project $current_project, Role $role,
                                               $check_main_menu = true,
                                               $view_ret_isset_id = false, $view_ret_id = null,
+                                      Base    $base,
                                       Link    $link = null, $parent_relit_id = null)
     {
         $array_relips = [];
@@ -1527,6 +1528,18 @@ class GlobalController extends Controller
                 if ($bases_ids) {
                     $array_relips[$relit->id]['project_id'] = $project->id;
                     $array_relips[$relit->id]['base_ids'] = $bases_ids['bases_ids'];
+                }
+            }
+        }
+        // Если передано $base
+        if ($base) {
+            foreach ($array_relips as $relit_id => $value) {
+                $base_parent_links = $base->parent_links()->where('parent_relit_id', '=', $relit_id);
+                    if (count($base_parent_links->get())==0) {
+                        // Удаляем элемент массива с $relit_id, если "count($base_parent_links->get())==0"
+                        unset($array_relips[$relit_id]);
+                        // Не нужно "break"
+                        // break;
                 }
             }
         }
@@ -1700,7 +1713,7 @@ class GlobalController extends Controller
                     }
                 }
                 // Если $link не передано
-            }else{
+            } else {
                 foreach ($array_relips as $relit_id => $value) {
                     if ($view_ret_id == $relit_id) {
                         $view_found_ret_id = true;

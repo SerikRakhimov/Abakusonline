@@ -616,7 +616,7 @@ class ItemController extends Controller
         $view_link = $current_link;
 
         // Передача параметров "$project, $role, false, true, $view_ret_id, $view_link, $item->base" нужна
-        $get_project_bases = GlobalController::get_project_bases($project, $role, false, true, $view_ret_id, $view_link, $relit_id);
+        $get_project_bases = GlobalController::get_project_bases($project, $role, false, true, $view_ret_id, $item->base, $view_link, $relit_id);
         $array_relips = $get_project_bases['array_relips'];
         $view_found_ret_id = $get_project_bases['view_found_ret_id'];
         $view_ret_new_id = $get_project_bases['view_ret_id'];
