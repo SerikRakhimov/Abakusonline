@@ -1504,7 +1504,7 @@ class GlobalController extends Controller
     static function get_project_bases(Project $current_project, Role $role,
                                               $check_main_menu = true,
                                               $view_ret_isset_id = false, $view_ret_id = null,
-                                      Base    $base,
+                                      Base    $base = null,
                                       Link    $link = null, $parent_relit_id = null)
     {
         $array_relips = [];
