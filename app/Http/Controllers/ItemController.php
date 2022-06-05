@@ -857,7 +857,7 @@ class ItemController extends Controller
             $is_calcname = GlobalController::is_base_calcnm_correct_check($link->child_base, $base_right);
             // Использовать true в '$base_link_right = GlobalController::base_link_right($link, $role, $relit_id, true);'
             //$base_link_right = GlobalController::base_link_right($link, $role, $relit_id, true);
-            $base_link_right = GlobalController::base_link_right($link, $role, $view_ret_id, true);
+            $base_link_right = GlobalController::base_link_right($link, $role, $view_ret_id, true, $relit_id);
             // Использовать две этих проверки
             if (($base_link_right['is_body_link_enable'] == true) && ($base_link_right['is_list_base_calc'] == true)) {
                 // Такая же проверка и в GlobalController (function items_right()),

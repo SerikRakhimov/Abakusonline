@@ -1545,6 +1545,7 @@ class GlobalController extends Controller
                     $project_id = $val_arr['project_id'];
                     $bases_ids = $val_arr['base_ids'];
                     foreach ($bases_ids as $key => $value) {
+                        // Удаляем элемент массива с $base, если $value не найдено в $array_bases
                         if (!in_array($value, $array_bases)) {
                             unset($array_relips[$relit_id]['base_ids'][$key]);
                         }
