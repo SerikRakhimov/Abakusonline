@@ -1582,8 +1582,7 @@ class GlobalController extends Controller
 
             $base_right = null;
             foreach ($array_relips as $relit_id => $value) {
-                //$base_right = self::base_link_right($link, $role, $parent_relit_id, true, $relit_id);
-                $base_right = self::base_link_right($link, $role, $parent_relit_id);
+                $base_right = self::base_link_right($link, $role, $parent_relit_id, true, $relit_id);
                 if ($base_right['is_body_link_enable'] == false) {
                     // Удаляем элемент массива с $relit_id, если "$relit_id == $link->parent_relit_id"
                     unset($array_relips[$relit_id]);
