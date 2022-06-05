@@ -319,31 +319,32 @@ class GlobalController extends Controller
 
     static function base_link_right(Link $link, Role $role, $parent_relit_id, bool $child_base = false, $relit_dop_id = null)
     {
-//        $base = null;
-//        $relit_id = null;
-//        $base_ret_id = null;
-//        if ($child_base == true) {
-//            $base = $link->child_base;
-//            // 0 - текущий проект, по умолчанию
-//            //$relit_id = 0;
-//            $relit_id = $relit_dop_id;
-//            //$relit_id = $parent_relit_id;
-//        } else {
-//            $base = $link->parent_base;
-//            $relit_id = $parent_relit_id;
-//        }
-
         $base = null;
+        $relit_id = null;
+        $base_ret_id = null;
         if ($child_base == true) {
             $base = $link->child_base;
+            // 0 - текущий проект, по умолчанию
+            //$relit_id = 0;
+            $relit_id = $relit_dop_id;
+            //$relit_id = $parent_relit_id;
         } else {
             $base = $link->parent_base;
+            $relit_id = $parent_relit_id;
         }
 
-        $relit_id = $parent_relit_id;
-        $base_ret_id = $relit_dop_id;
+//        $base = null;
+//        if ($child_base == true) {
+//            $base = $link->child_base;
+//        } else {
+//            $base = $link->parent_base;
+//        }
+//
+//        $relit_id = $parent_relit_id;
+//        $base_ret_id = $relit_dop_id;
 
-        $base_right = self::base_right($base, $role, $base_ret_id);
+        $base_right = self::base_right($base, $role, $relit_id);
+        //$base_right = self::base_right($base, $role, $base_ret_id);
 
         $is_list_base_calc = $base_right['is_list_base_calc'];
         $is_all_base_calcname_enable = $base_right['is_all_base_calcname_enable'];
