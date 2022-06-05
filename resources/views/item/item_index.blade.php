@@ -685,7 +685,7 @@
                                                                                      'parent_ret_id' => GlobalController::set_relit_id($parent_ret_id_par)
                                                                                      ])}}"
                                                    title="{{trans('main.add') . $message_ln_array_info[$value->id]}}">
-                                                    {{$value->child_labels()}}
+                                                    {{$value->child_label()}}
                                                     @if(isset($array["\x00*\x00items"][$value->id]))
                                                         *
                                                     @endif
