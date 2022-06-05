@@ -1532,14 +1532,23 @@ class GlobalController extends Controller
             }
         }
         // Если передано $base
+        $array_bases = [];
         if ($base) {
-            foreach ($array_relips as $relit_id => $value) {
-                $base_parent_links = $base->parent_links()->where('parent_relit_id', '=', $relit_id);
-                    if (count($base_parent_links->get())==0) {
-                        // Удаляем элемент массива с $relit_id, если "count($base_parent_links->get())==0"
-                        unset($array_relips[$relit_id]);
-                        // Не нужно "break"
-                        // break;
+            // Нужно '$base_parent_links'
+            $base_parent_links = $base->parent_links()->get();
+            foreach ($base_parent_links as $link_value) {
+                // В качестве индекса массива нужно использовать $link_value->child_base_id для уникальности значений
+                $array_bases[$link_value->child_base_id] = $link_value->child_base_id;
+            }
+            if (count($array_bases) > 0) {
+                foreach ($array_relips as $relit_id => $val_arr) {
+                    $project_id = $val_arr['project_id'];
+                    $bases_ids = $val_arr['base_ids'];
+                    foreach ($bases_ids as $key => $value) {
+                        if (!in_array($value, $array_bases)) {
+                            unset($array_relips[$relit_id]['base_ids'][$key]);
+                        }
+                    }
                 }
             }
         }
