@@ -78,13 +78,12 @@
             ?>
             @if($link && $item_find)
                 <?php
-                //                $base_link_right = null;
-                //                if ($heading == 1 || $base_index_page > 0) {
-                //                    $base_link_right = GlobalController::base_link_right($link, $role, $relit_id);
-                //                } else {
-                //                    $base_link_right = GlobalController::base_link_right($link, $role, $parent_ret_id);
-                //                }
-                $base_link_right = GlobalController::base_link_right($link, $role, $link->parent_relit_id);
+                    $base_link_right = null;
+                    if ($heading == 1 || $base_index_page > 0) {
+                        $base_link_right = GlobalController::base_link_right($link, $role, $relit_id);
+                    } else {
+                        $base_link_right = GlobalController::base_link_right($link, $role, $parent_ret_id);
+                    }
                 ?>
                 @if($base_link_right['is_show_link_enable'] == true)
                     <li>
