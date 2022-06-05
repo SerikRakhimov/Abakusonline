@@ -5358,7 +5358,7 @@ class ItemController extends Controller
                 $str = '';
                 $link = Link::findOrFail($main->link_id);
                 // '$base_link_right = GlobalController::base_link_right($link, $role, $relit_id, true);' true нужно
-                $base_link_right = GlobalController::base_link_right($link, $role, $relit_id, true);
+                $base_link_right = GlobalController::base_link_right($link, $role, $relit_id, true, $relit_id);
                 if ($base_link_right['is_hier_link_enable'] == true) {
                     // Получить $str - вложенные детские значения
                     $str = self::form_child_hier_deta_start($items, $main->child_item_id, $project, $relit_id, $level, $role);
