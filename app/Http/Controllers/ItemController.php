@@ -5321,10 +5321,10 @@ class ItemController extends Controller
         return $result;
     }
 
-    static function form_child_deta_hier(Item $item, Project $project, Role $role, $relit_id)
+    static function form_child_deta_hier(Item $item, Project $project, Role $role, $relit_id, $view_ret_id)
     {
         $items = array();
-        $result = self::form_child_hier_deta_start($items, $item->id, $project, $relit_id, 0, $role);
+        $result = self::form_child_hier_deta_start($items, $item->id, $project, $relit_id, $view_ret_id, 0, $role);
         if ($result != '') {
             $result = trans('main.descendants') . ':<br>' . $result . '<hr>';
         }
@@ -5332,10 +5332,10 @@ class ItemController extends Controller
     }
 
 // $items нужно - чтобы не было бесконечного цикла
-//static function form_child_hier_deta_start($items, $item_id, $project, $relit_id, $level, $role)   - можно использовать так
-//static function form_child_hier_deta_start(&$items, $item_id, $project, $relit_id, $level, $role)  - и так - результаты разные
+//static function form_child_hier_deta_start($items, $item_id, $project, $relit_id, $view_ret_id, $level, $role)   - можно использовать так
+//static function form_child_hier_deta_start(&$items, $item_id, $project, $relit_id, $view_ret_id, $level, $role)  - и так - результаты разные
 // '$items' и '$items_dop' использовать для того, чтобы записи, отображаемые на экране, были уникальными (см.ниже)
-    static function form_child_hier_deta_start(&$items, $item_id, Project $project, $relit_id, $level, Role $role)
+    static function form_child_hier_deta_start(&$items, $item_id, Project $project, $relit_id, $view_ret_id, $level, Role $role)
     {
         $result = '';
         $level = $level + 1;
@@ -5361,7 +5361,7 @@ class ItemController extends Controller
                 $base_link_right = GlobalController::base_link_right($link, $role, $relit_id, true, $relit_id);
                 if ($base_link_right['is_hier_link_enable'] == true) {
                     // Получить $str - вложенные детские значения
-                    $str = self::form_child_hier_deta_start($items, $main->child_item_id, $project, $relit_id, $level, $role);
+                    $str = self::form_child_hier_deta_start($items, $main->child_item_id, $project, $relit_id, $view_ret_id, $level, $role);
                     $alink = '';
                     if ($base_link_right['is_list_base_calc'] == true) {
                         $alink = '<a href="' . route('item.ext_show', ['item' => $main->child_item_id, 'project' => $project, 'role' => $role, 'usercode' => GlobalController::usercode_calc(), 'relit_id' => GlobalController::set_relit_id($relit_id)]) . '" title="' .

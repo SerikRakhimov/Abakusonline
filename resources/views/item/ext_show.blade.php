@@ -195,12 +195,12 @@
     </ul>
     <hr>
     <?php
-    if ($base_right['is_hier_base_enable'] == true) {
-//        $result = ItemController::form_parent_coll_hier($item->id, $role, $relit_id);
+//    if ($base_right['is_hier_base_enable'] == true) {
+////        $result = ItemController::form_parent_coll_hier($item->id, $role, $relit_id);
+////        echo $result;
+//        $result = ItemController::form_child_deta_hier($item, $project, $role, $relit_id);
 //        echo $result;
-        $result = ItemController::form_child_deta_hier($item, $project, $role, $relit_id);
-        echo $result;
-    }
+//    }
     $relit_par_id = null;
     $parent_ret_par_id = null;
     if (($heading == 1) || ($base_index_page > 0)) {
@@ -209,6 +209,12 @@
     } else {
         $relit_par_id = $parent_ret_id;
         $parent_ret_par_id = $relit_id;
+    }
+    if ($base_right['is_hier_base_enable'] == true) {
+//        $result = ItemController::form_parent_coll_hier($item->id, $role, $relit_id);
+//        echo $result;
+        $result = ItemController::form_child_deta_hier($item, $project, $role, $relit_par_id, $parent_ret_par_id);
+        echo $result;
     }
     ?>
     <i>
