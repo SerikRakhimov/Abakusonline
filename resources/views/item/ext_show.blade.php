@@ -33,27 +33,27 @@
     <ul>
         <p class="text-label">Id: <span class="text-related">
 {{--                <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role, 'relit_id'=>$relit_id,--}}
-{{--                        'usercode' =>GlobalController::usercode_calc()])}}"--}}
-{{--                   title="">--}}
+                {{--                        'usercode' =>GlobalController::usercode_calc()])}}"--}}
+                {{--                   title="">--}}
                 {{$item->id}}
-{{--                </a>--}}
+                {{--                </a>--}}
             </span>
         </p>
         @if($base->is_code_needed == true)
             <p class="text-label">{{trans('main.code')}}: <span class="text-related">
 {{--                        <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,--}}
-{{--                                'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id])}}"--}}
-{{--                           title="">--}}
-                        {{$item->code}}
-{{--                        </a>--}}
+                    {{--                                'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id])}}"--}}
+                    {{--                           title="">--}}
+                    {{$item->code}}
+                    {{--                        </a>--}}
                     </span></p>
         @endif
         <p class="text-label">
         @if($base_right['is_list_base_sort_creation_date_desc'] == true)
             <li>
-            {{trans('main.date')}}: <b>
-                        {{$item->created_date()}}
-                    </b>
+                {{trans('main.date')}}: <b>
+                    {{$item->created_date()}}
+                </b>
             </li>
         @endif
         {{--    @foreach($array_plan as $key=>$value)--}}
@@ -70,7 +70,7 @@
         {{--        @endif--}}
         {{--    @endforeach--}}
 
-{{--        Вывод связей--}}
+        {{--        Вывод связей--}}
         @foreach($array_calc as $key=>$value)
             <?php
             $link = Link::find($key);
@@ -78,12 +78,13 @@
             ?>
             @if($link && $item_find)
                 <?php
-                $base_link_right = null;
-                if ($heading == 1 || $base_index_page > 0) {
-                    $base_link_right = GlobalController::base_link_right($link, $role, $relit_id);
-                } else {
-                    $base_link_right = GlobalController::base_link_right($link, $role, $parent_ret_id);
-                }
+                //                $base_link_right = null;
+                //                if ($heading == 1 || $base_index_page > 0) {
+                //                    $base_link_right = GlobalController::base_link_right($link, $role, $relit_id);
+                //                } else {
+                //                    $base_link_right = GlobalController::base_link_right($link, $role, $parent_ret_id);
+                //                }
+                $base_link_right = GlobalController::base_link_right($link, $role, $link->parent_relit_id);
                 ?>
                 @if($base_link_right['is_show_link_enable'] == true)
                     <li>
@@ -138,7 +139,7 @@
                     @endif
                     @endforeach
                     </p>
-{{--                    Вывод основы--}}
+                    {{--                    Вывод основы--}}
                     @if($base_right['is_show_base_enable'] == true)
                         {{--        <p>--}}
                         {{--        @foreach (config('app.locales') as $key=>$value)--}}
