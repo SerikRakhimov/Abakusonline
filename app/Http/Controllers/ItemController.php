@@ -756,12 +756,12 @@ class ItemController extends Controller
                                 $result[$i]['string_item_ids'] = $str;
                                 // Проверка на правильность поиска $item_id выше
                                 $item = Item::findOrFail($item_id);
+                                $base_right = GlobalController::base_right($item->base, $role, $relit_id);
                                 // Эти массивы используются в item_index.php при выводе $tree_array
                                 $result[$i]['base_id'] = $item->base_id;
                                 $result[$i]['base_names'] = $item->base->names($base_right);
                                 $result[$i]['title_name'] = $item->base->name();
                                 $result[$i]['item_name'] = $item->name();
-                                $base_right = GlobalController::base_right($item->base, $role, $relit_id);
                                 // Для вызова 'item.base_index' нужно
                                 $result[$i]['is_bsmn_base_enable'] = $base_right['is_bsmn_base_enable'];
                                 $i = $i + 1;
