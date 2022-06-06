@@ -85,7 +85,7 @@
                     <h5>
                         <a
                             href="{{route('item.base_index',['base'=>$base, 'project' => $project, 'role' => $role, 'relit_id' => $relit_id])}}"
-                            title="{{$base->names()}}">
+                            title="{{$base_names}}">
                             {{$i}}
                         </a></h5>
                 </div>
@@ -93,8 +93,8 @@
                     <h5>
                         <a
                             href="{{route('item.base_index',['base'=>$base, 'project' => $project, 'role' => $role, 'relit_id' => $relit_id])}}"
-                            title="{{$base->names() . $message}}">
-                            {{$base->names()}}
+                            title="{{$base_names . $message}}">
+                            {{$base_names}}
                             {{--                            @auth--}}
                             {{--                                <span--}}
                             {{--                                    class="text-muted text-related">--}}
