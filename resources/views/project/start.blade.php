@@ -76,6 +76,8 @@
                 // Такая же проверка в GlobalController::items_right() и start.php
                 $message = ' (' . $message . ')';
             }
+            $base_right = GlobalController::base_right($base, $role, $relit_id);
+            $base_names = $base->names($base_right);
             ?>
             <div class="row mt-3">
                 {{--                                    <th scope="row">{{$i}}</th>--}}
