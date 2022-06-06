@@ -344,8 +344,6 @@ class GlobalController extends Controller
 //        $relit_id = $parent_relit_id;
 //        $base_ret_id = $relit_dop_id;
 
-        $relit_id = $parent_relit_id;
-
         $base_right = self::base_right($base, $role, $relit_id);
         //$base_right = self::base_right($base, $role, $base_ret_id);
 
