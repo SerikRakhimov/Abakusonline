@@ -8,7 +8,7 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col text-left align-top">
-                <h3>{{$base->names()}}</h3>
+                <h3>{{$base->names($base_right)}}</h3>
             </div>
         </div>
         <div class="row">
