@@ -615,33 +615,6 @@ class ItemController extends Controller
         // Нужно
         $view_link = $current_link;
 
-        // Передача параметров "$project, $role, false, true, $view_ret_id, $view_link, $item->base" нужна
-        $get_project_bases = GlobalController::get_project_bases($project, $role, false, true, $view_ret_id, $item->base, $view_link, $relit_id);
-        $array_relips = $get_project_bases['array_relips'];
-        $view_found_ret_id = $get_project_bases['view_found_ret_id'];
-        $view_ret_new_id = $get_project_bases['view_ret_id'];
-        // Если $view_ret_id найдено
-        if ($view_found_ret_id) {
-            // Если $view_ret_id поменялось
-            if ($view_ret_id != $view_ret_new_id) {
-                // Нужно присваивание
-                $view_ret_id = $view_ret_new_id;
-                // Перевызов с правильным значением $view_ret_id
-                return redirect()->route('item.item_index', ['project' => $project, 'item' => $item, 'role' => $role,
-                    'usercode' => GlobalController::usercode_calc(),
-                    'relit_id' => $relit_id,
-                    'view_link' => $view_link,
-                    'string_link_ids_current' => $string_link_ids_current, 'string_item_ids_current' => $string_item_ids_current, 'string_all_codes_current' => $string_all_codes_current,
-                    'base_index_page' => $base_index_page_current, 'body_link_page' => $body_link_page_current, 'body_all_page' => $body_all_page_current,
-                    'prev_base_index_page' => $prev_base_index_page,
-                    'prev_body_link_page' => $prev_body_link_page,
-                    'prev_body_all_page' => $prev_body_all_page,
-                    'view_ret_id' => $view_ret_id]);
-            }
-        } else {
-            return view('message', ['message' => 'view_ret_id: ' . mb_strtolower(trans('main.value_not_found'))]);
-        }
-
         if (count($next_all_links) == 0) {
             return redirect()->route('item.ext_show', ['item' => $item, 'project' => $project, 'role' => $role,
                 'usercode' => GlobalController::usercode_calc(),
@@ -659,6 +632,33 @@ class ItemController extends Controller
             ]);
         } else {
             //     session(['links' => ((!empty($_SERVER['HTTPS'])) ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . '/' . request()->path()]);
+
+            // Передача параметров "$project, $role, false, true, $view_ret_id, $view_link, $item->base" нужна
+            $get_project_bases = GlobalController::get_project_bases($project, $role, false, true, $view_ret_id, $item->base, $view_link, $relit_id);
+            $array_relips = $get_project_bases['array_relips'];
+            $view_found_ret_id = $get_project_bases['view_found_ret_id'];
+            $view_ret_new_id = $get_project_bases['view_ret_id'];
+            // Если $view_ret_id найдено
+            if ($view_found_ret_id) {
+                // Если $view_ret_id поменялось
+                if ($view_ret_id != $view_ret_new_id) {
+                    // Нужно присваивание
+                    $view_ret_id = $view_ret_new_id;
+                    // Перевызов с правильным значением $view_ret_id
+                    return redirect()->route('item.item_index', ['project' => $project, 'item' => $item, 'role' => $role,
+                        'usercode' => GlobalController::usercode_calc(),
+                        'relit_id' => $relit_id,
+                        'view_link' => $view_link,
+                        'string_link_ids_current' => $string_link_ids_current, 'string_item_ids_current' => $string_item_ids_current, 'string_all_codes_current' => $string_all_codes_current,
+                        'base_index_page' => $base_index_page_current, 'body_link_page' => $body_link_page_current, 'body_all_page' => $body_all_page_current,
+                        'prev_base_index_page' => $prev_base_index_page,
+                        'prev_body_link_page' => $prev_body_link_page,
+                        'prev_body_all_page' => $prev_body_all_page,
+                        'view_ret_id' => $view_ret_id]);
+                }
+            } else {
+                return view('message', ['message' => 'view_ret_id: ' . mb_strtolower(trans('main.value_not_found'))]);
+            }
 
             $message_bs_calc = ItemController::message_bs_calc($relip_project, $item->base);
             $message_bs_info = $message_bs_calc['message_bs_info'];
