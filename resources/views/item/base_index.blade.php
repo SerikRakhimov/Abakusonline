@@ -36,10 +36,10 @@
                 <h3>
                     @if($message_bs_info != '')
                         <a href="#" title="{{$message_bs_info}}">
-                            {{$base->names()}}
+                            {{$base->names($base_right)}}
                         </a>
                     @else
-                        {{$base->names()}}
+                        {{$base->names($base_right)}}
                     @endif
                 </h3>
             </div>

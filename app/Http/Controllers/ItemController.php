@@ -758,7 +758,7 @@ class ItemController extends Controller
                                 $item = Item::findOrFail($item_id);
                                 // Эти массивы используются в item_index.php при выводе $tree_array
                                 $result[$i]['base_id'] = $item->base_id;
-                                $result[$i]['base_names'] = $item->base->names();
+                                $result[$i]['base_names'] = $item->base->names($base_right);
                                 $result[$i]['title_name'] = $item->base->name();
                                 $result[$i]['item_name'] = $item->name();
                                 $base_right = GlobalController::base_right($item->base, $role, $relit_id);

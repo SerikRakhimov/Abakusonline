@@ -197,13 +197,14 @@
                         @if($base_right['is_list_base_calc'] == true)
                             <?php
                             $i++;
+                            $base_names = $base->names($base_right);
                             ?>
                             <li class="list-group-item d-flex justify-content-between align-items-center listgroup">
                                 <h5 class="card-title text-center">
                                     <a
                                         href="{{route('item.base_index',['base'=>$base, 'project' => $project, 'role' => $role, 'relit_id' => 0])}}"
-                                        title="{{$base->names()}}">
-                                        {{$base->names()}}
+                                        title="{{$base_names}}">
+                                        {{$base_names}}
                                     </a>
                                 </h5>
 {{--                                <span--}}

@@ -11,11 +11,11 @@ if ($item){
 <head>
     <meta charset="UTF-8">
     @include('layouts.style_header')
-    <title>{{$base->names()}}</title>
+    <title>{{$base->names($base_right)}}</title>
 </head>
 <body>
 <p>
-<h3 class="display-5 text-center">{{$base->names()}}</h3>
+<h3 class="display-5 text-center">{{$base->names($base_right)}}</h3>
 <p>
 <form class="navbar-form navbar-right" role="search">
     <div class="row justify-content-center">

@@ -47,21 +47,44 @@ class Base extends Model
     }
 
     // Используется "names"
-    function names()
+    function names($base_right = null)
     {
         $result = "";  // нужно, не удалять
-//      $index = array_search(App::getLocale(), config('app.locales'));
-        $index = array_search(App::getLocale(), config('app.locales'));
-        if ($index !== false) {   // '!==' использовать, '!=' не использовать
-            $result = $this['names_lang_' . $index];
+        $is_names = false;
+        if ($this['maxcount_lst'] == 1) {
+            // Наименование
+            $is_names = false;
+        } else {
+            if ($base_right) {
+                if ($base_right['is_list_base_byuser'] == true && $this['maxcount_byuser_lst'] == 1) {
+                    // Наименование
+                    $is_names = false;
+                } else {
+                    // Наименования
+                    $is_names = true;
+                }
+            } else {
+                // Наименования
+                $is_names = true;
+            }
         }
-//        if ($result == "") {
-//            $result = $this->names_lang_0;
-//        }
+        if ($is_names) {
+            // Наименования
+            $index = array_search(App::getLocale(), config('app.locales'));
+            if ($index !== false) {   // '!==' использовать, '!=' не использовать
+                $result = $this['names_lang_' . $index];
+            }
+            //        if ($result == "") {
+            //            $result = $this->names_lang_0;
+            //        }
+        } else {
+            // Наименование
+            $result = $this->name();
+        }
         return $result;
     }
 
-    // Используется "desc"
+// Используется "desc"
     function desc()
     {
         $result = "";  // нужно, не удалять
@@ -72,15 +95,15 @@ class Base extends Model
         return $result;
     }
 
-    // Используется "desc" c "type"
+// Используется "desc" c "type"
     function desc_type()
     {
         return $this->desc() . ' (' . $this->type_name() . ')';
     }
 
-    // Похожие строки в BaseController.php (function store() и edit())
-    // и base/edit.blade.php
-    // и ModerationController (function index())
+// Похожие строки в BaseController.php (function store() и edit())
+// и base/edit.blade.php
+// и ModerationController (function index())
     static function get_types()
     {
         return array(
@@ -243,7 +266,7 @@ class Base extends Model
 //        return $link;
 //    }
 
-    // Возвращает истину, если вид отображения информации - плитка, и если есть основное изображение в links
+// Возвращает истину, если вид отображения информации - плитка, и если есть основное изображение в links
     function tile_view($base_right)
     {
         $result = false;
@@ -261,7 +284,7 @@ class Base extends Model
         return ['result' => $result, 'link' => $link];
     }
 
-    // Возвращает $link  с признаком 'parent_is_setup_project_logo_img'
+// Возвращает $link  с признаком 'parent_is_setup_project_logo_img'
     function get_link_project_logo()
     {
         //$link = $this->child_links()->where('parent_is_setup_project_logo_img', true)->first();
@@ -275,8 +298,8 @@ class Base extends Model
         return $link;
     }
 
-    // Возвращает $link  с признаками 'parent_is_setup_project_external_description_txt' и 'parent_is_setup_project_internal_description_txt',
-    // признаки передаются как параметры функции
+// Возвращает $link  с признаками 'parent_is_setup_project_external_description_txt' и 'parent_is_setup_project_internal_description_txt',
+// признаки передаются как параметры функции
     function get_link_project_description($name)
     {
         $link = $this->child_links()->where($name, true)->first();

@@ -85,7 +85,7 @@
                                     @if($base_right['is_bsmn_base_enable'] == true)
                                         <a href="{{route('item.base_index', ['base'=>$item->base,
                             'project'=>$project, 'role'=>$role, 'relit_id'=>$relit_id])}}"
-                                           title="{{$item->base->names() . $message_bs_info}}">
+                                           title="{{$item->base->names($base_right) . $message_bs_info}}">
                                             @endif
                                             {{$title}}:
                                             @if ($base_right['is_bsmn_base_enable'] == true)
@@ -130,7 +130,7 @@
                         @if($base_right['is_bsmn_base_enable'] == true)
                             <a href="{{route('item.base_index', ['base'=>$item->base,
                             'project'=>$project, 'role'=>$role, 'relit_id'=>$relit_id])}}"
-                               title="{{$item->base->names() . $message_bs_info}}">
+                               title="{{$item->base->names($base_right) . $message_bs_info}}">
                                 @endif
                                 {{$title}}:
                                 @if ($base_right['is_bsmn_base_enable'] == true)
@@ -544,7 +544,7 @@
                             @if($base_body_right['is_bsmn_base_enable'] == true)
                                 <a href="{{route('item.base_index', ['base'=>$view_link->child_base,
                             'project'=>$project, 'role'=>$role, 'relit_id'=>$view_ret_id])}}"
-                                   title="{{$view_link->child_base->names() . $message_ln_info}}">
+                                   title="{{$view_link->child_base->names($base_body_right) . $message_ln_info}}">
                                     @endif
                                     {{$view_link->child_labels()}}:
                                     @if($base_body_right['is_bsmn_base_enable'] == true)

@@ -89,7 +89,7 @@
                     <li>
                         @if($base_link_right['is_bsmn_base_enable'] == true)
                             <a href="{{route('item.base_index',['base'=>$link->parent_base_id, 'project'=>$project, 'role'=>$role, 'relit_id'=>$link->parent_relit_id])}}"
-                               title="{{$link->parent_base->names()}}">
+                               title="{{$link->parent_base->names($base_link_right)}}">
                                 @include('layouts.item.ext_show.parent_label', ['link'=>$link, 'par_link'=>$par_link])
                             </a>
                         @else
