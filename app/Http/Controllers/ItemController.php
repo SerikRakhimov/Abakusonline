@@ -859,7 +859,7 @@ class ItemController extends Controller
             $base_link_right = GlobalController::base_link_right($link, $role, $view_ret_id, true, $relit_id);
             // Использовать две этих проверки
             //if (($base_link_right['is_body_link_enable'] == true) && ($base_link_right['is_list_base_calc'] == true))
-            if ($base_link_right['is_body_link_enable'] == true) {
+            if (($base_link_right['is_body_link_enable'] == true) && ($base_link_right['is_list_base_calc'] == true)) {
                 // Такая же проверка и в GlobalController (function items_right()),
                 // в ItemController (function next_all_links_mains_calc(), browser(), get_items_for_link(), get_items_ext_edit_for_link())
                 if ($base_link_right['is_list_base_byuser'] == true) {
