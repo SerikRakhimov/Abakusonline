@@ -66,7 +66,8 @@ class LinkController extends Controller
 
         $items = null;
         session(['links' => ((!empty($_SERVER['HTTPS'])) ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . '/' . request()->path()]);
-        return view('link/base_index', ['base' => $base, 'links' => Link::where('child_base_id', $base->id)->orderBy('parent_base_number')->get()]);
+        return view('link/base_index', ['base' => $base,
+            'links' => Link::where('child_base_id', $base->id)->orderBy('parent_base_number')->get()]);
     }
 
 
