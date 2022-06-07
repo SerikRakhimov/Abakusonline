@@ -609,13 +609,15 @@ class GlobalController extends Controller
                         // и с признаком "Ссылка на Основу"
                         //->where('links.parent_is_base_link', false)
                         // '->orderBy('links.parent_base_number')' обязательно нужно, в таком порядке и на экран записи выходят
+                        // '->get()' нужно
                         $links = Link::select(DB::Raw('links.*'))
                             ->join('bases as pb', 'links.parent_base_id', '=', 'pb.id')
                             ->where('links.child_base_id', '=', $base->id)
                             ->where('links.parent_is_base_link', false)
                             ->where('pb.type_is_image', false)
                             ->where('pb.type_is_document', false)
-                            ->orderBy('links.parent_base_number');
+                            ->orderBy('links.parent_base_number')
+                            ->get();
 
                         // '$items = $items->get();' нужно
                         $items = $items->get();
@@ -630,7 +632,9 @@ class GlobalController extends Controller
                                     if ($item_find) {
                                         // Формирование вычисляемой строки для сортировки
                                         // Для строковых данных для сортировки берутся первые 50 символов
-                                        if ($item_find->base->type_is_list() || $item_find->base->type_is_string()) {
+                                        if ($item_find->base->type_is_list()
+                                            || $item_find->base->type_is_string()
+                                            || $item_find->base->type_is_text()) {
                                             $str = $str . str_pad(trim($item_find[$name]), 50);
                                         } else {
                                             $str = $str . trim($item_find[$name]);
