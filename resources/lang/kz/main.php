@@ -420,7 +420,7 @@ return [
     'is_bsin_base_enable' => 'Негізді тізімде көрсету base_index',
     'is_bsin_base_enable_rule' => 'Осы нұсқада «Негізді тізімде көрсету base_index» белгісін алып тастау қажет («Тізімдегі Негізді жасау», «Тізімдегі Негіздерді оқу», «Тізімдегі Негіздерді түзету», «Тізімдегі Негіздерді жою»)',
     'is_exclude_related_records' => 'Байланған жазбаларды болдырмау',
-    'is_skip_count_records_equal_1_body_index' => 'Егер жазбалар саны 1-ге тең болса, онда тізімді өткізіп жіберу керек base_index',
+    'is_skip_count_records_equal_1_base_index' => 'Егер жазбалар саны 1-ге тең болса, онда тізімді өткізіп жіберу керек base_index',
     'is_skip_count_records_equal_1_item_body_index' => 'Егер жазбалар саны 1-ге тең болса, онда тізімді өткізіп жіберу керек item_body_index',
     'value_not_found' => 'Мән табылмады',
     'is_calcnm_correct_lst' => 'Есептелетін атау дұрыс',

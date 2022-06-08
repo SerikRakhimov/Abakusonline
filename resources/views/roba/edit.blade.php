@@ -226,21 +226,21 @@
             </div>
         </div>
 
-        <div class="form-group row" id="is_skip_count_records_equal_1_body_index_form_group">
+        <div class="form-group row" id="is_skip_count_records_equal_1_base_index_form_group">
             <div class="col-sm-3 text-right">
                 <label class="form-label"
-                       for="is_skip_count_records_equal_1_body_index">{{trans('main.is_skip_count_records_equal_1_body_index')}}</label>
+                       for="is_skip_count_records_equal_1_base_index">{{trans('main.is_skip_count_records_equal_1_base_index')}}</label>
             </div>
             <div class="col-sm-7">
-                <input class="@error('is_skip_count_records_equal_1_body_index') is-invalid @enderror"
+                <input class="@error('is_skip_count_records_equal_1_base_index') is-invalid @enderror"
                        type="checkbox"
-                       name="is_skip_count_records_equal_1_body_index"
+                       name="is_skip_count_records_equal_1_base_index"
                        placeholder=""
-                       @if ((old('is_skip_count_records_equal_1_body_index') ?? ($roba->is_skip_count_records_equal_1_body_index ?? false)) ==  true)
+                       @if ((old('is_skip_count_records_equal_1_base_index') ?? ($roba->is_skip_count_records_equal_1_base_index ?? false)) ==  true)
                        checked
                     @endif
                 >
-                @error('is_skip_count_records_equal_1_body_index')
+                @error('is_skip_count_records_equal_1_base_index')
                 <div class="invalid-feedback">
                     {{$message}}
                 </div>

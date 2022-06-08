@@ -277,7 +277,7 @@ class ItemController extends Controller
 //            }
             // Нужно '$redirect_item_index = false;'
             $redirect_item_index = false;
-            if ($base_right['is_skip_count_records_equal_1_body_index'] == true) {
+            if ($base_right['is_skip_count_records_equal_1_base_index'] == true) {
                 if (count($items) == 1) {
                     $item = $items->first();
                     if ($item) {

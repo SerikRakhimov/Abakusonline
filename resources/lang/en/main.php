@@ -420,7 +420,7 @@ return [
     'is_bsin_base_enable' => 'Show Base in list base_index',
     'is_bsin_base_enable_rule' => 'In this option, "Show Base in list base_index" should be removed (incompatibility with "Create Base in the list," "Read Base in the list," "Adjust Base in the list," "Delete Base in the list")',
     'is_exclude_related_records' => 'Exclude related records',
-    'is_skip_count_records_equal_1_body_index' => 'If the count of entries is 1, skip the list base_index',
+    'is_skip_count_records_equal_1_base_index' => 'If the count of entries is 1, skip the list base_index',
     'is_skip_count_records_equal_1_item_body_index' => 'If the count of entries is 1, skip the list base_index',
     'value_not_found' => 'Value not found',
     'is_calcnm_correct_lst' => 'Calculated name is correct',

@@ -420,7 +420,7 @@ return [
     'is_bsin_base_enable' => 'Показывать Основу в списке base_index',
     'is_bsin_base_enable_rule' => 'В данном варианте у "Показывать Основу в списке base_index" нужно убрать пометку (несовместимость с "Создание Основы в списке", "Чтение Основы в списке", "Корректировка Основы в списке", "Удаление Основы в списке")',
     'is_exclude_related_records' => 'Исключить связанные записи',
-    'is_skip_count_records_equal_1_body_index' => 'Если количество записей равно 1, то пропустить список base_index',
+    'is_skip_count_records_equal_1_base_index' => 'Если количество записей равно 1, то пропустить список base_index',
     'is_skip_count_records_equal_1_item_body_index' => 'Если количество записей равно 1, то пропустить список item_body_index',
     'value_not_found' => 'Значение не найдено',
     'is_calcnm_correct_lst' => 'Вычисляемое наименование корректно',
