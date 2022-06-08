@@ -417,6 +417,7 @@ class ItemController extends Controller
 //        // 'itget' нужно
 //        $items = $items_right['itget'];
         $items = $items_right['items'];
+
         $prev_item = $items_right['prev_item'];
         $next_item = $items_right['next_item'];
 
@@ -686,7 +687,8 @@ class ItemController extends Controller
                 'array_relips' => $array_relips,
                 'base_right' => $base_right, 'items' => $items,
                 'prev_item' => $prev_item, 'next_item' => $next_item,
-                'child_links' => $child_links, 'child_links_info' => $child_links_info,
+                'child_links' => $child_links,
+                'child_links_info' => $child_links_info,
                 'child_mains_link_is_calcname' => $child_mains_link_is_calcname,
                 'child_body_links_info' => $child_body_links_info,
                 'body_items' => $body_items,

@@ -533,11 +533,12 @@ class GlobalController extends Controller
                     ->where('mains.link_id', '=', $mains_link_id);
 
                 if ($view_ret_id == 0) {
-//                $items_ids = $items_ids
-//                    ->where('items.project_id', '=', $parent_proj->id);
+                    // Использовать '$parent_proj->id'
+                $items_ids = $items_ids
+                    ->where('items.project_id', '=', $parent_proj->id);
                     // Использовать '$project->id'
-                    $items_ids = $items_ids
-                        ->where('items.project_id', '=', $project->id);
+//                    $items_ids = $items_ids
+//                        ->where('items.project_id', '=', $project->id);
                 } else {
                     $items_ids = $items_ids
                         ->join('relips', 'items.project_id', '=', 'relips.parent_project_id')
