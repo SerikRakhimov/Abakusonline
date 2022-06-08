@@ -82,6 +82,8 @@ class GlobalController extends Controller
         $is_list_base_sort_creation_date_desc = $role->is_list_base_sort_creation_date_desc;
         $is_bsin_base_enable = $role->is_bsin_base_enable;
         $is_exclude_related_records = $role->is_exclude_related_records;
+        $is_skip_count_records_equal_1_body_index = false;
+        $is_skip_count_records_equal_1_item_body_index = false;
         $is_list_base_create = $role->is_list_base_create;
         $is_list_base_read = $role->is_list_base_read;
         $is_list_base_update = $role->is_list_base_update;
@@ -200,10 +202,13 @@ class GlobalController extends Controller
         //$roba = Roba::where('role_id', $role->id)->where('base_id', $base->id)->first();
         $roba = Roba::where('role_id', $role->id)->where('relit_id', $relit_id)->where('base_id', $base->id)->first();
         if ($roba != null) {
+            //dd($is_roba_skip_count_records_equal_1_body_index);
             $is_roba_all_base_calcname_enable = $roba->is_all_base_calcname_enable;
             $is_roba_list_base_sort_creation_date_desc = $roba->is_list_base_sort_creation_date_desc;
             $is_roba_mnmn_base_enable = $roba->is_bsin_base_enable;
             $is_roba_exclude_related_records = $roba->is_exclude_related_records;
+            $is_roba_skip_count_records_equal_1_body_index = $roba->is_skip_count_records_equal_1_body_index;
+            $is_roba_skip_count_records_equal_1_item_body_index = $roba->is_skip_count_records_equal_1_item_body_index;
             $is_roba_list_base_create = $roba->is_list_base_create;
             $is_roba_list_base_read = $roba->is_list_base_read;
             $is_roba_list_base_update = $roba->is_list_base_update;
@@ -246,26 +251,28 @@ class GlobalController extends Controller
             }
 
             $is_roba_list_base_calc = $is_roba_list_base_create || $is_roba_list_base_read || $is_roba_list_base_update || $is_roba_list_base_delete;
-//            $is_roba_edit_base_enable = $is_roba_edit_base_read || $is_roba_edit_base_update;
-//            $is_roba_edit_link_enable = $is_roba_edit_link_read || $is_roba_edit_link_update;
+//          $is_roba_edit_base_enable = $is_roba_edit_base_read || $is_roba_edit_base_update;
+//          $is_roba_edit_link_enable = $is_roba_edit_link_read || $is_roba_edit_link_update;
 
             $is_list_base_calc = $is_roba_list_base_calc;
             $is_all_base_calcname_enable = $is_roba_all_base_calcname_enable;
             $is_list_base_sort_creation_date_desc = $is_roba_list_base_sort_creation_date_desc;
             $is_bsin_base_enable = $is_roba_mnmn_base_enable;
             $is_exclude_related_records = $is_roba_exclude_related_records;
+            $is_skip_count_records_equal_1_body_index = $is_roba_skip_count_records_equal_1_body_index;
+            $is_skip_count_records_equal_1_item_body_index = $is_roba_skip_count_records_equal_1_item_body_index;
             $is_list_base_create = $is_roba_list_base_create;
             $is_list_base_read = $is_roba_list_base_read;
             $is_list_base_update = $is_roba_list_base_update;
             $is_list_base_delete = $is_roba_list_base_delete;
             $is_list_base_used_delete = $is_roba_list_base_used_delete;
             $is_list_base_byuser = $is_roba_list_base_byuser;
-//            $is_edit_base_enable = $is_roba_edit_base_enable;
+//          $is_edit_base_enable = $is_roba_edit_base_enable;
             $is_edit_base_read = $is_roba_edit_base_read;
             $is_edit_base_update = $is_roba_edit_base_update;
             $is_list_base_enable = $is_roba_list_base_enable;
             $is_body_link_enable = $is_roba_body_link_enable;
-//            $is_edit_link_enable = $is_roba_edit_link_enable;
+//          $is_edit_link_enable = $is_roba_edit_link_enable;
             $is_show_base_enable = $is_roba_show_base_enable;
             $is_show_link_enable = $is_roba_show_link_enable;
             $is_edit_link_read = $is_roba_edit_link_read;
@@ -288,6 +295,8 @@ class GlobalController extends Controller
             'is_bsin_base_enable' => $is_bsin_base_enable,
             'is_bsmn_base_enable' => $is_list_base_calc && $is_bsin_base_enable,
             'is_exclude_related_records' => $is_exclude_related_records,
+            'is_skip_count_records_equal_1_body_index' => $is_skip_count_records_equal_1_body_index,
+            'is_skip_count_records_equal_1_item_body_index' => $is_skip_count_records_equal_1_item_body_index,
             'is_list_base_create' => $is_list_base_create,
             'is_list_base_read' => $is_list_base_read,
             'is_list_base_update' => $is_list_base_update,
@@ -352,6 +361,8 @@ class GlobalController extends Controller
         $is_list_base_sort_creation_date_desc = $base_right['is_list_base_sort_creation_date_desc'];
         $is_bsin_base_enable = $base_right['is_bsin_base_enable'];
         $is_exclude_related_records = $base_right['is_exclude_related_records'];
+        $is_skip_count_records_equal_1_body_index = $base_right['is_skip_count_records_equal_1_body_index'];
+        $is_skip_count_records_equal_1_item_body_index = $base_right['is_skip_count_records_equal_1_item_body_index'];
         $is_list_base_create = $base_right['is_list_base_create'];
         $is_list_base_read = $base_right['is_list_base_read'];
         $is_list_base_update = $base_right['is_list_base_update'];
@@ -422,6 +433,8 @@ class GlobalController extends Controller
             'is_bsin_base_enable' => $is_bsin_base_enable,
             'is_bsmn_base_enable' => $is_list_base_calc && $is_bsin_base_enable,
             'is_exclude_related_records' => $is_exclude_related_records,
+            'is_skip_count_records_equal_1_body_index' => $is_skip_count_records_equal_1_body_index,
+            'is_skip_count_records_equal_1_item_body_index' => $is_skip_count_records_equal_1_item_body_index,
             'is_list_base_create' => $is_list_base_create,
             'is_list_base_read' => $is_list_base_read,
             'is_list_base_update' => $is_list_base_update,

@@ -240,6 +240,7 @@ return [
     'is_show_email_question_base_delete' => 'Request to send e-mail after deleting Bases when viewing',
     'is_list_base_create_rule' => 'Create Bases in List and Read Basics in Form must not be the same (True)',
     'is_list_base_read_rule' => 'In this case, you need to uncheck "Reading Bases in the list" (incompatibility with "Creating Bases in the list", "Updating the Bases in the List", "Delete the Bases from the list")',
+    'is_list_base_read_skip_rule' => 'In this option, "Reading Bases in the List" should be marked (incompatibility with "If the number of records is 1, then skip the list, base_index"" If the number of records is 1, then skip the list item_body_index")',
     'is_list_base_used_delete_rule' => 'In this case, you need to uncheck "Delete if the Base is used in other Bases" (incompatibility with "Delete the Bases from the list")',
     'is_edit_base_read_rule' => 'This option is not allowed ("Reading Bases in the form" = True and "Update the Bases in the form" = True)',
     'is_edit_link_read_rule' => 'This option is not allowed ("Reading Links in the form" = True and "Update of the Link in the form" = True)',
@@ -419,6 +420,8 @@ return [
     'is_bsin_base_enable' => 'Show Base in list base_index',
     'is_bsin_base_enable_rule' => 'In this option, "Show Base in list base_index" should be removed (incompatibility with "Create Base in the list," "Read Base in the list," "Adjust Base in the list," "Delete Base in the list")',
     'is_exclude_related_records' => 'Exclude related records',
+    'is_skip_count_records_equal_1_body_index' => 'If the count of entries is 1, skip the list base_index',
+    'is_skip_count_records_equal_1_item_body_index' => 'If the count of entries is 1, skip the list base_index',
     'value_not_found' => 'Value not found',
     'is_calcnm_correct_lst' => 'Calculated name is correct',
     ];

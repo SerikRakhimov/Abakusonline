@@ -268,25 +268,40 @@ class ItemController extends Controller
             $body_all_page_current = 0;
             //if ($items) {
             $base_index_page_current = $items->currentPage();
-            //}
+            //}pphioh
 
 //            // Похожая проверка в GlobalController::get_project_bases(), ItemController::base_index() и project/start.php
 //            // Две проверки использовать
 //            if ($base_right['is_list_base_calc'] == false || $base_right['is_bsin_base_enable'] == false) {
 //                return view('message', ['message' => trans('main.no_access')]);
 //            }
-
-            session(['base_index_previous_url' => ((!empty($_SERVER['HTTPS'])) ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . '/' . request()->path()]);
-            // Нужно 'GlobalController::const_null()' 'null/null/null/', иначе в строке с параметрами будет '///' (дает ошибку)
-            return view('item/base_index', ['base_right' => $base_right, 'base' => $base, 'project' => $project, 'role' => $role, 'relit_id' => $relit_id,
-                'string_all_codes_current' => GlobalController::const_null(),
-                'string_link_ids_current' => GlobalController::const_null(),
-                'string_item_ids_current' => GlobalController::const_null(),
-                'items' => $items, 'links_info' => $links_info, 'is_table_body' => $is_table_body,
-                'base_index_page' => $base_index_page_current,
-                'body_link_page' => $body_link_page_current,
-                'body_all_page' => $body_all_page_current
-            ]);
+            // Нужно '$redirect_item_index = false;'
+            $redirect_item_index = false;
+            if ($base_right['is_skip_count_records_equal_1_body_index'] == true) {
+                if (count($items) == 1) {
+                    $item = $items->first();
+                    if ($item) {
+                        $redirect_item_index = true;
+                        return redirect()->route('item.item_index', ['project' => $project, 'item' => $item, 'role' => $role,
+                            'usercode' => GlobalController::usercode_calc(),
+                            'relit_id' => $relit_id
+                        ]);
+                    }
+                }
+            }
+            if ($redirect_item_index == false) {
+                session(['base_index_previous_url' => ((!empty($_SERVER['HTTPS'])) ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . '/' . request()->path()]);
+                // Нужно 'GlobalController::const_null()' 'null/null/null/', иначе в строке с параметрами будет '///' (дает ошибку)
+                return view('item/base_index', ['base_right' => $base_right, 'base' => $base, 'project' => $project, 'role' => $role, 'relit_id' => $relit_id,
+                    'string_all_codes_current' => GlobalController::const_null(),
+                    'string_link_ids_current' => GlobalController::const_null(),
+                    'string_item_ids_current' => GlobalController::const_null(),
+                    'items' => $items, 'links_info' => $links_info, 'is_table_body' => $is_table_body,
+                    'base_index_page' => $base_index_page_current,
+                    'body_link_page' => $body_link_page_current,
+                    'body_all_page' => $body_all_page_current
+                ]);
+            }
         } else {
             return view('message', ['message' => trans('main.no_access_for_unregistered_users')]);
         }

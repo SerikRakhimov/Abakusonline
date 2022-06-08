@@ -15,11 +15,11 @@
     $message_bs_info = $message_bs_calc['message_bs_info'];
     $message_bs_validate = $message_bs_calc['message_bs_validate'];
 
-    $heading = 1;
+    $heading = 0;
     $parent_ret_id = 0;
     $relit_id_par = null;
     $parent_ret_id_par = null;
-    if ($heading == 1) {
+    if ($heading == 0) {
         $relit_id_par = $relit_id;
         $parent_ret_id_par = $parent_ret_id;
     } else {
@@ -217,7 +217,7 @@
                 <div class="card shadow">
                     @if($base->is_code_needed == true)
                         <a href="{{route('item.ext_show', ['item'=>$item, 'project'=>$project, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id,
-                                    'heading'=>0,'base_index_page'=>$base_index_page, 'body_link_page'=>$body_link_page,'body_all_page'=>$body_all_page,
+                                    'heading' => $heading,'base_index_page'=>$base_index_page, 'body_link_page'=>$body_link_page,'body_all_page'=>$body_all_page,
                                     'par_link'=>null, 'parent_item'=>null,
                              'string_all_codes_current' => $string_all_codes_current,
                              'string_link_ids_current' => $string_link_ids_current,
@@ -232,7 +232,7 @@
                             <div class="text-center">
                                 {{-- https://askdev.ru/q/kak-vyzvat-funkciyu-javascript-iz-tega-href-v-html-276225/--}}
                                 <a href="{{route('item.ext_show', ['item'=>$item, 'project'=>$project, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id,
-                                    'heading'=>0,'base_index_page'=>$base_index_page, 'body_link_page'=>$body_link_page,'body_all_page'=>$body_all_page,
+                                    'heading' => $heading,'base_index_page'=>$base_index_page, 'body_link_page'=>$body_link_page,'body_all_page'=>$body_all_page,
                                     'par_link'=>null, 'parent_item'=>null,
                              'string_all_codes_current' => $string_all_codes_current,
                              'string_link_ids_current' => $string_link_ids_current,
@@ -246,7 +246,7 @@
                         {{--                    <div class="card-footer">--}}
                         <h5 class="card-title text-center"><a
                                 href="{{route('item.ext_show', ['item'=>$item, 'project'=>$project, 'role'=>$role, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id,
-                                    'heading'=>0,'base_index_page'=>$base_index_page, 'body_link_page'=>$body_link_page,'body_all_page'=>$body_all_page,
+                                    'heading' => $heading,'base_index_page'=>$base_index_page, 'body_link_page'=>$body_link_page,'body_all_page'=>$body_all_page,
                                     'par_link'=>null, 'parent_item'=>null,
                              'string_all_codes_current' => $string_all_codes_current,
                              'string_link_ids_current' => $string_link_ids_current,
@@ -325,7 +325,7 @@
         {{--                        @endfor--}}
         {{--                        </tr>--}}
         {{--                    @endif--}}
-        {{--        Используется 'heading'=>0'--}}
+        {{--        Используется 'heading' => $heading'--}}
         {{-- "'view_ret_id'=>0", 0 - текущий проект--}}
         @include('list.table',['base'=>$base, 'links_info'=>$links_info, 'items'=>$items,
                     'base_right'=>$base_right, 'item_view'=>true,
@@ -336,7 +336,7 @@
                     'string_all_codes_next' => $string_all_codes_current,
                     'string_link_ids_next' => $string_link_ids_current,
                     'string_item_ids_next' => $string_item_ids_current,
-                    'heading'=> 0,
+                    'heading' => $heading,
                     'base_index_page'=>$base_index_page, 'body_link_page'=>$body_link_page,'body_all_page'=>$body_all_page,
                     'view_link'=>null,
                     'view_ret_id'=>0,

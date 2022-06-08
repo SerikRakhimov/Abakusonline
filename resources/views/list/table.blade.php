@@ -40,9 +40,9 @@ if ($base_index == true) {
             @if($base->is_code_needed == true)
                 <th class="text-center align-top" rowspan="{{$rows + 1}}">{{trans('main.code')}}</th>
             @endif
-                @if($base_right['is_list_base_sort_creation_date_desc'] == true)
-                    <th class="text-center align-top" rowspan="{{$rows + 1}}">{{trans('main.date')}}</th>
-                @endif
+            @if($base_right['is_list_base_sort_creation_date_desc'] == true)
+                <th class="text-center align-top" rowspan="{{$rows + 1}}">{{trans('main.date')}}</th>
+            @endif
             @if($base_right['is_list_base_enable'] == true)
                 {{--                Если тип-вычисляемое наименование и Показывать Основу с вычисляемым наименованием--}}
                 {{--                или если тип-не вычисляемое наименование--}}
@@ -148,8 +148,8 @@ if ($base_index == true) {
             @if($base_index || $item_body_base)
                 @if($base->is_code_needed == true)
                     <td class="text-center">
-{{--                        @if($base_index || $item_body_base)--}}
-                            <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,
+                        {{--                        @if($base_index || $item_body_base)--}}
+                        <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,
         'usercode' =>GlobalController::usercode_calc(),
         'relit_id'=>$relit_id,
         'view_link'=>$i_par_link,
@@ -161,18 +161,18 @@ if ($base_index == true) {
         'prev_body_link_page'=>$body_link_page,
         'prev_body_all_page'=>$body_all_page,
         ])}}"
-                               title="{{$item->name()}}">
-{{--                                @endif--}}
-                                {{$item->code}}
-{{--                                @if($base_index || $item_body_base)--}}
-                            </a>
-{{--                        @endif--}}
+                           title="{{$item->name()}}">
+                            {{--                                @endif--}}
+                            {{$item->code}}
+                            {{--                                @if($base_index || $item_body_base)--}}
+                        </a>
+                        {{--                        @endif--}}
                     </td>
                 @endif
-                    @if($base_right['is_list_base_sort_creation_date_desc'] == true)
-                        <td class="text-center">
-{{--                            @if($base_index || $item_body_base)--}}
-                                <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,
+                @if($base_right['is_list_base_sort_creation_date_desc'] == true)
+                    <td class="text-center">
+                        {{--                            @if($base_index || $item_body_base)--}}
+                        <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,
         'usercode' =>GlobalController::usercode_calc(),
         'relit_id'=>$relit_id,
         'view_link'=>$i_par_link,
@@ -184,13 +184,13 @@ if ($base_index == true) {
         'prev_body_link_page'=>$body_link_page,
         'prev_body_all_page'=>$body_all_page,
         ])}}"
-                                   title="{{$item->name()}}">
-{{--                                    @endif--}}
-                                    {{$item->created_date()}}
-{{--                                    @if($base_index || $item_body_base)--}}
-                                </a>
-{{--                            @endif--}}
-                    @endif
+                           title="{{$item->name()}}">
+                            {{--                                    @endif--}}
+                            {{$item->created_date()}}
+                            {{--                                    @if($base_index || $item_body_base)--}}
+                        </a>
+                    {{--                            @endif--}}
+                @endif
                 @if($base_right['is_list_base_enable'] == true)
                     {{--                Если тип-вычисляемое наименование и Показывать Основу с вычисляемым наименованием--}}
                     {{--                или если тип-не вычисляемое наименование--}}

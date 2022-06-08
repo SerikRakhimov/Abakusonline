@@ -226,6 +226,54 @@
             </div>
         </div>
 
+        <div class="form-group row" id="is_skip_count_records_equal_1_body_index_form_group">
+            <div class="col-sm-3 text-right">
+                <label class="form-label"
+                       for="is_skip_count_records_equal_1_body_index">{{trans('main.is_skip_count_records_equal_1_body_index')}}</label>
+            </div>
+            <div class="col-sm-7">
+                <input class="@error('is_skip_count_records_equal_1_body_index') is-invalid @enderror"
+                       type="checkbox"
+                       name="is_skip_count_records_equal_1_body_index"
+                       placeholder=""
+                       @if ((old('is_skip_count_records_equal_1_body_index') ?? ($roba->is_skip_count_records_equal_1_body_index ?? false)) ==  true)
+                       checked
+                    @endif
+                >
+                @error('is_skip_count_records_equal_1_body_index')
+                <div class="invalid-feedback">
+                    {{$message}}
+                </div>
+                @enderror
+            </div>
+            <div class="col-sm-2">
+            </div>
+        </div>
+
+        <div class="form-group row" id="is_skip_count_records_equal_1_item_body_index_form_group">
+            <div class="col-sm-3 text-right">
+                <label class="form-label"
+                       for="is_skip_count_records_equal_1_item_body_index">{{trans('main.is_skip_count_records_equal_1_item_body_index')}}</label>
+            </div>
+            <div class="col-sm-7">
+                <input class="@error('is_skip_count_records_equal_1_item_body_index') is-invalid @enderror"
+                       type="checkbox"
+                       name="is_skip_count_records_equal_1_item_body_index"
+                       placeholder=""
+                       @if ((old('is_skip_count_records_equal_1_item_body_index') ?? ($roba->is_skip_count_records_equal_1_item_body_index ?? false)) ==  true)
+                       checked
+                    @endif
+                >
+                @error('is_skip_count_records_equal_1_item_body_index')
+                <div class="invalid-feedback">
+                    {{$message}}
+                </div>
+                @enderror
+            </div>
+            <div class="col-sm-2">
+            </div>
+        </div>
+
         <div class="form-group row" id="is_list_base_create_form_group">
             <div class="col-sm-3 text-right">
                 <label class="form-label"
