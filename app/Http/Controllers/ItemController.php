@@ -671,11 +671,12 @@ class ItemController extends Controller
                         'relit_id' => $relit_id,
                         'view_link' => $view_link,
                         'string_link_ids_current' => $string_link_ids_current, 'string_item_ids_current' => $string_item_ids_current, 'string_all_codes_current' => $string_all_codes_current,
-                        'base_index_page' => $base_index_page_current, 'body_link_page' => $body_link_page_current, 'body_all_page' => $body_all_page_current,
                         'prev_base_index_page' => $prev_base_index_page,
                         'prev_body_link_page' => $prev_body_link_page,
                         'prev_body_all_page' => $prev_body_all_page,
                         'view_ret_id' => $view_ret_id]);
+//                    'base_index_page' => $base_index_page_current, 'body_link_page' => $body_link_page_current, 'body_all_page' => $body_all_page_current,
+
                 }
             } else {
                 return view('message', ['message' => 'view_ret_id: ' . mb_strtolower(trans('main.value_not_found'))]);
@@ -693,11 +694,10 @@ class ItemController extends Controller
                                 'usercode' => GlobalController::usercode_calc(),
                                 'relit_id' => $relit_id,
                                 'view_link' => $view_link,
-                                'string_link_ids_current' => $string_link_ids_current, 'string_item_ids_current' => $string_item_ids_current, 'string_all_codes_current' => $string_all_codes_current,
-                                'base_index_page' => $base_index_page_current, 'body_link_page' => $body_link_page_current, 'body_all_page' => $body_all_page_current,
-                                'prev_base_index_page' => $prev_base_index_page,
-                                'prev_body_link_page' => $prev_body_link_page,
-                                'prev_body_all_page' => $prev_body_all_page,
+                                'string_link_ids_current' => $string_link_ids_next, 'string_item_ids_current' => $string_item_ids_next, 'string_all_codes_current' => $string_all_codes_next,
+                                'prev_base_index_page' => $base_index_page_current,
+                                'prev_body_link_page' => $body_link_page_current,
+                                'prev_body_all_page' => $body_all_page_current,
                                 'view_ret_id' => $view_ret_id]);
                         }
                     }
@@ -707,7 +707,6 @@ class ItemController extends Controller
                 $message_bs_calc = ItemController::message_bs_calc($relip_project, $item->base);
                 $message_bs_info = $message_bs_calc['message_bs_info'];
                 $message_bs_validate = $message_bs_calc['message_bs_validate'];
-
 
                 return view('item/item_index', ['project' => $project, 'item' => $item, 'role' => $role,
                     'relit_id' => $relit_id,
