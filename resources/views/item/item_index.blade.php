@@ -26,6 +26,21 @@
     }
     // Нужно
     $view_link = GlobalController::set_un_par_view_link_null($view_link);
+
+//    $heading = 0;
+//    $relit_par_id = null;
+//    $parent_ret_par_id = null;
+//    if ($heading == 1) {
+//        $relit_par_id = $relit_id;
+//        $parent_ret_par_id = $view_ret_id;
+//    } else {
+//        $relit_par_id = $view_ret_id;
+//        $parent_ret_par_id = $relit_id;
+//    }
+    $relit_heading_id = GlobalController::set_relit_id($relit_id);
+    $view_ret_heading_id = GlobalController::set_relit_id($view_ret_id);
+    $relit_body_id = GlobalController::set_relit_id($view_ret_id);
+    $view_ret_body_id = GlobalController::set_relit_id($relit_id);
     ?>
     @include('layouts.project.show_project_role',['project'=>$project, 'role'=>$role, 'relit_id'=>$relit_id])
     {{--    <h3 class="display-5">--}}
@@ -184,23 +199,23 @@
             <div class="col-2 text-right">
                 @if ($base_right['is_list_base_create'] == true)
                     @if($message_bs_validate == "")
-                        <?php
-                        $heading = 1;
-                        $relit_id_par = null;
-                        $parent_ret_id_par = null;
-                        if ($heading == 1) {
-                            $relit_id_par = $relit_id;
-                            $parent_ret_id_par = $view_ret_id;
-                        } else {
-                            $relit_id_par = $view_ret_id;
-                            $parent_ret_id_par = $relit_id;
-                        }
-                        ?>
+<!--                        --><?php
+//                        $heading = 1;
+//                        $relit_id_par = null;
+//                        $parent_ret_id_par = null;
+//                        if ($heading == 1) {
+//                            $relit_id_par = $relit_id;
+//                            $parent_ret_id_par = $view_ret_id;
+//                        } else {
+//                            $relit_id_par = $view_ret_id;
+//                            $parent_ret_id_par = $relit_id;
+//                        }
+//                        ?>
                         <button type="button" class="btn btn-dreamer"
                                 title="{{trans('main.add') . " '". $item->base->name() . "' " . $message_bs_info}}"
                                 onclick="document.location='{{route('item.ext_create', ['base'=>$item->base,
                                              'project'=>$project, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(),
-                                             'relit_id' => GlobalController::set_relit_id($relit_id_par),
+                                             'relit_id' => $relit_heading_id,
                                              'string_link_ids_current'=>$string_link_ids_current,
                                              'string_item_ids_current'=>$string_item_ids_current,
                                              'string_all_codes_current'=>$string_all_codes_current,
@@ -208,7 +223,7 @@
                                              'base_index_page'=>$base_index_page, 'body_link_page'=>$body_link_page,'body_all_page'=>$body_all_page,
                                              'view_link'=>$view_link,
                                              'par_link'=>$tree_array_last_link_id, 'parent_item'=>$tree_array_last_item_id,
-                                             'parent_ret_id' => GlobalController::set_relit_id($parent_ret_id_par)
+                                             'parent_ret_id' => $view_ret_heading_id
                                              ])}}'">
                             <i class="fas fa-plus d-inline"></i>&nbsp;{{trans('main.add')}}
                         </button>
@@ -243,11 +258,11 @@
         {{--        Используется "'heading'=>intval(true)"--}}
         {{--        Используется "'items'=>$items->get()"--}}
         @include('list.table',['base'=>$item->base, 'project'=>$project, 'links_info'=>$child_links_info, 'items'=>$items->get(),
-                'base_right'=>$base_right, 'relit_id'=>$relit_id,
+                'base_right'=>$base_right, 'relit_id'=>$relit_heading_id,
                 'heading'=>intval(true),
                 'base_index_page'=>$base_index_page, 'body_link_page'=>$body_link_page,'body_all_page'=>$body_all_page,
                 'view_link'=>$view_link,
-                'view_ret_id'=>$view_ret_id,
+                'view_ret_id'=>$view_ret_heading_id,
                  'parent_item'=>$item, 'is_table_body'=>false,
                     'base_index'=>false, 'item_heading_base'=>true, 'item_body_base'=>false,
                     'string_link_ids_current' => $string_link_ids_current,
@@ -557,25 +572,25 @@
                         {{--                        @if ((count($body_items) > 0) || ($base_body_right['is_list_base_create'] == true))--}}
                         @if ($base_body_right['is_list_base_create'] == true)
                             @if($message_ln_validate == "")
-                                <?php
-                                $heading = 0;
-                                $relit_par_id = null;
-                                $parent_ret_par_id = null;
-                                if ($heading == 1) {
-                                    $relit_par_id = $relit_id;
-                                    $parent_ret_par_id = $view_ret_id;
-                                } else {
-                                    $relit_par_id = $view_ret_id;
-                                    $parent_ret_par_id = $relit_id;
-                                }
-                                ?>
+<!--                                --><?php
+//                                $heading = 0;
+//                                $relit_par_id = null;
+//                                $parent_ret_par_id = null;
+//                                if ($heading == 1) {
+//                                    $relit_par_id = $relit_id;
+//                                    $parent_ret_par_id = $view_ret_id;
+//                                } else {
+//                                    $relit_par_id = $view_ret_id;
+//                                    $parent_ret_par_id = $relit_id;
+//                                }
+//                                ?>
                                 {{-- Выводится $message_mc--}}
                                 <button type="button" class="btn btn-dreamer"
                                         title="{{trans('main.add'). " '" . $view_link->child_base->name() . "'" . $message_ln_info}}"
                                         onclick="document.location='{{route('item.ext_create', ['base'=>$view_link->child_base_id,
                                         'project'=>$project, 'role'=>$role,
                                         'usercode' =>GlobalController::usercode_calc(),
-                             'relit_id' => GlobalController::set_relit_id($relit_par_id),
+                             'relit_id' => $relit_body_id,
                              'string_all_codes_current' => $string_all_codes_current,
                              'string_link_ids_current' => $string_link_ids_current,
                              'string_item_ids_current' => $string_item_ids_current,
@@ -583,7 +598,8 @@
                              'base_index_page'=>$base_index_page, 'body_link_page'=>$body_link_page,'body_all_page'=>$body_all_page,
                              'view_link'=>$view_link,
                              'par_link'=>$view_link, 'parent_item'=>$item,
-                             'parent_ret_id' => GlobalController::set_relit_id($parent_ret_par_id)])}}'">
+                             'parent_ret_id' => $view_ret_body_id
+                             ])}}'">
                                     <i class="fas fa-plus d-inline"></i>&nbsp;{{trans('main.add')}}
                                 </button>
                             @endif
@@ -612,11 +628,11 @@
             {{-- 'view_link' передается затем (в list\table.php) в 'item.ext_show' как 'par_link'--}}
             @include('list.table',['base'=>$view_link->child_base, 'project'=>$project,
         'links_info'=>$child_body_links_info, 'items'=>$body_items,
-        'base_right'=>$base_body_right, 'relit_id'=>$relit_id,
+        'base_right'=>$base_body_right, 'relit_id'=>$relit_body_id,
         'heading'=>intval(false),
         'base_index_page'=>$base_index_page, 'body_link_page'=>$body_link_page,'body_all_page'=>$body_all_page,
         'view_link'=>$view_link,
-        'view_ret_id'=>$view_ret_id, 'parent_item'=>$item, 'is_table_body'=>false,
+        'view_ret_id'=>$view_ret_body_id, 'parent_item'=>$item, 'is_table_body'=>false,
             'base_index'=>false, 'item_heading_base'=>false, 'item_body_base'=>true,
             'string_link_ids_current' => $string_link_ids_current,
             'string_item_ids_current' => $string_item_ids_current,
@@ -659,22 +675,22 @@
                                     @foreach($next_all_links as $key=>$value)
                                         @if($next_all_is_create[$value->id] == true)
                                             @if($message_ln_link_array_item[$value->id] == "")
-                                                <?php
-                                                $heading = 0;
-                                                $relit_id_par = null;
-                                                $parent_ret_id_par = null;
-                                                if ($heading == 1) {
-                                                    $relit_id_par = $relit_id;
-                                                    $parent_ret_id_par = $view_ret_id;
-                                                } else {
-                                                    $relit_id_par = $view_ret_id;
-                                                    $parent_ret_id_par = $relit_id;
-                                                }
-                                                ?>
+<!--                                                --><?php
+//                                                $heading = 0;
+//                                                $relit_id_par = null;
+//                                                $parent_ret_id_par = null;
+//                                                if ($heading == 1) {
+//                                                    $relit_id_par = $relit_id;
+//                                                    $parent_ret_id_par = $view_ret_id;
+//                                                } else {
+//                                                    $relit_id_par = $view_ret_id;
+//                                                    $parent_ret_id_par = $relit_id;
+//                                                }
+//                                                ?>
                                                 <a class="dropdown-item" href="{{route('item.ext_create', ['base'=>$value->child_base_id,
                                                                                                 'project'=>$project, 'role'=>$role,
                                                                                                  'usercode' =>GlobalController::usercode_calc(),
-                                                                                     'relit_id' => GlobalController::set_relit_id($relit_id_par),
+                                                                                     'relit_id' => $relit_body_id,
                                                                                      'string_all_codes_current' => $string_all_codes_current,
                                                                                      'string_link_ids_current' => $string_link_ids_current,
                                                                                      'string_item_ids_current' => $string_item_ids_current,
@@ -682,7 +698,7 @@
                                                                                      'base_index_page'=>$base_index_page, 'body_link_page'=>$body_link_page,'body_all_page'=>$body_all_page,
                                                                                      'view_link'=>$value,
                                                                                      'par_link'=>$value, 'parent_item'=>$item,
-                                                                                     'parent_ret_id' => GlobalController::set_relit_id($parent_ret_id_par)
+                                                                                     'parent_ret_id' => $view_ret_body_id
                                                                                      ])}}"
                                                    title="{{trans('main.add') . $message_ln_array_info[$value->id]}}">
                                                     {{$value->child_label()}}
@@ -704,8 +720,8 @@
                 {{--        Используется "'heading'=>intval(false)"--}}
                 {{-- 'view_link' передавать не нужно, затем (в list\all.php) в 'item.ext_show' как 'par_link' передается $main->link--}}
                 @include('list.all',['project'=>$project,
-            'relit_id'=>$relit_id,
-            'view_ret_id'=>$view_ret_id,
+            'relit_id'=>$relit_body_id,
+            'view_ret_id'=>$view_ret_body_id,
             'next_all_mains'=>$next_all_mains,
             'next_all_is_code_enable'=>$next_all_is_code_enable,
             'next_all_is_calcname' => $next_all_is_calcname,

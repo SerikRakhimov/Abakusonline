@@ -1292,7 +1292,8 @@ class ItemController extends Controller
             'base_index_page' => $base_index_page, 'body_link_page' => $body_link_page, 'body_all_page' => $body_all_page,
             'view_link' => GlobalController::set_par_view_link_null($view_link),
             'par_link' => $par_link, 'parent_item' => $parent_item,
-            'parent_ret_id' => $parent_ret_id]);
+            'parent_ret_id' => $parent_ret_id
+        ]);
     }
 
     function ext_create(Base $base, Project $project, Role $role, $usercode, $relit_id,
