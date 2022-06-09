@@ -335,7 +335,7 @@ class ItemController extends Controller
 
         // Нужно
         if (GlobalController::find_base_from_relit_id($item->base_id, $relit_id, $project->template_id) == false) {
-            //return view('message', ['message' => trans('main.no_access') . ' Base = ' . $item->base->name() . ', relit_id = ' . $relit_id]);
+            return view('message', ['message' => trans('main.no_access') . ' Base = ' . $item->base->name() . ', relit_id = ' . $relit_id]);
         }
 
         //        $links_info = ItemController::links_info($base, $role);
