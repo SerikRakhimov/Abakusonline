@@ -333,6 +333,7 @@ class ItemController extends Controller
             return view('message', ['message' => trans('main.no_access')]);
         }
 
+        // Нужно
         if (GlobalController::find_base_from_relit_id($item->base_id, $relit_id, $project->template_id) == false) {
             return view('message', ['message' => trans('main.no_access')]);
         }
@@ -370,6 +371,7 @@ class ItemController extends Controller
             $tree_array = self::calc_tree_array($role, $relit_id, $string_link_ids_current, $string_item_ids_current, $string_all_codes_current);
         }
 
+        // Нужно
         if (empty($tree_array)) {
             if ($base_right['is_bsin_base_enable'] == false) {
                 return view('message', ['message' => trans('main.no_access')]);
