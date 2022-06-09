@@ -684,21 +684,26 @@ class ItemController extends Controller
             // Нужно '$redirect_item_index = false;'
             $redirect_item_index = false;
             if ($view_link) {
-                if ($base_right['is_skip_count_records_equal_1_item_body_index'] == true) {
+                if ($base_body_right['is_skip_count_records_equal_1_item_body_index'] == true) {
                     if (count($body_items) == 1) {
                         $item_redirect = $body_items->first();
                         if ($item_redirect) {
                             $redirect_item_index = true;
                             return redirect()->route('item.item_index', ['project' => $project, 'item' => $item_redirect, 'role' => $role,
                                 'usercode' => GlobalController::usercode_calc(),
-                                'relit_id' => $relit_id
-                            ]);
+                                'relit_id' => $relit_id,
+                                'view_link' => $view_link,
+                                'string_link_ids_current' => $string_link_ids_current, 'string_item_ids_current' => $string_item_ids_current, 'string_all_codes_current' => $string_all_codes_current,
+                                'base_index_page' => $base_index_page_current, 'body_link_page' => $body_link_page_current, 'body_all_page' => $body_all_page_current,
+                                'prev_base_index_page' => $prev_base_index_page,
+                                'prev_body_link_page' => $prev_body_link_page,
+                                'prev_body_all_page' => $prev_body_all_page,
+                                'view_ret_id' => $view_ret_id]);
                         }
                     }
                 }
             }
             if ($redirect_item_index == false) {
-
                 $message_bs_calc = ItemController::message_bs_calc($relip_project, $item->base);
                 $message_bs_info = $message_bs_calc['message_bs_info'];
                 $message_bs_validate = $message_bs_calc['message_bs_validate'];
