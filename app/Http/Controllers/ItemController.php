@@ -279,10 +279,10 @@ class ItemController extends Controller
             $redirect_item_index = false;
             if ($base_right['is_skip_count_records_equal_1_base_index'] == true) {
                 if (count($items) == 1) {
-                    $item = $items->first();
-                    if ($item) {
+                    $item_redirect = $items->first();
+                    if ($item_redirect) {
                         $redirect_item_index = true;
-                        return redirect()->route('item.item_index', ['project' => $project, 'item' => $item, 'role' => $role,
+                        return redirect()->route('item.item_index', ['project' => $project, 'item' => $item_redirect, 'role' => $role,
                             'usercode' => GlobalController::usercode_calc(),
                             'relit_id' => $relit_id
                         ]);
@@ -681,53 +681,73 @@ class ItemController extends Controller
                 return view('message', ['message' => 'view_ret_id: ' . mb_strtolower(trans('main.value_not_found'))]);
             }
 
-            $message_bs_calc = ItemController::message_bs_calc($relip_project, $item->base);
-            $message_bs_info = $message_bs_calc['message_bs_info'];
-            $message_bs_validate = $message_bs_calc['message_bs_validate'];
+            // Нужно '$redirect_item_index = false;'
+            $redirect_item_index = false;
+            if ($view_link) {
+                if ($base_right['is_skip_count_records_equal_1_item_body_index'] == true) {
+                    if (count($body_items) == 1) {
+                        $item_redirect = $body_items->first();
+                        if ($item_redirect) {
+                            $redirect_item_index = true;
+                            return redirect()->route('item.item_index', ['project' => $project, 'item' => $item_redirect, 'role' => $role,
+                                'usercode' => GlobalController::usercode_calc(),
+                                'relit_id' => $relit_id
+                            ]);
+                        }
+                    }
+                }
+            }
+            if ($redirect_item_index == false) {
 
-            return view('item/item_index', ['project' => $project, 'item' => $item, 'role' => $role,
-                'relit_id' => $relit_id,
-                'view_link' => GlobalController::set_par_view_link_null($view_link),
-                'view_ret_id' => $view_ret_id,
-                'array_relips' => $array_relips,
-                'base_right' => $base_right, 'items' => $items,
-                'prev_item' => $prev_item, 'next_item' => $next_item,
-                'child_links' => $child_links,
-                'child_links_info' => $child_links_info,
-                'child_mains_link_is_calcname' => $child_mains_link_is_calcname,
-                'child_body_links_info' => $child_body_links_info,
-                'body_items' => $body_items,
-                'base_body_right' => $base_body_right,
-                'tree_array' => $tree_array,
-                'tree_array_last_link_id' => $tree_array_last_link_id,
-                'tree_array_last_item_id' => $tree_array_last_item_id,
-                'string_link_ids_current' => $string_link_ids_current,
-                'string_item_ids_current' => $string_item_ids_current,
-                'string_all_codes_current' => $string_all_codes_current,
-                'string_link_ids_next' => $string_link_ids_next,
-                'string_item_ids_next' => $string_item_ids_next,
-                'string_all_codes_next' => $string_all_codes_next,
-                'next_all_links' => $next_all_links,
-                'next_all_mains' => $next_all_mains,
-                'next_all_is_create' => $next_all_is_create,
-                'next_all_is_all_create' => $next_all_is_all_create,
-                'next_all_is_calcname' => $next_all_is_calcname,
-                'next_all_first_link' => $next_all_first_link,
-                'next_all_is_code_enable' => $next_all_is_code_enable,
-                'next_all_is_enable' => $next_all_is_enable,
-                'message_bs_info' => $message_bs_info,
-                'message_bs_validate' => $message_bs_validate,
-                'message_ln_info' => $message_ln_info,
-                'message_ln_validate' => $message_ln_validate,
-                'string_link_ids_array_next' => $string_link_ids_array_next,
-                'string_item_ids_array_next' => $string_item_ids_array_next,
-                'string_all_codes_array_next' => $string_all_codes_array_next,
-                'message_ln_array_info' => $message_ln_array_info,
-                'message_ln_link_array_item' => $message_ln_link_array_item,
-                'base_index_page' => $base_index_page_current,
-                'body_link_page' => $body_link_page_current,
-                'body_all_page' => $body_all_page_current
-            ]);
+                $message_bs_calc = ItemController::message_bs_calc($relip_project, $item->base);
+                $message_bs_info = $message_bs_calc['message_bs_info'];
+                $message_bs_validate = $message_bs_calc['message_bs_validate'];
+
+
+                return view('item/item_index', ['project' => $project, 'item' => $item, 'role' => $role,
+                    'relit_id' => $relit_id,
+                    'view_link' => GlobalController::set_par_view_link_null($view_link),
+                    'view_ret_id' => $view_ret_id,
+                    'array_relips' => $array_relips,
+                    'base_right' => $base_right, 'items' => $items,
+                    'prev_item' => $prev_item, 'next_item' => $next_item,
+                    'child_links' => $child_links,
+                    'child_links_info' => $child_links_info,
+                    'child_mains_link_is_calcname' => $child_mains_link_is_calcname,
+                    'child_body_links_info' => $child_body_links_info,
+                    'body_items' => $body_items,
+                    'base_body_right' => $base_body_right,
+                    'tree_array' => $tree_array,
+                    'tree_array_last_link_id' => $tree_array_last_link_id,
+                    'tree_array_last_item_id' => $tree_array_last_item_id,
+                    'string_link_ids_current' => $string_link_ids_current,
+                    'string_item_ids_current' => $string_item_ids_current,
+                    'string_all_codes_current' => $string_all_codes_current,
+                    'string_link_ids_next' => $string_link_ids_next,
+                    'string_item_ids_next' => $string_item_ids_next,
+                    'string_all_codes_next' => $string_all_codes_next,
+                    'next_all_links' => $next_all_links,
+                    'next_all_mains' => $next_all_mains,
+                    'next_all_is_create' => $next_all_is_create,
+                    'next_all_is_all_create' => $next_all_is_all_create,
+                    'next_all_is_calcname' => $next_all_is_calcname,
+                    'next_all_first_link' => $next_all_first_link,
+                    'next_all_is_code_enable' => $next_all_is_code_enable,
+                    'next_all_is_enable' => $next_all_is_enable,
+                    'message_bs_info' => $message_bs_info,
+                    'message_bs_validate' => $message_bs_validate,
+                    'message_ln_info' => $message_ln_info,
+                    'message_ln_validate' => $message_ln_validate,
+                    'string_link_ids_array_next' => $string_link_ids_array_next,
+                    'string_item_ids_array_next' => $string_item_ids_array_next,
+                    'string_all_codes_array_next' => $string_all_codes_array_next,
+                    'message_ln_array_info' => $message_ln_array_info,
+                    'message_ln_link_array_item' => $message_ln_link_array_item,
+                    'base_index_page' => $base_index_page_current,
+                    'body_link_page' => $body_link_page_current,
+                    'body_all_page' => $body_all_page_current
+                ]);
+            }
         }
     }
 
