@@ -257,6 +257,7 @@
         {{--        Выводится одна запись в шапке(все родительские links - столбы)--}}
         {{--        Используется "'heading'=>intval(true)"--}}
         {{--        Используется "'items'=>$items->get()"--}}
+        {{--        Параметры 'relit_id' и 'view_ret_id' передаются в зависимости от значения $heading--}}
         @include('list.table',['base'=>$item->base, 'project'=>$project, 'links_info'=>$child_links_info, 'items'=>$items->get(),
                 'base_right'=>$base_right, 'relit_id'=>$relit_heading_id,
                 'heading'=>intval(true),
@@ -625,7 +626,8 @@
         @if (count($body_items) > 0)
             {{--        Выводится список записей по одной связи $view_link--}}
             {{--        Используется "'heading'=>intval(false)"--}}
-            {{-- 'view_link' передается затем (в list\table.php) в 'item.ext_show' как 'par_link'--}}
+            {{--        'view_link' передается затем (в list\table.php) в 'item.ext_show' как 'par_link'--}}
+            {{--        Параметры 'relit_id' и 'view_ret_id' передаются в зависимости от значения $heading--}}
             @include('list.table',['base'=>$view_link->child_base, 'project'=>$project,
         'links_info'=>$child_body_links_info, 'items'=>$body_items,
         'base_right'=>$base_body_right, 'relit_id'=>$relit_body_id,
@@ -718,7 +720,8 @@
             @if(count($next_all_mains) > 0)
                 {{--        Выводится список записей по всем связям--}}
                 {{--        Используется "'heading'=>intval(false)"--}}
-                {{-- 'view_link' передавать не нужно, затем (в list\all.php) в 'item.ext_show' как 'par_link' передается $main->link--}}
+                {{--        'view_link' передавать не нужно, затем (в list\all.php) в 'item.ext_show' как 'par_link' передается $main->link--}}
+                {{--        Параметры 'relit_id' и 'view_ret_id' передаются в зависимости от значения $heading--}}
                 @include('list.all',['project'=>$project,
             'relit_id'=>$relit_body_id,
             'view_ret_id'=>$view_ret_body_id,
