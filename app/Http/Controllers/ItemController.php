@@ -366,7 +366,7 @@ class ItemController extends Controller
             $tree_array = self::calc_tree_array($role, $relit_id, $string_link_ids_current, $string_item_ids_current, $string_all_codes_current);
         }
 
-        if (count($tree_array) == 0) {
+        if (empty($tree_array)) {
             if ($base_right['is_bsin_base_enable'] == false) {
                 return view('message', ['message' => trans('main.no_access')]);
             }
