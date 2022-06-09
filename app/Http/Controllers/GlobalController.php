@@ -1783,7 +1783,30 @@ class GlobalController extends Controller
             ->get();
     }
 
-    // Похожие процедуры get_bases_from_relit_id() и get_links_from_relit_id()
+    // Похожие процедуры find_base_from_relit_id(), get_bases_from_relit_id() и get_links_from_relit_id()
+    static function find_base_from_relit_id($base_id, $relit_id, $current_template_id)
+    {
+        $result = false;
+        // Вычисление $template
+        $template_id = null;
+        if ($relit_id == 0) {
+            $template_id = $current_template_id;
+        } else {
+            $relit = Relit::find($relit_id);
+            if ($relit) {
+                $template_id = $relit->parent_template_id;
+            }
+        }
+        if ($template_id != null) {
+            $bases = Base::where('template_id', $template_id)
+                ->where('id', $base_id)
+                ->get();
+            $result = count($bases) >0;
+        }
+        return $result;
+    }
+
+    // Похожие процедуры find_base_from_relit_id(), get_bases_from_relit_id() и get_links_from_relit_id()
     static function get_bases_from_relit_id($relit_id, $current_template_id)
     {
         $bases_ids = [];
@@ -1821,7 +1844,7 @@ class GlobalController extends Controller
         ];
     }
 
-    // Похожие процедуры get_bases_from_relit_id() и get_links_from_relit_id()
+    // Похожие процедуры find_base_from_relit_id(), get_bases_from_relit_id() и get_links_from_relit_id()
     static function get_links_from_relit_id($relit_id, $current_template_id)
     {
         $links_options = '';

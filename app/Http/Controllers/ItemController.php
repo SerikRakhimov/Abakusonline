@@ -333,6 +333,10 @@ class ItemController extends Controller
             return view('message', ['message' => trans('main.no_access')]);
         }
 
+        if (GlobalController::find_base_from_relit_id($item->base_id, $relit_id, $project->template_id) == false) {
+            return view('message', ['message' => trans('main.no_access')]);
+        }
+
         //        $links_info = ItemController::links_info($base, $role);
 //        if ($links_info['error_message'] != "") {
 //            return view('message', ['message' => $links_info['error_message']]);
@@ -411,14 +415,14 @@ class ItemController extends Controller
 
         // Используется $relip_project
         // Используется фильтр на равенство одному $item->id (для вывода таблицы из одной строки)
-        $count = count($tree_array);
+        // $count = count($tree_array);
         // Используется $relip_project, $relit_id
 //        if ($count == 0) {
-//            $items_right = GlobalController::items_right($item->base, $relip_project, $role, $relit_id, null, null, null, null, $item->id);
+//            $items_right = GlobalController::items_right($item->base, $item->project, $role, $relit_id, null, null, null, null, $item->id);
 //        } else {
-//            $items_right = GlobalController::items_right($item->base, $relip_project, $role, $relit_id, $tree_array_last_item_id, $tree_array_last_link_id, $project, $view_ret_id, $item->id);
+//            $items_right = GlobalController::items_right($item->base, $item->project, $role, $relit_id, $tree_array_last_item_id, $tree_array_last_link_id, $project, $view_ret_id, $item->id);
 //        }
-        if ($count == 0) {
+        if (empty($tree_array)) {
             $items_right = GlobalController::items_right($item->base, $item->project, $role, $relit_id, null, null, null, null, $item->id);
         } else {
             $items_right = GlobalController::items_right($item->base, $item->project, $role, $relit_id, $tree_array_last_item_id, $tree_array_last_link_id, $project, $view_ret_id, $item->id);
