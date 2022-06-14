@@ -627,7 +627,7 @@ class ItemController extends Controller
 
             // $item, $current_link присоединяются к списку $tree_array
             // Нужно '$current_link' передавать
-            $string_current_next_ids = self::calc_string_current_next_ids($tree_array, $item, $current_link, $view_ret_id, GlobalController::const_allfalse());
+            $string_current_next_ids = self::calc_string_current_next_ids($tree_array, $item, $current_link, $relit_id, GlobalController::const_allfalse());
             $string_link_ids_current = $string_current_next_ids['string_current_link_ids'];
             $string_item_ids_current = $string_current_next_ids['string_current_item_ids'];
             $string_relit_ids_current = $string_current_next_ids['string_current_relit_ids'];
