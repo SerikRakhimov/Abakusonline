@@ -740,11 +740,11 @@ class ItemController extends Controller
                         $item_redirect = $body_items->first();
                         if ($item_redirect) {
                             $redirect_item_index = true;
-                            dd($string_next);
+                            // "'view_link' => $view_link" не использовать
                             return redirect()->route('item.item_index', ['project' => $project, 'item' => $item_redirect, 'role' => $role,
                                 'usercode' => GlobalController::usercode_calc(),
                                 'relit_id' => $view_ret_id,
-                                'view_link' => $view_link,
+                                'view_link' => GlobalController::par_link_const_textnull(),
                                 //'string_link_ids_current' => $string_link_ids_next, 'string_item_ids_current' => $string_item_ids_next, 'string_all_codes_current' => $string_all_codes_next,
                                 'string_current' => $string_next,
                                 'prev_base_index_page' => $base_index_page_current,
