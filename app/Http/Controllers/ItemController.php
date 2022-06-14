@@ -740,6 +740,7 @@ class ItemController extends Controller
                         $item_redirect = $body_items->first();
                         if ($item_redirect) {
                             $redirect_item_index = true;
+                            dd($string_next);
                             return redirect()->route('item.item_index', ['project' => $project, 'item' => $item_redirect, 'role' => $role,
                                 'usercode' => GlobalController::usercode_calc(),
                                 'relit_id' => $view_ret_id,
