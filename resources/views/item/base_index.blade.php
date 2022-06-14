@@ -56,12 +56,13 @@
                             onclick="document.location='{{route('item.ext_create',
                             ['base'=>$base, 'project'=>$project, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(),
                              'relit_id' =>$relit_id_par,
-                             'string_all_codes_current' => $string_all_codes_current,
-                             'string_link_ids_current' => $string_link_ids_current,
-                             'string_item_ids_current' => $string_item_ids_current,
+                             'string_current' => $string_current,
                              'heading' =>intval(false),
                              'base_index_page'=>$base_index_page, 'body_link_page'=>$body_link_page,'body_all_page'=>$body_all_page,
                              'parent_ret_id' => $parent_ret_id_par])}}'">
+{{--                        'string_link_ids_current' => $string_link_ids_current,--}}
+{{--                        'string_item_ids_current' => $string_item_ids_current,--}}
+                        {{--                        'string_all_codes_current' => $string_all_codes_current,--}}
                         <i class="fas fa-plus d-inline"></i>&nbsp;{{trans('main.add')}}
                     </button>
                 @endif
@@ -219,10 +220,11 @@
                         <a href="{{route('item.ext_show', ['item'=>$item, 'project'=>$project, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id,
                                     'heading' => $heading,'base_index_page'=>$base_index_page, 'body_link_page'=>$body_link_page,'body_all_page'=>$body_all_page,
                                     'par_link'=>null, 'parent_item'=>null,
-                             'string_all_codes_current' => $string_all_codes_current,
-                             'string_link_ids_current' => $string_link_ids_current,
-                             'string_item_ids_current' => $string_item_ids_current,
+                                    'string_current' => $string_current,
                                     ])}}" title="{{$item->name()}}">
+{{--                            'string_all_codes_current' => $string_all_codes_current,--}}
+{{--                            'string_link_ids_current' => $string_link_ids_current,--}}
+{{--                            'string_item_ids_current' => $string_item_ids_current,--}}
                             <p class="card-header text-center text-label">{{trans('main.code')}}: {{$item->code}}</p>
                         </a>
                     @endif
@@ -234,11 +236,12 @@
                                 <a href="{{route('item.ext_show', ['item'=>$item, 'project'=>$project, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id,
                                     'heading' => $heading,'base_index_page'=>$base_index_page, 'body_link_page'=>$body_link_page,'body_all_page'=>$body_all_page,
                                     'par_link'=>null, 'parent_item'=>null,
-                             'string_all_codes_current' => $string_all_codes_current,
-                             'string_link_ids_current' => $string_link_ids_current,
-                             'string_item_ids_current' => $string_item_ids_current,
+                                    'string_current' => $string_current,
                                     ])}}"
                                    title="{{$item->name()}}">
+                                    {{--                                'string_all_codes_current' => $string_all_codes_current,--}}
+                                    {{--                                'string_link_ids_current' => $string_link_ids_current,--}}
+                                    {{--                                'string_item_ids_current' => $string_item_ids_current,--}}
                                     @include('view.img',['item'=>$item_find, 'size'=>"medium", 'filenametrue'=>false, 'link'=>false, 'img_fluid'=>true, 'title'=>$item->name()])
                                 </a>
                             </div>
@@ -248,11 +251,12 @@
                                 href="{{route('item.ext_show', ['item'=>$item, 'project'=>$project, 'role'=>$role, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id,
                                     'heading' => $heading,'base_index_page'=>$base_index_page, 'body_link_page'=>$body_link_page,'body_all_page'=>$body_all_page,
                                     'par_link'=>null, 'parent_item'=>null,
-                             'string_all_codes_current' => $string_all_codes_current,
-                             'string_link_ids_current' => $string_link_ids_current,
-                             'string_item_ids_current' => $string_item_ids_current,
+                             'string_current' => $string_current,
                                     ])}}"
                                 title="{{$item->name()}}">
+{{--                                'string_all_codes_current' => $string_all_codes_current,--}}
+{{--                                'string_link_ids_current' => $string_link_ids_current,--}}
+{{--                                'string_item_ids_current' => $string_item_ids_current,--}}
                                 {{--                            Где $item->name() выходит в cards выводить "<?php echo GlobalController::to_html();?>"--}}
                                 <?php echo $item->nmbr(false);?>
                             </a></h5>
@@ -333,9 +337,13 @@
                     'string_all_codes_current' => $string_all_codes_current,
                     'string_link_ids_current' => $string_link_ids_current,
                     'string_item_ids_current' => $string_item_ids_current,
-                    'string_all_codes_next' => $string_all_codes_current,
+                    'string_relit_ids_current' => $string_relit_ids_current,
+                    'string_current' => $string_current,
                     'string_link_ids_next' => $string_link_ids_current,
                     'string_item_ids_next' => $string_item_ids_current,
+                    'string_relit_ids_next' => $string_relit_ids_current,
+                    'string_all_codes_next' => $string_all_codes_current,
+                    'string_next' => $string_current,
                     'heading' => $heading,
                     'base_index_page'=>$base_index_page, 'body_link_page'=>$body_link_page,'body_all_page'=>$body_all_page,
                     'view_link'=>null,
@@ -495,7 +503,7 @@
     {{$items->links()}}
     {{--    <blockquote class="text-title pt-1 pl-5 pr-5"><?php echo nl2br($project->dc_ext()); ?></blockquote>--}}
     <blockquote class="text-title pt-1 pl-5 pr-5"><?php echo nl2br($project->dc_int()); ?></blockquote>
-
+<card>111</card>
 @endsection
 
 

@@ -120,11 +120,12 @@ if ($base_index == true) {
     'view_link' => GlobalController::set_par_view_link_null($view_link),
     'par_link'=>$view_link, 'parent_item'=>$parent_item,
     'parent_ret_id'=>$view_ret_id,
-    'string_link_ids_current' => $string_link_ids_current,
-    'string_item_ids_current' => $string_item_ids_current,
-    'string_all_codes_current'=> $string_all_codes_current
+    'string_current' => $string_current,
     ])}}"
                        title="{{trans('main.viewing_record')}}">
+{{--                        'string_link_ids_current' => $string_link_ids_current,--}}
+{{--                        'string_item_ids_current' => $string_item_ids_current,--}}
+{{--                        'string_all_codes_current'=> $string_all_codes_current--}}
                         <span class="badge badge-related">{{$i}}</span>
                     </a>
                 </td>
@@ -154,14 +155,15 @@ if ($base_index == true) {
         'relit_id'=>$relit_id,
         'view_link'=>$i_par_link,
         'view_ret_id'=>$view_ret_id,
-        'string_link_ids_current'=>$string_link_ids_next,
-        'string_item_ids_current'=>$string_item_ids_next,
-        'string_all_codes_current'=>$string_all_codes_next,
+        'string_current'=>$string_next,
         'prev_base_index_page'=>$base_index_page,
         'prev_body_link_page'=>$body_link_page,
         'prev_body_all_page'=>$body_all_page,
         ])}}"
                            title="{{$item->name()}}">
+{{--                            'string_link_ids_current'=>$string_link_ids_next,--}}
+{{--                            'string_item_ids_current'=>$string_item_ids_next,--}}
+{{--                            'string_all_codes_current'=>$string_all_codes_next,--}}
                             {{--                                @endif--}}
                             {{$item->code}}
                             {{--                                @if($base_index || $item_body_base)--}}
@@ -177,14 +179,15 @@ if ($base_index == true) {
         'relit_id'=>$relit_id,
         'view_link'=>$i_par_link,
         'view_ret_id'=>$view_ret_id,
-        'string_link_ids_current'=>$string_link_ids_next,
-        'string_item_ids_current'=>$string_item_ids_next,
-        'string_all_codes_current'=>$string_all_codes_next,
+        'string_current'=>$string_next,
         'prev_base_index_page'=>$base_index_page,
         'prev_body_link_page'=>$body_link_page,
         'prev_body_all_page'=>$body_all_page,
         ])}}"
                            title="{{$item->name()}}">
+{{--                            'string_link_ids_current'=>$string_link_ids_next,--}}
+{{--                            'string_item_ids_current'=>$string_item_ids_next,--}}
+{{--                            'string_all_codes_current'=>$string_all_codes_next,--}}
                             {{--                                    @endif--}}
                             {{$item->created_date()}}
                             {{--                                    @if($base_index || $item_body_base)--}}
@@ -241,14 +244,15 @@ if ($base_index == true) {
         'relit_id'=>$relit_id,
         'view_link'=>$i_par_link,
         'view_ret_id'=>$view_ret_id,
-        'string_link_ids_current'=>$string_link_ids_next,
-        'string_item_ids_current'=>$string_item_ids_next,
-        'string_all_codes_current'=>$string_all_codes_next,
+        'string_current'=>$string_next,
         'prev_base_index_page'=>$base_index_page,
         'prev_body_link_page'=>$body_link_page,
         'prev_body_all_page'=>$body_all_page
         ])}}"
                                        title="{{$item->name()}}">
+{{--                                        'string_link_ids_current'=>$string_link_ids_next,--}}
+{{--                                        'string_item_ids_current'=>$string_item_ids_next,--}}
+{{--                                        'string_all_codes_current'=>$string_all_codes_next,--}}
                                         @endif
                                         @include('layouts.item.empty_name', ['name'=>$item->name()])
                                         @if ($item_index_view)
@@ -343,14 +347,15 @@ if ($base_index == true) {
         'relit_id'=>$relit_id,
         'view_link'=>$i_par_link,
         'view_ret_id'=>$view_ret_id,
-        'string_link_ids_current'=>$string_link_ids_next,
-        'string_item_ids_current'=>$string_item_ids_next,
-        'string_all_codes_current'=>$string_all_codes_next,
+        'string_current'=>$string_next,
         'prev_base_index_page'=>$base_index_page,
         'prev_body_link_page'=>$body_link_page,
         'prev_body_all_page'=>$body_all_page
         ])}}"
                                    title="">
+{{--                                    'string_link_ids_current'=>$string_link_ids_next,--}}
+{{--                                    'string_item_ids_current'=>$string_item_ids_next,--}}
+{{--                                    'string_all_codes_current'=>$string_all_codes_next,--}}
                                     @endif
                                     {{--                                    @endif--}}
                                     @include('layouts.item.empty_name', ['name'=>$item_find->name(false,false,false)])

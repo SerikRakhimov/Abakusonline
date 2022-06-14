@@ -27,16 +27,16 @@
     // Нужно
     $view_link = GlobalController::set_un_par_view_link_null($view_link);
 
-//    $heading = 0;
-//    $relit_par_id = null;
-//    $parent_ret_par_id = null;
-//    if ($heading == 1) {
-//        $relit_par_id = $relit_id;
-//        $parent_ret_par_id = $view_ret_id;
-//    } else {
-//        $relit_par_id = $view_ret_id;
-//        $parent_ret_par_id = $relit_id;
-//    }
+    //    $heading = 0;
+    //    $relit_par_id = null;
+    //    $parent_ret_par_id = null;
+    //    if ($heading == 1) {
+    //        $relit_par_id = $relit_id;
+    //        $parent_ret_par_id = $view_ret_id;
+    //    } else {
+    //        $relit_par_id = $view_ret_id;
+    //        $parent_ret_par_id = $relit_id;
+    //    }
     $relit_heading_id = GlobalController::set_relit_id($relit_id);
     $view_ret_heading_id = GlobalController::set_relit_id($view_ret_id);
     $relit_body_id = GlobalController::set_relit_id($view_ret_id);
@@ -62,11 +62,13 @@
             <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$value['item_id'], 'role'=>$role,
                                         'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id,
                                         'view_link'=>$value['all_code'] ==GlobalController::const_alltrue() ? GlobalController::par_link_const_textnull():$value['link_id'],
-                                        'string_link_ids_current'=>$value['string_prev_link_ids'],
-                                        'string_item_ids_current'=>$value['string_prev_item_ids'],
-                                        'string_all_codes_current'=>$value['string_prev_all_codes']
+'string_current'=>$value['string_previous']
                                         ])}}"
                title="{{$value['item_name'] . ' ' . $value['info_name']}}">
+                {{--                'string_link_ids_current'=>$value['string_prev_link_ids'],--}}
+                {{--                'string_item_ids_current'=>$value['string_prev_item_ids'],--}}
+                {{--                'string_relit_ids_current'=>$value['string_prev_relit_ids'],--}}
+                {{--                'string_all_codes_current'=>$value['string_prev_all_codes']--}}
                 {{--                {{$value['item_name']}}--}}
                 {{--                {{$value['info_name']}}--}}
                 <mark class="text-project">{{$value['item_name']}}</mark>
@@ -112,15 +114,17 @@
                                         <a href="{{route('item.ext_show', ['item'=>$item, 'project'=>$project, 'role'=>$role,
                                             'usercode' =>GlobalController::usercode_calc(),
                                             'relit_id'=>$relit_id,
-            'string_link_ids_current' => $string_link_ids_current,
-            'string_item_ids_current' => $string_item_ids_current,
-            'string_all_codes_current'=>$string_all_codes_current,
+                                            'string_current' => $string_current,
             'heading' => intval(true),
             'base_index_page' => $base_index_page, 'body_link_page' => $body_link_page, 'body_all_page' => $body_all_page,
             'view_link'=> GlobalController::set_par_view_link_null($view_link),
             'par_link'=>$tree_array_last_link_id, 'parent_item'=>$tree_array_last_item_id,
             'parent_ret_id' => $view_ret_id])}}"
                                            title="{{trans('main.viewing_record')}}: {{$item->name()}}">
+{{--                                            'string_link_ids_current' => $string_link_ids_current,--}}
+{{--                                            'string_item_ids_current' => $string_item_ids_current,--}}
+{{--                                            'string_relit_ids_current' => $string_relit_ids_current,--}}
+{{--                                            'string_all_codes_current'=>$string_all_codes_current,--}}
                                             <mark class="text-project">
                                                 @include('layouts.item.empty_name', ['name'=>$item->name()])
                                             </mark>
@@ -158,15 +162,17 @@
                         <a href="{{route('item.ext_show', ['item'=>$item, 'project'=>$project, 'role'=>$role,
                                             'usercode' =>GlobalController::usercode_calc(),
                                             'relit_id'=>$relit_id,
-            'string_link_ids_current' => $string_link_ids_current,
-            'string_item_ids_current' => $string_item_ids_current,
-            'string_all_codes_current'=>$string_all_codes_current,
+            'string_current' => $string_current,
             'heading' => intval(true),
             'base_index_page' => $base_index_page, 'body_link_page' => $body_link_page, 'body_all_page' => $body_all_page,
             'view_link'=> GlobalController::set_par_view_link_null($view_link),
             'par_link'=>$tree_array_last_link_id, 'parent_item'=>$tree_array_last_item_id,
             'parent_ret_id' => $relit_id])}}"
                            title="{{trans('main.viewing_record')}}: {{$item->cdnm()}}">
+{{--                            'string_link_ids_current' => $string_link_ids_current,--}}
+{{--                            'string_item_ids_current' => $string_item_ids_current,--}}
+{{--                            'string_relit_ids_current' => $string_relit_ids_current,--}}
+{{--                            'string_all_codes_current'=>$string_all_codes_current,--}}
                             @endif
                             @if($item->base->is_code_needed == true)
                                 {{trans('main.code')}}: <strong>{{$item->code}}</strong>
@@ -197,34 +203,35 @@
                 @endif
             </div>
             <div class="col-2 text-right">
-                @if ($base_right['is_list_base_create'] == true)
-                    @if($message_bs_validate == "")
-<!--                        --><?php
-//                        $heading = 1;
-//                        $relit_id_par = null;
-//                        $parent_ret_id_par = null;
-//                        if ($heading == 1) {
-//                            $relit_id_par = $relit_id;
-//                            $parent_ret_id_par = $view_ret_id;
-//                        } else {
-//                            $relit_id_par = $view_ret_id;
-//                            $parent_ret_id_par = $relit_id;
-//                        }
-//                        ?>
+            @if ($base_right['is_list_base_create'] == true)
+                @if($message_bs_validate == "")
+                    <!--                        --><?php
+                        //                        $heading = 1;
+                        //                        $relit_id_par = null;
+                        //                        $parent_ret_id_par = null;
+                        //                        if ($heading == 1) {
+                        //                            $relit_id_par = $relit_id;
+                        //                            $parent_ret_id_par = $view_ret_id;
+                        //                        } else {
+                        //                            $relit_id_par = $view_ret_id;
+                        //                            $parent_ret_id_par = $relit_id;
+                        //                        }
+                        //                        ?>
                         <button type="button" class="btn btn-dreamer"
                                 title="{{trans('main.add') . " '". $item->base->name() . "' " . $message_bs_info}}"
                                 onclick="document.location='{{route('item.ext_create', ['base'=>$item->base,
                                              'project'=>$project, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(),
                                              'relit_id' => $relit_heading_id,
-                                             'string_link_ids_current'=>$string_link_ids_current,
-                                             'string_item_ids_current'=>$string_item_ids_current,
-                                             'string_all_codes_current'=>$string_all_codes_current,
+                                             'string_current'=>$string_current,
                                              'heading'=>intval(true),
                                              'base_index_page'=>$base_index_page, 'body_link_page'=>$body_link_page,'body_all_page'=>$body_all_page,
                                              'view_link'=>$view_link,
                                              'par_link'=>$tree_array_last_link_id, 'parent_item'=>$tree_array_last_item_id,
                                              'parent_ret_id' => $view_ret_heading_id
                                              ])}}'">
+                            {{--                                             'string_link_ids_current'=>$string_link_ids_current,--}}
+                            {{--                                             'string_item_ids_current'=>$string_item_ids_current,--}}
+                            {{--                                             'string_all_codes_current'=>$string_all_codes_current,--}}
                             <i class="fas fa-plus d-inline"></i>&nbsp;{{trans('main.add')}}
                         </button>
                     @endif
@@ -268,10 +275,14 @@
                     'base_index'=>false, 'item_heading_base'=>true, 'item_body_base'=>false,
                     'string_link_ids_current' => $string_link_ids_current,
                     'string_item_ids_current' => $string_item_ids_current,
+                    'string_relit_ids_current' => $string_relit_ids_current,
                     'string_all_codes_current' => $string_all_codes_current,
+                    'string_current' => $string_current,
                     'string_link_ids_next'=>GlobalController::set_str_const_null(''),
                     'string_item_ids_next'=>GlobalController::set_str_const_null(''),
-                    'string_all_codes_next'=>GlobalController::set_str_const_null('')
+                    'string_relit_ids_next'=>GlobalController::set_str_const_null(''),
+                    'string_all_codes_next'=>GlobalController::set_str_const_null(''),
+                    'string_next' => $string_next
         ])
     @endif
     {{--    <hr align="center" width="100%" size="2" color="#ff0000"/>--}}
@@ -299,15 +310,16 @@
                                 'usercode' =>GlobalController::usercode_calc(),
                                         'relit_id'=>$relit_id,
                                         'view_link'=>GlobalController::par_link_textnull($view_link),
-                                        'string_link_ids_current'=>$string_link_ids_current,
-                                        'string_item_ids_current'=>$string_item_ids_current,
-                                        'string_all_codes_current'=>$string_all_codes_current,
+                                        'string_current'=>$string_current,
                                         'prev_base_index_page'=>$base_index_page,
                                         'prev_body_link_page'=>$body_link_page,
                                         'prev_body_all_page'=>$body_all_page,
                                         'view_ret_id' => $view_ret_id
                                          ])}}"
                                    title="{{$prev_item->cdnm()}}"><</a>
+                                {{--                                'string_link_ids_current'=>$string_link_ids_current,--}}
+                                {{--                                'string_item_ids_current'=>$string_item_ids_current,--}}
+                                {{--                                'string_all_codes_current'=>$string_all_codes_current,--}}
                             </li>
                         @endif
                         {{--        <li class="page-item"><a class="page-link"--}}
@@ -324,16 +336,17 @@
                                 <a class="page-link" href="{{route('item.item_index', ['project'=>$project, 'item'=>$next_item, 'role'=>$role,
                                 'usercode' =>GlobalController::usercode_calc(),
                                         'relit_id'=>$relit_id,
-                                         'view_link'=>GlobalController::par_link_textnull($view_link),
-                                        'string_link_ids_current'=>$string_link_ids_current,
-                                        'string_item_ids_current'=>$string_item_ids_current,
-                                        'string_all_codes_current'=>$string_all_codes_current,
+                                        'view_link'=>GlobalController::par_link_textnull($view_link),
+                                        'string_current'=>$string_current,
                                         'prev_base_index_page'=>$base_index_page,
                                         'prev_body_link_page'=>$body_link_page,
                                         'prev_body_all_page'=>$body_all_page,
                                         'view_ret_id' => $view_ret_id
                                         ])}}"
                                    title="{{$next_item->cdnm()}}">></a>
+{{--                                'string_link_ids_current'=>$string_link_ids_current,--}}
+{{--                                'string_item_ids_current'=>$string_item_ids_current,--}}
+{{--                                'string_all_codes_current'=>$string_all_codes_current,--}}
                             </li>
                         @endif
                     </ul>
@@ -365,14 +378,15 @@
                                   'relit_id'=>$relit_id,
                                   'view_link'=>GlobalController::par_link_const_textnull(),
                                   'view_ret_id'=>$view_ret_id,
-                                  'string_link_ids_current'=>$string_link_ids_current,
-                                  'string_item_ids_current'=>$string_item_ids_current,
-                                  'string_all_codes_current'=>$string_all_codes_current,
+                                  'string_current'=>$string_current,
                                   'prev_base_index_page'=>$base_index_page,
                                   'prev_body_link_page'=>$body_link_page,
                                   'prev_body_all_page'=>$body_all_page
                                   ])}}"
                                        title="{{$item->name()}}">
+{{--                                        'string_link_ids_current'=>$string_link_ids_current,--}}
+{{--                                        'string_item_ids_current'=>$string_item_ids_current,--}}
+{{--                                        'string_all_codes_current'=>$string_all_codes_current,--}}
                                         {{GlobalController::option_all()}}
                                         @if($view_link == null)
                                             {{--                                        Этот символ используется в двух местах--}}
@@ -386,14 +400,15 @@
                                           'relit_id'=>$relit_id,
                                           'view_link'=>$value->id,
                                           'view_ret_id'=>$view_ret_id,
-                                          'string_link_ids_current'=>$string_link_ids_current,
-                                          'string_item_ids_current'=>$string_item_ids_current,
-                                          'string_all_codes_current'=>$string_all_codes_current,
+                                          'string_current'=>$string_current,
                                           'prev_base_index_page'=>$base_index_page,
                                           'prev_body_link_page'=>$body_link_page,
                                           'prev_body_all_page'=>$body_all_page
                                           ])}}"
                                        title="{{$value->child_labels()}}">
+{{--                                        'string_link_ids_current'=>$string_link_ids_current,--}}
+{{--                                        'string_item_ids_current'=>$string_item_ids_current,--}}
+{{--                                        'string_all_codes_current'=>$string_all_codes_current,--}}
                                         {{$value->child_labels()}}
                                         @if(isset($view_link))
                                             @if($value->id == $view_link->id)
@@ -448,14 +463,15 @@
                                           'relit_id'=>$relit_id,
                                           'view_link'=>$view_value_link,
                                           'view_ret_id'=>$relit_key_id,
-                                          'string_link_ids_current'=>$string_link_ids_current,
-                                           'string_item_ids_current'=>$string_item_ids_current,
-                                           'string_all_codes_current'=>$string_all_codes_current,
-                                           'prev_base_index_page'=>$base_index_page,
-                                           'prev_body_link_page'=>$body_link_page,
-                                           'prev_body_all_page'=>$body_all_page
-                                           ])}}"
+                                          'string_current'=>$string_current,
+                                          'prev_base_index_page'=>$base_index_page,
+                                          'prev_body_link_page'=>$body_link_page,
+                                          'prev_body_all_page'=>$body_all_page
+                                          ])}}"
                                    title="{{$relip_select_body_project->name()}}">
+{{--                                    'string_link_ids_current'=>$string_link_ids_current,--}}
+{{--                                    'string_item_ids_current'=>$string_item_ids_current,--}}
+{{--                                    'string_all_codes_current'=>$string_all_codes_current,--}}
                                     {{$relip_select_body_project->name()}}
                                     @if($relit)
                                         ({{$relit->title()}})
@@ -570,21 +586,21 @@
                         <small><small>{{$relip_body_name_project}}</small></small>
                     </div>
                     <div class="col-2 text-right">
-                        {{--                        @if ((count($body_items) > 0) || ($base_body_right['is_list_base_create'] == true))--}}
-                        @if ($base_body_right['is_list_base_create'] == true)
-                            @if($message_ln_validate == "")
-<!--                                --><?php
-//                                $heading = 0;
-//                                $relit_par_id = null;
-//                                $parent_ret_par_id = null;
-//                                if ($heading == 1) {
-//                                    $relit_par_id = $relit_id;
-//                                    $parent_ret_par_id = $view_ret_id;
-//                                } else {
-//                                    $relit_par_id = $view_ret_id;
-//                                    $parent_ret_par_id = $relit_id;
-//                                }
-//                                ?>
+                    {{--                        @if ((count($body_items) > 0) || ($base_body_right['is_list_base_create'] == true))--}}
+                    @if ($base_body_right['is_list_base_create'] == true)
+                        @if($message_ln_validate == "")
+                            <!--                                --><?php
+                                //                                $heading = 0;
+                                //                                $relit_par_id = null;
+                                //                                $parent_ret_par_id = null;
+                                //                                if ($heading == 1) {
+                                //                                    $relit_par_id = $relit_id;
+                                //                                    $parent_ret_par_id = $view_ret_id;
+                                //                                } else {
+                                //                                    $relit_par_id = $view_ret_id;
+                                //                                    $parent_ret_par_id = $relit_id;
+                                //                                }
+                                //                                ?>
                                 {{-- Выводится $message_mc--}}
                                 <button type="button" class="btn btn-dreamer"
                                         title="{{trans('main.add'). " '" . $view_link->child_base->name() . "'" . $message_ln_info}}"
@@ -592,15 +608,16 @@
                                         'project'=>$project, 'role'=>$role,
                                         'usercode' =>GlobalController::usercode_calc(),
                              'relit_id' => $relit_body_id,
-                             'string_all_codes_current' => $string_all_codes_current,
-                             'string_link_ids_current' => $string_link_ids_current,
-                             'string_item_ids_current' => $string_item_ids_current,
+                             'string_current' => $string_current,
                              'heading'=>intval(false),
                              'base_index_page'=>$base_index_page, 'body_link_page'=>$body_link_page,'body_all_page'=>$body_all_page,
                              'view_link'=>$view_link,
                              'par_link'=>$view_link, 'parent_item'=>$item,
                              'parent_ret_id' => $view_ret_body_id
                              ])}}'">
+{{--                                    'string_all_codes_current' => $string_all_codes_current,--}}
+{{--                                    'string_link_ids_current' => $string_link_ids_current,--}}
+{{--                                    'string_item_ids_current' => $string_item_ids_current,--}}
                                     <i class="fas fa-plus d-inline"></i>&nbsp;{{trans('main.add')}}
                                 </button>
                             @endif
@@ -638,10 +655,14 @@
             'base_index'=>false, 'item_heading_base'=>false, 'item_body_base'=>true,
             'string_link_ids_current' => $string_link_ids_current,
             'string_item_ids_current' => $string_item_ids_current,
+            'string_relit_ids_current' => $string_relit_ids_current,
             'string_all_codes_current' => $string_all_codes_current,
+            'string_current' => $string_current,
             'string_link_ids_next'=>$string_link_ids_next,
             'string_item_ids_next'=>$string_item_ids_next,
-            'string_all_codes_next'=>$string_all_codes_next
+            'string_relit_ids_next'=>$string_relit_ids_next,
+            'string_all_codes_next'=>$string_all_codes_next,
+            'string_next' => $string_next
             ])
             {{$body_items->links()}}
         @endif
@@ -674,28 +695,26 @@
                                     {{trans('main.add')}}
                                 </button>
                                 <div class="dropdown-menu">
-                                    @foreach($next_all_links as $key=>$value)
-                                        @if($next_all_is_create[$value->id] == true)
-                                            @if($message_ln_link_array_item[$value->id] == "")
-<!--                                                --><?php
-//                                                $heading = 0;
-//                                                $relit_id_par = null;
-//                                                $parent_ret_id_par = null;
-//                                                if ($heading == 1) {
-//                                                    $relit_id_par = $relit_id;
-//                                                    $parent_ret_id_par = $view_ret_id;
-//                                                } else {
-//                                                    $relit_id_par = $view_ret_id;
-//                                                    $parent_ret_id_par = $relit_id;
-//                                                }
-//                                                ?>
+                                @foreach($next_all_links as $key=>$value)
+                                    @if($next_all_is_create[$value->id] == true)
+                                        @if($message_ln_link_array_item[$value->id] == "")
+                                            <!--                                                --><?php
+                                                //                                                $heading = 0;
+                                                //                                                $relit_id_par = null;
+                                                //                                                $parent_ret_id_par = null;
+                                                //                                                if ($heading == 1) {
+                                                //                                                    $relit_id_par = $relit_id;
+                                                //                                                    $parent_ret_id_par = $view_ret_id;
+                                                //                                                } else {
+                                                //                                                    $relit_id_par = $view_ret_id;
+                                                //                                                    $parent_ret_id_par = $relit_id;
+                                                //                                                }
+                                                //                                                ?>
                                                 <a class="dropdown-item" href="{{route('item.ext_create', ['base'=>$value->child_base_id,
                                                                                                 'project'=>$project, 'role'=>$role,
                                                                                                  'usercode' =>GlobalController::usercode_calc(),
                                                                                      'relit_id' => $relit_body_id,
-                                                                                     'string_all_codes_current' => $string_all_codes_current,
-                                                                                     'string_link_ids_current' => $string_link_ids_current,
-                                                                                     'string_item_ids_current' => $string_item_ids_current,
+                                                                                     'string_current' => $string_current,
                                                                                      'heading'=>intval(false),
                                                                                      'base_index_page'=>$base_index_page, 'body_link_page'=>$body_link_page,'body_all_page'=>$body_all_page,
                                                                                      'view_link'=>$value,
@@ -703,6 +722,9 @@
                                                                                      'parent_ret_id' => $view_ret_body_id
                                                                                      ])}}"
                                                    title="{{trans('main.add') . $message_ln_array_info[$value->id]}}">
+{{--                                                    'string_all_codes_current' => $string_all_codes_current,--}}
+{{--                                                    'string_link_ids_current' => $string_link_ids_current,--}}
+{{--                                                    'string_item_ids_current' => $string_item_ids_current,--}}
                                                     {{$value->child_label()}}
                                                     @if(isset($array["\x00*\x00items"][$value->id]))
                                                         *
@@ -735,13 +757,19 @@
             'base_index'=>false, 'item_heading_base'=>false, 'item_body_base'=>true,
             'string_link_ids_current' => $string_link_ids_current,
             'string_item_ids_current' => $string_item_ids_current,
+            'string_relit_ids_current' => $string_relit_ids_current,
             'string_all_codes_current' => $string_all_codes_current,
+            'string_current' => $string_current,
             'string_link_ids_next'=>$string_link_ids_next,
             'string_item_ids_next'=>$string_item_ids_next,
+            'string_relit_ids_next'=>$string_relit_ids_next,
             'string_all_codes_next'=>$string_all_codes_next,
+            'string_next' => $string_next,
             'string_link_ids_array_next' => $string_link_ids_array_next,
             'string_item_ids_array_next' => $string_item_ids_array_next,
+            'string_relit_ids_array_next' => $string_relit_ids_array_next,
             'string_all_codes_array_next' => $string_all_codes_array_next,
+            'string_array_next' => $string_array_next,
             'message_ln_array_info' => $message_ln_array_info, 'message_ln_link_array_item' => $message_ln_link_array_item
             ])
                 {{$next_all_mains->links()}}

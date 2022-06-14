@@ -270,14 +270,15 @@
 {{--            'par_link' => $par_link,--}}
 {{--            'parent_item' => $parent_item])}}"'--}}
 {{--                        title="{{trans('main.edit')}}">--}}
+{{--                'string_link_ids_current' => $string_link_ids_current,--}}
+{{--                'string_item_ids_current' => $string_item_ids_current,--}}
+{{--                'string_all_codes_current' => $string_all_codes_current,--}}
                     <button type="button" class="btn btn-dreamer mb-1 mb-sm-0"
                             onclick='document.location="{{route('item.ext_edit',
             ['item'=>$item,'project'=>$project, 'role'=>$role,
             'usercode' =>GlobalController::usercode_calc(),
             'relit_id'=>$relit_id,
-            'string_link_ids_current' => $string_link_ids_current,
-            'string_item_ids_current' => $string_item_ids_current,
-            'string_all_codes_current' => $string_all_codes_current,
+            'string_current' => $string_current,
             'heading' => $heading,
             'base_index_page' => $base_index_page, 'body_link_page' => $body_link_page, 'body_all_page' => $body_all_page,
             'parent_ret_id' => $parent_ret_id,
@@ -305,12 +306,13 @@
 {{--            'par_link' => $par_link,--}}
 {{--            'parent_item' => $parent_item])}}"'--}}
 {{--                        title="{{trans('main.delete')}}">--}}
-                    <button type="button" class="btn btn-dreamer mb-1 mb-sm-0"
+{{--                'string_link_ids_current' => $string_link_ids_current, 'string_item_ids_current' => $string_item_ids_current, 'string_all_codes_current' => $string_all_codes_current,--}}
+                <button type="button" class="btn btn-dreamer mb-1 mb-sm-0"
                             onclick='document.location="{{route('item.ext_delete_question',
             ['item'=>$item,'project'=>$project, 'role'=>$role,
             'usercode' =>GlobalController::usercode_calc(),
             'relit_id'=>$relit_id,
-            'string_link_ids_current' => $string_link_ids_current, 'string_item_ids_current' => $string_item_ids_current, 'string_all_codes_current' => $string_all_codes_current,
+            'string_current' => $string_current,
             'heading' => $heading,
             'base_index_page' => $base_index_page, 'body_link_page' => $body_link_page, 'body_all_page' => $body_all_page,
             'parent_ret_id' => $parent_ret_id,
@@ -378,11 +380,12 @@
 {{--            'par_link' => $par_link, 'parent_item' => $parent_item])}}"--}}
 {{--              method="POST"--}}
 {{--              id='delete-form'>--}}
+{{--        'string_link_ids_current' => $string_link_ids_current,--}}
+{{--        'string_item_ids_current' => $string_item_ids_current,--}}
+{{--        'string_all_codes_current' => $string_all_codes_current,--}}
             <form action="{{route('item.ext_delete',['item'=>$item,'project'=>$project, 'role'=>$role,
             'usercode' =>GlobalController::usercode_calc(),
-            'string_link_ids_current' => $string_link_ids_current,
-            'string_item_ids_current' => $string_item_ids_current,
-            'string_all_codes_current' => $string_all_codes_current,
+            'string_current' => $string_current,
             'heading' => $heading,
             'relit_id'=>$relit_id,
             'base_index_page' => $base_index_page, 'body_link_page' => $body_link_page, 'body_all_page' => $body_all_page,
@@ -406,5 +409,4 @@
             </p>
         </form>
     @endif
-
 @endsection
