@@ -60,8 +60,8 @@
                 </a>
             @endif
             <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$value['item_id'], 'role'=>$role,
-                                        'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id,
-                                        'view_link'=>$value['all_code'] ==GlobalController::const_alltrue() ? GlobalController::par_link_const_textnull():$value['link_id'],
+                                        'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$value['relit_id'],
+                                        'view_link'=>$value['all_code'] == GlobalController::const_alltrue() ? GlobalController::par_link_const_textnull():$value['link_id'],
 'string_current'=>$value['string_previous']
                                         ])}}"
                title="{{$value['item_name'] . ' ' . $value['info_name']}}">
