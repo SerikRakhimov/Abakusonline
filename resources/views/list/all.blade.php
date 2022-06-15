@@ -1,7 +1,8 @@
 <?php
 use App\Models\Link;
 use \App\Http\Controllers\GlobalController;
-$i = 0;
+use \App\Http\Controllers\ItemController;
+$i = $next_all_mains->firstItem() - 1;
 ?>
 <table class="table table-sm table-bordered table-hover">
 {{--<table class="table table-sm table-borderless table-hover">--}}
@@ -35,8 +36,13 @@ $i = 0;
         $i++;
         $base = $main->link->child_base;
         $base_right = GlobalController::base_right($base, $role, $relit_id);
+        $string_calc_next = ItemController::string_zip_current_next(
+            $string_link_ids_array_next[$main->link_id],
+            $string_item_ids_array_next[$main->link_id],
+            $string_relit_ids_array_next[$main->link_id],
+            $string_all_codes_array_next[$main->link_id]);
         ?>
-        <tr>
+            <tr>
             <td class="text-center">
                 <a href="{{route('item.ext_show', ['item'=>$main->child_item, 'project'=>$project, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(),
     'relit_id'=>$relit_id,
@@ -62,7 +68,7 @@ $i = 0;
         'relit_id'=>$relit_id,
         'view_link'=>GlobalController::par_link_const_textnull(),
         'view_ret_id'=>$view_ret_id,
-        'string_current'=>$string_array_next,
+        'string_current'=>$string_calc_next,
         'prev_base_index_page'=>$base_index_page,
         'prev_body_link_page'=>$body_link_page,
         'prev_body_all_page'=>$body_all_page
@@ -80,7 +86,7 @@ $i = 0;
         'relit_id'=>$relit_id,
         'view_link'=>GlobalController::par_link_const_textnull(),
         'view_ret_id'=>$view_ret_id,
-        'string_current'=>$string_array_next,
+        'string_current'=>$string_calc_next,
         'prev_base_index_page'=>$base_index_page,
         'prev_body_link_page'=>$body_link_page,
         'prev_body_all_page'=>$body_all_page
@@ -107,7 +113,7 @@ $i = 0;
         'relit_id'=>$relit_id,
         'view_link'=>GlobalController::par_link_const_textnull(),
         'view_ret_id'=>$view_ret_id,
-        'string_current'=>$string_array_next,
+        'string_current'=>$string_calc_next,
         'prev_base_index_page'=>$base_index_page,
         'prev_body_link_page'=>$body_link_page,
         'prev_body_all_page'=>$body_all_page

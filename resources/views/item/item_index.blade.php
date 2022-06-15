@@ -263,9 +263,11 @@
         <br>
         {{--        Выводится одна запись в шапке(все родительские links - столбы)--}}
         {{--        Используется "'heading'=>intval(true)"--}}
-        {{--        Используется "'items'=>$items->get()"--}}
+        {{--        Используется "'items'=>$items->get()"; два раза, т.к. в заголовке выводится только одна строка, ее на страницы не надо разбивать/сортировать--}}
         {{--        Параметры 'relit_id' и 'view_ret_id' передаются в зависимости от значения $heading--}}
-        @include('list.table',['base'=>$item->base, 'project'=>$project, 'links_info'=>$child_links_info, 'items'=>$items->get(),
+        @include('list.table',['base'=>$item->base, 'project'=>$project, 'links_info'=>$child_links_info,
+                'items'=>$items->get(),
+                'its_page'=>$items->get(),
                 'base_right'=>$base_right, 'relit_id'=>$relit_heading_id,
                 'heading'=>intval(true),
                 'base_index_page'=>$base_index_page, 'body_link_page'=>$body_link_page,'body_all_page'=>$body_all_page,
@@ -645,8 +647,11 @@
             {{--        Используется "'heading'=>intval(false)"--}}
             {{--        'view_link' передается затем (в list\table.php) в 'item.ext_show' как 'par_link'--}}
             {{--        Параметры 'relit_id' и 'view_ret_id' передаются в зависимости от значения $heading--}}
+            {{--        "'its_page'=>$its_body_page->get()" "->get()" нужно--}}
             @include('list.table',['base'=>$view_link->child_base, 'project'=>$project,
-        'links_info'=>$child_body_links_info, 'items'=>$body_items,
+        'links_info'=>$child_body_links_info,
+        'items'=>$body_items,
+        'its_page'=>$its_body_page,
         'base_right'=>$base_body_right, 'relit_id'=>$relit_body_id,
         'heading'=>intval(false),
         'base_index_page'=>$base_index_page, 'body_link_page'=>$body_link_page,'body_all_page'=>$body_all_page,

@@ -496,6 +496,7 @@ class GlobalController extends Controller
                                      $mains_item_id = null, $mains_link_id = null, $parent_proj = null, $view_ret_id = null, $current_item_id = null)
     {
         $base_right = null;
+        $links = null;
         $items = null;
         $view_count = 0;
         $prev_item = null;
@@ -577,6 +578,7 @@ class GlobalController extends Controller
                 $items = $items->latest();
 
             } else {
+                // Похожие строки items_right() и its_page()
                 $name = "";  // нужно, не удалять
                 $index = array_search(App::getLocale(), config('app.locales'));
                 if ($index !== false) {   // '!==' использовать, '!=' не использовать
@@ -585,7 +587,7 @@ class GlobalController extends Controller
 
                 // В $collection сохраняется в key - $item->id
                 $collection = collect();
-                // Сортировка по наменованию, нужна
+                // Сортировка по наименованию, нужна
                 $items = $items->orderBy($name);
 
                 //if (count($items->get()) > 0) {
@@ -653,7 +655,6 @@ class GlobalController extends Controller
                                             $str = $str . trim($item_find[$name]);
                                         }
                                         $str = $str . "|";
-
                                     }
                                 }
                             }
@@ -739,8 +740,67 @@ class GlobalController extends Controller
         }
 //        return ['items' => $items, 'itget' => $itget, 'view_count' => '(' . $view_count . ')',
 //            'prev_item' => $prev_item, 'next_item' => $next_item];
-        return ['items' => $items,
+        return ['links' => $links,
+            'items' => $items,
             'prev_item' => $prev_item, 'next_item' => $next_item];
+    }
+
+    static function its_page(Role $role, $relit_id, $links, $items_paginate)
+    {
+        // Похожие строки items_right() и its_page()
+        // '$its_page = $items_paginate;' использовать
+        $its_page = $items_paginate;
+        if ($links) {
+            if (count($items_paginate) > 0) {
+                // Список $items на странице
+                $array_items = $items_paginate->items();
+                $name = "";  // нужно, не удалять
+                $index = array_search(App::getLocale(), config('app.locales'));
+                if ($index !== false) {   // '!==' использовать, '!=' не использовать
+                    $name = 'name_lang_' . $index;
+                }
+                $collection = collect();
+                $str = "";
+                foreach ($array_items as $value) {
+                    $str = "";
+                    foreach ($links as $link) {
+                        $base_link_right = self::base_link_right($link, $role, $relit_id);
+                        // Если 'Показывать Связь в списке' = true
+                        if ($base_link_right['is_list_link_enable'] == true) {
+                            $item_find = GlobalController::view_info($value['id'], $link->id);
+                            if ($item_find) {
+                                // Формирование вычисляемой строки для сортировки
+                                // Для строковых данных для сортировки берутся первые 50 символов
+                                if ($item_find->base->type_is_list()
+                                    || $item_find->base->type_is_string()
+                                    || $item_find->base->type_is_text()) {
+                                    $str = $str . str_pad(trim($item_find[$name]), 50);
+                                } else {
+                                    $str = $str . trim($item_find[$name]);
+                                }
+                                $str = $str . "|";
+                            }
+                        }
+                    }
+                    // В $collection сохраняется в key - $item->id
+                    $collection[$value['id']] = $str;
+                }
+
+//            Сортировка коллекции по значению
+                $collection = $collection->sort();
+
+                $ids = $collection->keys()->toArray();
+                $its_page = Item::whereIn('id', $ids)
+                    ->orderBy(\DB::raw("FIELD(id, " . implode(',', $ids) . ")"));
+//                $its_page = Item::whereIn('id', $ids);
+//                $its_page = $its_page->latest();
+//                //$its_page = $its_page->oldest();
+                // 'get()' нужно
+                $its_page = $its_page->get();
+            }
+
+        }
+        return $its_page;
     }
 
     static function get_array_parent_related(Base $base)
@@ -1801,7 +1861,7 @@ class GlobalController extends Controller
             $bases = Base::where('template_id', $template_id)
                 ->where('id', $base_id)
                 ->get();
-            $result = count($bases) >0;
+            $result = count($bases) > 0;
         }
         return $result;
     }

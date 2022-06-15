@@ -208,7 +208,8 @@
     {{--    </div><!-- Конец карточки -->--}}
     @if($tile_view['result'] == true)
         <div class="card-columns">
-            @foreach($items as $item)
+{{--        $items_page используется--}}
+            @foreach($items_page as $item)
                 <?php
                 $i = $i + 1;
                 $item_find = GlobalController::view_info($item->id, $link_image->id);
@@ -331,7 +332,9 @@
         {{--                    @endif--}}
         {{--        Используется 'heading' => $heading'--}}
         {{-- "'view_ret_id'=>0", 0 - текущий проект--}}
-        @include('list.table',['base'=>$base, 'links_info'=>$links_info, 'items'=>$items,
+        @include('list.table',['base'=>$base, 'links_info'=>$links_info,
+                    'items'=>$items,
+                    'its_page'=>$its_page,
                     'base_right'=>$base_right, 'item_view'=>true,
                     'relit_id'=>$relit_id,
                     'string_all_codes_current' => $string_all_codes_current,
@@ -503,7 +506,6 @@
     {{$items->links()}}
     {{--    <blockquote class="text-title pt-1 pl-5 pr-5"><?php echo nl2br($project->dc_ext()); ?></blockquote>--}}
     <blockquote class="text-title pt-1 pl-5 pr-5"><?php echo nl2br($project->dc_int()); ?></blockquote>
-<card>111</card>
 @endsection
 
 

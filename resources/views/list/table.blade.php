@@ -6,8 +6,13 @@ $link_base_right_array = $links_info['link_base_right_array'];
 $matrix = $links_info['matrix'];
 $rows = $links_info['rows'];
 $cols = $links_info['cols'];
-//$i = $items->firstItem() - 1;
 $i = 0;
+if ($item_heading_base == true) {
+    $i = 0;
+} else {
+    $i = $items->firstItem() - 1;
+}
+
 $i_par_link = null;
 // Вызов list\table.php из base_index.php
 if ($base_index == true) {
@@ -103,7 +108,7 @@ if ($base_index == true) {
             @endif
     </thead>
     <tbody>
-    @foreach($items as $item)
+    @foreach($its_page as $item)
         <?php
         $i++;
         ?>
@@ -123,9 +128,9 @@ if ($base_index == true) {
     'string_current' => $string_current,
     ])}}"
                        title="{{trans('main.viewing_record')}}">
-{{--                        'string_link_ids_current' => $string_link_ids_current,--}}
-{{--                        'string_item_ids_current' => $string_item_ids_current,--}}
-{{--                        'string_all_codes_current'=> $string_all_codes_current--}}
+                        {{--                        'string_link_ids_current' => $string_link_ids_current,--}}
+                        {{--                        'string_item_ids_current' => $string_item_ids_current,--}}
+                        {{--                        'string_all_codes_current'=> $string_all_codes_current--}}
                         <span class="badge badge-related">{{$i}}</span>
                     </a>
                 </td>
@@ -161,9 +166,9 @@ if ($base_index == true) {
         'prev_body_all_page'=>$body_all_page,
         ])}}"
                            title="{{$item->name()}}">
-{{--                            'string_link_ids_current'=>$string_link_ids_next,--}}
-{{--                            'string_item_ids_current'=>$string_item_ids_next,--}}
-{{--                            'string_all_codes_current'=>$string_all_codes_next,--}}
+                            {{--                            'string_link_ids_current'=>$string_link_ids_next,--}}
+                            {{--                            'string_item_ids_current'=>$string_item_ids_next,--}}
+                            {{--                            'string_all_codes_current'=>$string_all_codes_next,--}}
                             {{--                                @endif--}}
                             {{$item->code}}
                             {{--                                @if($base_index || $item_body_base)--}}
@@ -185,9 +190,9 @@ if ($base_index == true) {
         'prev_body_all_page'=>$body_all_page,
         ])}}"
                            title="{{$item->name()}}">
-{{--                            'string_link_ids_current'=>$string_link_ids_next,--}}
-{{--                            'string_item_ids_current'=>$string_item_ids_next,--}}
-{{--                            'string_all_codes_current'=>$string_all_codes_next,--}}
+                            {{--                            'string_link_ids_current'=>$string_link_ids_next,--}}
+                            {{--                            'string_item_ids_current'=>$string_item_ids_next,--}}
+                            {{--                            'string_all_codes_current'=>$string_all_codes_next,--}}
                             {{--                                    @endif--}}
                             {{$item->created_date()}}
                             {{--                                    @if($base_index || $item_body_base)--}}
@@ -250,9 +255,9 @@ if ($base_index == true) {
         'prev_body_all_page'=>$body_all_page
         ])}}"
                                        title="{{$item->name()}}">
-{{--                                        'string_link_ids_current'=>$string_link_ids_next,--}}
-{{--                                        'string_item_ids_current'=>$string_item_ids_next,--}}
-{{--                                        'string_all_codes_current'=>$string_all_codes_next,--}}
+                                        {{--                                        'string_link_ids_current'=>$string_link_ids_next,--}}
+                                        {{--                                        'string_item_ids_current'=>$string_item_ids_next,--}}
+                                        {{--                                        'string_all_codes_current'=>$string_all_codes_next,--}}
                                         @endif
                                         @include('layouts.item.empty_name', ['name'=>$item->name()])
                                         @if ($item_index_view)
@@ -353,9 +358,9 @@ if ($base_index == true) {
         'prev_body_all_page'=>$body_all_page
         ])}}"
                                    title="">
-{{--                                    'string_link_ids_current'=>$string_link_ids_next,--}}
-{{--                                    'string_item_ids_current'=>$string_item_ids_next,--}}
-{{--                                    'string_all_codes_current'=>$string_all_codes_next,--}}
+                                    {{--                                    'string_link_ids_current'=>$string_link_ids_next,--}}
+                                    {{--                                    'string_item_ids_current'=>$string_item_ids_next,--}}
+                                    {{--                                    'string_all_codes_current'=>$string_all_codes_next,--}}
                                     @endif
                                     {{--                                    @endif--}}
                                     @include('layouts.item.empty_name', ['name'=>$item_find->name(false,false,false)])
