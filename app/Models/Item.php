@@ -430,4 +430,23 @@ class Item extends Model
         return ['result' => $result, 'value' => $value];
     }
 
+    // Для типа полей Дата
+    // Преобразует '2022-06-15' в 'HJHH-JD-IE' для сортировки по убыванию
+    function dt_desc()
+    {
+        //$result = $this->name();
+        $name = "";  // нужно, не удалять
+        $index = array_search(App::getLocale(), config('app.locales'));
+        if ($index !== false) {   // '!==' использовать, '!=' не использовать
+            $name = 'name_lang_' . $index;
+        }
+        $result = $this[$name];
+        $search  = array('0', '1', '2', '3', '4', '5', '6', '7', '8', '9');
+        $replace = array('J', 'I', 'H', 'G', 'F', 'E', 'D', 'C', 'B', 'A');
+        if ($this->base->type_is_date()) {
+            $result = str_replace($search, $replace, $result);
+        }
+        return $result;
+    }
+
 }

@@ -424,4 +424,6 @@ return [
     'is_skip_count_records_equal_1_item_body_index' => 'Если количество записей равно 1, то пропустить список item_body_index',
     'value_not_found' => 'Значение не найдено',
     'is_calcnm_correct_lst' => 'Вычисляемое наименование корректно',
+    'is_parent_full_sort_asc' => 'Сортировка по возрастанию в полном списке (для дат)',
+    'is_parent_page_sort_asc' => 'Сортировка по возрастанию в страничном списке (для дат)',
     ];

@@ -387,6 +387,9 @@ class GlobalController extends Controller
         $is_edit_email_question_base_update = $base_right['is_edit_email_question_base_update'];
         $is_show_email_base_delete = $base_right['is_show_email_base_delete'];
         $is_show_email_question_base_delete = $base_right['is_show_email_question_base_delete'];
+        // 'true' - значение по умолчанию
+        $is_parent_full_sort_asc = true;
+        $is_parent_page_sort_asc = true;
         //  Проверка Показывать Связь с признаком "Ссылка на основу"
         if ($role->is_list_link_baselink == false && $link->parent_is_base_link == true) {
             $is_list_link_enable = false;
@@ -423,6 +426,8 @@ class GlobalController extends Controller
             $is_edit_link_update = $roli->is_edit_link_update;
             $is_hier_base_enable = $roli->is_hier_base_enable;
             $is_hier_link_enable = $roli->is_hier_link_enable;
+            $is_parent_full_sort_asc = $roli->is_parent_full_sort_asc;
+            $is_parent_page_sort_asc = $roli->is_parent_page_sort_asc;
         }
         $is_edit_link_enable = $is_edit_link_read || $is_edit_link_update;
 
@@ -462,6 +467,8 @@ class GlobalController extends Controller
             'is_show_email_question_base_delete' => $is_show_email_question_base_delete,
             'is_roli_list_link_enable' => $is_roli_list_link_enable,
             'is_roli_body_link_enable' => $is_roli_body_link_enable,
+            'is_parent_full_sort_asc' => $is_parent_full_sort_asc,
+            'is_parent_page_sort_asc' => $is_parent_page_sort_asc,
         ];
     }
 
@@ -651,7 +658,12 @@ class GlobalController extends Controller
                                             || $item_find->base->type_is_string()
                                             || $item_find->base->type_is_text()) {
                                             $str = $str . str_pad(trim($item_find[$name]), 50);
-                                        } else {
+                                        }
+                                        // '$base_link_right['is_parent_full_sort_asc']' используется
+                                        elseif ($item_find->base->type_is_date() && $base_link_right['is_parent_full_sort_asc'] == false){
+                                            $str = $str . trim($item_find->dt_desc());
+                                        }
+                                        else {
                                             $str = $str . trim($item_find[$name]);
                                         }
                                         $str = $str . "|";
@@ -775,7 +787,11 @@ class GlobalController extends Controller
                                     || $item_find->base->type_is_string()
                                     || $item_find->base->type_is_text()) {
                                     $str = $str . str_pad(trim($item_find[$name]), 50);
-                                } else {
+                                }
+                                // '$base_link_right['is_parent_page_sort_asc']' используется
+                                elseif ($item_find->base->type_is_date() && $base_link_right['is_parent_page_sort_asc'] == false){
+                                    $str = $str . trim($item_find->dt_desc());
+                                }else {
                                     $str = $str . trim($item_find[$name]);
                                 }
                                 $str = $str . "|";
@@ -1822,6 +1838,7 @@ class GlobalController extends Controller
                 }
                 if ($view_found_ret_id == false) {
                     foreach ($array_relips as $relit_id => $value) {
+                        // Присваиваем $relit_id первый по списку; $link = null, значит будут показаны все связи и берем первый возможный проект ($relit_id)
                         $view_ret_id = $relit_id;
                         $view_found_ret_id = true;
                         break;

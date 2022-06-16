@@ -424,4 +424,6 @@ return [
     'is_skip_count_records_equal_1_item_body_index' => 'If the count of entries is 1, skip the list base_index',
     'value_not_found' => 'Value not found',
     'is_calcnm_correct_lst' => 'Calculated name is correct',
+    'is_parent_full_sort_asc' => 'Sort in ascending order in the full list (for dates)',
+    'is_parent_page_sort_asc' => 'Sort in ascending order in the page list (for dates)',
     ];

@@ -424,4 +424,6 @@ return [
     'is_skip_count_records_equal_1_item_body_index' => 'Егер жазбалар саны 1-ге тең болса, онда тізімді өткізіп жіберу керек item_body_index',
     'value_not_found' => 'Мән табылмады',
     'is_calcnm_correct_lst' => 'Есептелетін атау дұрыс',
+    'is_parent_full_sort_asc' => 'Толық тізімдегі өсуі бойынша сұрыптау (күндер үшін)',
+    'is_parent_page_sort_asc' => 'Беттік тізімдегі өсуі бойынша сұрыптау (күндер үшін)',
     ];

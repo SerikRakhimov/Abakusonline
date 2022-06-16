@@ -278,6 +278,56 @@
             </div>
         </div>
 
+        <div class="form-group row" id="is_parent_full_sort_asc_form_group">
+            <div class="col-sm-3 text-right">
+                <label class="form-label"
+                       for="is_parent_full_sort_asc">{{trans('main.is_parent_full_sort_asc')}}</label>
+            </div>
+            <div class="col-sm-7">
+                <input class="@error('is_parent_full_sort_asc') is-invalid @enderror"
+                       type="checkbox"
+                       name="is_parent_full_sort_asc"
+                       placeholder=""
+                       {{--                       "$roli->is_parent_full_sort_asc ?? true" - "true" значение по умолчанию--}}
+                       @if ((old('is_parent_full_sort_asc') ?? ($roli->is_parent_full_sort_asc ?? true)) ==  true)
+                       checked
+                    @endif
+                >
+                @error('is_parent_full_sort_asc')
+                <div class="invalid-feedback">
+                    {{$message}}
+                </div>
+                @enderror
+            </div>
+            <div class="col-sm-2">
+            </div>
+        </div>
+
+        <div class="form-group row" id="is_parent_page_sort_asc_form_group">
+            <div class="col-sm-3 text-right">
+                <label class="form-label"
+                       for="is_parent_page_sort_asc">{{trans('main.is_parent_page_sort_asc')}}</label>
+            </div>
+            <div class="col-sm-7">
+                <input class="@error('is_parent_page_sort_asc') is-invalid @enderror"
+                       type="checkbox"
+                       name="is_parent_page_sort_asc"
+                       placeholder=""
+                       {{--                       "$roli->is_parent_page_sort_asc ?? true" - "true" значение по умолчанию--}}
+                       @if ((old('is_parent_page_sort_asc') ?? ($roli->is_parent_page_sort_asc ?? true)) ==  true)
+                       checked
+                    @endif
+                >
+                @error('is_parent_page_sort_asc')
+                <div class="invalid-feedback">
+                    {{$message}}
+                </div>
+                @enderror
+            </div>
+            <div class="col-sm-2">
+            </div>
+        </div>
+
         <br>
         <div class="container-fluid">
             <div class="row text-center">

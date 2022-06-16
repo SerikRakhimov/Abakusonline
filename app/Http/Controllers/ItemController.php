@@ -263,7 +263,7 @@ class ItemController extends Controller
         $items = $items_right['items'];
         if ($items) {
             $is_table_body = true;
-            $items = $items->paginate(3, ['*'], 'base_index_page');
+            $items = $items->paginate(60, ['*'], 'base_index_page');
             $base_index_page_current = $items->currentPage();
             $its_page = GlobalController::its_page($role, $relit_id, $items_right['links'], $items);
             $base_index_page_current = 0;
@@ -626,7 +626,7 @@ class ItemController extends Controller
             $relip_body_project = GlobalController::calc_relip_project($view_ret_id, $project);
             // Используется $relip_body_project, $view_ret_id
             $items_body_right = GlobalController::items_right($current_link->child_base, $relip_body_project, $role, $relit_id, $item->id, $current_link->id, $project, $view_ret_id);
-            $body_items = $items_body_right['items']->paginate(3, ['*'], 'body_link_page');
+            $body_items = $items_body_right['items']->paginate(60, ['*'], 'body_link_page');
             $its_body_page = GlobalController::its_page($role, $relit_id, $items_body_right['links'], $body_items);
             // Нужно
             //$next_all_mains = null;
@@ -654,7 +654,7 @@ class ItemController extends Controller
         }
 
         if ($next_all_mains) {
-            $next_all_mains = $next_all_mains->paginate(3, ['*'], 'body_all_page');
+            $next_all_mains = $next_all_mains->paginate(60, ['*'], 'body_all_page');
         }
 
         // Команды ниже нужны
