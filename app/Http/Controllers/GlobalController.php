@@ -1820,6 +1820,13 @@ class GlobalController extends Controller
                         break;
                     }
                 }
+                if ($view_found_ret_id == false) {
+                    foreach ($array_relips as $relit_id => $value) {
+                        $view_ret_id = $relit_id;
+                        $view_found_ret_id = true;
+                        break;
+                    }
+                }
             }
             if ($view_found_ret_id == false) {
                 // Нужно для сравнения "if ($view_ret_id != $view_ret_new_id)" в ItemController::item_index()
