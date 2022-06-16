@@ -18,8 +18,8 @@ $i_par_link = null;
 if ($base_index == true) {
     $i_par_link = GlobalController::par_link_const_text_base_null();
 } else {
-    $i_par_link = GlobalController::par_link_const_textnull();
-//    $i_par_link = $view_link;
+//    $i_par_link = GlobalController::par_link_const_textnull();
+    $i_par_link = $view_link;
 }
 ?>
 {{--<table class="table table-sm table-bordered table-hover">--}}
