@@ -22,7 +22,7 @@ $get_project_logo_item = $get_items_setup['logo_item'];
             @endif
             @include('layouts.project.show_icons',['project'=>$project])
             @if($get_project_logo_item)
-                @include('view.img',['item'=>$get_project_logo_item, 'size'=>"medium", 'filenametrue'=>false, 'link'=>false, 'img_fluid'=>true, 'title'=>'empty'])
+                @include('view.img',['item'=>$get_project_logo_item, 'size'=>"small", 'filenametrue'=>false, 'link'=>false, 'img_fluid'=>true, 'title'=>'empty'])
             @endif
         </a>
     </p>
