@@ -160,29 +160,6 @@
 
     {{--    </div>--}}
 
-    {{--    Вывод сведений о подписке--}}
-    @if(Auth::check())
-        <hr>
-        <small>
-            {{trans('main.current_status')}}: <span
-                class="text-title">{{ProjectController::current_status($project, $role)}}</span>
-        </small>
-        @if($is_subs == true)
-            <button type="button" class="btn btn-sm btn-dreamer" title="{{trans('main.subscribe')}}"
-                    onclick="document.location='{{route('project.subs_create',
-                        ['is_request' => $is_num_request, 'project'=>$project, 'role'=>$role])}}'">
-                <i class="fas fa-book-open d-inline"></i>&nbsp;{{trans('main.subscribe')}}
-            </button>
-        @endif
-        @if($is_delete == true)
-            <button type="button" class="btn btn-sm btn-dreamer" title="{{trans('main.delete_subscription')}}"
-                    onclick="document.location='{{route('project.subs_delete',
-                        [ 'project'=>$project, 'role'=>$role])}}'">
-                <i class="fas fa-trash"></i>&nbsp;{{trans('main.delete_subscription')}}
-            </button>
-        @endif
-    @endif
-
     @if(1==2)
         <?php
         $i = $bases->firstItem() - 1;
@@ -209,8 +186,8 @@
                                         {{$base_names}}
                                     </a>
                                 </h5>
-{{--                                <span--}}
-{{--                                    class="badge badge-related badge-pill">{{GlobalController::items_right($base, $project, $role, 0)['view_count']}}</span>--}}
+                                {{--                                <span--}}
+                                {{--                                    class="badge badge-related badge-pill">{{GlobalController::items_right($base, $project, $role, 0)['view_count']}}</span>--}}
                             </li>
                         @endif
                     @endforeach
@@ -219,8 +196,32 @@
         </div>
         {{$bases->links()}}
     @endif
-
-    <blockquote class="text-title pt-1 pl-5 pr-5"><?php echo nl2br($project->dc_ext()); ?></blockquote>
-    {{--    <blockquote class="text-title pt-1 pl-5 pr-5"><?php echo nl2br($project->dc_int()); ?></blockquote>--}}
+    @if($project->dc_ext() != "")
+        <hr>
+        <blockquote class="text-title pt-1 pl-5 pr-5"><?php echo nl2br($project->dc_ext()); ?></blockquote>
+        {{--    <blockquote class="text-title pt-1 pl-5 pr-5"><?php echo nl2br($project->dc_int()); ?></blockquote>--}}
+    @endif
+    {{--    Вывод сведений о подписке--}}
+    @if(Auth::check())
+        <hr>
+        <small>
+            {{trans('main.current_status')}}: <span
+                class="text-title">{{ProjectController::current_status($project, $role)}}</span>
+        </small>
+        @if($is_subs == true)
+            <button type="button" class="btn btn-sm btn-dreamer" title="{{trans('main.subscribe')}}"
+                    onclick="document.location='{{route('project.subs_create',
+                        ['is_request' => $is_num_request, 'project'=>$project, 'role'=>$role])}}'">
+                <i class="fas fa-book-open d-inline"></i>&nbsp;{{trans('main.subscribe')}}
+            </button>
+        @endif
+        @if($is_delete == true)
+            <button type="button" class="btn btn-sm btn-dreamer" title="{{trans('main.delete_subscription')}}"
+                    onclick="document.location='{{route('project.subs_delete',
+                        [ 'project'=>$project, 'role'=>$role])}}'">
+                <i class="fas fa-trash"></i>&nbsp;{{trans('main.delete_subscription')}}
+            </button>
+        @endif
+    @endif
 @endsection
 
