@@ -12,17 +12,17 @@ $get_project_logo_item = $get_items_setup['logo_item'];
     <p class="text-center">
         <a href="{{route('project.start', ['project' => $project->id, 'role' => $role])}}"
            title="{{trans('main.mainmenu')}}">
+            @if($get_project_logo_item)
+                @include('view.img',['item'=>$get_project_logo_item, 'size'=>"avatar", 'filenametrue'=>false, 'link'=>false, 'img_fluid'=>false, 'title'=>'empty'])
+            @endif
             <mark class="text-project">{{$project->name()}}</mark>
+            @include('layouts.project.show_icons',['project'=>$project])
             <br>
             @if($is_relit_id)
                 @if($relit_id != 0 && $role->is_view_info_relits == true)
                     <small><small><small>{{trans('main.project')}}: </small></small></small>
                     <small><small>{{$relip_project->name()}}</small></small>
                 @endif
-            @endif
-            @include('layouts.project.show_icons',['project'=>$project])
-            @if($get_project_logo_item)
-                @include('view.img',['item'=>$get_project_logo_item, 'size'=>"avatar", 'filenametrue'=>false, 'link'=>false, 'img_fluid'=>false, 'title'=>'empty'])
             @endif
         </a>
     </p>
