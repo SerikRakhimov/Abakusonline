@@ -4,6 +4,8 @@ $is_relit_id = isset($relit_id);
 if ($is_relit_id) {
     $relip_project = GlobalController::calc_relip_project($relit_id, $project);
 }
+$get_items_setup = $project->get_items_setup();
+$get_project_logo_item = $get_items_setup['logo_item'];
 ?>
 <p>
 <div class="container-fluid">
