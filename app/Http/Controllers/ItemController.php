@@ -688,7 +688,7 @@ class ItemController extends Controller
         $string_current = self::string_zip_current_next($string_link_ids_current, $string_item_ids_current, $string_relit_ids_current, $string_all_codes_current);
         $string_next = self::string_zip_current_next($string_link_ids_next, $string_item_ids_next, $string_relit_ids_next, $string_all_codes_next);
 
-        if (count($next_all_links) == 0 && false) {
+        if (count($next_all_links) == 0) {
             return redirect()->route('item.ext_show', ['item' => $item, 'project' => $project, 'role' => $role,
                 'usercode' => GlobalController::usercode_calc(),
                 'relit_id' => $relit_id,
