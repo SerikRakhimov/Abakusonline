@@ -14,9 +14,10 @@ $get_project_logo_item = $get_items_setup['logo_item'];
            title="{{trans('main.mainmenu')}}">
             @if($get_project_logo_item)
                 @include('view.img',['item'=>$get_project_logo_item, 'size'=>"avatar", 'filenametrue'=>false, 'link'=>false, 'img_fluid'=>false, 'title'=>'empty'])
+                &nbsp;
             @endif
             <mark class="text-project">{{$project->name()}}</mark>
-            @include('layouts.project.show_icons',['project'=>$project])
+            &nbsp;@include('layouts.project.show_icons',['project'=>$project])
             <br>
             @if($is_relit_id)
                 @if($relit_id != 0 && $role->is_view_info_relits == true)
