@@ -208,8 +208,8 @@
     {{--    </div><!-- Конец карточки -->--}}
     @if($tile_view['result'] == true)
         <div class="card-columns">
-{{--        $items_page используется--}}
-            @foreach($items_page as $item)
+{{--        $its_page используется--}}
+            @foreach($its_page as $item)
                 <?php
                 $i = $i + 1;
                 $item_find = GlobalController::view_info($item->id, $link_image->id);
