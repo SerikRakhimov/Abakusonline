@@ -846,9 +846,12 @@ class ProjectController extends Controller
         }
         $array_relips = GlobalController::get_project_bases($project, $role, true)['array_relips'];
 
+        $get_items_setup = $project->get_items_setup();
+        $get_project_logo_item = $get_items_setup['logo_item'];
+
         session(['projects_previous_url' => request()->url()]);
 
-        return view('project/start', ['array_relips' => $array_relips, 'project' => $project, 'role' => $role, 'bases' => $bases->paginate(60)]);
+        return view('project/start', ['array_relips' => $array_relips, 'project' => $project, 'role' => $role, 'bases' => $bases->paginate(60), 'get_project_logo_item' => $get_project_logo_item]);
 
     }
 
