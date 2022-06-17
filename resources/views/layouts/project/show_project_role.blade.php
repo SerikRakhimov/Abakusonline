@@ -17,6 +17,10 @@ $get_project_logo_item = $get_items_setup['logo_item'];
                 &nbsp;
             @endif
             <mark class="text-project">{{$project->name()}}</mark>
+                @if($get_project_logo_item)
+                    &nbsp;
+                    @include('view.img',['item'=>$get_project_logo_item, 'size'=>"avatar", 'filenametrue'=>false, 'link'=>false, 'img_fluid'=>false, 'title'=>'empty'])
+                @endif
             &nbsp;@include('layouts.project.show_icons',['project'=>$project])
             <br>
             @if($is_relit_id)
