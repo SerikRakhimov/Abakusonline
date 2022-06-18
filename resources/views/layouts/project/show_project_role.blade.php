@@ -31,8 +31,8 @@ $get_project_logo_item = $get_items_setup['logo_item'];
         <div class="col-6 text-left">
             <a href="{{route('project.start', ['project' => $project->id, 'role' => $role])}}"
                title="{{trans('main.mainmenu')}}">
-                <mark
-                    class="text-project">@guest{{trans('main.guest')}}@endguest @auth{{Auth::user()->name()}}@endauth</mark>
+                {{-- <mark class="text-project">@guest{{trans('main.guest')}}@endguest @auth{{Auth::user()->name()}}@endauth</mark>--}}
+                <mark class="text-project">{{$project->user->name()}}</mark>
             </a>
         </div>
         <div class="col-6 text-right">
