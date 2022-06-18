@@ -31,17 +31,17 @@ $get_user_author_avatar_item = $project->user->get_user_avatar_item();
     <div class="row">
         <div class="col-6 text-left">
             <a href="{{route('project.start', ['project' => $project->id, 'role' => $role])}}"
-               title="{{trans('main.mainmenu')}}">
+               title="{{trans('main.author')}}">
                 {{-- <mark class="text-project">@guest{{trans('main.guest')}}@endguest @auth{{Auth::user()->name()}}@endauth</mark>--}}
                 <mark class="text-project">{{$project->user->name()}}</mark>
                 @if($get_user_author_avatar_item)
-                    @include('view.img',['item'=>$get_user_author_avatar_item, 'size'=>"avatar", 'filenametrue'=>false, 'link'=>false, 'img_fluid'=>false, 'title'=>'empty'])
+                    @include('view.img',['item'=>$get_user_author_avatar_item, 'size'=>"avatar", 'filenametrue'=>false, 'link'=>false, 'img_fluid'=>false, 'title'=>trans('main.author')])
                 @endif
             </a>
         </div>
         <div class="col-6 text-right">
             <a href="{{route('project.start', ['project' => $project->id, 'role' => $role])}}"
-               title="{{trans('main.mainmenu')}}">
+               title="{{trans('main.role')}}">
                 <mark class="text-project">{{$role->name()}}</mark>
             </a>
         </div>
