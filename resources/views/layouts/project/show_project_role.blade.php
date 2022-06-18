@@ -6,6 +6,7 @@ if ($is_relit_id) {
 }
 $get_items_setup = $project->get_items_setup();
 $get_project_logo_item = $get_items_setup['logo_item'];
+$get_user_author_avatar_item = $project->user->get_user_avatar_item();
 ?>
 <p>
 <div class="container-fluid">
@@ -33,6 +34,9 @@ $get_project_logo_item = $get_items_setup['logo_item'];
                title="{{trans('main.mainmenu')}}">
                 {{-- <mark class="text-project">@guest{{trans('main.guest')}}@endguest @auth{{Auth::user()->name()}}@endauth</mark>--}}
                 <mark class="text-project">{{$project->user->name()}}</mark>
+                @if($get_user_author_avatar_item)
+                    @include('view.img',['item'=>$get_user_author_avatar_item, 'size'=>"avatar", 'filenametrue'=>false, 'link'=>false, 'img_fluid'=>false, 'title'=>'empty'])
+                @endif
             </a>
         </div>
         <div class="col-6 text-right">
