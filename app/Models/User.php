@@ -74,7 +74,7 @@ class User extends Authenticatable
         $usersetup_project_id = env('USERSETUP_PROJECT_ID');
         $usersetup_base_id = env('USERSETUP_BASE_ID');
         $usersetup_avatar_link_id = env('USERSETUP_AVATAR_LINK_ID');
-        if (Auth::check()) {
+        //if (Auth::check()) {
             if ($usersetup_project_id != '' && $usersetup_base_id != '' && $usersetup_avatar_link_id != '') {
                 $project = Project::find($usersetup_project_id);
                 $base = Base::find($usersetup_base_id);
@@ -99,7 +99,7 @@ class User extends Authenticatable
 
                 }
             }
-        }
+        //}
         return $result_item;
     }
 
