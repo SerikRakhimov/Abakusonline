@@ -264,9 +264,8 @@ class ItemController extends Controller
         if ($items) {
             $is_table_body = true;
             $items = $items->paginate(60, ['*'], 'base_index_page');
-            $base_index_page_current = $items->currentPage();
             $its_page = GlobalController::its_page($role, $relit_id, $items_right['links'], $items);
-            $base_index_page_current = 0;
+            $base_index_page_current = $items->currentPage();
             $body_link_page_current = 0;
             $body_all_page_current = 0;
             //if ($items) {
