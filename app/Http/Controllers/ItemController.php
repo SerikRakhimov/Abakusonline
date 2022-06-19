@@ -4417,14 +4417,14 @@ class ItemController extends Controller
                 $i = 0;
                 $valits = $values;
 
-                // Похожие строки при добавлении (функция ext_store()) и сохранении (функция ext_update()) записи
-                // Нужно 'where('id', '!=', $item->id)'
-                $items_unique_select = Item::where('id', '!=', $item->id)
-                    ->where('project_id', '=', $relip_project->id);
-                // Нужно '$items_unique_exist = false;'
-                $items_unique_exist = false;
-                // Нужно '$items_unique_bases = '';'
-                $items_unique_bases = '';
+//                // Похожие строки при добавлении (функция ext_store()) и сохранении (функция ext_update()) записи
+//                // Нужно 'where('id', '!=', $item->id)'
+//                $items_unique_select = Item::where('id', '!=', $item->id)
+//                    ->where('project_id', '=', $relip_project->id);
+//                // Нужно '$items_unique_exist = false;'
+//                $items_unique_exist = false;
+//                // Нужно '$items_unique_bases = '';'
+//                $items_unique_bases = '';
                 foreach ($keys as $key) {
                     $main = Main::where('child_item_id', $item->id)->where('link_id', $key)->first();
                     $link = Link::where('id', $key)->first();
@@ -4444,20 +4444,49 @@ class ItemController extends Controller
                         }
                         $this->save_main($main, $item, $keys, $values, $valits, $i, $strings_inputs);
                         // После выполнения массив $valits заполнен ссылками $item->id
-                        // Проверка на уникальность значений $item->child_mains;
-                        // Похожие строки при добавлении (функция ext_store()) и сохранении (функция ext_update()) записи
-                        if ($link->parent_is_unique == true) {
-                            $items_unique_select = $items_unique_select->whereHas('child_mains', function ($query) use ($keys, $valits, $i) {
-                                $query->where('link_id', $keys[$i])
-                                    ->where('parent_item_id', $valits[$i]);
+//                        // Проверка на уникальность значений $item->child_mains;
+//                        // Похожие строки при добавлении (функция ext_store()) и сохранении (функция ext_update()) записи
+//                        if ($link->parent_is_unique == true) {
+//                            $items_unique_select = $items_unique_select->whereHas('child_mains', function ($query) use ($keys, $valits, $i) {
+//                                $query->where('link_id', $keys[$i])
+//                                    ->where('parent_item_id', $valits[$i]);
+//                            });
+//                            $items_unique_bases = $items_unique_bases . ($items_unique_exist == false ? '' : ', ') . $link->parent_base->name();;
+//                            // Нужно '$items_unique_exist = true;'
+//                            $items_unique_exist = true;
+//                        }
+
+                        // "$i = $i + 1;" использовать здесь, т.к. индексы в массивах начинаются с 0
+                        $i = $i + 1;
+                    }
+                }
+
+                $get_child_links = $this->get_child_links($base);
+
+                // Похожие строки при добавлении (функция ext_store()) и сохранении (функция ext_update()) записи
+                // Нужно 'where('id', '!=', $item->id)'
+                $items_unique_select = Item::where('id', '!=', $item->id)
+                    ->where('project_id', '=', $relip_project->id);
+                // Нужно '$items_unique_exist = false;'
+                $items_unique_exist = false;
+                // Нужно '$items_unique_bases = '';'
+                $items_unique_bases = '';
+
+                foreach ($get_child_links as $key => $link) {
+                    // Проверка на уникальность значений $item->child_mains;
+                    // Похожие строки при добавлении (функция ext_store()) и сохранении (функция ext_update()) записи
+                    if ($link->parent_is_unique == true) {
+                        $main = Main::where('child_item_id', $item->id)->where('link_id', $link)->first();
+                        if ($main) {
+                            $parent_item_id = $main->$parent_item_id;
+                            $items_unique_select = $items_unique_select->whereHas('child_mains', function ($query) use ($link, $parent_item_id) {
+                                $query->where('link_id', $link)
+                                    ->where('parent_item_id', $parent_item_id);
                             });
                             $items_unique_bases = $items_unique_bases . ($items_unique_exist == false ? '' : ', ') . $link->parent_base->name();;
                             // Нужно '$items_unique_exist = true;'
                             $items_unique_exist = true;
                         }
-
-                        // "$i = $i + 1;" использовать здесь, т.к. индексы в массивах начинаются с 0
-                        $i = $i + 1;
                     }
                 }
 
