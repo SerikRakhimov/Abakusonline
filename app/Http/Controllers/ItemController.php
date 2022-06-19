@@ -4461,7 +4461,7 @@ class ItemController extends Controller
                     }
                 }
 
-                $get_child_links = $this->get_child_links($base);
+                $get_child_links = $this->get_child_links($item->base);
 
                 // Похожие строки при добавлении (функция ext_store()) и сохранении (функция ext_update()) записи
                 // Нужно 'where('id', '!=', $item->id)'
