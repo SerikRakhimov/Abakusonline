@@ -2081,15 +2081,15 @@ class ItemController extends Controller
                     // "<option value = '0'>" присваивается при заполнении 'edit.blade' если нет данных (объектов по заданному base)            if ($value == 0)
                     // "$value === '0'" использовать для точного сравнения (например, при $link->parent_base->type_is_string())
                     if ($value == null) {
-                        $array_mess[$key] = trans('main.no_data_on') . ' "' . $link->parent_base->name() . '"!';
+                        $array_mess[$key] = trans('main.no_data_on') . ' "' . $link->parent_label() . '"!';
                         $errors = true;
                     } elseif ($value === '0') {
-                        $array_mess[$key] = trans('main.no_data_on') . ' "' . $link->parent_base->name() . '"!';
+                        $array_mess[$key] = trans('main.no_data_on') . ' "' . $link->parent_label() . '"!';
                         $errors = true;
                     } else {
                         $floatvalue = floatval($value);
                         if ($floatvalue == 0) {
-                            $array_mess[$key] = trans('main.no_data_on') . ' "' . $link->parent_base->name() . '"!';
+                            $array_mess[$key] = trans('main.no_data_on') . ' "' . $link->parent_label() . '"!';
                             $errors = true;
                         }
                     }
