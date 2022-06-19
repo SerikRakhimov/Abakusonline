@@ -2284,12 +2284,13 @@ class ItemController extends Controller
                 // Нужно '$items_unique_bases = '';'
                 $items_unique_bases = '';
                 foreach ($get_child_links as $key => $link) {
+                    $link_id = $link->id;
                     if ($link->parent_is_unique == true) {
-                        $main = Main::where('child_item_id', $item->id)->where('link_id', $link)->first();
+                        $main = Main::where('child_item_id', $item->id)->where('link_id', $link_id)->first();
                         if ($main) {
-                            $parent_item_id = $main->$parent_item_id;
-                            $items_unique_select = $items_unique_select->whereHas('child_mains', function ($query) use ($link, $parent_item_id) {
-                                $query->where('link_id', $link)
+                            $parent_item_id = $main->parent_item_id;
+                            $items_unique_select = $items_unique_select->whereHas('child_mains', function ($query) use ($link_id, $parent_item_id) {
+                                $query->where('link_id', $link_id)
                                     ->where('parent_item_id', $parent_item_id);
                             });
                             $items_unique_bases = $items_unique_bases . ($items_unique_exist == false ? '' : ', ') . $link->parent_base->name();;
@@ -4457,12 +4458,13 @@ class ItemController extends Controller
                 // Нужно '$items_unique_bases = '';'
                 $items_unique_bases = '';
                 foreach ($get_child_links as $key => $link) {
+                    $link_id = $link->id;
                     if ($link->parent_is_unique == true) {
-                        $main = Main::where('child_item_id', $item->id)->where('link_id', $link)->first();
+                        $main = Main::where('child_item_id', $item->id)->where('link_id', $link_id)->first();
                         if ($main) {
-                            $parent_item_id = $main->$parent_item_id;
-                            $items_unique_select = $items_unique_select->whereHas('child_mains', function ($query) use ($link, $parent_item_id) {
-                                $query->where('link_id', $link)
+                            $parent_item_id = $main->parent_item_id;
+                            $items_unique_select = $items_unique_select->whereHas('child_mains', function ($query) use ($link_id, $parent_item_id) {
+                                $query->where('link_id', $link_id)
                                     ->where('parent_item_id', $parent_item_id);
                             });
                             $items_unique_bases = $items_unique_bases . ($items_unique_exist == false ? '' : ', ') . $link->parent_base->name();;
