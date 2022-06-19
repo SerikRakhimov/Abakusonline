@@ -2070,7 +2070,8 @@ class ItemController extends Controller
                             // "$value === '0'" использовать для точного сравнения (например, при $link->parent_base->type_is_string())
                             // Преобразование null в '' было ранее произведено
                             if ($name_lang_value == "") {
-                                $array_mess[$name_lang_key] = trans('main.no_data_on') . ' "' . $link->parent_base->name() . '"!';
+//                              $array_mess[$name_lang_key] = trans('main.no_data_on') . ' "' . $link->parent_base->name() . '"!';
+                                $array_mess[$name_lang_key] = trans('main.no_data_on') . ' "' . $link->parent_label() . '"!';
                                 $errors = true;
                             }
                             $i = $i + 1;
@@ -4278,7 +4279,8 @@ class ItemController extends Controller
                             // "$value === '0'" использовать для точного сравнения (например, при $link->parent_base->type_is_string())
                             // Преобразование null в '' было ранее произведено
                             if ($name_lang_value == "") {
-                                $array_mess[$name_lang_key] = trans('main.no_data_on') . ' "' . $link->parent_base->name() . '"!';
+//                              $array_mess[$name_lang_key] = trans('main.no_data_on') . ' "' . $link->parent_base->name() . '"!';
+                                $array_mess[$name_lang_key] = trans('main.no_data_on') . ' "' . $link->parent_label() . '"!';
                                 $errors = true;
                             }
                             $i = $i + 1;
