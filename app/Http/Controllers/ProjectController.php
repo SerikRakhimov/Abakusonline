@@ -550,7 +550,8 @@ class ProjectController extends Controller
                 return redirect()->route('project.subs_index');
             } elseif ($is_cancel_my_projects == true) {
                 return redirect()->route('project.my_index');
-            } elseif ($is_cancel_mysubs_projects == true) {
+//          } elseif ($is_cancel_mysubs_projects == true) {
+            } else {
                 return redirect()->route('project.mysubs_index');
             }
         }
@@ -564,7 +565,7 @@ class ProjectController extends Controller
             'is_cancel_all_projects' => false,
             'is_cancel_subs_projects' => false,
             'is_cancel_my_projects' => false,
-            'is_cancel_mysubs_projects' => false
+            'is_cancel_mysubs_projects' => true
         ]);
     }
 
@@ -576,7 +577,7 @@ class ProjectController extends Controller
             'is_cancel_all_projects' => false,
             'is_cancel_subs_projects' => false,
             'is_cancel_my_projects' => false,
-            'is_cancel_mysubs_projects' => false
+            'is_cancel_mysubs_projects' => true
         ]);
     }
 
