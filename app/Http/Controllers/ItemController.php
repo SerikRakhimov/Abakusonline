@@ -2227,6 +2227,12 @@ class ItemController extends Controller
                     if ($link) {
                         if ($link->child_base_id != $item->base_id) {
                             $delete_main = true;
+                            // Нужно
+                        } elseif ($link->parent_is_parent_related == true) {
+                            $delete_main = true;
+                            // Нужно
+                        } elseif ($link->parent_is_output_calculated_table_field == true) {
+                            $delete_main = true;
                         }
                     } else {
                         $delete_main = true;
@@ -4419,6 +4425,12 @@ class ItemController extends Controller
                     if ($link) {
                         if ($link->child_base_id != $item->base_id) {
                             $delete_main = true;
+                            // Нужно
+                        } elseif ($link->parent_is_parent_related == true) {
+                            $delete_main = true;
+                            // Нужно
+                        } elseif ($link->parent_is_output_calculated_table_field == true) {
+                            $delete_main = true;
                         }
                     } else {
                         $delete_main = true;
@@ -6129,10 +6141,17 @@ class ItemController extends Controller
 //          В $links_values попадают фактические записи, не попадают связанные и вычисляемые связи
             $links_ids = Main::select(DB::Raw('mains.link_id'))
                 ->where('child_item_id', '=', $item->id);
+            // Нужно "                    ->where(function ($query) {
+            //                        $query->where('parent_is_parent_related', '=', false)
+            //                            ->Where('parent_is_output_calculated_table_field', '=', false);
+            //                    });"
             $links_values = Link::joinSub($links_ids, 'links_ids', function ($join) {
-                $join->on('links.id', '=', 'links_ids.link_id');
+                $join->on('links.id', '=', 'links_ids.link_id')
+                    ->where(function ($query) {
+                        $query->where('parent_is_parent_related', '=', false)
+                            ->Where('parent_is_output_calculated_table_field', '=', false);
+                    });
             });
-
 //          $links = $base->child_links->(where('parent_is_parent_related', '=', true)
 //                        ->orWhere('parent_is_output_calculated_table_field', '=', true));
 //            связанные и вычисляемые связи
@@ -6150,7 +6169,6 @@ class ItemController extends Controller
             // '$links = $links_values->union($links_reca);' - так тоже работает
             // '->get()' нужно
             $links = $links_values->unionall($links_reca)->get();
-
         } else {
             $links = $base->child_links;
         }
