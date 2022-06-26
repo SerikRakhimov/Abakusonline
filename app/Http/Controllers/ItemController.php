@@ -960,6 +960,35 @@ class ItemController extends Controller
         return $result;
     }
 
+    function get_tree_item($role, $link, $string_current)
+    {
+        $result = null;
+        $string_unzip_current_next = self::string_unzip_current_next($string_current);
+        $string_link_ids_current = $string_unzip_current_next['string_link_ids'];
+        $string_item_ids_current = $string_unzip_current_next['string_item_ids'];
+        $string_relit_ids_current = $string_unzip_current_next['string_relit_ids'];
+        $string_all_codes_current = $string_unzip_current_next['string_all_codes'];
+
+        $tree_array = self::calc_tree_array($role,
+            $string_link_ids_current,
+            $string_item_ids_current,
+            $string_relit_ids_current,
+            $string_all_codes_current);
+
+        foreach ($tree_array as $value) {
+            $item = Item::find($value['item_id']);
+            if ($item) {
+                if ($link->parent_base_id == $item->base_id) {
+                    $result = $item;
+                    break;
+                }
+            }
+        }
+
+        return $result;
+
+    }
+
     function string_zip_current_next($string_link_ids, $string_item_ids, $string_relit_ids, $string_all_codes)
     {
         return $string_link_ids . ';' . $string_item_ids . ';' . $string_relit_ids . ';' . $string_all_codes;

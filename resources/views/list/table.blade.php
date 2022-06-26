@@ -125,7 +125,7 @@ if ($base_index == true) {
     'view_link' => GlobalController::set_par_view_link_null($view_link),
     'par_link'=>$view_link, 'parent_item'=>$parent_item,
     'parent_ret_id'=>$view_ret_id,
-    'string_current' => $string_current,
+    'string_current' => $string_next,
     ])}}"
                        title="{{trans('main.viewing_record')}}">
                         {{--                        'string_link_ids_current' => $string_link_ids_current,--}}

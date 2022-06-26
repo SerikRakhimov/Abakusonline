@@ -29,6 +29,7 @@
             <th class="text-left">{{trans('main.parent_label')}}</th>
             <th class="text-left">{{trans('main.parent_is_calcname')}}</th>
             <th class="text-left">{{trans('main.parent_calcname_prefix')}}</th>
+            <th class="text-left">{{trans('main.parent_is_tree_value')}}</th>
             <th class="text-left">parent is parent related</th>
             <th class="text-left">parent parent related start link id</th>
             <th class="text-left">parent parent related result link id</th>
@@ -94,6 +95,11 @@
                 <td class="text-left">
                     <a href="{{route('link.show',$link)}}">
                         {{$link->parent_calcname_prefix()}}
+                    </a>
+                </td>
+                <td class="text-left">
+                    <a href="{{route('link.show',$link)}}">
+                        {{$link->parent_is_tree_value}}
                     </a>
                 </td>
                 <td class="text-left">

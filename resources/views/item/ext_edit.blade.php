@@ -36,41 +36,41 @@
     </h3>
     <br>
     {{--    https://qastack.ru/programming/1191113/how-to-ensure-a-select-form-field-is-submitted-when-it-is-disabled--}}
-{{--    <form--}}
-{{--        action="{{$update ?--}}
-{{--        route('item.ext_update', ['item'=>$item, 'project' => $project, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(),--}}
-{{--        'relit_id' => GlobalController::set_relit_id($relit_id),--}}
-{{--    'string_link_ids_current' => $string_link_ids_current,--}}
-{{--    'string_item_ids_current' => $string_item_ids_current,--}}
-{{--    'string_all_codes_current'=> $string_all_codes_current,--}}
-{{--         'heading'=>$heading,--}}
-{{--         'base_index_page'=>$base_index_page, 'body_link_page'=>$body_link_page, 'body_all_page'=>$body_all_page,--}}
-{{--         'parent_ret_id' => GlobalController::set_relit_id($parent_ret_id),--}}
-{{--         'view_link'=>GlobalController::set_par_view_link_null($view_link),--}}
-{{--         'par_link' =>$par_link,--}}
-{{--         'parent_item' => $parent_item]):--}}
-{{--        route('item.ext_store', ['base'=>$base, 'project' => $project, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(),--}}
-{{--         'relit_id' => GlobalController::set_relit_id($relit_id),--}}
-{{--    'string_link_ids_current' => $string_link_ids_current,--}}
-{{--    'string_item_ids_current' => $string_item_ids_current,--}}
-{{--    'string_all_codes_current'=> $string_all_codes_current,--}}
-{{--            'heading'=>$heading,--}}
-{{--            'base_index_page'=>$base_index_page, 'body_link_page'=>$body_link_page,'body_all_page'=>$body_all_page,--}}
-{{--            'parent_ret_id' => GlobalController::set_relit_id($parent_ret_id),--}}
-{{--            'view_link'=>GlobalController::set_par_view_link_null($view_link),--}}
-{{--            'par_link' =>$par_link,--}}
-{{--            'parent_item' => $parent_item])}}"--}}
-{{--        method="POST"--}}
-{{--        enctype=multipart/form-data--}}
-{{--        @if($par_link)--}}
-{{--        onsubmit=on_submit()--}}
-{{--        --}}{{--        @else--}}
-{{--        --}}{{--        onsubmit="playSound('sound');"--}}
-{{--        @endif--}}
-{{--        name="form">--}}
-{{--    'string_link_ids_current' => $string_link_ids_current,--}}
-{{--    'string_item_ids_current' => $string_item_ids_current,--}}
-{{--    'string_all_codes_current'=> $string_all_codes_current,--}}
+    {{--    <form--}}
+    {{--        action="{{$update ?--}}
+    {{--        route('item.ext_update', ['item'=>$item, 'project' => $project, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(),--}}
+    {{--        'relit_id' => GlobalController::set_relit_id($relit_id),--}}
+    {{--    'string_link_ids_current' => $string_link_ids_current,--}}
+    {{--    'string_item_ids_current' => $string_item_ids_current,--}}
+    {{--    'string_all_codes_current'=> $string_all_codes_current,--}}
+    {{--         'heading'=>$heading,--}}
+    {{--         'base_index_page'=>$base_index_page, 'body_link_page'=>$body_link_page, 'body_all_page'=>$body_all_page,--}}
+    {{--         'parent_ret_id' => GlobalController::set_relit_id($parent_ret_id),--}}
+    {{--         'view_link'=>GlobalController::set_par_view_link_null($view_link),--}}
+    {{--         'par_link' =>$par_link,--}}
+    {{--         'parent_item' => $parent_item]):--}}
+    {{--        route('item.ext_store', ['base'=>$base, 'project' => $project, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(),--}}
+    {{--         'relit_id' => GlobalController::set_relit_id($relit_id),--}}
+    {{--    'string_link_ids_current' => $string_link_ids_current,--}}
+    {{--    'string_item_ids_current' => $string_item_ids_current,--}}
+    {{--    'string_all_codes_current'=> $string_all_codes_current,--}}
+    {{--            'heading'=>$heading,--}}
+    {{--            'base_index_page'=>$base_index_page, 'body_link_page'=>$body_link_page,'body_all_page'=>$body_all_page,--}}
+    {{--            'parent_ret_id' => GlobalController::set_relit_id($parent_ret_id),--}}
+    {{--            'view_link'=>GlobalController::set_par_view_link_null($view_link),--}}
+    {{--            'par_link' =>$par_link,--}}
+    {{--            'parent_item' => $parent_item])}}"--}}
+    {{--        method="POST"--}}
+    {{--        enctype=multipart/form-data--}}
+    {{--        @if($par_link)--}}
+    {{--        onsubmit=on_submit()--}}
+    {{--        --}}{{--        @else--}}
+    {{--        --}}{{--        onsubmit="playSound('sound');"--}}
+    {{--        @endif--}}
+    {{--        name="form">--}}
+    {{--    'string_link_ids_current' => $string_link_ids_current,--}}
+    {{--    'string_item_ids_current' => $string_item_ids_current,--}}
+    {{--    'string_all_codes_current'=> $string_all_codes_current,--}}
     <form
         action="{{$update ?
         route('item.ext_update', ['item'=>$item, 'project' => $project, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(),
@@ -893,6 +893,10 @@
                             $hidden_list = true;
                         }
                     }
+                    $item_tree = null;
+                    if ($link->parent_is_tree_value == true) {
+                        $item_tree = ItemController::get_tree_item($role, $link, $string_current);
+                    }
                     ?>
                     <div class="form-group row">
                         <div class="col-sm-3 text-right">
@@ -927,22 +931,28 @@
                                 @endif
                                 @endif
                             >
-                                @if ((count($items) == 0)))
-                                <option value='0'>{{trans('main.no_information_on')}}
-                                    "{{$result_parent_label}}"!
-                                </option>
+                                @if($item_tree)
+                                    <option value="{{$item_tree->id}}"
+                                    >{{$item_tree->name()}}
+                                    </option>
                                 @else
-                                    @if(!$link->parent_base->is_required_lst_num_str_txt_img_doc)
-                                        <option value="0">{{GlobalController::option_empty()}}</option>
+                                    @if ((count($items) == 0)))
+                                    <option value='0'>{{trans('main.no_information_on')}}
+                                        "{{$result_parent_label}}"!
+                                    </option>
+                                    @else
+                                        @if(!$link->parent_base->is_required_lst_num_str_txt_img_doc)
+                                            <option value="0">{{GlobalController::option_empty()}}</option>
+                                        @endif
+                                        @foreach ($items as $item_work)
+                                            <option value="{{$item_work->id}}"
+                                                    @if (((old($key)) ?? (($value != null) ? $value : 0)) == $item_work->id)
+                                                    selected
+                                                @endif
+                                            >{{$item_work->name()}}
+                                            </option>
+                                        @endforeach
                                     @endif
-                                    @foreach ($items as $item_work)
-                                        <option value="{{$item_work->id}}"
-                                                @if (((old($key)) ?? (($value != null) ? $value : 0)) == $item_work->id)
-                                                selected
-                                            @endif
-                                        >{{$item_work->name()}}
-                                        </option>
-                                    @endforeach
                                 @endif
                             </select>
                             @error($key)
