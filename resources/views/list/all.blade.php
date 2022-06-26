@@ -50,7 +50,7 @@ $i = $next_all_mains->firstItem() - 1;
             'view_link' => GlobalController::set_par_view_link_null($view_link),
             'par_link'=>$main->link, 'parent_item'=>$item,
         'parent_ret_id' => $view_ret_id,
-        'string_current' => $string_calc_next,
+        'string_current' => $string_current,
     ])}}"
                     title = "{{trans('main.viewing_record')}}">
 {{--                    'string_link_ids_current'=>$string_link_ids_current,--}}
