@@ -374,6 +374,8 @@ class ItemController extends Controller
                     // Все нужно
                     if ($base_tree_top_right['is_view_prev_next'] == false) {
                         $item = $item_tree_top;
+                        // Нужно
+                        $base_right = $base_tree_top_right;
                     }
                 }
             }
