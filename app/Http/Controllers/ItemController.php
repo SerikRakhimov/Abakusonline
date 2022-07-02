@@ -418,6 +418,7 @@ class ItemController extends Controller
                 $string_relit_ids_current,
                 $string_all_codes_current);
         }
+        // Используется 'is_list_base_calc' в ext_show.php и ItemController::item_index()
         // Нужно
         if (empty($tree_array)) {
             if ($base_right['is_bsin_base_enable'] == false) {

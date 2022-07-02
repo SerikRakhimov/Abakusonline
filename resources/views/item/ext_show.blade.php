@@ -120,7 +120,7 @@
                             {{--                            <span class="text-related">--}}
                             <b>
                                 {{--  Используется 'is_list_base_calc' в ext_show.php и ItemController::item_index()  --}}
-                                @if($base_link_right['is_list_base_calc'] == true)
+                                @if($base_link_right['is_list_base_calc'] == true && $base_link_right['is_bsmn_base_enable'] == true)
                                     <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item_find, 'role'=>$role,
                                         'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id, 'view_link'=>null])}}"
                                        title="">
