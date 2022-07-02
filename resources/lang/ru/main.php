@@ -427,4 +427,5 @@ return [
     'is_parent_full_sort_asc' => 'Сортировка по возрастанию в полном списке (для дат)',
     'is_parent_page_sort_asc' => 'Сортировка по возрастанию в страничном списке (для дат)',
     'parent_is_tree_value' => 'tree_value',
+    'parent_is_tree_top' => 'tree_top',
     ];

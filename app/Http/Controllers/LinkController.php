@@ -159,6 +159,7 @@ class LinkController extends Controller
         $link->parent_is_setup_project_external_description_txt = isset($request->parent_is_setup_project_external_description_txt) ? true : false;
         $link->parent_is_setup_project_internal_description_txt = isset($request->parent_is_setup_project_internal_description_txt) ? true : false;
         $link->parent_is_tree_value = isset($request->parent_is_tree_value) ? true : false;
+        $link->parent_is_tree_top = isset($request->parent_is_tree_top) ? true : false;
         $link->parent_is_user_login_str = isset($request->parent_is_user_login_str) ? true : false;
         $link->parent_is_user_email_str = isset($request->parent_is_user_email_str) ? true : false;
         $link->parent_is_user_avatar_img = isset($request->parent_is_user_avatar_img) ? true : false;
@@ -443,6 +444,7 @@ class LinkController extends Controller
         $link->parent_is_setup_project_external_description_txt = isset($request->parent_is_setup_project_external_description_txt) ? true : false;
         $link->parent_is_setup_project_internal_description_txt = isset($request->parent_is_setup_project_internal_description_txt) ? true : false;
         $link->parent_is_tree_value = isset($request->parent_is_tree_value) ? true : false;
+        $link->parent_is_tree_top = isset($request->parent_is_tree_top) ? true : false;
         $link->parent_is_user_login_str = isset($request->parent_is_user_login_str) ? true : false;
         $link->parent_is_user_email_str = isset($request->parent_is_user_email_str) ? true : false;
         $link->parent_is_user_avatar_img = isset($request->parent_is_user_avatar_img) ? true : false;

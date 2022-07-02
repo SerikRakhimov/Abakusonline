@@ -427,4 +427,5 @@ return [
     'is_parent_full_sort_asc' => 'Sort in ascending order in the full list (for dates)',
     'is_parent_page_sort_asc' => 'Sort in ascending order in the page list (for dates)',
     'parent_is_tree_value' => 'tree_value',
+    'parent_is_tree_top' => 'tree_top',
     ];

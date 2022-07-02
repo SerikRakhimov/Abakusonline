@@ -427,4 +427,5 @@ return [
     'is_parent_full_sort_asc' => 'Толық тізімдегі өсуі бойынша сұрыптау (күндер үшін)',
     'is_parent_page_sort_asc' => 'Беттік тізімдегі өсуі бойынша сұрыптау (күндер үшін)',
     'parent_is_tree_value' => 'tree_value',
+    'parent_is_tree_top' => 'tree_top',
     ];

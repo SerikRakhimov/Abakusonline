@@ -629,6 +629,20 @@
             </div>
         </div>
 
+        <div class="form-group" id="parent_is_tree_top_form_group">
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" name="parent_is_tree_top"
+                       id="parent_is_tree_top"
+                       {{--            "false" - значение по умолчанию --}}
+                       @if ((old('parent_is_tree_top') ?? ($link->parent_is_tree_top ?? false)) ==  true)
+                       checked
+                    @endif
+                >
+                <label class="form-check-label"
+                       for="parent_is_tree_top">{{trans('main.parent_is_tree_top')}}</label>
+            </div>
+        </div>
+
         <div class="form-group" id="parent_is_user_login_str_form_group">
             <div class="form-check form-check-inline">
                 <input class="form-check-input" type="checkbox" name="parent_is_user_login_str"
