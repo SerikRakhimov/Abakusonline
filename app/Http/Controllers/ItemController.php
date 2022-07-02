@@ -360,17 +360,17 @@ class ItemController extends Controller
             return view('message', ['message' => trans('main.no_access')]);
         }
 
-// Если есть признак where('parent_is_array_top', true)
+// Если есть признак where('parent_is_tree_top', true)
 // Меняется только $item при вызове из base_index.php    ($view_link == GlobalController::par_link_const_text_base_null())
 // Было:  https://www.abakusonline.com/item/item_index/42/9220/34/18/0/text_base_null/null;null;null;null/1/0/0/0
 // Стало: https://www.abakusonline.com/item/item_index/42/9822/34/18/0/text_base_null/null;null;null;null/1/0/0/0
-// $item_array_top становится верхним в иерархии на экране, Связь автоматические подбирает $link
+// $item_tree_top становится верхним в иерархии на экране, Связь автоматические подбирает $link
         if ($view_link == GlobalController::par_link_const_text_base_null()) {
-            $link_array_top = $item->base->child_links->where('parent_is_array_top', true)->first();
-            if ($link_array_top) {
-                $item_array_top = GlobalController::view_info($item->id, $link_array_top->id);
-                if ($item_array_top) {
-                    $item = $item_array_top;
+            $link_tree_top = $item->base->child_links->where('parent_is_tree_top', true)->first();
+            if ($link_tree_top) {
+                $item_tree_top = GlobalController::view_info($item->id, $link_tree_top->id);
+                if ($item_tree_top) {
+                    $item = $item_tree_top;
                 }
             }
         }
