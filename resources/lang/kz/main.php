@@ -426,6 +426,7 @@ return [
     'is_calcnm_correct_lst' => 'Есептелетін атау дұрыс',
     'is_parent_full_sort_asc' => 'Толық тізімдегі өсуі бойынша сұрыптау (күндер үшін)',
     'is_parent_page_sort_asc' => 'Беттік тізімдегі өсуі бойынша сұрыптау (күндер үшін)',
-    'parent_is_tree_value' => 'tree_value',
-    'parent_is_tree_top' => 'tree_top',
+    'parent_is_tree_value' => 'Таңдау тізімінде табылса, таңдаудан мәнді ұсыну',
+    'parent_is_tree_top' => 'Негізгі негізді item_index.php шақырғанда осы байланысқа өту',
+    'is_view_prev_next' => 'Алдыңғы/келесі жазбаларды item_index.php көрсету',
     ];

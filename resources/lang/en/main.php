@@ -426,6 +426,7 @@ return [
     'is_calcnm_correct_lst' => 'Calculated name is correct',
     'is_parent_full_sort_asc' => 'Sort in ascending order in the full list (for dates)',
     'is_parent_page_sort_asc' => 'Sort in ascending order in the page list (for dates)',
-    'parent_is_tree_value' => 'tree_value',
-    'parent_is_tree_top' => 'tree_top',
+    'parent_is_tree_value' => 'Suggest a value from the tree_array in the selection list if it is found',
+    'parent_is_tree_top' => 'Switch to this link when you call the item_index.php with the primary base',
+    'is_view_prev_next' => 'Show previous/next records in item_index.php',
     ];

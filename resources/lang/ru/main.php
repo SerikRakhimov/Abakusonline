@@ -426,6 +426,7 @@ return [
     'is_calcnm_correct_lst' => 'Вычисляемое наименование корректно',
     'is_parent_full_sort_asc' => 'Сортировка по возрастанию в полном списке (для дат)',
     'is_parent_page_sort_asc' => 'Сортировка по возрастанию в страничном списке (для дат)',
-    'parent_is_tree_value' => 'tree_value',
-    'parent_is_tree_top' => 'tree_top',
+    'parent_is_tree_value' => 'Предлагать в списке выбора значение из tree_array, если оно найдено',
+    'parent_is_tree_top' => 'Переходить на эту связь при вызове item_index.php с основной основой',
+    'is_view_prev_next' => 'Показывать предыдущую/следующую записи в item_index.php',
     ];

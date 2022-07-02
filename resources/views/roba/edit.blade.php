@@ -226,6 +226,30 @@
             </div>
         </div>
 
+        <div class="form-group row" id="is_view_prev_next_form_group">
+            <div class="col-sm-3 text-right">
+                <label class="form-label"
+                       for="is_view_prev_next">{{trans('main.is_view_prev_next')}}</label>
+            </div>
+            <div class="col-sm-7">
+                <input class="@error('is_view_prev_next') is-invalid @enderror"
+                       type="checkbox"
+                       name="is_view_prev_next"
+                       placeholder=""
+                       @if ((old('is_view_prev_next') ?? ($roba->is_view_prev_next ?? true)) ==  true)
+                       checked
+                    @endif
+                >
+                @error('is_view_prev_next')
+                <div class="invalid-feedback">
+                    {{$message}}
+                </div>
+                @enderror
+            </div>
+            <div class="col-sm-2">
+            </div>
+        </div>
+
         <div class="form-group row" id="is_skip_count_records_equal_1_base_index_form_group">
             <div class="col-sm-3 text-right">
                 <label class="form-label"

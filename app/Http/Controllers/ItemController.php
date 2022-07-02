@@ -370,7 +370,11 @@ class ItemController extends Controller
             if ($link_tree_top) {
                 $item_tree_top = GlobalController::view_info($item->id, $link_tree_top->id);
                 if ($item_tree_top) {
-                    $item = $item_tree_top;
+                    $base_tree_top_right = GlobalController::base_right($item_tree_top->base, $role, $relit_id);
+                    // Все нужно
+                    if ($base_tree_top_right['is_view_prev_next'] == false) {
+                        $item = $item_tree_top;
+                    }
                 }
             }
         }
@@ -478,8 +482,13 @@ class ItemController extends Controller
 //        $items = $items_right['itget'];
         $items = $items_right['items'];
 
-        $prev_item = $items_right['prev_item'];
-        $next_item = $items_right['next_item'];
+        // Все нужно
+        $prev_item = null;
+        $next_item = null;
+        if ($base_right['is_view_prev_next'] == true) {
+            $prev_item = $items_right['prev_item'];
+            $next_item = $items_right['next_item'];
+        }
 
         // Передача параметров "$project, $role, false, true, $view_ret_id" нужна
         //$get_project_bases = GlobalController::get_project_bases($project, $role, false, true, $view_ret_id);
@@ -796,7 +805,8 @@ class ItemController extends Controller
                     'array_relips' => $array_relips,
                     'base_right' => $base_right,
                     'items' => $items,
-                    'prev_item' => $prev_item, 'next_item' => $next_item,
+                    'prev_item' => $prev_item,
+                    'next_item' => $next_item,
                     'child_links' => $child_links,
                     'child_links_info' => $child_links_info,
                     'child_mains_link_is_calcname' => $child_mains_link_is_calcname,
@@ -975,6 +985,7 @@ class ItemController extends Controller
         return $result;
     }
 
+    // Поиск в массиве tree_array $link->parent_base_id = $item->base_id
     function get_tree_item($role, $link, $string_current)
     {
         $result = null;
