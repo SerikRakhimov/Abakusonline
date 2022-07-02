@@ -123,7 +123,7 @@ use \App\Http\Controllers\GlobalController;
             {{--                </a>--}}
             {{--            @endforeach--}}
             <a class="navbar-brand" href="{{ url('/') }}" title="{{config('app.name')}}">
-                <img src="{{Storage::url('logotype.png')}}" width="30" height="30" class="d-inline-block align-top"
+                <img src="{{Storage::url('logotype.png')}}" width="30" height="30" class="circle d-inline-block align-top"
                      alt="" loading="lazy">
                 {{config('app.name')}}
             </a>
