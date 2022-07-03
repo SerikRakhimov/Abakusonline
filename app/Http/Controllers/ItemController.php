@@ -370,12 +370,14 @@ class ItemController extends Controller
             if ($link_tree_top) {
                 $item_tree_top = GlobalController::view_info($item->id, $link_tree_top->id);
                 if ($item_tree_top) {
-                    $base_tree_top_right = GlobalController::base_right($item_tree_top->base, $role, $relit_id);
+                    $relit_tree_top_id = $link_tree_top->parent_relit_id;
+                    $base_tree_top_right = GlobalController::base_right($item_tree_top->base, $role, $relit_tree_top_id);
                     // Все нужно
                     if ($base_tree_top_right['is_view_prev_next'] == false) {
                         $item = $item_tree_top;
                         // Нужно
                         $base_right = $base_tree_top_right;
+                        $relit_id = $relit_tree_top_id;
                     }
                 }
             }
