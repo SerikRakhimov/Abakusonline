@@ -385,16 +385,6 @@ class ItemController extends Controller
             }
         }
 
-        // Используется 'is_list_base_calc' в ext_show.php и ItemController::item_index()
-        // Нужно
-        if ($item_change == false) {
-            if (empty($tree_array)) {
-                if ($base_right['is_bsin_base_enable'] == false) {
-                    return view('message', ['message' => trans('main.no_access')]);
-                }
-            }
-        }
-
         // Нужно
         if ($view_link == null || $view_link == GlobalController::par_link_const_textnull() || $view_link == GlobalController::par_link_const_text_base_null()) {
             // Нужно '$view_link = null;'
@@ -431,6 +421,16 @@ class ItemController extends Controller
                 $string_item_ids_current,
                 $string_relit_ids_current,
                 $string_all_codes_current);
+        }
+
+        // Используется 'is_list_base_calc' в ext_show.php и ItemController::item_index()
+        // Нужно, после вызова calc_tree_array()
+        if ($item_change == false) {
+            if (empty($tree_array)) {
+                if ($base_right['is_bsin_base_enable'] == false) {
+                    return view('message', ['message' => trans('main.no_access')]);
+                }
+            }
         }
         // Нужно
         $string_link_ids_next = $string_link_ids_current;
