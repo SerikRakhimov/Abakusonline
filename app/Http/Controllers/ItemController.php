@@ -365,6 +365,7 @@ class ItemController extends Controller
 // Было:  https://www.abakusonline.com/item/item_index/42/9220/34/18/0/text_base_null/null;null;null;null/1/0/0/0
 // Стало: https://www.abakusonline.com/item/item_index/42/9822/34/18/0/text_base_null/null;null;null;null/1/0/0/0
 // $item_tree_top становится верхним в иерархии на экране, Связь автоматические подбирает $link
+        $item_change = false;
         if ($view_link == GlobalController::par_link_const_text_base_null()) {
             $link_tree_top = $item->base->child_links->where('parent_is_tree_top', true)->first();
             if ($link_tree_top) {
@@ -378,7 +379,18 @@ class ItemController extends Controller
                         // Нужно
                         $base_right = $base_tree_top_right;
                         $relit_id = $relit_tree_top_id;
+                        $item_change = true;
                     }
+                }
+            }
+        }
+
+        // Используется 'is_list_base_calc' в ext_show.php и ItemController::item_index()
+        // Нужно
+        if ($item_change == false) {
+            if (empty($tree_array)) {
+                if ($base_right['is_bsin_base_enable'] == false) {
+                    return view('message', ['message' => trans('main.no_access')]);
                 }
             }
         }
@@ -419,13 +431,6 @@ class ItemController extends Controller
                 $string_item_ids_current,
                 $string_relit_ids_current,
                 $string_all_codes_current);
-        }
-        // Используется 'is_list_base_calc' в ext_show.php и ItemController::item_index()
-        // Нужно
-        if (empty($tree_array)) {
-            if ($base_right['is_bsin_base_enable'] == false) {
-                return view('message', ['message' => trans('main.no_access')]);
-            }
         }
         // Нужно
         $string_link_ids_next = $string_link_ids_current;
