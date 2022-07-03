@@ -21,6 +21,8 @@ use \App\Http\Controllers\GlobalController;
                                 <img
                                     @if($size == 'avatar')
                                     class="circle"
+                                    @elseif($size == 'medium')
+                                    class="rectangle"
                                     @endif
                                     @if($img_fluid == true)
                                     class="img-fluid"

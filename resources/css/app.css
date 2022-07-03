@@ -5,7 +5,12 @@
     object-fit: cover;
     width: 30px;
 }
-
+.rectangle{
+    background: rgba(15, 28, 63, 0.125);
+    height: 250px;
+    object-fit: cover;
+    width: 250px;
+}
 .title {
     color: #ffdc28;
 }
