@@ -23,7 +23,7 @@ use \App\Http\Controllers\GlobalController;
                                     class="circle"
 {{--                                    @elseif($size == 'medium')--}}
 {{--                                    class="rectangle"--}}
-{{--                                    @endif--}}
+                                    @endif
                                     @if($img_fluid == true)
                                     class="img-fluid"
                                     @endif
