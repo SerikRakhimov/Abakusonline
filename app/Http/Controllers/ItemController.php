@@ -366,24 +366,24 @@ class ItemController extends Controller
 // Стало: https://www.abakusonline.com/item/item_index/42/9822/34/18/0/text_base_null/null;null;null;null/1/0/0/0
 // $item_tree_top становится верхним в иерархии на экране, Связь автоматические подбирает $link
         $item_change = false;
-        if ($view_link == GlobalController::par_link_const_text_base_null()) {
-            $link_tree_top = $item->base->child_links->where('parent_is_tree_top', true)->first();
-            if ($link_tree_top) {
-                $item_tree_top = GlobalController::view_info($item->id, $link_tree_top->id);
-                if ($item_tree_top) {
-                    $relit_tree_top_id = $link_tree_top->parent_relit_id;
-                    $base_tree_top_right = GlobalController::base_right($item_tree_top->base, $role, $relit_tree_top_id);
-                    // Все нужно
-                    if ($base_tree_top_right['is_view_prev_next'] == false) {
-                        $item = $item_tree_top;
-                        // Нужно
-                        $base_right = $base_tree_top_right;
-                        $relit_id = $relit_tree_top_id;
-                        $item_change = true;
-                    }
+//      if ($view_link == GlobalController::par_link_const_text_base_null()) {
+        $link_tree_top = $item->base->child_links->where('parent_is_tree_top', true)->first();
+        if ($link_tree_top) {
+            $item_tree_top = GlobalController::view_info($item->id, $link_tree_top->id);
+            if ($item_tree_top) {
+                $relit_tree_top_id = $link_tree_top->parent_relit_id;
+                $base_tree_top_right = GlobalController::base_right($item_tree_top->base, $role, $relit_tree_top_id);
+                // Все нужно
+                if ($base_tree_top_right['is_view_prev_next'] == false) {
+                    $item = $item_tree_top;
+                    // Нужно
+                    $base_right = $base_tree_top_right;
+                    $relit_id = $relit_tree_top_id;
+                    $item_change = true;
                 }
             }
         }
+//      }
 
         // Нужно
         if ($view_link == null || $view_link == GlobalController::par_link_const_textnull() || $view_link == GlobalController::par_link_const_text_base_null()) {
