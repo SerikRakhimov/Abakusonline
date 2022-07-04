@@ -435,10 +435,17 @@ class ItemController extends Controller
             if ($item_tree_top) {
                 $relit_tree_top_id = $link_tree_top->parent_relit_id;
                 $base_tree_top_right = GlobalController::base_right($item_tree_top->base, $role, $relit_tree_top_id);
-                // Все нужно
                 if ($base_tree_top_right['is_view_prev_next'] == false) {
+                    // Поиск $item_tree_top->id в массиве $tree_array
+                    $found_tree_top = false;
+                    foreach ($tree_array as $value) {
+                        if ($value['item_id'] == $item_tree_top->id) {
+                            $found_tree_top = true;
+                            break;
+                        }
+                    }
                     // Если не найдено
-                    if (!in_array($item_tree_top->id, $tree_array['item_id'])) {
+                    if ($found_tree_top == false) {
                         // Нужно
                         $item = $item_tree_top;
                         $base_right = $base_tree_top_right;
