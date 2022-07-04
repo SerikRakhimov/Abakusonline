@@ -648,7 +648,8 @@ class ItemController extends Controller
             //$base_body_right = GlobalController::base_right($current_link->child_base, $role, $relit_id);
             //$base_link_right = GlobalController::base_link_right($current_link, $role, $view_ret_id);
             //$base_body_right =  self::base_relit_right($item->base, $role, 0, $base_index_page_current, $relit_id, $view_ret_id);
-            $base_body_right = GlobalController::base_right($current_link->child_base, $role, $view_ret_id);
+            //$base_body_right = GlobalController::base_right($current_link->child_base, $role, $view_ret_id);
+            $base_body_right = GlobalController::base_link_right($current_link, $role, $view_ret_id, true, $view_ret_id);
 
             // Исключить переданный $nolink - $current_link
             $child_body_links_info = self::links_info($current_link->child_base, $role, $view_ret_id, null, $current_link);
@@ -1140,7 +1141,9 @@ class ItemController extends Controller
                         $next_all_links[] = $link;
                         $next_all_links_byuser_ids[] = $link->id;
                         $next_all_is_calcname[$link->id] = $is_calcname;
-                        $next_all_is_create[$link->id] = $base_right['is_list_base_create'];
+//                      Такая же проверка на 'is_list_base_create'] == true && 'is_edit_link_update' == true в item_index.php и ItemController.php
+                        //$next_all_is_create[$link->id] = $base_right['is_list_base_create'];
+                        $next_all_is_create[$link->id] = $base_right['is_list_base_create'] == true && $base_link_right['is_edit_link_update'] == true;
                     } else {
                         // Данные не добавляются
                     }

@@ -589,7 +589,9 @@
                     </div>
                     <div class="col-2 text-right">
                     {{--                        @if ((count($body_items) > 0) || ($base_body_right['is_list_base_create'] == true))--}}
-                    @if ($base_body_right['is_list_base_create'] == true)
+{{--                Такая же проверка на 'is_list_base_create'] == true && 'is_edit_link_update' == true в item_index.php и ItemController.php--}}
+{{--                @if ($base_body_right['is_list_base_create'] == true)--}}
+                    @if ($base_body_right['is_list_base_create'] == true && $base_body_right['is_edit_link_update'] == true)
                         @if($message_ln_validate == "")
                             <!--                                --><?php
                                 //                                $heading = 0;
