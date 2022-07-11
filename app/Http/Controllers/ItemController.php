@@ -1161,13 +1161,14 @@ class ItemController extends Controller
             //$is_calcname = GlobalController::is_base_calcname_check($link->child_base, $base_right);
             $is_calcname = GlobalController::is_base_calcnm_correct_check($link->child_base, $base_right);
             // Нужно "$base_link_right = GlobalController::base_link_right($link, $role, $view_ret_id, true, $relit_id)"
-            $base_link_right = GlobalController::base_link_right($link, $role, $view_ret_id, true, $relit_id);
+            $base_link_right = GlobalController::base_link_right($link, $role, $view_ret_id);
+            $base_link_child_right = GlobalController::base_link_right($link, $role, $view_ret_id, true, $relit_id);
             // Использовать две этих проверки
-            //if (($base_link_right['is_body_link_enable'] == true) && ($base_link_right['is_list_base_calc'] == true))
-            if (($base_link_right['is_body_link_enable'] == true) && ($base_link_right['is_list_base_calc'] == true)) {
+            //if (($base_link_right['is_body_link_enable'] == true) && ($base_link_child_right['is_list_base_calc'] == true))
+            if (($base_link_right['is_body_link_enable'] == true) && ($base_link_child_right['is_list_base_calc'] == true)) {
                 // Такая же проверка и в GlobalController (function items_right()),
                 // в ItemController (function next_all_links_mains_calc(), browser(), get_items_for_link(), get_items_ext_edit_for_link())
-                if ($base_link_right['is_list_base_byuser'] == true) {
+                if ($base_link_child_right['is_list_base_byuser'] == true) {
                     if (Auth::check()) {
                         // Два блока одинаковых команд
                         // Нужно '$next_all_links[] = $link;'
@@ -1176,7 +1177,7 @@ class ItemController extends Controller
                         $next_all_is_calcname[$link->id] = $is_calcname;
 //                      Такая же проверка на 'is_list_base_create'] == true && 'is_edit_link_update' == true в item_index.php и ItemController.php
                         //$next_all_is_create[$link->id] = $base_right['is_list_base_create'];
-                        $next_all_is_create[$link->id] = $base_right['is_list_base_create'] == true && $base_link_right['is_edit_link_update'] == true;
+                        $next_all_is_create[$link->id] = $base_right['is_list_base_create'] == true && $base_link_child_right['is_edit_link_update'] == true;
                     } else {
                         // Данные не добавляются
                     }
