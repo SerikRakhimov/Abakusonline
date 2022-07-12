@@ -121,10 +121,10 @@
             'par_link'=>$tree_array_last_link_id, 'parent_item'=>$tree_array_last_item_id,
             'parent_ret_id' => $view_ret_id])}}"
                                            title="{{trans('main.viewing_record')}}: {{$item->name()}}">
-{{--                                            'string_link_ids_current' => $string_link_ids_current,--}}
-{{--                                            'string_item_ids_current' => $string_item_ids_current,--}}
-{{--                                            'string_relit_ids_current' => $string_relit_ids_current,--}}
-{{--                                            'string_all_codes_current'=>$string_all_codes_current,--}}
+                                            {{--                                            'string_link_ids_current' => $string_link_ids_current,--}}
+                                            {{--                                            'string_item_ids_current' => $string_item_ids_current,--}}
+                                            {{--                                            'string_relit_ids_current' => $string_relit_ids_current,--}}
+                                            {{--                                            'string_all_codes_current'=>$string_all_codes_current,--}}
                                             <mark class="text-project">
                                                 @include('layouts.item.empty_name', ['name'=>$item->name()])
                                             </mark>
@@ -169,10 +169,10 @@
             'par_link'=>$tree_array_last_link_id, 'parent_item'=>$tree_array_last_item_id,
             'parent_ret_id' => $relit_id])}}"
                            title="{{trans('main.viewing_record')}}: {{$item->cdnm()}}">
-{{--                            'string_link_ids_current' => $string_link_ids_current,--}}
-{{--                            'string_item_ids_current' => $string_item_ids_current,--}}
-{{--                            'string_relit_ids_current' => $string_relit_ids_current,--}}
-{{--                            'string_all_codes_current'=>$string_all_codes_current,--}}
+                            {{--                            'string_link_ids_current' => $string_link_ids_current,--}}
+                            {{--                            'string_item_ids_current' => $string_item_ids_current,--}}
+                            {{--                            'string_relit_ids_current' => $string_relit_ids_current,--}}
+                            {{--                            'string_all_codes_current'=>$string_all_codes_current,--}}
                             @endif
                             @if($item->base->is_code_needed == true)
                                 {{trans('main.code')}}: <strong>{{$item->code}}</strong>
@@ -294,7 +294,7 @@
     <p>
     <div class="container-fluid">
         <div class="row">
-            <div class="col-10 text-left">
+            <div class="col-12 text-left">
                 @if(($prev_item) ||($next_item))
                     <ul class="pagination">
                         {{--        <li class="page-item"><a class="page-link"--}}
@@ -346,9 +346,9 @@
                                         'view_ret_id' => $view_ret_id
                                         ])}}"
                                    title="{{$next_item->cdnm()}}">></a>
-{{--                                'string_link_ids_current'=>$string_link_ids_current,--}}
-{{--                                'string_item_ids_current'=>$string_item_ids_current,--}}
-{{--                                'string_all_codes_current'=>$string_all_codes_current,--}}
+                                {{--                                'string_link_ids_current'=>$string_link_ids_current,--}}
+                                {{--                                'string_item_ids_current'=>$string_item_ids_current,--}}
+                                {{--                                'string_all_codes_current'=>$string_all_codes_current,--}}
                             </li>
                         @endif
                     </ul>
@@ -357,7 +357,9 @@
                     <br><br>
                 @endif
             </div>
-            <div class="col-2 text-right">
+        </div>
+        <div class="row">
+            <div class="col-12 text-right">
                 {{-- Нужно '@if(count($next_all_links)>0)'--}}
                 {{-- Для команды '@if(!($view_link && count($next_all_links) == 1))', чтобы исключить вариант count($next_all_links) == 0--}}
                 @if(count($next_all_links)>0)
@@ -386,9 +388,9 @@
                                   'prev_body_all_page'=>$body_all_page
                                   ])}}"
                                        title="{{$item->name()}}">
-{{--                                        'string_link_ids_current'=>$string_link_ids_current,--}}
-{{--                                        'string_item_ids_current'=>$string_item_ids_current,--}}
-{{--                                        'string_all_codes_current'=>$string_all_codes_current,--}}
+                                        {{--                                        'string_link_ids_current'=>$string_link_ids_current,--}}
+                                        {{--                                        'string_item_ids_current'=>$string_item_ids_current,--}}
+                                        {{--                                        'string_all_codes_current'=>$string_all_codes_current,--}}
                                         {{GlobalController::option_all()}}
                                         @if($view_link == null)
                                             {{--                                        Этот символ используется в двух местах--}}
@@ -408,9 +410,9 @@
                                           'prev_body_all_page'=>$body_all_page
                                           ])}}"
                                        title="{{$value->child_labels()}}">
-{{--                                        'string_link_ids_current'=>$string_link_ids_current,--}}
-{{--                                        'string_item_ids_current'=>$string_item_ids_current,--}}
-{{--                                        'string_all_codes_current'=>$string_all_codes_current,--}}
+                                        {{--                                        'string_link_ids_current'=>$string_link_ids_current,--}}
+                                        {{--                                        'string_item_ids_current'=>$string_item_ids_current,--}}
+                                        {{--                                        'string_all_codes_current'=>$string_all_codes_current,--}}
                                         {{$value->child_labels()}}
                                         @if(isset($view_link))
                                             @if($value->id == $view_link->id)
@@ -422,6 +424,33 @@
                                             *
                                         @endif
                                     </a>
+                                @endforeach
+                            </div>
+                            <div class="btn-group" role="group" aria-label="Link">
+                                @foreach($next_all_links as $key=>$value)
+                                    <button type="button" class="btn btn-dreamer"
+                                            onclick='document.location="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,
+                                          'usercode' =>GlobalController::usercode_calc(),
+                                          'relit_id'=>$relit_id,
+                                          'view_link'=>$value->id,
+                                          'view_ret_id'=>$view_ret_id,
+                                          'string_current'=>$string_current,
+                                          'prev_base_index_page'=>$base_index_page,
+                                          'prev_body_link_page'=>$body_link_page,
+                                          'prev_body_all_page'=>$body_all_page
+                                          ])}}"'
+                                            title="{{$value->child_labels()}}">
+                                        {{$value->child_labels()}}
+                                        @if(isset($view_link))
+                                            @if($value->id == $view_link->id)
+                                                {{--                                        Этот символ используется в двух местах--}}
+                                                &#10003;
+                                            @endif
+                                        @endif
+                                        @if(isset($array["\x00*\x00items"][$value->id]))
+                                            *
+                                        @endif
+                                    </button>
                                 @endforeach
                             </div>
                         </div>
@@ -471,9 +500,9 @@
                                           'prev_body_all_page'=>$body_all_page
                                           ])}}"
                                    title="{{$relip_select_body_project->name()}}">
-{{--                                    'string_link_ids_current'=>$string_link_ids_current,--}}
-{{--                                    'string_item_ids_current'=>$string_item_ids_current,--}}
-{{--                                    'string_all_codes_current'=>$string_all_codes_current,--}}
+                                    {{--                                    'string_link_ids_current'=>$string_link_ids_current,--}}
+                                    {{--                                    'string_item_ids_current'=>$string_item_ids_current,--}}
+                                    {{--                                    'string_all_codes_current'=>$string_all_codes_current,--}}
                                     {{$relip_select_body_project->name()}}
                                     @if($relit)
                                         ({{$relit->title()}})
@@ -589,8 +618,8 @@
                     </div>
                     <div class="col-2 text-right">
                     {{--                        @if ((count($body_items) > 0) || ($base_body_right['is_list_base_create'] == true))--}}
-{{--                Такая же проверка на 'is_list_base_create'] == true && 'is_edit_link_update' == true в item_index.php и ItemController.php--}}
-{{--                @if ($base_body_right['is_list_base_create'] == true)--}}
+                    {{--                Такая же проверка на 'is_list_base_create'] == true && 'is_edit_link_update' == true в item_index.php и ItemController.php--}}
+                    {{--                @if ($base_body_right['is_list_base_create'] == true)--}}
                     @if ($base_body_right['is_list_base_create'] == true && $base_body_right['is_edit_link_update'] == true)
                         @if($message_ln_validate == "")
                             <!--                                --><?php
@@ -619,9 +648,9 @@
                              'par_link'=>$view_link, 'parent_item'=>$item,
                              'parent_ret_id' => $view_ret_body_id
                              ])}}'">
-{{--                                    'string_all_codes_current' => $string_all_codes_current,--}}
-{{--                                    'string_link_ids_current' => $string_link_ids_current,--}}
-{{--                                    'string_item_ids_current' => $string_item_ids_current,--}}
+                                    {{--                                    'string_all_codes_current' => $string_all_codes_current,--}}
+                                    {{--                                    'string_link_ids_current' => $string_link_ids_current,--}}
+                                    {{--                                    'string_item_ids_current' => $string_item_ids_current,--}}
                                     <i class="fas fa-plus d-inline"></i>&nbsp;{{trans('main.add')}}
                                 </button>
                             @endif
@@ -729,9 +758,9 @@
                                                                                      'parent_ret_id' => $view_ret_body_id
                                                                                      ])}}"
                                                    title="{{trans('main.add') . $message_ln_array_info[$value->id]}}">
-{{--                                                    'string_all_codes_current' => $string_all_codes_current,--}}
-{{--                                                    'string_link_ids_current' => $string_link_ids_current,--}}
-{{--                                                    'string_item_ids_current' => $string_item_ids_current,--}}
+                                                    {{--                                                    'string_all_codes_current' => $string_all_codes_current,--}}
+                                                    {{--                                                    'string_link_ids_current' => $string_link_ids_current,--}}
+                                                    {{--                                                    'string_item_ids_current' => $string_item_ids_current,--}}
                                                     {{$value->child_label()}}
                                                     @if(isset($array["\x00*\x00items"][$value->id]))
                                                         *

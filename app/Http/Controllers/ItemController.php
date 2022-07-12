@@ -398,6 +398,7 @@ class ItemController extends Controller
 //            GlobalController::set_relit_id($parent_ret_id_par) = $relit_id;
 //        }
 
+        // Нужно все
         $view_ret_id = null;
         $view_ret_id = GlobalController::set_relit_id($view_ret_id);
 
