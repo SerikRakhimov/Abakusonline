@@ -1164,7 +1164,7 @@ class ItemController extends Controller
             //if ($child_relit_id) {
                 // Нужно "$base_link_right = GlobalController::base_link_right($link, $role, $view_ret_id, true, $relit_id)"
                 $base_link_right = GlobalController::base_link_right($link, $role, $relit_id);
-                $base_link_child_right = GlobalController::base_link_right($link, $role, $relit_id, true, $view_ret_id);
+                $base_link_child_right = GlobalController::base_link_right($link, $role, $view_ret_id, true, $relit_id);
                 // Использовать две этих проверки
                 //if (($base_link_right['is_body_link_enable'] == true) && ($base_link_child_right['is_list_base_calc'] == true))
                 if (($base_link_right['is_body_link_enable'] == true) && ($base_link_child_right['is_list_base_calc'] == true)) {
