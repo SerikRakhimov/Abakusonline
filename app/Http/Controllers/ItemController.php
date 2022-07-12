@@ -398,7 +398,8 @@ class ItemController extends Controller
 //            GlobalController::set_relit_id($parent_ret_id_par) = $relit_id;
 //        }
 
-        $view_ret_id = GlobalController::set_relit_id($view_ret_id);
+        //$view_ret_id = GlobalController::set_relit_id($view_ret_id);
+        $view_ret_id = null;
 
         $string_unzip_current_next = self::string_unzip_current_next($string_current);
         $string_link_ids_current = $string_unzip_current_next['string_link_ids'];
@@ -1163,7 +1164,7 @@ class ItemController extends Controller
             //$child_relit_id = GlobalController::get_child_relit_id_from_link_current_template($link, $parent_proj->template_id);
             //if ($child_relit_id) {
                 // Нужно "$base_link_right = GlobalController::base_link_right($link, $role, $view_ret_id, true, $relit_id)"
-                $base_link_right = GlobalController::base_link_right($link, $role, $relit_id);
+                $base_link_right = GlobalController::base_link_right($link, $role, $view_ret_id);
                 $base_link_child_right = GlobalController::base_link_right($link, $role, $view_ret_id, true, $relit_id);
                 // Использовать две этих проверки
                 //if (($base_link_right['is_body_link_enable'] == true) && ($base_link_child_right['is_list_base_calc'] == true))
