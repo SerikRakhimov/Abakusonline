@@ -472,8 +472,8 @@ class GlobalController extends Controller
             'is_edit_email_question_base_update' => $is_edit_email_question_base_update,
             'is_show_email_base_delete' => $is_show_email_base_delete,
             'is_show_email_question_base_delete' => $is_show_email_question_base_delete,
-            'is_roli_list_link_enable' => $is_roli_list_link_enable,
-            'is_roli_body_link_enable' => $is_roli_body_link_enable,
+//          'is_roli_list_link_enable' => $is_roli_list_link_enable,
+//          'is_roli_body_link_enable' => $is_roli_body_link_enable,
             'is_parent_full_sort_asc' => $is_parent_full_sort_asc,
             'is_parent_page_sort_asc' => $is_parent_page_sort_asc,
         ];
@@ -665,12 +665,10 @@ class GlobalController extends Controller
                                             || $item_find->base->type_is_string()
                                             || $item_find->base->type_is_text()) {
                                             $str = $str . str_pad(trim($item_find[$name]), 50);
-                                        }
-                                        // '$base_link_right['is_parent_full_sort_asc']' используется
-                                        elseif ($item_find->base->type_is_date() && $base_link_right['is_parent_full_sort_asc'] == false){
+                                        } // '$base_link_right['is_parent_full_sort_asc']' используется
+                                        elseif ($item_find->base->type_is_date() && $base_link_right['is_parent_full_sort_asc'] == false) {
                                             $str = $str . trim($item_find->dt_desc());
-                                        }
-                                        else {
+                                        } else {
                                             $str = $str . trim($item_find[$name]);
                                         }
                                         $str = $str . "|";
@@ -794,11 +792,10 @@ class GlobalController extends Controller
                                     || $item_find->base->type_is_string()
                                     || $item_find->base->type_is_text()) {
                                     $str = $str . str_pad(trim($item_find[$name]), 50);
-                                }
-                                // '$base_link_right['is_parent_page_sort_asc']' используется
-                                elseif ($item_find->base->type_is_date() && $base_link_right['is_parent_page_sort_asc'] == false){
+                                } // '$base_link_right['is_parent_page_sort_asc']' используется
+                                elseif ($item_find->base->type_is_date() && $base_link_right['is_parent_page_sort_asc'] == false) {
                                     $str = $str . trim($item_find->dt_desc());
-                                }else {
+                                } else {
                                     $str = $str . trim($item_find[$name]);
                                 }
                                 $str = $str . "|";
@@ -1980,6 +1977,22 @@ class GlobalController extends Controller
             }
         }
         return ['template' => $template, 'template_name' => $template_name];
+    }
+
+    static function get_child_relit_id_from_link_current_template(Link $link, $current_template_id)
+    {
+        $child_relit_id = null;
+        $child_template_id = $link->child_base->template_id;
+        if ($child_template_id == $current_template_id){
+            // Текущий шаблон
+            $child_relit_id = 0;
+        }
+        else{
+            //$parent_relit_id = $link->parent_relit_id;
+            //$child_relit_id = 0;
+        }
+
+        return $child_relit_id;
     }
 
     // Сохранение и resize() изображения
