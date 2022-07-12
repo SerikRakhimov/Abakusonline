@@ -398,8 +398,9 @@ class ItemController extends Controller
 //            GlobalController::set_relit_id($parent_ret_id_par) = $relit_id;
 //        }
 
-        //$view_ret_id = GlobalController::set_relit_id($view_ret_id);
         $view_ret_id = null;
+        $view_ret_id = GlobalController::set_relit_id($view_ret_id);
+
 
         $string_unzip_current_next = self::string_unzip_current_next($string_current);
         $string_link_ids_current = $string_unzip_current_next['string_link_ids'];
