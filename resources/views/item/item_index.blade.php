@@ -426,7 +426,7 @@
                                     </a>
                                 @endforeach
                             </div>
-                            <div class="btn-group" role="group" aria-label="Link">
+                            <div class="btn-group btn-group-sm" role="group" aria-label="Link">
                                 @foreach($next_all_links as $key=>$value)
                                     <button type="button" class="btn btn-dreamer"
                                             onclick='document.location="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,
