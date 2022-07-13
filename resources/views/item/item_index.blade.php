@@ -426,33 +426,33 @@
                                     </a>
                                 @endforeach
                             </div>
-                            <div class="btn-group btn-group-sm" role="group" aria-label="Link">
-                                @foreach($next_all_links as $key=>$value)
-                                    <button type="button" class="btn btn-dreamer"
-                                            onclick='document.location="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,
-                                          'usercode' =>GlobalController::usercode_calc(),
-                                          'relit_id'=>$relit_id,
-                                          'view_link'=>$value->id,
-                                          'view_ret_id'=>$view_ret_id,
-                                          'string_current'=>$string_current,
-                                          'prev_base_index_page'=>$base_index_page,
-                                          'prev_body_link_page'=>$body_link_page,
-                                          'prev_body_all_page'=>$body_all_page
-                                          ])}}"'
-                                            title="{{$value->child_labels()}}">
-                                        {{$value->child_labels()}}
-                                        @if(isset($view_link))
-                                            @if($value->id == $view_link->id)
-                                                {{--                                        Этот символ используется в двух местах--}}
-                                                &#10003;
-                                            @endif
-                                        @endif
-                                        @if(isset($array["\x00*\x00items"][$value->id]))
-                                            *
-                                        @endif
-                                    </button>
-                                @endforeach
-                            </div>
+{{--                            <div class="btn-group btn-group-sm" role="group" aria-label="Link">--}}
+{{--                                @foreach($next_all_links as $key=>$value)--}}
+{{--                                    <button type="button" class="btn btn-dreamer"--}}
+{{--                                            onclick='document.location="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,--}}
+{{--                                          'usercode' =>GlobalController::usercode_calc(),--}}
+{{--                                          'relit_id'=>$relit_id,--}}
+{{--                                          'view_link'=>$value->id,--}}
+{{--                                          'view_ret_id'=>$view_ret_id,--}}
+{{--                                          'string_current'=>$string_current,--}}
+{{--                                          'prev_base_index_page'=>$base_index_page,--}}
+{{--                                          'prev_body_link_page'=>$body_link_page,--}}
+{{--                                          'prev_body_all_page'=>$body_all_page--}}
+{{--                                          ])}}"'--}}
+{{--                                            title="{{$value->child_labels()}}">--}}
+{{--                                        {{$value->child_labels()}}--}}
+{{--                                        @if(isset($view_link))--}}
+{{--                                            @if($value->id == $view_link->id)--}}
+{{--                                                --}}{{--                                        Этот символ используется в двух местах--}}
+{{--                                                &#10003;--}}
+{{--                                            @endif--}}
+{{--                                        @endif--}}
+{{--                                        @if(isset($array["\x00*\x00items"][$value->id]))--}}
+{{--                                            *--}}
+{{--                                        @endif--}}
+{{--                                    </button>--}}
+{{--                                @endforeach--}}
+{{--                            </div>--}}
                         </div>
                     @endif
                     {{--                @else--}}
