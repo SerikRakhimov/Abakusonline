@@ -2943,6 +2943,7 @@ class ItemController extends Controller
             ->where('mains.child_item_id', $item->id)
             ->where('links.parent_is_delete_child_base_record_with_zero_value', true)
             ->where('bases.type_is_number', true)
+            ->where('bases.type_is_boolean', true)
             ->get();
         // Эта проверка нужна
         if ($mains) {

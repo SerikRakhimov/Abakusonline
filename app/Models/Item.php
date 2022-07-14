@@ -401,7 +401,7 @@ class Item extends Model
     {
         $value = 0;
         $result = false;
-        if ($this->base->type_is_number()) {
+        if ($this->base->type_is_number() || $this->base->type_is_boolean()) {
             $result = true;
             if ($this->name_lang_0 == "") {
                 $value = 0;
