@@ -2948,7 +2948,7 @@ class ItemController extends Controller
         // Эта проверка нужна
         if ($mains) {
             // Эта проверка нужна
-            if (count($mains) > 0) {
+            //if (count($mains) > 0) {
                 $valtotal = true;
                 // Цикл по записям
                 // links.parent_is_delete_child_base_record_with_zero_value = true может быть несколько у одной записи child
@@ -2972,7 +2972,7 @@ class ItemController extends Controller
                 if ($valtotal) {
                     $result = true;
                 }
-            }
+            //}
         }
         return $result;
     }
