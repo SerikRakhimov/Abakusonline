@@ -401,7 +401,8 @@ class Item extends Model
     {
         $value = 0;
         $result = false;
-        if ($this->base->type_is_number() || $this->base->type_is_boolean()) {
+        //if ($this->base->type_is_number() || $this->base->type_is_boolean()) {
+        if ($this->base->type_is_number()) {
             $result = true;
             if ($this->name_lang_0 == "") {
                 $value = 0;
@@ -441,7 +442,7 @@ class Item extends Model
             $name = 'name_lang_' . $index;
         }
         $result = $this[$name];
-        $search  = array('0', '1', '2', '3', '4', '5', '6', '7', '8', '9');
+        $search = array('0', '1', '2', '3', '4', '5', '6', '7', '8', '9');
         $replace = array('J', 'I', 'H', 'G', 'F', 'E', 'D', 'C', 'B', 'A');
         if ($this->base->type_is_date()) {
             $result = str_replace($search, $replace, $result);
