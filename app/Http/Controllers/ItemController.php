@@ -2937,12 +2937,22 @@ class ItemController extends Controller
     static function val_item_seek_delete_func(Item $item)
     {
         $result = false;
+//        $mains = Main::select(DB::Raw('mains.*'))
+//            ->join('links', 'mains.link_id', '=', 'links.id')
+//            ->join('bases', 'links.parent_base_id', '=', 'bases.id')
+//            ->where('mains.child_item_id', $item->id)
+//            ->where('links.parent_is_delete_child_base_record_with_zero_value', true)
+//            ->where('bases.type_is_number', true)
+//            ->get();
         $mains = Main::select(DB::Raw('mains.*'))
             ->join('links', 'mains.link_id', '=', 'links.id')
             ->join('bases', 'links.parent_base_id', '=', 'bases.id')
             ->where('mains.child_item_id', $item->id)
             ->where('links.parent_is_delete_child_base_record_with_zero_value', true)
-            ->where('bases.type_is_number', true)
+            ->where(function ($query) {
+                $query->where('bases.type_is_number', true)
+                    ->orWhere('bases.type_is_boolean', true);
+            })
             ->get();
         // Эта проверка нужна
         if ($mains) {
