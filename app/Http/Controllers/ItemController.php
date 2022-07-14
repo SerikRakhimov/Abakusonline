@@ -1165,36 +1165,36 @@ class ItemController extends Controller
             $is_calcname = GlobalController::is_base_calcnm_correct_check($link->child_base, $base_right);
             //$child_relit_id = GlobalController::get_child_relit_id_from_link_current_template($link, $parent_proj->template_id);
             //if ($child_relit_id) {
-                // Нужно "$base_link_right = GlobalController::base_link_right($link, $role, $view_ret_id, true, $relit_id)"
-                $base_link_right = GlobalController::base_link_right($link, $role, $view_ret_id);
-                $base_link_child_right = GlobalController::base_link_right($link, $role, $view_ret_id, true, $relit_id);
-                // Использовать две этих проверки
-                //if (($base_link_right['is_body_link_enable'] == true) && ($base_link_child_right['is_list_base_calc'] == true))
-                if (($base_link_right['is_body_link_enable'] == true) && ($base_link_child_right['is_list_base_calc'] == true)) {
-                    // Такая же проверка и в GlobalController (function items_right()),
-                    // в ItemController (function next_all_links_mains_calc(), browser(), get_items_for_link(), get_items_ext_edit_for_link())
-                    if ($base_link_child_right['is_list_base_byuser'] == true) {
-                        if (Auth::check()) {
-                            // Два блока одинаковых команд
-                            // Нужно '$next_all_links[] = $link;'
-                            $next_all_links[] = $link;
-                            $next_all_links_byuser_ids[] = $link->id;
-                            $next_all_is_calcname[$link->id] = $is_calcname;
-//                      Такая же проверка на 'is_list_base_create'] == true && 'is_edit_link_update' == true в item_index.php и ItemController.php
-                            //$next_all_is_create[$link->id] = $base_right['is_list_base_create'];
-                            $next_all_is_create[$link->id] = $base_right['is_list_base_create'] == true && $base_link_child_right['is_edit_link_update'] == true;
-                        } else {
-                            // Данные не добавляются
-                        }
-                    } else {
+            // Нужно "$base_link_right = GlobalController::base_link_right($link, $role, $view_ret_id, true, $relit_id)"
+            $base_link_right = GlobalController::base_link_right($link, $role, $view_ret_id);
+            $base_link_child_right = GlobalController::base_link_right($link, $role, $view_ret_id, true, $relit_id);
+            // Использовать две этих проверки
+            //if (($base_link_right['is_body_link_enable'] == true) && ($base_link_child_right['is_list_base_calc'] == true))
+            if (($base_link_right['is_body_link_enable'] == true) && ($base_link_child_right['is_list_base_calc'] == true)) {
+                // Такая же проверка и в GlobalController (function items_right()),
+                // в ItemController (function next_all_links_mains_calc(), browser(), get_items_for_link(), get_items_ext_edit_for_link())
+                if ($base_link_child_right['is_list_base_byuser'] == true) {
+                    if (Auth::check()) {
                         // Два блока одинаковых команд
                         // Нужно '$next_all_links[] = $link;'
                         $next_all_links[] = $link;
-                        $next_all_links_ids[] = $link->id;
+                        $next_all_links_byuser_ids[] = $link->id;
                         $next_all_is_calcname[$link->id] = $is_calcname;
-                        $next_all_is_create[$link->id] = $base_right['is_list_base_create'];
+//                      Такая же проверка на 'is_list_base_create'] == true && 'is_edit_link_update' == true в item_index.php и ItemController.php
+                        //$next_all_is_create[$link->id] = $base_right['is_list_base_create'];
+                        $next_all_is_create[$link->id] = $base_right['is_list_base_create'] == true && $base_link_child_right['is_edit_link_update'] == true;
+                    } else {
+                        // Данные не добавляются
                     }
+                } else {
+                    // Два блока одинаковых команд
+                    // Нужно '$next_all_links[] = $link;'
+                    $next_all_links[] = $link;
+                    $next_all_links_ids[] = $link->id;
+                    $next_all_is_calcname[$link->id] = $is_calcname;
+                    $next_all_is_create[$link->id] = $base_right['is_list_base_create'];
                 }
+            }
             //}
         }
 //        foreach ($links as $link) {
@@ -2948,7 +2948,7 @@ class ItemController extends Controller
         // Эта проверка нужна
         if ($mains) {
             // Эта проверка нужна
-            //if (count($mains) > 0) {
+            if (count($mains) > 0) {
                 $valtotal = true;
                 // Цикл по записям
                 // links.parent_is_delete_child_base_record_with_zero_value = true может быть несколько у одной записи child
@@ -2972,7 +2972,7 @@ class ItemController extends Controller
                 if ($valtotal) {
                     $result = true;
                 }
-            //}
+            }
         }
         return $result;
     }
