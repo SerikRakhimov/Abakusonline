@@ -245,7 +245,8 @@ class SetController extends Controller
             if ($request->forwhat == 3) {
                 // Добавить, Отнять, Расчет Средний(), Расчет Сумма()
                 if ((($request->updaction >= 0) && ($request->updaction <= 3)) || ($request->updaction == 7) || ($request->updaction == 9)) {
-                    if (($link_from->parent_base->type_is_number() == false) || ($link_to->parent_base->type_is_number() == false)) {
+                    if (($link_from->parent_base->type_is_number() == false) || ($link_to->parent_base->type_is_number() == false)
+                        ($link_from->parent_base->type_is_boolean() == false) || ($link_to->parent_base->type_is_boolean() == false)) {
                         $message = trans('main.parent_bases_must_be_number')
                             . ' ("' . $link_from->parent_base->name() . '" ' . mb_strtolower(trans('main.and')) .
                             ' "' . $link_to->parent_base->name() . '")!';;
