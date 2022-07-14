@@ -237,7 +237,7 @@ class SetController extends Controller
                 }
             }
         }
-        // Родительские основы должны быть Число
+        // Родительские основы должны быть Число или Логический
         // Кроме Прибавить Количество(), Отнять Количество()
         //if (1 == 2) {
         if (!(($request->forwhat == 3) && ($request->updaction >= 0) && ($request->updaction <= 1))) {

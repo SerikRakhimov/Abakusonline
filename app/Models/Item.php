@@ -396,7 +396,7 @@ class Item extends Model
         return $this->name_lang_0 != "";
     }
 
-// Для типа полей Число
+// Для типа полей Число или Логический
     function numval()
     {
         $value = 0;

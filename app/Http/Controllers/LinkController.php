@@ -321,7 +321,8 @@ class LinkController extends Controller
 //            $link->parent_is_use_selection_calculated_table_link_id_1 = false;
 //            $link->parent_selection_calculated_table_link_id_1 = 0;
 //        }
-        if ($link->parent_base->type_is_number == false) {
+//      if ($link->parent_base->type_is_number == false) {
+        if ($link->parent_base->type_is_number == false && $link->parent_base->type_is_boolean == false) {
             $link->parent_is_numcalc = 0;
             $link->parent_is_nc_viewonly = 0;
             $link->parent_is_nc_parameter = 0;
@@ -606,7 +607,8 @@ class LinkController extends Controller
 //            $link->parent_is_use_selection_calculated_table_link_id_1 = false;
 //            $link->parent_selection_calculated_table_link_id_1 = 0;
 //        }
-        if ($link->parent_base->type_is_number == false) {
+        //  if ($link->parent_base->type_is_number == false) {
+        if ($link->parent_base->type_is_number == false && $link->parent_base->type_is_boolean == false) {
             $link->parent_is_numcalc = 0;
             $link->parent_is_nc_viewonly = 0;
             $link->parent_is_nc_parameter = 0;

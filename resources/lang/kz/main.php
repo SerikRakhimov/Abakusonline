@@ -295,7 +295,7 @@ return [
     'the_same_values_are_not_valid'=>'Бірдей мәндер жарамсыз',
     'child_bases_should_not_be_the_same' => 'Балалар негіздері бірдей болмауы тиіс',
     'parent_bases_must_be_the_same'=>'Ата-ананың негіздері бірдей болуы тиіс',
-    'parent_bases_must_be_number'=>'Тектік негіздер Нөмір болуы тиіс',
+    'parent_bases_must_be_number'=>'Тектік негіздер Нөмір/Логикалық болуы тиіс',
     'childrens_bases_must_be_with_the_characteristic_calculated_name'=>'Балалар негіздері «Есептелетін атауы» белгісімен болуы тиіс',
     'childrens_base_must_be_with_the_characteristic_is_calculated' => 'Балалар негізі «Есептелетін» белгісімен болуы тиіс',
     'and'=>'Және',
