@@ -26,10 +26,17 @@ class StepController extends Controller
                             break;
                         // x - значение параметра
                         case "Z":
+                            $result = $result . "\ny = x;";
+                            if($link->parent_base->type_is_number()) {
 //                            $result = $result . "\n alert(Number(nc_parameter_4_315.innerHTML));x = Number(nc_parameter_4_" . $step->first
 //                            . "." . $step->second == "V" ? "innerHTML" : "value" . ");";
-                            $result = $result . "\ny = x; \n x = Number(nc_parameter_4_" . $step->first
-                                . "." . ($step->second == "V" ? "innerHTML" : "value") . ");";
+                                $result = $result . "\n x = Number(nc_parameter_4_" . $step->first
+                                    . "." . ($step->second == "V" ? "innerHTML" : "value") . ");";
+                            }elseif ($link->parent_base->type_is_boolean()){
+                                $result = $result . "\n if(nc_parameter_4_" . $step->first . ".checked) {x = 1;}
+                                else {x = 0;}";
+//                                $result = $result . "\n x = 0;";
+                            }
                             break;
                         case "M":
                             // Математические операции над x и y

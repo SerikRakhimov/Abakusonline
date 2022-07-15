@@ -609,7 +609,8 @@
                         {{-- @if($link->parent_is_numcalc == true)--}}
                         @if($base_link_right['is_edit_link_read'] == false)
                             {{--                            @if($link->parent_is_numcalc == true)--}}
-                            @if($link->parent_is_numcalc==true)
+                            {{-- Похожие по смыслу проверки "$link->parent_is_nc_viewonly==false" в этом файле пять раз--}}
+                            @if($link->parent_is_numcalc==true && $link->parent_is_nc_viewonly==false)
                                 <div class="col-sm-1">
                                     {{--                                    Не удалять--}}
                                     {{--                                    <input type="button" value="..." title="{{trans('main.calculate')}}"--}}
@@ -691,7 +692,7 @@
                                     class="text-danger">*</span>
                             </label>
                         </div>
-                        <div class="col-sm-7">
+                        <div class="col-sm-2">
                             <input class="@error($key) is-invalid @enderror"
                                    type="checkbox"
                                    name="{{$key}}"
@@ -702,12 +703,30 @@
                                     )) == true)
                             checked
                             @endif
+                            {{--                            @if($base_link_right['is_edit_link_read'] == true)--}}
+                            {{--                                disabled--}}
+                            {{--                            @else--}}
+                            {{--                                @if($par_link)--}}
+                            {{--                                    @if ($key == $par_link->id)--}}
+                            {{--                                        disabled--}}
+                            {{--                                    @endif--}}
+                            {{--                                @endif--}}
+                            {{--                            @endif--}}
                             @if($base_link_right['is_edit_link_read'] == true)
                                 disabled
                             @else
-                                @if($par_link)
-                                    @if ($key == $par_link->id)
-                                        disabled
+                                @if($par_link || $link->parent_is_nc_viewonly==true)
+                                    @if($par_link)
+                                        @if ($key == $par_link->id)
+                                            disabled
+                                        @endif
+                                    @else
+                                        {{--                                   тут использовать readonly (при disabled (здесь) - это поле не обновляется)--}}
+                                        {{--                                   также при disabled работают строки (ниже):--}}
+                                        {{--                                   parent_base_id_work = document.getElementById('link{{$key}}').disabled = true;--}}
+                                        {{--                                   parent_base_id_work = document.getElementById('link{{$key}}').disabled = false;--}}
+                                        {{-- https://www.codegrepper.com/code-examples/whatever/checkbox+readonly--}}
+                                        onclick="return false;"
                                     @endif
                                 @endif
                             @endif
@@ -718,10 +737,28 @@
                             </div>
                             @enderror
                         </div>
-                        <div class="col-sm-2">
-                        </div>
+                        @if($base_link_right['is_edit_link_read'] == false)
+                            {{-- Похожие по смыслу проверки "$link->parent_is_nc_viewonly==false" в этом файле пять раз--}}
+                            @if($link->parent_is_numcalc==true && $link->parent_is_nc_viewonly==false)
+                                <div class="col-sm-1">
+                                    <button type="button" title="{{trans('main.calculate')}}"
+                                            name="button_nc{{$key}}"
+                                            id="button_nc{{$key}}"
+                                            class="text-label">
+                                        <i class="fas fa-calculator d-inline"></i>
+                                    </button>
+                                </div>
+                                <div class="col-sm-6">
+                                <span class="form-label text-danger"
+                                      name="name{{$key}}"
+                                      id="name{{$key}}"></span>
+                                </div>
+                            @else
+                                <div class="col-sm-7">
+                                </div>
+                            @endif
+                        @endif
                     </div>
-
                     {{--                                если тип корректировки поля - строка--}}
                 @elseif($link->parent_base->type_is_string())
                     <fieldset id="link{{$key}}"
@@ -1531,7 +1568,6 @@
     @endforeach
 
     <script>
-
         @foreach($array_calc as $key=>$value)
         <?php
         $link = Link::find($key);
@@ -1543,11 +1579,15 @@
         {{-- @if($base_link_right['is_edit_link_read'] == false)--}}
         {{-- @if($link->parent_is_numcalc == true)--}}
         @if($base_link_right['is_edit_link_read'] == false)
-        @if($link->parent_is_numcalc == true)
+        {{--    @if($link->parent_is_numcalc == true)--}}
         @if($link->parent_is_numcalc==true && $link->parent_is_nc_screencalc==true)
-        var button_nc_{{$prefix}}{{$link->id}} = document.getElementById('button_nc{{$link->id}}');
         var numcalc_{{$prefix}}{{$link->id}} = document.getElementById('link{{$link->id}}');
+
+        {{-- Похожие по смыслу проверки "$link->parent_is_nc_viewonly==false" в этом файле пять раз--}}
+        @if($link->parent_is_nc_viewonly == false)
+        var button_nc_{{$prefix}}{{$link->id}} = document.getElementById('button_nc{{$link->id}}');
         var name_{{$prefix}}{{$link->id}} = document.getElementById('name{{$link->id}}');
+        @endif
 
         <?php
         $functs_numcalc[count($functs_numcalc)] = "button_nc_click_" . $prefix . $link->id;
@@ -1562,18 +1602,30 @@
             error_nodata = "Нет данных";
             error_div0 = "Деление на 0";
             {{StepController::steps_javascript_code($link)}}
-
+                @if($link->parent_base->type_is_number())
                 numcalc_{{$prefix}}{{$link->id}}.value = x;
-            name_{{$prefix}}{{$link->id}}.innerHTML = error_message;
-        }
+            @elseif ($link->parent_base->type_is_boolean())
+                numcalc_{{$prefix}}{{$link->id}}.checked = (x != 0);
+            @endif
+                {{-- Похожие по смыслу проверки "$link->parent_is_nc_viewonly==false" в этом файле пять раз--}}
+            @if($link->parent_is_nc_viewonly == false)
+                name_{{$prefix}}{{$link->id}}.innerHTML = error_message;
+            @endif
 
+        }
+        {{-- Похожие по смыслу проверки "$link->parent_is_nc_viewonly==false" в этом файле пять раз--}}
+        @if($link->parent_is_nc_viewonly == false)
         button_nc_{{$prefix}}{{$link->id}}.addEventListener("click", button_nc_click_{{$prefix}}{{$link->id}});
+        @endif
+
         {{--    button_nc_{{$prefix}}{{$link->id}}.addEventListener("click", on_numcalc);--}}
+
         @endif
-        @endif
+        {{--    @endif--}}
         @endif
 
         @endforeach
+
         {{--                @if($link->parent_base->is_code_needed==true && $link->parent_is_enter_refer==true)--}}
         @if($base->is_code_number == true  && $base->is_limit_sign_code == true
             && $base->is_code_zeros == true  && $base->significance_code > 0)
@@ -1652,7 +1704,6 @@
 
         numrecalc_{{$prefix}}{{$link->id}}.addEventListener("change", on_numcalc);
 
-
         @endif
 
         @endforeach
@@ -1666,7 +1717,7 @@
             // on_parent_refer();
 
             // Не нужно вызывать функцию on_numcalc(),
-            // это связано с разрешенной корректировкой вычисляемых полей ($link->parent_is_nc_viewonly)
+            // это связано с разрешенной корректировкой вычисляемых полей ($link->parent_is_nc_viewonly=true)
             //on_numcalc();
             @foreach($array_disabled as $key=>$value)
                 parent_base_id_work = document.getElementById('link{{$key}}').disabled = true;
