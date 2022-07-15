@@ -2781,67 +2781,68 @@ class ItemController extends Controller
                             }
                             if ($nk != -1) {
                                 $nt = $value->link_to_id;
-                                //$nv = $values[$nk];
-                                $main = Main::where('link_id', $nt)->where('child_item_id', $item_seek->id)->first();
-                                $error = false;
-                                $vl = 0;
-                                if (!$main) {
-                                    $main = new Main();
-                                    // при создании записи "$item->created_user_id" заполняется
-                                    $main->created_user_id = Auth::user()->id;
-
-                                    $main->link_id = $nt;
-                                    $main->child_item_id = $item_seek->id;
+                                $nlink = Link::find($nt);
+                                if ($nlink) {
+                                    //$nv = $values[$nk];
+                                    $main = Main::where('link_id', $nt)->where('child_item_id', $item_seek->id)->first();
+                                    $error = false;
                                     $vl = 0;
-                                } else {
-                                    $vl = $main->parent_item->numval()['value'];
-                                }
-                                $main->updated_user_id = Auth::user()->id;
+                                    if (!$main) {
+                                        $main = new Main();
+                                        // при создании записи "$item->created_user_id" заполняется
+                                        $main->created_user_id = Auth::user()->id;
 
-                                // "$seek_item = false" нужно
-                                // "$seek_value = 0" нужно
-                                $seek_item = false;
-                                $seek_value = 0;
-                                $delete_main = false;
-                                $ch = 0;
-                                if ($value->link_to->parent_base->type_is_number() && is_numeric($values[$nk])) {
-                                    $ch = $values[$nk];
-                                } else {
+                                        $main->link_id = $nt;
+                                        $main->child_item_id = $item_seek->id;
+                                        $vl = 0;
+                                    } else {
+                                        $vl = $main->parent_item->numval()['value'];
+                                    }
+                                    $main->updated_user_id = Auth::user()->id;
+
+                                    // "$seek_item = false" нужно
+                                    // "$seek_value = 0" нужно
+                                    $seek_item = false;
+                                    $seek_value = 0;
+                                    $delete_main = false;
                                     $ch = 0;
-                                }
-                                if ($value->is_group == true) {
-                                    $main->parent_item_id = $valits[$nk];
-                                } elseif ($value->is_update == true) {
-
-                                    if ($value->is_upd_plussum == true || $value->is_upd_pluscount == true) {
-                                        // Учет Количества
-                                        if ($value->is_upd_pluscount == true) {
-                                            $ch = 1;
-                                        }
-                                        $seek_item = true;
-                                        $seek_value = $vl + $kf * $ch;
+                                    if ($value->link_to->parent_base->type_is_number() && is_numeric($values[$nk])) {
+                                        $ch = $values[$nk];
+                                    } else {
+                                        $ch = 0;
+                                    }
+                                    if ($value->is_group == true) {
+                                        $main->parent_item_id = $valits[$nk];
+                                    } elseif ($value->is_update == true) {
+                                        if ($value->is_upd_plussum == true || $value->is_upd_pluscount == true) {
+                                            // Учет Количества
+                                            if ($value->is_upd_pluscount == true) {
+                                                $ch = 1;
+                                            }
+                                            $seek_item = true;
+                                            $seek_value = $vl + $kf * $ch;
 //                                        // Удалить запись с нулевым значением при обновлении
 //                                        if ($value->is_upd_delete_record_with_zero_value == true) {
 //                                            if ($seek_value == 0) {
 //                                                $valnull = true;
 //                                            }
 //                                        }
-                                    } elseif ($value->is_upd_minussum == true || $value->is_upd_minuscount == true) {
-                                        // Учет Количества
-                                        if ($value->is_upd_minuscount == true) {
-                                            $ch = 1;
-                                        }
-                                        $seek_item = true;
-                                        $seek_value = $vl - $kf * $ch;
+                                        } elseif ($value->is_upd_minussum == true || $value->is_upd_minuscount == true) {
+                                            // Учет Количества
+                                            if ($value->is_upd_minuscount == true) {
+                                                $ch = 1;
+                                            }
+                                            $seek_item = true;
+                                            $seek_value = $vl - $kf * $ch;
 //                                        // Удалить запись с нулевым значением при обновлении
 //                                        if ($value->is_upd_delete_record_with_zero_value == true) {
 //                                            if ($seek_value == 0) {
 //                                                $valnull = true;
 //                                            }
 //                                        }
-                                    } elseif ($value->is_upd_replace == true) {
-                                        if ($reverse == false && $valits[$nk] != 0) {
-                                            $main->parent_item_id = $valits[$nk];
+                                        } elseif ($value->is_upd_replace == true) {
+                                            if ($reverse == false && $valits[$nk] != 0) {
+                                                $main->parent_item_id = $valits[$nk];
 //                                            // Удалить запись с нулевым значением при обновлении
 //                                            if ($value->is_upd_delete_record_with_zero_value == true) {
 //                                                $item_numval = Item::findOrFail($main->parent_item_id);
@@ -2852,49 +2853,50 @@ class ItemController extends Controller
 //                                                    }
 //                                                }
 //                                            }
-                                        } else {
-                                            $delete_main = true;
-                                            // Используем $valits_previous[$nk]
+                                            } else {
+                                                $delete_main = true;
+                                                // Используем $valits_previous[$nk]
 //                                            $main->parent_item_id = $valits_previous[$nk];
 //                                            // Удалить запись с нулевым значением при обновлении
 //                                            if ($value->is_upd_delete_record_with_zero_value == true) {
 //                                                $valnull = true;
 //                                            }
+                                            }
                                         }
-                                    }
-                                    // При $reverse == false
-                                    // и при корректировке записи(если подкорректировано поле группировки)
-                                    // и при удалении записи
-                                    // работает некорректно
-                                    // При $reverse == true работает корректно
-                                    elseif ($value->is_upd_cl_gr_first == true || $value->is_upd_cl_gr_last == true) {
-                                        $calc = "";
+                                        // При $reverse == false
+                                        // и при корректировке записи(если подкорректировано поле группировки)
+                                        // и при удалении записи
+                                        // работает некорректно
+                                        // При $reverse == true работает корректно
+                                        elseif ($value->is_upd_cl_gr_first == true || $value->is_upd_cl_gr_last == true) {
+                                            $calc = "";
 
-                                        if ($value->is_upd_cl_gr_first == true) {
-                                            $calc = "first";
-                                        } elseif ($value->is_upd_cl_gr_last == true) {
-                                            $calc = "last";
-                                        }
-                                        // Расчет Первый(), Последний()
-                                        //$item_calc = null;
-                                        $item_calc = self::get_item_from_parent_output_calculated_firstlast_table($item, $value, $calc, $reverse);
-                                        if ($item_calc) {
-                                            $main->parent_item_id = $item_calc->id;
-                                        } else {
-                                            $delete_main = true;
+                                            if ($value->is_upd_cl_gr_first == true) {
+                                                $calc = "first";
+                                            } elseif ($value->is_upd_cl_gr_last == true) {
+                                                $calc = "last";
+                                            }
+                                            // Расчет Первый(), Последний()
+                                            //$item_calc = null;
+                                            $item_calc = self::get_item_from_parent_output_calculated_firstlast_table($item, $value, $calc, $reverse);
+                                            if ($item_calc) {
+                                                $main->parent_item_id = $item_calc->id;
+                                            } else {
+                                                $delete_main = true;
+                                            }
                                         }
                                     }
-                                }
-                                if ($delete_main == true) {
-                                    $main->delete();
-                                } else {
-                                    //  Добавление числа в базу данных
-                                    if ($seek_item == true) {
-                                        $item_find = self::find_save_number($value->link_to->parent_base_id, $relip_project->id, $seek_value);
-                                        $main->parent_item_id = $item_find->id;
-                                    }
-                                    $main->save();
+                                    if ($delete_main == true) {
+                                        $main->delete();
+                                    } else {
+                                        //  Добавление числа в базу данных
+                                        if ($seek_item == true) {
+                                            $item_find = self::find_save_number($value->link_to->parent_base_id, $relip_project->id, $seek_value);
+                                            $main->parent_item_id = $item_find->id;
+                                        }
+                                        $main->save();
 
+                                    }
                                 }
                             }
                         }
@@ -2983,6 +2985,31 @@ class ItemController extends Controller
                 }
             }
         }
+
+        if ($result == false) {
+            // "->get()" нужно
+            // Поиск записей "where('links.parent_is_delete_child_base_record_with_zero_value', true)" без $main
+            // Запись $main может быть ранее удалена при замене ($value->is_upd_replace == true) в функции save_sets()
+            // Если такие записи есть, то считать итоговое значение = 0 и удалить запись ($result = true;)
+            $links = Link::select(DB::Raw('links.*'))
+                ->join('bases', 'links.parent_base_id', '=', 'bases.id')
+                ->where('links.child_base_id', $item->base_id)
+                ->where('links.parent_is_delete_child_base_record_with_zero_value', true)
+                ->where(function ($query) {
+                    $query->where('bases.type_is_number', true)
+                        ->orWhere('bases.type_is_boolean', true);
+                })
+                ->get();
+            foreach ($links as $link) {
+                $main = Main::where('link_id', $link->id)->where('child_item_id', $item->id)->first();
+                // Если не найдено
+                if (!$main) {
+                    $result = true;
+                    break;
+                }
+            }
+        }
+
         return $result;
     }
 
