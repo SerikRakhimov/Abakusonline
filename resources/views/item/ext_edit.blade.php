@@ -700,7 +700,7 @@
                                    placeholder=""
                             @if ((boolean)(old($key) ?? (($value != null) ? Item::find($value)->name_lang_0 :
                                 (($link->parent_num_bool_default_value!="")? $link->parent_num_bool_default_value:'0'))
-                                    )) == true)
+                                    ) == true)
                             checked
                             @endif
                             {{--                            @if($base_link_right['is_edit_link_read'] == true)--}}
