@@ -581,6 +581,8 @@
                                    @if($par_link)
                                    @if ($key == $par_link->id)
                                    disabled
+                                   @elseif($link->parent_is_nc_viewonly==true)
+                                   readonly
                                    @endif
                                    @else
                                    {{--                                   тут использовать readonly (при disabled (здесь) - это поле не обновляется)--}}
@@ -698,38 +700,40 @@
                                    name="{{$key}}"
                                    id="link{{$key}}"
                                    placeholder=""
-                            @if ((boolean)(old($key) ?? (($value != null) ? Item::find($value)->name_lang_0 :
-                                (($link->parent_num_bool_default_value!="")? $link->parent_num_bool_default_value:'0'))
-                                    ) == true)
-                            checked
-                            @endif
-                            {{--                            @if($base_link_right['is_edit_link_read'] == true)--}}
-                            {{--                                disabled--}}
-                            {{--                            @else--}}
-                            {{--                                @if($par_link)--}}
-                            {{--                                    @if ($key == $par_link->id)--}}
-                            {{--                                        disabled--}}
-                            {{--                                    @endif--}}
-                            {{--                                @endif--}}
-                            {{--                            @endif--}}
-                            @if($base_link_right['is_edit_link_read'] == true)
-                                disabled
-                            @else
-                                @if($par_link || $link->parent_is_nc_viewonly==true)
-                                    @if($par_link)
-                                        @if ($key == $par_link->id)
-                                            disabled
-                                        @endif
-                                    @else
-                                        {{--                                   тут использовать readonly (при disabled (здесь) - это поле не обновляется)--}}
-                                        {{--                                   также при disabled работают строки (ниже):--}}
-                                        {{--                                   parent_base_id_work = document.getElementById('link{{$key}}').disabled = true;--}}
-                                        {{--                                   parent_base_id_work = document.getElementById('link{{$key}}').disabled = false;--}}
-                                        {{-- https://www.codegrepper.com/code-examples/whatever/checkbox+readonly--}}
-                                        onclick="return false;"
-                                    @endif
+                                   @if ((boolean)(old($key) ?? (($value != null) ? Item::find($value)->name_lang_0 :
+                                       (($link->parent_num_bool_default_value!="")? $link->parent_num_bool_default_value:'0'))
+                                           ) == true)
+                                   checked
+                                   @endif
+                                   {{--                            @if($base_link_right['is_edit_link_read'] == true)--}}
+                                   {{--                                disabled--}}
+                                   {{--                            @else--}}
+                                   {{--                                @if($par_link)--}}
+                                   {{--                                    @if ($key == $par_link->id)--}}
+                                   {{--                                        disabled--}}
+                                   {{--                                    @endif--}}
+                                   {{--                                @endif--}}
+                                   {{--                            @endif--}}
+                                   @if($base_link_right['is_edit_link_read'] == true)
+                                   disabled
+                                   @else
+                                   @if($par_link || $link->parent_is_nc_viewonly==true)
+                                   @if($par_link)
+                                   @if ($key == $par_link->id)
+                                   disabled
+                                   @elseif($link->parent_is_nc_viewonly==true)
+                                   onclick="return false;"
+                                   @endif
+                                   @else
+                                   {{--                                   тут использовать readonly (при disabled (здесь) - это поле не обновляется)--}}
+                                   {{--                                   также при disabled работают строки (ниже):--}}
+                                   {{--                                   parent_base_id_work = document.getElementById('link{{$key}}').disabled = true;--}}
+                                   {{--                                   parent_base_id_work = document.getElementById('link{{$key}}').disabled = false;--}}
+                                   {{-- https://www.codegrepper.com/code-examples/whatever/checkbox+readonly--}}
+                                   onclick="return false;"
                                 @endif
-                            @endif
+                                @endif
+                                @endif
                             >
                             @error($key)
                             <div class="invalid-feedback">
@@ -1608,11 +1612,12 @@
                 numcalc_{{$prefix}}{{$link->id}}.checked = (x != 0);
             @endif
                 {{-- Похожие по смыслу проверки "$link->parent_is_nc_viewonly==false" в этом файле пять раз--}}
-            @if($link->parent_is_nc_viewonly == false)
+                @if($link->parent_is_nc_viewonly == false)
                 name_{{$prefix}}{{$link->id}}.innerHTML = error_message;
             @endif
 
         }
+
         {{-- Похожие по смыслу проверки "$link->parent_is_nc_viewonly==false" в этом файле пять раз--}}
         @if($link->parent_is_nc_viewonly == false)
         button_nc_{{$prefix}}{{$link->id}}.addEventListener("click", button_nc_click_{{$prefix}}{{$link->id}});
