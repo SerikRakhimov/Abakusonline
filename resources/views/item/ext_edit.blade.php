@@ -582,6 +582,7 @@
                                    @if ($key == $par_link->id)
                                    disabled
                                    @elseif($link->parent_is_nc_viewonly==true)
+                                   {{-- Похожая строка ниже--}}
                                    readonly
                                    @endif
                                    @else
@@ -722,6 +723,7 @@
                                    @if ($key == $par_link->id)
                                    disabled
                                    @elseif($link->parent_is_nc_viewonly==true)
+                                   {{-- Похожая строка ниже--}}
                                    onclick="return false;"
                                    @endif
                                    @else
@@ -1175,7 +1177,10 @@
             // Выводить поле вычисляемой таблицы
             if ($link->parent_is_output_calculated_table_field == true) {
                 $sets_group = ItemController::get_sets_group($base, $link);
-                $link_calculated_table = true;
+                // Проверка нужна
+                if ($sets_group) {
+                    $link_calculated_table = true;
+                }
                 $prefix = '5_';
             }
         }
