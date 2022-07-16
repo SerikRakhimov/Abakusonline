@@ -394,7 +394,7 @@ return [
     'parent_selection_calculated_table_link_id_1'=>'Дополнительное связанное поле вычисляемой таблицы_1',
     'parent_is_base_link'=>'Ссылка на основу',
     'code_not_found'=>'Код не найден',
-    'parent_is_delete_child_base_record_with_zero_value'=>'Удалить запись Ребенок_Основа при равенству нулю (Ребенок_Основа-вычисляемое, для числовых полей)',
+    'parent_is_delete_child_base_record_with_zero_value'=>'Удалить запись Ребенок_Основа при равенству нулю (Ребенок_Основа-вычисляемое, для числовых/логических полей)',
     'parent_is_enabled_boolean_value' => 'Доступно при просмотре от значения поля Логический',
     'parent_enabled_boolean_value_link_id' => 'Зависимое поле Логический',
     'is_equality_of_templates_rule' =>'Шаблоны не должны быть равны друг другу',
