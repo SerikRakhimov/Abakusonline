@@ -6397,7 +6397,8 @@ class ItemController extends Controller
         foreach ($links as $link) {
             //$base_link_right = GlobalController::base_link_right($link, $role, $relit_id);
             //if ($base_link_right['is_list_link_enable'] == true) {
-            $is_list_base_calc = $base_link_right['is_list_base_calc'];
+            //$is_list_base_calc = $base_link_right['is_list_base_calc'];
+            $is_list_base_calc = $base_link_right['is_bsmn_base_enable'];
             $link_id_array[] = $link->id;
             $link_base_right_array[$link->id] = $base_link_right;
             // 0-ая строка с link->id
