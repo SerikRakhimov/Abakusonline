@@ -322,7 +322,8 @@ if ($base_index == true) {
                             // Открывать item_index.php - проверка
                             if ($item_heading_base) {
 // В таблице-заголовке ($heading=true) ссылки будут, если '$base_link_right['is_list_base_calc'] == true'
-                                if ($base_link_right['is_list_base_calc'] == true) {
+// В таблице-заголовке ($heading=true) ссылки будут, если '$base_link_right['is_bsmn_base_enable'] == true'
+                                if ($base_link_right['is_bsmn_base_enable'] == true) {
                                     $item_index_view = true;
                                 }
                             } else {
