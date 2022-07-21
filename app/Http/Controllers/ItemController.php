@@ -1157,12 +1157,12 @@ class ItemController extends Controller
         $next_all_links_byuser_ids = array();
         $next_all_is_calcname = array();
         $next_all_is_create = array();
-        $filter = false;
-        $base_right = null;
+        //$base_right = null;
         foreach ($links as $link) {
             // Использовать '$link->child_base'
             //$base_right = GlobalController::base_right($link->child_base, $role, $relit_id);
-            $base_right = GlobalController::base_right($link->child_base, $role, $view_ret_id);
+            //$base_right = GlobalController::base_right($link->child_base, $role, $view_ret_id);
+
             // Выводить вычисляемое наименование
             // Использовать '$link->child_base'
             //$is_calcname = GlobalController::is_base_calcname_check($link->child_base, $base_right);
@@ -1191,7 +1191,7 @@ class ItemController extends Controller
                         $next_all_is_calcname[$link->id] = $is_calcname;
 //                      Такая же проверка на 'is_list_base_create'] == true && 'is_edit_link_update' == true в item_index.php и ItemController.php
                         //$next_all_is_create[$link->id] = $base_right['is_list_base_create'];
-                        $next_all_is_create[$link->id] = $base_right['is_list_base_create'] == true && $base_link_child_right['is_edit_link_update'] == true;
+                        $next_all_is_create[$link->id] = $base_link_child_right['is_list_base_create'] == true && $base_link_child_right['is_edit_link_update'] == true;
                     } else {
                         // Данные не добавляются
                     }
@@ -1201,7 +1201,7 @@ class ItemController extends Controller
                     $next_all_links[] = $link;
                     $next_all_links_ids[] = $link->id;
                     $next_all_is_calcname[$link->id] = $is_calcname;
-                    $next_all_is_create[$link->id] = $base_right['is_list_base_create'];
+                    $next_all_is_create[$link->id] = $base_link_child_right['is_list_base_create'];
                 }
             }
             //}
