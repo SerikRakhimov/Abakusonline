@@ -1157,7 +1157,6 @@ class ItemController extends Controller
         $next_all_links_byuser_ids = array();
         $next_all_is_calcname = array();
         $next_all_is_create = array();
-        //$base_right = null;
         foreach ($links as $link) {
             // Использовать '$link->child_base'
             //$base_right = GlobalController::base_right($link->child_base, $role, $relit_id);
@@ -1166,7 +1165,7 @@ class ItemController extends Controller
             // Выводить вычисляемое наименование
             // Использовать '$link->child_base'
             //$is_calcname = GlobalController::is_base_calcname_check($link->child_base, $base_right);
-            $is_calcname = GlobalController::is_base_calcnm_correct_check($link->child_base, $base_right);
+            $is_calcname = GlobalController::is_base_calcnm_correct_check($link->child_base);
             //$child_relit_id = GlobalController::get_child_relit_id_from_link_current_template($link, $parent_proj->template_id);
             //if ($child_relit_id) {
             // Нужно "$base_link_right = GlobalController::base_link_right($link, $role, $view_ret_id, true, $relit_id)"

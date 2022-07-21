@@ -881,7 +881,7 @@ class GlobalController extends Controller
     //  Если тип-вычисляемое наименование(Вычисляемое наименование) и Вычисляемое наименование корректно(заполняется)
 //  или если тип-не вычисляемое наименование(Вычисляемое наименование)
 // Используется в функции ItemController::next_all_links_mains_calc()
-    static function is_base_calcnm_correct_check($base, $base_right)
+    static function is_base_calcnm_correct_check($base)
     {
         return ($base->is_calcname_lst == true && $base->is_calcnm_correct_lst == true)
             || ($base->is_calcname_lst == false);
