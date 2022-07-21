@@ -1506,11 +1506,11 @@ class ItemController extends Controller
     {
         $result = null;
         $parent_ret_id = GlobalController::set_relit_id($parent_ret_id);
-        if ($heading == 1 || $base_index_page > 0) {
-            $result = GlobalController::base_right($base, $role, $relit_id);
-        } else {
-            $result = GlobalController::base_right($base, $role, $parent_ret_id);
-        }
+        //if ($heading == 1 || $base_index_page > 0) {
+        $result = GlobalController::base_right($base, $role, $relit_id);
+        //} else {
+        //    $result = GlobalController::base_right($base, $role, $parent_ret_id);
+        //}
         return $result;
     }
 
