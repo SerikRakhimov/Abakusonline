@@ -1161,7 +1161,8 @@ class ItemController extends Controller
         $base_right = null;
         foreach ($links as $link) {
             // Использовать '$link->child_base'
-            $base_right = GlobalController::base_right($link->child_base, $role, $relit_id);
+            //$base_right = GlobalController::base_right($link->child_base, $role, $relit_id);
+            $base_right = GlobalController::base_right($link->child_base, $role, $view_ret_id);
             // Выводить вычисляемое наименование
             // Использовать '$link->child_base'
             //$is_calcname = GlobalController::is_base_calcname_check($link->child_base, $base_right);
@@ -1169,11 +1170,16 @@ class ItemController extends Controller
             //$child_relit_id = GlobalController::get_child_relit_id_from_link_current_template($link, $parent_proj->template_id);
             //if ($child_relit_id) {
             // Нужно "$base_link_right = GlobalController::base_link_right($link, $role, $view_ret_id, true, $relit_id)"
-            $base_link_right = GlobalController::base_link_right($link, $role, $view_ret_id);
-            $base_link_child_right = GlobalController::base_link_right($link, $role, $view_ret_id, true, $relit_id);
+            //$base_link_right = GlobalController::base_link_right($link, $role, $view_ret_id);
+            $base_link_right = GlobalController::base_link_right($link, $role, $relit_id);
+
+            //$base_link_child_right = GlobalController::base_link_right($link, $role, $view_ret_id, true, $relit_id);
+            $base_link_child_right = GlobalController::base_link_right($link, $role, $relit_id, true, $view_ret_id);
+
             // Использовать две этих проверки
             //if (($base_link_right['is_body_link_enable'] == true) && ($base_link_child_right['is_list_base_calc'] == true))
-            if (($base_link_right['is_body_link_enable'] == true) && ($base_link_child_right['is_list_base_calc'] == true)) {
+            //if (($base_link_right['is_body_link_enable'] == true) && ($base_link_child_right['is_list_base_calc'] == true)) {
+            if (($base_link_child_right['is_body_link_enable'] == true) && ($base_link_child_right['is_list_base_calc'] == true)) {
                 // Такая же проверка и в GlobalController (function items_right()),
                 // в ItemController (function next_all_links_mains_calc(), browser(), get_items_for_link(), get_items_ext_edit_for_link())
                 if ($base_link_child_right['is_list_base_byuser'] == true) {
@@ -1272,7 +1278,8 @@ class ItemController extends Controller
             // $item, GlobalController::par_link_const_textnull() присоединяются к списку $tree_array
             // В all.php par_link = GlobalController::par_link_const_textnull() при формировании ссылки на item_index()
             //$string_current_next_ids = self::calc_string_current_next_ids($item, GlobalController::par_link_const_textnull(), $tree_array);
-            $string_current_next_ids = self::calc_string_current_next_ids($tree_array, $item, $link, $view_ret_id, GlobalController::const_alltrue());
+            //$string_current_next_ids = self::calc_string_current_next_ids($tree_array, $item, $link, $view_ret_id, GlobalController::const_alltrue());
+            $string_current_next_ids = self::calc_string_current_next_ids($tree_array, $item, $link, $relit_id, GlobalController::const_alltrue());
             $string_link_ids_array_next[$link->id] = $string_current_next_ids['string_next_link_ids'];
             $string_item_ids_array_next[$link->id] = $string_current_next_ids['string_next_item_ids'];
             $string_relit_ids_array_next[$link->id] = $string_current_next_ids['string_next_relit_ids'];
