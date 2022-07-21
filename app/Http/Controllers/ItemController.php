@@ -669,9 +669,9 @@ class ItemController extends Controller
                 // Если во всех $links не выводятся вычисляемые наименования или количество связей = 1,
                 // То берем первый $link по списку.
                 // Похожая проверка по смыслу 'count($next_all_links) == 1' в ItemController::item_index() и item_index.php
-                if ($next_all_is_enable == false || count($next_all_links) == 1) {
+                //if ($next_all_is_enable == false || count($next_all_links) == 1) {
                     $current_link = $next_all_first_link;
-                }
+                //}
             }
         }
 
