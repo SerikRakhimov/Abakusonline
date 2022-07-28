@@ -1328,7 +1328,8 @@ class ProjectController extends Controller
                         //Log::info($item->id . ' - ' . $item->name());
                         //echo nl2br(trans('main.processed') . " id = " . $item->id . " " . $item->name() . " ".$item->id. PHP_EOL);
                         // $reverse = true - отнимать, false - прибавлять
-                        (new ItemController)->save_info_sets($item, false);
+                        // true - с заменой
+                        (new ItemController)->save_info_sets($item, false, true);
                     }
                     echo nl2br(trans('main.processed') . " " . $count . " " . $str_records . PHP_EOL);
                 }
@@ -1353,7 +1354,8 @@ class ProjectController extends Controller
                             //Log::info($item->id . ' - ' . $item->name());
                             //echo nl2br(trans('main.processed') . " id = " . $item->id . " " . $item->name() . " ".$item->id. PHP_EOL);
                             // $reverse = true - отнимать, false - прибавлять
-                            (new ItemController)->save_info_sets($item, false);
+                            // true - с заменой
+                            (new ItemController)->save_info_sets($item, false, true);
                         }
                         echo nl2br(trans('main.processed') . " " . $count . " " . $str_records . PHP_EOL);
                     }

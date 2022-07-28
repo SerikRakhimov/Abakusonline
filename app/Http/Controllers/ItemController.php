@@ -1540,7 +1540,7 @@ class ItemController extends Controller
     {
 
         if (GlobalController::check_project_item_user($project, $item, $role, $usercode) == false) {
-            return view('message', ['message' => trans('main.no_access') . '111']);
+            return view('message', ['message' => trans('main.no_access')]);
         }
 
 //        if (GlobalController::check_project_user($project, $role) == false) {
@@ -1550,7 +1550,7 @@ class ItemController extends Controller
         $base_right = self::base_relit_right($item->base, $role, $heading, $base_index_page, $relit_id, $parent_ret_id);
 
         if ($base_right['is_list_base_calc'] == false) {
-            return view('message', ['message' => trans('main.no_access') . '222']);
+            return view('message', ['message' => trans('main.no_access')]);
         }
 
         $string_unzip_current_next = self::string_unzip_current_next($string_current);
@@ -2448,7 +2448,8 @@ class ItemController extends Controller
                 }
                 // В ext_store() вызывается один раз, т.к. запись создается
                 // При reverse = false передаем null
-                $this->save_sets($item, $keys, $values, $valits, false);
+                // параметр $urepl = true - с заменой
+                $this->save_sets($item, $keys, $values, $valits, false, true);
 
                 $item->save();
 
@@ -2539,8 +2540,9 @@ class ItemController extends Controller
 
 // save_info_sets() выполняет все присваивания для $item с отниманием/прибавлением значений
 // $reverse = true - отнимать, false - прибавлять
+// $urepl = true используется при добавлении/корректировке записи, = false при удалении записи; проверяется при Заменить(->is_upd_replace = true)
 //private
-    function save_info_sets(Item $item, bool $reverse)
+    function save_info_sets(Item $item, bool $reverse, bool $urepl)
     {
         $is_save_sets = self::is_save_sets($item);
         if (!$is_save_sets) {
@@ -2579,7 +2581,7 @@ class ItemController extends Controller
         $values_reverse = array_values($invals);
         $valits_reverse = array_values($inputs_reverse);
 
-        $this->save_sets($itpv, $keys_reverse, $values_reverse, $valits_reverse, $reverse);
+        $this->save_sets($itpv, $keys_reverse, $values_reverse, $valits_reverse, $reverse, $urepl);
 
     }
 
@@ -2616,7 +2618,7 @@ class ItemController extends Controller
 // Обрабатывает присваивания
 // $valits_previous - предыщения значения $valits при $reverse = true и обновлении данных = замена
     private
-    function save_sets(Item $item, $keys, $values, $valits, bool $reverse)
+    function save_sets(Item $item, $keys, $values, $valits, bool $reverse, bool $urepl)
     {
 //        $table1 = Set::select(DB::Raw('sets.*'))
 //            ->join('links', 'sets.link_from_id', '=', 'links.id')
@@ -2769,7 +2771,7 @@ class ItemController extends Controller
                         // "$create_item_seek = true;" нужно
                         $create_item_seek = true;
                         // true - с реверсом
-                        $this->save_info_sets($item_seek, true);
+                        $this->save_info_sets($item_seek, true, false);
                     }
                     // Если нужно создавать $item
                     // Если $item_seek создано
@@ -2850,7 +2852,8 @@ class ItemController extends Controller
 //                                            }
 //                                        }
                                         } elseif ($value->is_upd_replace == true) {
-                                            if ($reverse == false && $valits[$nk] != 0) {
+                                            if ($urepl == true && $valits[$nk] != 0) {
+                                                //if ($reverse == false && $valits[$nk] != 0) {
                                                 $main->parent_item_id = $valits[$nk];
 //                                            // Удалить запись с нулевым значением при обновлении
 //                                            if ($value->is_upd_delete_record_with_zero_value == true) {
@@ -4566,7 +4569,8 @@ class ItemController extends Controller
 
                 // только для ext_update()
                 // true - с реверсом
-                $this->save_info_sets($item, true);
+                // true - с заменой
+                $this->save_info_sets($item, true, true);
 
                 // после ввода данных в форме массив состоит:
                 // индекс массива = link_id (для занесения в links->id)
@@ -4670,7 +4674,8 @@ class ItemController extends Controller
                 }
                 // ext_update()
                 // При reverse = false передаем null
-                $this->save_sets($item, $keys, $values, $valits, false);
+                // true - с заменой
+                $this->save_sets($item, $keys, $values, $valits, false, true);
 
                 $item->save();
 
@@ -4983,7 +4988,8 @@ class ItemController extends Controller
                     // начало транзакции
                     DB::transaction(function ($r) use ($item) {
                         // true - с реверсом
-                        $this->save_info_sets($item, true);
+                        // false - без замены
+                        $this->save_info_sets($item, true, false);
 
                         $base_id = $item->base_id;
                         $project_id = $item->project_id;
