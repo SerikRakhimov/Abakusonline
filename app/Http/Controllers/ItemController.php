@@ -2932,7 +2932,7 @@ class ItemController extends Controller
 
                         // Если links->"Удалить запись с нулевым значением при обновлении" == true и значение равно нулю,
                         // то удалить запись
-                        $val_item_seek_delete = $this->val_item_seek_delete_func($item_seek);
+                        $val_item_seek_delete = $this->val_item_seek_delete_func($item_seek, $urepl);
                         if ($val_item_seek_delete) {
                             $item_seek->delete();
                         } else {
@@ -2948,7 +2948,7 @@ class ItemController extends Controller
         }
     }
 
-    static function val_item_seek_delete_func(Item $item)
+    static function val_item_seek_delete_func(Item $item, $urepl)
     {
         $result = false;
 //        $mains = Main::select(DB::Raw('mains.*'))
@@ -2998,7 +2998,8 @@ class ItemController extends Controller
             }
         }
 
-        if (1 == 2) {
+        // При удалении записи, например
+        if ($urepl == false) {
             if ($result == false) {
                 // "->get()" нужно
                 // Поиск записей "where('links.parent_is_delete_child_base_record_with_zero_value', true)" без $main
