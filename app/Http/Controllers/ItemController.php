@@ -2852,7 +2852,7 @@ class ItemController extends Controller
 //                                            }
 //                                        }
                                         } elseif ($value->is_upd_replace == true) {
-                                            if ($urepl == true) {
+                                            //if ($urepl == true) {
                                                 //if ($reverse == false && $valits[$nk] != 0) {
                                                 $main->parent_item_id = $valits[$nk];
 //                                            // Удалить запись с нулевым значением при обновлении
@@ -2865,15 +2865,15 @@ class ItemController extends Controller
 //                                                    }
 //                                                }
 //                                            }
-                                            } else {
-                                                $delete_main = true;
+                                            //} else {
+                                            //    $delete_main = true;
                                                 // Используем $valits_previous[$nk]
 //                                            $main->parent_item_id = $valits_previous[$nk];
 //                                            // Удалить запись с нулевым значением при обновлении
 //                                            if ($value->is_upd_delete_record_with_zero_value == true) {
 //                                                $valnull = true;
 //                                            }
-                                            }
+                                            //}
                                         }
                                         // При $reverse == false
                                         // и при корректировке записи(если подкорректировано поле группировки)
