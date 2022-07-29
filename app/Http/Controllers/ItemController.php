@@ -2771,7 +2771,7 @@ class ItemController extends Controller
                         // "$create_item_seek = true;" нужно
                         $create_item_seek = true;
                         // true - с реверсом
-                        $this->save_info_sets($item_seek, true, false);
+                        $this->save_info_sets($item_seek, true, $urepl);
                     }
                     // Если нужно создавать $item
                     // Если $item_seek создано
@@ -4569,8 +4569,8 @@ class ItemController extends Controller
 
                 // только для ext_update()
                 // true - с реверсом
-                // true - с заменой
-                $this->save_info_sets($item, true, false);
+                // обязательно true - с заменой
+                $this->save_info_sets($item, true, true);
 
                 // после ввода данных в форме массив состоит:
                 // индекс массива = link_id (для занесения в links->id)
@@ -4631,12 +4631,6 @@ class ItemController extends Controller
                         $i = $i + 1;
                     }
                 }
-
-                // после блока с сохранением в таблице $mains
-                // только для ext_update()
-                // true - с реверсом
-                // true - с заменой
-                //$this->save_info_sets($item, true, true);
 
                 // Проверка на уникальность значений $item->child_mains;
                 // Похожие строки при добавлении (функция ext_store()) и сохранении (функция ext_update()) записи
