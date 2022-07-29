@@ -2852,7 +2852,7 @@ class ItemController extends Controller
 //                                            }
 //                                        }
                                         } elseif ($value->is_upd_replace == true) {
-                                            //if ($urepl == true) {
+                                            if ($urepl == true) {
                                                 //if ($reverse == false && $valits[$nk] != 0) {
                                                 $main->parent_item_id = $valits[$nk];
 //                                            // Удалить запись с нулевым значением при обновлении
@@ -2865,15 +2865,15 @@ class ItemController extends Controller
 //                                                    }
 //                                                }
 //                                            }
-                                            //} else {
-                                            //    $delete_main = true;
+                                            } else {
+                                                $delete_main = true;
                                                 // Используем $valits_previous[$nk]
 //                                            $main->parent_item_id = $valits_previous[$nk];
 //                                            // Удалить запись с нулевым значением при обновлении
 //                                            if ($value->is_upd_delete_record_with_zero_value == true) {
 //                                                $valnull = true;
 //                                            }
-                                            //}
+                                            }
                                         }
                                         // При $reverse == false
                                         // и при корректировке записи(если подкорректировано поле группировки)
@@ -2998,26 +2998,28 @@ class ItemController extends Controller
             }
         }
 
-        if ($result == false) {
-            // "->get()" нужно
-            // Поиск записей "where('links.parent_is_delete_child_base_record_with_zero_value', true)" без $main
-            // Запись $main может быть ранее удалена при замене ($value->is_upd_replace == true) в функции save_sets()
-            // Если такие записи есть, то считать итоговое значение = 0 и удалить запись ($result = true;)
-            $links = Link::select(DB::Raw('links.*'))
-                ->join('bases', 'links.parent_base_id', '=', 'bases.id')
-                ->where('links.child_base_id', $item->base_id)
-                ->where('links.parent_is_delete_child_base_record_with_zero_value', true)
-                ->where(function ($query) {
-                    $query->where('bases.type_is_number', true)
-                        ->orWhere('bases.type_is_boolean', true);
-                })
-                ->get();
-            foreach ($links as $link) {
-                $main = Main::where('link_id', $link->id)->where('child_item_id', $item->id)->first();
-                // Если не найдено
-                if (!$main) {
-                    //$result = true;
-                    break;
+        if (1 == 2) {
+            if ($result == false) {
+                // "->get()" нужно
+                // Поиск записей "where('links.parent_is_delete_child_base_record_with_zero_value', true)" без $main
+                // Запись $main может быть ранее удалена при замене ($value->is_upd_replace == true) в функции save_sets()
+                // Если такие записи есть, то считать итоговое значение = 0 и удалить запись ($result = true;)
+                $links = Link::select(DB::Raw('links.*'))
+                    ->join('bases', 'links.parent_base_id', '=', 'bases.id')
+                    ->where('links.child_base_id', $item->base_id)
+                    ->where('links.parent_is_delete_child_base_record_with_zero_value', true)
+                    ->where(function ($query) {
+                        $query->where('bases.type_is_number', true)
+                            ->orWhere('bases.type_is_boolean', true);
+                    })
+                    ->get();
+                foreach ($links as $link) {
+                    $main = Main::where('link_id', $link->id)->where('child_item_id', $item->id)->first();
+                    // Если не найдено
+                    if (!$main) {
+                        $result = true;
+                        break;
+                    }
                 }
             }
         }
