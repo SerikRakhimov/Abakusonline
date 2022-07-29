@@ -2852,7 +2852,7 @@ class ItemController extends Controller
 //                                            }
 //                                        }
                                         } elseif ($value->is_upd_replace == true) {
-                                            if ($urepl == true && $valits[$nk] != 0) {
+                                            if ($urepl == true) {
                                                 //if ($reverse == false && $valits[$nk] != 0) {
                                                 $main->parent_item_id = $valits[$nk];
 //                                            // Удалить запись с нулевым значением при обновлении
