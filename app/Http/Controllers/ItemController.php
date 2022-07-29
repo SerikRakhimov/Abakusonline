@@ -3016,7 +3016,7 @@ class ItemController extends Controller
                 $main = Main::where('link_id', $link->id)->where('child_item_id', $item->id)->first();
                 // Если не найдено
                 if (!$main) {
-                    $result = true;
+                    //$result = true;
                     break;
                 }
             }
