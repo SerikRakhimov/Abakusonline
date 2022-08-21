@@ -206,6 +206,7 @@ return [
     'user_not_found' => 'User not found',
     'guest' => 'Guest',
     'run' => 'Run',
+    'is_history' => 'History',
     'is_list_base_sndbt' => 'Show Bases with types String, Number, Date, Boolean, Text',
     'is_list_base_id' => 'Show Bases with types Image, Document',
     'is_list_base_calculated' => 'Show Calculated bases',
