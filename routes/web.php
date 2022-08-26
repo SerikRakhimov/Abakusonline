@@ -972,6 +972,10 @@ Route::get('/item/doc_download/{item}/{usercode}', [ItemController::class, 'doc_
     ->name('item.doc_download')
     ->middleware('auth');
 
+Route::get('/item/change_history/{item}', [ItemController::class, 'change_history'])
+    ->name('item.change_history')
+    ->middleware('auth');
+
 // Mains
 
 Route::get('/main/index', [MainController::class, 'index'])

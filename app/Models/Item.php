@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use App\Observers\ItemObserver;
+use phpDocumentor\Reflection\Types\Boolean;
 
 class Item extends Model
 {
@@ -402,7 +403,7 @@ class Item extends Model
         $value = 0;
         $result = false;
         if ($this->base->type_is_number() || $this->base->type_is_boolean()) {
-        //if ($this->base->type_is_number()) {
+            //if ($this->base->type_is_number()) {
             $result = true;
             if ($this->name_lang_0 == "") {
                 $value = 0;
@@ -448,6 +449,47 @@ class Item extends Model
             $result = str_replace($search, $replace, $result);
         }
         return $result;
+    }
+
+    function is_history()
+    {
+        return $this->is_history == true;
+    }
+
+    function set_history(bool $save_record = false)
+    {
+        $this->is_history = true;
+        if($save_record == true){
+            $this->save();
+        }
+    }
+
+    function clear_history(bool $save_record = false)
+    {
+        $this->is_history = false;
+        if($save_record == true){
+            $this->save();
+        }
+    }
+
+    function button_title()
+    {
+        $result = "";
+        if ($this->is_history()) {
+            $result = trans('main.from_history');
+        } else {
+            $result = trans('main.to_history');
+        }
+        return $result;
+    }
+
+    function change_history(bool $save_record = false)
+    {
+        if ($this->is_history()) {
+            $this->clear_history($save_record);
+        } else {
+            $this->set_history($save_record);
+        }
     }
 
 }

@@ -132,6 +132,7 @@ if ($base_index == true) {
                         {{--                        'string_item_ids_current' => $string_item_ids_current,--}}
                         {{--                        'string_all_codes_current'=> $string_all_codes_current--}}
                         <span class="badge badge-related">{{$i}}</span>
+                        @include('layouts.item.show_history',['item'=>$item])
                     </a>
                 </td>
             @endif

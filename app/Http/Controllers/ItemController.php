@@ -3932,6 +3932,10 @@ class ItemController extends Controller
         // установка часового пояса нужно для сохранения времени
         date_default_timezone_set('Asia/Almaty');
 
+        if ($item->is_history() == true) {
+            return view('message', ['message' => trans('main.no_access')]);
+        }
+
         if (GlobalController::check_project_item_user($project, $item, $role, $usercode) == false) {
             return view('message', ['message' => trans('main.no_access')]);
         }
@@ -4836,6 +4840,10 @@ class ItemController extends Controller
                            $view_link = null,
                       Link $par_link = null, Item $parent_item = null)
     {
+        if ($item->is_history() == true) {
+            return view('message', ['message' => trans('main.no_access')]);
+        }
+
         if (GlobalController::check_project_item_user($project, $item, $role, $usercode) == false) {
             return view('message', ['message' => trans('main.no_access')]);
         }
@@ -4904,6 +4912,10 @@ class ItemController extends Controller
                                  Link $par_link, Item $parent_item = null)
 
     {
+        if ($item->is_history() == true) {
+            return view('message', ['message' => trans('main.no_access')]);
+        }
+
         if (GlobalController::check_project_item_user($project, $item, $role, $usercode) == false) {
             return view('message', ['message' => trans('main.no_access')]);
         }
@@ -4953,6 +4965,9 @@ class ItemController extends Controller
                              $view_link = null,
                         Link $par_link, Item $parent_item = null)
     {
+        if ($item->is_history() == true) {
+            return view('message', ['message' => trans('main.no_access')]);
+        }
 
         if (GlobalController::check_project_item_user($project, $item, $role, $usercode) == false) {
             return view('message', ['message' => trans('main.no_access')]);
@@ -6900,6 +6915,15 @@ class ItemController extends Controller
         } else {
             return view('message', ['message' => trans('main.no_access')]);
         }
+    }
+
+    public
+    function change_history(Item $item)
+    {
+        $item->change_history(true);
+        //return back()->withInput();
+        return back();
+        //return view('message', ['message' => trans('main.is_history')]);
     }
 
 }
