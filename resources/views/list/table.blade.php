@@ -38,7 +38,11 @@ if ($base_index == true) {
     <tr>
         {{--        Похожие проверки ниже по тексту--}}
         @if(!$heading)
-            <th rowspan="{{$rows + 1}}" class="text-center align-top">#</th>
+            <th rowspan="{{$rows + 1}}" style="width: 5%" class="text-center align-top">#</th>
+        @endif
+        {{--        'Показывать признак "В истории" при просмотре списков'--}}
+        @if($base_right['is_list_hist_attr_enable'] == true)
+            <th rowspan="{{$rows + 1}}" style="width: 5%" class="text-center align-top" title="{{trans('main.history')}}">{{trans('main.small_history')}}</th>
         @endif
         {{--        <th rowspan="{{$rows + 1}}" class="text-center align-top">Id</th>--}}
         @if($base_index || $item_body_base)
@@ -132,8 +136,13 @@ if ($base_index == true) {
                         {{--                        'string_item_ids_current' => $string_item_ids_current,--}}
                         {{--                        'string_all_codes_current'=> $string_all_codes_current--}}
                         <span class="badge badge-related">{{$i}}</span>
-                        @include('layouts.item.show_history',['item'=>$item])
                     </a>
+                </td>
+            @endif
+            {{--        'Показывать признак "В истории" при просмотре списков'--}}
+            @if($base_right['is_list_hist_attr_enable'] == true)
+                <td class="text-center">
+                    @include('layouts.item.show_history',['item'=>$item])
                 </td>
             @endif
             {{--            <td class="text-center">--}}

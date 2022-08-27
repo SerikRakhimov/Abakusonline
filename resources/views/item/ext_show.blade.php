@@ -15,7 +15,10 @@
     ?>
     @include('layouts.project.show_project_role',['project'=>$project, 'role'=>$role, 'relit_id'=>$relit_id])
     <h3 class="display-5">
-        @include('layouts.item.show_history',['item'=>$item])
+        {{--        'Показывать признак "В истории" при просмотре записи'--}}
+        @if($base_right['is_show_hist_attr_enable'] == true)
+            @include('layouts.item.show_history',['item'=>$item])
+        @endif
         @if ($type_form == 'show')
             {{trans('main.viewing_record')}}
         @elseif($type_form == 'delete_question')
@@ -254,12 +257,16 @@
             {{--                {{trans('main.add')}}--}}
             {{--            </button>--}}
             {{--            @endif--}}
+
+            {{--        'Корректировать признак "В истории" при просмотре записи'--}}
+            @if($base_right['is_edit_hist_attr_enable'] == true)
             <button type="button" class="btn btn-dreamer mb-1 mb-sm-0"
                     onclick='document.location="{{route('item.change_history', ['item'=>$item])}}"'
                     title="{{$item->button_title()}}">
                 <i class="fas fa-history"></i>
                 {{$item->button_title()}}
             </button>
+            @endif
             @if($item->is_history() == false)
                 {{--Похожая проверка в ItemController::ext_edit() и ext_show.php--}}
                 @if($base_right['is_list_base_update'] == true)

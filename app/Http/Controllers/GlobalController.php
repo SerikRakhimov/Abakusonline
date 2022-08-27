@@ -104,6 +104,12 @@ class GlobalController extends Controller
         $is_edit_link_update = $role->is_edit_link_update;
         $is_hier_base_enable = $role->is_hier_base_enable;
         $is_hier_link_enable = $role->is_hier_link_enable;
+        $is_show_hist_attr_enable = false;
+        $is_edit_hist_attr_enable = false;
+        $is_list_hist_attr_enable = false;
+        $is_list_hist_records_enable = true;
+        $is_brow_hist_attr_enable = false;
+        $is_brow_hist_records_enable = true;
         $is_edit_email_base_create = $role->is_edit_email_base_create;
         $is_edit_email_question_base_create = $role->is_edit_email_question_base_create;
         $is_edit_email_base_update = $role->is_edit_email_base_update;
@@ -228,6 +234,12 @@ class GlobalController extends Controller
             $is_roba_edit_link_update = $roba->is_edit_link_update;
             $is_roba_hier_base_enable = $roba->is_hier_base_enable;
             $is_roba_hier_link_enable = $roba->is_hier_link_enable;
+            $is_roba_show_hist_attr_enable = $roba->is_show_hist_attr_enable;
+            $is_roba_edit_hist_attr_enable = $roba->is_edit_hist_attr_enable;
+            $is_roba_list_hist_attr_enable = $roba->is_list_hist_attr_enable;
+            $is_roba_list_hist_records_enable = $roba->is_list_hist_records_enable;
+            $is_roba_brow_hist_attr_enable = $roba->is_brow_hist_attr_enable;
+            $is_roba_brow_hist_records_enable = $roba->is_brow_hist_records_enable;
             $is_roba_edit_email_base_create = $roba->is_edit_email_base_create;
             $is_roba_edit_email_question_base_create = $roba->is_edit_email_question_base_create;
             $is_roba_edit_email_base_update = $roba->is_edit_email_base_update;
@@ -282,6 +294,12 @@ class GlobalController extends Controller
             $is_edit_link_update = $is_roba_edit_link_update;
             $is_hier_base_enable = $is_roba_hier_base_enable;
             $is_hier_link_enable = $is_roba_hier_link_enable;
+            $is_show_hist_attr_enable = $is_roba_show_hist_attr_enable;
+            $is_edit_hist_attr_enable = $is_roba_edit_hist_attr_enable;
+            $is_list_hist_attr_enable = $is_roba_list_hist_attr_enable;
+            $is_list_hist_records_enable = $is_roba_list_hist_records_enable;
+            $is_brow_hist_attr_enable = $is_roba_brow_hist_attr_enable;
+            $is_brow_hist_records_enable = $is_roba_brow_hist_records_enable;
             $is_edit_email_base_create = $is_roba_edit_email_base_create;
             $is_edit_email_question_base_create = $is_roba_edit_email_question_base_create;
             $is_edit_email_base_update = $is_roba_edit_email_base_update;
@@ -321,12 +339,18 @@ class GlobalController extends Controller
             'is_edit_link_update' => $is_edit_link_update,
             'is_hier_base_enable' => $is_hier_base_enable,
             'is_hier_link_enable' => $is_hier_link_enable,
+            'is_show_hist_attr_enable' => $is_show_hist_attr_enable,
+            'is_edit_hist_attr_enable' => $is_edit_hist_attr_enable,
+            'is_list_hist_attr_enable' => $is_list_hist_attr_enable,
+            'is_list_hist_records_enable' => $is_list_hist_records_enable,
+            'is_brow_hist_attr_enable' => $is_brow_hist_attr_enable,
+            'is_brow_hist_records_enable' => $is_brow_hist_records_enable,
             'is_edit_email_base_create' => $is_edit_email_base_create,
             'is_edit_email_question_base_create' => $is_edit_email_question_base_create,
             'is_edit_email_base_update' => $is_edit_email_base_update,
             'is_edit_email_question_base_update' => $is_edit_email_question_base_update,
             'is_show_email_base_delete' => $is_show_email_base_delete,
-            'is_show_email_question_base_delete' => $is_show_email_question_base_delete
+            'is_show_email_question_base_delete' => $is_show_email_question_base_delete,
         ];
     }
 
@@ -387,6 +411,12 @@ class GlobalController extends Controller
         $is_edit_link_update = $base_right['is_edit_link_update'];
         $is_hier_base_enable = $base_right['is_hier_base_enable'];
         $is_hier_link_enable = $base_right['is_hier_link_enable'];
+        $is_show_hist_attr_enable = $base_right['is_show_hist_attr_enable'];
+        $is_edit_hist_attr_enable = $base_right['is_edit_hist_attr_enable'];
+        $is_list_hist_attr_enable = $base_right['is_list_hist_attr_enable'];
+        $is_list_hist_records_enable = $base_right['is_list_hist_records_enable'];
+        $is_brow_hist_attr_enable = $base_right['is_brow_hist_attr_enable'];
+        $is_brow_hist_records_enable = $base_right['is_brow_hist_records_enable'];
         $is_edit_email_base_create = $base_right['is_edit_email_base_create'];
         $is_edit_email_question_base_create = $base_right['is_edit_email_question_base_create'];
         $is_edit_email_base_update = $base_right['is_edit_email_base_update'];
@@ -466,6 +496,12 @@ class GlobalController extends Controller
             'is_edit_link_update' => $is_edit_link_update,
             'is_hier_base_enable' => $is_hier_base_enable,
             'is_hier_link_enable' => $is_hier_link_enable,
+            'is_show_hist_attr_enable' => $is_show_hist_attr_enable,
+            'is_edit_hist_attr_enable' => $is_edit_hist_attr_enable,
+            'is_list_hist_attr_enable' => $is_list_hist_attr_enable,
+            'is_list_hist_records_enable' => $is_list_hist_records_enable,
+            'is_brow_hist_attr_enable' => $is_brow_hist_attr_enable,
+            'is_brow_hist_records_enable' => $is_brow_hist_records_enable,
             'is_edit_email_base_create' => $is_edit_email_base_create,
             'is_edit_email_question_base_create' => $is_edit_email_question_base_create,
             'is_edit_email_base_update' => $is_edit_email_base_update,

@@ -153,6 +153,10 @@ if ($item){
         <table class="table table-sm table-bordered table-hover">
             <caption>{{trans('main.select_record_for_work')}}</caption>
             <thead>
+            {{--        'Показывать признак "В истории" при просмотре списков выбора'--}}
+            @if($base_right['is_brow_hist_attr_enable'] == true)
+                <th style="width: 5%" class="text-center" title="{{trans('main.history')}}">{{trans('main.small_history')}}</th>
+            @endif
             <th class="text-center {{$order_by == 'code'?'font-italic' : ''}}">
                 {{--                <a href="{{route('item.browser',['link_id'=>$link->id, 'project_id'=>$project->id, 'role_id'=>$role->id, 'item_id'=>$item->id, 'sort_by_code'=>1, 'save_by_code'=>$save_by_code==true?"1":"0", 'search'=>$search])}}"--}}
                 {{--                   title="{{trans('main.sort_by_code')}}">--}}
@@ -168,6 +172,12 @@ if ($item){
             <tbody>
             @foreach($items as $it)
                 <tr>
+                    {{--        'Показывать признак "В истории" при просмотре списков выбора'--}}
+                    @if($base_right['is_brow_hist_attr_enable'] == true)
+                        <td class="text-center">
+                            @include('layouts.item.show_history',['item'=>$it])
+                        </td>
+                    @endif
                     <td class="text-center" style="cursor:pointer"
                         onclick="SelectFile('{{$it->id}}', '{{$it->code}}', '{{$it->name()}}')">{{$it->code}}</td>
                     <td class="text-left" style="cursor:pointer"

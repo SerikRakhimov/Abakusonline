@@ -60,6 +60,12 @@
     <p>{{trans('main.is_edit_link_update')}}: <b>{{GlobalController::name_is_boolean($roba->is_edit_link_update)}}</b></p>
     <p>{{trans('main.is_hier_base_enable')}}: <b>{{GlobalController::name_is_boolean($roba->is_hier_base_enable)}}</b></p>
     <p>{{trans('main.is_hier_link_enable')}}: <b>{{GlobalController::name_is_boolean($roba->is_hier_link_enable)}}</b></p>
+    <p>{{trans('main.is_show_hist_attr_enable')}}: <b>{{GlobalController::name_is_boolean($roba->is_show_hist_attr_enable)}}</b></p>
+    <p>{{trans('main.is_edit_hist_attr_enable')}}: <b>{{GlobalController::name_is_boolean($roba->is_edit_hist_attr_enable)}}</b></p>
+    <p>{{trans('main.is_list_hist_attr_enable')}}: <b>{{GlobalController::name_is_boolean($roba->is_list_hist_attr_enable)}}</b></p>
+    <p>{{trans('main.is_list_hist_records_enable')}}: <b>{{GlobalController::name_is_boolean($roba->is_list_hist_records_enable)}}</b></p>
+    <p>{{trans('main.is_brow_hist_attr_enable')}}: <b>{{GlobalController::name_is_boolean($roba->is_brow_hist_attr_enable)}}</b></p>
+    <p>{{trans('main.is_brow_hist_records_enable')}}: <b>{{GlobalController::name_is_boolean($roba->is_brow_hist_records_enable)}}</b></p>
     <p>{{trans('main.is_edit_email_base_create')}}: <b>{{GlobalController::name_is_boolean($roba->is_edit_email_base_create)}}</b></p>
     <p>{{trans('main.is_edit_email_question_base_create')}}: <b>{{GlobalController::name_is_boolean($roba->is_edit_email_question_base_create)}}</b></p>
     <p>{{trans('main.is_edit_email_base_update')}}: <b>{{GlobalController::name_is_boolean($roba->is_edit_email_base_update)}}</b></p>

@@ -207,6 +207,7 @@ return [
     'guest' => 'Guest',
     'run' => 'Run',
     'history' => 'History',
+    'small_history' => 'H',
     'is_history' => 'In the history',
     'to_history' => 'Transfer to history',
     'from_history' => 'Return from history',
@@ -433,4 +434,10 @@ return [
     'parent_is_tree_value' => 'Suggest a value from the tree_array in the selection list if it is found',
     'parent_is_tree_top' => 'Switch to this link when you call the item_index.php with the primary base',
     'is_view_prev_next' => 'Show previous/next records in item_index.php',
+    'is_show_hist_attr_enable' => 'Show the characteristic "In history" when viewing the record',
+    'is_edit_hist_attr_enable' => 'Change the characteristic "In history" when displaying the record',
+    'is_list_hist_attr_enable' => 'Show "In History" when viewing lists',
+    'is_list_hist_records_enable' => 'Show entries with "In history" when viewing lists',
+    'is_brow_hist_attr_enable' => 'Show the characteristic "In history" when viewing the selection lists',
+    'is_brow_hist_records_enable' => 'Show entries with the "In history" characteristic when viewing selection lists',
     ];
