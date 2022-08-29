@@ -599,6 +599,9 @@ class GlobalController extends Controller
                 $items = Item::joinSub($items_ids, 'items_ids', function ($join) {
                     $join->on('items.id', '=', 'items_ids.id');
                 });
+                if ($base_right['is_list_hist_records_enable'] == false) {
+                    $items = $items->where('items.is_history', false);
+                }
             }
             // Выборка из items
         } else {
@@ -606,6 +609,9 @@ class GlobalController extends Controller
             // Обязательно фильтр на два запроса:
             // where('base_id', $base->id)->where('project_id', $project->id)
             $items = Item::where('base_id', $base->id)->where('project_id', $project->id);
+            if ($base_right['is_list_hist_records_enable'] == false) {
+                $items = $items->where('items.is_history', false);
+            }
 
         }
         // Такая же проверка и в GlobalController (function items_right()),

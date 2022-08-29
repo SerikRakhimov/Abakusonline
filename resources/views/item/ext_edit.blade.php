@@ -374,7 +374,8 @@
             $items = [];
             if ($items_default == true && $link->parent_base->type_is_list()) {
                 //$result = ItemController::get_items_main($link_parent_base, $project, $role, $link->parent_relit_id, $link);
-                $result = ItemController::get_items_main($link_parent_base, $project, $role, $relit_id, $link);
+                $result = ItemController::get_items_main($link_parent_base, $project, $role, $relit_id,
+                    $base_link_right['is_list_hist_records_enable'], $link);
                 $items = $result['items_no_get']->get();
             }
             $code_find = null;

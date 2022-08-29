@@ -896,7 +896,7 @@ Route::delete('/item/ext_delete/{item}/{project}/{role}/{usercode}/{relit_id}/{s
 Route::post('/store_link_change', [ItemController::class, 'store_link_change'])
     ->name('item.store_link_change');
 
-Route::get('/item/get_items_main/{base}/{project}/{role}/{relit_id}/{link?}/{item?}', [ItemController::class, 'get_items_main'])
+Route::get('/item/get_items_main/{base}/{project}/{role}/{relit_id}/{enable_hist_records?}/{link?}/{item?}', [ItemController::class, 'get_items_main'])
     ->name('item.get_items_main')
     ->middleware('auth');
 

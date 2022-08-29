@@ -126,7 +126,9 @@ class ItemController extends Controller
         }
         $base_right = GlobalController::base_right($base, $role, $relit_id);
         $name = BaseController::field_name();
-        $items = self::get_items_main($base, $project, $role, $relit_id, $link, $item)['items_no_get'];
+        // Только в функции browser() используется 'Показывать записи с признаком "В истории" при просмотре списков выбора',
+        // в других функциях выборки таблиц данных подразумевается 'Показывать записи с признаком "В истории" при просмотре списков'
+        $items = self::get_items_main($base, $project, $role, $relit_id, $base_right['is_brow_hist_records_enable'],$link, $item)['items_no_get'];
         if ($order_by == null) {
             $order_by = "name";
         }
@@ -6607,7 +6609,7 @@ class ItemController extends Controller
     }
 
 // Выборка данных в виде списка
-    static function get_items_main(Base $base, Project $project, Role $role, $relit_id, Link $link = null, Item $item = null)
+    static function get_items_main(Base $base, Project $project, Role $role, $relit_id, $enable_hist_records = true, Link $link = null, Item $item = null)
     {
         // Фильтр данных
         $is_filter = false;
@@ -6632,46 +6634,50 @@ class ItemController extends Controller
                 }
                 // 1.0 В списке выбора использовать поле вычисляемой таблицы
                 $is_calcuse = $link->parent_is_in_the_selection_list_use_the_calculated_table_field;
-            }
-            // Права по base_id
-            //$base_right = GlobalController::base_right($base, $role, $relit_id);
-            $base_right = GlobalController::base_right($base, $role, $link->parent_relit_id);
-            if (($is_filter) || ($is_calcuse)) {
-                if ($is_filter) {
-                    $items_filter = self::get_items_filter_main($base, $link, $item);
-                    $items = $items_filter;
-                }
-                if ($is_calcuse) {
-                    $items = self::get_items_calc_main($link);
+                //////////////////////////////\\\\\\\\\\\\\\\\\\\\\\\\\/////////////////////////}
+                // Права по base_id
+                $base_right = GlobalController::base_right($base, $role, $relit_id);
+                //////////////////////////////\\\\\\\\\\\\\\\\\\\\\\\\\/////////////////////////$base_right = GlobalController::base_right($base, $role, $link->parent_relit_id);
+                if (($is_filter) || ($is_calcuse)) {
                     if ($is_filter) {
-                        // Объединение двух запросов $items_filter и $items(вычисляемые)
-                        //$items = Item::select(DB::Raw('items.*'))
-                        $items = Item::select(DB::Raw('items.*'))
-                            ->joinSub($items, 'items_start', function ($join) {
-                                $join->on('items.id', '=', 'items_start.id');
-                            })
-                            ->joinSub($items_filter, 'items_second', function ($join) {
-                                $join->on('items.id', '=', 'items_second.id');
-                            });
+                        $items_filter = self::get_items_filter_main($base, $link, $item);
+                        $items = $items_filter;
                     }
+                    if ($is_calcuse) {
+                        $items = self::get_items_calc_main($link);
+                        if ($is_filter) {
+                            // Объединение двух запросов $items_filter и $items(вычисляемые)
+                            //$items = Item::select(DB::Raw('items.*'))
+                            $items = Item::select(DB::Raw('items.*'))
+                                ->joinSub($items, 'items_start', function ($join) {
+                                    $join->on('items.id', '=', 'items_start.id');
+                                })
+                                ->joinSub($items_filter, 'items_second', function ($join) {
+                                    $join->on('items.id', '=', 'items_second.id');
+                                });
+                        }
+                    }
+                } else {
+                    //$items = self::get_items_list_main($base, $project, $link);
+                    // Используется $relip_proj
+                    $items = self::get_items_list_main($base, $relip_proj, $link);
                 }
-            } else {
-                //$items = self::get_items_list_main($base, $project, $link);
-                // Используется $relip_proj
-                $items = self::get_items_list_main($base, $relip_proj, $link);
-            }
 
-            // Такая же проверка и в GlobalController (function items_right()),
-            // в ItemController (function next_all_links_mains_calc(), browser(), get_items_for_link(), get_items_ext_edit_for_link())
-            if ($base_right['is_list_base_byuser'] == true) {
-                $items = $items->where('created_user_id', GlobalController::glo_user_id());
-            }
-            // Сортировка не нужна, т.к. мешает сортировке по коду/наименованию в $this->browser()
-            // По умолчанию, сортировка по наименованию
-            //$index = array_search(App::getLocale(), config('app.locales'));
-            //if ($index !== false) {   // '!==' использовать, '!=' не использовать
-            //    $items = $items->orderBy('name_lang_' . $index);
-            //}
+                // Такая же проверка и в GlobalController (function items_right()),
+                // в ItemController (function next_all_links_mains_calc(), browser(), get_items_for_link(), get_items_ext_edit_for_link())
+                if ($base_right['is_list_base_byuser'] == true) {
+                    $items = $items->where('created_user_id', GlobalController::glo_user_id());
+                }
+                if ($enable_hist_records == false) {
+                    $items = $items->where('is_history', false);
+                }
+                // Сортировка не нужна, т.к. мешает сортировке по коду/наименованию в $this->browser()
+                // По умолчанию, сортировка по наименованию
+                //$index = array_search(App::getLocale(), config('app.locales'));
+                //if ($index !== false) {   // '!==' использовать, '!=' не использовать
+                //    $items = $items->orderBy('name_lang_' . $index);
+                //}
+            }///////////////////////\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\//////////////////////////////
         }
         return ['items_no_get' => $items,
             'result_parent_label' => $result_parent_label,
@@ -6681,7 +6687,8 @@ class ItemController extends Controller
 // Выборка данных в виде списка
     static function get_items_main_options(Base $base, Project $project, Role $role, $relit_id, Link $link = null, Item $item = null)
     {
-        $items_main = self::get_items_main($base, $project, $role, $relit_id, $link, $item);
+        $base_right = self::base_right($base, $role, $relit_id);
+        $items_main = self::get_items_main($base, $project, $role, $relit_id, $base_right['is_list_hist_records_enable'], $link, $item);
         $items_no_get = $items_main['items_no_get'];
         // '->get()' нужно
         $result_items = $items_no_get->get();
@@ -6707,7 +6714,8 @@ class ItemController extends Controller
 // Выборка данных в виде списка
     static function get_items_main_code($code, Base $base, Project $project, Role $role, $relit_id, Link $link = null, Item $item = null)
     {
-        $items_main = self::get_items_main($base, $project, $role, $relit_id, $link, $item);
+        $base_right = self::base_right($base, $role, $relit_id);
+        $items_main = self::get_items_main($base, $project, $role, $relit_id, $base_right['is_list_hist_records_enable'], $link, $item);
         $items_no_get = $items_main['items_no_get'];
         $item_id = 0;
         $item_name = trans('main.no_information') . '!';
