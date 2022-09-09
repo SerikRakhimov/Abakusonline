@@ -2021,20 +2021,30 @@ class GlobalController extends Controller
         return ['template' => $template, 'template_name' => $template_name];
     }
 
-    static function get_child_relit_id_from_link_current_template(Link $link, $current_template_id)
+    static function get_child_relit_id_from_link_current_template(Link $link, $relit_id, $current_template_id, $item_template_id)
     {
-        $child_relit_id = null;
+        $result = false;
+        $relit = Relit::find($relit_id);
         $child_template_id = $link->child_base->template_id;
-        if ($child_template_id == $current_template_id){
+        //dd($current_template_id . ' ' .$child_template_id . ' ' . $item_template_id. ' ' . $relit->child_template_id. ' ' . $relit->parent_template_id.' '.$relit_id.' '.$link->parent_relit_id);
+        //dd($current_template_id . ' ' .$child_template_id . ' ' . $item_template_id. ' ' . $relit_id.' '.$link->parent_relit_id);
+        if (($child_template_id == $current_template_id)) {
             // Текущий шаблон
-            $child_relit_id = 0;
+            $result = true;
+            //dd($child_relit_id);
         }
         else{
             //$parent_relit_id = $link->parent_relit_id;
             //$child_relit_id = 0;
+//            $relit = Relit::find($relit_id);
+//            if ($relit) {
+//                $template = $relit->parent_template;
+//                $template_name = $relit->serial_number . '. ' . $template->name()
+//                    . ' (Id =' . $relit->id . ')';
+//            }
         }
 
-        return $child_relit_id;
+        return $result;
     }
 
     // Сохранение и resize() изображения

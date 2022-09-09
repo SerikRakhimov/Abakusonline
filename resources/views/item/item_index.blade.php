@@ -361,9 +361,9 @@
         <div class="row">
             <div class="col-12 text-right">
                 {{-- Нужно '@if(count($next_all_links)>0)'--}}
-                {{-- Для команды '@if(!($view_link && count($next_all_links) == 1))', чтобы исключить вариант count($next_all_links) == 0--}}
                 @if(count($next_all_links)>0)
-                    {{--                Не высвечивать кнопку "Связи", если одна связь и $next_all_is_enable=false--}}
+                {{-- Для команды '@if(!($view_link && count($next_all_links) == 1))', чтобы исключить вариант count($next_all_links) == 0--}}
+          {{--                Не высвечивать кнопку "Связи", если одна связь и $next_all_is_enable=false--}}
                     {{--                    @if(($next_all_is_enable) || (count($next_all_links)>1))--}}
                     {{--                Не высвечивать кнопку "Связи", если одна связь и $view_link!=false--}}
                     {{-- Похожая проверка по смыслу 'count($next_all_links) == 1' в ItemController::item_index() и item_index.php--}}
