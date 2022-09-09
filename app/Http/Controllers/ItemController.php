@@ -1168,15 +1168,14 @@ class ItemController extends Controller
             // Использовать '$link->child_base'
             //$is_calcname = GlobalController::is_base_calcname_check($link->child_base, $base_right);
             $is_calcname = GlobalController::is_base_calcnm_correct_check($link->child_base);
-            $child_relit_id = GlobalController::get_child_relit_id_from_link_current_template($link, $parent_proj->template_id);
-            if ($child_relit_id) {
+            $child_relit_result = GlobalController::get_child_relit_id_from_link_current_template($link, $relit_id, $parent_proj->template_id, $item->base->template_id);
+            if ($child_relit_result) {
                 // Нужно "$base_link_right = GlobalController::base_link_right($link, $role, $view_ret_id, true, $relit_id)"
-                //$base_link_right = GlobalController::base_link_right($link, $role, $view_ret_id);
+                //$base_link_right = GlobalCo_result_resultntroller::base_link_right($link, $role, $view_ret_id);
                 $base_link_right = GlobalController::base_link_right($link, $role, $relit_id);
 
                 //$base_link_child_right = GlobalController::base_link_right($link, $role, $view_ret_id, true, $relit_id);
                 $base_link_child_right = GlobalController::base_link_right($link, $role, $relit_id, true, $view_ret_id);
-
                 // Использовать две этих проверки
                 //if (($base_link_right['is_body_link_enable'] == true) && ($base_link_child_right['is_list_base_calc'] == true))
                 //if (($base_link_right['is_body_link_enable'] == true) && ($base_link_child_right['is_list_base_calc'] == true)) {
@@ -1215,6 +1214,7 @@ class ItemController extends Controller
 //            }
 //
 //        }
+        //dd($next_all_links);
         $item_name_lang = GlobalController::calc_item_name_lang();
         // Нужно
         $next_all_mains = null;
