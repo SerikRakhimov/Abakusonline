@@ -1234,7 +1234,7 @@
                         } else {
                             @if(($link_start_child->parent_is_base_link == true) || ($link_start_child->parent_base->is_code_needed==true && $link_start_child->parent_is_enter_refer==true))
                                 @else
-                                await axios.get('/item/get_items_main_options/'
+                            await axios.get('/item/get_items_main_options/'
                                 + '{{$link_start_child->parent_base_id}}' + '/' + {{$project->id}} + '/' + {{$role->id}} + '/' + {{$relit_id}} + '/' + {{$link_get->id}}
                                     @if(($link->parent_is_base_link == true) || ($link->parent_base->is_code_needed==true && $link->parent_is_enter_refer==true))
                                 + '/' + parent_base_id{{$prefix}}{{$link->id}}.value
@@ -1242,7 +1242,7 @@
                                 + '/' + parent_base_id{{$prefix}}{{$link->id}}.options[parent_base_id{{$prefix}}{{$link->id}}.selectedIndex].value
                                 @endif
                                ).then(function (res) {
-                                        child_base_id{{$prefix}}{{$link->id}}.innerHTML = res.data['result_items_name_options'];
+                                                               child_base_id{{$prefix}}{{$link->id}}.innerHTML = res.data['result_items_name_options'];
                                         for (let i = 0; i < child_base_id{{$prefix}}{{$link->id}}.length; i++) {
                                             if (child_base_id{{$prefix}}{{$link->id}}[i].value ==
                                                 {{old($link_start_child->id) ?? (($array_calc[$link_start_child->id] != null) ? $array_calc[$link_start_child->id] : 0)}}) {

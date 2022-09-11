@@ -6687,7 +6687,7 @@ class ItemController extends Controller
 // Выборка данных в виде списка
     static function get_items_main_options(Base $base, Project $project, Role $role, $relit_id, Link $link = null, Item $item = null)
     {
-        $base_right = self::base_right($base, $role, $relit_id);
+        $base_right = GlobalController::base_right($base, $role, $relit_id);
         $items_main = self::get_items_main($base, $project, $role, $relit_id, $base_right['is_list_hist_records_enable'], $link, $item);
         $items_no_get = $items_main['items_no_get'];
         // '->get()' нужно
