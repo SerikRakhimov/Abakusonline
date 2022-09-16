@@ -723,8 +723,11 @@
 {{--                            </div>--}}
 
 
-
                                                             @foreach($next_all_links as $key=>$value)
+                            <?php
+                                $base_link_right = GlobalController::base_right($value->child_base, $role, $relit_id);
+                                $child_labels = $value->child_labels();
+                            ?>
                                 <div class="btn-group btn-group-sm" role="group" aria-label="Link">
                                                                 <button type="button" class="btn btn-dreamer"
                                                                         onclick='document.location="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,
@@ -737,8 +740,8 @@
                                                                       'prev_body_link_page'=>$body_link_page,
                                                                       'prev_body_all_page'=>$body_all_page
                                                                       ])}}"'
-                                                                        title="{{$value->child_labels()}}">
-                                                                    {{$value->child_labels()}}
+                                                                        title="{{$child_labels}}">
+                                                                    {{$child_labels}}
                                                                     @if(isset($view_link))
                                                                         @if($value->id == $view_link->id)
 {{--                                                                                                                    Этот символ используется в двух местах--}}
