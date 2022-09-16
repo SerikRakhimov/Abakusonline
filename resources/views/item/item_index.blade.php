@@ -748,7 +748,7 @@
                             @foreach($next_all_links as $key=>$value)
                                 <?php
                                 $base_link_right = GlobalController::base_right($value->parent_base, $role, $relit_id);
-                                $child_labels = $value->child_labels();
+                                $child_labels = $value->child_labels($base_link_right);
                                 ?>
                                 <div class="btn-group btn-group-sm" role="group" aria-label="Link">
                                     <button type="button" class="btn btn-dreamer"
