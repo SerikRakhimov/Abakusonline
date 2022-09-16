@@ -393,9 +393,8 @@ class ItemController extends Controller
 //        }
 
         // Нужно все
-        $view_ret_id = null;
+        //$view_ret_id = null;
         $view_ret_id = GlobalController::set_relit_id($view_ret_id);
-
 
         $string_unzip_current_next = self::string_unzip_current_next($string_current);
         $string_link_ids_current = $string_unzip_current_next['string_link_ids'];
@@ -5003,7 +5002,6 @@ class ItemController extends Controller
             $item_copy = $item;
 
             if ($this->is_save_sets($item)) {
-
                 try {
                     // начало транзакции
                     DB::transaction(function ($r) use ($item) {
@@ -5065,6 +5063,8 @@ class ItemController extends Controller
                 }
                 // Использовать "project' => $project"
                 // Используется "'relit_id'=> $relit_id"
+//                return $item->base_id . '-' . $project->id . '-' . $role->id . '-' . $relit_id . '-' . $base_index_page . '-' . $body_link_page . '-'
+//                . $body_all_page;
                 return redirect()->route('item.base_index', ['base' => $item->base, 'project' => $project, 'role' => $role,
                     'relit_id' => $relit_id,
                     'base_index_page' => $base_index_page, 'body_link_page' => $body_link_page, 'body_all_page' => $body_all_page]);
