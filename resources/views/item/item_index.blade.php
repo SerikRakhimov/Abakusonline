@@ -724,8 +724,8 @@
 
 
 
-                                                        <div class="btn-group btn-group-sm" role="group" aria-label="Link">
                                                             @foreach($next_all_links as $key=>$value)
+                                <div class="btn-group btn-group-sm" role="group" aria-label="Link">
                                                                 <button type="button" class="btn btn-dreamer"
                                                                         onclick='document.location="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,
                                                                       'usercode' =>GlobalController::usercode_calc(),
@@ -749,8 +749,9 @@
                                                                         *
                                                                     @endif
                                                                 </button>
-                                                            @endforeach
                                                         </div>
+                                                            @endforeach
+
 
 
 
