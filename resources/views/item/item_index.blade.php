@@ -725,7 +725,7 @@
 {{--                            Вывод "Все связи"--}}
                             <div class="btn-group btn-group-sm" role="group" aria-label="Link">
                                 <button type="button" class="btn btn-dreamer"
-                                        onclick='document.location="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,--}}
+                                        onclick='document.location="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,
                                                                           'usercode' =>GlobalController::usercode_calc(),
                                                                           'relit_id'=>$relit_id,
                                                                           'view_link'=>GlobalController::par_link_const_textnull(),
