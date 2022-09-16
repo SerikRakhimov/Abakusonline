@@ -52,7 +52,7 @@
         <h6>
             @if($value['is_bsmn_base_enable'] == true)
                 <a href="{{route('item.base_index', ['base'=>$value['base_id'],
-                            'project'=>$project, 'role'=>$role, 'relit_id'=>$relit_id])}}"
+                            'project'=>$project, 'role'=>$role, 'relit_id'=>$value['relit_id']])}}"
                    title="{{$value['base_names']}}">
                     @endif
                     {{GlobalController::calc_title_name($value['title_name'])}}:
