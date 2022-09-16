@@ -735,8 +735,8 @@
                                                                           'prev_body_link_page'=>$body_link_page,
                                                                           'prev_body_all_page'=>$body_all_page
                                                                       ])}}"'
-                                        title="{{GlobalController::option_all()}}">
-                                    {{GlobalController::option_all()}}
+                                        title="{{GlobalController::option_all_links()}}">
+                                    {{GlobalController::option_all_links()}}
                                 @if($view_link == null)
                                             {{--                                                                                                                    Этот символ используется в двух местах--}}
                                             &#10003;
