@@ -722,10 +722,33 @@
 {{--                                @endforeach--}}
 {{--                            </div>--}}
 
-
+{{--                            Вывод "Все связи"--}}
+                            <div class="btn-group btn-group-sm" role="group" aria-label="Link">
+                                <button type="button" class="btn btn-dreamer"
+                                        onclick='document.location="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,--}}
+                                                                          'usercode' =>GlobalController::usercode_calc(),
+                                                                          'relit_id'=>$relit_id,
+                                                                          'view_link'=>GlobalController::par_link_const_textnull(),
+                                                                          'view_ret_id'=>$view_ret_id,
+                                                                          'string_current'=>$string_current,
+                                                                          'prev_base_index_page'=>$base_index_page,
+                                                                          'prev_body_link_page'=>$body_link_page,
+                                                                          'prev_body_all_page'=>$body_all_page
+                                                                      ])}}"'
+                                        title="{{GlobalController::option_all()}}">
+                                    {{GlobalController::option_all()}}
+                                @if($view_link == null)
+                                            {{--                                                                                                                    Этот символ используется в двух местах--}}
+                                            &#10003;
+                                    @endif
+                                    @if(isset($array["\x00*\x00items"][$value->id]))
+                                        *
+                                    @endif
+                                </button>
+                            </div>
                                                             @foreach($next_all_links as $key=>$value)
                             <?php
-                                $base_link_right = GlobalController::base_right($value->child_base, $role, $relit_id);
+                                $base_link_right = GlobalController::base_right($value->parent_base, $role, $relit_id);
                                 $child_labels = $value->child_labels();
                             ?>
                                 <div class="btn-group btn-group-sm" role="group" aria-label="Link">
