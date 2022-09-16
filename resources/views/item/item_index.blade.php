@@ -741,9 +741,6 @@
                                             {{--                                                                                                                    Этот символ используется в двух местах--}}
                                             &#10003;
                                     @endif
-                                    @if(isset($array["\x00*\x00items"][$value->id]))
-                                        *
-                                    @endif
                                 </button>
                             </div>
                                                             @foreach($next_all_links as $key=>$value)
