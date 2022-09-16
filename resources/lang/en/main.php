@@ -304,6 +304,7 @@ return [
     'childrens_bases_must_be_with_the_characteristic_calculated_name' => 'Children\'s Bases must be with the characteristic "Calculated name"',
     'childrens_base_must_be_with_the_characteristic_is_calculated' => 'Children\'s Base must be with the characteristic "Calculated"',
     'and' => 'And',
+    'my_records' => 'My records',
     'image_is_missing' => 'Image is missing',
     'enter_one_word_without_spaces' => 'Enter one word without spaces',
     'only_latin_characters_numbers_and_special_characters_are_allowed' => 'Only Latin characters, numbers, and special characters are allowed',
@@ -440,4 +441,5 @@ return [
     'is_list_hist_records_enable' => 'Show entries with "In history" when viewing lists',
     'is_brow_hist_attr_enable' => 'Show the characteristic "In history" when viewing the selection lists',
     'is_brow_hist_records_enable' => 'Show entries with the "In history" characteristic when viewing selection lists',
+    'is_show_head_attr_enable' => 'Show heading content in item_index.php',
     ];

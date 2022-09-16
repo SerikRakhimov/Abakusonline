@@ -33,7 +33,8 @@ $get_user_author_avatar_item = $project->user->get_user_avatar_item();
             <a href="{{route('project.start', ['project' => $project->id, 'role' => $role])}}"
                title="{{trans('main.author')}}">
                 {{-- <mark class="text-project">@guest{{trans('main.guest')}}@endguest @auth{{Auth::user()->name()}}@endauth</mark>--}}
-                <mark class="text-project">{{$project->user->name()}}</mark>
+                <small><small>{{mb_strtolower(trans('main.author'))}}: </small></small>
+                <mark class="text-project"><small>{{$project->user->name()}}</small></mark>
                 @if($get_user_author_avatar_item)
                     @include('view.img',['item'=>$get_user_author_avatar_item, 'size'=>"avatar", 'filenametrue'=>false, 'link'=>false, 'img_fluid'=>false, 'title'=>trans('main.author')])
                 @endif
@@ -42,10 +43,12 @@ $get_user_author_avatar_item = $project->user->get_user_avatar_item();
         <div class="col-6 text-right">
             <a href="{{route('project.start', ['project' => $project->id, 'role' => $role])}}"
                title="{{trans('main.role')}}">
-                <mark class="text-project">{{$role->name()}}</mark>
+                <small><small>{{mb_strtolower(trans('main.role'))}}: </small></small>
+                <mark class="text-project"><small>{{$role->name()}}</small></mark>
             </a>
         </div>
     </div>
     <blockquote class="text-title pt-1 pl-5 pr-5"><?php echo nl2br($role->desc()); ?></blockquote>
 </div>
 </p>
+<hr>

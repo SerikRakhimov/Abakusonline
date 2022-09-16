@@ -82,7 +82,8 @@ class GlobalController extends Controller
         $is_list_base_sort_creation_date_desc = $role->is_list_base_sort_creation_date_desc;
         $is_bsin_base_enable = $role->is_bsin_base_enable;
         $is_exclude_related_records = $role->is_exclude_related_records;
-        // true - значение по умолчанию
+        // true/false - значение по умолчанию
+        $is_show_head_attr_enable = false;
         $is_view_prev_next = true;
         $is_skip_count_records_equal_1_base_index = false;
         $is_skip_count_records_equal_1_item_body_index = false;
@@ -214,6 +215,7 @@ class GlobalController extends Controller
             $is_roba_list_base_sort_creation_date_desc = $roba->is_list_base_sort_creation_date_desc;
             $is_roba_mnmn_base_enable = $roba->is_bsin_base_enable;
             $is_roba_exclude_related_records = $roba->is_exclude_related_records;
+            $is_roba_show_head_attr_enable = $roba->is_show_head_attr_enable;
             $is_roba_view_prev_next = $roba->is_view_prev_next;
             $is_roba_skip_count_records_equal_1_base_index = $roba->is_skip_count_records_equal_1_base_index;
             $is_roba_skip_count_records_equal_1_item_body_index = $roba->is_skip_count_records_equal_1_item_body_index;
@@ -273,6 +275,7 @@ class GlobalController extends Controller
             $is_list_base_sort_creation_date_desc = $is_roba_list_base_sort_creation_date_desc;
             $is_bsin_base_enable = $is_roba_mnmn_base_enable;
             $is_exclude_related_records = $is_roba_exclude_related_records;
+            $is_show_head_attr_enable = $is_roba_show_head_attr_enable;
             $is_view_prev_next = $is_roba_view_prev_next;
             $is_skip_count_records_equal_1_base_index = $is_roba_skip_count_records_equal_1_base_index;
             $is_skip_count_records_equal_1_item_body_index = $is_roba_skip_count_records_equal_1_item_body_index;
@@ -316,6 +319,7 @@ class GlobalController extends Controller
             'is_bsin_base_enable' => $is_bsin_base_enable,
             'is_bsmn_base_enable' => $is_list_base_calc && $is_bsin_base_enable,
             'is_exclude_related_records' => $is_exclude_related_records,
+            'is_show_head_attr_enable' => $is_show_head_attr_enable,
             'is_view_prev_next' => $is_view_prev_next,
             'is_skip_count_records_equal_1_base_index' => $is_skip_count_records_equal_1_base_index,
             'is_skip_count_records_equal_1_item_body_index' => $is_skip_count_records_equal_1_item_body_index,
@@ -389,6 +393,7 @@ class GlobalController extends Controller
         $is_list_base_sort_creation_date_desc = $base_right['is_list_base_sort_creation_date_desc'];
         $is_bsin_base_enable = $base_right['is_bsin_base_enable'];
         $is_exclude_related_records = $base_right['is_exclude_related_records'];
+        $is_show_head_attr_enable = $base_right['is_show_head_attr_enable'];
         $is_view_prev_next = $base_right['is_view_prev_next'];
         $is_skip_count_records_equal_1_base_index = $base_right['is_skip_count_records_equal_1_base_index'];
         $is_skip_count_records_equal_1_item_body_index = $base_right['is_skip_count_records_equal_1_item_body_index'];
@@ -473,6 +478,7 @@ class GlobalController extends Controller
             'is_bsin_base_enable' => $is_bsin_base_enable,
             'is_bsmn_base_enable' => $is_list_base_calc && $is_bsin_base_enable,
             'is_exclude_related_records' => $is_exclude_related_records,
+            'is_show_head_attr_enable' => $is_show_head_attr_enable,
             'is_view_prev_next' => $is_view_prev_next,
             'is_skip_count_records_equal_1_base_index' => $is_skip_count_records_equal_1_base_index,
             'is_skip_count_records_equal_1_item_body_index' => $is_skip_count_records_equal_1_item_body_index,
@@ -2232,6 +2238,18 @@ class GlobalController extends Controller
     static function calc_title_name($name)
     {
         return mb_strtolower($name);
+    }
+
+    static function my_info($base_right = null)
+    {
+        $result = '';
+        if ($base_right) {
+            if ($base_right['is_list_base_byuser'] == true) {
+                // Наименование
+                $result = ' (' . mb_strtolower(trans('main.my_records')) . ')';
+            }
+        }
+        return $result;
     }
 
 //    function get_display()

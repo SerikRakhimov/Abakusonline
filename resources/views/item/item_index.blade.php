@@ -259,7 +259,7 @@
             {{--            </div>--}}
         </div>
     </div>
-    @if(count($child_links) != 0)
+    @if((count($child_links) != 0) && ($base_right['is_show_head_attr_enable'] == true))
         <br>
         {{--        Выводится одна запись в шапке(все родительские links - столбы)--}}
         {{--        Используется "'heading'=>intval(true)"--}}
@@ -358,172 +358,6 @@
                 @endif
             </div>
         </div>
-        <div class="row">
-            <div class="col-12 text-right">
-                {{-- Нужно '@if(count($next_all_links)>0)'--}}
-                @if(count($next_all_links)>0)
-                {{-- Для команды '@if(!($view_link && count($next_all_links) == 1))', чтобы исключить вариант count($next_all_links) == 0--}}
-          {{--                Не высвечивать кнопку "Связи", если одна связь и $next_all_is_enable=false--}}
-                    {{--                    @if(($next_all_is_enable) || (count($next_all_links)>1))--}}
-                    {{--                Не высвечивать кнопку "Связи", если одна связь и $view_link!=false--}}
-                    {{-- Похожая проверка по смыслу 'count($next_all_links) == 1' в ItemController::item_index() и item_index.php--}}
-                    @if(!($view_link && count($next_all_links) == 1))
-                        <div class="dropdown">
-                            <button type="button" class="btn btn-dreamer dropdown-toggle" data-toggle="dropdown"
-                                    title="{{trans('main.link')}}">
-                                <i class="fas fa-link d-inline"></i>
-                                {{trans('main.link')}}
-                            </button>
-                            <div class="dropdown-menu">
-                                {{-- Если во всех $links не выводятся вычисляемые наименования, то выводится вариант 'all'--}}
-                                @if($next_all_is_enable)
-                                    <a class="dropdown-item" href="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,
-                                  'usercode' =>GlobalController::usercode_calc(),
-                                  'relit_id'=>$relit_id,
-                                  'view_link'=>GlobalController::par_link_const_textnull(),
-                                  'view_ret_id'=>$view_ret_id,
-                                  'string_current'=>$string_current,
-                                  'prev_base_index_page'=>$base_index_page,
-                                  'prev_body_link_page'=>$body_link_page,
-                                  'prev_body_all_page'=>$body_all_page
-                                  ])}}"
-                                       title="{{$item->name()}}">
-                                        {{--                                        'string_link_ids_current'=>$string_link_ids_current,--}}
-                                        {{--                                        'string_item_ids_current'=>$string_item_ids_current,--}}
-                                        {{--                                        'string_all_codes_current'=>$string_all_codes_current,--}}
-                                        {{GlobalController::option_all()}}
-                                        @if($view_link == null)
-                                            {{--                                        Этот символ используется в двух местах--}}
-                                            &#10003;
-                                        @endif
-                                    </a>
-                                @endif
-                                @foreach($next_all_links as $key=>$value)
-                                    <a class="dropdown-item" href="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,
-                                          'usercode' =>GlobalController::usercode_calc(),
-                                          'relit_id'=>$relit_id,
-                                          'view_link'=>$value->id,
-                                          'view_ret_id'=>$view_ret_id,
-                                          'string_current'=>$string_current,
-                                          'prev_base_index_page'=>$base_index_page,
-                                          'prev_body_link_page'=>$body_link_page,
-                                          'prev_body_all_page'=>$body_all_page
-                                          ])}}"
-                                       title="{{$value->child_labels()}}">
-                                        {{--                                        'string_link_ids_current'=>$string_link_ids_current,--}}
-                                        {{--                                        'string_item_ids_current'=>$string_item_ids_current,--}}
-                                        {{--                                        'string_all_codes_current'=>$string_all_codes_current,--}}
-                                        {{$value->child_labels()}}
-                                        @if(isset($view_link))
-                                            @if($value->id == $view_link->id)
-                                                {{--                                        Этот символ используется в двух местах--}}
-                                                &#10003;
-                                            @endif
-                                        @endif
-                                        @if(isset($array["\x00*\x00items"][$value->id]))
-                                            *
-                                        @endif
-                                    </a>
-                                @endforeach
-                            </div>
-{{--                            <div class="btn-group btn-group-sm" role="group" aria-label="Link">--}}
-{{--                                @foreach($next_all_links as $key=>$value)--}}
-{{--                                    <button type="button" class="btn btn-dreamer"--}}
-{{--                                            onclick='document.location="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,--}}
-{{--                                          'usercode' =>GlobalController::usercode_calc(),--}}
-{{--                                          'relit_id'=>$relit_id,--}}
-{{--                                          'view_link'=>$value->id,--}}
-{{--                                          'view_ret_id'=>$view_ret_id,--}}
-{{--                                          'string_current'=>$string_current,--}}
-{{--                                          'prev_base_index_page'=>$base_index_page,--}}
-{{--                                          'prev_body_link_page'=>$body_link_page,--}}
-{{--                                          'prev_body_all_page'=>$body_all_page--}}
-{{--                                          ])}}"'--}}
-{{--                                            title="{{$value->child_labels()}}">--}}
-{{--                                        {{$value->child_labels()}}--}}
-{{--                                        @if(isset($view_link))--}}
-{{--                                            @if($value->id == $view_link->id)--}}
-{{--                                                --}}{{--                                        Этот символ используется в двух местах--}}
-{{--                                                &#10003;--}}
-{{--                                            @endif--}}
-{{--                                        @endif--}}
-{{--                                        @if(isset($array["\x00*\x00items"][$value->id]))--}}
-{{--                                            *--}}
-{{--                                        @endif--}}
-{{--                                    </button>--}}
-{{--                                @endforeach--}}
-{{--                            </div>--}}
-                        </div>
-                    @endif
-                    {{--                @else--}}
-                    {{--                    <span class="text-title">--}}
-                    {{--                    {{trans('main.without links')}}--}}
-                    {{--                    </span>--}}
-                @endif
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-12 text-right">
-                {{-- "count($array_relips) > 1" - т.е. есть взаимосвязанные шаблоны--}}
-                @if(count($array_relips) > 1)
-                    <div class="dropdown">
-                        <button type="button" class="btn btn-dreamer dropdown-toggle" data-toggle="dropdown"
-                                title="{{trans('main.relip')}}">
-                            <i class="fas fa-link d-inline"></i>
-                            {{trans('main.project')}}
-                        </button>
-                        <div class="dropdown-menu">
-                            @foreach($array_relips as $relit_key_id=>$array_relip)
-                                <?php
-                                $relit = null;
-                                if ($relit_key_id == 0) {
-                                    $relit = null;
-                                } else {
-                                    $relit = Relit::findOrFail($relit_key_id);
-                                }
-                                // Находим родительский проект
-                                $relip_select_body_project = Project::findOrFail($array_relip['project_id']);
-                                if ($view_link) {
-                                    $view_value_link = $view_link->id;
-                                } else {
-                                    $view_value_link = GlobalController::const_null();
-                                }
-                                ?>
-                                <a class="dropdown-item" href="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,
-                                          'usercode' =>GlobalController::usercode_calc(),
-                                          'relit_id'=>$relit_id,
-                                          'view_link'=>$view_value_link,
-                                          'view_ret_id'=>$relit_key_id,
-                                          'string_current'=>$string_current,
-                                          'prev_base_index_page'=>$base_index_page,
-                                          'prev_body_link_page'=>$body_link_page,
-                                          'prev_body_all_page'=>$body_all_page
-                                          ])}}"
-                                   title="{{$relip_select_body_project->name()}}">
-                                    {{--                                    'string_link_ids_current'=>$string_link_ids_current,--}}
-                                    {{--                                    'string_item_ids_current'=>$string_item_ids_current,--}}
-                                    {{--                                    'string_all_codes_current'=>$string_all_codes_current,--}}
-                                    {{$relip_select_body_project->name()}}
-                                    @if($relit)
-                                        ({{$relit->title()}})
-                                    @endif
-                                    {{--                                    - {{$relit_key_id}}- {{$relip_select_body_project->id}}--}}
-                                    @if(isset($view_ret_id))
-                                        @if($relit_key_id == $view_ret_id)
-                                            {{-- Этот символ используется в двух местах--}}
-                                            &#10003;
-                                        @endif
-                                    @endif
-                                    {{--                                    @if(isset($array["\x00*\x00items"][$value->id]))--}}
-                                    {{--                                        *--}}
-                                    {{--                                    @endif--}}
-                                </a>
-                            @endforeach
-                        </div>
-                    </div>
-                @endif
-            </div>
-        </div>
     </div>
     </p>
     <hr>
@@ -609,7 +443,7 @@
                             'project'=>$project, 'role'=>$role, 'relit_id'=>$view_ret_id])}}"
                                    title="{{$view_link->child_base->names($base_body_right) . $message_ln_info}}">
                                     @endif
-                                    {{$view_link->child_labels()}}:
+                                    {{$view_link->child_labels($base_body_right)}}:
                                     @if($base_body_right['is_bsmn_base_enable'] == true)
                                 </a>
                             @endif
@@ -813,4 +647,186 @@
             @endif
         @endif
     @endif
+    <hr>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12 text-right">
+                {{-- Нужно '@if(count($next_all_links)>0)'--}}
+                @if(count($next_all_links)>0)
+                    {{-- Для команды '@if(!($view_link && count($next_all_links) == 1))', чтобы исключить вариант count($next_all_links) == 0--}}
+                    {{--                Не высвечивать кнопку "Связи", если одна связь и $next_all_is_enable=false--}}
+                    {{--                    @if(($next_all_is_enable) || (count($next_all_links)>1))--}}
+                    {{--                Не высвечивать кнопку "Связи", если одна связь и $view_link!=false--}}
+                    {{-- Похожая проверка по смыслу 'count($next_all_links) == 1' в ItemController::item_index() и item_index.php--}}
+                    @if(!($view_link && count($next_all_links) == 1))
+                        <div class="dropdown">
+
+
+{{--                            <button type="button" class="btn btn-dreamer dropdown-toggle" data-toggle="dropdown"--}}
+{{--                                    title="{{trans('main.link')}}">--}}
+{{--                                <i class="fas fa-link d-inline"></i>--}}
+{{--                                {{trans('main.link')}}--}}
+{{--                            </button>--}}
+
+
+{{--                            <div class="dropdown-menu">--}}
+{{--                                --}}{{-- Если во всех $links не выводятся вычисляемые наименования, то выводится вариант 'all'--}}
+{{--                                @if($next_all_is_enable)--}}
+{{--                                    <a class="dropdown-item" href="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,--}}
+{{--                                  'usercode' =>GlobalController::usercode_calc(),--}}
+{{--                                  'relit_id'=>$relit_id,--}}
+{{--                                  'view_link'=>GlobalController::par_link_const_textnull(),--}}
+{{--                                  'view_ret_id'=>$view_ret_id,--}}
+{{--                                  'string_current'=>$string_current,--}}
+{{--                                  'prev_base_index_page'=>$base_index_page,--}}
+{{--                                  'prev_body_link_page'=>$body_link_page,--}}
+{{--                                  'prev_body_all_page'=>$body_all_page--}}
+{{--                                  ])}}"--}}
+{{--                                       title="{{$item->name()}}">--}}
+{{--                                        --}}{{--                                        'string_link_ids_current'=>$string_link_ids_current,--}}
+{{--                                        --}}{{--                                        'string_item_ids_current'=>$string_item_ids_current,--}}
+{{--                                        --}}{{--                                        'string_all_codes_current'=>$string_all_codes_current,--}}
+{{--                                        {{GlobalController::option_all()}}--}}
+{{--                                        @if($view_link == null)--}}
+{{--                                            --}}{{--                                        Этот символ используется в двух местах--}}
+{{--                                            &#10003;--}}
+{{--                                        @endif--}}
+{{--                                    </a>--}}
+{{--                                @endif--}}
+{{--                                @foreach($next_all_links as $key=>$value)--}}
+{{--                                    <a class="dropdown-item" href="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,--}}
+{{--                                          'usercode' =>GlobalController::usercode_calc(),--}}
+{{--                                          'relit_id'=>$relit_id,--}}
+{{--                                          'view_link'=>$value->id,--}}
+{{--                                          'view_ret_id'=>$view_ret_id,--}}
+{{--                                          'string_current'=>$string_current,--}}
+{{--                                          'prev_base_index_page'=>$base_index_page,--}}
+{{--                                          'prev_body_link_page'=>$body_link_page,--}}
+{{--                                          'prev_body_all_page'=>$body_all_page--}}
+{{--                                          ])}}"--}}
+{{--                                       title="{{$value->child_labels()}}">--}}
+{{--                                        --}}{{--                                        'string_link_ids_current'=>$string_link_ids_current,--}}
+{{--                                        --}}{{--                                        'string_item_ids_current'=>$string_item_ids_current,--}}
+{{--                                        --}}{{--                                        'string_all_codes_current'=>$string_all_codes_current,--}}
+{{--                                        {{$value->child_labels()}}--}}
+{{--                                        @if(isset($view_link))--}}
+{{--                                            @if($value->id == $view_link->id)--}}
+{{--                                                --}}{{--                                        Этот символ используется в двух местах--}}
+{{--                                                &#10003;--}}
+{{--                                            @endif--}}
+{{--                                        @endif--}}
+{{--                                        @if(isset($array["\x00*\x00items"][$value->id]))--}}
+{{--                                            *--}}
+{{--                                        @endif--}}
+{{--                                    </a>--}}
+{{--                                @endforeach--}}
+{{--                            </div>--}}
+
+
+
+                                                        <div class="btn-group btn-group-sm" role="group" aria-label="Link">
+                                                            @foreach($next_all_links as $key=>$value)
+                                                                <button type="button" class="btn btn-dreamer"
+                                                                        onclick='document.location="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,
+                                                                      'usercode' =>GlobalController::usercode_calc(),
+                                                                      'relit_id'=>$relit_id,
+                                                                      'view_link'=>$value->id,
+                                                                      'view_ret_id'=>$view_ret_id,
+                                                                      'string_current'=>$string_current,
+                                                                      'prev_base_index_page'=>$base_index_page,
+                                                                      'prev_body_link_page'=>$body_link_page,
+                                                                      'prev_body_all_page'=>$body_all_page
+                                                                      ])}}"'
+                                                                        title="{{$value->child_labels()}}">
+                                                                    {{$value->child_labels()}}
+                                                                    @if(isset($view_link))
+                                                                        @if($value->id == $view_link->id)
+{{--                                                                                                                    Этот символ используется в двух местах--}}
+                                                                            &#10003;
+                                                                        @endif
+                                                                    @endif
+                                                                    @if(isset($array["\x00*\x00items"][$value->id]))
+                                                                        *
+                                                                    @endif
+                                                                </button>
+                                                            @endforeach
+                                                        </div>
+
+
+
+                        </div>
+                    @endif
+                    {{--                @else--}}
+                    {{--                    <span class="text-title">--}}
+                    {{--                    {{trans('main.without links')}}--}}
+                    {{--                    </span>--}}
+                @endif
+            </div>
+        </div>
+    </div>
+    <hr>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12 text-right">
+                {{-- "count($array_relips) > 1" - т.е. есть взаимосвязанные шаблоны--}}
+                @if(count($array_relips) > 1)
+                    <div class="dropdown">
+                        <button type="button" class="btn btn-dreamer dropdown-toggle" data-toggle="dropdown"
+                                title="{{trans('main.relip')}}">
+                            <i class="fas fa-link d-inline"></i>
+                            {{trans('main.project')}}
+                        </button>
+                        <div class="dropdown-menu">
+                            @foreach($array_relips as $relit_key_id=>$array_relip)
+                                <?php
+                                $relit = null;
+                                if ($relit_key_id == 0) {
+                                    $relit = null;
+                                } else {
+                                    $relit = Relit::findOrFail($relit_key_id);
+                                }
+                                // Находим родительский проект
+                                $relip_select_body_project = Project::findOrFail($array_relip['project_id']);
+                                if ($view_link) {
+                                    $view_value_link = $view_link->id;
+                                } else {
+                                    $view_value_link = GlobalController::const_null();
+                                }
+                                ?>
+                                <a class="dropdown-item" href="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,
+                                          'usercode' =>GlobalController::usercode_calc(),
+                                          'relit_id'=>$relit_id,
+                                          'view_link'=>$view_value_link,
+                                          'view_ret_id'=>$relit_key_id,
+                                          'string_current'=>$string_current,
+                                          'prev_base_index_page'=>$base_index_page,
+                                          'prev_body_link_page'=>$body_link_page,
+                                          'prev_body_all_page'=>$body_all_page
+                                          ])}}"
+                                   title="{{$relip_select_body_project->name()}}">
+                                    {{--                                    'string_link_ids_current'=>$string_link_ids_current,--}}
+                                    {{--                                    'string_item_ids_current'=>$string_item_ids_current,--}}
+                                    {{--                                    'string_all_codes_current'=>$string_all_codes_current,--}}
+                                    {{$relip_select_body_project->name()}}
+                                    @if($relit)
+                                        ({{$relit->title()}})
+                                    @endif
+                                    {{--                                    - {{$relit_key_id}}- {{$relip_select_body_project->id}}--}}
+                                    @if(isset($view_ret_id))
+                                        @if($relit_key_id == $view_ret_id)
+                                            {{-- Этот символ используется в двух местах--}}
+                                            &#10003;
+                                        @endif
+                                    @endif
+                                    {{--                                    @if(isset($array["\x00*\x00items"][$value->id]))--}}
+                                    {{--                                        *--}}
+                                    {{--                                    @endif--}}
+                                </a>
+                            @endforeach
+                        </div>
+                    </div>
+                @endif
+            </div>
+        </div>
+    </div>
 @endsection

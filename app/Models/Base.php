@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Http\Controllers\GlobalController;
 use Illuminate\Support\Facades\App;
 use Illuminate\Database\Eloquent\Model;
 
@@ -32,7 +33,7 @@ class Base extends Model
     }
 
     // Используется "name"
-    function name()
+    function name($base_right = null)
     {
         $result = "";  // нужно, не удалять
         //$index = array_search(App::getLocale(), session('glo_menu_save'));
@@ -50,6 +51,7 @@ class Base extends Model
     function names($base_right = null)
     {
         $result = "";  // нужно, не удалять
+        // В единственном числе выводить наименование
         $is_names = false;
         if ($this['maxcount_lst'] == 1) {
             // Наименование
@@ -80,6 +82,9 @@ class Base extends Model
         } else {
             // Наименование
             $result = $this->name();
+        }
+        if ($base_right) {
+            $result = $result . GlobalController::my_info($base_right);
         }
         return $result;
     }

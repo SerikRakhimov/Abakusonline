@@ -33,7 +33,7 @@ class Link extends Model
         return $result;
     }
 
-    function child_labels()
+    function child_labels($base_right = null)
     {
         $result = "";  // нужно, не удалять
         $index = array_search(App::getLocale(), config('app.locales'));
@@ -43,6 +43,9 @@ class Link extends Model
 //        if ($result == "") {
 //            $result = $this->child_labels_lang_0;
 //        }
+        if ($base_right) {
+            $result = $result . GlobalController::my_info($base_right);
+        }
         return $result;
     }
 

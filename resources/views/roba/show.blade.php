@@ -40,6 +40,7 @@
     <p>{{trans('main.is_list_base_sort_creation_date_desc')}}: <b>{{GlobalController::name_is_boolean($roba->is_list_base_sort_creation_date_desc)}}</b></p>
     <p>{{trans('main.is_bsin_base_enable')}}: <b>{{GlobalController::name_is_boolean($roba->is_bsin_base_enable)}}</b></p>
     <p>{{trans('main.is_exclude_related_records')}}: <b>{{GlobalController::name_is_boolean($roba->is_exclude_related_records)}}</b></p>
+    <p>{{trans('main.is_show_head_attr_enable')}}: <b>{{GlobalController::name_is_boolean($roba->is_show_head_attr_enable)}}</b></p>
     <p>{{trans('main.is_view_prev_next')}}: <b>{{GlobalController::name_is_boolean($roba->is_view_prev_next)}}</b></p>
     <p>{{trans('main.is_skip_count_records_equal_1_base_index')}}: <b>{{GlobalController::name_is_boolean($roba->is_skip_count_records_equal_1_base_index)}}</b></p>
     <p>{{trans('main.is_skip_count_records_equal_1_item_body_index')}}: <b>{{GlobalController::name_is_boolean($roba->is_skip_count_records_equal_1_item_body_index)}}</b></p>
