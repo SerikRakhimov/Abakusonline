@@ -747,7 +747,8 @@
                             @endif
                             @foreach($next_all_links as $key=>$value)
                                 <?php
-                                $base_link_right = GlobalController::base_right($value->child_base, $role, $relit_id);
+                                // $view_ret_id нужно передавать в параметрах
+                                $base_link_right = GlobalController::base_right($value->child_base, $role, $view_ret_id);
                                 $child_labels = $value->child_labels($base_link_right);
                                 ?>
                                 <div class="btn-group btn-group-sm" role="group" aria-label="Link">
