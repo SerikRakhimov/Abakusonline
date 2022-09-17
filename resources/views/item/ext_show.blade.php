@@ -260,12 +260,12 @@
 
             {{--        'Корректировать признак "В истории" при просмотре записи'--}}
             @if($base_right['is_edit_hist_attr_enable'] == true)
-            <button type="button" class="btn btn-dreamer mb-1 mb-sm-0"
-                    onclick='document.location="{{route('item.change_history', ['item'=>$item])}}"'
-                    title="{{$item->button_title()}}">
-                <i class="fas fa-history"></i>
-                {{$item->button_title()}}
-            </button>
+                <button type="button" class="btn btn-dreamer mb-1 mb-sm-0"
+                        onclick='document.location="{{route('item.change_history', ['item'=>$item])}}"'
+                        title="{{$item->button_title()}}">
+                    <i class="fas fa-history"></i>
+                    {{$item->button_title()}}
+                </button>
             @endif
             @if($item->is_history() == false)
                 {{--Похожая проверка в ItemController::ext_edit() и ext_show.php--}}
@@ -376,7 +376,22 @@
             {{--                                            <i class="fas fa-atlas"></i>--}}
             {{--                                            {{trans('main.space')}}--}}
             {{--                                        </button>--}}
-            <button type="button" class="btn btn-dreamer mb-1 mb-sm-0"
+{{--            <button type="button" class="btn btn-dreamer mb-1 mb-sm-0"--}}
+{{--                    title="{{trans('main.return')}}" @include('layouts.item.base_index.previous_url')>--}}
+{{--                <i class="fas fa-arrow-left"></i>--}}
+{{--                {{trans('main.return')}}--}}
+{{--            </button>--}}
+{{--            Похожие строки вверху/внизу--}}
+            <button type="button" class="btn btn-dreamer"
+                    onclick='document.location="{{route('item.ext_return',['item'=>$item,'project'=>$project, 'role'=>$role,
+            'usercode' =>GlobalController::usercode_calc(),
+            'string_current' => $string_current,
+            'heading' => $heading,
+            'relit_id'=>$relit_id,
+            'base_index_page' => $base_index_page, 'body_link_page' => $body_link_page, 'body_all_page' => $body_all_page,
+            'parent_ret_id' => $parent_ret_id,
+            'view_link' => $view_link,
+            'par_link' => $par_link, 'parent_item' => $parent_item])}}"'
                     title="{{trans('main.return')}}" @include('layouts.item.base_index.previous_url')>
                 <i class="fas fa-arrow-left"></i>
                 {{trans('main.return')}}
@@ -420,11 +435,26 @@
                         {{trans('main.delete')}}
                     </button>
                 @endif
-                <button type="button" class="btn btn-dreamer"
-                        title="{{trans('main.return')}}" @include('layouts.item.base_index.previous_url')>
-                    <i class="fas fa-arrow-left"></i>
-                    {{trans('main.return')}}
-                </button>
+{{--                <button type="button" class="btn btn-dreamer"--}}
+{{--                        title="{{trans('main.return')}}" @include('layouts.item.base_index.previous_url')>--}}
+{{--                    <i class="fas fa-arrow-left"></i>--}}
+{{--                    {{trans('main.return')}}--}}
+{{--                </button>--}}
+                    {{--            Похожие строки вверху/внизу--}}
+                    <button type="button" class="btn btn-dreamer"
+                            onclick='document.location="{{route('item.ext_return',['item'=>$item,'project'=>$project, 'role'=>$role,
+            'usercode' =>GlobalController::usercode_calc(),
+            'string_current' => $string_current,
+            'heading' => $heading,
+            'relit_id'=>$relit_id,
+            'base_index_page' => $base_index_page, 'body_link_page' => $body_link_page, 'body_all_page' => $body_all_page,
+            'parent_ret_id' => $parent_ret_id,
+            'view_link' => $view_link,
+            'par_link' => $par_link, 'parent_item' => $parent_item])}}"'
+                            title="{{trans('main.return')}}" @include('layouts.item.base_index.previous_url')>
+                        <i class="fas fa-arrow-left"></i>
+                        {{trans('main.return')}}
+                    </button>
             </p>
         </form>
     @endif
