@@ -392,10 +392,6 @@ class ItemController extends Controller
 //            GlobalController::set_relit_id($parent_ret_id_par) = $relit_id;
 //        }
 
-        // Нужно все
-        //$view_ret_id = null;
-        $view_ret_id = GlobalController::set_relit_id($view_ret_id);
-
         $string_unzip_current_next = self::string_unzip_current_next($string_current);
         $string_link_ids_current = $string_unzip_current_next['string_link_ids'];
         $string_item_ids_current = $string_unzip_current_next['string_item_ids'];
@@ -448,6 +444,7 @@ class ItemController extends Controller
                         $relit_id = $relit_tree_top_id;
                         //$view_link = $link_tree_top->id;
                         $view_link = null;
+                        $view_ret_id = null;
                         $item_change = true;
                     }
                 }
@@ -464,7 +461,6 @@ class ItemController extends Controller
             }
         }
 
-
         // Нужно
         if ($view_link == null || $view_link == GlobalController::par_link_const_textnull() || $view_link == GlobalController::par_link_const_text_base_null()) {
             // Нужно '$view_link = null;'
@@ -472,6 +468,10 @@ class ItemController extends Controller
         } else {
             $view_link = Link::find($view_link);
         }
+
+        // Нужно все
+        //$view_ret_id = null;
+        $view_ret_id = GlobalController::set_relit_id($view_ret_id);
 
         // Нужно
         $string_link_ids_next = $string_link_ids_current;
