@@ -291,11 +291,11 @@
     {{--        &#8595;	&#8195; &#8595;	&#8195; &#8595;	&#8195; &#8595;	&#8195; &#8595;	&#8195; &#8595;	&#8195; &#8595;	&#8195; &#8595;	&#8195; &#8595;	&#8195; &#8595;	&#8195; &#8595;	&#8195;--}}
     {{--        <hr>--}}
     {{--        <div class="text-center">&#8595;</div>--}}
-    <p>
+    @if(($prev_item) ||($next_item))
+{{--    <p>--}}
     <div class="container-fluid">
         <div class="row">
             <div class="col-12 text-left">
-                @if(($prev_item) ||($next_item))
                     <ul class="pagination">
                         {{--        <li class="page-item"><a class="page-link"--}}
                         {{--                                 @if($prev_item)--}}
@@ -352,14 +352,14 @@
                             </li>
                         @endif
                     </ul>
-                @else
-                    {{-- Нужно "<br><br>", чтобы кнопка Проект была не рядом с кнопкой Связь--}}
-                    <br><br>
-                @endif
             </div>
         </div>
     </div>
-    </p>
+{{--    </p>--}}
+{{--    @else--}}
+{{--        --}}{{-- Нужно "<br><br>", чтобы кнопка Проект была не рядом с кнопкой Связь--}}
+{{--        <br><br>--}}
+    @endif
     <hr>
     {{--Похожие команды в ItemController::calc_tree_array() и item_index.php--}}
     @if($view_link)
