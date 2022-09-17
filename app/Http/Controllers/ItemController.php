@@ -446,7 +446,8 @@ class ItemController extends Controller
                         $item = $item_tree_top;
                         $base_right = $base_tree_top_right;
                         $relit_id = $relit_tree_top_id;
-                        $view_link = $link_tree_top->id;
+                        //$view_link = $link_tree_top->id;
+                        $view_link = null;
                         $item_change = true;
                     }
                 }
@@ -796,6 +797,7 @@ class ItemController extends Controller
             $array_relips = $get_project_bases['array_relips'];
             $view_found_ret_id = $get_project_bases['view_found_ret_id'];
             $view_ret_new_id = $get_project_bases['view_ret_id'];
+
             // Если $view_ret_id найдено
             if ($view_found_ret_id) {
                 // Если $view_ret_id поменялось
