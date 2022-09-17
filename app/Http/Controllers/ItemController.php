@@ -443,6 +443,7 @@ class ItemController extends Controller
                         $base_right = $base_tree_top_right;
                         $relit_id = $relit_tree_top_id;
                         //$view_link = $link_tree_top->id;
+                        // Эти переменные должны посчитаться далее по алгоритмам
                         $view_link = null;
                         $view_ret_id = null;
                         $item_change = true;

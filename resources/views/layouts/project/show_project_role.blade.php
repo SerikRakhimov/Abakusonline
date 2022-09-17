@@ -18,7 +18,6 @@ $get_user_author_avatar_item = $project->user->get_user_avatar_item();
                 &nbsp;
             @endif
             <mark class="text-project">{{$project->name()}}</mark>
-                {{(!empty($_SERVER['HTTPS']) ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . '/' . request()->path()}}
             &nbsp;@include('layouts.project.show_icons',['project'=>$project])
             <br>
             @if($is_relit_id)
