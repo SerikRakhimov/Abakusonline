@@ -385,7 +385,7 @@
             <button type="button" class="btn btn-dreamer"
                     onclick='document.location="{{route('item.ext_return',['item'=>$item,'project'=>$project, 'role'=>$role,
             'usercode' =>GlobalController::usercode_calc(),
-            'string_current' => string_zip_current_next("", "", "", ""),
+            'string_current' => ItemController::string_zip_current_next("", "", "", ""),
             'heading' => $heading,
             'relit_id'=>$relit_id,
             'base_index_page' => $base_index_page, 'body_link_page' => $body_link_page, 'body_all_page' => $body_all_page,
@@ -444,7 +444,7 @@
                     <button type="button" class="btn btn-dreamer"
                             onclick='document.location="{{route('item.ext_return',['item'=>$item,'project'=>$project, 'role'=>$role,
             'usercode' =>GlobalController::usercode_calc(),
-            'string_current' => string_zip_current_next("", "", "", ""),
+            'string_current' => ItemController::string_zip_current_next("", "", "", ""),
             'heading' => $heading,
             'relit_id'=>$relit_id,
             'base_index_page' => $base_index_page, 'body_link_page' => $body_link_page, 'body_all_page' => $body_all_page,
