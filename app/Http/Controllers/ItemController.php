@@ -416,10 +416,10 @@ class ItemController extends Controller
         }
 
         // Если есть признак where('parent_is_tree_top', true)
-// Меняется только $item при вызове из base_index.php    ($view_link == GlobalController::par_link_const_text_base_null())
+// Меняется только $item при вызове из base_index.php    ($view_link == null)
 // Было:  https://www.abakusonline.com/item/item_index/42/9220/34/18/0/text_base_null/null;null;null;null/1/0/0/0
 // Стало: https://www.abakusonline.com/item/item_index/42/9822/34/18/0/text_base_null/null;null;null;null/1/0/0/0
-// $item_tree_top становится верхним в иерархии на экране, Связь автоматические подбирает $link
+// $item_tree_top становится верхним в иерархии на экране, Связь автоматические подбирает $view_link и $view_ret_id
         $item_change = false;
         $link_tree_top = $item->base->child_links->where('parent_is_tree_top', true)->first();
         if ($link_tree_top) {
