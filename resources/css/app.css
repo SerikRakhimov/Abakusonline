@@ -24,6 +24,14 @@
     border-color: #730073;
 }
 
+.btn-purple{
+    background-color: #660066;
+    color: white;
+    border-color: purple;
+    outline: #660066;
+    outline-style: dot-dash;
+}
+
 .btn-purple:hover {
     background-color: #660066;
     color: white;
