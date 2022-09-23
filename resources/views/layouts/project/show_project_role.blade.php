@@ -10,26 +10,8 @@ $get_user_author_avatar_item = $project->user->get_user_avatar_item();
 ?>
 <p>
 <div class="container-fluid">
-    <p class="text-center">
-        <a href="{{route('project.start', ['project' => $project->id, 'role' => $role])}}"
-           title="{{trans('main.mainmenu')}}">
-            @if($get_project_logo_item)
-                @include('view.img',['item'=>$get_project_logo_item, 'size'=>"avatar", 'filenametrue'=>false, 'link'=>false, 'img_fluid'=>false, 'title'=>'empty'])
-                &nbsp;
-            @endif
-            <mark class="text-project">{{$project->name()}}</mark>
-            &nbsp;@include('layouts.project.show_icons',['project'=>$project])
-            <br>
-            @if($is_relit_id)
-                @if($relit_id != 0 && $role->is_view_info_relits == true)
-                    <small><small><small>{{trans('main.project')}}: </small></small></small>
-                    <small><small>{{$relip_project->name()}}</small></small>
-                @endif
-            @endif
-        </a>
-    </p>
     <div class="row">
-        <div class="col-6 text-left">
+        <div class="col-2 text-left mt-2">
             <a href="{{route('project.start', ['project' => $project->id, 'role' => $role])}}"
                title="{{trans('main.author')}}">
                 {{-- <mark class="text-project">@guest{{trans('main.guest')}}@endguest @auth{{Auth::user()->name()}}@endauth</mark>--}}
@@ -40,7 +22,25 @@ $get_user_author_avatar_item = $project->user->get_user_avatar_item();
                 @endif
             </a>
         </div>
-        <div class="col-6 text-right">
+        <div class="col-8 text-center">
+            <a href="{{route('project.start', ['project' => $project->id, 'role' => $role])}}"
+               title="{{trans('main.mainmenu')}}">
+                @if($get_project_logo_item)
+                    @include('view.img',['item'=>$get_project_logo_item, 'size'=>"avatar", 'filenametrue'=>false, 'link'=>false, 'img_fluid'=>false, 'title'=>'empty'])
+                    &nbsp;
+                @endif
+                <mark class="text-project">{{$project->name()}}</mark>
+                &nbsp;@include('layouts.project.show_icons',['project'=>$project])
+                <br>
+                @if($is_relit_id)
+                    @if($relit_id != 0 && $role->is_view_info_relits == true)
+                        <small><small><small>{{trans('main.project')}}: </small></small></small>
+                        <small><small>{{$relip_project->name()}}</small></small>
+                    @endif
+                @endif
+            </a>
+        </div>
+        <div class="col-2 text-right mt-2">
             <a href="{{route('project.start', ['project' => $project->id, 'role' => $role])}}"
                title="{{trans('main.role')}}">
                 <small><small>{{mb_strtolower(trans('main.role'))}}: </small></small>

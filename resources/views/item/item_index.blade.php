@@ -415,7 +415,7 @@
                             $child_labels = $value->child_labels($base_link_right);
                             ?>
                             <div class="btn-group btn-group-sm" role="group" aria-label="Links">
-                                <button type="button" class="btn btn-outline-dark"
+                                <button type="button" class="btn btn-dreamer"
                                         onclick='document.location="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,
                                                                       'usercode' =>GlobalController::usercode_calc(),
                                                                       'relit_id'=>$relit_id,
@@ -466,7 +466,7 @@
                             }
                             ?>
                             <div class="btn-group btn-group-sm" role="group" aria-label="Relips">
-                                <button type="button" class="btn btn-outline-dark"
+                                <button type="button" class="btn btn-dreamer"
                                         onclick='document.location="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,
                                           'usercode' =>GlobalController::usercode_calc(),
                                           'relit_id'=>$relit_id,
