@@ -85,43 +85,42 @@
     <div class="card-deck">
         @endif
         @endforeach
-    </div>
-    {{-- Если строка из 3-х элементов не завершилась до 3-х столбцов--}}
-    {{-- (т.е. $i не делится без остатка на 3)--}}
-    @if($i % 3 != 0)
-        <?php
-        // Подсчитываем количество оставшихся колонок
-        $n = 3 - ($i % 3);
-        ?>
-        n = {{$n}}
-        {{-- В цикле $n раз вставляем вставляем пустые колонки--}}
-        @for($k = 0; $k < $n; $k++)
-            {{-- Вставляем пустую карточку--}}
-            <div class="card border-0">
-                k = {{$k}}
-            </div>
+        {{-- Если строка из 3-х элементов не завершилась до 3-х столбцов--}}
+        {{-- (т.е. $i не делится без остатка на 3)--}}
+        @if($i % 3 != 0)
+            <?php
+            // Подсчитываем количество оставшихся колонок
+            $n = 3 - ($i % 3);
+            ?>
+            n = {{$n}}
+            {{-- В цикле $n раз вставляем вставляем пустые колонки--}}
+            @for($k = 0; $k < $n; $k++)
+                {{-- Вставляем пустую карточку--}}
+                <div class="card border-0">
+                    k = {{$k}}
+                </div>
             @endfor
-            @endif
-            </div>
-            {{--    <div class="card">--}}
-            {{--        <h3 class="card-header">Featured</h3>--}}
-            {{--        <div class="card-block">--}}
-            {{--            <h4 class="card-title">Special title treatment</h4>--}}
-            {{--            <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>--}}
-            {{--            <a href="#" class="btn btn-primary">Go somewhere</a>--}}
-            {{--        </div>--}}
-            {{--        <div class="card-footer">--}}
-            {{--            <small class="text-muted">{{$project->created_at}}</small>--}}
-            {{--        </div>--}}
-            {{--    </div>--}}
-            {{--        <div class="card bg-primary">--}}
-            {{--            <div class="card-body text-center">--}}
-            {{--                <p class="card-text">Some text inside the first card</p>--}}
-            {{--                <p class="card-text">Some more text to increase the height</p>--}}
-            {{--                <p class="card-text">Some more text to increase the height</p>--}}
-            {{--                <p class="card-text">Some more text to increase the height</p>--}}
-            {{--            </div>--}}
-            {{--        </div>--}}
-            {{$templates->links()}}
+        @endif
+    </div>
+    {{--    <div class="card">--}}
+    {{--        <h3 class="card-header">Featured</h3>--}}
+    {{--        <div class="card-block">--}}
+    {{--            <h4 class="card-title">Special title treatment</h4>--}}
+    {{--            <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>--}}
+    {{--            <a href="#" class="btn btn-primary">Go somewhere</a>--}}
+    {{--        </div>--}}
+    {{--        <div class="card-footer">--}}
+    {{--            <small class="text-muted">{{$project->created_at}}</small>--}}
+    {{--        </div>--}}
+    {{--    </div>--}}
+    {{--        <div class="card bg-primary">--}}
+    {{--            <div class="card-body text-center">--}}
+    {{--                <p class="card-text">Some text inside the first card</p>--}}
+    {{--                <p class="card-text">Some more text to increase the height</p>--}}
+    {{--                <p class="card-text">Some more text to increase the height</p>--}}
+    {{--                <p class="card-text">Some more text to increase the height</p>--}}
+    {{--            </div>--}}
+    {{--        </div>--}}
+    {{$templates->links()}}
 @endsection
 
