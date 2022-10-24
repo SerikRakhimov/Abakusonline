@@ -18,9 +18,6 @@
     ?>
     <div class="card-deck">
         @foreach($templates as $template)
-            <?php
-            $i++;
-            ?>
             <div class="card shadow">
                 {{--            <img class="card-img-top" src="{{Storage::url('background.png')}}" alt="Card image">--}}
                 <div class="card-header">
