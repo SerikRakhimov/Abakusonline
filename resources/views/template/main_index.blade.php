@@ -98,7 +98,6 @@
     {{--                <p class="card-text">Some more text to increase the height</p>--}}
     {{--            </div>--}}
     {{--        </div>--}}
-
     {{$templates->links()}}
 @endsection
 

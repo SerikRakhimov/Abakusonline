@@ -48,8 +48,11 @@
     {{--        <span class="text-label">-</span> <span class="text-title">{{$item->base->info()}}</span>--}}
     {{--    </h3>--}}
     {{-- Вывод дерева пройденных ссылок --}}
+    <div class="container-fluid">
     @foreach($tree_array as $value)
-        <h6>
+        <div class="row">
+            <div class="col-12 text-left">
+	       <h6>
             @if($value['is_bsmn_base_enable'] == true)
                 <a href="{{route('item.base_index', ['base'=>$value['base_id'],
                             'project'=>$project, 'role'=>$role, 'relit_id'=>$value['relit_id']])}}"
@@ -76,7 +79,10 @@
                 <small><small><small>{{$value['info_name']}}</small></small></small>
             </a>
         </h6>
+	   </div>
+	   </div>
     @endforeach
+    </div>
     @if(count($tree_array)>0)
         <hr>
     @endif
@@ -142,8 +148,6 @@
                     </ul>
                 @endif
             </div>
-            <div class="col-8 text-center">
-                <h5>
                     <?php
                     if ($view_link) {
                         $title = $view_link->parent_label();
@@ -156,6 +160,8 @@
                     {{-- здесь равно true--}}
                     {{-- @if(GlobalController::is_base_calcnm_correct_check($item->base, $base_right))--}}
                     @if(GlobalController::is_base_calcname_check($item->base, $base_right) || $item->base->is_calcnm_correct_lst == true)
+            		   <div class="col-8 text-center">
+                	   <h6>
                         @if($base_right['is_bsmn_base_enable'] == true)
                             <a href="{{route('item.base_index', ['base'=>$item->base,
                             'project'=>$project, 'role'=>$role, 'relit_id'=>$relit_id])}}"
@@ -197,9 +203,11 @@
                         {{--                                        {{trans('main.code')}}: <strong>{{$item->code}}</strong>--}}
                         {{--                                    @endif--}}
                         {{--                                </div>--}}
-                </h5>
+                </h6>
+			 </div>
                 @else
-                    <h5>
+				<div class="col-8 text-center">
+                    <h6>
                         @if($base_right['is_bsmn_base_enable'] == true)
                             <a href="{{route('item.base_index', ['base'=>$item->base,
                             'project'=>$project, 'role'=>$role, 'relit_id'=>$relit_id])}}"
@@ -209,7 +217,7 @@
                                 @if ($base_right['is_bsmn_base_enable'] == true)
                             </a>
                         @endif
-                    </h5>
+					</h6>
                     {{-- Одинаковые строки рядом (route('item.ext_show'))--}}
                     @if ($base_right['is_list_base_calc'] == true)
                         {{--              Использовать "'heading' => intval(true)", проверяется в окончании функции ItemController:ext_delete()--}}
@@ -254,8 +262,8 @@
                             @if ($base_right['is_list_base_calc'] == true)
                         </a>
                     @endif
+				</div>
                 @endif
-            </div>
             <div class="col-2 text-right">
             @if ($base_right['is_list_base_create'] == true)
                 @if($message_bs_validate == "")
@@ -271,7 +279,7 @@
                         //                            $parent_ret_id_par = $relit_id;
                         //                        }
                         //                        ?>
-                        <button type="button" class="btn btn-dreamer"
+                        <button type="button" class="btn btn-dreamer btn-sm"
                                 title="{{trans('main.add') . " '". $item->base->name() . "' " . $message_bs_info}}"
                                 onclick="document.location='{{route('item.ext_create', ['base'=>$item->base,
                                              'project'=>$project, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(),
@@ -311,7 +319,7 @@
             {{--                         alt="{{trans('main.delete')}}">--}}
             {{--                </a>--}}
             {{--            </div>--}}
-        </div>
+		</div>
         {{-- Связи--}}
         {{-- Нужно '@if(count($next_all_links)>0)'--}}
         @if(count($next_all_links)>0)
@@ -411,8 +419,10 @@
                         @foreach($next_all_links as $key=>$value)
                             <?php
                             // $view_ret_id нужно передавать в параметрах
-                            $base_link_right = GlobalController::base_right($value->child_base, $role, $view_ret_id);
-                            $child_labels = $value->child_labels($base_link_right);
+                            //$base_link_right = GlobalController::base_right($value->child_base, $role, $view_ret_id);
+						    // Не нужно (т.е. высвечивается связь, $relit_id вычисляется отдельно и после(вывода на экран кнопок связей))
+                            //$child_labels = $value->child_labels($base_link_right);
+						    $child_labels = $value->child_labels();
                             ?>
                             <div class="btn-group btn-group-sm" role="group" aria-label="Links">
                                 <button type="button" class="btn btn-dreamer"
@@ -657,8 +667,8 @@
             <p>
             <div class="container-fluid">
                 <div class="row">
-                    <div class="col-10 text-left">
-                        <h3>
+                    <div class="col-8 text-left">
+                        <h6>
                             {{--                        @if($view_link)--}}
                             {{--                        {{$view_link->child_labels()}}:{{$view_link->child_base->name()}}--}}
                             {{--                        @else--}}
@@ -673,10 +683,10 @@
                                     @if($base_body_right['is_bsmn_base_enable'] == true)
                                 </a>
                             @endif
-                        </h3>
+                        </h6>
                         <small><small>{{$relip_body_name_project}}</small></small>
                     </div>
-                    <div class="col-2 text-right">
+                    <div class="col-4 text-right">
                     {{--                        @if ((count($body_items) > 0) || ($base_body_right['is_list_base_create'] == true))--}}
                     {{--                Такая же проверка на 'is_list_base_create'] == true && 'is_edit_link_update' == true в item_index.php и ItemController.php--}}
                     {{--                @if ($base_body_right['is_list_base_create'] == true)--}}
@@ -695,7 +705,7 @@
                                 //                                }
                                 //                                ?>
                                 {{-- Выводится $message_mc--}}
-                                <button type="button" class="btn btn-dreamer"
+                                <button type="button" class="btn btn-dreamer btn-sm"
                                         title="{{trans('main.add'). " '" . $view_link->child_base->name() . "'" . $message_ln_info}}"
                                         onclick="document.location='{{route('item.ext_create', ['base'=>$view_link->child_base_id,
                                         'project'=>$project, 'role'=>$role,

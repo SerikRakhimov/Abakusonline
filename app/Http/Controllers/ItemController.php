@@ -425,7 +425,9 @@ class ItemController extends Controller
         if ($link_tree_top) {
             $item_tree_top = GlobalController::view_info($item->id, $link_tree_top->id);
             if ($item_tree_top) {
-                $relit_tree_top_id = $link_tree_top->parent_relit_id;
+                //$relit_tree_top_id = $link_tree_top->parent_relit_id;
+				$relit_tree_top_id = GlobalController::get_parent_relit_from_template_id($project->template_id, $item_tree_top->base->template_id);				
+				if ($relit_tree_top_id != -1){
                 $base_tree_top_right = GlobalController::base_right($item_tree_top->base, $role, $relit_tree_top_id);
                 if ($base_tree_top_right['is_view_prev_next'] == false) {
                     // Поиск $item_tree_top->id в массиве $tree_array
@@ -449,9 +451,9 @@ class ItemController extends Controller
                         $item_change = true;
                     }
                 }
+				}
             }
         }
-
         // Используется 'is_list_base_calc' в ext_show.php и ItemController::item_index()
         // Нужно, после вызова calc_tree_array()
         if ($item_change == false) {
@@ -677,7 +679,7 @@ class ItemController extends Controller
                 }
             }
         }
-
+		
         $base_index_page_current = 0;
         $body_link_page_current = 0;
         $body_all_page_current = 0;
@@ -1156,7 +1158,7 @@ class ItemController extends Controller
             ->where('parent_is_parent_related', false)
             ->where('parent_is_base_link', false)
             ->sortBy('child_base_number');
-        $next_all_links = array();
+		$next_all_links = array();
         $next_all_links_ids = array();
         $next_all_links_byuser_ids = array();
         $next_all_is_calcname = array();
@@ -1165,23 +1167,13 @@ class ItemController extends Controller
             // Использовать '$link->child_base'
             //$base_right = GlobalController::base_right($link->child_base, $role, $relit_id);
             //$base_right = GlobalController::base_right($link->child_base, $role, $view_ret_id);
-
             // Выводить вычисляемое наименование
             // Использовать '$link->child_base'
-            //$is_calcname = GlobalController::is_base_calcname_check($link->child_base, $base_right);
             $is_calcname = GlobalController::is_base_calcnm_correct_check($link->child_base);
-            $child_relit_result = GlobalController::get_child_relit_id_from_link_current_template($link, $relit_id, $parent_proj->template_id, $item->base->template_id);
-            if ($child_relit_result) {
-                // Нужно "$base_link_right = GlobalController::base_link_right($link, $role, $view_ret_id, true, $relit_id)"
-                //$base_link_right = GlobalCo_result_resultntroller::base_link_right($link, $role, $view_ret_id);
                 $base_link_right = GlobalController::base_link_right($link, $role, $relit_id);
-
-                //$base_link_child_right = GlobalController::base_link_right($link, $role, $view_ret_id, true, $relit_id);
-                $base_link_child_right = GlobalController::base_link_right($link, $role, $relit_id, true, $view_ret_id);
-                // Использовать две этих проверки
-                //if (($base_link_right['is_body_link_enable'] == true) && ($base_link_child_right['is_list_base_calc'] == true))
-                //if (($base_link_right['is_body_link_enable'] == true) && ($base_link_child_right['is_list_base_calc'] == true)) {
-                if (($base_link_child_right['is_body_link_enable'] == true) && ($base_link_child_right['is_list_base_calc'] == true)) {
+                $base_link_child_right = GlobalController::base_right($link->child_base, $role, $relit_id);
+				// Использовать две этих проверки
+                if (($base_link_right['is_body_link_enable'] == true) && ($base_link_child_right['is_list_base_calc'] == true)) {
                     // Такая же проверка и в GlobalController (function items_right()),
                     // в ItemController (function next_all_links_mains_calc(), browser(), get_items_for_link(), get_items_ext_edit_for_link())
                     if ($base_link_child_right['is_list_base_byuser'] == true) {
@@ -1205,7 +1197,6 @@ class ItemController extends Controller
                         $next_all_is_calcname[$link->id] = $is_calcname;
                         $next_all_is_create[$link->id] = $base_link_child_right['is_list_base_create'];
                     }
-                }
             }
         }
 //        foreach ($links as $link) {
@@ -1214,9 +1205,7 @@ class ItemController extends Controller
 //                if (Auth::check()) {
 //                }
 //            }
-//
 //        }
-        //dd($next_all_links);
         $item_name_lang = GlobalController::calc_item_name_lang();
         // Нужно
         $next_all_mains = null;
@@ -1639,7 +1628,6 @@ class ItemController extends Controller
         $code_new = $this->calculate_new_code($base, $relip_project);
         // Похожая строка внизу
         $code_uniqid = uniqid($base->id . '_', true);
-
         //$view_link = GlobalController::set_view_link_null($view_link);
 
         //$array_parent_related = GlobalController::get_array_parent_related($base);
@@ -6691,8 +6679,10 @@ class ItemController extends Controller
                 $is_calcuse = $link->parent_is_in_the_selection_list_use_the_calculated_table_field;
                 //////////////////////////////\\\\\\\\\\\\\\\\\\\\\\\\\/////////////////////////}
                 // Права по base_id
-                $base_right = GlobalController::base_right($base, $role, $relit_id);
-                //////////////////////////////\\\\\\\\\\\\\\\\\\\\\\\\\/////////////////////////$base_right = GlobalController::base_right($base, $role, $link->parent_relit_id);
+                //$base_right = GlobalController::base_right($base, $role, $relit_id);				
+				$link_project = GlobalController::calc_link_project($link, $relip_proj, false);
+				if($link_project){
+				$base_right = GlobalController::base_right($base, $role, $link->parent_relit_id);
                 if (($is_filter) || ($is_calcuse)) {
                     if ($is_filter) {
                         $items_filter = self::get_items_filter_main($base, $link, $item);
@@ -6715,9 +6705,8 @@ class ItemController extends Controller
                 } else {
                     //$items = self::get_items_list_main($base, $project, $link);
                     // Используется $relip_proj
-                    $items = self::get_items_list_main($base, $relip_proj, $link);
+                    $items = self::get_items_list_main($base, $project, $relip_proj, $link);
                 }
-
                 // Такая же проверка и в GlobalController (function items_right()),
                 // в ItemController (function next_all_links_mains_calc(), browser(), get_items_for_link(), get_items_ext_edit_for_link())
                 if ($base_right['is_list_base_byuser'] == true) {
@@ -6726,6 +6715,7 @@ class ItemController extends Controller
                 if ($enable_hist_records == false) {
                     $items = $items->where('is_history', false);
                 }
+				}
                 // Сортировка не нужна, т.к. мешает сортировке по коду/наименованию в $this->browser()
                 // По умолчанию, сортировка по наименованию
                 //$index = array_search(App::getLocale(), config('app.locales'));
@@ -6787,10 +6777,9 @@ class ItemController extends Controller
 
 // Выборка данных без фильтра и вычисляемых
 //static function get_items_list_main(Base $base, Project $project, Role $role)
-    static function get_items_list_main(Base $base, Project $current_project, Link $link)
+    static function get_items_list_main(Base $base, Project $current_project, Project $relip_project, Link $link)
     {
         $project = null;
-
         //$items = null;
         // Пустой список items класса Item, как значение по умолчанию
         $items = Item::select(DB::Raw('items.*'))
@@ -6799,9 +6788,10 @@ class ItemController extends Controller
         // Если передано $link
         if ($link) {
             // Находим проект
-            $project = GlobalController::calc_link_project($link, $current_project);
+            //$project = GlobalController::calc_link_project($link, $current_project);
+			$project = GlobalController::calc_link_project($link, $relip_project);
         } else {
-            $project = $current_project;
+            $project = $relip_project;
         }
         if ($project) {
             // Результат, no get()

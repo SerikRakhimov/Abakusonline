@@ -11,12 +11,13 @@
     </p>
     <br>
     <?php
-    $i = $projects->firstItem() - 1;
+    //$i = $projects->firstItem() - 1;
+	$i = 0;
     ?>
-    <div class="card-columns">
+    <div class="card-deck">
         @foreach($projects as $project)
             <?php
-            $i++;
+            //$i++;
             //            $role = null;
             $message = "";
             //            if ($all_projects == true) {
@@ -169,9 +170,30 @@
             {{--                <p class="card-text text-danger">{{$message}}</p>--}}
             {{--            @endif--}}
             <br>
-
+            <?php
+            $i++;
+				?>
+				@if(gmp_mod($i, 3) == 0)
+				 </div>
+					<br>
+		  		 <div class="card-deck">
+				@endif
         @endforeach
-    </div>
+		{{-- Если строка из 3-х элементов не завершилась до 3-х столбцов--}}
+        {{-- (т.е. $i не делится без остатка на 3)--}}
+        @if($i % 3 != 0)
+                   <?php
+                    // Подсчитываем количество оставшихся колонок
+                    $n = 3 - ($i % 3);
+                    ?>
+        			{{-- В цикле $n раз вставляем вставляем пустые колонки--}}
+                    @for($k = 0; $k < $n; $k++)
+					{{-- Вставляем пустую карточку--}}
+						<div class="card border-0">
+						</div>
+                    @endfor
+        @endif
+		</div>
 
     {{--    <div class="card">--}}
     {{--        <h3 class="card-header">Featured</h3>--}}
