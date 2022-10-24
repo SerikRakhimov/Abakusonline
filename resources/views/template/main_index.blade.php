@@ -98,6 +98,7 @@
         @for($k = 0; $k < $n; $k++)
             {{-- Вставляем пустую карточку--}}
             <div class="card border-0">
+                k = {{$k}}
             </div>
             @endfor
             @endif
