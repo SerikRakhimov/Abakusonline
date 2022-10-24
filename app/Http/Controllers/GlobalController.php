@@ -1710,69 +1710,67 @@ class GlobalController extends Controller
                 }
             }
         }
-	if(1==2){
-			if($base){
-				foreach ($array_relips as $relit_id => $value) {
-                // Нужно: кроме текущего шаблона
-                if ($relit_id == 0) {
-        			if ($base->template_id != $current_project->template_id) {
-                        // Удаляем элемент массива с $relit_id, если "$base->template_id != $current_project->template_id"
-						//dd($base->name() . ' ' .  $base->template->name() . ' ' . $current_project->template->name());
-                        //unset($array_relips[$relit_id]); 
-        			}
-				}
-					else{
-						$relit = Relit::find($relit_id);
-            			if ($relit) {
-                    if ($base->template_id != $relit->parent_template_id) {
-                        // Удаляем элемент массива с $relit_id, если "$base->template_id != $relit->parent_template_id"
-                        unset($array_relips[$relit_id]);
-                        // Не нужно "break"
-                        // break;
+        if (1 == 2) {
+            if ($base) {
+                foreach ($array_relips as $relit_id => $value) {
+                    // Нужно: кроме текущего шаблона
+                    if ($relit_id == 0) {
+                        if ($base->template_id != $current_project->template_id) {
+                            // Удаляем элемент массива с $relit_id, если "$base->template_id != $current_project->template_id"
+                            //dd($base->name() . ' ' .  $base->template->name() . ' ' . $current_project->template->name());
+                            //unset($array_relips[$relit_id]);
+                        }
+                    } else {
+                        $relit = Relit::find($relit_id);
+                        if ($relit) {
+                            if ($base->template_id != $relit->parent_template_id) {
+                                // Удаляем элемент массива с $relit_id, если "$base->template_id != $relit->parent_template_id"
+                                unset($array_relips[$relit_id]);
+                                // Не нужно "break"
+                                // break;
+                            }
+                        }
                     }
-					}
-					}
                 }
-			}
-	}
+            }
+        }
         // Если передано $link
         if ($link) {
             //foreach ($array_relips as $relit_id => $value) {
-                // Нужно: кроме текущего шаблона
-                //if ($relit_id != 0) {
-					    //$relit = Relit::find($relit_id);
-            			//if ($relit) {
-                    //if (($link->parent_base->template_id != $relit->parent_template_id)) {
-                        // Удаляем элемент массива с $relit_id, если "$relit_id == $link->parent_relit_id"
-                        //unset($array_relips[$relit_id]);
-                        // Не нужно "break"
-                        // break;
-                    //}
-						//}
-                //}
+            // Нужно: кроме текущего шаблона
+            //if ($relit_id != 0) {
+            //$relit = Relit::find($relit_id);
+            //if ($relit) {
+            //if (($link->parent_base->template_id != $relit->parent_template_id)) {
+            // Удаляем элемент массива с $relit_id, если "$relit_id == $link->parent_relit_id"
+            //unset($array_relips[$relit_id]);
+            // Не нужно "break"
+            // break;
+            //}
+            //}
+            //}
             //}
 
-			foreach ($array_relips as $relit_id => $value) {
+            foreach ($array_relips as $relit_id => $value) {
                 // Нужно: кроме текущего шаблона
                 if ($relit_id == 0) {
-        			if ($link->parent_base->template_id != $current_project->template_id) {
+                    if ($link->parent_base->template_id != $current_project->template_id) {
                         // Удаляем элемент массива с $relit_id, если "$base->template_id != $current_project->template_id"
-                        //unset($array_relips[$relit_id]); 
-        			}
-				}
-					else{
-						$relit = Relit::find($relit_id);
-            			if ($relit) {
-                    if ($link->parent_base->template_id != $relit->parent_template_id) {
-                        // Удаляем элемент массива с $relit_id, если "$base->template_id != $relit->parent_template_id"
                         //unset($array_relips[$relit_id]);
-                        // Не нужно "break"
-                        // break;
                     }
-					}
-					}
+                } else {
+                    $relit = Relit::find($relit_id);
+                    if ($relit) {
+                        if ($link->parent_base->template_id != $relit->parent_template_id) {
+                            // Удаляем элемент массива с $relit_id, если "$base->template_id != $relit->parent_template_id"
+                            //unset($array_relips[$relit_id]);
+                            // Не нужно "break"
+                            // break;
+                        }
+                    }
                 }
-			
+            }
+
             $base_right = null;
             foreach ($array_relips as $relit_id => $value) {
                 $base_right = self::base_link_right($link, $role, $parent_relit_id, true, $relit_id);
@@ -1806,7 +1804,7 @@ class GlobalController extends Controller
                         }
                     }
                 }
-			}
+            }
         }
         // Если передано $item_base
 //        if ($item_base) {
@@ -2075,64 +2073,61 @@ class GlobalController extends Controller
 
     static function get_child_relit_id_from_link_current_template(Link $link, $relit_id, $current_template_id, $item_template_id)
     {
-		$found = false;
-		$child_relit_id = 0;
+        $found = false;
+        $child_relit_id = 0;
         $relit = null;
         $child_template_id = $link->child_base->template_id;
-		$parent_template_id = $link->parent_base->template_id;
-		if(1==2){
-        //dd($current_template_id . ' ' .$child_template_id . ' ' . $item_template_id. ' ' . $relit->child_template_id. ' ' . $relit->parent_template_id.' '.$relit_id.' '.$link->parent_relit_id);
-        //dd($current_template_id . ' ' .$child_template_id . ' ' . $item_template_id. ' ' . $relit_id.' '.$link->parent_relit_id);
-		if($relit_id == 0){
-        if (($parent_template_id == $current_template_id)) {
-            // Текущий шаблон
-            $found = true;
-        }
-		}
-        else{
-            $parent_relit_id = $link->parent_relit_id;
-            $child_relit_id = 0;
-            $relit = Relit::find($relit_id);
-            if ($relit) {
-				if (($parent_template_id == $relit->parent_template_id)) {
-            		// Взаимосвязанный шаблон
-            		$found = true;
-        		}
+        $parent_template_id = $link->parent_base->template_id;
+        if (1 == 2) {
+            //dd($current_template_id . ' ' .$child_template_id . ' ' . $item_template_id. ' ' . $relit->child_template_id. ' ' . $relit->parent_template_id.' '.$relit_id.' '.$link->parent_relit_id);
+            //dd($current_template_id . ' ' .$child_template_id . ' ' . $item_template_id. ' ' . $relit_id.' '.$link->parent_relit_id);
+            if ($relit_id == 0) {
+                if (($parent_template_id == $current_template_id)) {
+                    // Текущий шаблон
+                    $found = true;
+                }
+            } else {
+                $parent_relit_id = $link->parent_relit_id;
+                $child_relit_id = 0;
+                $relit = Relit::find($relit_id);
+                if ($relit) {
+                    if (($parent_template_id == $relit->parent_template_id)) {
+                        // Взаимосвязанный шаблон
+                        $found = true;
+                    }
 //                $template = $relit->parent_template;
 //                $template_name = $relit->serial_number . '. ' . $template->name()
 //                    . ' (Id =' . $relit->id . ')';
+                }
+            }
+            if (($child_template_id == $current_template_id)) {
+                // Текущий шаблон
+                $child_relit_id = 0;
+            } else {
+                $relit = Relit::find($relit_id);
+                if ($relit) {
+                    $child_relit_id = $relit_id;
+                }
             }
         }
-        if (($child_template_id == $current_template_id)) {
-            // Текущий шаблон
-            $child_relit_id = 0;
-		}
-        else{
-            $relit = Relit::find($relit_id);
-            if ($relit) {
-				   $child_relit_id = $relit_id;
-            }
-        }
-		}
-        return ['found'=>$found, 'child_relit_id'=>$child_relit_id];
+        return ['found' => $found, 'child_relit_id' => $child_relit_id];
     }
-	
-	    static function get_parent_relit_from_template_id($child_template_id, $parent_template_id)
+
+    static function get_parent_relit_from_template_id($child_template_id, $parent_template_id)
     {
-			// Проверка на '-1' используется в ItemController.php
-			$result = -1;
-			if ($child_template_id == $parent_template_id){
-				// Текущий проект
-				$result = 0;
-			}
-			else{
-		$relit = Relit::where('child_template_id', $child_template_id)
-			->where('parent_template_id', $parent_template_id)
+        // Проверка на '-1' используется в ItemController.php
+        $result = -1;
+        if ($child_template_id == $parent_template_id) {
+            // Текущий проект
+            $result = 0;
+        } else {
+            $relit = Relit::where('child_template_id', $child_template_id)
+                ->where('parent_template_id', $parent_template_id)
                 ->first();
-			if ($relit){
-				$result = $relit->id;
-			}
-			}
+            if ($relit) {
+                $result = $relit->id;
+            }
+        }
         return $result;
     }
 

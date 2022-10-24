@@ -426,32 +426,32 @@ class ItemController extends Controller
             $item_tree_top = GlobalController::view_info($item->id, $link_tree_top->id);
             if ($item_tree_top) {
                 //$relit_tree_top_id = $link_tree_top->parent_relit_id;
-				$relit_tree_top_id = GlobalController::get_parent_relit_from_template_id($project->template_id, $item_tree_top->base->template_id);				
-				if ($relit_tree_top_id != -1){
-                $base_tree_top_right = GlobalController::base_right($item_tree_top->base, $role, $relit_tree_top_id);
-                if ($base_tree_top_right['is_view_prev_next'] == false) {
-                    // Поиск $item_tree_top->id в массиве $tree_array
-                    $found_tree_top = false;
-                    foreach ($tree_array as $value) {
-                        if ($value['item_id'] == $item_tree_top->id) {
-                            $found_tree_top = true;
-                            break;
+                $relit_tree_top_id = GlobalController::get_parent_relit_from_template_id($project->template_id, $item_tree_top->base->template_id);
+                if ($relit_tree_top_id != -1) {
+                    $base_tree_top_right = GlobalController::base_right($item_tree_top->base, $role, $relit_tree_top_id);
+                    if ($base_tree_top_right['is_view_prev_next'] == false) {
+                        // Поиск $item_tree_top->id в массиве $tree_array
+                        $found_tree_top = false;
+                        foreach ($tree_array as $value) {
+                            if ($value['item_id'] == $item_tree_top->id) {
+                                $found_tree_top = true;
+                                break;
+                            }
+                        }
+                        // Если не найдено
+                        if ($found_tree_top == false) {
+                            // Нужно
+                            $item = $item_tree_top;
+                            $base_right = $base_tree_top_right;
+                            $relit_id = $relit_tree_top_id;
+                            //$view_link = $link_tree_top->id;
+                            // Эти переменные должны посчитаться далее по алгоритмам
+                            $view_link = null;
+                            $view_ret_id = null;
+                            $item_change = true;
                         }
                     }
-                    // Если не найдено
-                    if ($found_tree_top == false) {
-                        // Нужно
-                        $item = $item_tree_top;
-                        $base_right = $base_tree_top_right;
-                        $relit_id = $relit_tree_top_id;
-                        //$view_link = $link_tree_top->id;
-                        // Эти переменные должны посчитаться далее по алгоритмам
-                        $view_link = null;
-                        $view_ret_id = null;
-                        $item_change = true;
-                    }
                 }
-				}
             }
         }
         // Используется 'is_list_base_calc' в ext_show.php и ItemController::item_index()
@@ -679,7 +679,7 @@ class ItemController extends Controller
                 }
             }
         }
-		
+
         $base_index_page_current = 0;
         $body_link_page_current = 0;
         $body_all_page_current = 0;
@@ -1158,7 +1158,7 @@ class ItemController extends Controller
             ->where('parent_is_parent_related', false)
             ->where('parent_is_base_link', false)
             ->sortBy('child_base_number');
-		$next_all_links = array();
+        $next_all_links = array();
         $next_all_links_ids = array();
         $next_all_links_byuser_ids = array();
         $next_all_is_calcname = array();
@@ -1170,33 +1170,33 @@ class ItemController extends Controller
             // Выводить вычисляемое наименование
             // Использовать '$link->child_base'
             $is_calcname = GlobalController::is_base_calcnm_correct_check($link->child_base);
-                $base_link_right = GlobalController::base_link_right($link, $role, $relit_id);
-                $base_link_child_right = GlobalController::base_right($link->child_base, $role, $relit_id);
-				// Использовать две этих проверки
-                if (($base_link_right['is_body_link_enable'] == true) && ($base_link_child_right['is_list_base_calc'] == true)) {
-                    // Такая же проверка и в GlobalController (function items_right()),
-                    // в ItemController (function next_all_links_mains_calc(), browser(), get_items_for_link(), get_items_ext_edit_for_link())
-                    if ($base_link_child_right['is_list_base_byuser'] == true) {
-                        if (Auth::check()) {
-                            // Два блока одинаковых команд
-                            // Нужно '$next_all_links[] = $link;'
-                            $next_all_links[] = $link;
-                            $next_all_links_byuser_ids[] = $link->id;
-                            $next_all_is_calcname[$link->id] = $is_calcname;
-//                      Такая же проверка на 'is_list_base_create'] == true && 'is_edit_link_update' == true в item_index.php и ItemController.php
-                            //$next_all_is_create[$link->id] = $base_right['is_list_base_create'];
-                            $next_all_is_create[$link->id] = $base_link_child_right['is_list_base_create'] == true && $base_link_child_right['is_edit_link_update'] == true;
-                        } else {
-                            // Данные не добавляются
-                        }
-                    } else {
+            $base_link_right = GlobalController::base_link_right($link, $role, $relit_id);
+            $base_link_child_right = GlobalController::base_right($link->child_base, $role, $relit_id);
+            // Использовать две этих проверки
+            if (($base_link_right['is_body_link_enable'] == true) && ($base_link_child_right['is_list_base_calc'] == true)) {
+                // Такая же проверка и в GlobalController (function items_right()),
+                // в ItemController (function next_all_links_mains_calc(), browser(), get_items_for_link(), get_items_ext_edit_for_link())
+                if ($base_link_child_right['is_list_base_byuser'] == true) {
+                    if (Auth::check()) {
                         // Два блока одинаковых команд
                         // Нужно '$next_all_links[] = $link;'
                         $next_all_links[] = $link;
-                        $next_all_links_ids[] = $link->id;
+                        $next_all_links_byuser_ids[] = $link->id;
                         $next_all_is_calcname[$link->id] = $is_calcname;
-                        $next_all_is_create[$link->id] = $base_link_child_right['is_list_base_create'];
+//                      Такая же проверка на 'is_list_base_create'] == true && 'is_edit_link_update' == true в item_index.php и ItemController.php
+                        //$next_all_is_create[$link->id] = $base_right['is_list_base_create'];
+                        $next_all_is_create[$link->id] = $base_link_child_right['is_list_base_create'] == true && $base_link_child_right['is_edit_link_update'] == true;
+                    } else {
+                        // Данные не добавляются
                     }
+                } else {
+                    // Два блока одинаковых команд
+                    // Нужно '$next_all_links[] = $link;'
+                    $next_all_links[] = $link;
+                    $next_all_links_ids[] = $link->id;
+                    $next_all_is_calcname[$link->id] = $is_calcname;
+                    $next_all_is_create[$link->id] = $base_link_child_right['is_list_base_create'];
+                }
             }
         }
 //        foreach ($links as $link) {
@@ -5078,17 +5078,17 @@ class ItemController extends Controller
                     }
                 }
                 // Используется "'relit_id'=>$parent_ret_id, 'view_ret_id' => $relit_id'"
-                    return redirect()->route('item.item_index', ['project' => $project, 'item' => $parent_item, 'role' => $role,
-                        'usercode' => GlobalController::usercode_calc(),
-                        'relit_id' => $parent_ret_id,
-                        'view_link' => $str_link,
+                return redirect()->route('item.item_index', ['project' => $project, 'item' => $parent_item, 'role' => $role,
+                    'usercode' => GlobalController::usercode_calc(),
+                    'relit_id' => $parent_ret_id,
+                    'view_link' => $str_link,
 //                      'string_link_ids_current' => $string_link_ids_current, 'string_item_ids_current' => $string_item_ids_current, 'string_all_codes_current' => $string_all_codes_current,
-                        'string_current' => $string_current,
-                        'base_index_page' => $base_index_page, 'body_link_page' => $body_link_page, 'body_all_page' => $body_all_page,
-                        'prev_base_index_page' => $base_index_page,
-                        'prev_body_link_page' => $body_link_page,
-                        'prev_body_all_page' => $body_all_page,
-                        'view_ret_id' => $relit_id]);
+                    'string_current' => $string_current,
+                    'base_index_page' => $base_index_page, 'body_link_page' => $body_link_page, 'body_all_page' => $body_all_page,
+                    'prev_base_index_page' => $base_index_page,
+                    'prev_body_link_page' => $body_link_page,
+                    'prev_body_all_page' => $body_all_page,
+                    'view_ret_id' => $relit_id]);
             }
 //            if (Session::has('base_index_previous_url')) {
 //                return redirect(session('base_index_previous_url'));
@@ -6679,43 +6679,43 @@ class ItemController extends Controller
                 $is_calcuse = $link->parent_is_in_the_selection_list_use_the_calculated_table_field;
                 //////////////////////////////\\\\\\\\\\\\\\\\\\\\\\\\\/////////////////////////}
                 // Права по base_id
-                //$base_right = GlobalController::base_right($base, $role, $relit_id);				
-				$link_project = GlobalController::calc_link_project($link, $relip_proj, false);
-				if($link_project){
-				$base_right = GlobalController::base_right($base, $role, $link->parent_relit_id);
-                if (($is_filter) || ($is_calcuse)) {
-                    if ($is_filter) {
-                        $items_filter = self::get_items_filter_main($base, $link, $item);
-                        $items = $items_filter;
-                    }
-                    if ($is_calcuse) {
-                        $items = self::get_items_calc_main($link);
+                //$base_right = GlobalController::base_right($base, $role, $relit_id);
+                $link_project = GlobalController::calc_link_project($link, $relip_proj, false);
+                if ($link_project) {
+                    $base_right = GlobalController::base_right($base, $role, $link->parent_relit_id);
+                    if (($is_filter) || ($is_calcuse)) {
                         if ($is_filter) {
-                            // Объединение двух запросов $items_filter и $items(вычисляемые)
-                            //$items = Item::select(DB::Raw('items.*'))
-                            $items = Item::select(DB::Raw('items.*'))
-                                ->joinSub($items, 'items_start', function ($join) {
-                                    $join->on('items.id', '=', 'items_start.id');
-                                })
-                                ->joinSub($items_filter, 'items_second', function ($join) {
-                                    $join->on('items.id', '=', 'items_second.id');
-                                });
+                            $items_filter = self::get_items_filter_main($base, $link, $item);
+                            $items = $items_filter;
                         }
+                        if ($is_calcuse) {
+                            $items = self::get_items_calc_main($link);
+                            if ($is_filter) {
+                                // Объединение двух запросов $items_filter и $items(вычисляемые)
+                                //$items = Item::select(DB::Raw('items.*'))
+                                $items = Item::select(DB::Raw('items.*'))
+                                    ->joinSub($items, 'items_start', function ($join) {
+                                        $join->on('items.id', '=', 'items_start.id');
+                                    })
+                                    ->joinSub($items_filter, 'items_second', function ($join) {
+                                        $join->on('items.id', '=', 'items_second.id');
+                                    });
+                            }
+                        }
+                    } else {
+                        //$items = self::get_items_list_main($base, $project, $link);
+                        // Используется $relip_proj
+                        $items = self::get_items_list_main($base, $project, $relip_proj, $link);
                     }
-                } else {
-                    //$items = self::get_items_list_main($base, $project, $link);
-                    // Используется $relip_proj
-                    $items = self::get_items_list_main($base, $project, $relip_proj, $link);
+                    // Такая же проверка и в GlobalController (function items_right()),
+                    // в ItemController (function next_all_links_mains_calc(), browser(), get_items_for_link(), get_items_ext_edit_for_link())
+                    if ($base_right['is_list_base_byuser'] == true) {
+                        $items = $items->where('created_user_id', GlobalController::glo_user_id());
+                    }
+                    if ($enable_hist_records == false) {
+                        $items = $items->where('is_history', false);
+                    }
                 }
-                // Такая же проверка и в GlobalController (function items_right()),
-                // в ItemController (function next_all_links_mains_calc(), browser(), get_items_for_link(), get_items_ext_edit_for_link())
-                if ($base_right['is_list_base_byuser'] == true) {
-                    $items = $items->where('created_user_id', GlobalController::glo_user_id());
-                }
-                if ($enable_hist_records == false) {
-                    $items = $items->where('is_history', false);
-                }
-				}
                 // Сортировка не нужна, т.к. мешает сортировке по коду/наименованию в $this->browser()
                 // По умолчанию, сортировка по наименованию
                 //$index = array_search(App::getLocale(), config('app.locales'));
@@ -6789,7 +6789,7 @@ class ItemController extends Controller
         if ($link) {
             // Находим проект
             //$project = GlobalController::calc_link_project($link, $current_project);
-			$project = GlobalController::calc_link_project($link, $relip_project);
+            $project = GlobalController::calc_link_project($link, $relip_project);
         } else {
             $project = $relip_project;
         }

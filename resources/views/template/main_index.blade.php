@@ -13,9 +13,10 @@
     </div>
     </p>
     <?php
-    $i = $templates->firstItem() - 1;
+    //$i = $templates->firstItem() - 1;
+    $i = 0;
     ?>
-    <div class="card-columns">
+    <div class="card-deck">
         @foreach($templates as $template)
             <?php
             $i++;
@@ -75,29 +76,50 @@
                 </div>
             </div>
             <br>
-
+            <?php
+            $i++;
+            ?>
+            @if(gmp_mod($i, 3) == 0)
+    </div>
+    <br>
+    <div class="card-deck">
+        @endif
         @endforeach
     </div>
-
-    {{--    <div class="card">--}}
-    {{--        <h3 class="card-header">Featured</h3>--}}
-    {{--        <div class="card-block">--}}
-    {{--            <h4 class="card-title">Special title treatment</h4>--}}
-    {{--            <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>--}}
-    {{--            <a href="#" class="btn btn-primary">Go somewhere</a>--}}
-    {{--        </div>--}}
-    {{--        <div class="card-footer">--}}
-    {{--            <small class="text-muted">{{$project->created_at}}</small>--}}
-    {{--        </div>--}}
-    {{--    </div>--}}
-    {{--        <div class="card bg-primary">--}}
-    {{--            <div class="card-body text-center">--}}
-    {{--                <p class="card-text">Some text inside the first card</p>--}}
-    {{--                <p class="card-text">Some more text to increase the height</p>--}}
-    {{--                <p class="card-text">Some more text to increase the height</p>--}}
-    {{--                <p class="card-text">Some more text to increase the height</p>--}}
-    {{--            </div>--}}
-    {{--        </div>--}}
-    {{$templates->links()}}
+    {{-- Если строка из 3-х элементов не завершилась до 3-х столбцов--}}
+    {{-- (т.е. $i не делится без остатка на 3)--}}
+    @if($i % 3 != 0)
+        <?php
+        // Подсчитываем количество оставшихся колонок
+        $n = 3 - ($i % 3);
+        ?>
+        {{-- В цикле $n раз вставляем вставляем пустые колонки--}}
+        @for($k = 0; $k < $n; $k++)
+            {{-- Вставляем пустую карточку--}}
+            <div class="card border-0">
+            </div>
+            @endfor
+            @endif
+            </div>
+            {{--    <div class="card">--}}
+            {{--        <h3 class="card-header">Featured</h3>--}}
+            {{--        <div class="card-block">--}}
+            {{--            <h4 class="card-title">Special title treatment</h4>--}}
+            {{--            <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>--}}
+            {{--            <a href="#" class="btn btn-primary">Go somewhere</a>--}}
+            {{--        </div>--}}
+            {{--        <div class="card-footer">--}}
+            {{--            <small class="text-muted">{{$project->created_at}}</small>--}}
+            {{--        </div>--}}
+            {{--    </div>--}}
+            {{--        <div class="card bg-primary">--}}
+            {{--            <div class="card-body text-center">--}}
+            {{--                <p class="card-text">Some text inside the first card</p>--}}
+            {{--                <p class="card-text">Some more text to increase the height</p>--}}
+            {{--                <p class="card-text">Some more text to increase the height</p>--}}
+            {{--                <p class="card-text">Some more text to increase the height</p>--}}
+            {{--            </div>--}}
+            {{--        </div>--}}
+            {{$templates->links()}}
 @endsection
 
