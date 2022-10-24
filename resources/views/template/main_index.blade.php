@@ -33,7 +33,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="card-body">
+                <div class="card-body">i = {{$i}}
                     <h4 class="card-title mb-3">{{$template->name()}}</h4>
                     <p class="card-text text-label">
                         <?php
