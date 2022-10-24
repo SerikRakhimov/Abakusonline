@@ -173,7 +173,7 @@
             <?php
             $i++;
 				?>
-				@if(gmp_mod($i, 3) == 0)
+				@if($i % 3 == 0)
 				 </div>
 					<br>
 		  		 <div class="card-deck">
