@@ -32,12 +32,12 @@ $get_user_author_avatar_item = $project->user->get_user_avatar_item();
                 <mark class="text-project">{{$project->name()}}</mark>
                 &nbsp;@include('layouts.project.show_icons',['project'=>$project])
                 <br>
-                @if($is_relit_id)
-                    @if($relit_id != 0 && $role->is_view_info_relits == true)
-                        <small><small><small>{{trans('main.project')}}: </small></small></small>
-                        <small><small>{{$relip_project->name()}}</small></small>
-                    @endif
-                @endif
+{{--                @if($is_relit_id)--}}
+{{--                    @if($relit_id != 0 && $role->is_view_info_relits == true)--}}
+{{--                        <small><small><small>{{trans('main.project')}}: </small></small></small>--}}
+{{--                        <small><small>{{$relip_project->name()}}</small></small>--}}
+{{--                    @endif--}}
+{{--                @endif--}}
             </a>
         </div>
         <div class="col-2 text-right mt-2">

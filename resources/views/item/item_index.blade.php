@@ -18,7 +18,13 @@
     //        }
     $relip_project = GlobalController::calc_relip_project($relit_id, $project);
     $relip_body_project = GlobalController::calc_relip_project($view_ret_id, $project);
+    $relip_name_project = '';
     $relip_body_name_project = '';
+    if ($relip_project) {
+        if ($relip_project->id != $project->id) {
+            $relip_name_project = trans('main.project') . ': ' . $relip_project->name();
+        }
+    }
     if ($relip_body_project) {
         if ($relip_body_project->id != $project->id) {
             $relip_body_name_project = trans('main.project') . ': ' . $relip_body_project->name();
@@ -49,39 +55,39 @@
     {{--    </h3>--}}
     {{-- Вывод дерева пройденных ссылок --}}
     <div class="container-fluid">
-    @foreach($tree_array as $value)
-        <div class="row">
-            <div class="col-12 text-left">
-	       <h6>
-            @if($value['is_bsmn_base_enable'] == true)
-                <a href="{{route('item.base_index', ['base'=>$value['base_id'],
+        @foreach($tree_array as $value)
+            <div class="row">
+                <div class="col-12 text-left">
+                    <h6>
+                        @if($value['is_bsmn_base_enable'] == true)
+                            <a href="{{route('item.base_index', ['base'=>$value['base_id'],
                             'project'=>$project, 'role'=>$role, 'relit_id'=>$value['relit_id']])}}"
-                   title="{{$value['base_names']}}">
-                    @endif
-                    {{GlobalController::calc_title_name($value['title_name'])}}:
-                    @if($value['is_bsmn_base_enable'] == true)
-                </a>
-            @endif
-            <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$value['item_id'], 'role'=>$role,
+                               title="{{$value['base_names']}}">
+                                @endif
+                                {{GlobalController::calc_title_name($value['title_name'])}}:
+                                @if($value['is_bsmn_base_enable'] == true)
+                            </a>
+                        @endif
+                        <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$value['item_id'], 'role'=>$role,
                                         'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$value['relit_id'],
                                         'view_link'=>$value['all_code'] == GlobalController::const_alltrue() ? GlobalController::par_link_const_textnull():$value['link_id'],
 'string_current'=>$value['string_previous']
                                         ])}}"
-               title="{{$value['item_name'] . ' ' . $value['info_name']}}">
-                {{--                'string_link_ids_current'=>$value['string_prev_link_ids'],--}}
-                {{--                'string_item_ids_current'=>$value['string_prev_item_ids'],--}}
-                {{--                'string_relit_ids_current'=>$value['string_prev_relit_ids'],--}}
-                {{--                'string_all_codes_current'=>$value['string_prev_all_codes']--}}
-                {{--                {{$value['item_name']}}--}}
-                {{--                {{$value['info_name']}}--}}
-                <mark class="text-project">{{$value['item_name']}}</mark>
-                {{--                <span class="badge badge-related">{{$value['info_name']}}</span>--}}
-                <small><small><small>{{$value['info_name']}}</small></small></small>
-            </a>
-        </h6>
-	   </div>
-	   </div>
-    @endforeach
+                           title="{{$value['item_name'] . ' ' . $value['info_name']}}">
+                            {{--                'string_link_ids_current'=>$value['string_prev_link_ids'],--}}
+                            {{--                'string_item_ids_current'=>$value['string_prev_item_ids'],--}}
+                            {{--                'string_relit_ids_current'=>$value['string_prev_relit_ids'],--}}
+                            {{--                'string_all_codes_current'=>$value['string_prev_all_codes']--}}
+                            {{--                {{$value['item_name']}}--}}
+                            {{--                {{$value['info_name']}}--}}
+                            <mark class="text-project">{{$value['item_name']}}</mark>
+                            {{--                <span class="badge badge-related">{{$value['info_name']}}</span>--}}
+                            <small><small><small>{{$value['info_name']}}</small></small></small>
+                        </a>
+                    </h6>
+                </div>
+            </div>
+        @endforeach
     </div>
     @if(count($tree_array)>0)
         <hr>
@@ -148,20 +154,20 @@
                     </ul>
                 @endif
             </div>
-                    <?php
-                    if ($view_link) {
-                        $title = $view_link->parent_label();
-                    } else {
-                        $title = $item->base->name();
-                    }
-                    ?>
-                    {{--                    Выводить вычисляемое наименование--}}
-                    {{-- Одинаковые проверки должны быть в ItemController::item_index() и в item_index.php--}}
-                    {{-- здесь равно true--}}
-                    {{-- @if(GlobalController::is_base_calcnm_correct_check($item->base, $base_right))--}}
-                    @if(GlobalController::is_base_calcname_check($item->base, $base_right) || $item->base->is_calcnm_correct_lst == true)
-            		   <div class="col-8 text-center">
-                	   <h6>
+            <?php
+            if ($view_link) {
+                $title = $view_link->parent_label();
+            } else {
+                $title = $item->base->name();
+            }
+            ?>
+            {{--                    Выводить вычисляемое наименование--}}
+            {{-- Одинаковые проверки должны быть в ItemController::item_index() и в item_index.php--}}
+            {{-- здесь равно true--}}
+            {{-- @if(GlobalController::is_base_calcnm_correct_check($item->base, $base_right))--}}
+            @if(GlobalController::is_base_calcname_check($item->base, $base_right) || $item->base->is_calcnm_correct_lst == true)
+                <div class="col-8 text-center">
+                    <h6>
                         @if($base_right['is_bsmn_base_enable'] == true)
                             <a href="{{route('item.base_index', ['base'=>$item->base,
                             'project'=>$project, 'role'=>$role, 'relit_id'=>$relit_id])}}"
@@ -203,10 +209,11 @@
                         {{--                                        {{trans('main.code')}}: <strong>{{$item->code}}</strong>--}}
                         {{--                                    @endif--}}
                         {{--                                </div>--}}
-                </h6>
-			 </div>
-                @else
-				<div class="col-8 text-center">
+                    </h6>
+                    <small><small>{{$relip_name_project}}</small></small>
+                </div>
+            @else
+                <div class="col-8 text-center">
                     <h6>
                         @if($base_right['is_bsmn_base_enable'] == true)
                             <a href="{{route('item.base_index', ['base'=>$item->base,
@@ -217,7 +224,7 @@
                                 @if ($base_right['is_bsmn_base_enable'] == true)
                             </a>
                         @endif
-					</h6>
+                    </h6>
                     {{-- Одинаковые строки рядом (route('item.ext_show'))--}}
                     @if ($base_right['is_list_base_calc'] == true)
                         {{--              Использовать "'heading' => intval(true)", проверяется в окончании функции ItemController:ext_delete()--}}
@@ -262,8 +269,8 @@
                             @if ($base_right['is_list_base_calc'] == true)
                         </a>
                     @endif
-				</div>
-                @endif
+                </div>
+            @endif
             <div class="col-2 text-right">
             @if ($base_right['is_list_base_create'] == true)
                 @if($message_bs_validate == "")
@@ -319,7 +326,7 @@
             {{--                         alt="{{trans('main.delete')}}">--}}
             {{--                </a>--}}
             {{--            </div>--}}
-		</div>
+        </div>
         {{-- Связи--}}
         {{-- Нужно '@if(count($next_all_links)>0)'--}}
         @if(count($next_all_links)>0)
@@ -420,9 +427,9 @@
                             <?php
                             // $view_ret_id нужно передавать в параметрах
                             //$base_link_right = GlobalController::base_right($value->child_base, $role, $view_ret_id);
-						    // Не нужно (т.е. высвечивается связь, $relit_id вычисляется отдельно и после(вывода на экран кнопок связей))
+                            // Не нужно (т.е. высвечивается связь, $relit_id вычисляется отдельно и после(вывода на экран кнопок связей))
                             //$child_labels = $value->child_labels($base_link_right);
-						    $child_labels = $value->child_labels();
+                            $child_labels = $value->child_labels();
                             ?>
                             <div class="btn-group btn-group-sm" role="group" aria-label="Links">
                                 <button type="button" class="btn btn-dreamer"
@@ -457,27 +464,27 @@
         {{-- Взаимосвязанные шаблоны--}}
         {{-- "count($array_relips) > 1" - т.е. есть взаимосвязанные шаблоны--}}
         @if(count($array_relips) > 1)
-                <div class="row">
-                    <div class="col-12 text-center mt-1">
-                        @foreach($array_relips as $relit_key_id=>$array_relip)
-                            <?php
+            <div class="row">
+                <div class="col-12 text-center mt-1">
+                    @foreach($array_relips as $relit_key_id=>$array_relip)
+                        <?php
+                        $relit = null;
+                        if ($relit_key_id == 0) {
                             $relit = null;
-                            if ($relit_key_id == 0) {
-                                $relit = null;
-                            } else {
-                                $relit = Relit::findOrFail($relit_key_id);
-                            }
-                            // Находим родительский проект
-                            $relip_select_body_project = Project::findOrFail($array_relip['project_id']);
-                            if ($view_link) {
-                                $view_value_link = $view_link->id;
-                            } else {
-                                $view_value_link = GlobalController::const_null();
-                            }
-                            ?>
-                            <div class="btn-group btn-group-sm" role="group" aria-label="Relips">
-                                <button type="button" class="btn btn-dreamer"
-                                        onclick='document.location="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,
+                        } else {
+                            $relit = Relit::findOrFail($relit_key_id);
+                        }
+                        // Находим родительский проект
+                        $relip_select_body_project = Project::findOrFail($array_relip['project_id']);
+                        if ($view_link) {
+                            $view_value_link = $view_link->id;
+                        } else {
+                            $view_value_link = GlobalController::const_null();
+                        }
+                        ?>
+                        <div class="btn-group btn-group-sm" role="group" aria-label="Relips">
+                            <button type="button" class="btn btn-dreamer"
+                                    onclick='document.location="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,
                                           'usercode' =>GlobalController::usercode_calc(),
                                           'relit_id'=>$relit_id,
                                           'view_link'=>$view_value_link,
@@ -487,81 +494,81 @@
                                           'prev_body_link_page'=>$body_link_page,
                                           'prev_body_all_page'=>$body_all_page
                                                                       ])}}"'
-                                        title="{{$relip_select_body_project->name() . ' ('.mb_strtolower(trans('main.relip')).')'.$relit_key_id.' '.$view_ret_id}}">
-                                    <i>
-                                        {{$relip_select_body_project->name()}}
-                                        @if($relit)
-                                            ({{$relit->title()}})
-                                        @endif
-                                    </i>
-                                    {{--                                    - {{$relit_key_id}}- {{$relip_select_body_project->id}}--}}
-                                    @if(isset($view_ret_id))
-                                        @if($relit_key_id == $view_ret_id)
-                                            {{-- Этот символ используется в двух местах--}}
-                                            &#10003;
-                                        @endif
+                                    title="{{$relip_select_body_project->name() . ' ('.mb_strtolower(trans('main.relip')).')'.$relit_key_id.' '.$view_ret_id}}">
+                                <i>
+                                    {{$relip_select_body_project->name()}}
+                                    @if($relit)
+                                        ({{$relit->title()}})
                                     @endif
-                                </button>
-                            </div>
-                        @endforeach
+                                </i>
+                                {{--                                    - {{$relit_key_id}}- {{$relip_select_body_project->id}}--}}
+                                @if(isset($view_ret_id))
+                                    @if($relit_key_id == $view_ret_id)
+                                        {{-- Этот символ используется в двух местах--}}
+                                        &#10003;
+                                    @endif
+                                @endif
+                            </button>
+                        </div>
+                    @endforeach
 
-                        {{--                    <div class="dropdown">--}}
-                        {{--                        <button type="button" class="btn btn-dreamer dropdown-toggle" data-toggle="dropdown"--}}
-                        {{--                                title="{{trans('main.relip')}}">--}}
-                        {{--                            <i class="fas fa-link d-inline"></i>--}}
-                        {{--                            {{trans('main.project')}}--}}
-                        {{--                        </button>--}}
-                        {{--                        <div class="dropdown-menu">--}}
-                        {{--                            @foreach($array_relips as $relit_key_id=>$array_relip)--}}
-                        {{--                                <?php--}}
-                        {{--                                $relit = null;--}}
-                        {{--                                if ($relit_key_id == 0) {--}}
-                        {{--                                    $relit = null;--}}
-                        {{--                                } else {--}}
-                        {{--                                    $relit = Relit::findOrFail($relit_key_id);--}}
-                        {{--                                }--}}
-                        {{--                                // Находим родительский проект--}}
-                        {{--                                $relip_select_body_project = Project::findOrFail($array_relip['project_id']);--}}
-                        {{--                                if ($view_link) {--}}
-                        {{--                                    $view_value_link = $view_link->id;--}}
-                        {{--                                } else {--}}
-                        {{--                                    $view_value_link = GlobalController::const_null();--}}
-                        {{--                                }--}}
-                        {{--                                ?>--}}
-                        {{--                                <a class="dropdown-item" href="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,--}}
-                        {{--                                          'usercode' =>GlobalController::usercode_calc(),--}}
-                        {{--                                          'relit_id'=>$relit_id,--}}
-                        {{--                                          'view_link'=>$view_value_link,--}}
-                        {{--                                          'view_ret_id'=>$relit_key_id,--}}
-                        {{--                                          'string_current'=>$string_current,--}}
-                        {{--                                          'prev_base_index_page'=>$base_index_page,--}}
-                        {{--                                          'prev_body_link_page'=>$body_link_page,--}}
-                        {{--                                          'prev_body_all_page'=>$body_all_page--}}
-                        {{--                                          ])}}"--}}
-                        {{--                                   title="{{$relip_select_body_project->name()}}">--}}
-                        {{--                                    --}}{{--                                    'string_link_ids_current'=>$string_link_ids_current,--}}
-                        {{--                                    --}}{{--                                    'string_item_ids_current'=>$string_item_ids_current,--}}
-                        {{--                                    --}}{{--                                    'string_all_codes_current'=>$string_all_codes_current,--}}
-                        {{--                                    {{$relip_select_body_project->name()}}--}}
-                        {{--                                    @if($relit)--}}
-                        {{--                                        ({{$relit->title()}})--}}
-                        {{--                                    @endif--}}
-                        {{--                                    --}}{{--                                    - {{$relit_key_id}}- {{$relip_select_body_project->id}}--}}
-                        {{--                                    @if(isset($view_ret_id))--}}
-                        {{--                                        @if($relit_key_id == $view_ret_id)--}}
-                        {{--                                            --}}{{-- Этот символ используется в двух местах--}}
-                        {{--                                            &#10003;--}}
-                        {{--                                        @endif--}}
-                        {{--                                    @endif--}}
-                        {{--                                    --}}{{--                                    @if(isset($array["\x00*\x00items"][$value->id]))--}}
-                        {{--                                    --}}{{--                                        *--}}
-                        {{--                                    --}}{{--                                    @endif--}}
-                        {{--                                </a>--}}
-                        {{--                            @endforeach--}}
-                        {{--                        </div>--}}
-                        {{--                    </div>--}}
-                    </div>
+                    {{--                    <div class="dropdown">--}}
+                    {{--                        <button type="button" class="btn btn-dreamer dropdown-toggle" data-toggle="dropdown"--}}
+                    {{--                                title="{{trans('main.relip')}}">--}}
+                    {{--                            <i class="fas fa-link d-inline"></i>--}}
+                    {{--                            {{trans('main.project')}}--}}
+                    {{--                        </button>--}}
+                    {{--                        <div class="dropdown-menu">--}}
+                    {{--                            @foreach($array_relips as $relit_key_id=>$array_relip)--}}
+                    {{--                                <?php--}}
+                    {{--                                $relit = null;--}}
+                    {{--                                if ($relit_key_id == 0) {--}}
+                    {{--                                    $relit = null;--}}
+                    {{--                                } else {--}}
+                    {{--                                    $relit = Relit::findOrFail($relit_key_id);--}}
+                    {{--                                }--}}
+                    {{--                                // Находим родительский проект--}}
+                    {{--                                $relip_select_body_project = Project::findOrFail($array_relip['project_id']);--}}
+                    {{--                                if ($view_link) {--}}
+                    {{--                                    $view_value_link = $view_link->id;--}}
+                    {{--                                } else {--}}
+                    {{--                                    $view_value_link = GlobalController::const_null();--}}
+                    {{--                                }--}}
+                    {{--                                ?>--}}
+                    {{--                                <a class="dropdown-item" href="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,--}}
+                    {{--                                          'usercode' =>GlobalController::usercode_calc(),--}}
+                    {{--                                          'relit_id'=>$relit_id,--}}
+                    {{--                                          'view_link'=>$view_value_link,--}}
+                    {{--                                          'view_ret_id'=>$relit_key_id,--}}
+                    {{--                                          'string_current'=>$string_current,--}}
+                    {{--                                          'prev_base_index_page'=>$base_index_page,--}}
+                    {{--                                          'prev_body_link_page'=>$body_link_page,--}}
+                    {{--                                          'prev_body_all_page'=>$body_all_page--}}
+                    {{--                                          ])}}"--}}
+                    {{--                                   title="{{$relip_select_body_project->name()}}">--}}
+                    {{--                                    --}}{{--                                    'string_link_ids_current'=>$string_link_ids_current,--}}
+                    {{--                                    --}}{{--                                    'string_item_ids_current'=>$string_item_ids_current,--}}
+                    {{--                                    --}}{{--                                    'string_all_codes_current'=>$string_all_codes_current,--}}
+                    {{--                                    {{$relip_select_body_project->name()}}--}}
+                    {{--                                    @if($relit)--}}
+                    {{--                                        ({{$relit->title()}})--}}
+                    {{--                                    @endif--}}
+                    {{--                                    --}}{{--                                    - {{$relit_key_id}}- {{$relip_select_body_project->id}}--}}
+                    {{--                                    @if(isset($view_ret_id))--}}
+                    {{--                                        @if($relit_key_id == $view_ret_id)--}}
+                    {{--                                            --}}{{-- Этот символ используется в двух местах--}}
+                    {{--                                            &#10003;--}}
+                    {{--                                        @endif--}}
+                    {{--                                    @endif--}}
+                    {{--                                    --}}{{--                                    @if(isset($array["\x00*\x00items"][$value->id]))--}}
+                    {{--                                    --}}{{--                                        *--}}
+                    {{--                                    --}}{{--                                    @endif--}}
+                    {{--                                </a>--}}
+                    {{--                            @endforeach--}}
+                    {{--                        </div>--}}
+                    {{--                    </div>--}}
                 </div>
+            </div>
         @endif
     </div>
     @if((count($child_links) != 0) && ($base_right['is_show_head_attr_enable'] == true))

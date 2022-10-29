@@ -56,12 +56,14 @@
         $relip_project = Project::findOrFail($array_relip['project_id']);
         $base_ids = $array_relip['base_ids'];
         ?>
-        @if($relit_id != 0 && $role->is_view_info_relits == true)
+        @if($relit_id != 0)
             <div class="row ml-5">
                 <div class="col-12 text-left">
                     <small><small>{{trans('main.project')}}: </small></small>
                     <small>{{$relip_project->name()}}</small>
-                    <h6>{{$relit->title()}}</h6>
+                    @if($role->is_view_info_relits == true)
+                        <h6>{{$relit->title()}}</h6>
+                    @endif
                 </div>
             </div>
         @endif
