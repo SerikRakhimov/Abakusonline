@@ -1002,11 +1002,11 @@ class ProjectController extends Controller
 
         $this->set($request, $project);
 
-//        if ($request->session()->has('projects_previous_url')) {
-//            return redirect(session('projects_previous_url'));
-//        } else {
-        return redirect()->back();
-//        }
+        if ($request->session()->has('projects_previous_url')) {
+            return redirect(session('projects_previous_url'));
+        } else {
+            return redirect()->back();
+        }
     }
 
     function check(Request $request, &$array_mess)
