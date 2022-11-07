@@ -536,6 +536,8 @@ class ItemController extends Controller
 //        $items = $items_right['itget'];
         $items = $items_right['items'];
 
+
+        $data = GlobalController::item_index_calc_data($project, $item);
         // Все нужно
         $prev_item = null;
         $next_item = null;
@@ -6366,6 +6368,7 @@ class ItemController extends Controller
         $links = null;
         if ($item) {
 //          В $links_values попадают фактические записи, не попадают связанные и вычисляемые связи
+//          Выборка из mains
             $links_ids = Main::select(DB::Raw('mains.link_id'))
                 ->where('child_item_id', '=', $item->id);
             // Нужно "                    ->where(function ($query) {

@@ -810,6 +810,46 @@ class GlobalController extends Controller
             'prev_item' => $prev_item, 'next_item' => $next_item];
     }
 
+    static function item_index_calc_data(Project $project, Item $item)
+    {
+        // Шаблон проекта
+        $template_project = Template::select(DB::Raw('templates.id'))
+            ->where('id', '=', $project->template_id);
+        // Шаблоны relits
+        $par_tems = Relit::select(DB::Raw('relits.child_template_id as id'))
+            ->where('parent_template_id', '=', $project->template_id);
+        $templates_relits = Template::select(DB::Raw('templates.id'))
+            ->joinSub($par_tems, 'par_tems', function ($join) {
+                $join->on('templates.id', '=', 'par_tems.id');
+            });
+        // Объединить шаблоны в одну выборку
+        // Использовать union() т.к. эта команда возвращает уникальные записи
+        // unionall() - возвращает все записи
+        // distinct() - не обязательная команда в данном случае
+        $templates_project = $template_project->union($templates_relits)->distinct();
+
+        // Расчет $links
+        $links = Link::select(DB::Raw('links.*'))
+            ->where('links.parent_base_id', '=', $item->base_id);
+        // Фильтр links.child_base.template_id = templates_project.id
+        $links = $links->join('bases', 'links.child_base_id', '=', 'bases.id')
+            ->joinSub($templates_project, 'templates_project', function ($join) {
+                $join->on('bases.template_id', '=', 'templates_project.id');
+            });
+
+        // Расчет $mains
+        $mains = Main::select(DB::Raw('mains.*'))
+            ->where('mains.parent_item_id', '=', $item->id);
+        // Фильтр mains.link_id = links.id
+        $mains = $mains->joinSub($links, 'links', function ($join) {
+            $join->on('mains.link_id', '=', 'links.id');
+        });
+
+        //dd($templates_project->get());
+        //dd($links->get());
+        //dd($mains->get());
+    }
+
     static function its_page(Role $role, $relit_id, $links, $items_paginate)
     {
         // Похожие строки items_right() и its_page()
