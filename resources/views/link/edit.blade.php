@@ -27,7 +27,7 @@
         @endif
 
         <div class="form-group">
-            <label for="link_maxcount">{{trans('main.child')}}_{{trans('main.link')}}_{{trans('main.link_maxcount')}}<span
+            <label for="link_maxcount">{{trans('main.link')}}_{{trans('main.link_maxcount')}}<span
                     class="text-danger">*</span></label>
             <input type="number"
                    name="link_maxcount"

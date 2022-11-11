@@ -94,66 +94,6 @@
     @endif
     <div class="container-fluid">
         <div class="row">
-            <div class="col-2 text-left">
-                @if(($prev_item) ||($next_item))
-                    <ul class="pagination">
-                        {{--        <li class="page-item"><a class="page-link"--}}
-                        {{--                                 @if($prev_item)--}}
-                        {{--                                 href="{{route('item.item_index', ['project'=>$project, 'item'=>$prev_item, 'role'=>$role,--}}
-                        {{--                                'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id, 'par_link'=>$view_link])}}"--}}
-                        {{--                                 title="{{$prev_item->cdnm()}}"--}}
-                        {{--                                 @else--}}
-                        {{--                                 style="cursor:default" href="#" title="{{trans('main.none')}}"--}}
-                        {{--                @endif--}}
-                        {{--            ><</a></li>--}}
-                        @if($prev_item)
-                            <li class="page-item">
-                                <a class="page-link" href="{{route('item.item_index', ['project'=>$project, 'item'=>$prev_item, 'role'=>$role,
-                                'usercode' =>GlobalController::usercode_calc(),
-                                        'relit_id'=>$relit_id,
-                                        'view_link'=>GlobalController::par_link_textnull($view_link),
-                                        'string_current'=>$string_current,
-                                        'prev_base_index_page'=>$base_index_page,
-                                        'prev_body_link_page'=>$body_link_page,
-                                        'prev_body_all_page'=>$body_all_page,
-                                        'view_ret_id' => $view_ret_id
-                                         ])}}"
-                                   title="{{$prev_item->cdnm()}}"><</a>
-                                {{--                                'string_link_ids_current'=>$string_link_ids_current,--}}
-                                {{--                                'string_item_ids_current'=>$string_item_ids_current,--}}
-                                {{--                                'string_all_codes_current'=>$string_all_codes_current,--}}
-                            </li>
-                        @endif
-                        {{--        <li class="page-item"><a class="page-link"--}}
-                        {{--                                 @if($next_item)--}}
-                        {{--                                 href="{{route('item.item_index', ['project'=>$project, 'item'=>$next_item, 'role'=>$role,--}}
-                        {{--                                'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id, 'par_link'=>$view_link])}}"--}}
-                        {{--                                 title="{{$next_item->cdnm()}}"--}}
-                        {{--                                 @else--}}
-                        {{--                                 style="cursor:default" href="#" title="{{trans('main.none')}}"--}}
-                        {{--                @endif--}}
-                        {{--            >></a></li>--}}
-                        @if($next_item)
-                            <li class="page-item">
-                                <a class="page-link" href="{{route('item.item_index', ['project'=>$project, 'item'=>$next_item, 'role'=>$role,
-                                'usercode' =>GlobalController::usercode_calc(),
-                                        'relit_id'=>$relit_id,
-                                        'view_link'=>GlobalController::par_link_textnull($view_link),
-                                        'string_current'=>$string_current,
-                                        'prev_base_index_page'=>$base_index_page,
-                                        'prev_body_link_page'=>$body_link_page,
-                                        'prev_body_all_page'=>$body_all_page,
-                                        'view_ret_id' => $view_ret_id
-                                        ])}}"
-                                   title="{{$next_item->cdnm()}}">></a>
-                                {{--                                'string_link_ids_current'=>$string_link_ids_current,--}}
-                                {{--                                'string_item_ids_current'=>$string_item_ids_current,--}}
-                                {{--                                'string_all_codes_current'=>$string_all_codes_current,--}}
-                            </li>
-                        @endif
-                    </ul>
-                @endif
-            </div>
             <?php
             if ($view_link) {
                 $title = $view_link->parent_label();
@@ -166,7 +106,7 @@
             {{-- здесь равно true--}}
             {{-- @if(GlobalController::is_base_calcnm_correct_check($item->base, $base_right))--}}
             @if(GlobalController::is_base_calcname_check($item->base, $base_right) || $item->base->is_calcnm_correct_lst == true)
-                <div class="col-8 text-center">
+                <div class="col-8 text-left">
                     <h6>
                         @if($base_right['is_bsmn_base_enable'] == true)
                             <a href="{{route('item.base_index', ['base'=>$item->base,
@@ -213,7 +153,7 @@
                     <small><small>{{$relip_name_project}}</small></small>
                 </div>
             @else
-                <div class="col-8 text-center">
+                <div class="col-8 text-left">
                     <h6>
                         @if($base_right['is_bsmn_base_enable'] == true)
                             <a href="{{route('item.base_index', ['base'=>$item->base,
@@ -271,6 +211,66 @@
                     @endif
                 </div>
             @endif
+                <div class="col-2 text-center">
+                    @if(($prev_item) ||($next_item))
+                        <ul class="pagination">
+                            {{--        <li class="page-item"><a class="page-link"--}}
+                            {{--                                 @if($prev_item)--}}
+                            {{--                                 href="{{route('item.item_index', ['project'=>$project, 'item'=>$prev_item, 'role'=>$role,--}}
+                            {{--                                'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id, 'par_link'=>$view_link])}}"--}}
+                            {{--                                 title="{{$prev_item->cdnm()}}"--}}
+                            {{--                                 @else--}}
+                            {{--                                 style="cursor:default" href="#" title="{{trans('main.none')}}"--}}
+                            {{--                @endif--}}
+                            {{--            ><</a></li>--}}
+                            @if($prev_item)
+                                <li class="page-item">
+                                    <a class="page-link" href="{{route('item.item_index', ['project'=>$project, 'item'=>$prev_item, 'role'=>$role,
+                                'usercode' =>GlobalController::usercode_calc(),
+                                        'relit_id'=>$relit_id,
+                                        'view_link'=>GlobalController::par_link_textnull($view_link),
+                                        'string_current'=>$string_current,
+                                        'prev_base_index_page'=>$base_index_page,
+                                        'prev_body_link_page'=>$body_link_page,
+                                        'prev_body_all_page'=>$body_all_page,
+                                        'view_ret_id' => $view_ret_id
+                                         ])}}"
+                                       title="{{$prev_item->cdnm()}}"><</a>
+                                    {{--                                'string_link_ids_current'=>$string_link_ids_current,--}}
+                                    {{--                                'string_item_ids_current'=>$string_item_ids_current,--}}
+                                    {{--                                'string_all_codes_current'=>$string_all_codes_current,--}}
+                                </li>
+                            @endif
+                            {{--        <li class="page-item"><a class="page-link"--}}
+                            {{--                                 @if($next_item)--}}
+                            {{--                                 href="{{route('item.item_index', ['project'=>$project, 'item'=>$next_item, 'role'=>$role,--}}
+                            {{--                                'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id, 'par_link'=>$view_link])}}"--}}
+                            {{--                                 title="{{$next_item->cdnm()}}"--}}
+                            {{--                                 @else--}}
+                            {{--                                 style="cursor:default" href="#" title="{{trans('main.none')}}"--}}
+                            {{--                @endif--}}
+                            {{--            >></a></li>--}}
+                            @if($next_item)
+                                <li class="page-item">
+                                    <a class="page-link" href="{{route('item.item_index', ['project'=>$project, 'item'=>$next_item, 'role'=>$role,
+                                'usercode' =>GlobalController::usercode_calc(),
+                                        'relit_id'=>$relit_id,
+                                        'view_link'=>GlobalController::par_link_textnull($view_link),
+                                        'string_current'=>$string_current,
+                                        'prev_base_index_page'=>$base_index_page,
+                                        'prev_body_link_page'=>$body_link_page,
+                                        'prev_body_all_page'=>$body_all_page,
+                                        'view_ret_id' => $view_ret_id
+                                        ])}}"
+                                       title="{{$next_item->cdnm()}}">></a>
+                                    {{--                                'string_link_ids_current'=>$string_link_ids_current,--}}
+                                    {{--                                'string_item_ids_current'=>$string_item_ids_current,--}}
+                                    {{--                                'string_all_codes_current'=>$string_all_codes_current,--}}
+                                </li>
+                            @endif
+                        </ul>
+                    @endif
+                </div>
             <div class="col-2 text-right">
             @if ($base_right['is_list_base_create'] == true)
                 @if($message_bs_validate == "")

@@ -502,10 +502,6 @@ class ItemController extends Controller
         // Используется последний элемент массива $tree_array
         $tree_array_last_link_id = null;
         $tree_array_last_item_id = null;
-//        $tree_array_last_string_prev_link_ids = '';
-//        $tree_array_last_string_prev_item_ids = '';
-//        $tree_array_last_string_prev_relit_ids = '';
-//        $tree_array_last_string_prev_all_codes = '';
         $count_tree_array = count($tree_array);
         if ($count_tree_array > 0) {
             // ' - 1' т.к. нумерация массива $tree_array с нуля начинается
@@ -536,8 +532,6 @@ class ItemController extends Controller
 //        $items = $items_right['itget'];
         $items = $items_right['items'];
 
-
-        $data = GlobalController::item_index_calc_data($project, $item);
         // Все нужно
         $prev_item = null;
         $next_item = null;
@@ -555,6 +549,10 @@ class ItemController extends Controller
         $current_link = null;  // нужно
         // Используется $project, $view_ret_id, false
         $next_all_links_mains_calc = self::next_all_links_mains_calc($project, $item, $role, $relit_id, $view_ret_id, $tree_array, false);
+
+        $data = GlobalController::item_index_calc_data($project, $item, $role, $relit_id, $view_link, $tree_array, false);
+
+
         $next_all_links = $next_all_links_mains_calc['next_all_links'];
         // Нужно
         $next_all_mains = null;
@@ -827,6 +825,7 @@ class ItemController extends Controller
                 return view('message', ['message' => 'view_ret_id: ' . mb_strtolower(trans('main.value_not_found'))]);
             }
 
+            // Редирект страницы
             // Если одна запись в списке - тогда идти дальше, пропустить
             // Нужно '$redirect_item_index = false;'
             $redirect_item_index = false;
