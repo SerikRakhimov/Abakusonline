@@ -2186,8 +2186,9 @@ class GlobalController extends Controller
         return ['found' => $found, 'child_relit_id' => $child_relit_id];
     }
 
-    static function get_parent_relit_from_template_id($child_template_id, $parent_template_id)
+    static function get_parent_relit_from_template_id($parent_project_template_id, $parent_template_id)
     {
+        $child_template_id = $parent_project_template_id;
         // Проверка на '-1' используется в ItemController.php
         $result = -1;
         if ($child_template_id == $parent_template_id) {
