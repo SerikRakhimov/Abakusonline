@@ -1022,7 +1022,7 @@ class LinkController extends Controller
     //                              --------------------
     // до первого найденного постоянного link_id ($const_link_id_start)
     // для маршрута используется поле $link->parent_parent_related_start_link_id
-    static function get_link_ids_from_calc_link($link_init)
+    static function get_link_ids_from_calc_link(Link $link_init)
     {
         // максимальное количество итераций при возможном зацикливании
         $maxi = 1000;
