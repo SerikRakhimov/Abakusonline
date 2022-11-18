@@ -1029,9 +1029,9 @@ class ItemController extends Controller
             if ($link->child_base->template_id == $parent_proj->template_id) {
                 $child_relit_calc = 0;
             } else {
-                if ($link->parent_relit_id) {
-                    $child_relit_calc = GlobalController::get_parent_relit_from_template_id($parent_proj->template_id, $link->child_base->template_id);
-                }
+//                if ($link->parent_relit_id != 0) {
+                $child_relit_calc = GlobalController::get_parent_relit_from_template_id($parent_proj->template_id, $link->child_base->template_id);
+//                }
             }
             if ($child_relit_calc != -1) {
                 $base_link_right = GlobalController::base_link_right($link, $role, $relit_id, true, $child_relit_calc);
