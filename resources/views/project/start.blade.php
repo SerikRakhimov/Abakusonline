@@ -59,7 +59,7 @@
         @if($relit_id != 0)
             <div class="row ml-5">
                 <div class="col-12 text-left">
-                    <small><small>{{trans('main.project')}}: </small></small>
+{{--                    <small><small>{{trans('main.project')}}: </small></small>--}}
                     <small>{{$relip_project->name()}}</small>
                     @if($role->is_view_info_relits == true)
                         <h6>{{$relit->title()}}</h6>

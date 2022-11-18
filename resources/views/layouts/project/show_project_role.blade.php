@@ -15,7 +15,7 @@ $get_user_author_avatar_item = $project->user->get_user_avatar_item();
             <a href="{{route('project.start', ['project' => $project->id, 'role' => $role])}}"
                title="{{trans('main.author')}}">
                 {{-- <mark class="text-project">@guest{{trans('main.guest')}}@endguest @auth{{Auth::user()->name()}}@endauth</mark>--}}
-                <small><small>{{mb_strtolower(trans('main.author'))}}: </small></small>
+{{--                <small><small>{{mb_strtolower(trans('main.author'))}}: </small></small>--}}
                 <mark class="text-project"><small>{{$project->user->name()}}</small></mark>
                 @if($get_user_author_avatar_item)
                     @include('view.img',['item'=>$get_user_author_avatar_item, 'size'=>"avatar", 'filenametrue'=>false, 'link'=>false, 'img_fluid'=>false, 'title'=>trans('main.author')])
@@ -43,8 +43,8 @@ $get_user_author_avatar_item = $project->user->get_user_avatar_item();
         <div class="col-2 text-right mt-2">
             <a href="{{route('project.start', ['project' => $project->id, 'role' => $role])}}"
                title="{{trans('main.role')}}">
-                <small><small>{{mb_strtolower(trans('main.role'))}}: </small></small>
-                <mark class="text-project"><small>{{$role->name()}}</small></mark>
+{{--                <small><small>{{mb_strtolower(trans('main.role'))}}: </small></small>--}}
+                <mark class="text-project"><small>{{mb_strtolower($role->name())}}</small></mark>
             </a>
         </div>
     </div>
