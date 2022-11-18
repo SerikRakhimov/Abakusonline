@@ -10,6 +10,13 @@
     use \App\Http\Controllers\ItemController;
     use \App\Http\Controllers\MainController;
     $relip_project = GlobalController::calc_relip_project($relit_id, $project);
+    $relip_name_project = '';
+    if ($relip_project) {
+        if ($relip_project->id != $project->id) {
+//          $relip_name_project = trans('main.project') . ': ' . $relip_project->name();
+            $relip_name_project = $relip_project->name();
+        }
+    }
 
     $message_bs_calc = ItemController::message_bs_calc($relip_project, $base);
     $message_bs_info = $message_bs_calc['message_bs_info'];
@@ -42,6 +49,9 @@
                         {{$base->names($base_right)}}
                     @endif
                 </h3>
+                @if($role->is_view_info_relits == true)
+                    <small><small>{{$relip_name_project}}</small></small>
+                @endif
             </div>
         </div>
         {{--        Похожая проверка в ItemController::ext_create() и base_index.php--}}

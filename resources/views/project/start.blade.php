@@ -44,7 +44,7 @@
         </div>
     </div>
     @foreach($array_relips as $relit_id=>$array_relip)
-        <hr>
+{{--        <hr>--}}
         <?php
         $relit = null;
         if ($relit_id == 0) {
@@ -56,16 +56,16 @@
         $relip_project = Project::findOrFail($array_relip['project_id']);
         $base_ids = $array_relip['base_ids'];
         ?>
-        @if($relit_id != 0)
-            <div class="row ml-5">
-                <div class="col-12 text-left">
-{{--                    <small><small>{{trans('main.project')}}: </small></small>--}}
-                    <small>{{$relip_project->name()}}</small>
-                    @if($role->is_view_info_relits == true)
+        @if($role->is_view_info_relits == true)
+            @if($relit_id != 0)
+                <div class="row ml-5">
+                    <div class="col-12 text-left">
+                        {{--                    <small><small>{{trans('main.project')}}: </small></small>--}}
+                        <small>{{$relip_project->name()}}</small>
                         <h6>{{$relit->title()}}</h6>
-                    @endif
+                    </div>
                 </div>
-            </div>
+            @endif
         @endif
         @foreach($base_ids as $base_id)
             <?php

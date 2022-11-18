@@ -156,9 +156,9 @@ class RoleController extends Controller
         if ($request->is_list_base_relits == false && $request->is_read_base_relits == true) {
             $array_mess['is_read_base_relits'] = trans('main.need_to_uncheck') . '!';
         }
-        if ($request->is_list_base_relits == false && $request->is_view_info_relits == true) {
-            $array_mess['is_view_info_relits'] = trans('main.need_to_uncheck') . '!';
-        }
+//        if ($request->is_list_base_relits == false && $request->is_view_info_relits == true) {
+//            $array_mess['is_view_info_relits'] = trans('main.need_to_uncheck') . '!';
+//        }
         if ($request->is_list_base_relits == false && $request->is_list_base_relits_setup == true) {
             $array_mess['is_list_base_relits_setup'] = trans('main.need_to_uncheck') . '!';
         }
