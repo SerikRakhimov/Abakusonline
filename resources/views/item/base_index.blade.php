@@ -241,7 +241,6 @@
                         </a>
                     @endif
                     <div class="card-body">
-                        <div class="align-items-center">111
                             @if($item_find)
                                 {{--                            <div class="card-block text-center">--}}
                                 <div class="text-center">
@@ -274,7 +273,6 @@
                                     <?php echo $item->nmbr(false);?>
                                 </a></h5>
                             {{--                    </div>--}}
-                        </div>
                     </div>
                     <div class="card-footer">
                         <small class="text-muted">
