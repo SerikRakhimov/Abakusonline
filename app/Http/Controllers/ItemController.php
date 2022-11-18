@@ -350,47 +350,12 @@ class ItemController extends Controller
             return view('message', ['message' => trans('main.no_access') . ' Base = ' . $item->base->name() . ', relit_id = ' . $relit_id]);
         }
 
-        //        $links_info = ItemController::links_info($base, $role);
-//        if ($links_info['error_message'] != "") {
-//            return view('message', ['message' => $links_info['error_message']]);
-//        }
-
         $base_right = GlobalController::base_right($item->base, $role, $relit_id);
 //      Похожая проверка в ItemController::base_index() и project/start.php
 //      Используется 'is_list_base_calc' в ext_show.php и ItemController::item_index()
         if ($base_right['is_list_base_calc'] == false) {
             return view('message', ['message' => trans('main.no_access')]);
         }
-
-// Если есть признак where('parent_is_tree_top', true)
-// Меняется только $item при вызове из base_index.php    ($view_link == GlobalController::par_link_const_text_base_null())
-// Было:  https://www.abakusonline.com/item/item_index/42/9220/34/18/0/text_base_null/null;null;null;null/1/0/0/0
-// Стало: https://www.abakusonline.com/item/item_index/42/9822/34/18/0/text_base_null/null;null;null;null/1/0/0/0
-// $item_tree_top становится верхним в иерархии на экране, Связь автоматические подбирает $link
-//        $item_change = false;
-////      if ($view_link == GlobalController::par_link_const_text_base_null()) {
-//        $link_tree_top = $item->base->child_links->where('parent_is_tree_top', true)->first();
-//        if ($link_tree_top) {
-//            $item_tree_top = GlobalController::view_info($item->id, $link_tree_top->id);
-//            if ($item_tree_top) {
-//                $relit_tree_top_id = $link_tree_top->parent_relit_id;
-//                $base_tree_top_right = GlobalController::base_right($item_tree_top->base, $role, $relit_tree_top_id);
-//                // Все нужно
-//                if ($base_tree_top_right['is_view_prev_next'] == false) {
-//                    $item = $item_tree_top;
-//                    // Нужно
-//                    $base_right = $base_tree_top_right;
-//                    $relit_id = $relit_tree_top_id;
-//                    $item_change = true;
-//                }
-//            }
-//        }
-////      }
-
-//        // Нужно '$view_ret_id!=0', 0 - текущий проект
-//        if(!$view_ret_id && $view_ret_id!=0){
-//            GlobalController::set_relit_id($parent_ret_id_par) = $relit_id;
-//        }
 
         $string_unzip_current_next = self::string_unzip_current_next($string_current);
         $string_link_ids_current = $string_unzip_current_next['string_link_ids'];
@@ -507,21 +472,10 @@ class ItemController extends Controller
             // ' - 1' т.к. нумерация массива $tree_array с нуля начинается
             $tree_array_last_link_id = $tree_array[$count_tree_array - 1]['link_id'];
             $tree_array_last_item_id = $tree_array[$count_tree_array - 1]['item_id'];
-//            $tree_array_last_string_prev_link_ids = $tree_array[$count_tree_array - 1]['string_prev_link_ids'];
-//            $tree_array_last_string_prev_item_ids = $tree_array[$count_tree_array - 1]['string_prev_item_ids'];
-//            $tree_array_last_string_prev_relit_ids = $tree_array[$count_tree_array - 1]['string_prev_relit_ids'];
-//            $tree_array_last_string_prev_all_codes = $tree_array[$count_tree_array - 1]['string_prev_all_codes'];
-        }
+      }
 
         // Используется $relip_project
         // Используется фильтр на равенство одному $item->id (для вывода таблицы из одной строки)
-        // $count = count($tree_array);
-        // Используется $relip_project, $relit_id
-//        if ($count == 0) {
-//            $items_right = GlobalController::items_right($item->base, $item->project, $role, $relit_id, null, null, null, null, $item->id);
-//        } else {
-//            $items_right = GlobalController::items_right($item->base, $item->project, $role, $relit_id, $tree_array_last_item_id, $tree_array_last_link_id, $project, $view_ret_id, $item->id);
-//        }
         if (empty($tree_array)) {
             $items_right = GlobalController::items_right($item->base, $item->project, $role, $relit_id, null, null, null, null, $item->id);
         } else {
@@ -540,18 +494,12 @@ class ItemController extends Controller
             $next_item = $items_right['next_item'];
         }
 
-        // Передача параметров "$project, $role, false, true, $view_ret_id" нужна
-        //$get_project_bases = GlobalController::get_project_bases($project, $role, false, true, $view_ret_id);
-        //$array_relips = $get_project_bases['array_relips'];
-        //$view_ret_id = $get_project_bases['view_ret_id'];
-
         // Находим $current_link
         $current_link = null;  // нужно
         // Используется $project, $view_ret_id, false
         $next_all_links_mains_calc = self::next_all_links_mains_calc($project, $item, $role, $relit_id, $view_ret_id, $tree_array, false);
 
-        $data = GlobalController::item_index_calc_data($project, $item, $role, $relit_id, $view_link, $tree_array, false);
-
+        //$data = GlobalController::item_index_calc_data($project, $item, $role, $relit_id, $view_link, $tree_array, false);
 
         $next_all_links = $next_all_links_mains_calc['next_all_links'];
         // Нужно
@@ -585,75 +533,6 @@ class ItemController extends Controller
                     }
                 }
             }
-            if (!$current_link) {
-                // Находим заполненный подчиненный link
-                //               if (count($next_all_links) > 0) {
-//                    // Условия одинаковые в item_index() и next_all_links_calc()
-//                    // 'where('parent_is_parent_related', false)'
-//                    // 'where('parent_is_base_link', false)'
-//                    $next_all_links_fact1 = DB::table('mains')
-//                        ->select('link_id')
-//                        ->join('links', 'mains.link_id', '=', 'links.id')
-//                        ->where('links.parent_base_id', '=', $item->base_id)
-//                        ->where('links.parent_is_parent_related', '=', false)
-//                        ->where('links.parent_is_base_link', '=', false)
-//                        ->where('parent_item_id', $item->id)
-//                        ->distinct()
-//                        ->get()
-//                        ->groupBy('link_id');
-//                    // Если найдены - берем первый
-//                    if (count($next_all_links_fact1) > 0) {
-//                        $current_link = Link::find($next_all_links_fact1->first()[0]->link_id);
-//                    }
-//                    $item_name_lang = GlobalController::calc_item_name_lang();
-//                    // Все записи, со всеми links, по факту
-//                    $next_all_mains = Main::select('mains.*')
-//                        ->join('links', 'mains.link_id', '=', 'links.id')
-//                        ->join('items', 'mains.child_item_id', '=', 'items.id')
-//                        ->where('links.parent_is_base_link', '=', false)
-//                        ->where('parent_item_id', $item->id)
-//                        ->orderBy('links.child_base_number')
-//                        ->orderBy('links.child_base_id')
-//                        ->orderBy('items.' . $item_name_lang);
-                //               };
-            }
-            // Проверка: есть ли $current_link->id в списке $next_all_links
-//            if ($current_link) {
-            //            // Использовать '== false'
-//            if ($next_all_links->search($current_link) == false) {
-//                $current_link = null;
-//            }
-
-//            Не удалять - так поиск не работает
-//            // Использовать '== false'
-//            if (in_array($current_link, $next_all_links) == false) {
-//                $current_link = null;
-//            }
-
-//                $found_current_link = false;
-//                foreach ($next_all_links as $link) {
-//                    if ($link->id == $current_link->id) {
-//                        $found_current_link = true;
-//                        break;
-//                    }
-//                }
-//                if ($found_current_link == false) {
-//                    $current_link = null;
-//                }
-//            }
-            // item_index() вызвано из base_index()
-            // Нужно '!$next_all_is_enable && !$view_link'
-//            if (!$next_all_is_enable && !$view_link) {
-//                // Если во всех $links не выводятся вычисляемые наименования, то берем первый $link по списку
-//                $current_link = $next_all_first_link;
-//            } else {
-//                if ($view_link == GlobalController::par_link_const_text_base_null()) {
-//                    if ($base_right['is_heading']) {
-//                        // Если не найдены, то берем первый $link по списку
-//                        $current_link = $next_all_first_link;
-//                    }
-//                }
-//            }
             if ($view_link) {
                 if ($view_link == GlobalController::par_link_const_text_base_null()) {
                     if ($base_right['is_heading']) {
@@ -662,14 +541,6 @@ class ItemController extends Controller
                     }
                 }
             }
-//            else {
-//                // Если во всех $links не выводятся вычисляемые наименования или количество связей = 1,
-//                // То берем первый $link по списку.
-//                // Похожая проверка по смыслу 'count($next_all_links) == 1' в ItemController::item_index() и item_index.php
-//                if ($next_all_is_enable == false || count($next_all_links) == 1) {
-//                    $current_link = $next_all_first_link;
-//                }
-//            }
             if (!$current_link) {
                 // Если во всех $links не выводятся вычисляемые наименования или количество связей = 1,
                 // То берем первый $link по списку.
@@ -689,10 +560,6 @@ class ItemController extends Controller
         $body_items = null;
         $its_body_page = null;
         if ($current_link) {
-            //$base_body_right = GlobalController::base_right($current_link->child_base, $role, $relit_id);
-            //$base_link_right = GlobalController::base_link_right($current_link, $role, $view_ret_id);
-            //$base_body_right =  self::base_relit_right($item->base, $role, 0, $base_index_page_current, $relit_id, $view_ret_id);
-            //$base_body_right = GlobalController::base_right($current_link->child_base, $role, $view_ret_id);
             $base_body_right = GlobalController::base_link_right($current_link, $role, $view_ret_id, true, $view_ret_id);
 
             // Исключить переданный $nolink - $current_link
@@ -765,11 +632,6 @@ class ItemController extends Controller
             $body_all_page_current = $next_all_mains->currentPage();
         }
 
-//        $tree_array_last_string_prev_link_ids = GlobalController::set_str_const_null($tree_array_last_string_prev_link_ids);
-//        $tree_array_last_string_prev_item_ids = GlobalController::set_str_const_null($tree_array_last_string_prev_item_ids);
-//        $tree_array_last_string_prev_relit_ids = GlobalController::set_str_const_null($tree_array_last_string_prev_relit_ids);
-//        $tree_array_last_string_prev_all_codes = GlobalController::set_str_const_null($tree_array_last_string_prev_all_codes);
-
         // Нужно
         $view_link = $current_link;
         $string_current = self::string_zip_current_next($string_link_ids_current, $string_item_ids_current, $string_relit_ids_current, $string_all_codes_current);
@@ -779,10 +641,6 @@ class ItemController extends Controller
             return redirect()->route('item.ext_show', ['item' => $item, 'project' => $project, 'role' => $role,
                 'usercode' => GlobalController::usercode_calc(),
                 'relit_id' => $relit_id,
-//                'string_link_ids_current' => $tree_array_last_string_prev_link_ids,
-//                'string_item_ids_current' => $tree_array_last_string_prev_item_ids,
-//                'string_relit_ids_current' => $tree_array_last_string_prev_relit_ids,
-//                'string_all_codes_current' => $tree_array_last_string_prev_all_codes,
                 'string_current' => $string_current,
                 'heading' => intval(false),
                 'base_index_page' => $prev_base_index_page,
@@ -812,14 +670,11 @@ class ItemController extends Controller
                         'usercode' => GlobalController::usercode_calc(),
                         'relit_id' => $relit_id,
                         'view_link' => GlobalController::set_par_view_link_null($view_link),
-//                      'string_link_ids_current' => $string_link_ids_current, 'string_item_ids_current' => $string_item_ids_current, 'string_all_codes_current' => $string_all_codes_current,
                         'string_current' => $string_current,
                         'prev_base_index_page' => $prev_base_index_page,
                         'prev_body_link_page' => $prev_body_link_page,
                         'prev_body_all_page' => $prev_body_all_page,
                         'view_ret_id' => $view_ret_id]);
-//                    'base_index_page' => $base_index_page_current, 'body_link_page' => $body_link_page_current, 'body_all_page' => $body_all_page_current,
-
                 }
             } else {
                 return view('message', ['message' => 'view_ret_id: ' . mb_strtolower(trans('main.value_not_found'))]);
@@ -840,7 +695,6 @@ class ItemController extends Controller
                                 'usercode' => GlobalController::usercode_calc(),
                                 'relit_id' => $view_ret_id,
                                 'view_link' => GlobalController::par_link_const_textnull(),
-                                //'string_link_ids_current' => $string_link_ids_next, 'string_item_ids_current' => $string_item_ids_next, 'string_all_codes_current' => $string_all_codes_next,
                                 'string_current' => $string_next,
                                 'prev_base_index_page' => $base_index_page_current,
                                 'prev_body_link_page' => $body_link_page_current,
@@ -1171,7 +1025,9 @@ class ItemController extends Controller
             // Выводить вычисляемое наименование
             // Использовать '$link->child_base'
             $is_calcname = GlobalController::is_base_calcnm_correct_check($link->child_base);
-            $base_link_right = GlobalController::base_link_right($link, $role, $relit_id);
+            //$base_link_right = GlobalController::base_link_right($link, $role, $relit_id);
+            // Нужно 0 передавать в качестве параметра
+            $base_link_right = GlobalController::base_link_right($link, $role, $relit_id, true, 0);
             $base_link_child_right = GlobalController::base_right($link->child_base, $role, $relit_id);
             // Использовать две этих проверки
             if (($base_link_right['is_body_link_enable'] == true) && ($base_link_child_right['is_list_base_calc'] == true)) {
@@ -1200,13 +1056,7 @@ class ItemController extends Controller
                 }
             }
         }
-//        foreach ($links as $link) {
-//            $base_link_right = GlobalController::base_link_right($link, $role, $relit_id, true);
-//            if ($base_link_right['is_list_base_byuser'] == true) {
-//                if (Auth::check()) {
-//                }
-//            }
-//        }
+
         $item_name_lang = GlobalController::calc_item_name_lang();
         // Нужно
         $next_all_mains = null;
@@ -1270,8 +1120,6 @@ class ItemController extends Controller
             //$string_current_next_ids = self::calc_string_current_next_ids($item, $link, $tree_array);
             // $item, GlobalController::par_link_const_textnull() присоединяются к списку $tree_array
             // В all.php par_link = GlobalController::par_link_const_textnull() при формировании ссылки на item_index()
-            //$string_current_next_ids = self::calc_string_current_next_ids($item, GlobalController::par_link_const_textnull(), $tree_array);
-            //$string_current_next_ids = self::calc_string_current_next_ids($tree_array, $item, $link, $view_ret_id, GlobalController::const_alltrue());
             $string_current_next_ids = self::calc_string_current_next_ids($tree_array, $item, $link, $relit_id, GlobalController::const_alltrue());
             $string_link_ids_array_next[$link->id] = $string_current_next_ids['string_next_link_ids'];
             $string_item_ids_array_next[$link->id] = $string_current_next_ids['string_next_item_ids'];
@@ -1328,7 +1176,6 @@ class ItemController extends Controller
             'string_relit_ids_array_next' => $string_relit_ids_array_next,
             'string_all_codes_array_next' => $string_all_codes_array_next,
             'string_array_next' => $string_array_next,
-//          'string_next' => $string_next,
             'message_ln_array_info' => $message_ln_array_info, 'message_ln_link_array_item' => $message_ln_link_array_item];
     }
 

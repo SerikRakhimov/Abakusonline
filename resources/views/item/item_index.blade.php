@@ -511,62 +511,6 @@
                             </button>
                         </div>
                     @endforeach
-
-                    {{--                    <div class="dropdown">--}}
-                    {{--                        <button type="button" class="btn btn-dreamer dropdown-toggle" data-toggle="dropdown"--}}
-                    {{--                                title="{{trans('main.relip')}}">--}}
-                    {{--                            <i class="fas fa-link d-inline"></i>--}}
-                    {{--                            {{trans('main.project')}}--}}
-                    {{--                        </button>--}}
-                    {{--                        <div class="dropdown-menu">--}}
-                    {{--                            @foreach($array_relips as $relit_key_id=>$array_relip)--}}
-                    {{--                                <?php--}}
-                    {{--                                $relit = null;--}}
-                    {{--                                if ($relit_key_id == 0) {--}}
-                    {{--                                    $relit = null;--}}
-                    {{--                                } else {--}}
-                    {{--                                    $relit = Relit::findOrFail($relit_key_id);--}}
-                    {{--                                }--}}
-                    {{--                                // Находим родительский проект--}}
-                    {{--                                $relip_select_body_project = Project::findOrFail($array_relip['project_id']);--}}
-                    {{--                                if ($view_link) {--}}
-                    {{--                                    $view_value_link = $view_link->id;--}}
-                    {{--                                } else {--}}
-                    {{--                                    $view_value_link = GlobalController::const_null();--}}
-                    {{--                                }--}}
-                    {{--                                ?>--}}
-                    {{--                                <a class="dropdown-item" href="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,--}}
-                    {{--                                          'usercode' =>GlobalController::usercode_calc(),--}}
-                    {{--                                          'relit_id'=>$relit_id,--}}
-                    {{--                                          'view_link'=>$view_value_link,--}}
-                    {{--                                          'view_ret_id'=>$relit_key_id,--}}
-                    {{--                                          'string_current'=>$string_current,--}}
-                    {{--                                          'prev_base_index_page'=>$base_index_page,--}}
-                    {{--                                          'prev_body_link_page'=>$body_link_page,--}}
-                    {{--                                          'prev_body_all_page'=>$body_all_page--}}
-                    {{--                                          ])}}"--}}
-                    {{--                                   title="{{$relip_select_body_project->name()}}">--}}
-                    {{--                                    --}}{{--                                    'string_link_ids_current'=>$string_link_ids_current,--}}
-                    {{--                                    --}}{{--                                    'string_item_ids_current'=>$string_item_ids_current,--}}
-                    {{--                                    --}}{{--                                    'string_all_codes_current'=>$string_all_codes_current,--}}
-                    {{--                                    {{$relip_select_body_project->name()}}--}}
-                    {{--                                    @if($relit)--}}
-                    {{--                                        ({{$relit->title()}})--}}
-                    {{--                                    @endif--}}
-                    {{--                                    --}}{{--                                    - {{$relit_key_id}}- {{$relip_select_body_project->id}}--}}
-                    {{--                                    @if(isset($view_ret_id))--}}
-                    {{--                                        @if($relit_key_id == $view_ret_id)--}}
-                    {{--                                            --}}{{-- Этот символ используется в двух местах--}}
-                    {{--                                            &#10003;--}}
-                    {{--                                        @endif--}}
-                    {{--                                    @endif--}}
-                    {{--                                    --}}{{--                                    @if(isset($array["\x00*\x00items"][$value->id]))--}}
-                    {{--                                    --}}{{--                                        *--}}
-                    {{--                                    --}}{{--                                    @endif--}}
-                    {{--                                </a>--}}
-                    {{--                            @endforeach--}}
-                    {{--                        </div>--}}
-                    {{--                    </div>--}}
                 </div>
             </div>
         @endif
@@ -738,18 +682,6 @@
             </div>
             </p>
         @endif
-        {{--        <div class="container-fluid">--}}
-        {{--            <div class="row">--}}
-        {{--                <div class="col text-right">--}}
-        {{--                    <a href="{{route('item.ext_create', ['base'=>$view_link->child_base_id,--}}
-        {{--                            'project'=>$project, 'role'=>$role, 'heading'=>intval(false), 'par_link'=>$view_link->id, 'parent_item'=>$item->id])}}"--}}
-        {{--                       title="{{trans('main.add')}}">--}}
-        {{--                        <img src="{{Storage::url('add_record.png')}}" width="15" height="15"--}}
-        {{--                             alt="{{trans('main.add')}}">--}}
-        {{--                    </a>--}}
-        {{--                </div>--}}
-        {{--            </div>--}}
-        {{--        </div>--}}
         @if (count($body_items) > 0)
             {{--        Выводится список записей по одной связи $view_link--}}
             {{--        Используется "'heading'=>intval(false)"--}}
