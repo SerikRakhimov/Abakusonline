@@ -254,8 +254,6 @@ b {
 / / background: rgba(95, 122, 145, 0.10);
 / / background: rgba(247, 154, 28, 0.03);
     background: #fef4e8;
-    display: flex;
-    align-items: center;
 }
 
 .card-footer {
