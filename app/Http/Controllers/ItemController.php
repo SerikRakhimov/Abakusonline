@@ -1030,7 +1030,7 @@ class ItemController extends Controller
                 $child_relit_calc = 0;
             } else {
                 if ($link->parent_relit_id) {
-                    $child_relit_calc = get_parent_relit_from_template_id($parent_proj->template_id, $link->child_base->template_id);
+                    $child_relit_calc = GlobalController::get_parent_relit_from_template_id($parent_proj->template_id, $link->child_base->template_id);
                 }
             }
             if ($child_relit_calc != -1) {
