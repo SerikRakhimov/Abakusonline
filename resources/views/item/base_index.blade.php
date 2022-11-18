@@ -240,7 +240,7 @@
                             <p class="card-header text-center text-label">{{trans('main.code')}}: {{$item->code}}</p>
                         </a>
                     @endif
-                    <div class="card-body align-items-center">
+                    <div class="card-body align-items-stretch">
                         @if($item_find)
                             {{--                            <div class="card-block text-center">--}}
                             <div class="text-center">
