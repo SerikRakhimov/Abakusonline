@@ -1037,6 +1037,9 @@ class LinkController extends Controller
             array_unshift($link_ids, $link->id);
             $i = $i + 1;
             $link = Link::find($link->parent_parent_related_start_link_id);
+            if (!$link) {
+                break;
+            }
         }
         // если зацикливание или $link не найден - возвратить null и пустой массив
         if (($i >= $maxi) || (!$link)) {
