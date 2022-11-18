@@ -60,8 +60,8 @@
                              'heading' =>intval(false),
                              'base_index_page'=>$base_index_page, 'body_link_page'=>$body_link_page,'body_all_page'=>$body_all_page,
                              'parent_ret_id' => $parent_ret_id_par])}}'">
-{{--                        'string_link_ids_current' => $string_link_ids_current,--}}
-{{--                        'string_item_ids_current' => $string_item_ids_current,--}}
+                        {{--                        'string_link_ids_current' => $string_link_ids_current,--}}
+                        {{--                        'string_item_ids_current' => $string_item_ids_current,--}}
                         {{--                        'string_all_codes_current' => $string_all_codes_current,--}}
                         <i class="fas fa-plus d-inline"></i>&nbsp;{{trans('main.add')}}
                     </button>
@@ -117,10 +117,11 @@
     <?php
     $tile_view = $base->tile_view($base_right);
     $link_image = $tile_view['link'];
-    $i = $items->firstItem() - 1;
+    //$i = $items->firstItem() - 1;
+    $i = 0;
     ?>
     <!---->
-{{--            <p>Выберите любимого персонажа:</p>--}}
+    {{--            <p>Выберите любимого персонажа:</p>--}}
     {{--            <p><input list="character">--}}
     {{--                <datalist id="character">--}}
     {{--                    <option value="Чебурашка"></option>--}}
@@ -207,11 +208,11 @@
     {{--        </div>--}}
     {{--    </div><!-- Конец карточки -->--}}
     @if($tile_view['result'] == true)
-        <div class="card-columns">
-{{--        $its_page используется--}}
+        <div class="card-deck">
+            {{--        $its_page используется--}}
             @foreach($its_page as $item)
                 <?php
-                $i = $i + 1;
+                //$i = $i + 1;
                 $item_find = GlobalController::view_info($item->id, $link_image->id);
                 ?>
                 {{--                <div class="card text-center">--}}
@@ -223,9 +224,9 @@
                                     'par_link'=>null, 'parent_item'=>null,
                                     'string_current' => $string_current,
                                     ])}}" title="{{$item->name()}}">
-{{--                            'string_all_codes_current' => $string_all_codes_current,--}}
-{{--                            'string_link_ids_current' => $string_link_ids_current,--}}
-{{--                            'string_item_ids_current' => $string_item_ids_current,--}}
+                            {{--                            'string_all_codes_current' => $string_all_codes_current,--}}
+                            {{--                            'string_link_ids_current' => $string_link_ids_current,--}}
+                            {{--                            'string_item_ids_current' => $string_item_ids_current,--}}
                             <p class="card-header text-center text-label">{{trans('main.code')}}: {{$item->code}}</p>
                         </a>
                     @endif
@@ -255,9 +256,9 @@
                              'string_current' => $string_current,
                                     ])}}"
                                 title="{{$item->name()}}">
-{{--                                'string_all_codes_current' => $string_all_codes_current,--}}
-{{--                                'string_link_ids_current' => $string_link_ids_current,--}}
-{{--                                'string_item_ids_current' => $string_item_ids_current,--}}
+                                {{--                                'string_all_codes_current' => $string_all_codes_current,--}}
+                                {{--                                'string_link_ids_current' => $string_link_ids_current,--}}
+                                {{--                                'string_item_ids_current' => $string_item_ids_current,--}}
                                 {{--                            Где $item->name() выходит в cards выводить "<?php echo GlobalController::to_html();?>"--}}
                                 <?php echo $item->nmbr(false);?>
                             </a></h5>
@@ -269,7 +270,30 @@
                         </small>
                     </div>
                 </div>
+                <br>
+                <?php
+                $i++;
+                ?>
+                @if($i % 3 == 0)
+        </div>
+        <br>
+        <div class="card-deck">
+            @endif
             @endforeach
+            {{-- Если строка из 3-х элементов не завершилась до 3-х столбцов--}}
+            {{-- (т.е. $i не делится без остатка на 3)--}}
+            @if($i % 3 != 0)
+                <?php
+                // Подсчитываем количество оставшихся колонок
+                $n = 3 - ($i % 3);
+                ?>
+                {{-- В цикле $n раз вставляем вставляем пустые колонки--}}
+                @for($k = 0; $k < $n; $k++)
+                    {{-- Вставляем пустую карточку--}}
+                    <div class="card border-0">
+                    </div>
+                @endfor
+            @endif
         </div>
         <div class="row">
             <div class="col text-center text-label">
