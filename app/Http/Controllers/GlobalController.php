@@ -638,7 +638,9 @@ class GlobalController extends Controller
             if ($base_right['is_list_base_sort_creation_date_desc'] == true) {
                 //$items = $items->orderByDesc('created_user_id');
                 $items = $items->latest();
-
+            } elseif($base->is_code_needed == true) {
+                // Сортировка по коду
+                $items = $items->orderBy('code');
             } else {
                 // Похожие строки items_right() и its_page()
                 $name = "";  // нужно, не удалять
