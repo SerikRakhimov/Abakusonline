@@ -47,7 +47,7 @@ if ($base_index == true) {
         {{--        <th rowspan="{{$rows + 1}}" class="text-center align-top">Id</th>--}}
         @if($base_index || $item_body_base)
             @if($base->is_code_needed == true)
-                <th class="text-center align-top" rowspan="{{$rows + 1}}">{{trans('main.code')}}</th>
+                <th class="text-center align-top" rowspan="{{$rows + 1}}" style="width: 5%" class="text-center align-top">{{trans('main.code')}}</th>
             @endif
             @if($base_right['is_list_base_sort_creation_date_desc'] == true)
                 <th class="text-center align-top" rowspan="{{$rows + 1}}">{{trans('main.date')}}</th>
