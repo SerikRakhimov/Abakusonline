@@ -150,7 +150,7 @@ class ItemController extends Controller
                         // Сортировка по коду
                         if ($base->is_code_number == true) {
                             // Сортировка по коду числовому
-                            $items = $items->selectRaw("*, code*1  AS code_value")->orderBy('code_value');
+                            $items = $items->selectRaw("code*1  AS code_value")->orderBy('code_value');
                         } else {
                             $items = $items->orderBy('code');
                         }
