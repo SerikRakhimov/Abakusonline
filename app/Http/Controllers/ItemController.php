@@ -145,8 +145,16 @@ class ItemController extends Controller
             if ($order_by) {
                 if ($order_by == 'name') {
                     $items = $items->orderBy($name);
-                } else {
-                    $items = $items->orderBy($order_by);
+                } elseif ($order_by == 'code') {
+                    if ($base->is_code_needed == true) {
+                        // Сортировка по коду
+                        if ($base->is_code_number == true) {
+                            // Сортировка по коду числовому
+                            $items = $items->selectRaw("*, code*1  AS code_value")->orderBy('code_value');
+                        } else {
+                            $items = $items->orderBy('code');
+                        }
+                    }
                 }
             }
             if ($filter_by && $search != "") {
