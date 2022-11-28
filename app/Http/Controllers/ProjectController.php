@@ -43,24 +43,29 @@ class ProjectController extends Controller
 
     function all_index()
     {
-        $projects = Project::where('is_closed', false)
-            ->whereHas('template.roles', function ($query) {
-                $query->where('is_default_for_external', true)
-                    ->where('is_author', false);
-            });
-
-//        $projects = Project::whereHas('template.roles', function ($query) {
+//        $projects = Project::where('is_closed', false)
+//            ->whereHas('template.roles', function ($query) {
 //                $query->where('is_default_for_external', true)
 //                    ->where('is_author', false);
 //            });
 
+        $projects = Project::where('is_closed', false)
+            ->whereHas('template.roles', function ($query) {
+                $query->where('is_default_for_external', true);
+            });
+
         if (Auth::check()) {
+//            // 'orwhereHas' правильно
+//            $projects = $projects->orwhereHas('accesses', function ($query) {
+//                $query->where('user_id', GlobalController::glo_user_id())
+//                    ->where('is_access_allowed', true);
+//            })->whereHas('template.roles', function ($query) {
+//                $query->where('is_author', false);
+//            });
             // 'orwhereHas' правильно
             $projects = $projects->orwhereHas('accesses', function ($query) {
                 $query->where('user_id', GlobalController::glo_user_id())
                     ->where('is_access_allowed', true);
-            })->whereHas('template.roles', function ($query) {
-                $query->where('is_author', false);
             });
         }
 
@@ -165,9 +170,37 @@ class ProjectController extends Controller
     {
         $result = array();
         if ($all_projects == true) {
+//            $roles = Role::where('template_id', $project->template->id)
+//                ->where('is_default_for_external', true)
+//                ->where('is_author', false)
+//                ->whereHas('template', function ($query) use ($project) {
+//                    $query->where('id', $project->template_id)
+//                        ->whereHas('projects', function ($query) use ($project) {
+//                            $query->where('id', $project->id)
+//                                ->where('is_closed', false);
+//                        });
+//                })
+//                ->orderBy('serial_number')->get();
+//            foreach ($roles as $role) {
+//                $result[$role->id] = $role->name();
+//            }
+//            if (Auth::check()) {
+//                $accesses = Access::where('project_id', $project->id)
+//                    ->where('user_id', GlobalController::glo_user_id())
+//                    ->whereHas('role', function ($query) {
+//                        $query->where('is_author', false)
+//                            ->orderBy('serial_number');
+//                    })
+//                    ->where('is_access_allowed', true)
+//                    ->get();
+//                foreach ($accesses as $access) {
+//                    $role = $access->role;
+//                    $result[$role->id] = $role->name();
+//                }
+//            }
+
             $roles = Role::where('template_id', $project->template->id)
                 ->where('is_default_for_external', true)
-                ->where('is_author', false)
                 ->whereHas('template', function ($query) use ($project) {
                     $query->where('id', $project->template_id)
                         ->whereHas('projects', function ($query) use ($project) {
@@ -182,10 +215,6 @@ class ProjectController extends Controller
             if (Auth::check()) {
                 $accesses = Access::where('project_id', $project->id)
                     ->where('user_id', GlobalController::glo_user_id())
-                    ->whereHas('role', function ($query) {
-                        $query->where('is_author', false)
-                            ->orderBy('serial_number');
-                    })
                     ->where('is_access_allowed', true)
                     ->get();
                 foreach ($accesses as $access) {

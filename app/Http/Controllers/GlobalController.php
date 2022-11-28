@@ -1240,7 +1240,6 @@ class GlobalController extends Controller
         return $result;
     }
 
-
     static function it_txnm_n2b(Item $item)
     {
         $result = nl2br(self::it_text_name($item));

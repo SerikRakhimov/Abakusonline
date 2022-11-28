@@ -55,9 +55,10 @@
         <p class="text-label">
         @if($base_right['is_list_base_sort_creation_date_desc'] == true)
             <li>
-                {{trans('main.date')}}: <b>
+                {{trans('main.date')}}:
+{{--                <b>--}}
                     {{$item->created_date()}}
-                </b>
+{{--                </b>--}}
             </li>
         @endif
         {{--    @foreach($array_plan as $key=>$value)--}}
@@ -101,11 +102,13 @@
                             @include('layouts.item.ext_show.parent_label', ['link'=>$link, 'par_link'=>$par_link])
                         @endif
                         @if($link->parent_base->type_is_text())
-                            {{--                            <span class="text-related">--}}<b>
+                            {{--                            <span class="text-related">--}}
+{{--                                <b>--}}
                                 <?php
                                 echo GlobalController::it_txnm_n2b($item_find);
                                 ?>
-                                {{--                        </span>--}}</b>
+                                {{--                        </span>--}}
+{{--                                </b>--}}
                         @elseif($link->parent_base->type_is_image())
                             <br>
                             @include('view.img',['item'=>$item_find, 'size'=>"medium", 'filenametrue'=>false, 'link'=>true, 'img_fluid'=>false, 'title'=>""])
@@ -114,16 +117,16 @@
                             {{--                                     alt="" title="{{$item_find->title_img()}}">--}}
                             {{--                            </a>--}}
                         @elseif($link->parent_base->type_is_document())
-                            <b>
+{{--                            <b>--}}
                                 @include('view.doc',['item'=>$item_find, 'usercode'=>GlobalController::usercode_calc()])
                                 {{--                            <a href="{{Storage::url($item_find->filename())}}" target="_blank">--}}
                                 {{--                                Открыть документ--}}
                                 {{--                            </a>--}}
-                            </b>
+{{--                            </b>--}}
                         @else
                             {{--                                            $numcat = true - вывод числовых полей с разрядом тысячи/миллионы/миллиарды--}}
                             {{--                            <span class="text-related">--}}
-                            <b>
+{{--                            <b>--}}
                                 {{--  Используется 'is_list_base_calc' в ext_show.php и ItemController::item_index()  --}}
                                 @if($base_link_right['is_list_base_calc'] == true && $base_link_right['is_bsmn_base_enable'] == true)
                                     <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item_find, 'role'=>$role,
@@ -134,7 +137,7 @@
                                 @else
                                     {{$item_find->name(false, true, true)}}
                                 @endif
-                            </b>
+{{--                            </b>--}}
                             {{--                            </span>--}}
                         @endif
                     </li>
@@ -158,12 +161,14 @@
                                 {{--                </a>--}}
                             </li>
                         @elseif($base->type_is_document)
-                            <li><b>
+                            <li>
+{{--                                <b>--}}
                                     @include('view.doc',['item'=>$item,'usercode'=>GlobalController::usercode_calc()])
                                     {{--                <a href="{{Storage::url($item->filename())}}" target="_blank">--}}
                                     {{--                    Открыть документ--}}
                                     {{--                </a>--}}
-                                </b></li>
+{{--                                </b>--}}
+                            </li>
                         @else
                             {{--                Если тип-вычисляемое наименование и Показывать Основу с вычисляемым наименованием--}}
                             {{--                или если тип-не вычисляемое наименование--}}
@@ -173,7 +178,8 @@
                                 <li>
                                     <p class="text-label">
                                         <big>{{$base->name()}}:</big>
-                                        {{--                            <span class="text-related">--}}<b>
+                                        {{--                            <span class="text-related">--}}
+{{--                                        <b>--}}
                                             @if($base->type_is_text())
                                                 <big><big>
                                                         <?php
@@ -189,7 +195,8 @@
                                                         </a>
                                                     </big></big>
                                             @endif
-                                            {{--                </span>--}}</b>
+                                            {{--                </span>--}}
+{{--                                        </b>--}}
                                     </p>
                                 </li>
                             @endif

@@ -107,8 +107,8 @@
                                  alt="{{trans('main.verify_baselink')}}">
                         </a>
                     </div>
-                @endif
-                @if (Auth::user()->isAdmin())
+{{--                @endif--}}
+                        {{--                @if (Auth::user()->isAdmin())--}}
                     <div class="col-12 text-right">
                         <a href="{{route('item.verify_number_values')}}" title="{{trans('main.verify_number_values')}}">
                             {{trans('main.verify_number_values')}}

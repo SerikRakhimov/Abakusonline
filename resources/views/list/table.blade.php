@@ -56,7 +56,7 @@ if ($base_index == true) {
                 {{--                Если тип-вычисляемое наименование и Показывать Основу с вычисляемым наименованием--}}
                 {{--                или если тип-не вычисляемое наименование--}}
                 {{--            похожая проверка в ext_show.blade.php--}}
-                @if(GlobalController::is_base_calcname_check($base, $base_right))
+                    @if(GlobalController::is_base_calcname_check($base, $base_right))
                     <th rowspan="{{$rows + 1}}" @include('layouts.class_from_base',['base'=>$base, 'align_top'=>true])>
                         {{--                        @if($view_link)--}}
                         {{--                            {{$view_link->child_label()}}--}}
@@ -213,7 +213,7 @@ if ($base_index == true) {
                     {{--                Если тип-вычисляемое наименование и Показывать Основу с вычисляемым наименованием--}}
                     {{--                или если тип-не вычисляемое наименование--}}
                     {{--                похожая проверка в list\table.php, ItemController::item_index() и ext_show.php--}}
-                    @if(GlobalController::is_base_calcname_check($base, $base_right))
+                        @if(GlobalController::is_base_calcname_check($base, $base_right))
                         <td @include('layouts.class_from_base',['base'=>$base])>
                             @if($base->type_is_image)
                                 @include('view.img',['item'=>$item, 'size'=>"small", 'filenametrue'=>false, 'link'=>true, 'img_fluid'=>false, 'title'=>""])
