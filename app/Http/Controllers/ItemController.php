@@ -6315,7 +6315,8 @@ class ItemController extends Controller
 
         // Проверка на "$base_link_right['is_list_link_enable']"
         foreach ($links as $link) {
-            $base_link_right = GlobalController::base_link_right($link, $role, $relit_id);
+            //$base_link_right = GlobalController::base_link_right($link, $role, $relit_id);
+            $base_link_right = GlobalController::base_link_right($link, $role, $relit_id, true, $relit_id);
             if ($base_link_right['is_list_link_enable'] == false) {
                 $links = $links->where('id', '!=', $link->id);
             }
