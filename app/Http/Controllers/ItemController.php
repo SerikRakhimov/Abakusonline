@@ -566,7 +566,7 @@ class ItemController extends Controller
             if ($next_all_full_link) {
                 if ($current_link) {
                     // Если нет данных по связи $current_link
-                    if (self::item_link_parent_mains($item, $current_link) == false) {
+                    if (self::item_link_parent_mains_exists($item, $current_link) == false) {
                         $current_link = $next_all_full_link;
                     }
                     // Если выводятся 'Все связи'
@@ -694,7 +694,7 @@ class ItemController extends Controller
                     return redirect()->route('item.item_index', ['project' => $project, 'item' => $item, 'role' => $role,
                         'usercode' => GlobalController::usercode_calc(),
                         'relit_id' => $relit_id,
-                        'called_from_button'=>0,
+                        'called_from_button' => 0,
                         'view_link' => GlobalController::set_par_view_link_null($view_link),
                         'string_current' => $string_current,
                         'prev_base_index_page' => $prev_base_index_page,
@@ -720,7 +720,7 @@ class ItemController extends Controller
                             return redirect()->route('item.item_index', ['project' => $project, 'item' => $item_redirect, 'role' => $role,
                                 'usercode' => GlobalController::usercode_calc(),
                                 'relit_id' => $view_ret_id,
-                                'called_from_button'=>0,
+                                'called_from_button' => 0,
                                 'view_link' => GlobalController::par_link_const_textnull(),
                                 'string_current' => $string_next,
                                 'prev_base_index_page' => $base_index_page_current,
@@ -1022,7 +1022,7 @@ class ItemController extends Controller
 //        ];
     }
 
-    function item_link_parent_mains(Item $item, Link $link)
+    function item_link_parent_mains_exists(Item $item, Link $link)
     {
         // Проверка "Существуют ли записи по связи"
         return $item->parent_mains()->where('mains.link_id', $link->id)->exists();;
@@ -1063,6 +1063,7 @@ class ItemController extends Controller
                 $child_relit_calc = 0;
             } else {
 //                if ($link->parent_relit_id != 0) {
+                // Поиск $relit->id
                 $child_relit_calc = GlobalController::get_parent_relit_from_template_id($parent_proj->template_id, $link->child_base->template_id);
 //                }
             }
@@ -1072,31 +1073,32 @@ class ItemController extends Controller
                 // Использовать две этих проверки
 //              if (($base_link_right['is_body_link_enable'] == true) && ($base_link_child_right['is_list_base_calc'] == true)) {
                 if (($base_link_right['is_body_link_enable'] == true) && ($base_link_right['is_list_base_calc'] == true)) {
-                    // Такая же проверка и в GlobalController (function items_right()),
-                    // в ItemController (function next_all_links_mains_calc(), browser(), get_items_for_link(), get_items_ext_edit_for_link())
-//                  if ($base_link_child_right['is_list_base_byuser'] == true) {
-                    if ($base_link_right['is_list_base_byuser'] == true) {
-                        if (Auth::check()) {
+                    // 'is_edit_link_update' - 'Корректировка Связи в форме'
+                    $next_create = $base_link_right['is_list_base_create'] == true && $base_link_right['is_edit_link_update'] == true;
+                    if (self::item_link_parent_mains_exists($item, $link) || $next_create) {
+                        // Такая же проверка и в GlobalController (function items_right()),
+                        // в ItemController (function next_all_links_mains_calc(), browser(), get_items_for_link(), get_items_ext_edit_for_link())
+                        if ($base_link_right['is_list_base_byuser'] == true) {
+                            if (Auth::check()) {
+                                // Два блока одинаковых команд
+                                // Нужно '$next_all_links[] = $link;'
+                                $next_all_links[] = $link;
+                                $next_all_links_byuser_ids[] = $link->id;
+                                $next_all_is_calcname[$link->id] = $is_calcname;
+//                      Такая же проверка на 'is_list_base_create' == true && 'is_edit_link_update' == true в item_index.php и ItemController.php
+                                //$next_all_is_create[$link->id] = $base_right['is_list_base_create'];
+                                $next_all_is_create[$link->id] = $next_create;
+                            } else {
+                                // Данные не добавляются
+                            }
+                        } else {
                             // Два блока одинаковых команд
                             // Нужно '$next_all_links[] = $link;'
                             $next_all_links[] = $link;
-                            $next_all_links_byuser_ids[] = $link->id;
+                            $next_all_links_ids[] = $link->id;
                             $next_all_is_calcname[$link->id] = $is_calcname;
-//                      Такая же проверка на 'is_list_base_create'] == true && 'is_edit_link_update' == true в item_index.php и ItemController.php
-                            //$next_all_is_create[$link->id] = $base_right['is_list_base_create'];
-//                          $next_all_is_create[$link->id] = $base_link_child_right['is_list_base_create'] == true && $base_link_child_right['is_edit_link_update'] == true;
-                            $next_all_is_create[$link->id] = $base_link_right['is_list_base_create'] == true && $base_link_right['is_edit_link_update'] == true;
-                        } else {
-                            // Данные не добавляются
+                            $next_all_is_create[$link->id] = $next_create;
                         }
-                    } else {
-                        // Два блока одинаковых команд
-                        // Нужно '$next_all_links[] = $link;'
-                        $next_all_links[] = $link;
-                        $next_all_links_ids[] = $link->id;
-                        $next_all_is_calcname[$link->id] = $is_calcname;
-//                      $next_all_is_create[$link->id] = $base_link_child_right['is_list_base_create'];
-                        $next_all_is_create[$link->id] = $base_link_right['is_list_base_create'];
                     }
                 }
             }
@@ -1147,7 +1149,7 @@ class ItemController extends Controller
         // Первая связь с данными (по сортировке)
         $next_all_full_link = null;
         foreach ($next_all_links as $link) {
-            if (self::item_link_parent_mains($item, $link) == true) {
+            if (self::item_link_parent_mains_exists($item, $link) == true) {
                 $next_all_full_link = $link;
                 break;
             }
@@ -1208,7 +1210,7 @@ class ItemController extends Controller
         }
 
         // Есть хотя бы одна запись $next_all_is_create = true, то $next_all_is_all_create = true
-        // (т.е. вся кнопка 'Добавить' доступна (для связей))
+        // (т.е. вся кнопка 'Добавить' доступна (для всех связей))
         // Нужно '$next_all_is_all_create = false;'
         $next_all_is_all_create = false;
         foreach ($next_all_is_create as $key => $value) {
@@ -1275,7 +1277,7 @@ class ItemController extends Controller
         $string_item_ids_current = $request['string_item_ids_current'];
         $string_all_codes_current = $request['string_all_codes_current'];
         return redirect()->route('item.item_index', ['project' => $project, 'item' => $item, 'role' => $role, 'relit_id' => $relit_id,
-            'usercode' => GlobalController::usercode_calc(), 'relit_id' => $relit_id, 'called_from_button'=>0, 'par_link' => $link,
+            'usercode' => GlobalController::usercode_calc(), 'relit_id' => $relit_id, 'called_from_button' => 0, 'par_link' => $link,
             'string_link_ids_current' => $string_link_ids_current, 'string_item_ids_current' => $string_item_ids_current, 'string_all_codes_current' => $string_all_codes_current]);
     }
 
@@ -2397,7 +2399,7 @@ class ItemController extends Controller
                 return redirect()->route('item.item_index', ['project' => $project, 'item' => $parent_item, 'role' => $role,
                     'usercode' => GlobalController::usercode_calc(),
                     'relit_id' => $parent_ret_id,
-                    'called_from_button'=>0,
+                    'called_from_button' => 0,
                     'view_link' => $str_link,
                     // 'string_link_ids_current' => $string_link_ids_current, 'string_item_ids_current' => $string_item_ids_current, 'string_all_codes_current' => $string_all_codes_current,
                     'string_current' => $string_current,
@@ -2421,7 +2423,7 @@ class ItemController extends Controller
                 return redirect()->route('item.item_index', ['project' => $project, 'item' => $item, 'role' => $role,
                     'usercode' => GlobalController::usercode_calc(),
                     'relit_id' => $relit_id,
-                    'called_from_button'=>0,
+                    'called_from_button' => 0,
                     'view_link' => $str_link,
                     // 'string_link_ids_current' => $string_link_ids_current, 'string_item_ids_current' => $string_item_ids_current, 'string_all_codes_current' => $string_all_codes_current,
                     'string_current' => $string_current,
@@ -4645,7 +4647,7 @@ class ItemController extends Controller
                 return redirect()->route('item.item_index', ['project' => $project, 'item' => $parent_item, 'role' => $role,
                     'usercode' => GlobalController::usercode_calc(),
                     'relit_id' => $parent_ret_id,
-                    'called_from_button'=>0,
+                    'called_from_button' => 0,
                     'view_link' => $str_link,
                     // 'string_link_ids_current' => $string_link_ids_current, 'string_item_ids_current' => $string_item_ids_current, 'string_all_codes_current' => $string_all_codes_current,
                     'string_current' => $string_current,
@@ -4669,7 +4671,7 @@ class ItemController extends Controller
                 return redirect()->route('item.item_index', ['project' => $project, 'item' => $item, 'role' => $role,
                     'usercode' => GlobalController::usercode_calc(),
                     'relit_id' => $relit_id,
-                    'called_from_button'=>0,
+                    'called_from_button' => 0,
                     'view_link' => $str_link,
                     // 'string_link_ids_current' => $string_link_ids_current, 'string_item_ids_current' => $string_item_ids_current, 'string_all_codes_current' => $string_all_codes_current,
                     'string_current' => $string_current,
@@ -4988,7 +4990,7 @@ class ItemController extends Controller
                 return redirect()->route('item.item_index', ['project' => $project, 'item' => $parent_item, 'role' => $role,
                     'usercode' => GlobalController::usercode_calc(),
                     'relit_id' => $parent_ret_id,
-                    'called_from_button'=>0,
+                    'called_from_button' => 0,
                     'view_link' => $str_link,
 //                      'string_link_ids_current' => $string_link_ids_current, 'string_item_ids_current' => $string_item_ids_current, 'string_all_codes_current' => $string_all_codes_current,
                     'string_current' => $string_current,
@@ -5075,7 +5077,7 @@ class ItemController extends Controller
                     return redirect()->route('item.item_index', ['project' => $project, 'item' => $parent_item, 'role' => $role,
                         'usercode' => GlobalController::usercode_calc(),
                         'relit_id' => $parent_ret_id,
-                        'called_from_button'=>0,
+                        'called_from_button' => 0,
                         'view_link' => $str_link,
 //                      'string_link_ids_current' => $string_link_ids_current, 'string_item_ids_current' => $string_item_ids_current, 'string_all_codes_current' => $string_all_codes_current,
                         'string_current' => $string_current,
@@ -5088,7 +5090,7 @@ class ItemController extends Controller
                     return redirect()->route('item.item_index', ['project' => $project, 'item' => $item, 'role' => $role,
                         'usercode' => GlobalController::usercode_calc(),
                         'relit_id' => $relit_id,
-                        'called_from_button'=>0,
+                        'called_from_button' => 0,
                         'view_link' => $str_link,
                         // 'string_link_ids_current' => $string_link_ids_current, 'string_item_ids_current' => $string_item_ids_current, 'string_all_codes_current' => $string_all_codes_current,
                         'string_current' => $string_current,

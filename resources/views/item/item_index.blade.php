@@ -411,7 +411,7 @@
                         @if($next_all_is_enable)
                             <div class="btn-group btn-group-sm" role="group" aria-label="Link">
                                 <button type="button" class="btn btn-dreamer"
-{{--                                'called_from_button'=>1 - вызов из кнопки--}}
+                                        {{--                                'called_from_button'=>1 - вызов из кнопки--}}
                                         onclick='document.location="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,
                                                                           'usercode' =>GlobalController::usercode_calc(),
                                                                           'relit_id'=>$relit_id,
@@ -653,9 +653,10 @@
                     </div>
                     <div class="col-4 text-right">
                     {{--                        @if ((count($body_items) > 0) || ($base_body_right['is_list_base_create'] == true))--}}
-                    {{--                Такая же проверка на 'is_list_base_create'] == true && 'is_edit_link_update' == true в item_index.php и ItemController.php--}}
+                    {{--                Такая же проверка на 'is_list_base_create' == true && 'is_edit_link_update' == true в item_index.php и ItemController.php--}}
                     {{--                @if ($base_body_right['is_list_base_create'] == true)--}}
-                    @if ($base_body_right['is_list_base_create'] == true && $base_body_right['is_edit_link_update'] == true)
+                    {{--                    @if ($base_body_right['is_list_base_create'] == true && $base_body_right['is_edit_link_update'] == true)--}}
+                    @if ($next_all_is_create[$view_link->id] == true)
                         @if($message_ln_validate == "")
                             <!--                                --><?php
                                 //                                $heading = 0;
@@ -748,7 +749,7 @@
                         {{-- Вся кнопка 'Добавить' доступна (для связей)--}}
                         @if($next_all_is_all_create == true)
                             <div class="dropdown">
-                                <button type="button" class="btn btn-dreamer dropdown-toggle"
+                                <button type="button" class="btn btn-dreamer dropdown-toggle btn-sm"
                                         data-toggle="dropdown"
                                         title="{{trans('main.add')}}">
                                     <i class="fas fa-plus d-inline"></i>
