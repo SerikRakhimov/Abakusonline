@@ -344,7 +344,9 @@ class ItemController extends Controller
 //    function item_index(Project $project, Item $item, Role $role, $usercode, $relit_id, $view_link = null,
 //                                $string_link_ids_current = '', $string_item_ids_current = '', $string_all_codes_current = '',
 //                                $prev_base_index_page = 0, $prev_body_link_page = 0, $prev_body_all_page = 0, $view_ret_id = null)
-    function item_index(Project $project, Item $item, Role $role, $usercode, $relit_id, $view_link = null,
+    function item_index(Project $project, Item $item, Role $role, $usercode, $relit_id,
+                                $called_from_button = 0,
+                                $view_link = null,
                                 $string_current = '',
                                 $prev_base_index_page = 0, $prev_body_link_page = 0, $prev_body_all_page = 0, $view_ret_id = null)
     {
@@ -517,6 +519,7 @@ class ItemController extends Controller
         $next_all_is_calcname = $next_all_links_mains_calc['next_all_is_calcname'];
         $next_all_is_code_enable = $next_all_links_mains_calc['next_all_is_code_enable'];
         $next_all_first_link = $next_all_links_mains_calc['next_all_first_link'];
+        $next_all_full_link = $next_all_links_mains_calc['next_all_full_link'];
         $next_all_is_enable = $next_all_links_mains_calc['next_all_is_enable'];
         $string_link_ids_array_next = $next_all_links_mains_calc['string_link_ids_array_next'];
         $string_item_ids_array_next = $next_all_links_mains_calc['string_item_ids_array_next'];
@@ -558,7 +561,20 @@ class ItemController extends Controller
                 }
             }
         }
-
+//      'if (!$called_from_button)' используется
+        if (!$called_from_button) {
+            if ($next_all_full_link) {
+                if ($current_link) {
+                    // Если нет данных по связи $current_link
+                    if (self::item_link_parent_mains($item, $current_link) == false) {
+                        $current_link = $next_all_full_link;
+                    }
+                    // Если выводятся 'Все связи'
+                } else {
+                    $current_link = $next_all_full_link;
+                }
+            }
+        }
         $base_index_page_current = 0;
         $body_link_page_current = 0;
         $body_all_page_current = 0;
@@ -611,6 +627,7 @@ class ItemController extends Controller
 
         } else {
             // Используется $project, $view_ret_id, true
+            // Вычисляется только $next_all_mains
             $next_all_links_mains_calc = self::next_all_links_mains_calc($project, $item, $role, $relit_id, $view_ret_id, $tree_array, true);
             $next_all_mains = $next_all_links_mains_calc['next_all_mains'];
         }
@@ -677,6 +694,7 @@ class ItemController extends Controller
                     return redirect()->route('item.item_index', ['project' => $project, 'item' => $item, 'role' => $role,
                         'usercode' => GlobalController::usercode_calc(),
                         'relit_id' => $relit_id,
+                        'called_from_button'=>0,
                         'view_link' => GlobalController::set_par_view_link_null($view_link),
                         'string_current' => $string_current,
                         'prev_base_index_page' => $prev_base_index_page,
@@ -702,6 +720,7 @@ class ItemController extends Controller
                             return redirect()->route('item.item_index', ['project' => $project, 'item' => $item_redirect, 'role' => $role,
                                 'usercode' => GlobalController::usercode_calc(),
                                 'relit_id' => $view_ret_id,
+                                'called_from_button'=>0,
                                 'view_link' => GlobalController::par_link_const_textnull(),
                                 'string_current' => $string_next,
                                 'prev_base_index_page' => $base_index_page_current,
@@ -716,7 +735,6 @@ class ItemController extends Controller
                 $message_bs_calc = ItemController::message_bs_calc($relip_project, $item->base);
                 $message_bs_info = $message_bs_calc['message_bs_info'];
                 $message_bs_validate = $message_bs_calc['message_bs_validate'];
-
                 return view('item/item_index', ['project' => $project, 'item' => $item, 'role' => $role,
                     'relit_id' => $relit_id,
                     'view_link' => GlobalController::set_par_view_link_null($view_link),
@@ -929,9 +947,7 @@ class ItemController extends Controller
                 }
             }
         }
-
         return $result;
-
     }
 
     function string_zip_current_next($string_link_ids, $string_item_ids, $string_relit_ids, $string_all_codes)
@@ -1006,6 +1022,12 @@ class ItemController extends Controller
 //        ];
     }
 
+    function item_link_parent_mains(Item $item, Link $link)
+    {
+        // Проверка "Существуют ли записи по связи"
+        return $item->parent_mains()->where('mains.link_id', $link->id)->exists();;
+    }
+
     function next_all_links_mains_calc(Project $parent_proj, Item $item, Role $role, $relit_id, $view_ret_id, $tree_array, $is_next_all_mains_calc)
     {
         // Условия одинаковые в item_index() и next_all_links_mains_calc()
@@ -1016,6 +1038,7 @@ class ItemController extends Controller
 //            ->where('parent_is_base_link', false);
         // Список доступных связей $base->parent_links
         // Условия одинаковые 'where('parent_is_base_link', false)'
+
         $base = $item->base;
         $links = $base->parent_links
             ->where('parent_is_parent_related', false)
@@ -1031,6 +1054,7 @@ class ItemController extends Controller
             //$base_right = GlobalController::base_right($link->child_base, $role, $relit_id);
             //$base_right = GlobalController::base_right($link->child_base, $role, $view_ret_id);
             // Выводить вычисляемое наименование
+            // Использовать 'is_base_calcnm_correct_check()' (а не is_base_calcname_check())
             // Использовать '$link->child_base'
             $is_calcname = GlobalController::is_base_calcnm_correct_check($link->child_base);
             //$base_link_right = GlobalController::base_link_right($link, $role, $relit_id);
@@ -1120,6 +1144,15 @@ class ItemController extends Controller
             $next_all_first_link = $next_all_links[0];
         }
 
+        // Первая связь с данными (по сортировке)
+        $next_all_full_link = null;
+        foreach ($next_all_links as $link) {
+            if (self::item_link_parent_mains($item, $link) == true) {
+                $next_all_full_link = $link;
+                break;
+            }
+        }
+
         // Есть ли хотя бы в одной связи код,
         // Нужно для вывода столбца "Код" (list\all.php)
         $next_all_is_code_enable = false;
@@ -1190,6 +1223,7 @@ class ItemController extends Controller
             'next_all_is_all_create' => $next_all_is_all_create,
             'next_all_is_calcname' => $next_all_is_calcname,
             'next_all_first_link' => $next_all_first_link,
+            'next_all_full_link' => $next_all_full_link,
             'next_all_is_code_enable' => $next_all_is_code_enable,
             'next_all_is_enable' => $next_all_is_enable,
             'string_link_ids_array_next' => $string_link_ids_array_next,
@@ -1241,7 +1275,7 @@ class ItemController extends Controller
         $string_item_ids_current = $request['string_item_ids_current'];
         $string_all_codes_current = $request['string_all_codes_current'];
         return redirect()->route('item.item_index', ['project' => $project, 'item' => $item, 'role' => $role, 'relit_id' => $relit_id,
-            'usercode' => GlobalController::usercode_calc(), 'relit_id' => $relit_id, 'par_link' => $link,
+            'usercode' => GlobalController::usercode_calc(), 'relit_id' => $relit_id, 'called_from_button'=>0, 'par_link' => $link,
             'string_link_ids_current' => $string_link_ids_current, 'string_item_ids_current' => $string_item_ids_current, 'string_all_codes_current' => $string_all_codes_current]);
     }
 
@@ -2363,6 +2397,7 @@ class ItemController extends Controller
                 return redirect()->route('item.item_index', ['project' => $project, 'item' => $parent_item, 'role' => $role,
                     'usercode' => GlobalController::usercode_calc(),
                     'relit_id' => $parent_ret_id,
+                    'called_from_button'=>0,
                     'view_link' => $str_link,
                     // 'string_link_ids_current' => $string_link_ids_current, 'string_item_ids_current' => $string_item_ids_current, 'string_all_codes_current' => $string_all_codes_current,
                     'string_current' => $string_current,
@@ -2386,6 +2421,7 @@ class ItemController extends Controller
                 return redirect()->route('item.item_index', ['project' => $project, 'item' => $item, 'role' => $role,
                     'usercode' => GlobalController::usercode_calc(),
                     'relit_id' => $relit_id,
+                    'called_from_button'=>0,
                     'view_link' => $str_link,
                     // 'string_link_ids_current' => $string_link_ids_current, 'string_item_ids_current' => $string_item_ids_current, 'string_all_codes_current' => $string_all_codes_current,
                     'string_current' => $string_current,
@@ -4609,6 +4645,7 @@ class ItemController extends Controller
                 return redirect()->route('item.item_index', ['project' => $project, 'item' => $parent_item, 'role' => $role,
                     'usercode' => GlobalController::usercode_calc(),
                     'relit_id' => $parent_ret_id,
+                    'called_from_button'=>0,
                     'view_link' => $str_link,
                     // 'string_link_ids_current' => $string_link_ids_current, 'string_item_ids_current' => $string_item_ids_current, 'string_all_codes_current' => $string_all_codes_current,
                     'string_current' => $string_current,
@@ -4632,6 +4669,7 @@ class ItemController extends Controller
                 return redirect()->route('item.item_index', ['project' => $project, 'item' => $item, 'role' => $role,
                     'usercode' => GlobalController::usercode_calc(),
                     'relit_id' => $relit_id,
+                    'called_from_button'=>0,
                     'view_link' => $str_link,
                     // 'string_link_ids_current' => $string_link_ids_current, 'string_item_ids_current' => $string_item_ids_current, 'string_all_codes_current' => $string_all_codes_current,
                     'string_current' => $string_current,
@@ -4950,6 +4988,7 @@ class ItemController extends Controller
                 return redirect()->route('item.item_index', ['project' => $project, 'item' => $parent_item, 'role' => $role,
                     'usercode' => GlobalController::usercode_calc(),
                     'relit_id' => $parent_ret_id,
+                    'called_from_button'=>0,
                     'view_link' => $str_link,
 //                      'string_link_ids_current' => $string_link_ids_current, 'string_item_ids_current' => $string_item_ids_current, 'string_all_codes_current' => $string_all_codes_current,
                     'string_current' => $string_current,
@@ -5036,6 +5075,7 @@ class ItemController extends Controller
                     return redirect()->route('item.item_index', ['project' => $project, 'item' => $parent_item, 'role' => $role,
                         'usercode' => GlobalController::usercode_calc(),
                         'relit_id' => $parent_ret_id,
+                        'called_from_button'=>0,
                         'view_link' => $str_link,
 //                      'string_link_ids_current' => $string_link_ids_current, 'string_item_ids_current' => $string_item_ids_current, 'string_all_codes_current' => $string_all_codes_current,
                         'string_current' => $string_current,
@@ -5048,6 +5088,7 @@ class ItemController extends Controller
                     return redirect()->route('item.item_index', ['project' => $project, 'item' => $item, 'role' => $role,
                         'usercode' => GlobalController::usercode_calc(),
                         'relit_id' => $relit_id,
+                        'called_from_button'=>0,
                         'view_link' => $str_link,
                         // 'string_link_ids_current' => $string_link_ids_current, 'string_item_ids_current' => $string_item_ids_current, 'string_all_codes_current' => $string_all_codes_current,
                         'string_current' => $string_current,
@@ -6017,14 +6058,22 @@ class ItemController extends Controller
 //                        $right_str2 = $link->parent_is_left_calcname_lang_2 == false ? " " . $link->parent_calcname_prefix_lang_2 : "";
 //                        $right_str3 = $link->parent_is_left_calcname_lang_3 == false ? " " . $link->parent_calcname_prefix_lang_3 : "";
 
-                        $left_str0 = $link->parent_is_left_calcname_lang_0 == true ? $link->parent_calcname_prefix_lang_0 . " " : "";
-                        $left_str1 = $link->parent_is_left_calcname_lang_1 == true ? $link->parent_calcname_prefix_lang_1 . " " : "";
-                        $left_str2 = $link->parent_is_left_calcname_lang_2 == true ? $link->parent_calcname_prefix_lang_2 . " " : "";
-                        $left_str3 = $link->parent_is_left_calcname_lang_3 == true ? $link->parent_calcname_prefix_lang_3 . " " : "";
-                        $right_str0 = $link->parent_is_left_calcname_lang_0 == false ? " " . $link->parent_calcname_prefix_lang_0 : "";
-                        $right_str1 = $link->parent_is_left_calcname_lang_1 == false ? " " . $link->parent_calcname_prefix_lang_1 : "";
-                        $right_str2 = $link->parent_is_left_calcname_lang_2 == false ? " " . $link->parent_calcname_prefix_lang_2 : "";
-                        $right_str3 = $link->parent_is_left_calcname_lang_3 == false ? " " . $link->parent_calcname_prefix_lang_3 : "";
+//                        $left_str0 = $link->parent_is_left_calcname_lang_0 == true ? $link->parent_calcname_prefix_lang_0 . " " : "";
+//                        $left_str1 = $link->parent_is_left_calcname_lang_1 == true ? $link->parent_calcname_prefix_lang_1 . " " : "";
+//                        $left_str2 = $link->parent_is_left_calcname_lang_2 == true ? $link->parent_calcname_prefix_lang_2 . " " : "";
+//                        $left_str3 = $link->parent_is_left_calcname_lang_3 == true ? $link->parent_calcname_prefix_lang_3 . " " : "";
+//                        $right_str0 = $link->parent_is_left_calcname_lang_0 == false ? " " . $link->parent_calcname_prefix_lang_0 : "";
+//                        $right_str1 = $link->parent_is_left_calcname_lang_1 == false ? " " . $link->parent_calcname_prefix_lang_1 : "";
+//                        $right_str2 = $link->parent_is_left_calcname_lang_2 == false ? " " . $link->parent_calcname_prefix_lang_2 : "";
+//                        $right_str3 = $link->parent_is_left_calcname_lang_3 == false ? " " . $link->parent_calcname_prefix_lang_3 : "";
+                        $left_str0 = $link->parent_is_left_calcname_lang_0 == true ? $link->parent_calcname_prefix_lang_0 : "";
+                        $left_str1 = $link->parent_is_left_calcname_lang_1 == true ? $link->parent_calcname_prefix_lang_1 : "";
+                        $left_str2 = $link->parent_is_left_calcname_lang_2 == true ? $link->parent_calcname_prefix_lang_2 : "";
+                        $left_str3 = $link->parent_is_left_calcname_lang_3 == true ? $link->parent_calcname_prefix_lang_3 : "";
+                        $right_str0 = $link->parent_is_left_calcname_lang_0 == false ? $link->parent_calcname_prefix_lang_0 : "";
+                        $right_str1 = $link->parent_is_left_calcname_lang_1 == false ? $link->parent_calcname_prefix_lang_1 : "";
+                        $right_str2 = $link->parent_is_left_calcname_lang_2 == false ? $link->parent_calcname_prefix_lang_2 : "";
+                        $right_str3 = $link->parent_is_left_calcname_lang_3 == false ? $link->parent_calcname_prefix_lang_3 : "";
 
                         $calc_lang_0 = $calc_lang_0 . ($dop_name_0 == "" ? "" : $dop_sepa0 . $left_str0) . $dop_name_0 . ($dop_name_0 == "" ? "" : $right_str0);
                         $calc_lang_1 = $calc_lang_1 . ($dop_name_1 == "" ? "" : $dop_sepa1 . $left_str1) . $dop_name_1 . ($dop_name_1 == "" ? "" : $right_str1);
@@ -6233,6 +6282,7 @@ class ItemController extends Controller
         $matrix = array(array());
         // Нужно
         $links = null;
+        // Если передано $item
         if ($item) {
 //          В $links_values попадают фактические записи, не попадают связанные и вычисляемые связи
 //          Выборка из mains
@@ -6266,10 +6316,10 @@ class ItemController extends Controller
             // '$links = $links_values->union($links_reca);' - так тоже работает
             // '->get()' нужно
             $links = $links_values->unionall($links_reca)->get();
+            // Если $item не передано вычисление идет по $base
         } else {
             $links = $base->child_links;
         }
-
         //        Если тип-вычисляемое наименование и Показывать Основу с вычисляемым наименованием
         //        или если тип-не вычисляемое наименование
         // или показывать в заголовке item_index.php
@@ -6312,16 +6362,23 @@ class ItemController extends Controller
                 $links = $links->where('id', '!=', $nolink->id);
             }
         }
-
         // Проверка на "$base_link_right['is_list_link_enable']"
         foreach ($links as $link) {
             //$base_link_right = GlobalController::base_link_right($link, $role, $relit_id);
             $base_link_right = GlobalController::base_link_right($link, $role, $relit_id, true, $relit_id);
-            if ($base_link_right['is_list_link_enable'] == false) {
+            if ($base_link_right['is_list_link_enable'] == true) {
+                $base_right = GlobalController::base_right($link->child_base, $role, $relit_id);
+                if (GlobalController::is_base_calcname_check($link->child_base, $base_right) == true) {
+                    // Исключить links с признаком 'Для вычисляемого наименования'
+                    if ($link->parent_is_calcname == true) {
+                        $links = $links->where('id', '!=', $link->id);
+                    }
+                }
+            } else {
                 $links = $links->where('id', '!=', $link->id);
             }
-        }
 
+        }
         // Исключить связанные записи по текущей связи (($link->parent_is_parent_related == true) && ($link->parent_parent_related_start_link_id == $nolink->id))
         // Выполняется последним, после блока
         // "            if ($base_link_right['is_list_link_enable'] == false) {
@@ -6483,7 +6540,7 @@ class ItemController extends Controller
             'matrix' => $matrix, 'rows' => $rows, 'cols' => $cols, 'error_message' => $error_message];
     }
 
-// Список полей, для вычисляемого наименования item_index.php
+// Список полей, для вывода вычисляемого наименования в заголовке item_index.php
 // типа 'содержимое документа состоит из склада, номенклатурного номера, цены'
     static function mains_link_is_calcname(Item $item, Role $role, $relit_id, $tree_array = [])
     {

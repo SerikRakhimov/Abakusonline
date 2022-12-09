@@ -130,7 +130,8 @@
                                 {{--  Используется 'is_list_base_calc' в ext_show.php и ItemController::item_index()  --}}
                                 @if($base_link_right['is_list_base_calc'] == true && $base_link_right['is_bsmn_base_enable'] == true)
                                     <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item_find, 'role'=>$role,
-                                        'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$link->parent_relit_id, 'view_link'=>null])}}"
+                                        'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$link->parent_relit_id,
+                                        'called_from_button'=>0, 'view_link'=>null])}}"
                                        title="">
                                         {{$item_find->name(false, true, true)}}
                                     </a>
@@ -153,29 +154,29 @@
                         {{--            {{trans('main.name')}} ({{trans('main.' . $value)}}): <span class="text-related">{{$item['name_lang_' . $key]}}</span><br>--}}
                         {{--        @endforeach--}}
                         @if($base->type_is_image)
-                            <li>
+{{--                            <li>--}}
                                 @include('view.img',['item'=>$item, 'size'=>"medium", 'filenametrue'=>false, 'link'=>true, 'img_fluid'=>false, 'title'=>""])
                                 {{--                <a href="{{Storage::url($item->filename())}}">--}}
                                 {{--                    <img src="{{Storage::url($item->filename())}}" height="250"--}}
                                 {{--                         alt="" title="{{$item->title_img()}}">--}}
                                 {{--                </a>--}}
-                            </li>
+{{--                            </li>--}}
                         @elseif($base->type_is_document)
-                            <li>
+{{--                            <li>--}}
 {{--                                <b>--}}
                                     @include('view.doc',['item'=>$item,'usercode'=>GlobalController::usercode_calc()])
                                     {{--                <a href="{{Storage::url($item->filename())}}" target="_blank">--}}
                                     {{--                    Открыть документ--}}
                                     {{--                </a>--}}
 {{--                                </b>--}}
-                            </li>
+{{--                            </li>--}}
                         @else
                             {{--                Если тип-вычисляемое наименование и Показывать Основу с вычисляемым наименованием--}}
                             {{--                или если тип-не вычисляемое наименование--}}
                             {{--            похожая проверка в base_index.blade.php--}}
                             @if(GlobalController::is_base_calcname_check($base, $base_right))
                                 {{--                                            $numcat = true - вывод числовых полей с разрядом тысячи/миллионы/миллиарды--}}
-                                <li>
+{{--                                <li>--}}
                                     <p class="text-label">
                                         <big>{{$base->name()}}:</big>
                                         {{--                            <span class="text-related">--}}
@@ -198,7 +199,7 @@
                                             {{--                </span>--}}
 {{--                                        </b>--}}
                                     </p>
-                                </li>
+{{--                                </li>--}}
                             @endif
                         @endif
                         {{--            <br>--}}

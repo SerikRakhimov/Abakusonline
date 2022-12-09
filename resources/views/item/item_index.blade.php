@@ -72,6 +72,7 @@
                         @endif
                         <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$value['item_id'], 'role'=>$role,
                                         'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$value['relit_id'],
+                                        'called_from_button'=>0,
                                         'view_link'=>$value['all_code'] == GlobalController::const_alltrue() ? GlobalController::par_link_const_textnull():$value['link_id'],
 'string_current'=>$value['string_previous']
                                         ])}}"
@@ -107,7 +108,8 @@
             {{-- Одинаковые проверки должны быть в ItemController::item_index() и в item_index.php--}}
             {{-- здесь равно true--}}
             {{-- @if(GlobalController::is_base_calcnm_correct_check($item->base, $base_right))--}}
-            @if(GlobalController::is_base_calcname_check($item->base, $base_right) || $item->base->is_calcnm_correct_lst == true)
+            {{--                @if(GlobalController::is_base_calcname_check($item->base, $base_right) || $item->base->is_calcnm_correct_lst == true)--}}
+            @if(GlobalController::is_base_calcname_check($item->base, $base_right))
                 <div class="col-8 text-left">
                     <h6>
                         @if($base_right['is_bsmn_base_enable'] == true)
@@ -215,7 +217,7 @@
                     @endif
                 </div>
             @endif
-            <div class="col-2 text-center">
+            <div class="col-2 text-center">111
                 @if(($prev_item) ||($next_item))
                     <ul class="pagination">
                         {{--        <li class="page-item"><a class="page-link"--}}
@@ -232,6 +234,7 @@
                                 <a class="page-link" href="{{route('item.item_index', ['project'=>$project, 'item'=>$prev_item, 'role'=>$role,
                                 'usercode' =>GlobalController::usercode_calc(),
                                         'relit_id'=>$relit_id,
+                                        'called_from_button'=>0,
                                         'view_link'=>GlobalController::par_link_textnull($view_link),
                                         'string_current'=>$string_current,
                                         'prev_base_index_page'=>$base_index_page,
@@ -259,6 +262,7 @@
                                 <a class="page-link" href="{{route('item.item_index', ['project'=>$project, 'item'=>$next_item, 'role'=>$role,
                                 'usercode' =>GlobalController::usercode_calc(),
                                         'relit_id'=>$relit_id,
+                                        'called_from_button'=>0,
                                         'view_link'=>GlobalController::par_link_textnull($view_link),
                                         'string_current'=>$string_current,
                                         'prev_base_index_page'=>$base_index_page,
@@ -408,9 +412,11 @@
                         @if($next_all_is_enable)
                             <div class="btn-group btn-group-sm" role="group" aria-label="Link">
                                 <button type="button" class="btn btn-dreamer"
+{{--                                'called_from_button'=>1 - вызов из кнопки--}}
                                         onclick='document.location="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,
                                                                           'usercode' =>GlobalController::usercode_calc(),
                                                                           'relit_id'=>$relit_id,
+                                                                          'called_from_button'=>1,
                                                                           'view_link'=>GlobalController::par_link_const_textnull(),
                                                                           'view_ret_id'=>$view_ret_id,
                                                                           'string_current'=>$string_current,
@@ -437,9 +443,11 @@
                             ?>
                             <div class="btn-group btn-group-sm" role="group" aria-label="Links">
                                 <button type="button" class="btn btn-dreamer"
+                                        {{--                                'called_from_button'=>1 - вызов из кнопки--}}
                                         onclick='document.location="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,
                                                                       'usercode' =>GlobalController::usercode_calc(),
                                                                       'relit_id'=>$relit_id,
+                                                                      'called_from_button'=>1,
                                                                       'view_link'=>$value->id,
                                                                       'view_ret_id'=>$view_ret_id,
                                                                       'string_current'=>$string_current,
@@ -491,6 +499,7 @@
                                     onclick='document.location="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,
                                           'usercode' =>GlobalController::usercode_calc(),
                                           'relit_id'=>$relit_id,
+                                          'called_from_button'=>0,
                                           'view_link'=>$view_value_link,
                                           'view_ret_id'=>$relit_key_id,
                                           'string_current'=>$string_current,

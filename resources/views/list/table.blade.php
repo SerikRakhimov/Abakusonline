@@ -12,7 +12,6 @@ if ($item_heading_base == true) {
 } else {
     $i = $items->firstItem() - 1;
 }
-
 $i_par_link = null;
 // Вызов list\table.php из base_index.php
 if ($base_index == true) {
@@ -24,13 +23,14 @@ if ($base_index == true) {
 ?>
 {{--<table class="table table-sm table-bordered table-hover">--}}
 {{--<table class="table table-sm table-borderless table-hover">--}}
-<table class="table table-sm table-hover
-@if($heading)
-    table-borderless
-@else
-    table-bordered
-@endif
-    ">
+{{--<table class="table table-sm table-hover--}}
+{{--@if($heading)--}}
+{{--    table-borderless--}}
+{{--@else--}}
+{{--    table-bordered--}}
+{{--@endif--}}
+{{--    ">--}}
+<table class="table table-sm table-hover">
     @if(!$heading)
         <caption>{{trans('main.select_record_for_work')}}</caption>
     @endif
@@ -42,12 +42,14 @@ if ($base_index == true) {
         @endif
         {{--        'Показывать признак "В истории" при просмотре списков'--}}
         @if($base_right['is_list_hist_attr_enable'] == true)
-            <th rowspan="{{$rows + 1}}" style="width: 5%" class="text-center align-top" title="{{trans('main.history')}}">{{trans('main.small_history')}}</th>
+            <th rowspan="{{$rows + 1}}" style="width: 5%" class="text-center align-top"
+                title="{{trans('main.history')}}">{{trans('main.small_history')}}</th>
         @endif
         {{--        <th rowspan="{{$rows + 1}}" class="text-center align-top">Id</th>--}}
         @if($base_index || $item_body_base)
             @if($base->is_code_needed == true)
-                <th class="text-center align-top" rowspan="{{$rows + 1}}" style="width: 5%" class="text-center align-top">{{trans('main.code')}}</th>
+                <th class="text-center align-top" rowspan="{{$rows + 1}}" style="width: 5%"
+                    class="text-center align-top">{{trans('main.code')}}</th>
             @endif
             @if($base_right['is_list_base_sort_creation_date_desc'] == true)
                 <th class="text-center align-top" rowspan="{{$rows + 1}}">{{trans('main.date')}}</th>
@@ -56,7 +58,7 @@ if ($base_index == true) {
                 {{--                Если тип-вычисляемое наименование и Показывать Основу с вычисляемым наименованием--}}
                 {{--                или если тип-не вычисляемое наименование--}}
                 {{--            похожая проверка в ext_show.blade.php--}}
-                    @if(GlobalController::is_base_calcname_check($base, $base_right))
+                @if(GlobalController::is_base_calcname_check($base, $base_right))
                     <th rowspan="{{$rows + 1}}" @include('layouts.class_from_base',['base'=>$base, 'align_top'=>true])>
                         {{--                        @if($view_link)--}}
                         {{--                            {{$view_link->child_label()}}--}}
@@ -168,6 +170,7 @@ if ($base_index == true) {
                         <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,
         'usercode' =>GlobalController::usercode_calc(),
         'relit_id'=>$relit_id,
+        'called_from_button'=>0,
         'view_link'=>$i_par_link,
         'view_ret_id'=>$view_ret_id,
         'string_current'=>$string_next,
@@ -192,6 +195,7 @@ if ($base_index == true) {
                         <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,
         'usercode' =>GlobalController::usercode_calc(),
         'relit_id'=>$relit_id,
+        'called_from_button'=>0,
         'view_link'=>$i_par_link,
         'view_ret_id'=>$view_ret_id,
         'string_current'=>$string_next,
@@ -207,13 +211,14 @@ if ($base_index == true) {
                             {{$item->created_date()}}
                             {{--                                    @if($base_index || $item_body_base)--}}
                         </a>
-                    {{--                            @endif--}}
+                        {{--                            @endif--}}
+                    </td>
                 @endif
                 @if($base_right['is_list_base_enable'] == true)
                     {{--                Если тип-вычисляемое наименование и Показывать Основу с вычисляемым наименованием--}}
                     {{--                или если тип-не вычисляемое наименование--}}
                     {{--                похожая проверка в list\table.php, ItemController::item_index() и ext_show.php--}}
-                        @if(GlobalController::is_base_calcname_check($base, $base_right))
+                    @if(GlobalController::is_base_calcname_check($base, $base_right))
                         <td @include('layouts.class_from_base',['base'=>$base])>
                             @if($base->type_is_image)
                                 @include('view.img',['item'=>$item, 'size'=>"small", 'filenametrue'=>false, 'link'=>true, 'img_fluid'=>false, 'title'=>""])
@@ -257,6 +262,7 @@ if ($base_index == true) {
                                     <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,
         'usercode' =>GlobalController::usercode_calc(),
         'relit_id'=>$relit_id,
+        'called_from_button'=>0,
         'view_link'=>$i_par_link,
         'view_ret_id'=>$view_ret_id,
         'string_current'=>$string_next,
@@ -361,6 +367,7 @@ if ($base_index == true) {
                                 <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$i_item, 'role'=>$role,
         'usercode' =>GlobalController::usercode_calc(),
         'relit_id'=>$relit_id,
+        'called_from_button'=>0,
         'view_link'=>$i_par_link,
         'view_ret_id'=>$view_ret_id,
         'string_current'=>$string_next,

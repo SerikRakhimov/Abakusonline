@@ -313,13 +313,16 @@ class GlobalController extends Controller
             $is_show_email_base_delete = $is_roba_show_email_base_delete;
             $is_show_email_question_base_delete = $is_roba_show_email_question_base_delete;
         }
-        if ($is_all_base_calcname_enable == true) {
-            $is_list_link_enable = false;
-        }
+        // Не нужно
+        //if ($is_all_base_calcname_enable == true) {
+            //$is_list_link_enable = false;
+        //}
         $is_edit_base_enable = $is_edit_base_read || $is_edit_base_update;
         $is_edit_link_enable = $is_edit_link_read || $is_edit_link_update;
 //
-        return ['is_list_base_calc' => $is_list_base_calc,
+        return ['base_id' => $base->id,
+            'base_name' => $base->name(),
+            'is_list_base_calc' => $is_list_base_calc,
             'is_all_base_calcname_enable' => $is_all_base_calcname_enable,
             'is_list_base_sort_creation_date_desc' => $is_list_base_sort_creation_date_desc,
             'is_bsin_base_enable' => $is_bsin_base_enable,
@@ -478,7 +481,8 @@ class GlobalController extends Controller
         }
         $is_edit_link_enable = $is_edit_link_read || $is_edit_link_update;
 
-        return ['is_list_base_calc' => $is_list_base_calc,
+        return ['link_id' => $link->id,
+            'is_list_base_calc' => $is_list_base_calc,
             'is_all_base_calcname_enable' => $is_all_base_calcname_enable,
             'is_list_base_sort_creation_date_desc' => $is_list_base_sort_creation_date_desc,
             'is_bsin_base_enable' => $is_bsin_base_enable,
@@ -1001,6 +1005,7 @@ class GlobalController extends Controller
 
 //  Если тип-вычисляемое наименование(Вычисляемое наименование) и Показывать Основу с вычисляемым наименованием
 //  или если тип-не вычисляемое наименование(Вычисляемое наименование)
+//  В $base_right могут передаваться и $base_right и $base_link_right
     static function is_base_calcname_check($base, $base_right)
     {
 //        $var = ($base->is_calcname_lst == true && $base_right['is_all_base_calcname_enable'] == true)
@@ -1008,7 +1013,9 @@ class GlobalController extends Controller
 //        echo "is_calcname_lst = " . $base->is_calcname_lst;
 //        echo ", is_all_base_calcname_enable = " . $base_right['is_all_base_calcname_enable'];
 //        echo ", result = " . $var;
-        return ($base->is_calcname_lst == true && $base_right['is_all_base_calcname_enable'] == true)
+//        return ($base->is_calcname_lst == true && $base_right['is_all_base_calcname_enable'] == true)
+//            || ($base->is_calcname_lst == false);
+        return ($base->is_calcname_lst == true && $base->is_calcnm_correct_lst == true && $base_right['is_all_base_calcname_enable'] == true)
             || ($base->is_calcname_lst == false);
     }
 
