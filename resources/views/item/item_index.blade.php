@@ -217,7 +217,7 @@
                     @endif
                 </div>
             @endif
-            <div class="col-2 text-center">111
+            <div class="col-2 text-center">
                 @if(($prev_item) ||($next_item))
                     <ul class="pagination">
                         {{--        <li class="page-item"><a class="page-link"--}}
@@ -407,7 +407,6 @@
                         {{--                                @endforeach--}}
                         {{--                            </div>--}}
                         {{--                        </div>--}}
-
                         {{--                            Вывод "Все связи"--}}
                         @if($next_all_is_enable)
                             <div class="btn-group btn-group-sm" role="group" aria-label="Link">
