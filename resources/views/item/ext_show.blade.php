@@ -34,31 +34,105 @@
         echo $result;
     }
     ?>
-    <ul>
-        <p class="text-label">Id: <span class="text-related">
-{{--                <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role, 'relit_id'=>$relit_id,--}}
+    {{--                    Вывод основы--}}
+    @if($base_right['is_show_base_enable'] == true)
+        {{--        <p>--}}
+        {{--        @foreach (config('app.locales') as $key=>$value)--}}
+        {{--            {{trans('main.name')}} ({{trans('main.' . $value)}}): <span class="text-related">{{$item['name_lang_' . $key]}}</span><br>--}}
+        {{--        @endforeach--}}
+        @if($base->type_is_image)
+            {{--                            <li>--}}
+            @include('view.img',['item'=>$item, 'size'=>"medium", 'filenametrue'=>false, 'link'=>true, 'img_fluid'=>false, 'title'=>""])
+            {{--                <a href="{{Storage::url($item->filename())}}">--}}
+            {{--                    <img src="{{Storage::url($item->filename())}}" height="250"--}}
+            {{--                         alt="" title="{{$item->title_img()}}">--}}
+            {{--                </a>--}}
+            {{--                            </li>--}}
+            <hr>
+        @elseif($base->type_is_document)
+            {{--                            <li>--}}
+            {{--                                <b>--}}
+            @include('view.doc',['item'=>$item,'usercode'=>GlobalController::usercode_calc()])
+            {{--                <a href="{{Storage::url($item->filename())}}" target="_blank">--}}
+            {{--                    Открыть документ--}}
+            {{--                </a>--}}
+            {{--                                </b>--}}
+            {{--                            </li>--}}
+            <hr>
+        @else
+            {{--                Если тип-вычисляемое наименование и Показывать Основу с вычисляемым наименованием--}}
+            {{--                или если тип-не вычисляемое наименование--}}
+            {{--            похожая проверка в base_index.blade.php--}}
+            @if(GlobalController::is_base_calcname_check($base, $base_right))
+                {{--                                            $numcat = true - вывод числовых полей с разрядом тысячи/миллионы/миллиарды--}}
+                {{--                                <li>--}}
+                <p class="text-label">
+                    <big>{{$base->name()}}:</big>
+                    {{--                            <span class="text-related">--}}
+                    {{--                                        <b>--}}
+                    @if($base->type_is_text())
+                        <big><big>
+                                <?php
+                                echo GlobalController::it_txnm_n2b($item);
+                                ?>
+                            </big></big>
+                    @else
+                        <big><big>
+                                <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,
+                                       'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id])}}"
+                                   title="">
+                                    {{$item->name(false, true)}}
+                                </a>
+                            </big></big>
+                    @endif
+                    {{--                </span>--}}
+                    {{--                                        </b>--}}
+                </p>
+                <hr>
+                {{--                                </li>--}}
+            @endif
+        @endif
+        {{--            <br>--}}
+        {{--        </p>--}}
+    @endif
+    <ul class="list-group list-group-flush">
+        <li class="list-group-item pb-0">
+            <small class="text-label">
+                Id
+            </small>
+            <p class="text-project">
+                {{--                <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role, 'relit_id'=>$relit_id,--}}
                 {{--                        'usercode' =>GlobalController::usercode_calc()])}}"--}}
                 {{--                   title="">--}}
                 {{$item->id}}
                 {{--                </a>--}}
-            </span>
-        </p>
+            </p>
+        </li>
         @if($base->is_code_needed == true)
-            <p class="text-label">{{trans('main.code')}}: <span class="text-related">
-{{--                        <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,--}}
+            <li class="list-group-item pb-0">
+                <small class="text-label">
+                    {{trans('main.code')}}
+                </small>
+                <p class="text-project">
+                    {{--                        <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,--}}
                     {{--                                'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id])}}"--}}
                     {{--                           title="">--}}
                     {{$item->code}}
                     {{--                        </a>--}}
-                    </span></p>
+                </p>
+            </li>
         @endif
-        <p class="text-label">
+
+        {{--        <p class="text-label">--}}
+
         @if($base_right['is_list_base_sort_creation_date_desc'] == true)
-            <li>
-                {{trans('main.date')}}:
-{{--                <b>--}}
+            <li class="list-group-item pb-0">
+                <small class="text-label">
+                    {{trans('main.date')}}
+                </small>
+                <p class="text-project">
                     {{$item->created_date()}}
-{{--                </b>--}}
+                </p>
             </li>
         @endif
         {{--    @foreach($array_plan as $key=>$value)--}}
@@ -92,41 +166,44 @@
                 }
                 ?>
                 @if($base_link_right['is_show_link_enable'] == true)
-                    <li>
-                        @if($base_link_right['is_bsmn_base_enable'] == true)
-                            <a href="{{route('item.base_index',['base'=>$link->parent_base_id, 'project'=>$project, 'role'=>$role, 'relit_id'=>$link->parent_relit_id])}}"
-                               title="{{$link->parent_base->names($base_link_right)}}">
+                    <li class="list-group-item pb-0">
+                        <small class="text-label">
+                            @if($base_link_right['is_bsmn_base_enable'] == true)
+                                <a href="{{route('item.base_index',['base'=>$link->parent_base_id, 'project'=>$project, 'role'=>$role, 'relit_id'=>$link->parent_relit_id])}}"
+                                   title="{{$link->parent_base->names($base_link_right)}}">
+                                    @include('layouts.item.ext_show.parent_label', ['link'=>$link, 'par_link'=>$par_link])
+                                </a>
+                            @else
                                 @include('layouts.item.ext_show.parent_label', ['link'=>$link, 'par_link'=>$par_link])
-                            </a>
-                        @else
-                            @include('layouts.item.ext_show.parent_label', ['link'=>$link, 'par_link'=>$par_link])
-                        @endif
-                        @if($link->parent_base->type_is_text())
-                            {{--                            <span class="text-related">--}}
-{{--                                <b>--}}
+                            @endif
+                        </small>
+                        <p class="text-project">
+                            @if($link->parent_base->type_is_text())
+                                {{--                            <span class="text-related">--}}
+                                {{--                                <b>--}}
                                 <?php
                                 echo GlobalController::it_txnm_n2b($item_find);
                                 ?>
                                 {{--                        </span>--}}
-{{--                                </b>--}}
-                        @elseif($link->parent_base->type_is_image())
-                            <br>
-                            @include('view.img',['item'=>$item_find, 'size'=>"medium", 'filenametrue'=>false, 'link'=>true, 'img_fluid'=>false, 'title'=>""])
-                            {{--                            <a href="{{Storage::url($item_find->filename())}}">--}}
-                            {{--                                <img src="{{Storage::url($item_find->filename())}}" height="250"--}}
-                            {{--                                     alt="" title="{{$item_find->title_img()}}">--}}
-                            {{--                            </a>--}}
-                        @elseif($link->parent_base->type_is_document())
-{{--                            <b>--}}
+                                {{--                                </b>--}}
+                            @elseif($link->parent_base->type_is_image())
+                                <br>
+                                @include('view.img',['item'=>$item_find, 'size'=>"medium", 'filenametrue'=>false, 'link'=>true, 'img_fluid'=>false, 'title'=>""])
+                                {{--                            <a href="{{Storage::url($item_find->filename())}}">--}}
+                                {{--                                <img src="{{Storage::url($item_find->filename())}}" height="250"--}}
+                                {{--                                     alt="" title="{{$item_find->title_img()}}">--}}
+                                {{--                            </a>--}}
+                            @elseif($link->parent_base->type_is_document())
+                                {{--                            <b>--}}
                                 @include('view.doc',['item'=>$item_find, 'usercode'=>GlobalController::usercode_calc()])
                                 {{--                            <a href="{{Storage::url($item_find->filename())}}" target="_blank">--}}
                                 {{--                                Открыть документ--}}
                                 {{--                            </a>--}}
-{{--                            </b>--}}
-                        @else
-                            {{--                                            $numcat = true - вывод числовых полей с разрядом тысячи/миллионы/миллиарды--}}
-                            {{--                            <span class="text-related">--}}
-{{--                            <b>--}}
+                                {{--                            </b>--}}
+                            @else
+                                {{--                                            $numcat = true - вывод числовых полей с разрядом тысячи/миллионы/миллиарды--}}
+                                {{--                            <span class="text-related">--}}
+                                {{--                            <b>--}}
                                 {{--  Используется 'is_list_base_calc' в ext_show.php и ItemController::item_index()  --}}
                                 @if($base_link_right['is_list_base_calc'] == true && $base_link_right['is_bsmn_base_enable'] == true)
                                     <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item_find, 'role'=>$role,
@@ -138,73 +215,19 @@
                                 @else
                                     {{$item_find->name(false, true, true)}}
                                 @endif
-{{--                            </b>--}}
-                            {{--                            </span>--}}
-                        @endif
+                                {{--                            </b>--}}
+                                {{--                            </span>--}}
+                            @endif
+                        </p>
                     </li>
                     {{--                    <br>--}}
-                    @endif
-                    @endif
-                    @endforeach
-                    </p>
-                    {{--                    Вывод основы--}}
-                    @if($base_right['is_show_base_enable'] == true)
-                        {{--        <p>--}}
-                        {{--        @foreach (config('app.locales') as $key=>$value)--}}
-                        {{--            {{trans('main.name')}} ({{trans('main.' . $value)}}): <span class="text-related">{{$item['name_lang_' . $key]}}</span><br>--}}
-                        {{--        @endforeach--}}
-                        @if($base->type_is_image)
-{{--                            <li>--}}
-                                @include('view.img',['item'=>$item, 'size'=>"medium", 'filenametrue'=>false, 'link'=>true, 'img_fluid'=>false, 'title'=>""])
-                                {{--                <a href="{{Storage::url($item->filename())}}">--}}
-                                {{--                    <img src="{{Storage::url($item->filename())}}" height="250"--}}
-                                {{--                         alt="" title="{{$item->title_img()}}">--}}
-                                {{--                </a>--}}
-{{--                            </li>--}}
-                        @elseif($base->type_is_document)
-{{--                            <li>--}}
-{{--                                <b>--}}
-                                    @include('view.doc',['item'=>$item,'usercode'=>GlobalController::usercode_calc()])
-                                    {{--                <a href="{{Storage::url($item->filename())}}" target="_blank">--}}
-                                    {{--                    Открыть документ--}}
-                                    {{--                </a>--}}
-{{--                                </b>--}}
-{{--                            </li>--}}
-                        @else
-                            {{--                Если тип-вычисляемое наименование и Показывать Основу с вычисляемым наименованием--}}
-                            {{--                или если тип-не вычисляемое наименование--}}
-                            {{--            похожая проверка в base_index.blade.php--}}
-                            @if(GlobalController::is_base_calcname_check($base, $base_right))
-                                {{--                                            $numcat = true - вывод числовых полей с разрядом тысячи/миллионы/миллиарды--}}
-{{--                                <li>--}}
-                                    <p class="text-label">
-                                        <big>{{$base->name()}}:</big>
-                                        {{--                            <span class="text-related">--}}
-{{--                                        <b>--}}
-                                            @if($base->type_is_text())
-                                                <big><big>
-                                                        <?php
-                                                        echo GlobalController::it_txnm_n2b($item);
-                                                        ?>
-                                                    </big></big>
-                                            @else
-                                                <big><big>
-                                                        <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,
-                                       'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id])}}"
-                                                           title="">
-                                                            {{$item->name(false, true)}}
-                                                        </a>
-                                                    </big></big>
-                                            @endif
-                                            {{--                </span>--}}
-{{--                                        </b>--}}
-                                    </p>
-{{--                                </li>--}}
-                            @endif
-                        @endif
-                        {{--            <br>--}}
-                        {{--        </p>--}}
-                    @endif
+                @endif
+            @endif
+        @endforeach
+
+        {{--                    </p>--}}
+
+
     </ul>
     <hr>
     <?php
@@ -384,12 +407,12 @@
             {{--                                            <i class="fas fa-atlas"></i>--}}
             {{--                                            {{trans('main.space')}}--}}
             {{--                                        </button>--}}
-{{--            <button type="button" class="btn btn-dreamer mb-1 mb-sm-0"--}}
-{{--                    title="{{trans('main.return')}}" @include('layouts.item.base_index.previous_url')>--}}
-{{--                <i class="fas fa-arrow-left"></i>--}}
-{{--                {{trans('main.return')}}--}}
-{{--            </button>--}}
-{{--            Похожие строки вверху/внизу--}}
+            {{--            <button type="button" class="btn btn-dreamer mb-1 mb-sm-0"--}}
+            {{--                    title="{{trans('main.return')}}" @include('layouts.item.base_index.previous_url')>--}}
+            {{--                <i class="fas fa-arrow-left"></i>--}}
+            {{--                {{trans('main.return')}}--}}
+            {{--            </button>--}}
+            {{--            Похожие строки вверху/внизу--}}
             <button type="button" class="btn btn-dreamer"
                     onclick='document.location="{{route('item.ext_return',['item'=>$item,'project'=>$project, 'role'=>$role,
             'usercode' =>GlobalController::usercode_calc(),
@@ -443,14 +466,14 @@
                         {{trans('main.delete')}}
                     </button>
                 @endif
-{{--                <button type="button" class="btn btn-dreamer"--}}
-{{--                        title="{{trans('main.return')}}" @include('layouts.item.base_index.previous_url')>--}}
-{{--                    <i class="fas fa-arrow-left"></i>--}}
-{{--                    {{trans('main.return')}}--}}
-{{--                </button>--}}
-                    {{--            Похожие строки вверху/внизу--}}
-                    <button type="button" class="btn btn-dreamer"
-                            onclick='document.location="{{route('item.ext_return',['item'=>$item,'project'=>$project, 'role'=>$role,
+                {{--                <button type="button" class="btn btn-dreamer"--}}
+                {{--                        title="{{trans('main.return')}}" @include('layouts.item.base_index.previous_url')>--}}
+                {{--                    <i class="fas fa-arrow-left"></i>--}}
+                {{--                    {{trans('main.return')}}--}}
+                {{--                </button>--}}
+                {{--            Похожие строки вверху/внизу--}}
+                <button type="button" class="btn btn-dreamer"
+                        onclick='document.location="{{route('item.ext_return',['item'=>$item,'project'=>$project, 'role'=>$role,
             'usercode' =>GlobalController::usercode_calc(),
             'string_current' => $string_current,
             'heading' => $heading,
@@ -459,10 +482,10 @@
             'parent_ret_id' => $parent_ret_id,
             'view_link' => $view_link,
             'par_link' => $par_link, 'parent_item' => $parent_item])}}"'
-                            title="{{trans('main.return')}}" @include('layouts.item.base_index.previous_url')>
-                        <i class="fas fa-arrow-left"></i>
-                        {{trans('main.return')}}
-                    </button>
+                        title="{{trans('main.return')}}" @include('layouts.item.base_index.previous_url')>
+                    <i class="fas fa-arrow-left"></i>
+                    {{trans('main.return')}}
+                </button>
             </p>
         </form>
     @endif

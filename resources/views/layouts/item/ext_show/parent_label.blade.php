@@ -16,4 +16,3 @@ if ($par_link != null) {
 @else
     {{$link->parent_label()}}
 @endif
-:
