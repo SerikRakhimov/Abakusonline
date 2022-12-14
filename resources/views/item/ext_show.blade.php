@@ -260,8 +260,8 @@
                 <span class="text-related">{{$updated_user_date_time}}</span></div>
         @endif
     </i>
-    <br>
     @endif
+    <br>
     @if ($type_form == 'show')
         <p>
             {{--            @if($base_right['is_list_base_create'] == true)--}}
