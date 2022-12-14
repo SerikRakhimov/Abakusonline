@@ -30,7 +30,11 @@ if ($base_index == true) {
 {{--    table-bordered--}}
 {{--@endif--}}
 {{--    ">--}}
-<table class="table table-sm table-hover">
+<table class="table table-sm table-hover
+        @if($heading)
+    table-borderless
+@endif
+    ">
     @if(!$heading)
         <caption>{{trans('main.select_record_for_work')}}</caption>
     @endif
@@ -340,7 +344,7 @@ if ($base_index == true) {
 // В таблице-заголовке ($heading=true) ссылки будут, если '$base_link_right['is_list_base_calc'] == true'
 // В таблице-заголовке ($heading=true) ссылки будут, если '$base_link_right['is_bsmn_base_enable'] == true'
                                 if ($base_link_right['is_bsmn_base_enable'] == true) {
-                                    $item_index_view = true;
+                                    //$item_index_view = true;
                                 }
                             } else {
 // В таблице-теле ($heading=false) все ссылки будут

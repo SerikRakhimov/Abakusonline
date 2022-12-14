@@ -335,6 +335,35 @@
             {{--                </a>--}}
             {{--            </div>--}}
         </div>
+        {{--    @if((count($child_links) != 0) && ($base_right['is_show_head_attr_enable'] == true))--}}
+        @if(count($child_links) != 0)
+            <br>
+            {{--        Выводится одна запись в шапке(все родительские links - столбы)--}}
+            {{--        Используется "'heading'=>intval(true)"--}}
+            {{--        Используется "'items'=>$items->get()"; два раза, т.к. в заголовке выводится только одна строка, ее на страницы не надо разбивать/сортировать--}}
+            {{--        Параметры 'relit_id' и 'view_ret_id' передаются в зависимости от значения $heading--}}
+            @include('list.table',['base'=>$item->base, 'project'=>$project, 'links_info'=>$child_links_info,
+                    'items'=>$items->get(),
+                    'its_page'=>$items->get(),
+                    'base_right'=>$base_right, 'relit_id'=>$relit_heading_id,
+                    'heading'=>intval(true),
+                    'base_index_page'=>$base_index_page, 'body_link_page'=>$body_link_page,'body_all_page'=>$body_all_page,
+                    'view_link'=>$view_link,
+                    'view_ret_id'=>$view_ret_heading_id,
+                     'parent_item'=>$item, 'is_table_body'=>false,
+                        'base_index'=>false, 'item_heading_base'=>true, 'item_body_base'=>false,
+                        'string_link_ids_current' => $string_link_ids_current,
+                        'string_item_ids_current' => $string_item_ids_current,
+                        'string_relit_ids_current' => $string_relit_ids_current,
+                        'string_all_codes_current' => $string_all_codes_current,
+                        'string_current' => $string_current,
+                        'string_link_ids_next'=>GlobalController::set_str_const_null(''),
+                        'string_item_ids_next'=>GlobalController::set_str_const_null(''),
+                        'string_relit_ids_next'=>GlobalController::set_str_const_null(''),
+                        'string_all_codes_next'=>GlobalController::set_str_const_null(''),
+                        'string_next' => $string_next
+            ])
+        @endif
         {{-- Связи--}}
         {{-- Нужно '@if(count($next_all_links)>0)'--}}
         @if(count($next_all_links)>0)
@@ -494,7 +523,7 @@
                         }
                         ?>
                         <div class="btn-group btn-group-sm" role="group" aria-label="Relips">
-                            <button type="button" class="btn btn-dreamer"
+                            <button type="button" class="btn btn-icon"
                                     onclick='document.location="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,
                                           'usercode' =>GlobalController::usercode_calc(),
                                           'relit_id'=>$relit_id,
@@ -527,34 +556,6 @@
             </div>
         @endif
     </div>
-    @if((count($child_links) != 0) && ($base_right['is_show_head_attr_enable'] == true))
-        <br>
-        {{--        Выводится одна запись в шапке(все родительские links - столбы)--}}
-        {{--        Используется "'heading'=>intval(true)"--}}
-        {{--        Используется "'items'=>$items->get()"; два раза, т.к. в заголовке выводится только одна строка, ее на страницы не надо разбивать/сортировать--}}
-        {{--        Параметры 'relit_id' и 'view_ret_id' передаются в зависимости от значения $heading--}}
-        @include('list.table',['base'=>$item->base, 'project'=>$project, 'links_info'=>$child_links_info,
-                'items'=>$items->get(),
-                'its_page'=>$items->get(),
-                'base_right'=>$base_right, 'relit_id'=>$relit_heading_id,
-                'heading'=>intval(true),
-                'base_index_page'=>$base_index_page, 'body_link_page'=>$body_link_page,'body_all_page'=>$body_all_page,
-                'view_link'=>$view_link,
-                'view_ret_id'=>$view_ret_heading_id,
-                 'parent_item'=>$item, 'is_table_body'=>false,
-                    'base_index'=>false, 'item_heading_base'=>true, 'item_body_base'=>false,
-                    'string_link_ids_current' => $string_link_ids_current,
-                    'string_item_ids_current' => $string_item_ids_current,
-                    'string_relit_ids_current' => $string_relit_ids_current,
-                    'string_all_codes_current' => $string_all_codes_current,
-                    'string_current' => $string_current,
-                    'string_link_ids_next'=>GlobalController::set_str_const_null(''),
-                    'string_item_ids_next'=>GlobalController::set_str_const_null(''),
-                    'string_relit_ids_next'=>GlobalController::set_str_const_null(''),
-                    'string_all_codes_next'=>GlobalController::set_str_const_null(''),
-                    'string_next' => $string_next
-        ])
-    @endif
     {{--    <hr align="center" width="100%" size="2" color="#ff0000"/>--}}
     {{--        &#8595;	&#8195; &#8595;	&#8195; &#8595;	&#8195; &#8595;	&#8195; &#8595;	&#8195; &#8595;	&#8195; &#8595;	&#8195; &#8595;	&#8195; &#8595;	&#8195; &#8595;	&#8195; &#8595;	&#8195;--}}
     {{--        <hr>--}}
