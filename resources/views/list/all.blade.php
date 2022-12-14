@@ -4,7 +4,8 @@ use \App\Http\Controllers\GlobalController;
 use \App\Http\Controllers\ItemController;
 $i = $next_all_mains->firstItem() - 1;
 ?>
-<table class="table table-sm table-bordered table-hover">
+{{--<table class="table table-sm table-bordered table-hover">--}}
+    <table class="table table-sm table-hover">
 {{--<table class="table table-sm table-borderless table-hover">--}}
     <caption>{{trans('main.select_record_for_work')}}</caption>
     <thead>

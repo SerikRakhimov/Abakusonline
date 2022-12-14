@@ -321,11 +321,11 @@
             {{--                Похожая строка выше--}}
             <input type="hidden" name="code" value="{{$update ? $item->code: $code_uniqid}}">
         @endif
-		@foreach($array_calc as $key=>$value)
+        @foreach($array_calc as $key=>$value)
             <?php
             $link = Link::find($key);
-		    // Так правильно "$relit_id"
-		    $base_link_right = GlobalController::base_link_right($link, $role, $relit_id);
+            // Так правильно "$relit_id"
+            $base_link_right = GlobalController::base_link_right($link, $role, $relit_id);
             //$base_link_right = GlobalController::base_link_right($link, $role, $link->parent_relit_id);
             ?>
             @if($base_link_right['is_edit_link_enable'] == false)
@@ -374,20 +374,20 @@
             }
             $items = [];
             if ($items_default == true && $link->parent_base->type_is_list()) {
-				//$result = ItemController::get_items_main($link_parent_base, $project, $role, $link->parent_relit_id, $link);
+                //$result = ItemController::get_items_main($link_parent_base, $project, $role, $link->parent_relit_id, $link);
                 //$result = ItemController::get_items_main($link_parent_base, $project, $role, $relit_id,
                 //   $base_link_right['is_list_hist_records_enable'], $link);
 
-				//if($project->id !=39){
-				//dd($project);
-				//	}
-								// Так правильно "$link->parent_relit_id"
-				//$result = ItemController::get_items_main($link_parent_base, $project, $role, $link->parent_relit_id,
-                    //$base_link_right['is_list_hist_records_enable'], $link);
-								$result = ItemController::get_items_main($link_parent_base, $project, $role, $relit_id,
+                //if($project->id !=39){
+                //dd($project);
+                //	}
+                // Так правильно "$link->parent_relit_id"
+                //$result = ItemController::get_items_main($link_parent_base, $project, $role, $link->parent_relit_id,
+                //$base_link_right['is_list_hist_records_enable'], $link);
+                $result = ItemController::get_items_main($link_parent_base, $project, $role, $relit_id,
                     $base_link_right['is_list_hist_records_enable'], $link);
                 $items = $result['items_no_get']->get();
-				//dd($relit_id. ' ' . $link->parent_relit_id);
+                //dd($relit_id. ' ' . $link->parent_relit_id);
             }
             $code_find = null;
             if ($value != null) {
@@ -540,9 +540,14 @@
                                     {{--                                        child_base_start_id{{$link->id}}.options[child_base_start_id{{$link->id}}.selectedIndex].value--}}
                                     {{--                                    @endif--}}
                                     {{--                                          )"--}}
-
                                     @if($base_link_right['is_edit_link_read'] == true)
                                     disabled
+                                    @else
+                                    @if($par_link)
+                                    @if ($key == $par_link->id)
+                                    disabled
+                                @endif
+                                @endif
                                 @endif
                             >
                                 {{--                                <i class="fas fa-mouse-pointer d-inline"></i>--}}
@@ -1244,7 +1249,7 @@
                         } else {
                             @if(($link_start_child->parent_is_base_link == true) || ($link_start_child->parent_base->is_code_needed==true && $link_start_child->parent_is_enter_refer==true))
                                 @else
-                            await axios.get('/item/get_items_main_options/'
+                                await axios.get('/item/get_items_main_options/'
                                 + '{{$link_start_child->parent_base_id}}' + '/' + {{$project->id}} + '/' + {{$role->id}} + '/' + {{$relit_id}} + '/' + {{$link_get->id}}
                                     @if(($link->parent_is_base_link == true) || ($link->parent_base->is_code_needed==true && $link->parent_is_enter_refer==true))
                                 + '/' + parent_base_id{{$prefix}}{{$link->id}}.value
@@ -1252,7 +1257,7 @@
                                 + '/' + parent_base_id{{$prefix}}{{$link->id}}.options[parent_base_id{{$prefix}}{{$link->id}}.selectedIndex].value
                                 @endif
                                ).then(function (res) {
-                                                               child_base_id{{$prefix}}{{$link->id}}.innerHTML = res.data['result_items_name_options'];
+                                        child_base_id{{$prefix}}{{$link->id}}.innerHTML = res.data['result_items_name_options'];
                                         for (let i = 0; i < child_base_id{{$prefix}}{{$link->id}}.length; i++) {
                                             if (child_base_id{{$prefix}}{{$link->id}}[i].value ==
                                                 {{old($link_start_child->id) ?? (($array_calc[$link_start_child->id] != null) ? $array_calc[$link_start_child->id] : 0)}}) {

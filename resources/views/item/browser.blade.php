@@ -157,7 +157,7 @@ if ($item){
             </div>
         </div>
     @else
-        <table class="table table-sm table-bordered table-hover">
+        <table class="table table-sm table-hover">
             <caption>{{trans('main.select_record_for_work')}}</caption>
             <thead>
             {{--        'Показывать признак "В истории" при просмотре списков выбора'--}}

@@ -27,8 +27,7 @@
         <span class="text-label">-</span> <span class="text-title">{{$item->base->info()}}</span>
     </h3>
     <br>
-    <hr>
-    <?php
+     <?php
     if ($base_right['is_hier_base_enable'] == true) {
         $result = ItemController::form_parent_deta_hier($item->id, $project, $role, $relit_id, false);
         echo $result;
@@ -48,7 +47,7 @@
             {{--                         alt="" title="{{$item->title_img()}}">--}}
             {{--                </a>--}}
             {{--                            </li>--}}
-            <hr>
+            <hr class="hr_list">
         @elseif($base->type_is_document)
             {{--                            <li>--}}
             {{--                                <b>--}}
@@ -58,7 +57,7 @@
             {{--                </a>--}}
             {{--                                </b>--}}
             {{--                            </li>--}}
-            <hr>
+            <hr class="hr_list">
         @else
             {{--                Если тип-вычисляемое наименование и Показывать Основу с вычисляемым наименованием--}}
             {{--                или если тип-не вычисляемое наименование--}}
@@ -66,8 +65,8 @@
             @if(GlobalController::is_base_calcname_check($base, $base_right))
                 {{--                                            $numcat = true - вывод числовых полей с разрядом тысячи/миллионы/миллиарды--}}
                 {{--                                <li>--}}
-                <p class="text-label">
-                    <big>{{$base->name()}}:</big>
+                <div class="text-label">
+{{--                    <big>{{$base->name()}}:</big>--}}
                     {{--                            <span class="text-related">--}}
                     {{--                                        <b>--}}
                     @if($base->type_is_text())
@@ -87,149 +86,143 @@
                     @endif
                     {{--                </span>--}}
                     {{--                                        </b>--}}
-                </p>
-                <hr>
+                </div>
+                <hr class="hr_list">
                 {{--                                </li>--}}
             @endif
         @endif
         {{--            <br>--}}
         {{--        </p>--}}
     @endif
-    <ul class="list-group list-group-flush">
-        <li class="list-group-item pb-0">
-            <small class="text-label">
-                Id
-            </small>
-            <p class="text-project">
-                {{--                <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role, 'relit_id'=>$relit_id,--}}
-                {{--                        'usercode' =>GlobalController::usercode_calc()])}}"--}}
-                {{--                   title="">--}}
-                {{$item->id}}
-                {{--                </a>--}}
-            </p>
-        </li>
-        @if($base->is_code_needed == true)
-            <li class="list-group-item pb-0">
-                <small class="text-label">
-                    {{trans('main.code')}}
-                </small>
-                <p class="text-project">
-                    {{--                        <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,--}}
-                    {{--                                'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id])}}"--}}
-                    {{--                           title="">--}}
-                    {{$item->code}}
-                    {{--                        </a>--}}
-                </p>
-            </li>
-        @endif
+    {{--    <ul class="list-group list-group-flush">--}}
+    {{--        <li class="list-group-item pb-0 pl-0">--}}
+    {{--    </li>--}}
+    {{--                </ul>--}}
+    <small class="text-label"><small>
+            Id
+        </small></small>
+    <div class="text-project">
+        {{--                <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role, 'relit_id'=>$relit_id,--}}
+        {{--                        'usercode' =>GlobalController::usercode_calc()])}}"--}}
+        {{--                   title="">--}}
+        {{$item->id}}
+        {{--                </a>--}}
+    </div>
+    @if($base->is_code_needed == true)
+        <hr class="hr_list">
+        <small class="text-label"><small>
+                {{trans('main.code')}}
+            </small></small>
+        <div class="text-project">
+            {{--                        <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,--}}
+            {{--                                'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id])}}"--}}
+            {{--                           title="">--}}
+            {{$item->code}}
+            {{--                        </a>--}}
+        </div>
+    @endif
 
-        {{--        <p class="text-label">--}}
+    {{--        <p class="text-label">--}}
 
-        @if($base_right['is_list_base_sort_creation_date_desc'] == true)
-            <li class="list-group-item pb-0">
-                <small class="text-label">
-                    {{trans('main.date')}}
-                </small>
-                <p class="text-project">
-                    {{$item->created_date()}}
-                </p>
-            </li>
-        @endif
-        {{--    @foreach($array_plan as $key=>$value)--}}
-        {{--        <?php--}}
-        {{--        $result = ItemController::get_items_for_link(Link::find($key));--}}
-        {{--        $items = $result['result_parent_base_items'];--}}
-        {{--        $item_work = Item::find($value);--}}
-        {{--        ?>--}}
-        {{--        --}}{{--    проверка нужна; для правильного вывода '$item_work->name()'--}}
-        {{--        @if($item_work)--}}
-        {{--            --}}{{--            <p>{{$result['result_parent_label']}} ({{$result['result_parent_base_name']}}):--}}
-        {{--            <p>{{$result['result_parent_label']}}:--}}
-        {{--                <span class="text-related">{{$item_work->name()}}</span></p>--}}
-        {{--        @endif--}}
-        {{--    @endforeach--}}
+    @if($base_right['is_list_base_sort_creation_date_desc'] == true)
+        <hr class="hr_list">
+        <small class="text-label"><small>
+                {{trans('main.date')}}
+            </small></small>
+        <div class="text-project">
+            {{$item->created_date()}}
+        </div>
+    @endif
+    {{--    @foreach($array_plan as $key=>$value)--}}
+    {{--        <?php--}}
+    {{--        $result = ItemController::get_items_for_link(Link::find($key));--}}
+    {{--        $items = $result['result_parent_base_items'];--}}
+    {{--        $item_work = Item::find($value);--}}
+    {{--        ?>--}}
+    {{--        --}}{{--    проверка нужна; для правильного вывода '$item_work->name()'--}}
+    {{--        @if($item_work)--}}
+    {{--            --}}{{--            <p>{{$result['result_parent_label']}} ({{$result['result_parent_base_name']}}):--}}
+    {{--            <p>{{$result['result_parent_label']}}:--}}
+    {{--                <span class="text-related">{{$item_work->name()}}</span></p>--}}
+    {{--        @endif--}}
+    {{--    @endforeach--}}
 
-        {{--        Вывод связей--}}
-        @foreach($array_calc as $key=>$value)
+    {{--        Вывод связей--}}
+    @foreach($array_calc as $key=>$value)
+        <?php
+        $link = Link::find($key);
+        $item_find = GlobalController::view_info($item->id, $key);
+        ?>
+        @if($link && $item_find)
             <?php
-            $link = Link::find($key);
-            $item_find = GlobalController::view_info($item->id, $key);
+            $base_link_right = null;
+            if ($heading == 1 || $base_index_page > 0) {
+                $base_link_right = GlobalController::base_link_right($link, $role, $relit_id);
+            } else {
+                //$base_link_right = GlobalController::base_link_right($link, $role, $parent_ret_id);
+                $base_link_right = GlobalController::base_link_right($link, $role, $link->parent_relit_id);
+            }
             ?>
-            @if($link && $item_find)
-                <?php
-                $base_link_right = null;
-                if ($heading == 1 || $base_index_page > 0) {
-                    $base_link_right = GlobalController::base_link_right($link, $role, $relit_id);
-                } else {
-                    //$base_link_right = GlobalController::base_link_right($link, $role, $parent_ret_id);
-                    $base_link_right = GlobalController::base_link_right($link, $role, $link->parent_relit_id);
-                }
-                ?>
-                @if($base_link_right['is_show_link_enable'] == true)
-                    <li class="list-group-item pb-0">
-                        <small class="text-label">
-                            @if($base_link_right['is_bsmn_base_enable'] == true)
-                                <a href="{{route('item.base_index',['base'=>$link->parent_base_id, 'project'=>$project, 'role'=>$role, 'relit_id'=>$link->parent_relit_id])}}"
-                                   title="{{$link->parent_base->names($base_link_right)}}">
-                                    @include('layouts.item.ext_show.parent_label', ['link'=>$link, 'par_link'=>$par_link])
-                                </a>
-                            @else
-                                @include('layouts.item.ext_show.parent_label', ['link'=>$link, 'par_link'=>$par_link])
-                            @endif
-                        </small>
-                        <p class="text-project">
-                            @if($link->parent_base->type_is_text())
-                                {{--                            <span class="text-related">--}}
-                                {{--                                <b>--}}
-                                <?php
-                                echo GlobalController::it_txnm_n2b($item_find);
-                                ?>
-                                {{--                        </span>--}}
-                                {{--                                </b>--}}
-                            @elseif($link->parent_base->type_is_image())
-                                <br>
-                                @include('view.img',['item'=>$item_find, 'size'=>"medium", 'filenametrue'=>false, 'link'=>true, 'img_fluid'=>false, 'title'=>""])
-                                {{--                            <a href="{{Storage::url($item_find->filename())}}">--}}
-                                {{--                                <img src="{{Storage::url($item_find->filename())}}" height="250"--}}
-                                {{--                                     alt="" title="{{$item_find->title_img()}}">--}}
-                                {{--                            </a>--}}
-                            @elseif($link->parent_base->type_is_document())
-                                {{--                            <b>--}}
-                                @include('view.doc',['item'=>$item_find, 'usercode'=>GlobalController::usercode_calc()])
-                                {{--                            <a href="{{Storage::url($item_find->filename())}}" target="_blank">--}}
-                                {{--                                Открыть документ--}}
-                                {{--                            </a>--}}
-                                {{--                            </b>--}}
-                            @else
-                                {{--                                            $numcat = true - вывод числовых полей с разрядом тысячи/миллионы/миллиарды--}}
-                                {{--                            <span class="text-related">--}}
-                                {{--                            <b>--}}
-                                {{--  Используется 'is_list_base_calc' в ext_show.php и ItemController::item_index()  --}}
-                                @if($base_link_right['is_list_base_calc'] == true && $base_link_right['is_bsmn_base_enable'] == true)
-                                    <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item_find, 'role'=>$role,
-                                        'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$link->parent_relit_id,
-                                        'called_from_button'=>0, 'view_link'=>null])}}"
-                                       title="">
-                                        {{$item_find->name(false, true, true)}}
-                                    </a>
-                                @else
-                                    {{$item_find->name(false, true, true)}}
-                                @endif
-                                {{--                            </b>--}}
-                                {{--                            </span>--}}
-                            @endif
-                        </p>
-                    </li>
-                    {{--                    <br>--}}
-                @endif
+            @if($base_link_right['is_show_link_enable'] == true)
+                <hr class="hr_list">
+                <small class="text-label">
+                    <small>
+                        {{--                            @if($base_link_right['is_bsmn_base_enable'] == true)--}}
+                        {{--                                <a href="{{route('item.base_index',['base'=>$link->parent_base_id, 'project'=>$project, 'role'=>$role, 'relit_id'=>$link->parent_relit_id])}}"--}}
+                        {{--                                   title="{{$link->parent_base->names($base_link_right)}}">--}}
+                        {{--                                    @include('layouts.item.ext_show.parent_label', ['link'=>$link, 'par_link'=>$par_link])--}}
+                        {{--                                </a>--}}
+                        {{--                            @else--}}
+                        @include('layouts.item.ext_show.parent_label', ['link'=>$link, 'par_link'=>$par_link])
+                        {{--                            @endif--}}
+                    </small></small>
+                <div class="text-project">
+                    @if($link->parent_base->type_is_text())
+                        {{--                            <span class="text-related">--}}
+                        {{--                                <b>--}}
+                        <?php
+                        echo GlobalController::it_txnm_n2b($item_find);
+                        ?>
+                        {{--                        </span>--}}
+                        {{--                                </b>--}}
+                    @elseif($link->parent_base->type_is_image())
+                        <br>
+                        @include('view.img',['item'=>$item_find, 'size'=>"medium", 'filenametrue'=>false, 'link'=>true, 'img_fluid'=>false, 'title'=>""])
+                        {{--                            <a href="{{Storage::url($item_find->filename())}}">--}}
+                        {{--                                <img src="{{Storage::url($item_find->filename())}}" height="250"--}}
+                        {{--                                     alt="" title="{{$item_find->title_img()}}">--}}
+                        {{--                            </a>--}}
+                    @elseif($link->parent_base->type_is_document())
+                        {{--                            <b>--}}
+                        @include('view.doc',['item'=>$item_find, 'usercode'=>GlobalController::usercode_calc()])
+                        {{--                            <a href="{{Storage::url($item_find->filename())}}" target="_blank">--}}
+                        {{--                                Открыть документ--}}
+                        {{--                            </a>--}}
+                        {{--                            </b>--}}
+                    @else
+                        {{--                                            $numcat = true - вывод числовых полей с разрядом тысячи/миллионы/миллиарды--}}
+                        {{--                            <span class="text-related">--}}
+                        {{--                            <b>--}}
+                        {{--  Используется 'is_list_base_calc' в ext_show.php и ItemController::item_index()  --}}
+                        {{--                                @if($base_link_right['is_list_base_calc'] == true && $base_link_right['is_bsmn_base_enable'] == true)--}}
+                        {{--                                    <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item_find, 'role'=>$role,--}}
+                        {{--                                        'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$link->parent_relit_id,--}}
+                        {{--                                        'called_from_button'=>0, 'view_link'=>null])}}"--}}
+                        {{--                                       title="">--}}
+                        {{--                                        {{$item_find->name(false, true, true)}}--}}
+                        {{--                                    </a>--}}
+                        {{--                                @else--}}
+                        {{$item_find->name(false, true, true)}}
+                        {{--                                @endif--}}
+                        {{--                            </b>--}}
+                        {{--                            </span>--}}
+                    @endif
+                </div>
+                {{--                    <br>--}}
             @endif
-        @endforeach
-
-        {{--                    </p>--}}
-
-
-    </ul>
-    <hr>
+        @endif
+    @endforeach
+    {{--                    </p>--}}
     <?php
     //    if ($base_right['is_hier_base_enable'] == true) {
     ////        $result = ItemController::form_parent_coll_hier($item->id, $role, $relit_id);
@@ -254,18 +247,22 @@
         echo $result;
     }
     ?>
+    @if($role->is_author())
+    <hr>
     <i>
         <?php
         $created_user_date_time = $item->created_user_date_time();
         $updated_user_date_time = $item->updated_user_date_time();
         ?>
-        <p class="text-label">{{trans('main.created_user_date_time')}}:
+        <div class="text-label">{{trans('main.created_user_date_time')}}:
             <span class="text-related">{{$created_user_date_time}}</span><br>
             @if($created_user_date_time != $updated_user_date_time)
                 {{trans('main.updated_user_date_time')}}:
-                <span class="text-related">{{$updated_user_date_time}}</span></p>
+                <span class="text-related">{{$updated_user_date_time}}</span></div>
         @endif
+        <br>
     </i>
+    @endif
     @if ($type_form == 'show')
         <p>
             {{--            @if($base_right['is_list_base_create'] == true)--}}
@@ -412,18 +409,24 @@
             {{--                <i class="fas fa-arrow-left"></i>--}}
             {{--                {{trans('main.return')}}--}}
             {{--            </button>--}}
+{{--            @include('layouts.item.base_index.previous_url')--}}
             {{--            Похожие строки вверху/внизу--}}
+{{--            <button type="button" class="btn btn-dreamer"--}}
+{{--                    onclick='document.location="{{route('item.ext_return',['item'=>$item,'project'=>$project, 'role'=>$role,--}}
+{{--            'usercode' =>GlobalController::usercode_calc(),--}}
+{{--            'string_current' => $string_current,--}}
+{{--            'heading' => $heading,--}}
+{{--            'relit_id'=>$relit_id,--}}
+{{--            'base_index_page' => $base_index_page, 'body_link_page' => $body_link_page, 'body_all_page' => $body_all_page,--}}
+{{--            'parent_ret_id' => $parent_ret_id,--}}
+{{--            'view_link' => $view_link,--}}
+{{--            'par_link' => $par_link, 'parent_item' => $parent_item])}}"'--}}
+{{--                    title="{{trans('main.return')}}" @include('layouts.item.base_index.previous_url')>--}}
+{{--                <i class="fas fa-arrow-left"></i>--}}
+{{--                {{trans('main.return')}}--}}
+{{--            </button>--}}
             <button type="button" class="btn btn-dreamer"
-                    onclick='document.location="{{route('item.ext_return',['item'=>$item,'project'=>$project, 'role'=>$role,
-            'usercode' =>GlobalController::usercode_calc(),
-            'string_current' => $string_current,
-            'heading' => $heading,
-            'relit_id'=>$relit_id,
-            'base_index_page' => $base_index_page, 'body_link_page' => $body_link_page, 'body_all_page' => $body_all_page,
-            'parent_ret_id' => $parent_ret_id,
-            'view_link' => $view_link,
-            'par_link' => $par_link, 'parent_item' => $parent_item])}}"'
-                    title="{{trans('main.return')}}" @include('layouts.item.base_index.previous_url')>
+                    title="{{trans('main.return')}}" onclick="javascript:history.back();">
                 <i class="fas fa-arrow-left"></i>
                 {{trans('main.return')}}
             </button>
@@ -483,6 +486,12 @@
             'view_link' => $view_link,
             'par_link' => $par_link, 'parent_item' => $parent_item])}}"'
                         title="{{trans('main.return')}}" @include('layouts.item.base_index.previous_url')>
+                    <i class="fas fa-arrow-left"></i>
+                    {{trans('main.return')}}
+                </button>
+                <button type="button" class="btn btn-dreamer"
+                        title="{{trans('main.return')}}"
+                    @include('layouts.item.base_index.previous_url')>
                     <i class="fas fa-arrow-left"></i>
                     {{trans('main.return')}}
                 </button>

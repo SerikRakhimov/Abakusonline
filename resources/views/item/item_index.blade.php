@@ -410,7 +410,7 @@
                         {{--                            Вывод "Все связи"--}}
                         @if($next_all_is_enable)
                             <div class="btn-group btn-group-sm" role="group" aria-label="Link">
-                                <button type="button" class="btn btn-dreamer"
+                                <button type="button" class="btn btn-icon"
                                         {{--                                'called_from_button'=>1 - вызов из кнопки--}}
                                         onclick='document.location="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,
                                                                           'usercode' =>GlobalController::usercode_calc(),
@@ -441,7 +441,7 @@
                             $child_labels = $value->child_labels();
                             ?>
                             <div class="btn-group btn-group-sm" role="group" aria-label="Links">
-                                <button type="button" class="btn btn-dreamer"
+                                <button type="button" class="btn btn-icon"
                                         {{--                                'called_from_button'=>1 - вызов из кнопки--}}
                                         onclick='document.location="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,
                                                                       'usercode' =>GlobalController::usercode_calc(),
