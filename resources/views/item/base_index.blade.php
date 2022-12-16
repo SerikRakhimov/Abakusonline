@@ -261,7 +261,7 @@
                         @endif
                     </div>
                     {{--                        <h6 class="card-title text-center pt-2">--}}
-                    <h6 class="card-footer text-center pt-2">
+                    <h6 class="card-footer text-center">
                         <a
                             href="{{route('item.ext_show', ['item'=>$item, 'project'=>$project, 'role'=>$role, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id,
                                     'heading' => $heading,'base_index_page'=>$base_index_page, 'body_link_page'=>$body_link_page,'body_all_page'=>$body_all_page,
