@@ -64,7 +64,7 @@
             {{--            </div>--}}
             {{--        </div>--}}
             {{--            @if($role)--}}
-            <div class="card shadow">
+            <div class="card shadow m-1">
                 {{--                <img class="card-img-top" src="{{Storage::url('background.png')}}" alt="Card image">--}}
                 <div class="card-header">
                     <div class="row">

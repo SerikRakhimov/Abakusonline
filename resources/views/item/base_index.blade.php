@@ -275,7 +275,7 @@
                                 </a></h6>
                             {{--                    </div>--}}
                     </div>
-                    <div class="card-footer">
+                    <div class="card-footer pb-1 pt-1">
                         <small class="text-muted">
                             {{$item->created_at->Format(trans('main.format_date'))}}
                         </small>
@@ -287,7 +287,7 @@
                 ?>
                 @if($i % 3 == 0)
         </div>
-        <br>
+{{--        <br>--}}
         <div class="card-deck">
             @endif
             @endforeach

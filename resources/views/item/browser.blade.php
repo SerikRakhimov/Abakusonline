@@ -85,7 +85,7 @@ if ($item){
                 {{--                <div class="row">--}}
                 {{--                    @endif--}}
                 {{--                    <div class="col-4">--}}
-                <div class="card shadow">
+                <div class="card shadow m-1">
                     <a href="#"
                        onclick="javascript:SelectFile('{{$it->id}}', '{{$it->code}}', '{{$it->name()}}')"
                        title="{{$it->name()}}">
