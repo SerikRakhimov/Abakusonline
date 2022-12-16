@@ -91,7 +91,7 @@ if ($item) {
                        title="{{$it->name()}}">
                         <p class="card-header text-center text-label">{{trans('main.code')}}: {{$it->code}}</p>
                     </a>
-                    <div class="card-body">
+                    <div class="card-body p-0">
                         @if($item_find)
                             {{--                        <div class="card-block text-center">--}}
                             <div class="text-center">
