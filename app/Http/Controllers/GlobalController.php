@@ -2407,9 +2407,17 @@ class GlobalController extends Controller
         return $name;
     }
 
-    static function calc_title_name($name)
+    static function calc_title_name($name, $lower = true, $dvoetoch = false)
     {
-        return mb_strtolower($name);
+        $result = $name;
+        if ($lower) {
+            // Начинать со строчной буквы
+            $result = mb_strtolower($name);
+        }
+        if($dvoetoch){
+            $result = $result . ":";
+        }
+        return $result;
     }
 
     static function my_info($base_right = null)

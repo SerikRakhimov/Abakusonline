@@ -50,6 +50,7 @@ if ($base_index == true) {
                 title="{{trans('main.history')}}">{{trans('main.small_history')}}</th>
         @endif
         {{--        <th rowspan="{{$rows + 1}}" class="text-center align-top">Id</th>--}}
+        {{--        Вывод в $base_index или в $item_body_base--}}
         @if($base_index || $item_body_base)
             @if($base->is_code_needed == true)
                 <th class="text-center align-top" rowspan="{{$rows + 1}}" style="width: 5%"
@@ -70,9 +71,9 @@ if ($base_index == true) {
                         {{--                            {{$base->name()}}--}}
                         {{--                        @endif--}}
                         @if($view_link)
-                            {{$view_link->child_label()}}@if($heading):@endif
+                            {{$view_link->child_label()}}
                         @else
-                            {{$base->name()}}@if($heading):@endif
+                            {{$base->name()}}
                         @endif
                     </th>
     @endif
@@ -96,13 +97,19 @@ if ($base_index == true) {
                                 class="text-center align-top"
                                 @endif
                             >
-                                @if($item_heading_base && $matrix[$x][$y]["fin_link"] == true)
-                                    <a href="{{route('item.base_index',['base'=>$link->parent_base_id, 'project'=>$project, 'role'=>$role, 'relit_id' => $relit_id])}}"
-                                       title="{{$link->parent_base->names()}}">
-                                        {{$matrix[$x][$y]["view_name"]}}@if($heading):@endif
-                                    </a>
-                                @else
-                                    {{$matrix[$x][$y]["view_name"]}}@if($heading):@endif
+                                @if($heading)
+                                    <small>
+                                        @endif
+                                        @if($item_heading_base && $matrix[$x][$y]["fin_link"] == true)
+                                            <a href="{{route('item.base_index',['base'=>$link->parent_base_id, 'project'=>$project, 'role'=>$role, 'relit_id' => $relit_id])}}"
+                                               title="{{$link->parent_base->names()}}">
+                                                {{GlobalController::calc_title_name($matrix[$x][$y]["view_name"], $heading, $heading)}}
+                                            </a>
+                                        @else
+                                            {{GlobalController::calc_title_name($matrix[$x][$y]["view_name"], $heading, $heading)}}
+                                        @endif
+                                        @if($heading)
+                                    </small>
                                 @endif
                             </th>
                             {{--                    {{$x}} {{$y}}  rowspan = {{$matrix[$x][$y]["rowspan"]}} colspan = {{$matrix[$x][$y]["colspan"]}} view_level_id = {{$matrix[$x][$y]["view_level_id"]}} view_level_name = {{$matrix[$x][$y]["view_level_name"]}}--}}
@@ -385,7 +392,15 @@ if ($base_index == true) {
                                     {{--                                    'string_all_codes_current'=>$string_all_codes_next,--}}
                                     @endif
                                     {{--                                    @endif--}}
-                                    @include('layouts.item.empty_name', ['name'=>$item_find->name(false,false,false)])
+                                    @if($heading)
+                                        <small>
+                                            <mark class="text-project">
+                                                @endif
+                                                @include('layouts.item.empty_name', ['name'=>$item_find->name(false,false,false)])
+                                                @if($heading)
+                                            </mark>
+                                        </small>
+                                    @endif
                                     {{--                                    @if ($ext_show_view || $item_index_view)--}}
                                     @if ($item_index_view)
                                 </a>

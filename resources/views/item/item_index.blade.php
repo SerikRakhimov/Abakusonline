@@ -66,7 +66,7 @@
                             'project'=>$project, 'role'=>$role, 'relit_id'=>$value['relit_id']])}}"
                                title="{{$value['base_names']}}">
                                 @endif
-                                {{GlobalController::calc_title_name($value['title_name'])}}:
+                                {{GlobalController::calc_title_name($value['title_name'], true, true)}}
                                 @if($value['is_bsmn_base_enable'] == true)
                             </a>
                         @endif
@@ -202,7 +202,7 @@
                                 @else
                                     @foreach($calcname_mains as $calcname_main)
                                         <h6>
-                                            {{GlobalController::calc_title_name($calcname_main->link->parent_label())}}:
+                                            {{GlobalController::calc_title_name($calcname_main->link->parent_label(),true, true)}}
                                             <strong>{{$calcname_main->parent_item->name()}}</strong>
                                             @if($calcname_main->parent_item->base->is_code_needed == true)
                                                 {{trans('main.code')}}:
