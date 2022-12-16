@@ -241,7 +241,7 @@
                         </a>
                     @endif
 {{--                    <div class="card-body d-flex align-items-center">--}}
-                        <div class="card-body">
+                        <div class="card-body p-0">
                             @if($item_find)
                                 {{--                            <div class="card-block text-center">--}}
                                 <div class="text-center">
