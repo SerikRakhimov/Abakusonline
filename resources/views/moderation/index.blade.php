@@ -48,7 +48,7 @@
                     </a>
                 </td>
                 <td class="text-center">
-                    @include('view.img',['item'=>$item, 'size'=>"small", 'filenametrue'=>true, 'link'=>true, 'img_fluid'=>false, 'title'=>""])
+                    @include('view.img',['item'=>$item, 'size'=>"small", 'filenametrue'=>true, 'link'=>true, 'img_fluid'=>false, 'card_img_top'=>false, 'title'=>""])
                 </td>
                 <td class="text-center">
                     <a href="{{route('moderation.show',$item)}}" title="{{trans('main.show')}}">

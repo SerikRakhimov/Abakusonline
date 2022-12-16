@@ -85,7 +85,7 @@
                     @if($get_project_logo_item)
                         {{--                            <div class="card-block text-center">--}}
                         <div class="card-block text-center">
-                            @include('view.img',['item'=>$get_project_logo_item, 'size'=>"medium", 'filenametrue'=>false, 'link'=>false, 'img_fluid'=>true, 'title'=>'empty'])
+                            @include('view.img',['item'=>$get_project_logo_item, 'size'=>"medium", 'filenametrue'=>false, 'link'=>false, 'img_fluid'=>true, 'card_img_top'=>true, 'title'=>'empty'])
                         </div>
                     @endif
                     <p>
@@ -159,7 +159,7 @@
                             <small class="text-muted">
                                 {{trans('main.author')}}: {{$project->user->name()}}
                                 @if($get_user_author_avatar_item)
-                                    @include('view.img',['item'=>$get_user_author_avatar_item, 'size'=>"avatar", 'filenametrue'=>false, 'link'=>false, 'img_fluid'=>false, 'title'=>'empty'])
+                                    @include('view.img',['item'=>$get_user_author_avatar_item, 'size'=>"avatar", 'filenametrue'=>false, 'link'=>false, 'img_fluid'=>false, 'card_img_top'=>false, 'title'=>'empty'])
                                 @endif
                             </small>
                         </div>

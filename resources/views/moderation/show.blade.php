@@ -12,7 +12,7 @@
 
     <p>Id: <b>{{$item->id}}</b></p>
     <p>{{$item->base->name()}}:
-        @include('view.img',['item'=>$item, 'size'=>"medium", 'filenametrue'=>true, 'link'=>true, 'img_fluid'=>false, 'title'=>""])
+        @include('view.img',['item'=>$item, 'size'=>"medium", 'filenametrue'=>true, 'link'=>true, 'img_fluid'=>false, 'card_img_top'=>false, 'title'=>""])
 
 {{--        <a href="{{Storage::url($item->filename(true))}}">--}}
 {{--            <img src="{{Storage::url($item->filename(true))}}" height="250"--}}

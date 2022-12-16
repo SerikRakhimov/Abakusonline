@@ -19,10 +19,13 @@ use \App\Http\Controllers\GlobalController;
                             <a href="{{Storage::url($item->filename())}}">
                                 @endif
                                 <img
+                                    @if($card_img_top)
+                                    class="card-img-top" style="object-fit:contain"
+                                    @endif
                                     @if($size == 'avatar')
                                     class="circle"
-{{--                                    @elseif($size == 'medium')--}}
-{{--                                    class="rectangle"--}}
+                                    {{--                                    @elseif($size == 'medium')--}}
+                                    {{--                                    class="rectangle"--}}
                                     @endif
                                     @if($img_fluid == true)
                                     class="img-fluid"

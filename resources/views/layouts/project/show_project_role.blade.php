@@ -18,7 +18,7 @@ $get_user_author_avatar_item = $project->user->get_user_avatar_item();
 {{--                <small><small>{{mb_strtolower(trans('main.author'))}}: </small></small>--}}
                 <mark class="text-project"><small>{{$project->user->name()}}</small></mark>
                 @if($get_user_author_avatar_item)
-                    @include('view.img',['item'=>$get_user_author_avatar_item, 'size'=>"avatar", 'filenametrue'=>false, 'link'=>false, 'img_fluid'=>false, 'title'=>trans('main.author')])
+                    @include('view.img',['item'=>$get_user_author_avatar_item, 'size'=>"avatar", 'filenametrue'=>false, 'link'=>false, 'img_fluid'=>false, 'card_img_top'=>false, 'title'=>trans('main.author')])
                 @endif
             </a>
         </div>
@@ -26,7 +26,7 @@ $get_user_author_avatar_item = $project->user->get_user_avatar_item();
             <a href="{{route('project.start', ['project' => $project->id, 'role' => $role])}}"
                title="{{trans('main.mainmenu')}}">
                 @if($get_project_logo_item)
-                    @include('view.img',['item'=>$get_project_logo_item, 'size'=>"avatar", 'filenametrue'=>false, 'link'=>false, 'img_fluid'=>false, 'title'=>'empty'])
+                    @include('view.img',['item'=>$get_project_logo_item, 'size'=>"avatar", 'filenametrue'=>false, 'link'=>false, 'img_fluid'=>false, 'card_img_top'=>false, 'title'=>'empty'])
                     &nbsp;
                 @endif
                 <mark class="text-project">{{$project->name()}}</mark>

@@ -99,7 +99,7 @@ if ($item){
                                 <a href="#"
                                    onclick="SelectFile('{{$it->id}}', '{{$it->code}}', '{{$it->name()}}')"
                                    title="{{$it->name()}}">
-                                    @include('view.img',['item'=>$item_find, 'size'=>"medium", 'filenametrue'=>false, 'link'=>false, 'img_fluid'=>true, 'title'=>$it->name()])
+                                    @include('view.img',['item'=>$item_find, 'size'=>"medium", 'filenametrue'=>false, 'link'=>false, 'img_fluid'=>true, 'card_img_top'=>true, 'title'=>$it->name()])
                                     {{--                            @else--}}
                                     {{--                                <div class="text-danger">--}}
                                     {{--                                    {{GlobalController::empty_html()}}</div>--}}

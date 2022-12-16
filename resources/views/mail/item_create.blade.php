@@ -17,7 +17,7 @@ use App\Http\Controllers\MainController;
     <p>{{trans('main.code')}}: <b>{{$item->code}}</b></p>
 @endif
 {{--@if($item_find)--}}
-{{--    @include('view.img',['item'=>$item_find, 'size'=>"medium", 'filenametrue'=>false, 'link'=>false, 'img_fluid'=>true, 'title'=>$item->name()])--}}
+{{--    @include('view.img',['item'=>$item_find, 'size'=>"medium", 'filenametrue'=>false, 'link'=>false, 'img_fluid'=>true, 'card_img_top'=>false, 'title'=>$item->name()])--}}
 {{--@endif--}}
 <p>{{trans('main.name')}}:<br><b><?php echo $item->nmbr();?></b></p><br>
 <p class="text-label">{{trans('main.created_user_date_time')}}:

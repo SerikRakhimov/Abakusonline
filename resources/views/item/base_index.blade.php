@@ -240,7 +240,8 @@
                             <p class="card-header text-center text-label">{{trans('main.code')}}: {{$item->code}}</p>
                         </a>
                     @endif
-                    <div class="card-body d-flex align-items-center">
+{{--                    <div class="card-body d-flex align-items-center">--}}
+                        <div class="card-body">
                             @if($item_find)
                                 {{--                            <div class="card-block text-center">--}}
                                 <div class="text-center">
@@ -254,12 +255,12 @@
                                         {{--                                'string_all_codes_current' => $string_all_codes_current,--}}
                                         {{--                                'string_link_ids_current' => $string_link_ids_current,--}}
                                         {{--                                'string_item_ids_current' => $string_item_ids_current,--}}
-                                        @include('view.img',['item'=>$item_find, 'size'=>"medium", 'filenametrue'=>false, 'link'=>false, 'img_fluid'=>true, 'title'=>$item->name()])
+                                        @include('view.img',['item'=>$item_find, 'size'=>"medium", 'filenametrue'=>false, 'link'=>false, 'img_fluid'=>true, 'card_img_top'=>true, 'title'=>$item->name()])
                                     </a>
                                 </div>
                             @endif
                             {{--                    <div class="card-footer">--}}
-                            <h5 class="card-title text-center"><a
+                            <h6 class="card-title text-center pt-2"><a
                                     href="{{route('item.ext_show', ['item'=>$item, 'project'=>$project, 'role'=>$role, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id,
                                     'heading' => $heading,'base_index_page'=>$base_index_page, 'body_link_page'=>$body_link_page,'body_all_page'=>$body_all_page,
                                     'par_link'=>null, 'parent_item'=>null,
@@ -271,7 +272,7 @@
                                     {{--                                'string_item_ids_current' => $string_item_ids_current,--}}
                                     {{--                            Где $item->name() выходит в cards выводить "<?php echo GlobalController::to_html();?>"--}}
                                     <?php echo $item->nmbr(false);?>
-                                </a></h5>
+                                </a></h6>
                             {{--                    </div>--}}
                     </div>
                     <div class="card-footer">
@@ -310,6 +311,8 @@
                 {{trans('main.select_record_for_work')}}
             </div>
         </div>
+
+
     @else
         <!--        --><?php
         //        $link_id_array = $links_info['link_id_array'];
@@ -435,7 +438,7 @@
         {{--                        @if(GlobalController::is_base_calcname_check($base, $base_right))--}}
         {{--                            <td @include('layouts.class_from_base',['base'=>$base])>--}}
         {{--                                @if($base->type_is_image)--}}
-        {{--                                    @include('view.img',['item'=>$item, 'size'=>"small", 'filenametrue'=>false, 'link'=>true, 'img_fluid'=>false, 'title'=>""])--}}
+        {{--                                    @include('view.img',['item'=>$item, 'size'=>"small", 'filenametrue'=>false, 'link'=>true, 'img_fluid'=>false, 'card_img_top'=>false, 'title'=>""])--}}
         {{--                                @elseif($base->type_is_document)--}}
         {{--                                    @include('view.doc',['item'=>$item, 'usercode'=>GlobalController::usercode_calc()])--}}
         {{--                                @else--}}
@@ -460,7 +463,7 @@
         {{--                            ?>--}}
         {{--                            @if($item_find)--}}
         {{--                                @if($link->parent_base->type_is_image())--}}
-        {{--                                    @include('view.img',['item'=>$item_find, 'size'=>"small", 'filenametrue'=>false, 'link'=>true, 'img_fluid'=>false, 'title'=>""])--}}
+        {{--                                    @include('view.img',['item'=>$item_find, 'size'=>"small", 'filenametrue'=>false, 'link'=>true, 'img_fluid'=>false, 'card_img_top'=>false, 'title'=>""])--}}
         {{--                                @elseif($link->parent_base->type_is_document())--}}
         {{--                                    @include('view.doc',['item'=>$item_find, 'usercode'=>GlobalController::usercode_calc()])--}}
         {{--                                @else--}}
