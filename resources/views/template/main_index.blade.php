@@ -21,7 +21,7 @@
 <!--            --><?php
 //            $i++;
 //            ?>
-            <div class="card shadow m-1">
+            <div class="card shadow m-2">
                 {{--            <img class="card-img-top" src="{{Storage::url('background.png')}}" alt="Card image">--}}
                 <div class="card-header">
                     <div class="row">
@@ -95,7 +95,7 @@
             {{-- В цикле $n раз вставляем вставляем пустые колонки--}}
             @for($k = 0; $k < $n; $k++)
                 {{-- Вставляем пустую карточку--}}
-                <div class="card m-1">
+                <div class="card m-2">
                 </div>
             @endfor
         @endif

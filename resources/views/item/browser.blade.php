@@ -85,7 +85,7 @@ if ($item) {
                 {{--                <div class="row">--}}
                 {{--                    @endif--}}
                 {{--                    <div class="col-4">--}}
-                <div class="card shadow m-1">
+                <div class="card shadow m-2">
                     <a href="#"
                        onclick="javascript:SelectFile('{{$it->id}}', '{{$it->code}}', '{{$it->name()}}')"
                        title="{{$it->name()}}">
@@ -144,7 +144,7 @@ if ($item) {
                 {{-- В цикле $n раз вставляем вставляем пустые колонки--}}
                 @for($k = 0; $k < $n; $k++)
                     {{-- Вставляем пустую карточку--}}
-                    <div class="card m-1">
+                    <div class="card m-2">
                     </div>
                 @endfor
             @endif

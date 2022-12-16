@@ -304,7 +304,7 @@
                 @for($k = 0; $k < $n; $k++)
                     {{-- Вставляем пустую карточку--}}
                     {{--                        <div class="card border-0 m-1">--}}
-                    <div class="card m-1">
+                    <div class="card m-2">
                     </div>
                 @endfor
             @endif
