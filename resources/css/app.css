@@ -251,6 +251,8 @@ b {
     /*background: rgba(247, 154, 28, 0.05);*/
     background: #fdead1;
     /*background: #f6a234;*/
+    padding-top: 0.25rem;
+    padding-bottom: 0.25rem;
 }
 
 .card-block {
@@ -269,6 +271,8 @@ b {
 / / background: rgba(95, 122, 145, 0.12);
 / / background: rgba(247, 154, 28, 0.04);
     background: #fef4e8;
+    padding-top: 0.25rem;
+    padding-bottom: 0.25rem;
 }
 
 label {

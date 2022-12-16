@@ -175,7 +175,6 @@
 				?>
 				@if($i % 3 == 0)
 				 </div>
-					<br>
 		  		 <div class="card-deck">
 				@endif
         @endforeach
@@ -189,7 +188,7 @@
         			{{-- В цикле $n раз вставляем вставляем пустые колонки--}}
                     @for($k = 0; $k < $n; $k++)
 					{{-- Вставляем пустую карточку--}}
-						<div class="card border-0">
+						<div class="card border-0 m-1">
 						</div>
                     @endfor
         @endif

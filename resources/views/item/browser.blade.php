@@ -4,7 +4,7 @@
 use \App\Http\Controllers\GlobalController;
 use \App\Http\Controllers\MainController;
 $item_id = 0;
-if ($item){
+if ($item) {
     $item_id = $item->id;
 }
 ?>
@@ -126,31 +126,30 @@ if ($item){
                 {{--                        --}}{{--                Закрывает /row--}}
                 {{--                </div><br>--}}
                 {{--            @endif--}}
-			            <?php
-            $i++;
-				?>
-				@if($i % 3 == 0)
-				 </div>
-					<br>
-		  		 <div class="card-deck">
-				@endif
+                <?php
+                $i++;
+                ?>
+                @if($i % 3 == 0)
+        </div>
+        <div class="card-deck">
+            @endif
             @endforeach
-        {{-- Если строка из 3-х элементов не завершилась до 3-х столбцов--}}
-        {{-- (т.е. $i не делится без остатка на 3)--}}
-        @if($i % 3 != 0)
-                   <?php
-                    // Подсчитываем количество оставшихся колонок
-                    $n = 3 - ($i % 3);
-                    ?>
-        			{{-- В цикле $n раз вставляем вставляем пустые колонки--}}
-                    @for($k = 0; $k < $n; $k++)
-					{{-- Вставляем пустую карточку--}}
-						<div class="card border-0">
-						</div>
-                    @endfor
-        @endif
-	</div>
-	<br>
+            {{-- Если строка из 3-х элементов не завершилась до 3-х столбцов--}}
+            {{-- (т.е. $i не делится без остатка на 3)--}}
+            @if($i % 3 != 0)
+                <?php
+                // Подсчитываем количество оставшихся колонок
+                $n = 3 - ($i % 3);
+                ?>
+                {{-- В цикле $n раз вставляем вставляем пустые колонки--}}
+                @for($k = 0; $k < $n; $k++)
+                    {{-- Вставляем пустую карточку--}}
+                    <div class="card border-0 m-1">
+                    </div>
+                @endfor
+            @endif
+        </div>
+        <br>
         <div class="row">
             <div class="col text-center text-label">
                 {{trans('main.select_record_for_work')}}
@@ -162,7 +161,8 @@ if ($item){
             <thead>
             {{--        'Показывать признак "В истории" при просмотре списков выбора'--}}
             @if($base_right['is_brow_hist_attr_enable'] == true)
-                <th style="width: 5%" class="text-center" title="{{trans('main.history')}}">{{trans('main.small_history')}}</th>
+                <th style="width: 5%" class="text-center"
+                    title="{{trans('main.history')}}">{{trans('main.small_history')}}</th>
             @endif
             <th class="text-center {{$order_by == 'code'?'font-italic' : ''}}">
                 {{--                <a href="{{route('item.browser',['link_id'=>$link->id, 'project_id'=>$project->id, 'role_id'=>$role->id, 'item_id'=>$item->id, 'sort_by_code'=>1, 'save_by_code'=>$save_by_code==true?"1":"0", 'search'=>$search])}}"--}}
@@ -200,21 +200,21 @@ if ($item){
 
 <script>
     function search_click() {
-            {{--param = '/{{$sort_by_code == true?"1":"0"}}';--}}
-            {{-- " + param + param" правильно
-            {{--open('{{route('item.browser', '')}}' + '/' + {{$link->id}}+'/' + {{$project->id}} +'/' + {{$role->id}}--}}
-            {{--        +'/' + {{$item->id}} +param + param--}}
-            {{--    + '/' + document.getElementById('search').value, '_self', 'width=800, height=800');--}}
-            {{--open('{{route('item.browser', '')}}' + '/' + {{$link->id}}+'/' + {{$project->id}} +'/' + {{$role->id}}--}}
-            {{--        +'/' + {{$item->id}} +'/' + '{{$order_by}}' +'/' + '{{$filter_by}}'--}}
-            {{--    + '/' + document.getElementById('search').value, '_self', 'width=800, height=800');--}}
-            {{--open('{{route('item.browser', '')}}' + '/' + '{{$link->id}}'+'/' + '{{$project->id}}' +'/' + '{{$role->id}}'--}}
-            {{--        +'/' + '{{$item->id}}'--}}
-            {{--    , '_self', 'width=800, height=800');--}}
-            {{--var path = '{{route('item.browser', '')}}' + '/' + {{$link->id}}+'/' + {{$project->id}} +'/' + {{$role->id}} +'/' + {{$item->id}} +'/'--}}
-            {{--    + '{{$order_by}}' +'/' + '{{$filter_by}}' + '/' + document.getElementById('search').value;--}}
-        var path = '{{route('item.browser', '')}}' + '/' + {{$link->id}}+'/' + {{$project->id}} +'/' + {{$role->id}} +'/'+ {{$relit_id}} +'/' + {{$item_id}}
-                +'/' + '{{$order_by}}' + '/' + '{{$order_by}}' + '/' + document.getElementById('search').value;
+        {{--param = '/{{$sort_by_code == true?"1":"0"}}';--}}
+        {{-- " + param + param" правильно
+        {{--open('{{route('item.browser', '')}}' + '/' + {{$link->id}}+'/' + {{$project->id}} +'/' + {{$role->id}}--}}
+        {{--        +'/' + {{$item->id}} +param + param--}}
+        {{--    + '/' + document.getElementById('search').value, '_self', 'width=800, height=800');--}}
+        {{--open('{{route('item.browser', '')}}' + '/' + {{$link->id}}+'/' + {{$project->id}} +'/' + {{$role->id}}--}}
+        {{--        +'/' + {{$item->id}} +'/' + '{{$order_by}}' +'/' + '{{$filter_by}}'--}}
+        {{--    + '/' + document.getElementById('search').value, '_self', 'width=800, height=800');--}}
+        {{--open('{{route('item.browser', '')}}' + '/' + '{{$link->id}}'+'/' + '{{$project->id}}' +'/' + '{{$role->id}}'--}}
+        {{--        +'/' + '{{$item->id}}'--}}
+        {{--    , '_self', 'width=800, height=800');--}}
+        {{--var path = '{{route('item.browser', '')}}' + '/' + {{$link->id}}+'/' + {{$project->id}} +'/' + {{$role->id}} +'/' + {{$item->id}} +'/'--}}
+        {{--    + '{{$order_by}}' +'/' + '{{$filter_by}}' + '/' + document.getElementById('search').value;--}}
+        var path = '{{route('item.browser', '')}}' + '/' + {{$link->id}} + '/' + {{$project->id}} + '/' + {{$role->id}} + '/' + {{$relit_id}} + '/' + {{$item_id}}
+            + '/' + '{{$order_by}}' + '/' + '{{$order_by}}' + '/' + document.getElementById('search').value;
         open(path, '_self', 'width=800, height=800');
 
     };
