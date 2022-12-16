@@ -47,7 +47,7 @@
             {{--                         alt="" title="{{$item->title_img()}}">--}}
             {{--                </a>--}}
             {{--                            </li>--}}
-            <hr class="hr_list">
+            <hr class="hr_ext_show">
         @elseif($base->type_is_document)
             {{--                            <li>--}}
             {{--                                <b>--}}
@@ -57,7 +57,7 @@
             {{--                </a>--}}
             {{--                                </b>--}}
             {{--                            </li>--}}
-            <hr class="hr_list">
+            <hr class="hr_ext_show">
         @else
             {{--                Если тип-вычисляемое наименование и Показывать Основу с вычисляемым наименованием--}}
             {{--                или если тип-не вычисляемое наименование--}}
@@ -87,7 +87,7 @@
                     {{--                </span>--}}
                     {{--                                        </b>--}}
                 </div>
-                <hr class="hr_list">
+                <hr class="hr_ext_show">
                 {{--                                </li>--}}
             @endif
         @endif
@@ -109,7 +109,7 @@
         {{--                </a>--}}
     </div>
     @if($base->is_code_needed == true)
-        <hr class="hr_list">
+        <hr class="hr_ext_show">
         <small class="text-label"><small>
                 {{trans('main.code')}}
             </small></small>
@@ -125,7 +125,7 @@
     {{--        <p class="text-label">--}}
 
     @if($base_right['is_list_base_sort_creation_date_desc'] == true)
-        <hr class="hr_list">
+        <hr class="hr_ext_show">
         <small class="text-label"><small>
                 {{trans('main.date')}}
             </small></small>
@@ -164,7 +164,7 @@
             }
             ?>
             @if($base_link_right['is_show_link_enable'] == true)
-                <hr class="hr_list">
+                <hr class="hr_ext_show">
                 <small class="text-label">
                     <small>
                         {{--                            @if($base_link_right['is_bsmn_base_enable'] == true)--}}

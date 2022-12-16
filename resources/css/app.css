@@ -15,9 +15,17 @@
     color: #ffdc28;
 }
 
-.hr_list {
-    margin-top: 8px;
-    margin-bottom: 0
+.hr_card {
+    margin-top: 0;
+    margin-bottom: 0;
+    margin-left: 0.25em;
+    margin-right: 0.25em;
+}
+
+.hr_ext_show {
+    /*margin-top: 8px;*/
+    margin-top: 0.25em;
+    margin-bottom: 0;
 }
 
 /*

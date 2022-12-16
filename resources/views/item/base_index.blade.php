@@ -258,6 +258,7 @@
                                         @include('view.img',['item'=>$item_find, 'size'=>"medium", 'filenametrue'=>false, 'link'=>false, 'img_fluid'=>true, 'card_img_top'=>true, 'title'=>$item->name()])
                                     </a>
                                 </div>
+                                <hr class="hr_card">
                             @endif
                             {{--                    <div class="card-footer">--}}
                             <h6 class="card-title text-center pt-2"><a
