@@ -107,8 +107,8 @@
                                  alt="{{trans('main.verify_baselink')}}">
                         </a>
                     </div>
-{{--                @endif--}}
-                        {{--                @if (Auth::user()->isAdmin())--}}
+                    {{--                @endif--}}
+                    {{--                @if (Auth::user()->isAdmin())--}}
                     <div class="col-12 text-right">
                         <a href="{{route('item.verify_number_values')}}" title="{{trans('main.verify_number_values')}}">
                             {{trans('main.verify_number_values')}}
@@ -240,46 +240,49 @@
                             <p class="card-header text-center text-label">{{trans('main.code')}}: {{$item->code}}</p>
                         </a>
                     @endif
-{{--                    <div class="card-body d-flex align-items-center">--}}
-                        <div class="card-body p-0">
-                            @if($item_find)
-                                {{--                            <div class="card-block text-center">--}}
-                                <div class="text-center">
-                                    {{-- https://askdev.ru/q/kak-vyzvat-funkciyu-javascript-iz-tega-href-v-html-276225/--}}
-                                    <a href="{{route('item.ext_show', ['item'=>$item, 'project'=>$project, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id,
+                    {{--                    <div class="card-body d-flex align-items-center">--}}
+                    <div class="card-body p-0">
+                        @if($item_find)
+                            {{--                            <div class="card-block text-center">--}}
+                            <div class="text-center">
+                                {{-- https://askdev.ru/q/kak-vyzvat-funkciyu-javascript-iz-tega-href-v-html-276225/--}}
+                                <a href="{{route('item.ext_show', ['item'=>$item, 'project'=>$project, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id,
                                     'heading' => $heading,'base_index_page'=>$base_index_page, 'body_link_page'=>$body_link_page,'body_all_page'=>$body_all_page,
                                     'par_link'=>null, 'parent_item'=>null,
                                     'string_current' => $string_current,
                                     ])}}"
-                                       title="{{$item->name()}}">
-                                        {{--                                'string_all_codes_current' => $string_all_codes_current,--}}
-                                        {{--                                'string_link_ids_current' => $string_link_ids_current,--}}
-                                        {{--                                'string_item_ids_current' => $string_item_ids_current,--}}
-                                        @include('view.img',['item'=>$item_find, 'size'=>"medium", 'filenametrue'=>false, 'link'=>false, 'img_fluid'=>true, 'card_img_top'=>true, 'title'=>$item->name()])
-                                    </a>
-                                </div>
-                            @endif
-                            {{--                    <div class="card-footer">--}}
-                            <h6 class="card-title text-center pt-2"><a
-                                    href="{{route('item.ext_show', ['item'=>$item, 'project'=>$project, 'role'=>$role, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id,
+                                   title="{{$item->name()}}">
+                                    {{--                                'string_all_codes_current' => $string_all_codes_current,--}}
+                                    {{--                                'string_link_ids_current' => $string_link_ids_current,--}}
+                                    {{--                                'string_item_ids_current' => $string_item_ids_current,--}}
+                                    @include('view.img',['item'=>$item_find, 'size'=>"medium", 'filenametrue'=>false, 'link'=>false, 'img_fluid'=>true, 'card_img_top'=>true, 'title'=>$item->name()])
+                                </a>
+                            </div>
+                        @endif
+                    </div>
+                    {{--                        <h6 class="card-title text-center pt-2">--}}
+                    <h6 class="card-footer text-center pt-2">
+                        <a
+                            href="{{route('item.ext_show', ['item'=>$item, 'project'=>$project, 'role'=>$role, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id,
                                     'heading' => $heading,'base_index_page'=>$base_index_page, 'body_link_page'=>$body_link_page,'body_all_page'=>$body_all_page,
                                     'par_link'=>null, 'parent_item'=>null,
                              'string_current' => $string_current,
                                     ])}}"
-                                    title="{{$item->name()}}">
-                                    {{--                                'string_all_codes_current' => $string_all_codes_current,--}}
-                                    {{--                                'string_link_ids_current' => $string_link_ids_current,--}}
-                                    {{--                                'string_item_ids_current' => $string_item_ids_current,--}}
-                                    {{--                            Где $item->name() выходит в cards выводить "<?php echo GlobalController::to_html();?>"--}}
-                                    <?php echo $item->nmbr(false);?>
-                                </a></h6>
-                            {{--                    </div>--}}
-                    </div>
-                    <div class="card-footer">
-                        <small class="text-muted">
-                            {{$item->created_at->Format(trans('main.format_date'))}}
-                        </small>
-                    </div>
+                            title="{{$item->name()}}">
+                            {{--                                'string_all_codes_current' => $string_all_codes_current,--}}
+                            {{--                                'string_link_ids_current' => $string_link_ids_current,--}}
+                            {{--                                'string_item_ids_current' => $string_item_ids_current,--}}
+                            {{--                            Где $item->name() выходит в cards выводить "<?php echo GlobalController::to_html();?>"--}}
+                            <?php echo $item->nmbr(false);?>
+                        </a>
+                    </h6>
+                    {{--                    </div>--}}
+
+                    {{--                    <div class="card-footer">--}}
+                    {{--                        <small class="text-muted">--}}
+                    {{--                            {{$item->created_at->Format(trans('main.format_date'))}}--}}
+                    {{--                        </small>--}}
+                    {{--                    </div>--}}
                 </div>
                 <br>
                 <?php
@@ -300,7 +303,7 @@
                 {{-- В цикле $n раз вставляем вставляем пустые колонки--}}
                 @for($k = 0; $k < $n; $k++)
                     {{-- Вставляем пустую карточку--}}
-{{--                        <div class="card border-0 m-1">--}}
+                    {{--                        <div class="card border-0 m-1">--}}
                     <div class="card m-1">
                     </div>
                 @endfor
