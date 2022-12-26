@@ -492,7 +492,7 @@ class ItemController extends Controller
         // Используется последний элемент массива $tree_array
         $tree_array_last_link_id = null;
         $tree_array_last_item_id = null;
-        $tree_array_last_string_previous = '';
+        $tree_array_last_string_previous = GlobalController::const_null() . ';' . GlobalController::const_null() . ';' . GlobalController::const_null() . ';' . GlobalController::const_null();
         $count_tree_array = count($tree_array);
         if ($count_tree_array > 0) {
             // ' - 1' т.к. нумерация массива $tree_array с нуля начинается

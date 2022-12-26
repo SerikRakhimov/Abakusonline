@@ -4,7 +4,7 @@ use \App\Http\Controllers\GlobalController;
     <!doctype html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
-{{--    <meta http-equiv="Refresh" content="30">--}}
+    {{--    <meta http-equiv="Refresh" content="30">--}}
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="keywords" CONTENT="Первая облачная мультиязычная универсальная расчетная учетная платформа">
@@ -27,17 +27,24 @@ use \App\Http\Controllers\GlobalController;
     @include('layouts.style_header')
     <style>
         .navbar {
-        {{--background-image: url('{{Storage::url('newyear1.jpg')}}');--}}
-
-
-
-
-
+            background-image: url('{{Storage::url('newyear.jpg')}}');
+            background-size: cover;
+            background-position: center center;
+            background-repeat: no-repeat;
+            height: 100%;
         }
     </style>
 </head>
-{{--<body background="{{Storage::url('background_2.jpg')}}">--}}
-<body>
+{{--<body background="{{Storage::url('newyear.jpeg')}}">--}}
+{{--<body>--}}
+<body background="{{Storage::url('newyear.jpg')}}"
+      style="
+background-size: cover;
+background-position: center center;
+background-repeat: no-repeat;
+height: 100%;
+"
+>
 {{--    <div id="app">--}}
 {{--        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">--}}
 {{--            <div class="container">--}}
@@ -123,7 +130,8 @@ use \App\Http\Controllers\GlobalController;
             {{--                </a>--}}
             {{--            @endforeach--}}
             <a class="navbar-brand" href="{{ url('/') }}" title="{{config('app.name')}}">
-                <img src="{{Storage::url('logotype.png')}}" width="30" height="30" class="circle d-inline-block align-top"
+                <img src="{{Storage::url('logotype.png')}}" width="30" height="30"
+                     class="circle d-inline-block align-top"
                      alt="" loading="lazy">
                 {{config('app.name')}}
             </a>
@@ -252,11 +260,12 @@ use \App\Http\Controllers\GlobalController;
                         @endif
                     @else
                         <?php
-                            $get_user_author_avatar_item = Auth::user()->get_user_avatar_item();
+                        $get_user_author_avatar_item = Auth::user()->get_user_avatar_item();
                         ?>
                         <li class="nav-item dropdown">
                             <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
-                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre title="{{Auth::user()->name}}">
+                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre
+                               title="{{Auth::user()->name}}">
                                 {{Auth::user()->name}}
                                 @if($get_user_author_avatar_item)
                                     @include('view.img',['item'=>$get_user_author_avatar_item, 'size'=>"avatar", 'filenametrue'=>false, 'link'=>false, 'img_fluid'=>false, 'card_img_top'=>false, 'title'=>Auth::user()->name])
