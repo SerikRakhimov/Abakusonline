@@ -56,17 +56,17 @@ class ProjectController extends Controller
 
         if (Auth::check()) {
 //            // 'orwhereHas' правильно
-//            $projects = $projects->orwhereHas('accesses', function ($query) {
-//                $query->where('user_id', GlobalController::glo_user_id())
-//                    ->where('is_access_allowed', true);
-//            })->whereHas('template.roles', function ($query) {
-//                $query->where('is_author', false);
-//            });
-            // 'orwhereHas' правильно
             $projects = $projects->orwhereHas('accesses', function ($query) {
                 $query->where('user_id', GlobalController::glo_user_id())
                     ->where('is_access_allowed', true);
+            })->whereHas('template.roles', function ($query) {
+                $query->where('is_author', false);
             });
+            // 'orwhereHas' правильно
+//            $projects = $projects->orwhereHas('accesses', function ($query) {
+//                $query->where('user_id', GlobalController::glo_user_id())
+//                    ->where('is_access_allowed', true);
+//            });
         }
 
         $projects = $projects->orderBy('user_id')->orderBy('template_id')->orderBy('created_at');

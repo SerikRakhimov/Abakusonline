@@ -16,6 +16,7 @@ $i_par_link = null;
 // Вызов list\table.php из base_index.php
 if ($base_index == true) {
     $i_par_link = GlobalController::par_link_const_text_base_null();
+    //$i_par_link = null;
 } else {
 //    $i_par_link = GlobalController::par_link_const_textnull();
     $i_par_link = $view_link;
@@ -235,12 +236,15 @@ $link_image = $tile_view['link'];
                     <td class="text-center">
                         {{--                    Не удалять--}}
                         {{--                    <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc()])}}">--}}
+{{--    "'par_link' => GlobalController::set_par_view_link_null($view_link)" неправильно--}}
+{{--    "'par_link' => $view_link" правильно--}}
                         <a href="{{route('item.ext_show', ['item'=>$item, 'project'=>$project, 'role'=>$role,
     'usercode' =>GlobalController::usercode_calc(),
     'relit_id'=>$relit_id,
     'heading'=>$heading, 'base_index_page'=>$base_index_page, 'body_link_page'=>$body_link_page,'body_all_page'=>$body_all_page,
     'view_link' => GlobalController::set_par_view_link_null($view_link),
-    'par_link'=>$view_link, 'parent_item'=>$parent_item,
+    'par_link' => $view_link,
+    'parent_item'=>$parent_item,
     'parent_ret_id'=>$view_ret_id,
     'string_current' => $string_current,
     ])}}"

@@ -319,7 +319,7 @@ class GlobalController extends Controller
         //}
         $is_edit_base_enable = $is_edit_base_read || $is_edit_base_update;
         $is_edit_link_enable = $is_edit_link_read || $is_edit_link_update;
-//
+
         return ['base_id' => $base->id,
             'base_name' => $base->name(),
             'is_list_base_calc' => $is_list_base_calc,
@@ -578,6 +578,7 @@ class GlobalController extends Controller
 //            Не использовать "if ($view_ret_id != null)"
             $mains_link = Link::find($mains_link_id);
             if ($mains_link) {
+//              $base_right = self::base_right($base, $role, $view_ret_id);
                 $base_right = self::base_right($mains_link->child_base, $role, $view_ret_id);
                 //        $mains = Main::all()->where('parent_item_id', $item->id)->where('link_id', $current_link->id)->sortBy(function ($main) {
                 //            return $main->link->child_base->name() . $main->child_item->name();
@@ -594,10 +595,17 @@ class GlobalController extends Controller
 //            $ids = $coll_mains->keys()->toArray();
 //            $items = Item::whereIn('id', $ids);
 
+//                $items_ids = Main::select(DB::Raw('mains.child_item_id as id'))
+//                    ->join('items', 'mains.child_item_id', '=', 'items.id')
+//                    ->where('mains.parent_item_id', '=', $mains_item_id)
+//                    ->where('mains.link_id', '=', $mains_link_id);
+//              Похожие запросы в ItemController::next_all_links_mains_calc() и GlobalController::items_right()
                 $items_ids = Main::select(DB::Raw('mains.child_item_id as id'))
+                    ->join('links', 'mains.link_id', '=', 'links.id')
                     ->join('items', 'mains.child_item_id', '=', 'items.id')
                     ->where('mains.parent_item_id', '=', $mains_item_id)
-                    ->where('mains.link_id', '=', $mains_link_id);
+                    ->where('mains.link_id', '=', $mains_link_id)
+                    ->where('links.parent_is_base_link', '=', false);
 
                 if ($view_ret_id == 0) {
                     // Использовать '$parent_proj->id'
@@ -637,7 +645,7 @@ class GlobalController extends Controller
                 $items = $items->where('created_user_id', GlobalController::glo_user_id());
             } else {
                 $items = null;
-                $collection = null;
+                //$collection = null;
             }
         }
         if ($items != null) {
@@ -827,7 +835,7 @@ class GlobalController extends Controller
             'prev_item' => $prev_item, 'next_item' => $next_item];
     }
 
-    static function item_index_calc_data(Project $project, Item $item, Role $role, $relit_id, $link = null, $tree_array, $is_next_all_mains_calc)
+    static function item_index_calc_data_1(Project $project, Item $item, Role $role, $relit_id, $link = null, $tree_array, $is_next_all_mains_calc)
     {
         // Шаблон проекта
         $template_project = Template::select(DB::Raw('templates.id'))
@@ -864,7 +872,7 @@ class GlobalController extends Controller
     }
 
     // Предыдущая версия функции
-    static function item_index_calc_data_(Project $project, Item $item)
+    static function item_index_calc_data_2(Project $project, Item $item)
     {
         // Шаблон проекта
         $template_project = Template::select(DB::Raw('templates.id'))
@@ -1680,6 +1688,7 @@ class GlobalController extends Controller
     {
         $project = null;
         $mess = '';
+        $parent_is_required = false;
         if ($relit_id == 0 || $relit_id == null) {
             // Возвращается текущий проект
             $project = $current_project;
@@ -1687,6 +1696,7 @@ class GlobalController extends Controller
             // Поиск взаимосвязанного проекта
             $relit = Relit::find($relit_id);
             if ($relit) {
+                $parent_is_required = $relit->parent_is_required;
                 $relip = Relip::where('relit_id', $relit->id)->where('child_project_id', $current_project->id)->first();
                 if ($relip) {
                     $project = $relip->parent_project;
@@ -1698,7 +1708,7 @@ class GlobalController extends Controller
             }
         }
         // Проверка и вывод сообщения нужны
-        if ($project == null && $is_message == true) {
+        if ($parent_is_required && $project == null && $is_message == true) {
             dd('current_project: ' . $current_project->name_id()
                 . ', template: ' . $current_project->template->name_id()
                 . ', relit_id: ' . $relit_id . ', '
@@ -2369,6 +2379,15 @@ class GlobalController extends Controller
         return $result;
     }
 
+    static function set_rev_relit_id($relit_id)
+    {
+        $result = $relit_id;
+        if ($result == null) {
+            $result = self::const_null();
+        }
+        return $result;
+    }
+
     static function set_par_view_link_null($view_link)
     {
         $result = $view_link;
@@ -2414,7 +2433,7 @@ class GlobalController extends Controller
             // Начинать со строчной буквы
             $result = mb_strtolower($name);
         }
-        if($dvoetoch){
+        if ($dvoetoch) {
             $result = $result . ":";
         }
         return $result;

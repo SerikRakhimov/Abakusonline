@@ -129,7 +129,7 @@
     $link_image = $tile_view['link'];
     //$i = $items->firstItem() - 1;
     $i = 0;
-    ?>
+     ?>
     <!---->
     {{--            <p>Выберите любимого персонажа:</p>--}}
     {{--            <p><input list="character">--}}

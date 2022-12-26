@@ -16,9 +16,9 @@
     @include('layouts.project.show_project_role',['project'=>$project, 'role'=>$role, 'relit_id'=>$relit_id])
     <h3 class="display-5">
         {{--        'Показывать признак "В истории" при просмотре записи'--}}
-        @if($base_right['is_show_hist_attr_enable'] == true)
+{{--        @if($base_right['is_show_hist_attr_enable'] == true)--}}
             @include('layouts.item.show_history',['item'=>$item])
-        @endif
+{{--        @endif--}}
         @if ($type_form == 'show')
             {{trans('main.viewing_record')}}
         @elseif($type_form == 'delete_question')
@@ -27,7 +27,7 @@
         <span class="text-label">-</span> <span class="text-title">{{$item->base->info()}}</span>
     </h3>
     <br>
-     <?php
+    <?php
     if ($base_right['is_hier_base_enable'] == true) {
         $result = ItemController::form_parent_deta_hier($item->id, $project, $role, $relit_id, false);
         echo $result;
@@ -66,7 +66,7 @@
                 {{--                                            $numcat = true - вывод числовых полей с разрядом тысячи/миллионы/миллиарды--}}
                 {{--                                <li>--}}
                 <div class="text-label">
-{{--                    <big>{{$base->name()}}:</big>--}}
+                    {{--                    <big>{{$base->name()}}:</big>--}}
                     {{--                            <span class="text-related">--}}
                     {{--                                        <b>--}}
                     @if($base->type_is_text())
@@ -121,9 +121,7 @@
             {{--                        </a>--}}
         </div>
     @endif
-
     {{--        <p class="text-label">--}}
-
     @if($base_right['is_list_base_sort_creation_date_desc'] == true)
         <hr class="hr_ext_show">
         <small class="text-label"><small>
@@ -155,13 +153,12 @@
         ?>
         @if($link && $item_find)
             <?php
-            $base_link_right = null;
-            if ($heading == 1 || $base_index_page > 0) {
-                $base_link_right = GlobalController::base_link_right($link, $role, $relit_id);
-            } else {
-                //$base_link_right = GlobalController::base_link_right($link, $role, $parent_ret_id);
-                $base_link_right = GlobalController::base_link_right($link, $role, $link->parent_relit_id);
-            }
+            //            $base_link_right = null;
+            //            if ($heading == 1 || $base_index_page > 0) {
+            $base_link_right = GlobalController::base_link_right($link, $role, $relit_id);
+            //            } else {
+            //                $base_link_right = GlobalController::base_link_right($link, $role, $link->parent_relit_id);
+            //            }
             ?>
             @if($base_link_right['is_show_link_enable'] == true)
                 <hr class="hr_ext_show">
@@ -247,19 +244,19 @@
     }
     ?>
     @if($role->is_author())
-    <hr>
-    <i>
-        <?php
-        $created_user_date_time = $item->created_user_date_time();
-        $updated_user_date_time = $item->updated_user_date_time();
-        ?>
-        <div class="text-label">{{trans('main.created_user_date_time')}}:
-            <span class="text-related">{{$created_user_date_time}}</span><br>
-            @if($created_user_date_time != $updated_user_date_time)
-                {{trans('main.updated_user_date_time')}}:
-                <span class="text-related">{{$updated_user_date_time}}</span></div>
-        @endif
-    </i>
+        <hr>
+        <i>
+            <?php
+            $created_user_date_time = $item->created_user_date_time();
+            $updated_user_date_time = $item->updated_user_date_time();
+            ?>
+            <div class="text-label">{{trans('main.created_user_date_time')}}:
+                <span class="text-related">{{$created_user_date_time}}</span><br>
+                @if($created_user_date_time != $updated_user_date_time)
+                    {{trans('main.updated_user_date_time')}}:
+                    <span class="text-related">{{$updated_user_date_time}}</span></div>
+            @endif
+        </i>
     @endif
     <br>
     @if ($type_form == 'show')
@@ -408,27 +405,42 @@
             {{--                <i class="fas fa-arrow-left"></i>--}}
             {{--                {{trans('main.return')}}--}}
             {{--            </button>--}}
-{{--            @include('layouts.item.base_index.previous_url')--}}
+            {{--            @include('layouts.item.base_index.previous_url')--}}
             {{--            Похожие строки вверху/внизу--}}
-{{--            <button type="button" class="btn btn-dreamer"--}}
-{{--                    onclick='document.location="{{route('item.ext_return',['item'=>$item,'project'=>$project, 'role'=>$role,--}}
-{{--            'usercode' =>GlobalController::usercode_calc(),--}}
-{{--            'string_current' => $string_current,--}}
-{{--            'heading' => $heading,--}}
-{{--            'relit_id'=>$relit_id,--}}
-{{--            'base_index_page' => $base_index_page, 'body_link_page' => $body_link_page, 'body_all_page' => $body_all_page,--}}
-{{--            'parent_ret_id' => $parent_ret_id,--}}
-{{--            'view_link' => $view_link,--}}
-{{--            'par_link' => $par_link, 'parent_item' => $parent_item])}}"'--}}
-{{--                    title="{{trans('main.return')}}" @include('layouts.item.base_index.previous_url')>--}}
-{{--                <i class="fas fa-arrow-left"></i>--}}
-{{--                {{trans('main.return')}}--}}
-{{--            </button>--}}
+            {{--            <button type="button" class="btn btn-dreamer"--}}
+            {{--                    onclick='document.location="{{route('item.ext_return',['item'=>$item,'project'=>$project, 'role'=>$role,--}}
+            {{--            'usercode' =>GlobalController::usercode_calc(),--}}
+            {{--            'string_current' => $string_current,--}}
+            {{--            'heading' => $heading,--}}
+            {{--            'relit_id'=>$relit_id,--}}
+            {{--            'base_index_page' => $base_index_page, 'body_link_page' => $body_link_page, 'body_all_page' => $body_all_page,--}}
+            {{--            'parent_ret_id' => $parent_ret_id,--}}
+            {{--            'view_link' => $view_link,--}}
+            {{--            'par_link' => $par_link, 'parent_item' => $parent_item])}}"'--}}
+            {{--                    title="{{trans('main.return')}}" @include('layouts.item.base_index.previous_url')>--}}
+            {{--                <i class="fas fa-arrow-left"></i>--}}
+            {{--                {{trans('main.return')}}--}}
+            {{--            </button>--}}
             <button type="button" class="btn btn-dreamer"
-                    title="{{trans('main.return')}}" onclick="javascript:history.back();">
+                    onclick='document.location="{{route('item.ext_return',['item'=>$item,'project'=>$project, 'role'=>$role,
+            'usercode' =>GlobalController::usercode_calc(),
+            'string_current' => $string_current,
+            'heading' => $heading,
+            'relit_id'=>$relit_id,
+            'base_index_page' => $base_index_page, 'body_link_page' => $body_link_page, 'body_all_page' => $body_all_page,
+            'parent_ret_id' => $parent_ret_id,
+            'view_link' => $view_link,
+            'par_link' => $par_link, 'parent_item' => $parent_item])}}"'
+                    title="{{trans('main.return')}}"
+            >
                 <i class="fas fa-arrow-left"></i>
                 {{trans('main.return')}}
             </button>
+{{--            <button type="button" class="btn btn-dreamer"--}}
+{{--                    title="{{trans('main.return')}}" onclick="javascript:history.back();">--}}
+{{--                <i class="fas fa-arrow-left"></i>--}}
+{{--                {{trans('main.return')}}--}}
+{{--            </button>--}}
         </p>
     @elseif($type_form == 'delete_question')
         {{-- Используется "'relit_id'=>$parent_ret_id, 'parent_ret_id' => $relit_id"--}}
@@ -484,16 +496,17 @@
             'parent_ret_id' => $parent_ret_id,
             'view_link' => $view_link,
             'par_link' => $par_link, 'parent_item' => $parent_item])}}"'
-                        title="{{trans('main.return')}}" @include('layouts.item.base_index.previous_url')>
-                    <i class="fas fa-arrow-left"></i>
-                    {{trans('main.return')}}
-                </button>
-                <button type="button" class="btn btn-dreamer"
                         title="{{trans('main.return')}}"
-                    @include('layouts.item.base_index.previous_url')>
+                >
                     <i class="fas fa-arrow-left"></i>
                     {{trans('main.return')}}
                 </button>
+{{--                <button type="button" class="btn btn-dreamer"--}}
+{{--                        title="{{trans('main.return')}}"--}}
+{{--                    @include('layouts.item.base_index.previous_url')>--}}
+{{--                    <i class="fas fa-arrow-left"></i>--}}
+{{--                    {{trans('main.return')}}--}}
+{{--                </button>--}}
             </p>
         </form>
     @endif
