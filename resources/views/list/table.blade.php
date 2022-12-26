@@ -131,7 +131,7 @@ $link_image = $tile_view['link'];
         </div>
     </div>
 @else
-    <table class="table table-sm table-hover bg-transparent
+    <table class="table table-sm table-hover
         @if($heading)
         table-borderless
         @endif

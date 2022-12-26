@@ -95,7 +95,7 @@
             {{-- В цикле $n раз вставляем вставляем пустые колонки--}}
             @for($k = 0; $k < $n; $k++)
                 {{-- Вставляем пустую карточку--}}
-                <div class="card m-2">
+                <div class="card m-2 bg-transparent">
                 </div>
             @endfor
         @endif
