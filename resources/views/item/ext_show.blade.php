@@ -428,7 +428,7 @@
             'heading' => $heading,
             'relit_id'=>$relit_id,
             'base_index_page' => $base_index_page, 'body_link_page' => $body_link_page, 'body_all_page' => $body_all_page,
-            'parent_ret_id' => $parent_ret_id,
+            'parent_ret_id' => set_rev_relit_id($parent_ret_id),
             'view_link' => $view_link,
             'par_link' => $par_link, 'parent_item' => $parent_item])}}"'
                     title="{{trans('main.return')}}"
@@ -493,7 +493,7 @@
             'heading' => $heading,
             'relit_id'=>$relit_id,
             'base_index_page' => $base_index_page, 'body_link_page' => $body_link_page, 'body_all_page' => $body_all_page,
-            'parent_ret_id' => $parent_ret_id,
+            'parent_ret_id' => set_rev_relit_id($parent_ret_id),
             'view_link' => $view_link,
             'par_link' => $par_link, 'parent_item' => $parent_item])}}"'
                         title="{{trans('main.return')}}"
