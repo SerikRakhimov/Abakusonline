@@ -203,7 +203,7 @@
                                     @foreach($calcname_mains as $calcname_main)
                                         <h6>
                                             {{GlobalController::calc_title_name($calcname_main->link->parent_label(),true, true)}}
-                                            <strong>{{$calcname_main->parent_item->name()}}</strong>
+                                            <strong>11111111111{{$calcname_main->parent_item->name()}}</strong>
                                             @if($calcname_main->parent_item->base->is_code_needed == true)
                                                 {{trans('main.code')}}:
                                                 <strong>{{$calcname_main->parent_item->code}}</strong>
