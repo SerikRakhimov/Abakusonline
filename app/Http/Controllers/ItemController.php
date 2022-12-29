@@ -1062,7 +1062,7 @@ class ItemController extends Controller
             // '->get()' нужно
             // Проекты $relip->parent_project_id находятся из существующих взаимосвязанных проектов $project
             $par_prs_ids = Relip::select(DB::Raw('relips.relit_id as relit_id, relips.parent_project_id as project_id'))
-                ->join('relits', 'relips.link_id', '=', 'relits.id')
+                ->join('relits', 'relips.relit_id', '=', 'relits.id')
                 ->where('child_project_id', '=', $project->id)
                 ->orderBy('relits.serial_number')
                 ->get();
