@@ -1062,7 +1062,9 @@ class ItemController extends Controller
             // '->get()' нужно
             // Проекты $relip->parent_project_id находятся из существующих взаимосвязанных проектов $project
             $par_prs_ids = Relip::select(DB::Raw('relips.relit_id as relit_id, relips.parent_project_id as project_id'))
+                ->join('relits', 'relips.link_id', '=', 'relits.id')
                 ->where('child_project_id', '=', $project->id)
+                ->order('relits.serial_number')
                 ->get();
             // Заполнение массива $array_link_relips, $key = $relit_id, $value = project_id
             foreach ($par_prs_ids as $value) {
@@ -1112,7 +1114,6 @@ class ItemController extends Controller
                 if ($find_proj) {
                     // Проверка на равенство шаблонов
                     if ($link->child_base->template_id != $find_proj->template_id) {
-                        //dd($link->child_base->template);
                         unset($array_link_relips[$key]);
                     } else {
 //                            // Проверка на $link->parent_relit_id и равенство проектов
