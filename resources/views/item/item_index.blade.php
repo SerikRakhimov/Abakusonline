@@ -166,7 +166,7 @@
                             'project'=>$project, 'role'=>$role, 'relit_id'=>$relit_id])}}"
                                title="{{$item->base->names($base_right) . $message_bs_info}}">
                                 @endif
-                                {{$title}}:
+                                {{$title}}555555:
                                 @if ($base_right['is_bsmn_base_enable'] == true)
                             </a>
                         @endif
@@ -203,7 +203,7 @@
                                     @foreach($calcname_mains as $calcname_main)
                                         <h6>
                                             {{GlobalController::calc_title_name($calcname_main->link->parent_label(),true, true)}}
-                                            <strong>11111111111{{$calcname_main->parent_item->name()}}</strong>
+                                            <strong>{{$calcname_main->parent_item->name()}}</strong>
                                             @if($calcname_main->parent_item->base->is_code_needed == true)
                                                 {{trans('main.code')}}:
                                                 <strong>{{$calcname_main->parent_item->code}}</strong>
