@@ -103,7 +103,6 @@
             } else {
                 $title = $item->base->name();
             }
-            dd($title);
             ?>
             {{--                    Выводить вычисляемое наименование--}}
             {{-- Одинаковые проверки должны быть в ItemController::item_index() и в item_index.php--}}
