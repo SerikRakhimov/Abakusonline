@@ -98,6 +98,7 @@
     <div class="container-fluid">
         <div class="row">
             <?php
+            dd($view_link);
             if ($view_link) {
                 $title = $view_link->parent_label();
             } else {
@@ -166,7 +167,7 @@
                             'project'=>$project, 'role'=>$role, 'relit_id'=>$relit_id])}}"
                                title="{{$item->base->names($base_right) . $message_bs_info}}">
                                 @endif
-                                {{$title}}555555:
+                                {{$title}}:
                                 @if ($base_right['is_bsmn_base_enable'] == true)
                             </a>
                         @endif
