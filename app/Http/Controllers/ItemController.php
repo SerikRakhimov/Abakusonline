@@ -838,6 +838,12 @@ class ItemController extends Controller
                                     $str = $str . ($i == 0 ? '' : ',') . $link_id;
                                     $result[$i]['link_id'] = $link_id;
                                     $result[$i]['string_link_ids'] = $str;
+                                    $link = link::find($link_id);
+                                    if ($link) {
+                                        $result[$i]['title_name'] = $link->child_base->name();
+                                    } else {
+                                        $result[$i]['title_name'] = "";
+                                    }
                                     $i = $i + 1;
                                 }
                                 // Заполнение массива по $relit_id должно быть перед заполнением массива по $item_id
@@ -863,7 +869,7 @@ class ItemController extends Controller
                                     // Эти массивы используются в item_index.php при выводе $tree_array
                                     $result[$i]['base_id'] = $item->base_id;
                                     $result[$i]['base_names'] = $item->base->names($base_right);
-                                    $result[$i]['title_name'] = $item->base->name();
+                                    //$result[$i]['title_name'] = $item->base->name();
                                     $result[$i]['item_name'] = $item->name();
                                     // Для вызова 'item.base_index' нужно
                                     $result[$i]['is_bsmn_base_enable'] = $base_right['is_bsmn_base_enable'];
