@@ -98,12 +98,12 @@
     <div class="container-fluid">
         <div class="row">
             <?php
-            dd($view_link);
             if ($view_link) {
                 $title = $view_link->parent_label();
             } else {
                 $title = $item->base->name();
             }
+            dd($title);
             ?>
             {{--                    Выводить вычисляемое наименование--}}
             {{-- Одинаковые проверки должны быть в ItemController::item_index() и в item_index.php--}}
