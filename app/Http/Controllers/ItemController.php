@@ -840,7 +840,7 @@ class ItemController extends Controller
                                     $result[$i]['string_link_ids'] = $str;
                                     $link = link::find($link_id);
                                     if ($link) {
-                                        $result[$i]['title_name'] = $link->child_base->name();
+                                        $result[$i]['title_name'] = $link->parent_base->name();
                                     } else {
                                         $result[$i]['title_name'] = "";
                                     }
