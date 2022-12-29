@@ -1064,7 +1064,7 @@ class ItemController extends Controller
             $par_prs_ids = Relip::select(DB::Raw('relips.relit_id as relit_id, relips.parent_project_id as project_id'))
                 ->join('relits', 'relips.link_id', '=', 'relits.id')
                 ->where('child_project_id', '=', $project->id)
-                ->order('relits.serial_number')
+                ->orderBy('relits.serial_number')
                 ->get();
             // Заполнение массива $array_link_relips, $key = $relit_id, $value = project_id
             foreach ($par_prs_ids as $value) {
