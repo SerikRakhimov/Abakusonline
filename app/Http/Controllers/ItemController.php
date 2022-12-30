@@ -1115,8 +1115,10 @@ class ItemController extends Controller
 //                        }
 //                    }
                     if ($item_prs_ids_data) {
-                        if ($link->parent_relit_id != $key) {
-                            unset($array_link_relips[$key]);
+                        if ($link->parent_relit_id != 0) {
+                            if ($link->parent_relit_id != $key) {
+                                unset($array_link_relips[$key]);
+                            }
                         }
                     } else {
                         if ($item->project_id != $value) {
