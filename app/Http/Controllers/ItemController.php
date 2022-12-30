@@ -5149,11 +5149,11 @@ class ItemController extends Controller
         }
 
         // Если запись удаляется при просмотре Пространство с "шапки", то перейти на base_index
-        if ($heading == true) {
-            // Используется "'relit_id'=>$parent_ret_id"
-            return redirect()->route('item.base_index', ['base' => $item->base, 'project' => $project, 'role' => $role,
-                'relit_id' => $parent_ret_id]);
-        } else {
+//        if ($heading == true) {
+//            // Используется "'relit_id'=>$parent_ret_id"
+//            return redirect()->route('item.base_index', ['base' => $item->base, 'project' => $project, 'role' => $role,
+//                'relit_id' => $relit_id]);
+//        } else {
             //  Похожий текст в функциях ext_store(), ext_update(), ext_delete(), ext_return();
             //  По алгоритму передается $base_index_page, $body_link_page, $body_all_page - сохраненные номера страниц;
             $str_link = '';
@@ -5204,7 +5204,7 @@ class ItemController extends Controller
 //            } else {
 //                return redirect()->back();
 //            }
-        }
+        //}
     }
 
     static function is_delete(Item $item, Role $role, $heading, $base_index_page, $relit_id, $parent_ret_id)
