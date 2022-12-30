@@ -831,7 +831,7 @@ class ProjectController extends Controller
             'array_calc' => $child_relits_info['array_calc']]);
     }
 
-    function start(Project $project, Role $role = null)
+    static function start(Project $project, Role $role = null)
     {
         // Если $role не передана, $role = null - идет поиск роли 'where('is_default_for_external', true)'
         if (!$role) {
