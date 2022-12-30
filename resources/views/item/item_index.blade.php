@@ -101,7 +101,7 @@
             if ($view_link) {
                 $title = $view_link->parent_label();
             } else {
-                $title = $item->base->name().';
+                $title = $item->base->name();
             }
             ?>
             {{--                    Выводить вычисляемое наименование--}}
