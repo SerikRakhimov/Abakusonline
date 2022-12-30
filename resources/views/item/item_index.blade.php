@@ -99,8 +99,8 @@
         <div class="row">
             <?php
             if ($view_link) {
-                dd($title);
                 $title = $view_link->parent_label().'11111111111111111111';
+                dd($view_link);
             } else {
                 $title = $item->base->name().'2222222222222222222';
             }
