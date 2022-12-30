@@ -1089,46 +1089,46 @@ class ItemController extends Controller
                 }
             } else {
                 // relips проекта $item->parent_id
-                $item_prs_ids_data = Relip::select(DB::Raw('relips.relit_id as relit_id, relips.parent_project_id as project_id'))
-                    ->where('child_project_id', '=', $project->id)
-                    ->where('relit_id', '=', $link->parent_relit_id)
-                    ->where('parent_project_id', '=', $item->project_id)
-                    ->first();
-                $item_prs_ids_found = $item_prs_ids_data;
-                if ($item_prs_ids_found) {
-                    foreach ($array_link_relips as $key => $value) {
-                        //if ($item_prs_ids_data->project_id != $value) {
-                        if (($item->project_id != $value) || ($link->parent_relit_id != $key)) {
-                            unset($array_link_relips[$key]);
-                        }
-                    }
-                }
+//                $item_prs_ids_data = Relip::select(DB::Raw('relips.relit_id as relit_id, relips.parent_project_id as project_id'))
+//                    ->where('child_project_id', '=', $project->id)
+//                    ->where('relit_id', '=', $link->parent_relit_id)
+//                    ->where('parent_project_id', '=', $item->project_id)
+//                    ->first();
+//                $item_prs_ids_found = $item_prs_ids_data;
+//                if (!$item_prs_ids_found) {
+//                    foreach ($array_link_relips as $key => $value) {
+//                        //if ($item_prs_ids_data->project_id != $value) {
+//                        if ($item->project_id != $value) {
+//                            unset($array_link_relips[$key]);
+//                        }
+//                    }
+//                }
                 foreach ($array_link_relips as $key => $value) {
-                    if ($link->child_base->template_id == $project->template_id && $link->parent_relit_id != 0 && $link->parent_relit_id != $key) {
-                        //unset($array_link_relips[$key]);
-                    } else {
-                        $item_prs_ids_data = Relip::select(DB::Raw('relips.child_project_id as project_id'))
-                            ->where('child_project_id', '=', $value)
-                            ->where('relit_id', '=', $link->parent_relit_id)
-                            ->where('parent_project_id', '=', $item->project_id)
-                            ->exists();
+                    //if ($link->child_base->template_id == $project->template_id && $link->parent_relit_id != 0 && $link->parent_relit_id != $key) {
+                    //unset($array_link_relips[$key]);
+                    //} else {
+                    $item_prs_ids_data = Relip::select(DB::Raw('relips.child_project_id as project_id'))
+                        ->where('child_project_id', '=', $value)
+                        ->where('relit_id', '=', $link->parent_relit_id)
+                        ->where('parent_project_id', '=', $item->project_id)
+                        ->exists();
 //                    if (!$item_prs_ids_data) {
 //                        if ($item->project_id != $value) {
 //                            unset($array_link_relips[$key]);
 //                        }
 //                    }
-                        if ($item_prs_ids_data) {
+                    if ($item_prs_ids_data) {
 //                        if ($link->parent_relit_id != 0) {
 //                            if ($link->parent_relit_id != $key) {
 //                                unset($array_link_relips[$key]);
 //                            }
 //                        }
-                        } else {
-                            if ($item->project_id != $value) {
-                                unset($array_link_relips[$key]);
-                            }
+                    } else {
+                        if ($item->project_id != $value) {
+                            unset($array_link_relips[$key]);
                         }
                     }
+                    //}
                 }
             }
             // Цикл по relips текущего проекта, вкл. relit_id = 0
