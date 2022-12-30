@@ -1109,7 +1109,16 @@ class ItemController extends Controller
                         ->where('relit_id', '=', $link->parent_relit_id)
                         ->where('parent_project_id', '=', $item->project_id)
                         ->exists();
-                    if (!$item_prs_ids_data) {
+//                    if (!$item_prs_ids_data) {
+//                        if ($item->project_id != $value) {
+//                            unset($array_link_relips[$key]);
+//                        }
+//                    }
+                    if ($item_prs_ids_data) {
+                        if ($link->parent_relit_id != $key) {
+                            unset($array_link_relips[$key]);
+                        }
+                    } else {
                         if ($item->project_id != $value) {
                             unset($array_link_relips[$key]);
                         }
