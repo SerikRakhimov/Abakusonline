@@ -1095,10 +1095,10 @@ class ItemController extends Controller
                     ->where('parent_project_id', '=', $item->project_id)
                     ->first();
                 $item_prs_ids_found = $item_prs_ids_data;
-                if (!$item_prs_ids_found) {
+                if ($item_prs_ids_found) {
                     foreach ($array_link_relips as $key => $value) {
                         //if ($item_prs_ids_data->project_id != $value) {
-                        if ($item->project_id != $value) {
+                        if (($item->project_id != $value) || ($link->parent_relit_id != $key)) {
                             unset($array_link_relips[$key]);
                         }
                     }
