@@ -565,7 +565,6 @@ class ItemController extends Controller
 //                           похожая проверка в list\table.php, ItemController::item_index() и ext_show.php
                 // = false
                 if (GlobalController::is_base_calcname_check($current_link->child_base, $base_body_right) == false) {
-                    dd(1);
                     // Не исключать переданный $nolink - null
                     // В таблице 'item_body_base' должно быть как минимум два столбца: номер строки с вызовом 'item.show'
                     // и вычисляемое наименование, код, связи для вызова 'item.item_index'.
