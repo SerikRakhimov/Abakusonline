@@ -267,6 +267,7 @@ class ItemController extends Controller
         // Похожая проверка в GlobalController::get_project_bases(), ItemController::base_index() и project/start.php
         if ($base_right['is_bsmn_base_enable'] == false) {
             //return view('message', ['message' => trans('main.no_access')]);
+            // Вызов главного меню
             return redirect()->route('project.start', ['project' => $project, 'role' => $role]);
         }
 
