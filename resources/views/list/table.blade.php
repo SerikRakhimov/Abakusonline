@@ -78,19 +78,19 @@ $link_image = $tile_view['link'];
                     {{--                        <h6 class="card-title text-center pt-2">--}}
                     <div class="card-title text-center">
                         <h6>
-                            <a
-                                href="{{route('item.ext_show', ['item'=>$item, 'project'=>$project, 'role'=>$role, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id,
-                                    'heading' => $heading,'base_index_page'=>$base_index_page, 'body_link_page'=>$body_link_page,'body_all_page'=>$body_all_page,
-                                    'par_link'=>null, 'parent_item'=>null,
-                             'string_current' => $string_current,
-                                    ])}}"
-                                title="{{$item->name()}}">
-                                {{--                                'string_all_codes_current' => $string_all_codes_current,--}}
-                                {{--                                'string_link_ids_current' => $string_link_ids_current,--}}
-                                {{--                                'string_item_ids_current' => $string_item_ids_current,--}}
-                                {{--                            Где $item->name() выходит в cards выводить "<?php echo GlobalController::to_html();?>"--}}
-                                <?php echo $item->nmbr(false);?>
-                            </a>
+{{--                            <a--}}
+{{--                                href="{{route('item.ext_show', ['item'=>$item, 'project'=>$project, 'role'=>$role, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id,--}}
+{{--                                    'heading' => $heading,'base_index_page'=>$base_index_page, 'body_link_page'=>$body_link_page,'body_all_page'=>$body_all_page,--}}
+{{--                                    'par_link'=>null, 'parent_item'=>null,--}}
+{{--                             'string_current' => $string_current,--}}
+{{--                                    ])}}"--}}
+{{--                                title="{{$item->name()}}">--}}
+{{--                                --}}{{--                                'string_all_codes_current' => $string_all_codes_current,--}}
+{{--                                --}}{{--                                'string_link_ids_current' => $string_link_ids_current,--}}
+{{--                                --}}{{--                                'string_item_ids_current' => $string_item_ids_current,--}}
+{{--                                --}}{{--                            Где $item->name() выходит в cards выводить "<?php echo GlobalController::to_html();?>"--}}
+{{--                                <?php echo $item->nmbr(false);?>--}}
+{{--                            </a>--}}
                             <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,
         'usercode' =>GlobalController::usercode_calc(),
         'relit_id'=>$relit_id,
@@ -103,7 +103,7 @@ $link_image = $tile_view['link'];
         'prev_body_all_page'=>$body_all_page,
         ])}}"
                                title="{{$item->name()}}">
-                                <?php echo $item->nmbr(true);?>
+                                <?php echo $item->nmbr(false);?>
                             </a>
                         </h6>
                     </div>
