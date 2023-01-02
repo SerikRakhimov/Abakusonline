@@ -45,7 +45,7 @@ $link_image = $tile_view['link'];
             {{--                    <div class="card card-inverse text-center" style="background-color: rgba(222,255,162,0.23); border-color: #3548ee;">--}}
             <div class="card shadow m-2">
 {{--                <p class="card-header text-center text-label">{{$item->base->name()}}: {{$item->id}}--}}
-                <p class="card-header text-center text-title">{{$item->base->name()}}: {{$item->id}}
+                <small class="card-header text-center text-title">{{$item->base->name()}}: {{$item->id}}
                     @if($base->is_code_needed == true)
                         {{--                        <a href="{{route('item.ext_show', ['item'=>$item, 'project'=>$project, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id,--}}
                         {{--                                    'heading' => $heading,'base_index_page'=>$base_index_page, 'body_link_page'=>$body_link_page,'body_all_page'=>$body_all_page,--}}
@@ -58,7 +58,7 @@ $link_image = $tile_view['link'];
                         &nbsp;({{trans('main.code')}}: {{$item->code}})
                         {{--                        </a>--}}
                     @endif
-                </p>
+                </small>
                 {{--                    <div class="card-body d-flex align-items-center">--}}
                 <div class="card-body p-0">
                     @if($item_find)
