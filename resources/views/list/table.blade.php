@@ -103,10 +103,7 @@ $link_image = $tile_view['link'];
         'prev_body_all_page'=>$body_all_page,
         ])}}"
                                title="{{$item->name()}}">
-                                11111111<br>
                                 <?php echo $item->nmbr(false);?>
-                                <br>22222222<br>
-                                <?php echo GlobalController::it_txnm_n2b($item);?>
                             </a>
                         </h6>
                     </div>
