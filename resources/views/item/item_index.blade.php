@@ -60,7 +60,7 @@
         @foreach($tree_array as $value)
             <div class="row">
                 <div class="col-12 text-left">
-                    <h6>
+{{--                    <h6>--}}
                         @if($value['is_bsmn_base_enable'] == true)
                             <a href="{{route('item.base_index', ['base'=>$value['base_id'],
                             'project'=>$project, 'role'=>$role, 'relit_id'=>$value['relit_id']])}}"
@@ -87,7 +87,7 @@
                             {{--                <span class="badge badge-related">{{$value['info_name']}}</span>--}}
                             <small><small><small>{{$value['info_name']}}</small></small></small>
                         </a>
-                    </h6>
+{{--                    </h6>--}}
                 </div>
             </div>
         @endforeach
