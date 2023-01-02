@@ -60,34 +60,34 @@
         @foreach($tree_array as $value)
             <div class="row">
                 <div class="col-12 text-left">
-{{--                    <h6>--}}
-                        @if($value['is_bsmn_base_enable'] == true)
-                            <a href="{{route('item.base_index', ['base'=>$value['base_id'],
+                    {{--                    <h6>--}}
+                    @if($value['is_bsmn_base_enable'] == true)
+                        <a href="{{route('item.base_index', ['base'=>$value['base_id'],
                             'project'=>$project, 'role'=>$role, 'relit_id'=>$value['relit_id']])}}"
-                               title="{{$value['base_names']}}">
-                                @endif
-                                {{GlobalController::calc_title_name($value['title_name'], true, true)}}
-                                @if($value['is_bsmn_base_enable'] == true)
-                            </a>
-                        @endif
-                        <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$value['item_id'], 'role'=>$role,
+                           title="{{$value['base_names']}}">
+                            @endif
+                            {{GlobalController::calc_title_name($value['title_name'], true, true)}}
+                            @if($value['is_bsmn_base_enable'] == true)
+                        </a>
+                    @endif
+                    <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$value['item_id'], 'role'=>$role,
                                         'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$value['relit_id'],
                                         'called_from_button'=>0,
                                         'view_link'=>$value['all_code'] == GlobalController::const_alltrue() ? GlobalController::par_link_const_textnull():$value['link_id'],
 'string_current'=>$value['string_previous']
                                         ])}}"
-                           title="{{$value['item_name'] . ' ' . $value['info_name']}}">
-                            {{--                'string_link_ids_current'=>$value['string_prev_link_ids'],--}}
-                            {{--                'string_item_ids_current'=>$value['string_prev_item_ids'],--}}
-                            {{--                'string_relit_ids_current'=>$value['string_prev_relit_ids'],--}}
-                            {{--                'string_all_codes_current'=>$value['string_prev_all_codes']--}}
-                            {{--                {{$value['item_name']}}--}}
-                            {{--                {{$value['info_name']}}--}}
-                            <mark class="text-project">{{$value['item_name']}}</mark>
-                            {{--                <span class="badge badge-related">{{$value['info_name']}}</span>--}}
-                            <small><small><small>{{$value['info_name']}}</small></small></small>
-                        </a>
-{{--                    </h6>--}}
+                       title="{{$value['item_name'] . ' ' . $value['info_name']}}">
+                        {{--                'string_link_ids_current'=>$value['string_prev_link_ids'],--}}
+                        {{--                'string_item_ids_current'=>$value['string_prev_item_ids'],--}}
+                        {{--                'string_relit_ids_current'=>$value['string_prev_relit_ids'],--}}
+                        {{--                'string_all_codes_current'=>$value['string_prev_all_codes']--}}
+                        {{--                {{$value['item_name']}}--}}
+                        {{--                {{$value['info_name']}}--}}
+                        <mark class="text-project">{{$value['item_name']}}</mark>
+                        {{--                <span class="badge badge-related">{{$value['info_name']}}</span>--}}
+                        <small><small><small>{{$value['info_name']}}</small></small></small>
+                    </a>
+                    {{--                    </h6>--}}
                 </div>
             </div>
         @endforeach
@@ -109,22 +109,23 @@
             {{-- здесь равно true--}}
             {{-- @if(GlobalController::is_base_calcnm_correct_check($item->base, $base_right))--}}
             {{--                @if(GlobalController::is_base_calcname_check($item->base, $base_right) || $item->base->is_calcnm_correct_lst == true)--}}
-            @if(GlobalController::is_base_calcname_check($item->base, $base_right))
-                <div class="col-8 text-left">
-{{--                    <h6>--}}
-                        @if($base_right['is_bsmn_base_enable'] == true)
-                            <a href="{{route('item.base_index', ['base'=>$item->base,
+                        @if(GlobalController::is_base_calcname_check($item->base, $base_right))
+                            <div class="col-8 text-left">
+                                <big><big>
+                                {{--                    <h6>--}}
+                                @if($base_right['is_bsmn_base_enable'] == true)
+                                    <a href="{{route('item.base_index', ['base'=>$item->base,
                             'project'=>$project, 'role'=>$role, 'relit_id'=>$relit_id])}}"
-                               title="{{$item->base->names($base_right) . $message_bs_info}}">
+                                       title="{{$item->base->names($base_right) . $message_bs_info}}">
+                                        @endif
+                                        {{$title}}:
+                                        @if ($base_right['is_bsmn_base_enable'] == true)
+                                    </a>
                                 @endif
-                                {{$title}}:
-                                @if ($base_right['is_bsmn_base_enable'] == true)
-                            </a>
-                        @endif
-                        {{-- Одинаковые строки рядом (route('item.ext_show'))--}}
-                        @if ($base_right['is_list_base_calc'] == true)
-                            {{--              Использовать "'heading' => intval(true)", проверяется в окончании функции ItemController:ext_delete()--}}
-                            <a href="{{route('item.ext_show', ['item'=>$item, 'project'=>$project, 'role'=>$role,
+                                {{-- Одинаковые строки рядом (route('item.ext_show'))--}}
+                                @if ($base_right['is_list_base_calc'] == true)
+                                    {{--              Использовать "'heading' => intval(true)", проверяется в окончании функции ItemController:ext_delete()--}}
+                                    <a href="{{route('item.ext_show', ['item'=>$item, 'project'=>$project, 'role'=>$role,
                                             'usercode' =>GlobalController::usercode_calc(),
                                             'relit_id'=>$relit_id,
                                             'string_current' => $string_current,
@@ -133,48 +134,49 @@
             'view_link'=> GlobalController::set_par_view_link_null($view_link),
             'par_link'=>$tree_array_last_link_id, 'parent_item'=>$tree_array_last_item_id,
             'parent_ret_id' => $view_ret_id])}}"
-                               title="{{trans('main.viewing_record')}}: {{$item->name()}}">
-                                {{--                                            'string_link_ids_current' => $string_link_ids_current,--}}
-                                {{--                                            'string_item_ids_current' => $string_item_ids_current,--}}
-                                {{--                                            'string_relit_ids_current' => $string_relit_ids_current,--}}
-                                {{--                                            'string_all_codes_current'=>$string_all_codes_current,--}}
-                                <mark class="text-project">
-                                    @include('layouts.item.empty_name', ['name'=>$item->name()])
-                                </mark>
-                            </a>
-                        @else
-                            {{$item->name()}}
-                        @endif
-                        @if($item->base->is_code_needed == true)
-                            {{trans('main.code')}}: <strong>{{$item->code}}</strong>
-                        @endif
-                        {{--                                <div class="col-4 text-left">--}}
-                        {{--                                    @if($item->base->is_code_needed == true)--}}
-                        {{--                                        {{trans('main.code')}}: <strong>{{$item->code}}</strong>--}}
-                        {{--                                    @endif--}}
-                        {{--                                </div>--}}
-{{--                    </h6>--}}
-                    @if($role->is_view_info_relits == true)
-                        <small><small>{{$relip_name_project}}</small></small>
-                    @endif
-                </div>
-            @else
-                <div class="col-8 text-left">
-                    <h6>
-                        @if($base_right['is_bsmn_base_enable'] == true)
-                            <a href="{{route('item.base_index', ['base'=>$item->base,
-                            'project'=>$project, 'role'=>$role, 'relit_id'=>$relit_id])}}"
-                               title="{{$item->base->names($base_right) . $message_bs_info}}">
+                                       title="{{trans('main.viewing_record')}}: {{$item->name()}}">
+                                        {{--                                            'string_link_ids_current' => $string_link_ids_current,--}}
+                                        {{--                                            'string_item_ids_current' => $string_item_ids_current,--}}
+                                        {{--                                            'string_relit_ids_current' => $string_relit_ids_current,--}}
+                                        {{--                                            'string_all_codes_current'=>$string_all_codes_current,--}}
+                                        <mark class="text-project">
+                                            @include('layouts.item.empty_name', ['name'=>$item->name()])
+                                        </mark>
+                                    </a>
+                                @else
+                                    {{$item->name()}}
                                 @endif
-                                {{$title}}:
-                                @if ($base_right['is_bsmn_base_enable'] == true)
-                            </a>
-                        @endif
-                    </h6>
-                    {{-- Одинаковые строки рядом (route('item.ext_show'))--}}
-                    @if ($base_right['is_list_base_calc'] == true)
-                        {{--              Использовать "'heading' => intval(true)", проверяется в окончании функции ItemController:ext_delete()--}}
-                        <a href="{{route('item.ext_show', ['item'=>$item, 'project'=>$project, 'role'=>$role,
+                                </big></big>
+                                @if($item->base->is_code_needed == true)
+                                    {{trans('main.code')}}: <strong>{{$item->code}}</strong>
+                                @endif
+                                {{--                                <div class="col-4 text-left">--}}
+                                {{--                                    @if($item->base->is_code_needed == true)--}}
+                                {{--                                        {{trans('main.code')}}: <strong>{{$item->code}}</strong>--}}
+                                {{--                                    @endif--}}
+                                {{--                                </div>--}}
+                                {{--                    </h6>--}}
+                                @if($role->is_view_info_relits == true)
+                                    <small><small>{{$relip_name_project}}</small></small>
+                                @endif
+                            </div>
+                        @else
+                            <div class="col-8 text-left">
+                                <h6>
+                                    @if($base_right['is_bsmn_base_enable'] == true)
+                                        <a href="{{route('item.base_index', ['base'=>$item->base,
+                            'project'=>$project, 'role'=>$role, 'relit_id'=>$relit_id])}}"
+                                           title="{{$item->base->names($base_right) . $message_bs_info}}">
+                                            @endif
+                                            {{$title}}:
+                                            @if ($base_right['is_bsmn_base_enable'] == true)
+                                        </a>
+                                    @endif
+                                </h6>
+                                {{-- Одинаковые строки рядом (route('item.ext_show'))--}}
+                                @if ($base_right['is_list_base_calc'] == true)
+                                    {{--              Использовать "'heading' => intval(true)", проверяется в окончании функции ItemController:ext_delete()--}}
+                                    <a href="{{route('item.ext_show', ['item'=>$item, 'project'=>$project, 'role'=>$role,
                                             'usercode' =>GlobalController::usercode_calc(),
                                             'relit_id'=>$relit_id,
             'string_current' => $string_current,
@@ -183,40 +185,40 @@
             'view_link'=> GlobalController::set_par_view_link_null($view_link),
             'par_link'=>$tree_array_last_link_id, 'parent_item'=>$tree_array_last_item_id,
             'parent_ret_id' => $relit_id])}}"
-                           title="{{trans('main.viewing_record')}}: {{$item->cdnm()}}">
-                            {{--                            'string_link_ids_current' => $string_link_ids_current,--}}
-                            {{--                            'string_item_ids_current' => $string_item_ids_current,--}}
-                            {{--                            'string_relit_ids_current' => $string_relit_ids_current,--}}
-                            {{--                            'string_all_codes_current'=>$string_all_codes_current,--}}
-                            @endif
-                            @if($item->base->is_code_needed == true)
-                                {{trans('main.code')}}: <strong>{{$item->code}}</strong>
-                            @endif
-                            {{--                    Нужно '@foreach($child_mains_link_is_calcname as $calcname_mains)'--}}
-                            @foreach($child_mains_link_is_calcname as $calcname_mains)
-                                {{-- Если нет записей, вывести trans('main.viewing_record'), чтобы ссылка вызова 'item.ext_show' работала--}}
-                                @if(count($calcname_mains) == 0)
-                                    <h6>
-                                        {{trans('main.viewing_record')}}
-                                    </h6>
-                                @else
-                                    @foreach($calcname_mains as $calcname_main)
-                                        <h6>
-                                            {{GlobalController::calc_title_name($calcname_main->link->parent_label(),true, true)}}
-                                            <strong>{{$calcname_main->parent_item->name()}}</strong>
-                                            @if($calcname_main->parent_item->base->is_code_needed == true)
-                                                {{trans('main.code')}}:
-                                                <strong>{{$calcname_main->parent_item->code}}</strong>
+                                       title="{{trans('main.viewing_record')}}: {{$item->cdnm()}}">
+                                        {{--                            'string_link_ids_current' => $string_link_ids_current,--}}
+                                        {{--                            'string_item_ids_current' => $string_item_ids_current,--}}
+                                        {{--                            'string_relit_ids_current' => $string_relit_ids_current,--}}
+                                        {{--                            'string_all_codes_current'=>$string_all_codes_current,--}}
+                                        @endif
+                                        @if($item->base->is_code_needed == true)
+                                            {{trans('main.code')}}: <strong>{{$item->code}}</strong>
+                                        @endif
+                                        {{--                    Нужно '@foreach($child_mains_link_is_calcname as $calcname_mains)'--}}
+                                        @foreach($child_mains_link_is_calcname as $calcname_mains)
+                                            {{-- Если нет записей, вывести trans('main.viewing_record'), чтобы ссылка вызова 'item.ext_show' работала--}}
+                                            @if(count($calcname_mains) == 0)
+                                                <h6>
+                                                    {{trans('main.viewing_record')}}
+                                                </h6>
+                                            @else
+                                                @foreach($calcname_mains as $calcname_main)
+                                                    <h6>
+                                                        {{GlobalController::calc_title_name($calcname_main->link->parent_label(),true, true)}}
+                                                        <strong>{{$calcname_main->parent_item->name()}}</strong>
+                                                        @if($calcname_main->parent_item->base->is_code_needed == true)
+                                                            {{trans('main.code')}}:
+                                                            <strong>{{$calcname_main->parent_item->code}}</strong>
+                                                        @endif
+                                                    </h6>
+                                                @endforeach
                                             @endif
-                                        </h6>
-                                    @endforeach
+                                        @endforeach
+                                        @if ($base_right['is_list_base_calc'] == true)
+                                    </a>
                                 @endif
-                            @endforeach
-                            @if ($base_right['is_list_base_calc'] == true)
-                        </a>
-                    @endif
-                </div>
-            @endif
+                            </div>
+                        @endif
             <div class="col-2 text-center">
                 @if(($prev_item) ||($next_item))
                     <ul class="pagination">
@@ -539,7 +541,8 @@
                                 <i>
                                     {{$relip_select_body_project->name()}}
                                     @if($relit)
-                                        <small class="text-label"><small><small>{{$relit->title()}}</small></small></small>
+                                        <small
+                                            class="text-label"><small><small>{{$relit->title()}}</small></small></small>
                                     @endif
                                 </i>
                                 {{--                                    - {{$relit_key_id}}- {{$relip_select_body_project->id}}--}}
