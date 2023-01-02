@@ -196,6 +196,7 @@
                             @endif
                             @if($item->base->is_code_needed == true)
                                 {{trans('main.code')}}: <strong>{{$item->code}}</strong>
+                                <br>
                             @endif
                             {{--                    Нужно '@foreach($child_mains_link_is_calcname as $calcname_mains)'--}}
                             @foreach($child_mains_link_is_calcname as $calcname_mains)
@@ -208,10 +209,12 @@
                                     @foreach($calcname_mains as $calcname_main)
                                         {{--                                                    <h6>--}}
                                         {{GlobalController::calc_title_name($calcname_main->link->parent_label(),true, true)}}
-                                        <strong>{{$calcname_main->parent_item->name()}}</strong>
-                                        @if($calcname_main->parent_item->base->is_code_needed == true)
-                                            {{trans('main.code')}}:
-                                            <strong>{{$calcname_main->parent_item->code}}</strong>
+                                        <strong>{{$calcname_main->parent_item->name()}}
+                                            <br>
+                                            @if($calcname_main->parent_item->base->is_code_needed == true)
+                                                {{trans('main.code')}}:
+                                                <strong>{{$calcname_main->parent_item->code}}</strong>
+                                                <br>
                                         @endif
                                         {{--                                                    </h6>--}}
                                     @endforeach
