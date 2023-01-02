@@ -91,6 +91,20 @@ $link_image = $tile_view['link'];
                                 {{--                            Где $item->name() выходит в cards выводить "<?php echo GlobalController::to_html();?>"--}}
                                 <?php echo $item->nmbr(false);?>
                             </a>
+                            <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,
+        'usercode' =>GlobalController::usercode_calc(),
+        'relit_id'=>$relit_id,
+        'called_from_button'=>0,
+        'view_link'=>$i_par_link,
+        'view_ret_id'=>$view_ret_id,
+        'string_current'=>$string_next,
+        'prev_base_index_page'=>$base_index_page,
+        'prev_body_link_page'=>$body_link_page,
+        'prev_body_all_page'=>$body_all_page,
+        ])}}"
+                               title="{{$item->name()}}">
+                                <?php echo $item->nmbr(true);?>
+                            </a>
                         </h6>
                     </div>
                 </div>
