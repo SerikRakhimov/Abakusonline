@@ -209,12 +209,12 @@
                                     @foreach($calcname_mains as $calcname_main)
                                         {{--                                                    <h6>--}}
                                         {{GlobalController::calc_title_name($calcname_main->link->parent_label(),true, true)}}
-                                        <strong>{{$calcname_main->parent_item->name()}}
+                                        <strong>{{$calcname_main->parent_item->name()}}</strong>
+                                        <br>
+                                        @if($calcname_main->parent_item->base->is_code_needed == true)
+                                            {{trans('main.code')}}:
+                                            <strong>{{$calcname_main->parent_item->code}}</strong>
                                             <br>
-                                            @if($calcname_main->parent_item->base->is_code_needed == true)
-                                                {{trans('main.code')}}:
-                                                <strong>{{$calcname_main->parent_item->code}}</strong>
-                                                <br>
                                         @endif
                                         {{--                                                    </h6>--}}
                                     @endforeach
