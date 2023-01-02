@@ -162,7 +162,7 @@
                             </div>
                         @else
                             <div class="col-8 text-left">
-                                <h6>
+{{--                                <h6>--}}
                                     @if($base_right['is_bsmn_base_enable'] == true)
                                         <a href="{{route('item.base_index', ['base'=>$item->base,
                             'project'=>$project, 'role'=>$role, 'relit_id'=>$relit_id])}}"
@@ -172,7 +172,7 @@
                                             @if ($base_right['is_bsmn_base_enable'] == true)
                                         </a>
                                     @endif
-                                </h6>
+{{--                                </h6>--}}
                                 {{-- Одинаковые строки рядом (route('item.ext_show'))--}}
                                 @if ($base_right['is_list_base_calc'] == true)
                                     {{--              Использовать "'heading' => intval(true)", проверяется в окончании функции ItemController:ext_delete()--}}
@@ -198,19 +198,19 @@
                                         @foreach($child_mains_link_is_calcname as $calcname_mains)
                                             {{-- Если нет записей, вывести trans('main.viewing_record'), чтобы ссылка вызова 'item.ext_show' работала--}}
                                             @if(count($calcname_mains) == 0)
-                                                <h6>
+{{--                                                <h6>--}}
                                                     {{trans('main.viewing_record')}}
-                                                </h6>
+{{--                                                </h6>--}}
                                             @else
                                                 @foreach($calcname_mains as $calcname_main)
-                                                    <h6>
+{{--                                                    <h6>--}}
                                                         {{GlobalController::calc_title_name($calcname_main->link->parent_label(),true, true)}}
                                                         <strong>{{$calcname_main->parent_item->name()}}</strong>
                                                         @if($calcname_main->parent_item->base->is_code_needed == true)
                                                             {{trans('main.code')}}:
                                                             <strong>{{$calcname_main->parent_item->code}}</strong>
                                                         @endif
-                                                    </h6>
+{{--                                                    </h6>--}}
                                                 @endforeach
                                             @endif
                                         @endforeach
