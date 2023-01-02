@@ -105,7 +105,7 @@ $link_image = $tile_view['link'];
                                title="{{$item->name()}}">
                                 <?php echo $item->nmbr(false);?>
                                 <br>
-                                <?php echo GlobalController::it_txnm_n2b($item_find);?>
+                                <?php echo GlobalController::it_txnm_n2b($item);?>
                             </a>
                         </h6>
                     </div>
