@@ -138,9 +138,9 @@
                                 {{--                                            'string_item_ids_current' => $string_item_ids_current,--}}
                                 {{--                                            'string_relit_ids_current' => $string_relit_ids_current,--}}
                                 {{--                                            'string_all_codes_current'=>$string_all_codes_current,--}}
-                                <mark class="text-project">
+{{--                                <mark class="text-project">--}}
                                     @include('layouts.item.empty_name', ['name'=>$item->name()])
-                                </mark>
+{{--                                </mark>--}}
                             </a>
                         @else
                             {{$item->name()}}
