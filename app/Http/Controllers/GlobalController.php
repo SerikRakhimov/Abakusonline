@@ -743,6 +743,7 @@ class GlobalController extends Controller
                                     elseif ($item_find->base->type_is_date() && $base_link_right['is_parent_full_sort_asc'] == false) {
                                         $str = $str . trim($item_find->dt_desc());
                                     } else {
+                                        // Числовые значения хранятся в items с нулями спереди для правильной сортировки
                                         $str = $str . trim($item_find[$name]);
                                     }
                                     $str = $str . "|";
@@ -753,7 +754,6 @@ class GlobalController extends Controller
                         $collection[$item->id] = $str;
                     }
 //            Сортировка коллекции по значению
-                    dd($collection);
                     $collection = $collection->sort();
 //            Не удалять
 //            $mains = Main::select(DB::Raw('mains.child_item_id as item_id'))
