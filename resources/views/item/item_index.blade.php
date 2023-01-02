@@ -173,11 +173,13 @@
                                     @if ($base_right['is_bsmn_base_enable'] == true)
                                 </a>
                             @endif
-                            {{--                                </h6>--}}
-                            {{-- Одинаковые строки рядом (route('item.ext_show'))--}}
-                            @if ($base_right['is_list_base_calc'] == true)
-                                {{--              Использовать "'heading' => intval(true)", проверяется в окончании функции ItemController:ext_delete()--}}
-                                <a href="{{route('item.ext_show', ['item'=>$item, 'project'=>$project, 'role'=>$role,
+                        </big></big>
+                    <br>
+                    {{--                                </h6>--}}
+                    {{-- Одинаковые строки рядом (route('item.ext_show'))--}}
+                    @if ($base_right['is_list_base_calc'] == true)
+                        {{--              Использовать "'heading' => intval(true)", проверяется в окончании функции ItemController:ext_delete()--}}
+                        <a href="{{route('item.ext_show', ['item'=>$item, 'project'=>$project, 'role'=>$role,
                                             'usercode' =>GlobalController::usercode_calc(),
                                             'relit_id'=>$relit_id,
             'string_current' => $string_current,
@@ -186,39 +188,38 @@
             'view_link'=> GlobalController::set_par_view_link_null($view_link),
             'par_link'=>$tree_array_last_link_id, 'parent_item'=>$tree_array_last_item_id,
             'parent_ret_id' => $relit_id])}}"
-                                   title="{{trans('main.viewing_record')}}: {{$item->cdnm()}}">
-                                    {{--                            'string_link_ids_current' => $string_link_ids_current,--}}
-                                    {{--                            'string_item_ids_current' => $string_item_ids_current,--}}
-                                    {{--                            'string_relit_ids_current' => $string_relit_ids_current,--}}
-                                    {{--                            'string_all_codes_current'=>$string_all_codes_current,--}}
-                                    @endif
-                                    @if($item->base->is_code_needed == true)
-                                        {{trans('main.code')}}: <strong>{{$item->code}}</strong>
-                                    @endif
-                                    {{--                    Нужно '@foreach($child_mains_link_is_calcname as $calcname_mains)'--}}
-                                    @foreach($child_mains_link_is_calcname as $calcname_mains)
-                                        {{-- Если нет записей, вывести trans('main.viewing_record'), чтобы ссылка вызова 'item.ext_show' работала--}}
-                                        @if(count($calcname_mains) == 0)
-                                            {{--                                                <h6>--}}
-                                            {{trans('main.viewing_record')}}
-                                            {{--                                                </h6>--}}
-                                        @else
-                                            @foreach($calcname_mains as $calcname_main)
-                                                {{--                                                    <h6>--}}
-                                                {{GlobalController::calc_title_name($calcname_main->link->parent_label(),true, true)}}
-                                                <strong>{{$calcname_main->parent_item->name()}}</strong>
-                                                @if($calcname_main->parent_item->base->is_code_needed == true)
-                                                    {{trans('main.code')}}:
-                                                    <strong>{{$calcname_main->parent_item->code}}</strong>
-                                                @endif
-                                                {{--                                                    </h6>--}}
-                                            @endforeach
-                                        @endif
-                                    @endforeach
-                                    @if ($base_right['is_list_base_calc'] == true)
-                                </a>
+                           title="{{trans('main.viewing_record')}}: {{$item->cdnm()}}">
+                            {{--                            'string_link_ids_current' => $string_link_ids_current,--}}
+                            {{--                            'string_item_ids_current' => $string_item_ids_current,--}}
+                            {{--                            'string_relit_ids_current' => $string_relit_ids_current,--}}
+                            {{--                            'string_all_codes_current'=>$string_all_codes_current,--}}
                             @endif
-                        </big></big>
+                            @if($item->base->is_code_needed == true)
+                                {{trans('main.code')}}: <strong>{{$item->code}}</strong>
+                            @endif
+                            {{--                    Нужно '@foreach($child_mains_link_is_calcname as $calcname_mains)'--}}
+                            @foreach($child_mains_link_is_calcname as $calcname_mains)
+                                {{-- Если нет записей, вывести trans('main.viewing_record'), чтобы ссылка вызова 'item.ext_show' работала--}}
+                                @if(count($calcname_mains) == 0)
+                                    {{--                                                <h6>--}}
+                                    {{trans('main.viewing_record')}}
+                                    {{--                                                </h6>--}}
+                                @else
+                                    @foreach($calcname_mains as $calcname_main)
+                                        {{--                                                    <h6>--}}
+                                        {{GlobalController::calc_title_name($calcname_main->link->parent_label(),true, true)}}
+                                        <strong>{{$calcname_main->parent_item->name()}}</strong>
+                                        @if($calcname_main->parent_item->base->is_code_needed == true)
+                                            {{trans('main.code')}}:
+                                            <strong>{{$calcname_main->parent_item->code}}</strong>
+                                        @endif
+                                        {{--                                                    </h6>--}}
+                                    @endforeach
+                                @endif
+                            @endforeach
+                            @if ($base_right['is_list_base_calc'] == true)
+                        </a>
+                    @endif
                 </div>
             @endif
             <div class="col-2 text-center">
