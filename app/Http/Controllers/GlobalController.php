@@ -675,7 +675,7 @@ class GlobalController extends Controller
                 // В $collection сохраняется в key - $item->id
                 $collection = collect();
                 // Сортировка по наименованию, нужна
-                $items = $items->orderBy($name);
+                //$items = $items->orderBy($name);
 
                 //if (count($items->get()) > 0) {
                 // Такая же проверка и в GlobalController (function items_right()),
