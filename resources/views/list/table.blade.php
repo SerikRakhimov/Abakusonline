@@ -33,8 +33,7 @@ $link_image = $tile_view['link'];
 {{--    table-bordered--}}
 {{--@endif--}}
 {{--    ">--}}
-'base_index'=>false, 'item_heading_base'=>true, 'item_body_base'=>false,
-@if(($base_index==true || $item_body_base==true) && $tile_view['result'] == true)
+@if(($base_index==true || $item_body_base==true) & $tile_view['result'] == true)
     <div class="card-deck">
         {{--        $its_page используется--}}
         @foreach($its_page as $item)
