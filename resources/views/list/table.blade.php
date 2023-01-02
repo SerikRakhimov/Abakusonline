@@ -33,7 +33,8 @@ $link_image = $tile_view['link'];
 {{--    table-bordered--}}
 {{--@endif--}}
 {{--    ">--}}
-@if($tile_view['result'] == true)
+'base_index'=>false, 'item_heading_base'=>true, 'item_body_base'=>false,
+@if(($base_index==true || $item_body_base==true) && $tile_view['result'] == true)
     <div class="card-deck">
         {{--        $its_page используется--}}
         @foreach($its_page as $item)
@@ -78,19 +79,19 @@ $link_image = $tile_view['link'];
                     {{--                        <h6 class="card-title text-center pt-2">--}}
                     <div class="card-title text-center">
                         <h6>
-{{--                            <a--}}
-{{--                                href="{{route('item.ext_show', ['item'=>$item, 'project'=>$project, 'role'=>$role, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id,--}}
-{{--                                    'heading' => $heading,'base_index_page'=>$base_index_page, 'body_link_page'=>$body_link_page,'body_all_page'=>$body_all_page,--}}
-{{--                                    'par_link'=>null, 'parent_item'=>null,--}}
-{{--                             'string_current' => $string_current,--}}
-{{--                                    ])}}"--}}
-{{--                                title="{{$item->name()}}">--}}
-{{--                                --}}{{--                                'string_all_codes_current' => $string_all_codes_current,--}}
-{{--                                --}}{{--                                'string_link_ids_current' => $string_link_ids_current,--}}
-{{--                                --}}{{--                                'string_item_ids_current' => $string_item_ids_current,--}}
-{{--                                --}}{{--                            Где $item->name() выходит в cards выводить "<?php echo GlobalController::to_html();?>"--}}
-{{--                                <?php echo $item->nmbr(false);?>--}}
-{{--                            </a>--}}
+                            {{--                            <a--}}
+                            {{--                                href="{{route('item.ext_show', ['item'=>$item, 'project'=>$project, 'role'=>$role, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id,--}}
+                            {{--                                    'heading' => $heading,'base_index_page'=>$base_index_page, 'body_link_page'=>$body_link_page,'body_all_page'=>$body_all_page,--}}
+                            {{--                                    'par_link'=>null, 'parent_item'=>null,--}}
+                            {{--                             'string_current' => $string_current,--}}
+                            {{--                                    ])}}"--}}
+                            {{--                                title="{{$item->name()}}">--}}
+                            {{--                                --}}{{--                                'string_all_codes_current' => $string_all_codes_current,--}}
+                            {{--                                --}}{{--                                'string_link_ids_current' => $string_link_ids_current,--}}
+                            {{--                                --}}{{--                                'string_item_ids_current' => $string_item_ids_current,--}}
+                            {{--                                --}}{{--                            Где $item->name() выходит в cards выводить "<?php echo GlobalController::to_html();?>"--}}
+                            {{--                                <?php echo $item->nmbr(false);?>--}}
+                            {{--                            </a>--}}
                             <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,
         'usercode' =>GlobalController::usercode_calc(),
         'relit_id'=>$relit_id,
@@ -250,8 +251,8 @@ $link_image = $tile_view['link'];
                     <td class="text-center">
                         {{--                    Не удалять--}}
                         {{--                    <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc()])}}">--}}
-{{--    "'par_link' => GlobalController::set_par_view_link_null($view_link)" неправильно--}}
-{{--    "'par_link' => $view_link" правильно--}}
+                        {{--    "'par_link' => GlobalController::set_par_view_link_null($view_link)" неправильно--}}
+                        {{--    "'par_link' => $view_link" правильно--}}
                         <a href="{{route('item.ext_show', ['item'=>$item, 'project'=>$project, 'role'=>$role,
     'usercode' =>GlobalController::usercode_calc(),
     'relit_id'=>$relit_id,
