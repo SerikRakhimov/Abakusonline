@@ -674,7 +674,8 @@ class GlobalController extends Controller
 
                 // В $collection сохраняется в key - $item->id
                 $collection = collect();
-                // Сортировка по наименованию, нужна
+                // Сортировка по наименованию, не нужна
+                // Если в вычисляемом наименовании есть число, то нули или пробелы спереди должны добавлятся для правильной сортировки
                 //$items = $items->orderBy($name);
 
                 //if (count($items->get()) > 0) {
@@ -693,9 +694,9 @@ class GlobalController extends Controller
                 if (count($items->get()) > 0) {
                     // Сортировка по mains
                     // иначе Сортировка по наименованию
-                    if (!GlobalController::is_base_calcname_check($base, $base_right)) {
-                        // Не попадают в список $mains изображения/документы,
-                        // а также связанные поля (они в Mains не хранятся)
+                    //if (!GlobalController::is_base_calcname_check($base, $base_right)) {
+                    // Не попадают в список $mains изображения/документы,
+                    // а также связанные поля (они в Mains не хранятся)
 //            $mains = Main::select(DB::Raw('mains.child_item_id as item_id'))
 //                ->join('links as ln', 'mains.link_id', '=', 'ln.id')
 //                ->join('items as ct', 'mains.child_item_id', '=', 'ct.id')
@@ -707,52 +708,53 @@ class GlobalController extends Controller
 //                ->orderBy('ln.parent_base_number')
 //                ->orderBy('ct.' . $name)
 //                ->distinct();
-                        // Не попадают в список $links изображения/документы
-                        // и с признаком "Ссылка на Основу"
-                        //->where('links.parent_is_base_link', false)
-                        // '->orderBy('links.parent_base_number')' обязательно нужно, в таком порядке и на экран записи выходят
-                        // '->get()' нужно
-                        $links = Link::select(DB::Raw('links.*'))
-                            ->join('bases as pb', 'links.parent_base_id', '=', 'pb.id')
-                            ->where('links.child_base_id', '=', $base->id)
-                            ->where('links.parent_is_base_link', false)
-                            ->where('pb.type_is_image', false)
-                            ->where('pb.type_is_document', false)
-                            ->orderBy('links.parent_base_number')
-                            ->get();
+                    // Не попадают в список $links изображения/документы
+                    // и с признаком "Ссылка на Основу"
+                    //->where('links.parent_is_base_link', false)
+                    // '->orderBy('links.parent_base_number')' обязательно нужно, в таком порядке и на экран записи выходят
+                    // '->get()' нужно
+                    $links = Link::select(DB::Raw('links.*'))
+                        ->join('bases as pb', 'links.parent_base_id', '=', 'pb.id')
+                        ->where('links.child_base_id', '=', $base->id)
+                        ->where('links.parent_is_base_link', false)
+                        ->where('pb.type_is_image', false)
+                        ->where('pb.type_is_document', false)
+                        ->orderBy('links.parent_base_number')
+                        ->get();
 
-                        // '$items = $items->get();' нужно
-                        $items = $items->get();
+                    // '$items = $items->get();' нужно
+                    $items = $items->get();
+                    $str = "";
+                    foreach ($items as $item) {
                         $str = "";
-                        foreach ($items as $item) {
-                            $str = "";
-                            foreach ($links as $link) {
-                                $base_link_right = self::base_link_right($link, $role, $relit_id);
-                                // Если 'Показывать Связь в списке' = true
-                                if ($base_link_right['is_list_link_enable'] == true) {
-                                    $item_find = GlobalController::view_info($item->id, $link->id);
-                                    if ($item_find) {
-                                        // Формирование вычисляемой строки для сортировки
-                                        // Для строковых данных для сортировки берутся первые 50 символов
-                                        if ($item_find->base->type_is_list()
-                                            || $item_find->base->type_is_string()
-                                            || $item_find->base->type_is_text()) {
-                                            $str = $str . str_pad(trim($item_find[$name]), 50);
-                                        } // '$base_link_right['is_parent_full_sort_asc']' используется
-                                        elseif ($item_find->base->type_is_date() && $base_link_right['is_parent_full_sort_asc'] == false) {
-                                            $str = $str . trim($item_find->dt_desc());
-                                        } else {
-                                            $str = $str . trim($item_find[$name]);
-                                        }
-                                        $str = $str . "|";
+                        foreach ($links as $link) {
+                            $base_link_right = self::base_link_right($link, $role, $relit_id);
+                            // Если 'Показывать Связь в списке' = true
+                            if ($base_link_right['is_list_link_enable'] == true) {
+                                $item_find = GlobalController::view_info($item->id, $link->id);
+                                if ($item_find) {
+                                    // Формирование вычисляемой строки для сортировки
+                                    // Для строковых данных для сортировки берутся первые 50 символов
+                                    if ($item_find->base->type_is_list()
+                                        || $item_find->base->type_is_string()
+                                        || $item_find->base->type_is_text()) {
+                                        $str = $str . str_pad(trim($item_find[$name]), 50);
+                                    } // '$base_link_right['is_parent_full_sort_asc']' используется
+                                    elseif ($item_find->base->type_is_date() && $base_link_right['is_parent_full_sort_asc'] == false) {
+                                        $str = $str . trim($item_find->dt_desc());
+                                    } else {
+                                        $str = $str . trim($item_find[$name]);
                                     }
+                                    $str = $str . "|";
                                 }
                             }
-                            // В $collection сохраняется в key - $item->id
-                            $collection[$item->id] = $str;
                         }
+                        // В $collection сохраняется в key - $item->id
+                        $collection[$item->id] = $str;
+                    }
 //            Сортировка коллекции по значению
-                        $collection = $collection->sort();
+                    dd($collection);
+                    $collection = $collection->sort();
 //            Не удалять
 //            $mains = Main::select(DB::Raw('mains.child_item_id as item_id'))
 //                ->join('links as ln', 'mains.link_id', '=', 'ln.id')
@@ -770,11 +772,11 @@ class GlobalController extends Controller
 //            $items = Item::joinSub($mains, 'mains', function ($join) {
 //                $join->on('items.id', '=', 'mains.item_id');
 //            });
-                        $ids = $collection->keys()->toArray();
-                        $items = Item::whereIn('id', $ids)
-                            ->orderBy(\DB::raw("FIELD(id, " . implode(',', $ids) . ")"));
+                    $ids = $collection->keys()->toArray();
+                    $items = Item::whereIn('id', $ids)
+                        ->orderBy(\DB::raw("FIELD(id, " . implode(',', $ids) . ")"));
 
-                    }
+                    //}
                 }
                 //}
                 //}
