@@ -44,18 +44,20 @@ $link_image = $tile_view['link'];
             {{--                <div class="card text-center">--}}
             {{--                    <div class="card card-inverse text-center" style="background-color: rgba(222,255,162,0.23); border-color: #3548ee;">--}}
             <div class="card shadow m-2">
-                @if($base->is_code_needed == true)
-                    <a href="{{route('item.ext_show', ['item'=>$item, 'project'=>$project, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id,
-                                    'heading' => $heading,'base_index_page'=>$base_index_page, 'body_link_page'=>$body_link_page,'body_all_page'=>$body_all_page,
-                                    'par_link'=>null, 'parent_item'=>null,
-                                    'string_current' => $string_current,
-                                    ])}}" title="{{$item->name()}}">
+                <p class="card-header text-center text-label">{{$item->base->name()}}: {{$item->id}}
+                    @if($base->is_code_needed == true)
+                        {{--                        <a href="{{route('item.ext_show', ['item'=>$item, 'project'=>$project, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id,--}}
+                        {{--                                    'heading' => $heading,'base_index_page'=>$base_index_page, 'body_link_page'=>$body_link_page,'body_all_page'=>$body_all_page,--}}
+                        {{--                                    'par_link'=>null, 'parent_item'=>null,--}}
+                        {{--                                    'string_current' => $string_current,--}}
+                        {{--                                    ])}}" title="{{$item->name()}}">--}}
                         {{--                            'string_all_codes_current' => $string_all_codes_current,--}}
                         {{--                            'string_link_ids_current' => $string_link_ids_current,--}}
                         {{--                            'string_item_ids_current' => $string_item_ids_current,--}}
-                        <p class="card-header text-center text-label">{{trans('main.code')}}: {{$item->code}}</p>
-                    </a>
-                @endif
+                        &nbsp;({{trans('main.code')}}: {{$item->code}})
+                        {{--                        </a>--}}
+                    @endif
+                </p>
                 {{--                    <div class="card-body d-flex align-items-center">--}}
                 <div class="card-body p-0">
                     @if($item_find)
