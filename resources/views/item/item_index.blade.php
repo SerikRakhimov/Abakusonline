@@ -111,7 +111,7 @@
             {{--                @if(GlobalController::is_base_calcname_check($item->base, $base_right) || $item->base->is_calcnm_correct_lst == true)--}}
             @if(GlobalController::is_base_calcname_check($item->base, $base_right))
                 <div class="col-8 text-left">
-                    <h6>
+{{--                    <h6>--}}
                         @if($base_right['is_bsmn_base_enable'] == true)
                             <a href="{{route('item.base_index', ['base'=>$item->base,
                             'project'=>$project, 'role'=>$role, 'relit_id'=>$relit_id])}}"
@@ -138,9 +138,9 @@
                                 {{--                                            'string_item_ids_current' => $string_item_ids_current,--}}
                                 {{--                                            'string_relit_ids_current' => $string_relit_ids_current,--}}
                                 {{--                                            'string_all_codes_current'=>$string_all_codes_current,--}}
-{{--                                <mark class="text-project">--}}
+                                <mark class="text-project">
                                     @include('layouts.item.empty_name', ['name'=>$item->name()])
-{{--                                </mark>--}}
+                                </mark>
                             </a>
                         @else
                             {{$item->name()}}
@@ -153,7 +153,7 @@
                         {{--                                        {{trans('main.code')}}: <strong>{{$item->code}}</strong>--}}
                         {{--                                    @endif--}}
                         {{--                                </div>--}}
-                    </h6>
+{{--                    </h6>--}}
                     @if($role->is_view_info_relits == true)
                         <small><small>{{$relip_name_project}}</small></small>
                     @endif
