@@ -79,7 +79,7 @@ $link_image = $tile_view['link'];
                         </div>
                     @endif
                     {{--                        <h6 class="card-title text-center pt-2">--}}
-                    <div class="card-title text-center">
+                    <div class="card-title text-center pt-1">
                         <h6>
                             {{--                            <a--}}
                             {{--                                href="{{route('item.ext_show', ['item'=>$item, 'project'=>$project, 'role'=>$role, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id,--}}
