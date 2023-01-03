@@ -649,6 +649,7 @@ class GlobalController extends Controller
             }
         }
         // Похожие строки items_right() и its_page()
+        // -----------------------------------------
         $name = "";  // нужно, не удалять
         $index = array_search(App::getLocale(), config('app.locales'));
         if ($index !== false) {   // '!==' использовать, '!=' не использовать
@@ -746,8 +747,10 @@ class GlobalController extends Controller
                                     // Числовые значения хранятся в items с нулями спереди для правильной сортировки
                                     $str = $str . trim($item_find[$name]);
                                 }
-                                $str = $str . "|";
+                            } else {
+                                $str = $str . str_pad(' ', 50);
                             }
+                            $str = $str . "|";
                         }
                     }
                     // В $collection сохраняется в key - $item->id
@@ -911,7 +914,8 @@ class GlobalController extends Controller
 
     static function its_page(Role $role, $relit_id, $links, $items_paginate)
     {
-        // Похожие строки items_right() и its_page()
+        // Похожие строки items_right() и its_page
+        // ---------------------------------------
         // '$its_page = $items_paginate;' использовать
         $its_page = $items_paginate;
         if ($links) {
@@ -945,8 +949,10 @@ class GlobalController extends Controller
                                 } else {
                                     $str = $str . trim($item_find[$name]);
                                 }
-                                $str = $str . "|";
+                            } else {
+                                $str = $str . str_pad(' ', 50);
                             }
+                            $str = $str . "|";
                         }
                     }
                     // В $collection сохраняется в key - $item->id
