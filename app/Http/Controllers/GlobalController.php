@@ -648,6 +648,12 @@ class GlobalController extends Controller
                 //$collection = null;
             }
         }
+        // Похожие строки items_right() и its_page()
+        $name = "";  // нужно, не удалять
+        $index = array_search(App::getLocale(), config('app.locales'));
+        if ($index !== false) {   // '!==' использовать, '!=' не использовать
+            $name = 'name_lang_' . $index;
+        }
         if ($items != null) {
 //            if ($current_item_id != null) {
 //                $items = $items->where('id', $current_item_id);
@@ -664,22 +670,14 @@ class GlobalController extends Controller
                 } else {
                     $items = $items->orderBy('code');
                 }
+                // Если невычисляемое наименование
+            } elseif ($base->is_calcname_lst == false) {
+                // Сортировка по наименованию, не нужна
+                // Если в вычисляемом наименовании есть число, то нули или пробелы спереди должны добавлятся для правильной сортировки
+                $items = $items->orderBy($name);
                 // Эта проверка нужна "if (count($items->get()) > 1)", иначе ошибка SQL
                 // Если одна запись - нет смысла сортировать
             } elseif (count($items->get()) > 1) {
-                // Похожие строки items_right() и its_page()
-                $name = "";  // нужно, не удалять
-                $index = array_search(App::getLocale(), config('app.locales'));
-                if ($index !== false) {   // '!==' использовать, '!=' не использовать
-                    $name = 'name_lang_' . $index;
-                }
-
-                // В $collection сохраняется в key - $item->id
-                $collection = collect();
-                // Сортировка по наименованию, не нужна
-                // Если в вычисляемом наименовании есть число, то нули или пробелы спереди должны добавлятся для правильной сортировки
-                //$items = $items->orderBy($name);
-
                 //if (count($items->get()) > 0) {
                 // Такая же проверка и в GlobalController (function items_right()),
                 // в ItemController (function next_all_links_mains_calc(), browser(), get_items_for_link(), get_items_ext_edit_for_link())
@@ -725,6 +723,8 @@ class GlobalController extends Controller
                 // '$items = $items->get();' нужно
                 $items = $items->get();
                 $str = "";
+                // В $collection сохраняется в key - $item->id
+                $collection = collect();
                 foreach ($items as $item) {
                     $str = "";
                     foreach ($links as $link) {

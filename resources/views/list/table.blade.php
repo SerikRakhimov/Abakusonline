@@ -112,10 +112,25 @@ $link_image = $tile_view['link'];
                     </div>
                 </div>
                 {{--                    </div>--}}
+{{--                <div class="card-footer">--}}
+{{--                    <small class="text-title">--}}
+{{--                        {{$item->created_at->Format(trans('main.format_date'))}}--}}
+{{--                    </small>--}}
+{{--                </div>--}}
                 <div class="card-footer">
-                    <small class="text-title">
-                        {{$item->created_at->Format(trans('main.format_date'))}}
-                    </small>
+                    <div class="row">
+                        {{--                        <div class="col-sm-6 text-left text-title">--}}
+                        <div class="col-sm-6 text-left text-label">
+                            <small class="text-title">
+                                {{$i+1}}
+                            </small>
+                        </div>
+                        <div class="col-sm-6 text-right">
+                            <small class="text-title">
+                                {{$item->created_at->Format(trans('main.format_date'))}}
+                            </small>
+                        </div>
+                    </div>
                 </div>
             </div>
             <?php
