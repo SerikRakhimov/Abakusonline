@@ -83,7 +83,7 @@
             ?>
             <div class="row mt-3">
                 {{--                                    <th scope="row">{{$i}}</th>--}}
-                <div class="col-sm-1 text-center">
+                <div class="col-sm-2 text-center">
                     <h5>
                         <a
                             href="{{route('item.base_index',['base'=>$base, 'project' => $project, 'role' => $role, 'relit_id' => $relit_id])}}"
@@ -91,7 +91,7 @@
                             {{$i}}
                         </a></h5>
                 </div>
-                <div class="col-sm-11 text-left">
+                <div class="col-sm-10 text-left">
                     <h5>
                         <a
                             href="{{route('item.base_index',['base'=>$base, 'project' => $project, 'role' => $role, 'relit_id' => $relit_id])}}"
