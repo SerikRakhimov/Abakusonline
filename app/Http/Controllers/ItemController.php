@@ -446,14 +446,13 @@ class ItemController extends Controller
                 }
             }
         }
-        if (1 == 2) {
-            // Используется 'is_list_base_calc' в ext_show.php и ItemController::item_index()
-            // Нужно, после вызова calc_tree_array()
-            if ($item_change == false) {
-                if (empty($tree_array)) {
-                    if ($base_right['is_bsin_base_enable'] == false) {
-                        return view('message', ['message' => trans('main.no_access') . ' ($base_right["is_bsin_base_enable"])']);
-                    }
+
+        // Используется 'is_list_base_calc' в ext_show.php и ItemController::item_index()
+        // Нужно, после вызова calc_tree_array()
+        if ($item_change == false) {
+            if (empty($tree_array)) {
+                if ($base_right['is_bsin_base_enable'] == false) {
+                    return view('message', ['message' => trans('main.no_access') . ' ($base_right["is_bsin_base_enable"])']);
                 }
             }
         }
@@ -584,7 +583,7 @@ class ItemController extends Controller
             // Нужно
             //$next_all_mains = null;
 
-            // $item, $current_link, $relit_id присоединяются к списку $tree_array
+            // $item, $current_link присоединяются к списку $tree_array
             // Нужно '$current_link' передавать
             $string_current_next_ids = self::calc_string_current_next_ids($tree_array, $item, $current_link, $relit_id, GlobalController::const_allfalse());
             $string_link_ids_current = $string_current_next_ids['string_current_link_ids'];
@@ -994,7 +993,7 @@ class ItemController extends Controller
         $string_next_item_ids = $item->id;
         $string_next_relit_ids = $relit_id;
         $string_next_all_codes = $all_code;
-        $string_next = self::string_zip_current_next($string_next_link_ids, $string_next_item_ids, $string_next_relit_ids, $string_next_all_codes);
+        //$string_next = zip_string_next_next($string_next_link_ids, $string_next_item_ids, $string_next_relit_ids, $string_next_all_codes);
 
         $count = count($tree_array);
         if ($count > 0) {
@@ -1009,7 +1008,7 @@ class ItemController extends Controller
             $string_next_item_ids = $tree_array[$count - 1]['string_item_ids'] . ',' . $string_next_item_ids;
             $string_next_relit_ids = $tree_array[$count - 1]['string_relit_ids'] . ',' . $string_next_relit_ids;
             $string_next_all_codes = $tree_array[$count - 1]['string_all_codes'] . ',' . $string_next_all_codes;
-            $string_next = self::string_zip_current_next($string_next_link_ids, $string_next_item_ids, $string_next_relit_ids, $string_next_all_codes);
+            //$string_next = zip_string_next_next($string_next_link_ids, $string_next_item_ids, $string_next_relit_ids, $string_next_all_codes);
 
         }
         return ['string_current_link_ids' => $string_current_link_ids,
@@ -1019,8 +1018,7 @@ class ItemController extends Controller
             'string_next_link_ids' => $string_next_link_ids,
             'string_next_item_ids' => $string_next_item_ids,
             'string_next_relit_ids' => $string_next_relit_ids,
-            'string_next_all_codes' => $string_next_all_codes,
-            'string_next' => $string_next
+            'string_next_all_codes' => $string_next_all_codes
         ];
 //        return ['string_current' => $string_current,
 //            'string_next' => $string_next
@@ -1686,33 +1684,6 @@ class ItemController extends Controller
         if ($string_all_codes_current == '') {
             $string_all_codes_current = GlobalController::const_null();
         }
-        // Пустой массив
-        $tree_array = array();
-        if (($string_link_ids_current != "")
-            && ($string_item_ids_current != "")
-            && ($string_relit_ids_current != "")
-            && ($string_all_codes_current != "")
-            && ($string_link_ids_current != GlobalController::const_null())
-            && ($string_item_ids_current != GlobalController::const_null())
-            && ($string_relit_ids_current != GlobalController::const_null())
-            && ($string_all_codes_current != GlobalController::const_null())) {
-            $tree_array = self::calc_tree_array($role,
-                $string_link_ids_current,
-                $string_item_ids_current,
-                $string_relit_ids_current,
-                $string_all_codes_current);
-        }
-        $string_next = GlobalController::const_null() . ';' . GlobalController::const_null() . ';' . GlobalController::const_null() . ';' . GlobalController::const_null();
-
-        if ($view_link){
-            $view_link_main = Link::find($view_link);
-            if ($view_link_main){
-                // $item, $view_link_main, $relit_id присоединяются к списку $tree_array
-                // Нужно '$view_link_main' передавать
-                $string_current_next_ids = self::calc_string_current_next_ids($tree_array, $item, $view_link_main, $relit_id, GlobalController::const_allfalse());
-                $string_next = $string_current_next_ids['string_next'];
-            }
-        }
 
         return view('item/ext_show', ['type_form' => 'show', 'item' => $item,
             'role' => $role,
@@ -1730,7 +1701,6 @@ class ItemController extends Controller
                 $string_relit_ids_current,
                 $string_all_codes_current),
             'heading' => $heading,
-            'string_next' => $string_next,
             'base_index_page' => $base_index_page, 'body_link_page' => $body_link_page, 'body_all_page' => $body_all_page,
             'view_link' => GlobalController::set_par_view_link_null($view_link),
             'par_link' => $par_link, 'parent_item' => $parent_item,
