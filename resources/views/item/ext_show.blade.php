@@ -16,9 +16,9 @@
     @include('layouts.project.show_project_role',['project'=>$project, 'role'=>$role, 'relit_id'=>$relit_id])
     <h3 class="display-5">
         {{--        'Показывать признак "В истории" при просмотре записи'--}}
-{{--        @if($base_right['is_show_hist_attr_enable'] == true)--}}
-            @include('layouts.item.show_history',['item'=>$item])
-{{--        @endif--}}
+        {{--        @if($base_right['is_show_hist_attr_enable'] == true)--}}
+        @include('layouts.item.show_history',['item'=>$item])
+        {{--        @endif--}}
         @if ($type_form == 'show')
             {{trans('main.viewing_record')}}
         @elseif($type_form == 'delete_question')
@@ -200,16 +200,16 @@
                         {{--                            <span class="text-related">--}}
                         {{--                            <b>--}}
                         {{--  Используется 'is_list_base_calc' в ext_show.php и ItemController::item_index()  --}}
-                        {{--                                @if($base_link_right['is_list_base_calc'] == true && $base_link_right['is_bsmn_base_enable'] == true)--}}
-                        {{--                                    <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item_find, 'role'=>$role,--}}
-                        {{--                                        'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$link->parent_relit_id,--}}
-                        {{--                                        'called_from_button'=>0, 'view_link'=>null])}}"--}}
-                        {{--                                       title="">--}}
-                        {{--                                        {{$item_find->name(false, true, true)}}--}}
-                        {{--                                    </a>--}}
-                        {{--                                @else--}}
-                        {{$item_find->name(false, true, true)}}
-                        {{--                                @endif--}}
+                        @if($base_link_right['is_list_base_calc'] == true && $base_link_right['is_bsmn_base_enable'] == true)
+                            <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item_find, 'role'=>$role,
+                                                                'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$link->parent_relit_id,
+                                                                'called_from_button'=>0, 'view_link'=>null])}}"
+                               title="">
+                                {{$item_find->name(false, true, true)}}
+                            </a>
+                        @else
+                            {{$item_find->name(false, true, true)}}
+                        @endif
                         {{--                            </b>--}}
                         {{--                            </span>--}}
                     @endif
@@ -436,11 +436,11 @@
                 <i class="fas fa-arrow-left"></i>
                 {{trans('main.return')}}
             </button>
-{{--            <button type="button" class="btn btn-dreamer"--}}
-{{--                    title="{{trans('main.return')}}" onclick="javascript:history.back();">--}}
-{{--                <i class="fas fa-arrow-left"></i>--}}
-{{--                {{trans('main.return')}}--}}
-{{--            </button>--}}
+            {{--            <button type="button" class="btn btn-dreamer"--}}
+            {{--                    title="{{trans('main.return')}}" onclick="javascript:history.back();">--}}
+            {{--                <i class="fas fa-arrow-left"></i>--}}
+            {{--                {{trans('main.return')}}--}}
+            {{--            </button>--}}
         </p>
     @elseif($type_form == 'delete_question')
         {{-- Используется "'relit_id'=>$parent_ret_id, 'parent_ret_id' => $relit_id"--}}
@@ -501,12 +501,12 @@
                     <i class="fas fa-arrow-left"></i>
                     {{trans('main.return')}}
                 </button>
-{{--                <button type="button" class="btn btn-dreamer"--}}
-{{--                        title="{{trans('main.return')}}"--}}
-{{--                    @include('layouts.item.base_index.previous_url')>--}}
-{{--                    <i class="fas fa-arrow-left"></i>--}}
-{{--                    {{trans('main.return')}}--}}
-{{--                </button>--}}
+                {{--                <button type="button" class="btn btn-dreamer"--}}
+                {{--                        title="{{trans('main.return')}}"--}}
+                {{--                    @include('layouts.item.base_index.previous_url')>--}}
+                {{--                    <i class="fas fa-arrow-left"></i>--}}
+                {{--                    {{trans('main.return')}}--}}
+                {{--                </button>--}}
             </p>
         </form>
     @endif

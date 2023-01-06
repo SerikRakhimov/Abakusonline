@@ -1456,10 +1456,12 @@ class GlobalController extends Controller
             if ($base->type_is_list() || $base->type_is_image() || $base->type_is_document()) {
                 $items_count = Item::where('project_id', $project->id)->where('base_id', $base->id)->count();
                 if ($added == true) {
+                    // '>=' используется
                     if ($items_count >= $maxcount) {
                         $error = true;
                     }
                 } else {
+                    // '>' используется
                     if ($items_count > $maxcount) {
                         $error = true;
                     }
