@@ -234,7 +234,11 @@ $link_image = $tile_view['link'];
                                         <small>
                                             @endif
                                             @if($item_heading_base && $matrix[$x][$y]["fin_link"] == true)
-                                                <a href="{{route('item.base_index',['base'=>$link->parent_base_id, 'project'=>$project, 'role'=>$role, 'relit_id' => $relit_id])}}"
+{{--                                                <a href="{{route('item.base_index',['base'=>$link->parent_base_id, 'project'=>$project, 'role'=>$role, 'relit_id' => $relit_id])}}"--}}
+{{--                                                   title="{{$link->parent_base->names()}}">--}}
+{{--                                                    {{GlobalController::calc_title_name($matrix[$x][$y]["view_name"], $heading, $heading)}}--}}
+{{--                                                </a>--}}
+                                                <a href="{{route('item.base_index',['base'=>$link->parent_base_id, 'project'=>$project, 'role'=>$role, 'relit_id' => $link->parent_relit_id])}}"
                                                    title="{{$link->parent_base->names()}}">
                                                     {{GlobalController::calc_title_name($matrix[$x][$y]["view_name"], $heading, $heading)}}
                                                 </a>
@@ -487,9 +491,9 @@ $link_image = $tile_view['link'];
                                 if ($item_heading_base) {
 // В таблице-заголовке ($heading=true) ссылки будут, если '$base_link_right['is_list_base_calc'] == true'
 // В таблице-заголовке ($heading=true) ссылки будут, если '$base_link_right['is_bsmn_base_enable'] == true'
-                                   //if ($base_link_right['is_bsmn_base_enable'] == true) {
-                                        //$item_index_view = true;
-                                    //}
+                                   if ($base_link_right['is_bsmn_base_enable'] == true) {
+                                        $item_index_view = true;
+                                    }
                                 } else {
 // В таблице-теле ($heading=false) все ссылки будут
                                     $item_index_view = true;
@@ -512,9 +516,21 @@ $link_image = $tile_view['link'];
                                         $i_item = $item;//
                                     }
                                     ?>
-                                    <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$i_item, 'role'=>$role,
+{{--                                    <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$i_item, 'role'=>$role,--}}
+{{--        'usercode' =>GlobalController::usercode_calc(),--}}
+{{--        'relit_id'=>$relit_id,--}}
+{{--        'called_from_button'=>0,--}}
+{{--        'view_link'=>$i_par_link,--}}
+{{--        'view_ret_id'=>$view_ret_id,--}}
+{{--        'string_current'=>$string_next,--}}
+{{--        'prev_base_index_page'=>$base_index_page,--}}
+{{--        'prev_body_link_page'=>$body_link_page,--}}
+{{--        'prev_body_all_page'=>$body_all_page--}}
+{{--        ])}}"--}}
+{{--                                       title="">--}}
+                                        <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$i_item, 'role'=>$role,
         'usercode' =>GlobalController::usercode_calc(),
-        'relit_id'=>$relit_id,
+        'relit_id'=>$link->parent_relit_id,
         'called_from_button'=>0,
         'view_link'=>$i_par_link,
         'view_ret_id'=>$view_ret_id,
@@ -523,7 +539,7 @@ $link_image = $tile_view['link'];
         'prev_body_link_page'=>$body_link_page,
         'prev_body_all_page'=>$body_all_page
         ])}}"
-                                       title="">
+                                           title="">
                                         {{--                                    'string_link_ids_current'=>$string_link_ids_next,--}}
                                         {{--                                    'string_item_ids_current'=>$string_item_ids_next,--}}
                                         {{--                                    'string_all_codes_current'=>$string_all_codes_next,--}}
@@ -533,7 +549,7 @@ $link_image = $tile_view['link'];
                                             <small>
                                                 <mark class="text-project">
                                                     @endif
-                                                    @include('layouts.item.empty_name', ['name'=>$item_find->name(false,false,false)])1111111
+                                                    @include('layouts.item.empty_name', ['name'=>$item_find->name(false,false,false)])
                                                     @if($heading)
                                                 </mark>
                                             </small>
