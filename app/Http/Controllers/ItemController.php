@@ -451,7 +451,7 @@ class ItemController extends Controller
         if ($item_change == false) {
             if (empty($tree_array)) {
                 if ($base_right['is_bsin_base_enable'] == false) {
-                    return view('message', ['message' => trans('main.no_access')]);
+                    return view('message', ['message' => trans('main.no_access') . '$base_right["is_bsin_base_enable"]']);
                 }
             }
         }
