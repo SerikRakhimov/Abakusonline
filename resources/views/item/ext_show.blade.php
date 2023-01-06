@@ -210,7 +210,7 @@
                                                                 'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$link->parent_relit_id,
                                                                 'called_from_button'=>0,
                                                                 'view_link'=>\App\Http\Controllers\GlobalController::const_null(),
-                                                                'string_current'=>$string_next,
+                                                                'string_current'=>$string_current,
                                                                 'prev_base_index_page'=>$base_index_page,
                                                                 'prev_body_link_page'=>$body_link_page,
                                                                 'prev_body_all_page'=>$body_all_page])}}"
