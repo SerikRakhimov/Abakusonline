@@ -489,6 +489,7 @@ $link_image = $tile_view['link'];
                                 //                                }
                                 // Значение по умолчанию
                                 $string_value = $string_next;
+                                $relit_value = $relit_id;
                                 // Открывать item_index.php - проверка
                                 if ($item_heading_base) {
 // В таблице-заголовке ($heading=true) ссылки будут, если '$base_link_right['is_list_base_calc'] == true'
@@ -498,11 +499,13 @@ $link_image = $tile_view['link'];
                                         $item_index_view = true;
                                         // Для "шапки" item_index.php
                                         $string_value = $string_current;
+                                        $relit_value = $link->parent_relit_id;
                                     }
                                 } else {
 // В таблице-теле ($heading=false) все ссылки будут
                                     $item_index_view = true;
                                     $string_value = $string_next;
+                                    $relit_value = $relit_id;
                                 }
                                 ?>
                                 {{--                                @if($ext_show_view)--}}
@@ -548,7 +551,7 @@ $link_image = $tile_view['link'];
                                     {{--                                       title="">--}}
                                     <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$i_item, 'role'=>$role,
                                                 'usercode' =>GlobalController::usercode_calc(),
-                                                'relit_id'=>$relit_id,
+                                                'relit_id'=>$relit_value,
                                                 'called_from_button'=>0,
                                                 'view_link'=>$i_par_link,
                                                 'view_ret_id'=>$view_ret_id,
