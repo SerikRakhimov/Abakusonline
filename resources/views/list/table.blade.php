@@ -44,7 +44,7 @@ $link_image = $tile_view['link'];
             {{--                <div class="card text-center">--}}
             {{--                    <div class="card card-inverse text-center" style="background-color: rgba(222,255,162,0.23); border-color: #3548ee;">--}}
             <div class="card shadow m-2">
-{{--                <p class="card-header text-center text-label">{{$item->base->name()}}: {{$item->id}}--}}
+                {{--                <p class="card-header text-center text-label">{{$item->base->name()}}: {{$item->id}}--}}
                 <small class="card-header text-center text-title">{{$item->base->name()}}: {{$item->id}}
                     @if($base->is_code_needed == true)
                         {{--                        <a href="{{route('item.ext_show', ['item'=>$item, 'project'=>$project, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id,--}}
@@ -112,11 +112,11 @@ $link_image = $tile_view['link'];
                     </div>
                 </div>
                 {{--                    </div>--}}
-{{--                <div class="card-footer">--}}
-{{--                    <small class="text-title">--}}
-{{--                        {{$item->created_at->Format(trans('main.format_date'))}}--}}
-{{--                    </small>--}}
-{{--                </div>--}}
+                {{--                <div class="card-footer">--}}
+                {{--                    <small class="text-title">--}}
+                {{--                        {{$item->created_at->Format(trans('main.format_date'))}}--}}
+                {{--                    </small>--}}
+                {{--                </div>--}}
                 <div class="card-footer">
                     <div class="row">
                         {{--                        <div class="col-sm-6 text-left text-title">--}}
@@ -234,10 +234,10 @@ $link_image = $tile_view['link'];
                                         <small>
                                             @endif
                                             @if($item_heading_base && $matrix[$x][$y]["fin_link"] == true)
-{{--                                                <a href="{{route('item.base_index',['base'=>$link->parent_base_id, 'project'=>$project, 'role'=>$role, 'relit_id' => $relit_id])}}"--}}
-{{--                                                   title="{{$link->parent_base->names()}}">--}}
-{{--                                                    {{GlobalController::calc_title_name($matrix[$x][$y]["view_name"], $heading, $heading)}}--}}
-{{--                                                </a>--}}
+                                                {{--                                                <a href="{{route('item.base_index',['base'=>$link->parent_base_id, 'project'=>$project, 'role'=>$role, 'relit_id' => $relit_id])}}"--}}
+                                                {{--                                                   title="{{$link->parent_base->names()}}">--}}
+                                                {{--                                                    {{GlobalController::calc_title_name($matrix[$x][$y]["view_name"], $heading, $heading)}}--}}
+                                                {{--                                                </a>--}}
                                                 <a href="{{route('item.base_index',['base'=>$link->parent_base_id, 'project'=>$project, 'role'=>$role, 'relit_id' => $link->parent_relit_id])}}"
                                                    title="{{$link->parent_base->names()}}">
                                                     {{GlobalController::calc_title_name($matrix[$x][$y]["view_name"], $heading, $heading)}}
@@ -491,7 +491,8 @@ $link_image = $tile_view['link'];
                                 if ($item_heading_base) {
 // В таблице-заголовке ($heading=true) ссылки будут, если '$base_link_right['is_list_base_calc'] == true'
 // В таблице-заголовке ($heading=true) ссылки будут, если '$base_link_right['is_bsmn_base_enable'] == true'
-                                   if ($base_link_right['is_bsmn_base_enable'] == true) {
+//                                   if ($base_link_right['is_bsmn_base_enable'] == true) {
+                                    if ($base_link_right['is_list_base_calc'] == true) {
                                         $item_index_view = true;
                                     }
                                 } else {
@@ -516,19 +517,19 @@ $link_image = $tile_view['link'];
                                         $i_item = $item;//
                                     }
                                     ?>
-{{--                                    <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$i_item, 'role'=>$role,--}}
-{{--        'usercode' =>GlobalController::usercode_calc(),--}}
-{{--        'relit_id'=>$relit_id,--}}
-{{--        'called_from_button'=>0,--}}
-{{--        'view_link'=>$i_par_link,--}}
-{{--        'view_ret_id'=>$view_ret_id,--}}
-{{--        'string_current'=>$string_next,--}}
-{{--        'prev_base_index_page'=>$base_index_page,--}}
-{{--        'prev_body_link_page'=>$body_link_page,--}}
-{{--        'prev_body_all_page'=>$body_all_page--}}
-{{--        ])}}"--}}
-{{--                                       title="">--}}
-                                        <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$i_item, 'role'=>$role,
+                                    {{--                                    <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$i_item, 'role'=>$role,--}}
+                                    {{--        'usercode' =>GlobalController::usercode_calc(),--}}
+                                    {{--        'relit_id'=>$relit_id,--}}
+                                    {{--        'called_from_button'=>0,--}}
+                                    {{--        'view_link'=>$i_par_link,--}}
+                                    {{--        'view_ret_id'=>$view_ret_id,--}}
+                                    {{--        'string_current'=>$string_next,--}}
+                                    {{--        'prev_base_index_page'=>$base_index_page,--}}
+                                    {{--        'prev_body_link_page'=>$body_link_page,--}}
+                                    {{--        'prev_body_all_page'=>$body_all_page--}}
+                                    {{--        ])}}"--}}
+                                    {{--                                       title="">--}}
+                                    <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$i_item, 'role'=>$role,
         'usercode' =>GlobalController::usercode_calc(),
         'relit_id'=>$link->parent_relit_id,
         'called_from_button'=>0,
@@ -539,7 +540,7 @@ $link_image = $tile_view['link'];
         'prev_body_link_page'=>$body_link_page,
         'prev_body_all_page'=>$body_all_page
         ])}}"
-                                           title="">
+                                       title="">
                                         {{--                                    'string_link_ids_current'=>$string_link_ids_next,--}}
                                         {{--                                    'string_item_ids_current'=>$string_item_ids_next,--}}
                                         {{--                                    'string_all_codes_current'=>$string_all_codes_next,--}}
