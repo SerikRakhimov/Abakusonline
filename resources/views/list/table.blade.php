@@ -487,6 +487,8 @@ $link_image = $tile_view['link'];
                                 //                                        $item_index_view = true;
                                 //                                    }
                                 //                                }
+                                    // Значение по умолчанию
+                                $string_value = $string_next;
                                 // Открывать item_index.php - проверка
                                 if ($item_heading_base) {
 // В таблице-заголовке ($heading=true) ссылки будут, если '$base_link_right['is_list_base_calc'] == true'
@@ -494,10 +496,13 @@ $link_image = $tile_view['link'];
 //                                   if ($base_link_right['is_bsmn_base_enable'] == true) {
                                     if ($base_link_right['is_list_base_calc'] == true) {
                                         $item_index_view = true;
+                                        // Для "шапки" item_index.php
+                                        $string_value = $string_current;
                                     }
                                 } else {
 // В таблице-теле ($heading=false) все ссылки будут
                                     $item_index_view = true;
+                                    $string_value = $string_next;
                                 }
                                 ?>
                                 {{--                                @if($ext_show_view)--}}
@@ -535,7 +540,7 @@ $link_image = $tile_view['link'];
         'called_from_button'=>0,
         'view_link'=>$i_par_link,
         'view_ret_id'=>$view_ret_id,
-        'string_current'=>$string_current,
+        'string_current'=>$string_value,
         'prev_base_index_page'=>$base_index_page,
         'prev_body_link_page'=>$body_link_page,
         'prev_body_all_page'=>$body_all_page
