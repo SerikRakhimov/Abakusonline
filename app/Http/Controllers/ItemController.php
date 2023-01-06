@@ -447,7 +447,7 @@ class ItemController extends Controller
             }
         }
 
-        if(1==2) {
+        if (1 == 2) {
             // Используется 'is_list_base_calc' в ext_show.php и ItemController::item_index()
             // Нужно, после вызова calc_tree_array()
             if ($item_change == false) {
@@ -6572,6 +6572,11 @@ class ItemController extends Controller
 //                $links = $links->where('parent_base_id', '!=', $value['base_id']);
 //            }
 //        }
+        if (count($tree_array) > 0) {
+            foreach ($tree_array as $value) {
+                $links = $links->where('id', '!=', $value['link_id']);
+            }
+        }
         if ($nolink != null) {
             // При параллельной связи $nolink ($nolink->parent_is_parallel == true)
             // другие паралельные связи не доступны при отображении списка в Пространство-тело таблицы
