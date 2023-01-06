@@ -487,9 +487,9 @@ $link_image = $tile_view['link'];
                                 if ($item_heading_base) {
 // В таблице-заголовке ($heading=true) ссылки будут, если '$base_link_right['is_list_base_calc'] == true'
 // В таблице-заголовке ($heading=true) ссылки будут, если '$base_link_right['is_bsmn_base_enable'] == true'
-                                    if ($base_link_right['is_bsmn_base_enable'] == true) {
+                                   //if ($base_link_right['is_bsmn_base_enable'] == true) {
                                         //$item_index_view = true;
-                                    }
+                                    //}
                                 } else {
 // В таблице-теле ($heading=false) все ссылки будут
                                     $item_index_view = true;
@@ -533,7 +533,7 @@ $link_image = $tile_view['link'];
                                             <small>
                                                 <mark class="text-project">
                                                     @endif
-                                                    @include('layouts.item.empty_name', ['name'=>$item_find->name(false,false,false)])
+                                                    @include('layouts.item.empty_name', ['name'=>$item_find->name(false,false,false)])1111111
                                                     @if($heading)
                                                 </mark>
                                             </small>
