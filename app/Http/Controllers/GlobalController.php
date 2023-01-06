@@ -152,11 +152,15 @@ class GlobalController extends Controller
             if (!(($base->template_id == $role->template_id) || ($base->template_id == $relit_parent_template->id))) {
                 $is_list_base_calc = false;
             }
+
 //          Не 'Показывать Основы взаимосвязанных проектов'
             if ($role->is_list_base_relits == false) {
                 if ($base->template_id != $role->template_id) {
                     $is_list_base_calc = false;
                 }
+            }
+            if ($base->id == 7){
+               //DD($role);
             }
 //          'Показывать Основы взаимосвязанных проектов'
             if ($role->is_list_base_relits == true) {
@@ -205,8 +209,10 @@ class GlobalController extends Controller
             $is_list_base_update = false;
             $is_list_base_delete = false;
         }
+
         // "$is_enable &&" нужно
         $is_list_base_calc = $is_list_base_calc && ($is_list_base_create || $is_list_base_read || $is_list_base_update || $is_list_base_delete);
+
         // Блок проверки по robas, используя переменные $role, $relit_id и $base
         //$roba = Roba::where('role_id', $role->id)->where('base_id', $base->id)->first();
         $roba = Roba::where('role_id', $role->id)->where('relit_id', $relit_id)->where('base_id', $base->id)->first();
@@ -2456,6 +2462,21 @@ class GlobalController extends Controller
                 // Наименование
                 $result = ' (' . mb_strtolower(trans('main.my_records')) . ')';
             }
+        }
+        return $result;
+    }
+
+    static function link_par_link(Link $link, $par_link)
+    {
+        $result = false;
+        if ($par_link != null) {
+            if ($par_link->id == $link->id) {
+                $result = true;
+            } else {
+                $result = false;
+            }
+        } else {
+            $result = false;
         }
         return $result;
     }

@@ -155,7 +155,9 @@
             <?php
             //            $base_link_right = null;
             //            if ($heading == 1 || $base_index_page > 0) {
-            $base_link_right = GlobalController::base_link_right($link, $role, $relit_id);
+            //$base_link_right = GlobalController::base_link_right($link, $role, $relit_id);
+            $base_link_right = GlobalController::base_link_right($link, $role, $link->parent_relit_id);
+            $result_par_link = \App\Http\Controllers\GlobalController::link_par_link($link, $par_link);
             //            } else {
             //                $base_link_right = GlobalController::base_link_right($link, $role, $link->parent_relit_id);
             //            }
@@ -202,10 +204,16 @@
                         {{--                            <b>--}}
                         {{--  Используется 'is_list_base_calc' в ext_show.php и ItemController::item_index()  --}}
                         {{--                        @if($base_link_right['is_list_base_calc'] == true && $base_link_right['is_bsmn_base_enable'] == true)--}}
-                        @if($base_link_right['is_list_base_calc'] == true)
+{{--                    Если $par_link == $link, то не показывать ссылку--}}
+                        @if($result_par_link ==false & $base_link_right['is_list_base_calc'] == true)
                             <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item_find, 'role'=>$role,
                                                                 'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$link->parent_relit_id,
-                                                                'called_from_button'=>0, 'view_link'=>null])}}"
+                                                                'called_from_button'=>0,
+                                                                'view_link'=>\App\Http\Controllers\GlobalController::const_null(),
+                                                                'string_current'=>$string_current,
+                                                                'prev_base_index_page'=>$base_index_page,
+                                                                'prev_body_link_page'=>$body_link_page,
+                                                                'prev_body_all_page'=>$body_all_page])}}"
                                title="">
                                 {{$item_find->name(false, true, true)}}
                             </a>
