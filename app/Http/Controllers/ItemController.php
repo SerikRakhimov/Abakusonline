@@ -375,7 +375,7 @@ class ItemController extends Controller
 //      Похожая проверка в ItemController::base_index() и project/start.php
 //      Используется 'is_list_base_calc' в ext_show.php и ItemController::item_index()
         if ($base_right['is_list_base_calc'] == false) {
-            return view('message', ['message' => trans('main.no_access') . '$base_right["is_list_base_calc"]']);
+            return view('message', ['message' => trans('main.no_access') . ' ($base_right["is_list_base_calc"])']);
         }
 
         // Сохранить значения для вызова ext_show.php
@@ -446,12 +446,14 @@ class ItemController extends Controller
                 }
             }
         }
-        // Используется 'is_list_base_calc' в ext_show.php и ItemController::item_index()
-        // Нужно, после вызова calc_tree_array()
-        if ($item_change == false) {
-            if (empty($tree_array)) {
-                if ($base_right['is_bsin_base_enable'] == false) {
-                    return view('message', ['message' => trans('main.no_access') . '$base_right["is_bsin_base_enable"]']);
+        if (1 == 2) {
+            // Используется 'is_list_base_calc' в ext_show.php и ItemController::item_index()
+            // Нужно, после вызова calc_tree_array()
+            if ($item_change == false) {
+                if (empty($tree_array)) {
+                    if ($base_right['is_bsin_base_enable'] == false) {
+                        return view('message', ['message' => trans('main.no_access') . ' ($base_right["is_bsin_base_enable"])']);
+                    }
                 }
             }
         }
