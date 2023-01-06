@@ -363,7 +363,7 @@ class ItemController extends Controller
         //    проекты $relip->parent_project_id находятся из существующих взаимосвязанных проектов $project.
 
         if (GlobalController::check_project_item_user($project, $item, $role, $usercode) == false) {
-            return view('message', ['message' => trans('main.no_access')]);
+            return view('message', ['message' => trans('main.no_access') . ' (check_project_item_user)']);
         }
 
         // Нужно
@@ -375,7 +375,7 @@ class ItemController extends Controller
 //      Похожая проверка в ItemController::base_index() и project/start.php
 //      Используется 'is_list_base_calc' в ext_show.php и ItemController::item_index()
         if ($base_right['is_list_base_calc'] == false) {
-            return view('message', ['message' => trans('main.no_access')]);
+            return view('message', ['message' => trans('main.no_access') . '$base_right["is_list_base_calc"]']);
         }
 
         // Сохранить значения для вызова ext_show.php
