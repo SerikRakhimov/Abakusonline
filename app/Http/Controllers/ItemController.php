@@ -447,16 +447,17 @@ class ItemController extends Controller
             }
         }
 
-        // Используется 'is_list_base_calc' в ext_show.php и ItemController::item_index()
-        // Нужно, после вызова calc_tree_array()
-        if ($item_change == false) {
-            if (empty($tree_array)) {
-                if ($base_right['is_bsin_base_enable'] == false) {
-                    return view('message', ['message' => trans('main.no_access') . ' ($base_right["is_bsin_base_enable"])']);
+        if(1==2) {
+            // Используется 'is_list_base_calc' в ext_show.php и ItemController::item_index()
+            // Нужно, после вызова calc_tree_array()
+            if ($item_change == false) {
+                if (empty($tree_array)) {
+                    if ($base_right['is_bsin_base_enable'] == false) {
+                        return view('message', ['message' => trans('main.no_access') . ' ($base_right["is_bsin_base_enable"])']);
+                    }
                 }
             }
         }
-
         // Нужно
         if ($view_link == null || $view_link == GlobalController::par_link_const_textnull() || $view_link == GlobalController::par_link_const_text_base_null()) {
             // Нужно '$view_link = null;'
