@@ -487,7 +487,7 @@ $link_image = $tile_view['link'];
                                 //                                        $item_index_view = true;
                                 //                                    }
                                 //                                }
-                                    // Значение по умолчанию
+                                // Значение по умолчанию
                                 $string_value = $string_next;
                                 // Открывать item_index.php - проверка
                                 if ($item_heading_base) {
@@ -522,29 +522,41 @@ $link_image = $tile_view['link'];
                                         $i_item = $item;//
                                     }
                                     ?>
+                                    {{--                                                                        <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$i_item, 'role'=>$role,--}}
+                                    {{--                                            'usercode' =>GlobalController::usercode_calc(),--}}
+                                    {{--                                            'relit_id'=>$relit_id,--}}
+                                    {{--                                            'called_from_button'=>0,--}}
+                                    {{--                                            'view_link'=>$i_par_link,--}}
+                                    {{--                                            'view_ret_id'=>$view_ret_id,--}}
+                                    {{--                                            'string_current'=>$string_next,--}}
+                                    {{--                                            'prev_base_index_page'=>$base_index_page,--}}
+                                    {{--                                            'prev_body_link_page'=>$body_link_page,--}}
+                                    {{--                                            'prev_body_all_page'=>$body_all_page--}}
+                                    {{--                                            ])}}"--}}
+                                    {{--                                                                           title="">--}}
                                     {{--                                    <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$i_item, 'role'=>$role,--}}
                                     {{--        'usercode' =>GlobalController::usercode_calc(),--}}
-                                    {{--        'relit_id'=>$relit_id,--}}
+                                    {{--        'relit_id'=>$link->parent_relit_id,--}}
                                     {{--        'called_from_button'=>0,--}}
                                     {{--        'view_link'=>$i_par_link,--}}
                                     {{--        'view_ret_id'=>$view_ret_id,--}}
-                                    {{--        'string_current'=>$string_next,--}}
+                                    {{--        'string_current'=>$string_value,--}}
                                     {{--        'prev_base_index_page'=>$base_index_page,--}}
                                     {{--        'prev_body_link_page'=>$body_link_page,--}}
                                     {{--        'prev_body_all_page'=>$body_all_page--}}
                                     {{--        ])}}"--}}
                                     {{--                                       title="">--}}
                                     <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$i_item, 'role'=>$role,
-        'usercode' =>GlobalController::usercode_calc(),
-        'relit_id'=>$link->parent_relit_id,
-        'called_from_button'=>0,
-        'view_link'=>$i_par_link,
-        'view_ret_id'=>$view_ret_id,
-        'string_current'=>$string_value,
-        'prev_base_index_page'=>$base_index_page,
-        'prev_body_link_page'=>$body_link_page,
-        'prev_body_all_page'=>$body_all_page
-        ])}}"
+                                                'usercode' =>GlobalController::usercode_calc(),
+                                                'relit_id'=>$relit_id,
+                                                'called_from_button'=>0,
+                                                'view_link'=>$i_par_link,
+                                                'view_ret_id'=>$view_ret_id,
+                                                'string_current'=>$string_value,
+                                                'prev_base_index_page'=>$base_index_page,
+                                                'prev_body_link_page'=>$body_link_page,
+                                                'prev_body_all_page'=>$body_all_page
+                                                ])}}"
                                        title="">
                                         {{--                                    'string_link_ids_current'=>$string_link_ids_next,--}}
                                         {{--                                    'string_item_ids_current'=>$string_item_ids_next,--}}
