@@ -150,7 +150,7 @@ class GlobalController extends Controller
             // Также 'Связанные шаблоны у связанных шаблонов' не должны присутствовать в robas
             // Используется отрицание '!'
             if (!(($base->template_id == $role->template_id) || ($base->template_id == $relit_parent_template->id))) {
-                //$is_list_base_calc = false;
+                $is_list_base_calc = false;
             }
 
 //          Не 'Показывать Основы взаимосвязанных проектов'
@@ -159,9 +159,7 @@ class GlobalController extends Controller
                     $is_list_base_calc = false;
                 }
             }
-            if ($base->id == 7){
-               //DD($role);
-            }
+
 //          'Показывать Основы взаимосвязанных проектов'
             if ($role->is_list_base_relits == true) {
                 if ($base->template_id != $role->template_id) {

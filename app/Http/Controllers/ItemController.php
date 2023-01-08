@@ -4696,6 +4696,11 @@ class ItemController extends Controller
                 // обязательно true - с заменой
                 $this->save_info_sets($item, true, true);
 
+                // только для ext_update()
+                // true - с реверсом
+                // обязательно true - с заменой
+                $this->calc_item_names($item);
+
                 // после ввода данных в форме массив состоит:
                 // индекс массива = link_id (для занесения в links->id)
                 // значение массива = item_id (для занесения в mains->parent_item_id)
@@ -6325,9 +6330,11 @@ class ItemController extends Controller
             'calc_lang_0' => $calc_lang_0, 'calc_lang_1' => $calc_lang_1, 'calc_lang_2' => $calc_lang_2, 'calc_lang_3' => $calc_lang_3];
     }
 
+    // Перерасчет $items по переданным $base, $project
     function calculate_names(Base $base, Project $project)
     {
-        $items = Item::where('base_id', $base->id)->where('project_id', $project->id)->get();
+        //$items = Item::where('base_id', $base->id)->where('project_id', $project->id)->get();
+        $items = Item::where('base_id', $base->id)->where('project_id', $project->id);
         $rs = false;
         foreach ($items as $item) {
             $rs = $this->calc_value_func($item);
@@ -6338,6 +6345,30 @@ class ItemController extends Controller
             $item->save();
         }
         return redirect()->back();
+    }
+
+    // Перерасчет $items по переданным $item по всем проектам
+    function calc_item_names(Item $item)
+    {
+        $items_ids = Main::select(DB::Raw('mains.child_item_id as id'))
+            ->join('links', 'mains.link_id', '=', 'links.id')
+            ->join('items', 'mains.child_item_id', '=', 'items.id')
+            ->where('mains.parent_item_id', '=', $item->id)
+            ->where('links.parent_is_calcname', '=', true);
+
+        $items = Item::joinSub($items_ids, 'items_ids', function ($join) {
+            $join->on('items.id', '=', 'items_ids.id');
+        });
+
+        $rs = false;
+        foreach ($items as $item) {
+            $rs = $this->calc_value_func($item);
+            $item->name_lang_0 = $rs['calc_lang_0'];
+            $item->name_lang_1 = $rs['calc_lang_1'];
+            $item->name_lang_2 = $rs['calc_lang_2'];
+            $item->name_lang_3 = $rs['calc_lang_3'];
+            $item->save();
+        }
     }
 
     function calculate_new_code(Base $base, Project $project)

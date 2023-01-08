@@ -1009,7 +1009,11 @@
                                                     @if (((old($key)) ?? (($value != null) ? $value : 0)) == $item_work->id)
                                                     selected
                                                 @endif
-                                            >{{$item_work->name()}}
+                                            >
+<!--                                                --><?php
+//                                                echo $item_work->name();
+//                                                ?>
+                                                {{$item_work->name()}}
                                             </option>
                                         @endforeach
                                     @endif
