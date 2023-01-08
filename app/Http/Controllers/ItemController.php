@@ -4696,11 +4696,6 @@ class ItemController extends Controller
                 // обязательно true - с заменой
                 $this->save_info_sets($item, true, true);
 
-                // только для ext_update()
-                // true - с реверсом
-                // обязательно true - с заменой
-                $this->calc_item_names($item);
-
                 // после ввода данных в форме массив состоит:
                 // индекс массива = link_id (для занесения в links->id)
                 // значение массива = item_id (для занесения в mains->parent_item_id)
@@ -4805,6 +4800,10 @@ class ItemController extends Controller
                 // При reverse = false передаем null
                 // true - с заменой
                 $this->save_sets($item, $keys, $values, $valits, false, true);
+
+                // только для ext_update()
+                // Перерасчет $items по переданным $item по всем проектам
+                $this->calc_item_names($item);
 
                 $item->save();
 
