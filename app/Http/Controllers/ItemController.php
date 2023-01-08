@@ -4801,11 +4801,11 @@ class ItemController extends Controller
                 // true - с заменой
                 $this->save_sets($item, $keys, $values, $valits, false, true);
 
+                $item->save();
+
                 // только для ext_update()
                 // Перерасчет $items по переданным $item по всем проектам
                 $this->calc_item_names($item);
-
-                $item->save();
 
             }, 3);  // Повторить три раза, прежде чем признать неудачу
             // окончание транзакции
