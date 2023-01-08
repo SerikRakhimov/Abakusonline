@@ -150,7 +150,7 @@ class GlobalController extends Controller
             // Также 'Связанные шаблоны у связанных шаблонов' не должны присутствовать в robas
             // Используется отрицание '!'
             if (!(($base->template_id == $role->template_id) || ($base->template_id == $relit_parent_template->id))) {
-                $is_list_base_calc = false;
+                //$is_list_base_calc = false;
             }
 
 //          Не 'Показывать Основы взаимосвязанных проектов'
@@ -1036,7 +1036,9 @@ class GlobalController extends Controller
 //        echo ", result = " . $var;
 //        return ($base->is_calcname_lst == true && $base_right['is_all_base_calcname_enable'] == true)
 //            || ($base->is_calcname_lst == false);
-        return ($base->is_calcname_lst == true && $base->is_calcnm_correct_lst == true && $base_right['is_all_base_calcname_enable'] == true)
+//        return ($base->is_calcname_lst == true && $base->is_calcnm_correct_lst == true && $base_right['is_all_base_calcname_enable'] == true)
+//            || ($base->is_calcname_lst == false);
+        return ($base->is_calcname_lst == true && $base->is_calcnm_correct_lst == true)
             || ($base->is_calcname_lst == false);
     }
 
