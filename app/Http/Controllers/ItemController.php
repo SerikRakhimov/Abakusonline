@@ -6358,9 +6358,11 @@ class ItemController extends Controller
             ->where('mains.parent_item_id', '=', $item->id)
             ->where('links.parent_is_calcname', '=', true);
 
+        // "->get()" нужно
         $items = Item::joinSub($items_ids, 'items_ids', function ($join) {
             $join->on('items.id', '=', 'items_ids.id');
-           });
+        })
+            ->get();
 
         $rs = false;
         foreach ($items as $item) {
