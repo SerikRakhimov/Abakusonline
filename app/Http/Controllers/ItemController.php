@@ -6333,8 +6333,10 @@ class ItemController extends Controller
     // Перерасчет $items по переданным $base, $project
     function calculate_names(Base $base, Project $project)
     {
-        //$items = Item::where('base_id', $base->id)->where('project_id', $project->id)->get();
-        $items = Item::where('base_id', $base->id)->where('project_id', $project->id);
+        //$items = Item::where('base_id', $base->id)->where('project_id', $project->id);
+        $items = Item::where('base_id', $base->id)->where('project_id', $project->id)
+            ->get();
+
         $rs = false;
         foreach ($items as $item) {
             $rs = $this->calc_value_func($item);
@@ -6357,7 +6359,8 @@ class ItemController extends Controller
             ->where('links.parent_is_calcname', '=', true);
 
         $items = Item::joinSub($items_ids, 'items_ids', function ($join) {
-            $join->on('items.id', '=', 'items_ids.id');
+            $join->on('items.id', '=', 'items_ids.id')
+                ->get();
         });
 
         $rs = false;
