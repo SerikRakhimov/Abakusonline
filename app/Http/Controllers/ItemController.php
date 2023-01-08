@@ -4805,6 +4805,7 @@ class ItemController extends Controller
 
                 // только для ext_update()
                 // Перерасчет $items по переданным $item по всем проектам
+                // обязательно нужно после команды " $item->save();"
                 $this->calc_item_names($item);
 
             }, 3);  // Повторить три раза, прежде чем признать неудачу
