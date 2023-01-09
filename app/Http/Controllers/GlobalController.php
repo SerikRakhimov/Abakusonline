@@ -1733,6 +1733,32 @@ class GlobalController extends Controller
         return $project;
     }
 
+    // Вычисляет $relit_id
+    static function calc_link_relit_id(Link $link, Role $role, $relit_id)
+    {
+        $result_relit_id = 0;
+        if ($link->parent_relit_id == 0) {
+            // Возвращается текущий проект
+            $result_relit_id = $relit_id;
+        } else {
+            if($link->parent_base->template_id == $role->template_id){
+                $result_relit_id = $link->parent_relit_id;
+            }
+            else{
+                // Используется первый нашедший проект
+                $relit = Relit::select(DB::Raw('relits.id as relit_id'))
+                ->where('child_template_id', $role->template_id)
+                    ->where('parent_template_id', $link->parent_base->template_id)
+                    ->orderBy('serial_number')
+                    ->first();
+                if ($relit){
+                    $result_relit_id = $relit['relit_id'];
+                }
+            }
+        }
+        return $result_relit_id;
+    }
+
     // Вывод проекта по $link и $current_project
     static function calc_link_project(Link $link, Project $current_project, bool $is_message = true)
     {
