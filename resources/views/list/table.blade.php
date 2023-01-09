@@ -2,6 +2,7 @@
 use App\Models\Link;
 use \App\Http\Controllers\GlobalController;
 $link_id_array = $links_info['link_id_array'];
+$link_base_relit_id_array = $links_info['link_base_relit_id_array'];
 $link_base_right_array = $links_info['link_base_right_array'];
 $matrix = $links_info['matrix'];
 $rows = $links_info['rows'];
@@ -411,18 +412,30 @@ $link_image = $tile_view['link'];
                                     {{--                                    </a>--}}
                                     {{--                                @else--}}
                                     @if ($item_index_view)
-                                        <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,
+{{--                                        <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,--}}
+{{--        'usercode' =>GlobalController::usercode_calc(),--}}
+{{--        'relit_id'=>$relit_id,--}}
+{{--        'called_from_button'=>0,--}}
+{{--        'view_link'=>$i_par_link,--}}
+{{--        'view_ret_id'=>$view_ret_id,--}}
+{{--        'string_current'=>$string_next,--}}
+{{--        'prev_base_index_page'=>$base_index_page,--}}
+{{--        'prev_body_link_page'=>$body_link_page,--}}
+{{--        'prev_body_all_page'=>$body_all_page--}}
+{{--        ])}}"--}}
+{{--                                           title="{{$item->name()}}">--}}
+                                            <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,
         'usercode' =>GlobalController::usercode_calc(),
         'relit_id'=>$relit_id,
         'called_from_button'=>0,
         'view_link'=>$i_par_link,
-        'view_ret_id'=>$view_ret_id,
+        'view_ret_id'=>GlobalController::const_null(),
         'string_current'=>$string_next,
         'prev_base_index_page'=>$base_index_page,
         'prev_body_link_page'=>$body_link_page,
         'prev_body_all_page'=>$body_all_page
         ])}}"
-                                           title="{{$item->name()}}">
+                                               title="{{$item->name()}}">
                                             {{--                                        'string_link_ids_current'=>$string_link_ids_next,--}}
                                             {{--                                        'string_item_ids_current'=>$string_item_ids_next,--}}
                                             {{--                                        'string_all_codes_current'=>$string_all_codes_next,--}}
@@ -499,7 +512,7 @@ $link_image = $tile_view['link'];
                                         $item_index_view = true;
                                         // Для "шапки" item_index.php
                                         $string_value = $string_current;
-                                        $relit_value = $link->parent_relit_id;
+                                        $relit_value = $link_base_relit_id_array[$link->id];
                                     }
                                 } else {
 // В таблице-теле ($heading=false) все ссылки будут
@@ -549,18 +562,30 @@ $link_image = $tile_view['link'];
                                     {{--        'prev_body_all_page'=>$body_all_page--}}
                                     {{--        ])}}"--}}
                                     {{--                                       title="">--}}
-                                    <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$i_item, 'role'=>$role,
+{{--                                    <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$i_item, 'role'=>$role,--}}
+{{--                                                'usercode' =>GlobalController::usercode_calc(),--}}
+{{--                                                'relit_id'=>$relit_value,--}}
+{{--                                                'called_from_button'=>0,--}}
+{{--                                                'view_link'=>$i_par_link,--}}
+{{--                                                'view_ret_id'=>$view_ret_id,--}}
+{{--                                                'string_current'=>$string_value,--}}
+{{--                                                'prev_base_index_page'=>$base_index_page,--}}
+{{--                                                'prev_body_link_page'=>$body_link_page,--}}
+{{--                                                'prev_body_all_page'=>$body_all_page--}}
+{{--                                                ])}}"--}}
+{{--                                       title="">--}}
+                                        <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$i_item, 'role'=>$role,
                                                 'usercode' =>GlobalController::usercode_calc(),
                                                 'relit_id'=>$relit_value,
                                                 'called_from_button'=>0,
                                                 'view_link'=>$i_par_link,
-                                                'view_ret_id'=>$view_ret_id,
+                                                'view_ret_id'=>GlobalController::const_null(),
                                                 'string_current'=>$string_value,
                                                 'prev_base_index_page'=>$base_index_page,
                                                 'prev_body_link_page'=>$body_link_page,
                                                 'prev_body_all_page'=>$body_all_page
                                                 ])}}"
-                                       title="">
+                                           title="">
                                         {{--                                    'string_link_ids_current'=>$string_link_ids_next,--}}
                                         {{--                                    'string_item_ids_current'=>$string_item_ids_next,--}}
                                         {{--                                    'string_all_codes_current'=>$string_all_codes_next,--}}

@@ -6534,6 +6534,7 @@ class ItemController extends Controller
     {
         $base_right = GlobalController::base_right($base, $role, $relit_id);
         $link_id_array = array();
+        $link_base_relit_id_array = array();
         $link_base_right_array = array();
         $matrix = array(array());
         // Нужно
@@ -6675,6 +6676,7 @@ class ItemController extends Controller
             //$is_list_base_calc = $base_link_right['is_list_base_calc'];
             $is_list_base_calc = $base_link_right['is_bsmn_base_enable'];
             $link_id_array[] = $link->id;
+            $link_base_relit_id_array[$link->id] = $calc_link_relit_id;
             $link_base_right_array[$link->id] = $base_link_right;
             // 0-ая строка с link->id
             $matrix[0][$k] = ['parent_level_id' => null, 'link_id' => $link->id, 'work_field' => null,
@@ -6803,7 +6805,8 @@ class ItemController extends Controller
             $rows = 0;
             $cols = 0;
         }
-        return ['link_id_array' => $link_id_array, 'link_base_right_array' => $link_base_right_array,
+        return ['link_id_array' => $link_id_array,
+            'link_base_relit_id_array' => $link_base_relit_id_array, 'link_base_right_array' => $link_base_right_array,
             'matrix' => $matrix, 'rows' => $rows, 'cols' => $cols, 'error_message' => $error_message];
     }
 
