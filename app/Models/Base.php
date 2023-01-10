@@ -279,12 +279,12 @@ class Base extends Model
         // Только чтение данных(без создания, корректировки и удаления)
         if ($base_right['is_list_base_read'] == true) {
             $links = $this->child_links();
-            $link = $links->where('parent_is_primary_image', true)->first();
-            if ($link) {
-                if ($link->parent_base->type_is_image()) {
-                    $result = true;
-                }
-            }
+//            $link = $links->where('parent_is_primary_image', true)->first();
+//            if ($link) {
+//                if ($link->parent_base->type_is_image()) {
+            $result = true;
+//                }
+//            }
         }
         return ['result' => $result, 'link' => $link];
     }
