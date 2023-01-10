@@ -343,6 +343,16 @@
     {{$items->links()}}
     {{--    <blockquote class="text-title pt-1 pl-5 pr-5"><?php echo nl2br($project->dc_ext()); ?></blockquote>--}}
     <blockquote class="text-title pt-1 pl-5 pr-5"><?php echo nl2br($project->dc_int()); ?></blockquote>
+{{--    https://www.w3schools.com/css/css3_object-fit.asp--}}
+{{--    <div style="width:100%;height:400px;">--}}
+{{--        <p style="float:left;width:50%;height:100%;">--}}
+{{--            hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh--}}
+{{--        </p>--}}
+{{--        <p style="float:left;width:50%;height:100%;">--}}
+{{--            hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh;;;;;;;;;;;;;;;; kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk lllllllllllllll--}}
+{{--        </p>--}}
+{{--        <img src="paris.jpg" alt="Paris" style="float:left;width:50%;height:100%;object-fit:cover;">--}}
+{{--    </div>--}}
 @endsection
 
 
