@@ -2554,6 +2554,20 @@ class ItemController extends Controller
                     }
                 }
 
+//                $rs = $this->calc_value_func($item);
+//                if ($rs != null) {
+//                    $item->name_lang_0 = $rs['calc_lang_0'];
+//                    $item->name_lang_1 = $rs['calc_lang_1'];
+//                    $item->name_lang_2 = $rs['calc_lang_2'];
+//                    $item->name_lang_3 = $rs['calc_lang_3'];
+//                }
+                // В ext_store() вызывается один раз, т.к. запись создается
+                // При reverse = false передаем null
+                // параметр $urepl = true - с заменой
+                $this->save_sets($item, $keys, $values, $valits, false, true);
+
+                $item->save();
+
                 $rs = $this->calc_value_func($item);
                 if ($rs != null) {
                     $item->name_lang_0 = $rs['calc_lang_0'];
@@ -2561,12 +2575,6 @@ class ItemController extends Controller
                     $item->name_lang_2 = $rs['calc_lang_2'];
                     $item->name_lang_3 = $rs['calc_lang_3'];
                 }
-                // В ext_store() вызывается один раз, т.к. запись создается
-                // При reverse = false передаем null
-                // параметр $urepl = true - с заменой
-                $this->save_sets($item, $keys, $values, $valits, false, true);
-
-                $item->save();
 
             }, 3);  // Повторить три раза, прежде чем признать неудачу
             // окончание транзакции
