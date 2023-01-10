@@ -2554,20 +2554,6 @@ class ItemController extends Controller
                     }
                 }
 
-//                $rs = $this->calc_value_func($item);
-//                if ($rs != null) {
-//                    $item->name_lang_0 = $rs['calc_lang_0'];
-//                    $item->name_lang_1 = $rs['calc_lang_1'];
-//                    $item->name_lang_2 = $rs['calc_lang_2'];
-//                    $item->name_lang_3 = $rs['calc_lang_3'];
-//                }
-                // В ext_store() вызывается один раз, т.к. запись создается
-                // При reverse = false передаем null
-                // параметр $urepl = true - с заменой
-                $this->save_sets($item, $keys, $values, $valits, false, true);
-
-                $item->save();
-
                 $rs = $this->calc_value_func($item);
                 if ($rs != null) {
                     $item->name_lang_0 = $rs['calc_lang_0'];
@@ -2575,6 +2561,11 @@ class ItemController extends Controller
                     $item->name_lang_2 = $rs['calc_lang_2'];
                     $item->name_lang_3 = $rs['calc_lang_3'];
                 }
+                // В ext_store() вызывается один раз, т.к. запись создается
+                // При reverse = false передаем null
+                // параметр $urepl = true - с заменой
+                $this->save_sets($item, $keys, $values, $valits, false, true);
+
                 $item->save();
 
             }, 3);  // Повторить три раза, прежде чем признать неудачу
@@ -6238,16 +6229,20 @@ class ItemController extends Controller
                     $dop_name_2 = "";
                     $dop_name_3 = "";
                     if ($item->base_id == $item_result->base_id) {
-                        if ($level == 1) {
-                            // всего два запуска этой функции (основной и этот), только для однородных значений (например: ФизЛицо имеет поле Мать(ФизЛицо), Отец(ФизЛицо))
-                            $rs = $this->calc_value_func($item_result, $level, false);
-                            $dop_name_0 = $rs['calc_lang_0'] == "" ? "" : $item->base->sepa_same_left_calcname . $rs['calc_lang_0'] . $item->base->sepa_same_right_calcname;
-                            $dop_name_1 = $rs['calc_lang_1'] == "" ? "" : $item->base->sepa_same_left_calcname . $rs['calc_lang_1'] . $item->base->sepa_same_right_calcname;
-                            $dop_name_2 = $rs['calc_lang_2'] == "" ? "" : $item->base->sepa_same_left_calcname . $rs['calc_lang_2'] . $item->base->sepa_same_right_calcname;
-                            $dop_name_3 = $rs['calc_lang_3'] == "" ? "" : $item->base->sepa_same_left_calcname . $rs['calc_lang_3'] . $item->base->sepa_same_right_calcname;
-                        } else {
-                            continue;
-                            //$res_names = $item_result->names();
+
+//                        if ($level == 1) {
+
+                        // всего два запуска этой функции (основной и этот), только для однородных значений (например: ФизЛицо имеет поле Мать(ФизЛицо), Отец(ФизЛицо))
+                        $rs = $this->calc_value_func($item_result, $level, false);
+                        $dop_name_0 = $rs['calc_lang_0'] == "" ? "" : $item->base->sepa_same_left_calcname . $rs['calc_lang_0'] . $item->base->sepa_same_right_calcname;
+                        $dop_name_1 = $rs['calc_lang_1'] == "" ? "" : $item->base->sepa_same_left_calcname . $rs['calc_lang_1'] . $item->base->sepa_same_right_calcname;
+                        $dop_name_2 = $rs['calc_lang_2'] == "" ? "" : $item->base->sepa_same_left_calcname . $rs['calc_lang_2'] . $item->base->sepa_same_right_calcname;
+                        $dop_name_3 = $rs['calc_lang_3'] == "" ? "" : $item->base->sepa_same_left_calcname . $rs['calc_lang_3'] . $item->base->sepa_same_right_calcname;
+
+//                        } else {
+//                            continue;
+
+                        //$res_names = $item_result->names();
 //                            $dop_name_0 = $res_names[0];
 //                            $dop_name_1 = $res_names[1];
 //                            $dop_name_2 = $res_names[2];
@@ -6256,7 +6251,9 @@ class ItemController extends Controller
 //                            $dop_name_1 = "";
 //                            $dop_name_2 = "";
 //                            $dop_name_3 = "";
-                        }
+
+                        //}
+
                     } else {
                         $res_names = $item_result->names();
                         $dop_name_0 = $res_names[0];
