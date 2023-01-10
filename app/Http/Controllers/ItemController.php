@@ -5247,7 +5247,6 @@ class ItemController extends Controller
         return $result;
     }
 
-
     function ext_return(Item $item, Project $project, Role $role,
                              $usercode, $relit_id,
                              $string_current = '',
