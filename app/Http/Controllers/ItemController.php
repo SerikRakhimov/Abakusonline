@@ -6377,6 +6377,8 @@ class ItemController extends Controller
             $item->name_lang_2 = $rs['calc_lang_2'];
             $item->name_lang_3 = $rs['calc_lang_3'];
             $item->save();
+            // Рекурсивный вызов для изменения вычисляемого наименования во вложенных записях
+            self::calc_item_names($item);
         }
     }
 
