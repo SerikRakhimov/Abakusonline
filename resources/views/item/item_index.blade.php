@@ -127,9 +127,9 @@
         <div class="row">
             <?php
             if ($view_link) {
-                $title = $view_link->parent_label();
+                $title = $view_link->parent_label()."100";
             } else {
-                $title = $item->base->name();
+                $title = $item->base->name()."200";
             }
             ?>
             {{--                    Выводить вычисляемое наименование--}}
