@@ -127,8 +127,7 @@
         <div class="row">
             <?php
             if ($view_link) {
-                $title = $view_link->parent_label(). $view_link->id;
-                dd($view_link);
+                $title = $view_link->parent_label();
             } else {
                 $title = $item->base->name();
             }
