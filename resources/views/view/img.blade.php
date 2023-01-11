@@ -20,7 +20,7 @@ use \App\Http\Controllers\GlobalController;
                                 @endif
                                 <img
                                     @if($card_img_top)
-                                    class="card-img-top" style="object-fit:cover"
+                                    class="card-img-top" style="object-fit:contain"
                                     @endif
                                     @if($size == 'avatar')
                                     class="circle"
