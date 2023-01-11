@@ -216,6 +216,9 @@ class ProjectController extends Controller
                 $accesses = Access::where('project_id', $project->id)
                     ->where('user_id', GlobalController::glo_user_id())
                     ->where('is_access_allowed', true)
+                    ->whereHas('role', function ($query) {
+                        $query->orderBy('serial_number');
+                    })
                     ->get();
                 foreach ($accesses as $access) {
                     $role = $access->role;
