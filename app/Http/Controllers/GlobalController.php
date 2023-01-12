@@ -1250,7 +1250,7 @@ class GlobalController extends Controller
         // Убрать HTML-теги
         $str = strip_tags($str);
         // Нужно - убрать символы перевода строки (https://php.ru/forum/threads/udalenie-simvolov-perevoda-stroki.25065/)
-        //$str = str_replace(array("\r\n", "\r", "\n"), '', $str);
+        $str = str_replace(array("\r\n", "\r", "\n"), '\~', $str);
         //ограниченные 255 - размером полей хранятся в $item->name_lang_0 - $item->name_lang_3
         $maxlen = 255;
         $result = "";
