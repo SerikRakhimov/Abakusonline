@@ -5119,25 +5119,59 @@ class ItemController extends Controller
         $string_all_codes_current = $string_unzip_current_next['string_all_codes'];
 
         $relip_project = GlobalController::calc_relip_project($relit_id, $project);
+        $array_items_ids = array();
+        $is_delete = self::is_delete($item, $role, $heading, $base_index_page, $relit_id, $parent_ret_id);
 
-        if (self::is_delete($item, $role, $heading, $base_index_page, $relit_id, $parent_ret_id) == true) {
+        if ($is_delete['result'] == true) {
 
             $item_copy = $item;
 
-            if ($this->is_save_sets($item)) {
+            if ($is_delete['is_list_base_used_delete'] == true) {
+                // Вычисляем массив вложенных $item_id для удаления
+                self::calc_items_ids_for_delete($item, $array_items_ids);
+            }
+
+//            if ($this->is_save_sets($item)) {
+//                try {
+//                    // начало транзакции
+//                    DB::transaction(function ($r) use ($item) {
+//                        // true - с реверсом
+//                        // false - без замены
+//                        $this->save_info_sets($item, true, false);
+//
+//                        $base_id = $item->base_id;
+//                        $project_id = $item->project_id;
+//
+//                        $item->delete();
+//
+//                        $this->sets_null_delete($base_id, $project_id);
+//
+//                    }, 3);  // Повторить три раза, прежде чем признать неудачу
+//                    // окончание транзакции
+//
+//                } catch (Exception $exc) {
+//                    return trans('transaction_not_completed') . ": " . $exc->getMessage();
+//                }
+//
+//            } else {
+//                $item->delete();
+//
+//            }
+
+            if (($this->is_save_sets($item)) || (count($array_items_ids) > 0)) {
                 try {
+
                     // начало транзакции
-                    DB::transaction(function ($r) use ($item) {
-                        // true - с реверсом
-                        // false - без замены
-                        $this->save_info_sets($item, true, false);
+                    DB::transaction(function ($r) use ($item, $array_items_ids) {
 
-                        $base_id = $item->base_id;
-                        $project_id = $item->project_id;
+                        self::func_delete($item);
 
-                        $item->delete();
-
-                        $this->sets_null_delete($base_id, $project_id);
+                        foreach ($array_items_ids as $item_id) {
+                            $item_id = Item::find($item_id);
+                            if ($item_id) {
+                                self::func_delete($item_id);
+                            }
+                        }
 
                     }, 3);  // Повторить три раза, прежде чем признать неудачу
                     // окончание транзакции
@@ -5147,6 +5181,7 @@ class ItemController extends Controller
                 }
 
             } else {
+
                 $item->delete();
 
             }
@@ -5231,20 +5266,62 @@ class ItemController extends Controller
         }
     }
 
+    function func_delete(Item $item)
+    {
+        $is_save_sets = $this->is_save_sets($item);
+
+        if ($is_save_sets == true) {
+            // true - с реверсом
+            // false - без замены
+            $this->save_info_sets($item, true, false);
+
+            $base_id = $item->base_id;
+            $project_id = $item->project_id;
+
+            $item->delete();
+
+            $this->sets_null_delete($base_id, $project_id);
+
+        } else {
+            $item->delete();
+        }
+
+    }
+
     static function is_delete(Item $item, Role $role, $heading, $base_index_page, $relit_id, $parent_ret_id)
     {
-        // Нужно "$result = false;"
+        // Нужно присваивания
         $result = false;
-        $base_right = self::base_relit_right($item->base, $role, $heading, $base_index_page, $relit_id, $parent_ret_id);
+        $is_list_base_used_delete = false;
+        //$base_right = self::base_relit_right($item->base, $role, $heading, $base_index_page, $relit_id, $parent_ret_id);
+        $base_right = GlobalController::base_right($item->base, $role, $relit_id);
         if ($base_right['is_list_base_delete'] == true) {
             if ($base_right['is_list_base_used_delete'] == true) {
+                $is_list_base_used_delete = true;
                 $result = true;
             } else {
                 // Отрицание "!" используется
                 $result = !self::main_exists($item);
             }
         }
-        return $result;
+        return ['result' => $result, 'is_list_base_used_delete' => $is_list_base_used_delete];
+    }
+
+    // Рекурсивная функция
+    // Вычисление вложенных items_ids для удаления взависимости от переданного $item
+    private
+    function calc_items_ids_for_delete(Item $item, &$array_items_ids)
+    {
+        // '->get()' нужно
+        $mains = Main::where('parent_item_id', $item->id)->get();
+        foreach ($mains as $main) {
+            if (!in_array($main->child_item_id, $array_items_ids)) {
+                // В массиве $array_items_ids сохраняются уникальные значения
+                $array_items_ids[] = $main->child_item_id;
+                // рекурсивный вызов этой же функции
+                self::calc_items_ids_for_delete($main->child_item, $array_items_ids);
+            }
+        }
     }
 
     function ext_return(Item $item, Project $project, Role $role,

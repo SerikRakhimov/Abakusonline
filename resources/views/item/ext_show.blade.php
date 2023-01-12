@@ -339,7 +339,7 @@
             @endif
             @if($item->is_history() == false)
                 {{--            В ItemController::is_delete() есть необходимые проверки на права по удалению записи--}}
-                @if(ItemController::is_delete($item, $role, $heading, $base_index_page, $relit_id, $parent_ret_id) == true)
+                @if(ItemController::is_delete($item, $role, $heading, $base_index_page, $relit_id, $parent_ret_id)['result'] == true)
                     {{-- Используется "'relit_id'=>$relit_par_id, 'parent_ret_id' => $parent_ret_par_id"--}}
                     {{--                <button type="button" class="btn btn-dreamer mb-1 mb-sm-0"--}}
                     {{--                        onclick='document.location="{{route('item.ext_delete_question',--}}

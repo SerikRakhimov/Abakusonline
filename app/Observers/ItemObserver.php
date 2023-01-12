@@ -68,7 +68,7 @@ class ItemObserver
         elseif ($item->base->type_is_image() || $item->base->type_is_document()) {
             Storage::delete($item->filename());
         }
-
+        // '->get()' нужно
         $mains = Main::where('child_item_id', $item->id)->get();
         foreach ($mains as $main) {
             //// Эта проверка нужна, если неправильно заполнены Присваивания (sets)
