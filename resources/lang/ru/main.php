@@ -34,6 +34,7 @@ return [
     'edit_record' => 'Корректировка записи',
     'delete_record' => 'Удаление записи',
     'delete_record_question' => 'Удалить запись',
+    'delete_record_question_links' => 'Удалить запись (вкл. подчиненные записи)',
     'viewing_record' => 'Просмотр записи',
     'recs_genitive_case' => 'Записей',
     'select' => 'Выбрать',

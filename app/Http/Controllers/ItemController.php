@@ -5128,7 +5128,7 @@ class ItemController extends Controller
 
             if ($is_delete['is_list_base_used_delete'] == true) {
                 // Вычисляем массив вложенных $item_id для удаления
-                self::calc_items_ids_for_delete($item, $array_items_ids);
+                self::calc_items_ids_for_delete($item, $array_items_ids, false);
             }
 
 //            if ($this->is_save_sets($item)) {
@@ -5297,8 +5297,14 @@ class ItemController extends Controller
         $base_right = GlobalController::base_right($item->base, $role, $relit_id);
         if ($base_right['is_list_base_delete'] == true) {
             if ($base_right['is_list_base_used_delete'] == true) {
-                $is_list_base_used_delete = true;
                 $result = true;
+                $array_items_ids = array();
+                // Проверка на существование хотя бы одного элемента в массиве
+                self::calc_items_ids_for_delete($item, $array_items_ids, true);
+                // Используется "count($array_items_ids) > 0"
+                if (count($array_items_ids) > 0) {
+                    $is_list_base_used_delete = true;
+                }
             } else {
                 // Отрицание "!" используется
                 $result = !self::main_exists($item);
@@ -5310,16 +5316,20 @@ class ItemController extends Controller
     // Рекурсивная функция
     // Вычисление вложенных items_ids для удаления взависимости от переданного $item
     private
-    function calc_items_ids_for_delete(Item $item, &$array_items_ids)
+    function calc_items_ids_for_delete(Item $item, &$array_items_ids, bool $exist)
     {
         // '->get()' нужно
         $mains = Main::where('parent_item_id', $item->id)->get();
         foreach ($mains as $main) {
             if (!in_array($main->child_item_id, $array_items_ids)) {
-                // В массиве $array_items_ids сохраняются уникальные значения
-                $array_items_ids[] = $main->child_item_id;
-                // рекурсивный вызов этой же функции
-                self::calc_items_ids_for_delete($main->child_item, $array_items_ids);
+                // При "$exist & count($array_items_ids)>1" условие не срабатывает, и это правильно
+                // При "!$exist" вычисляется весь список $items
+                if (($exist & count($array_items_ids) == 0) | (!$exist)) {
+                    // В массиве $array_items_ids сохраняются уникальные значения
+                    $array_items_ids[] = $main->child_item_id;
+                    // рекурсивный вызов этой же функции
+                    self::calc_items_ids_for_delete($main->child_item, $array_items_ids, $exist);
+                }
             }
         }
     }

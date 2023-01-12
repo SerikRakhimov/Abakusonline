@@ -34,6 +34,7 @@ return [
     'edit_record' => 'Жазбаны өңдеу',
     'delete_record' => 'Жазбаны жою',
     'delete_record_question' => 'Жазбаны жою керек пе',
+    'delete_record_question_links' => 'Жазбаны жою (бағыныңқы жазбаларды қосу)',
     'viewing_record' => 'Жазбаны қарау',
     'recs_genitive_case' => 'Жазба',
     'select' => 'Таңдаңыз',

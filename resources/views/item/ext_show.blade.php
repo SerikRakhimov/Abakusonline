@@ -12,6 +12,7 @@
     $base = $item->base;
     //$base_right = GlobalController::base_right($base, $role, $relit_id);
     $relip_project = GlobalController::calc_relip_project($relit_id, $project);
+    $is_delete = ItemController::is_delete($item, $role, $heading, $base_index_page, $relit_id, $parent_ret_id);
     ?>
     @include('layouts.project.show_project_role',['project'=>$project, 'role'=>$role, 'relit_id'=>$relit_id])
     <h3 class="display-5">
@@ -22,7 +23,11 @@
         @if ($type_form == 'show')
             {{trans('main.viewing_record')}}
         @elseif($type_form == 'delete_question')
-            {{trans('main.delete_record_question')}}?
+            @if($is_delete['is_list_base_used_delete'] == true)
+                {{trans('main.delete_record_question_links')}}?
+            @else
+                {{trans('main.delete_record_question')}}?
+            @endif
         @endif
         <span class="text-label">-</span> <span class="text-title">{{$item->base->info()}}</span>
     </h3>
@@ -204,7 +209,7 @@
                         {{--                            <b>--}}
                         {{--  Используется 'is_list_base_calc' в ext_show.php и ItemController::item_index()  --}}
                         {{--                        @if($base_link_right['is_list_base_calc'] == true && $base_link_right['is_bsmn_base_enable'] == true)--}}
-{{--                    Если $par_link == $link, то не показывать ссылку--}}
+                        {{--                    Если $par_link == $link, то не показывать ссылку--}}
                         @if($result_par_link ==false & $base_link_right['is_list_base_calc'] == true)
                             <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item_find, 'role'=>$role,
                                                                 'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$link->parent_relit_id,
@@ -339,7 +344,7 @@
             @endif
             @if($item->is_history() == false)
                 {{--            В ItemController::is_delete() есть необходимые проверки на права по удалению записи--}}
-                @if(ItemController::is_delete($item, $role, $heading, $base_index_page, $relit_id, $parent_ret_id)['result'] == true)
+                @if($is_delete['result'] == true)
                     {{-- Используется "'relit_id'=>$relit_par_id, 'parent_ret_id' => $parent_ret_par_id"--}}
                     {{--                <button type="button" class="btn btn-dreamer mb-1 mb-sm-0"--}}
                     {{--                        onclick='document.location="{{route('item.ext_delete_question',--}}

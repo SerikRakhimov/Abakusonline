@@ -34,6 +34,7 @@ return [
     'edit_record' => 'Editing a record',
     'delete_record' => 'Delete a record',
     'delete_record_question' => 'Delete record',
+    'delete_record_question_links' => 'Delete record (incl. sub records)',
     'viewing_record' => 'Viewing record',
     'recs_genitive_case' => 'Records',
     'select' => 'Select',
