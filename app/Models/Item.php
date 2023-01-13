@@ -86,6 +86,8 @@ class Item extends Model
 
     // name() используется для отображения значений полей
     // $fullname = true/false - вывод полной строки (более 255 символов)
+    // Например у одного $item два описания (тип-Текст) с признаком "для вычисляемого наименования"
+    // при $fullname = true результатом строка из двух строк 255 и 255 символов с каждого $item->name()
     // $numcat = true/false - вывод числовых полей с разрядом тысячи/миллионы/миллиарды
     // $rightnull = true/false - у вещественных чисел убрать правые нули после запятой
     function name_start($fullname = false, $numcat = false, $rightnull = false)
@@ -177,9 +179,11 @@ class Item extends Model
     // "\~" - символ перевода каретки (используется также в Item.php: функции name() nmbr())
     // "\~" - символ перевода каретки (используется также в ItemController.php: функция calc_value_func())
     // $numcat = true/false - вывод числовых полей с разрядом тысячи/миллионы/миллиарды
-    function nmbr()
+    // fullname = true
+    function nmbr($fullname = false, $numcat = false, $rightnull = false)
     {
-        $result = self::name_start(true, false);
+        //$result = self::name_start(true, false);
+        $result = self::name_start($fullname, $numcat, $rightnull);
         $result = str_replace('\~', '<br>', $result);
         return $result;
     }
@@ -459,7 +463,7 @@ class Item extends Model
     function set_history(bool $save_record = false)
     {
         $this->is_history = true;
-        if($save_record == true){
+        if ($save_record == true) {
             $this->save();
         }
     }
@@ -467,7 +471,7 @@ class Item extends Model
     function clear_history(bool $save_record = false)
     {
         $this->is_history = false;
-        if($save_record == true){
+        if ($save_record == true) {
             $this->save();
         }
     }

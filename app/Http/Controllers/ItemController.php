@@ -3826,7 +3826,7 @@ class ItemController extends Controller
                     return;
                 }
             }
-            $item_find = Text::find($main->parent_item_id);
+            $item_find = Item::find($main->parent_item_id);
             if (!$item_find) {
                 // создание новой записи в items
                 $item_find = new Item();
@@ -4682,7 +4682,7 @@ class ItemController extends Controller
                         $text->save();
                     }
                 }
-                // Удаление изображений/документов с проставленной отметкой об удалении
+                // Удаление изображений/документов с проставленной отметкой об удалении (если проставлена отметка об удалении изображения)
                 foreach ($del_links as $key) {
                     $main = Main::where('child_item_id', $item->id)->where('link_id', $key)->first();
                     if ($main) {

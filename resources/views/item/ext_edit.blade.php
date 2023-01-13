@@ -247,7 +247,7 @@
                                     class="form-control @error('name_lang_' . $key) is-invalid @enderror"
                                     placeholder=""
                                     maxlength="10000">
-                                       {{ old('name_lang_' . $key) ?? ($item->text['name_lang_' . $key] ?? '') }}"
+                                       {{ old('name_lang_' . $key) ?? ($item->text['name_lang_' . $key] ?? '') }}
                                 </textarea>
                                 {{--                            <div class="invalid-feedback">--}}
                                 {{--                                Не заполнена строка!--}}

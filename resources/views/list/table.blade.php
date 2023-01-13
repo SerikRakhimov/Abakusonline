@@ -107,7 +107,7 @@ $link_image = $tile_view['link'];
         'prev_body_all_page'=>$body_all_page,
         ])}}"
                                title="{{$item->name()}}">
-                                <?php echo $item->nmbr(false);?>
+                                <?php echo $item->nmbr();?>
                             </a>
                         </h6>
                     </div>
@@ -440,7 +440,8 @@ $link_image = $tile_view['link'];
                                             {{--                                        'string_item_ids_current'=>$string_item_ids_next,--}}
                                             {{--                                        'string_all_codes_current'=>$string_all_codes_next,--}}
                                             @endif
-                                            @include('layouts.item.empty_name', ['name'=>$item->name()])
+{{--                                            @include('layouts.item.empty_name', ['name'=>$item->name()])--}}
+                                                @include('layouts.item.empty_name', ['name'=>$item->nmbr()])
                                             @if ($item_index_view)
                                         </a>
                                     @endif

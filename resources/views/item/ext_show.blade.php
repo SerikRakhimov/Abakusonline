@@ -85,7 +85,10 @@
                                 <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,
                                        'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id])}}"
                                    title="">
-                                    {{$item->name(false, true)}}
+                                    {{--                                    {{$item->name(false, true)}}--}}
+                                    <?php
+                                    echo $item->nmbr(false, true);
+                                    ?>
                                 </a>
                             </big></big>
                     @endif

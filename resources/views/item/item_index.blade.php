@@ -168,11 +168,15 @@
                                     {{--                                            'string_relit_ids_current' => $string_relit_ids_current,--}}
                                     {{--                                            'string_all_codes_current'=>$string_all_codes_current,--}}
                                     <mark class="text-project">
-                                        @include('layouts.item.empty_name', ['name'=>$item->name()])
+{{--                                        @include('layouts.item.empty_name', ['name'=>$item->name()])--}}
+                                        @include('layouts.item.empty_name', ['name'=>$item->nmbr()])
                                     </mark>
                                 </a>
                             @else
-                                {{$item->name()}}
+{{--                                {{$item->name()}}--}}
+                                <?php
+                                echo $item->nmbr();
+                                ?>
                             @endif
                         </big></big>
                     @if($item->base->is_code_needed == true)
