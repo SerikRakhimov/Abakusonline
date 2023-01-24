@@ -26,14 +26,14 @@
     {{--    </script>--}}
 
     @include('layouts.project.show_project_role',['project'=>$project, 'role'=>$role, 'relit_id'=>$relit_id])
-    <h3 class="display-5 text-center">
+    <h4 class="display-5 text-center">
         @if (!$update)
             {{trans('main.new_record')}}
         @else
             {{trans('main.edit_record')}}
         @endif
         <span class="text-label">-</span> <span class="text-title">{{$base->info()}}</span>
-    </h3>
+    </h4>
     <br>
     {{--    https://qastack.ru/programming/1191113/how-to-ensure-a-select-form-field-is-submitted-when-it-is-disabled--}}
     {{--    <form--}}
@@ -124,7 +124,7 @@
                     <div class="col-sm-3 text-right">
                         <label for="code" class="col-form-label">{{trans('main.code')}}
                             <span
-                                class="text-danger">*</span></label>
+                                class="text-danger">{{GlobalController::label_is_required($base)}}</span></label>
                     </div>
                     <div class="col-sm-2">
                         <input type={{$base->is_code_number == true?"number":"text"}}
@@ -157,7 +157,7 @@
                     <div class="col-sm-3 text-right">
                         <label for="name_lang_0" class="col-form-label">{{$base->name()}}
                             <span
-                                class="text-danger">*</span></label>
+                                class="text-danger">{{GlobalController::label_is_required($base)}}</span></label>
                     </div>
                     <div class="col-sm-2">
                         <input type="number"
@@ -184,7 +184,7 @@
                     <div class="col-sm-3 text-right">
                         <label for="name_lang_0" class="col-form-label">{{$base->name()}}
                             <span
-                                class="text-danger">*</span></label>
+                                class="text-danger">{{GlobalController::label_is_required($base)}}</span></label>
                     </div>
                     <div class="col-sm-2">
                         <input type="date"
@@ -237,7 +237,7 @@
                                     @if($base->is_one_value_lst_str_txt == false)
                                         ({{trans('main.' . $value)}})
                                     @endif<span
-                                        class="text-danger">*</span></label>
+                                        class="text-danger">{{GlobalController::label_is_required($base)}}</span></label>
                             </div>
                             <div class="col-sm-7">
                                 <textarea
@@ -285,8 +285,8 @@
                                     <label for="name_lang_{{$key}}" class="col-form-label">{{trans('main.name')}}
                                         @if($base->is_one_value_lst_str_txt == false)
                                             ({{trans('main.' . $value)}})
-                                        @endif<span
-                                            class="text-danger">*</span></label>
+                                        @endif
+                                        <span class="text-danger">{{GlobalController::label_is_required($base)}}</span></label>
                                 </div>
                                 <div class="col-sm-7">
                                     <input type="text"
@@ -324,9 +324,9 @@
         @foreach($array_calc as $key=>$value)
             <?php
             $link = Link::find($key);
-            // Так правильно "$relit_id"
-            $base_link_right = GlobalController::base_link_right($link, $role, $relit_id);
-            //$base_link_right = GlobalController::base_link_right($link, $role, $link->parent_relit_id);
+            // Вычисляет $relit_id
+            $calc_link_relit_id = GlobalController::calc_link_relit_id($link, $role, $relit_id);
+            $base_link_right = GlobalController::base_link_right($link, $role, $calc_link_relit_id);
             ?>
             @if($base_link_right['is_edit_link_enable'] == false)
                 @continue
@@ -345,7 +345,8 @@
                 @continue
             @endif
             <?php
-            $result_parent_label = $link->parent_label();
+            // Вывести с эмодзи
+            $result_parent_label = $link->parent_label(true);
             $link_parent_base = $link->parent_base;
             //                Загружаются данные для списков выбора
             //$result = ItemController::get_items_ext_edit_for_link($link, $project, $role, $relit_id);
@@ -480,7 +481,7 @@
                                 ['result_parent_label'=>$result_parent_label, 'key'=>$key, 'par_link'=>$par_link])
                                 ({{mb_strtolower(trans('main.code'))}})
                                 <span
-                                    class="text-danger">*</span></label>
+                                    class="text-danger">{{GlobalController::label_is_required($link->parent_base)}}</span></label>
                         </div>
 
                         <div class="col-sm-2">
@@ -578,7 +579,7 @@
                                 @include('layouts.item.ext_edit.parent_label',
                                 ['result_parent_label'=>$result_parent_label, 'key'=>$key, 'par_link'=>$par_link])
                                 <span
-                                    class="text-danger">*</span></label>
+                                    class="text-danger">{{GlobalController::label_is_required($link->parent_base)}}</span></label>
                         </div>
                         <div class="col-sm-2">
                             <input type="number"
@@ -664,7 +665,7 @@
                                 @include('layouts.item.ext_edit.parent_label',
                                 ['result_parent_label'=>$result_parent_label, 'key'=>$key, 'par_link'=>$par_link])
                                 <span
-                                    class="text-danger">*</span>
+                                    class="text-danger">{{GlobalController::label_is_required($link->parent_base)}}</span>
                             </label>
                         </div>
                         <div class="col-sm-2">
@@ -709,7 +710,7 @@
                                 @include('layouts.item.ext_edit.parent_label',
                                 ['result_parent_label'=>$result_parent_label, 'key'=>$key, 'par_link'=>$par_link])
                                 <span
-                                    class="text-danger">*</span>
+                                    class="text-danger">{{GlobalController::label_is_required($link->parent_base)}}</span>
                             </label>
                         </div>
                         <div class="col-sm-2">
@@ -815,18 +816,30 @@
                                                 ({{trans('main.' . $lang_value)}})
                                             @endif
                                             <span
-                                                class="text-danger">*</span></label>
+                                                class="text-danger">{{GlobalController::label_is_required($link->parent_base)}}</span></label>
                                     </div>
                                     <div class="col-sm-7">
                                         <?php
                                         $fix_name = '';
-                                        // Если корректировка
+                                        // Есть права на корректировку
                                         if ($base_link_right['is_edit_link_update'] == true) {
                                             if (Auth::check()) {
                                                 if ($link->parent_is_user_login_str == true) {
-                                                    $fix_name = Auth::user()->name();
+                                                    // Если добавление записи
+                                                    if (!$update) {
+                                                        $fix_name = Auth::user()->name();
+                                                        // Если корректировка записи
+                                                    } else {
+                                                        $fix_name = Item::find($value)['name_lang_' . $lang_key];
+                                                    }
                                                 } elseif ($link->parent_is_user_email_str == true) {
-                                                    $fix_name = Auth::user()->email();
+                                                    // Если добавление записи
+                                                    if (!$update) {
+                                                        $fix_name = Auth::user()->email();
+                                                        // Если корректировка записи
+                                                    } else {
+                                                        $fix_name = Item::find($value)['name_lang_' . $lang_key];
+                                                    }
                                                 }
                                             }
                                         }
@@ -898,7 +911,7 @@
                                                 ({{trans('main.' . $lang_value)}})
                                             @endif
                                             <span
-                                                class="text-danger">*</span></label>
+                                                class="text-danger">{{GlobalController::label_is_required($link->parent_base)}}</span></label>
                                     </div>
                                     <div class="col-sm-7">
                                             <textarea type="text"
@@ -970,7 +983,8 @@
                             >
                                 @include('layouts.item.ext_edit.parent_label',
                                 ['result_parent_label'=>$result_parent_label, 'key'=>$key, 'par_link'=>$par_link])
-                                <span class="text-danger">*{{$value !=null ? "" : "~"}}</span></label>
+                                <span
+                                    class="text-danger">{{GlobalController::label_is_required($link->parent_base)}}{{$value !=null ? "" : "~"}}</span></label>
                         </div>
                         <div class="col-sm-7">
                             <select class="form-control"
@@ -1010,9 +1024,9 @@
                                                     selected
                                                 @endif
                                             >
-<!--                                                --><?php
-//                                                echo $item_work->name();
-//                                                ?>
+                                                <!--                                                --><?php
+                                                //                                                echo $item_work->name();
+                                                //                                                ?>
                                                 {{$item_work->name()}}
                                             </option>
                                         @endforeach
@@ -1104,7 +1118,9 @@
         $link = Link::find($key);
         // Находим $relip_link_project
         $relip_link_project = GlobalController::calc_link_project($link, $relip_project);
-        $base_link_right = GlobalController::base_link_right($link, $role, $relit_id);
+        // Вычисляет $relit_id
+        $calc_link_relit_id = GlobalController::calc_link_relit_id($link, $role, $relit_id);
+        $base_link_right = GlobalController::base_link_right($link, $role, $calc_link_relit_id);
         ?>
         @if($base_link_right['is_edit_link_enable'] == false)
             @continue
@@ -1600,7 +1616,9 @@
         @foreach($array_calc as $key=>$value)
         <?php
         $link = Link::find($key);
-        $base_link_right = GlobalController::base_link_right($link, $role, $relit_id);
+        // Вычисляет $relit_id
+        $calc_link_relit_id = GlobalController::calc_link_relit_id($link, $role, $relit_id);
+        $base_link_right = GlobalController::base_link_right($link, $role, $calc_link_relit_id);
         $prefix = '5_';
         ?>
 

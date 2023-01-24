@@ -117,6 +117,28 @@
             @endforeach
         </div>
 
+        <div class="form-group row" id="emoji_form_group">
+            <div class="col-sm-3 text-right">
+                <label for="emoji">{{trans('main.emoji')}}<span
+                        class="text-danger">*</span></label>
+            </div>
+            <div class="col-sm-2">
+                <input type="text"
+                       name="emoji"
+                       id="emoji"
+                       class="form-control @error('emoji') is-invalid @enderror"
+                       placeholder=""
+                       value="{{ old('emoji') ?? ($base['emoji'] ?? '') }}">
+                @error('emoji')
+                <div class="text-danger">
+                    {{$message}}
+                </div>
+                @enderror
+            </div>
+            <div class="col-sm-7">
+            </div>
+        </div>
+
         <div class="form-group row">
             <div class="col-sm-3 text-right">
                 <label for="vartype" class="col-form-label">{{trans('main.type')}}<span
@@ -236,6 +258,53 @@
                        placeholder=""
                        value="{{ old('maxcount_lst') ?? ($base['maxcount_lst'] ?? '0') }}">
                 @error('maxcount_lst')
+                <div class="text-danger">
+                    {{$message}}
+                </div>
+                @enderror
+            </div>
+            <div class="col-sm-7">
+            </div>
+        </div>
+
+        <div class="form-group row" id="is_del_maxcnt_lst_form_group">
+            <div class="col-sm-3 text-right">
+                <label class="form-label"
+                       for="is_del_maxcnt_lst">{{trans('main.is_del_maxcnt_lst')}}</label>
+            </div>
+            <div class="col-sm-7">
+                <input class="@error('is_del_maxcnt_lst') is-invalid @enderror"
+                       type="checkbox"
+                       name="is_del_maxcnt_lst"
+                       id="linkis_del_maxcnt_lst"
+                       placeholder=""
+                       @if ((old('is_del_maxcnt_lst') ?? ($base->is_del_maxcnt_lst ?? false)) ==  true)
+                       checked
+                    @endif
+                >
+                @error('is_del_maxcnt_lst')
+                <div class="invalid-feedback">
+                    {{$message}}
+                </div>
+                @enderror
+            </div>
+            <div class="col-sm-2">
+            </div>
+        </div>
+
+        <div class="form-group row" id="maxcount_user_id_lst_form_group">
+            <div class="col-sm-3 text-right">
+                <label for="maxcount_user_id_lst">{{trans('main.maxcount_user_id_lst')}}<span
+                        class="text-danger">*</span></label>
+            </div>
+            <div class="col-sm-2">
+                <input type="number"
+                       name="maxcount_user_id_lst"
+                       id="maxcount_user_id_lst"
+                       class="form-control @error('maxcount_user_id_lst') is-invalid @enderror"
+                       placeholder=""
+                       value="{{ old('maxcount_user_id_lst') ?? ($base['maxcount_user_id_lst'] ?? '1') }}">
+                @error('maxcount_user_id_lst')
                 <div class="text-danger">
                     {{$message}}
                 </div>
@@ -579,6 +648,31 @@
             </div>
         </div>
 
+        <div class="form-group row" id="is_default_list_base_user_id_form_group">
+            <div class="col-sm-3 text-right">
+                <label class="form-label"
+                       for="is_default_list_base_user_id">{{trans('main.is_default_list_base_user_id')}}</label>
+            </div>
+            <div class="col-sm-7">
+                <input class="@error('is_default_list_base_user_id') is-invalid @enderror"
+                       type="checkbox"
+                       name="is_default_list_base_user_id"
+                       id="linkis_default_list_base_user_id"
+                       placeholder=""
+                       @if ((old('is_default_list_base_user_id') ?? ($base->is_default_list_base_user_id ?? false)) ==  true)
+                       checked
+                    @endif
+                >
+                @error('is_default_list_base_user_id')
+                <div class="invalid-feedback">
+                    {{$message}}
+                </div>
+                @enderror
+            </div>
+            <div class="col-sm-2">
+            </div>
+        </div>
+
         <div class="form-group row" id="is_default_list_base_byuser_form_group">
             <div class="col-sm-3 text-right">
                 <label class="form-label"
@@ -830,6 +924,8 @@
         //var vartype = form.vartype;  // так не работает
         var vartype = document.getElementById('vartype');
         var max_count = document.getElementById('maxcount_lst_form_group');
+        var is_del_maxcount = document.getElementById('is_del_maxcnt_lst_form_group');
+        var userid_mc = document.getElementById('maxcount_user_id_lst_form_group');
         var byuser_mc = document.getElementById('maxcount_byuser_lst_form_group');
         var len_txt = document.getElementById('length_txt_form_group');
         var is_calc = document.getElementById('is_calculated_lst_form_group');
@@ -843,6 +939,7 @@
         var is_suggest_code = document.getElementById('is_suggest_code_form_group');
         var is_suggest_max_code = document.getElementById('is_suggest_max_code_form_group');
         var is_recalc_code = document.getElementById('is_recalc_code_form_group');
+        var is_userid = document.getElementById('is_default_list_base_user_id_form_group');
         var is_byuser = document.getElementById('is_default_list_base_byuser_form_group');
         var is_heading = document.getElementById('is_default_heading_form_group');
         var is_required_lst_num_str_txt_img_doc = document.getElementById('is_required_lst_num_str_txt_img_doc_form_group');
@@ -885,7 +982,9 @@
             //         break;
             // }
             val_maxcount = "hidden";
+            val_del_maxcount = "hidden";
             val_byuser_mc = "hidden";
+            val_userid_mc = "hidden";
             val_len_txt = "hidden";
             val_calc = "hidden";
             val_setup = "hidden";
@@ -897,6 +996,7 @@
             val_suggest_code = "hidden";
             val_suggest_max_code = "hidden";
             val_recalc_code = "hidden";
+            val_is_userid = "hidden";
             val_is_byuser = "hidden";
             val_is_heading = "hidden";
             val_digits_num = "hidden";
@@ -916,7 +1016,9 @@
                 // Список
                 case "0":
                     val_maxcount = "visible";
+                    val_del_maxcount = "visible";
                     val_byuser_mc = "visible";
+                    val_userid_mc = "visible";
                     val_calc = "visible";
                     val_setup = "visible";
                     val_code_needed = "visible";
@@ -927,6 +1029,7 @@
                     val_suggest_code = "visible";
                     val_suggest_max_code = "visible";
                     val_recalc_code = "visible";
+                    val_is_userid = "visible";
                     val_is_byuser = "visible";
                     val_is_heading = "visible";
                     val_required_num_str = "visible";
@@ -972,7 +1075,9 @@
             // is_required_lst_num_str_txt_img_doc.style.display = val_required_num_str;
             // is_onevalue_str.style.display = val_onevalue_str;
             max_count.style.visibility = val_maxcount;
+            is_del_maxcount.style.visibility = val_del_maxcount;
             byuser_mc.style.visibility = val_byuser_mc;
+            userid_mc.style.visibility = val_userid_mc;
             len_txt.style.visibility = val_len_txt;
             is_calc.style.visibility = val_calc;
             is_setup.style.visibility = val_setup;
@@ -984,6 +1089,7 @@
             is_suggest_code.style.visibility = val_suggest_code;
             is_suggest_max_code.style.visibility = val_suggest_max_code;
             is_recalc_code.style.visibility = val_recalc_code;
+            is_userid.style.visibility = val_is_userid;
             is_byuser.style.visibility = val_is_byuser;
             is_heading.style.visibility = val_is_heading;
             digits_num.style.visibility = val_digits_num;

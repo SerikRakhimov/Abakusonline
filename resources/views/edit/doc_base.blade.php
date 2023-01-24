@@ -9,7 +9,7 @@
         <div class="col-sm-3 text-right">
             {{--Выберите файл - документ (.xls, .xlsx, .pdf, .doc, .docx, .rtf, .txt)--}}
             <label for="{{$name}}">{{$title}}<span
-                    class="text-danger">*</span>
+                    class="text-danger">{{GlobalController::label_is_required($base)}}</span>
                 @if($update)
                     @if($item->img_doc_exist())
                         ({{mb_strtolower(trans('main.now'))}}:<a

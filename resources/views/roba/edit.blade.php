@@ -446,6 +446,30 @@
             </div>
         </div>
 
+        <div class="form-group row" id="is_list_base_user_id_form_group">
+            <div class="col-sm-3 text-right">
+                <label class="form-label"
+                       for="is_list_base_user_id">{{trans('main.is_list_base_user_id')}}</label>
+            </div>
+            <div class="col-sm-7">
+                <input class="@error('is_list_base_user_id') is-invalid @enderror"
+                       type="checkbox"
+                       name="is_list_base_user_id"
+                       placeholder=""
+                       @if ((old('is_list_base_user_id') ?? ($roba->is_list_base_user_id ?? false)) ==  true)
+                       checked
+                    @endif
+                >
+                @error('is_list_base_user_id')
+                <div class="invalid-feedback">
+                    {{$message}}
+                </div>
+                @enderror
+            </div>
+            <div class="col-sm-2">
+            </div>
+        </div>
+
         <div class="form-group row" id="is_list_base_byuser_form_group">
             <div class="col-sm-3 text-right">
                 <label class="form-label"

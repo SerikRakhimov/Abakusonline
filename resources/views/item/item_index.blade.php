@@ -70,12 +70,17 @@
                             @if($value['is_bsmn_base_enable'] == true)
                         </a>
                     @endif
+{{--                    Нужно "'called_from_button' => 1"--}}
                     <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$value['item_id'], 'role'=>$role,
-                                        'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$value['relit_id'],
-                                        'called_from_button'=>0,
+                                        'usercode' => GlobalController::usercode_calc(), 'relit_id'=>$value['relit_id'],
+                                        'called_from_button' => 1,
                                         'view_link'=>$value['all_code'] == GlobalController::const_alltrue() ? GlobalController::par_link_const_textnull():$value['link_id'],
-'string_current'=>$value['string_previous']
-                                        ])}}"
+                                                'view_ret_id'=>$value['vwret_id'],
+                                                'string_current'=>$value['string_previous'],
+                                                'prev_base_index_page'=>0,
+                                                'prev_body_link_page'=>0,
+                                                'prev_body_all_page'=>0]
+                                        )}}"
                        title="{{$value['item_name'] . ' ' . $value['info_name']}}">
                         {{--                'string_link_ids_current'=>$value['string_prev_link_ids'],--}}
                         {{--                'string_item_ids_current'=>$value['string_prev_item_ids'],--}}
@@ -127,6 +132,7 @@
         <div class="row">
             <?php
             if ($view_link) {
+                // true - с эмодзи
                 $title = $view_link->parent_label();
             } else {
                 $title = $item->base->name();
@@ -168,12 +174,12 @@
                                     {{--                                            'string_relit_ids_current' => $string_relit_ids_current,--}}
                                     {{--                                            'string_all_codes_current'=>$string_all_codes_current,--}}
                                     <mark class="text-project">
-{{--                                        @include('layouts.item.empty_name', ['name'=>$item->name()])--}}
-                                        @include('layouts.item.empty_name', ['name'=>$item->nmbr()])
+                                        {{--                                        @include('layouts.item.empty_name', ['name'=>$item->nmbr()])--}}
+                                        @include('layouts.item.empty_name', ['name'=>$item->name()])
                                     </mark>
                                 </a>
                             @else
-{{--                                {{$item->name()}}--}}
+                                {{--                                {{$item->name()}}--}}
                                 <?php
                                 echo $item->nmbr();
                                 ?>
@@ -466,7 +472,9 @@
                                                                           'prev_body_all_page'=>$body_all_page
                                                                       ])}}"'
                                         title="{{GlobalController::option_all_links()}}">
+                                    <span class="text-label">
                                     {{GlobalController::option_all_links()}}
+                                    </span>
                                     @if($view_link == null)
                                         {{--                                                                                                                    Этот символ используется в двух местах--}}
                                         &#10003;
@@ -497,7 +505,8 @@
                                                                       'prev_body_all_page'=>$body_all_page
                                                                       ])}}"'
                                         title="{{$child_labels . ' ('.mb_strtolower(trans('main.link')).')'}}">
-                                    {{$child_labels}}
+                                    <span class="text-label">
+                                    {{$child_labels}}</span>
                                     @if(isset($view_link))
                                         @if($value->id == $view_link->id)
                                             {{--                                                                                                                    Этот символ используется в двух местах--}}
@@ -554,7 +563,7 @@
                                     {{$relip_select_body_project->name()}}
                                     @if($relit)
                                         <small
-                                            class="text-label"><small><small>{{$relit->title()}}</small></small></small>
+                                            class="text-project"><small><small>{{$relit->title()}}</small></small></small>
                                     @endif
                                 </i>
                                 {{--                                    - {{$relit_key_id}}- {{$relip_select_body_project->id}}--}}
@@ -658,7 +667,8 @@
                             'project'=>$project, 'role'=>$role, 'relit_id'=>$view_ret_id])}}"
                                    title="{{$view_link->child_base->names($base_body_right) . $message_ln_info}}">
                                     @endif
-                                    {{$view_link->child_labels($base_body_right)}}:
+                                    {{--                                    {{$view_link->child_labels($base_body_right)}}:--}}
+                                    {{$view_link->child_labels($base_body_right)}}
                                     @if($base_body_right['is_bsmn_base_enable'] == true)
                                 </a>
                             @endif
@@ -821,6 +831,7 @@
                 {{--        Используется "'heading'=>intval(false)"--}}
                 {{--        'view_link' передавать не нужно, затем (в list\all.php) в 'item.ext_show' как 'par_link' передается $main->link--}}
                 {{--        Параметры 'relit_id' и 'view_ret_id' передаются в зависимости от значения $heading--}}
+{{--                'message_ln_array_info' => $message_ln_array_info, 'message_ln_link_array_item' => $message_ln_link_array_item--}}
                 @include('list.all',['project'=>$project,
             'relit_id'=>$relit_body_id,
             'view_ret_id'=>$view_ret_body_id,
@@ -847,7 +858,6 @@
             'string_relit_ids_array_next' => $string_relit_ids_array_next,
             'string_all_codes_array_next' => $string_all_codes_array_next,
             'string_array_next' => $string_array_next,
-            'message_ln_array_info' => $message_ln_array_info, 'message_ln_link_array_item' => $message_ln_link_array_item
             ])
                 {{$next_all_mains->links()}}
             @endif

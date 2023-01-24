@@ -27,7 +27,7 @@ use \App\Http\Controllers\GlobalController;
     @include('layouts.style_header')
     <style>
         .navbar {
-            background-image: url('{{Storage::url('new_year.jpg')}}');
+            background-image: url('{{Storage::url('gray-abstract.jpg')}}');
             background-size: cover;
             background-position: center center;
             background-repeat: no-repeat;
@@ -37,7 +37,7 @@ use \App\Http\Controllers\GlobalController;
 </head>
 {{--<body background="{{Storage::url('newyear.jpeg')}}">--}}
 {{--<body>--}}
-<body background="{{Storage::url('new_year.jpg')}}"
+<body background="{{Storage::url('gray-abstract.jpg')}}"
       style="
 background-size: cover;
 background-position: center center;

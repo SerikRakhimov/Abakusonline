@@ -130,6 +130,7 @@ class BaseController extends Controller
         if ($base->desc_lang_3 == "") {
             $base->desc_lang_3 = $base->name_lang_3;
         }
+        $base->emoji = isset($request->emoji) ? $request->emoji : "";
 
         // у этой команды два предназначения:
         // 1) заменить "on" на "1" при отмеченном checkbox
@@ -143,6 +144,7 @@ class BaseController extends Controller
         $base->is_suggest_code = isset($request->is_suggest_code) ? "1" : "0";
         $base->is_suggest_max_code = isset($request->is_suggest_max_code) ? "1" : "0";
         $base->is_recalc_code = isset($request->is_recalc_code) ? "1" : "0";
+        $base->is_default_list_base_user_id = isset($request->is_default_list_base_user_id) ? "1" : "0";
         $base->is_default_list_base_byuser = isset($request->is_default_list_base_byuser) ? "1" : "0";
         $base->is_default_heading = isset($request->is_default_heading) ? "1" : "0";
         $base->is_required_lst_num_str_txt_img_doc = isset($request->is_required_lst_num_str_txt_img_doc) ? "1" : "0";
@@ -158,10 +160,12 @@ class BaseController extends Controller
         $base->sepa_same_right_calcname = isset($request->sepa_same_left_calcname) ? $request->sepa_same_right_calcname : "";
 
         $base->maxfilesize_img_doc = $request->maxfilesize_img_doc;
-        $base->maxfilesize_title_img_doc = isset($request->maxfilesize_title_img_doc) ? $request->maxfilesize_title_img_doc : "";
+        $base->maxfilesize_title_img_doc = isset($request->maxfilesize_title_img_doc) ? "1" : "0";
 
         $base->maxcount_lst = $request->maxcount_lst >= 0 ? $request->maxcount_lst : 0;
+        $base->is_del_maxcnt_lst = isset($request->is_del_maxcnt_lst) ? "1" : "0";
         $base->maxcount_byuser_lst = $request->maxcount_byuser_lst >= 0 ? $request->maxcount_byuser_lst : 0;
+        $base->maxcount_user_id_lst = $request->maxcount_user_id_lst >= 0 ? $request->maxcount_user_id_lst : 0;
         $base->is_calculated_lst = isset($request->is_calculated_lst) ? "1" : "0";
         $base->is_setup_lst = isset($request->is_setup_lst) ? "1" : "0";
         $base->length_txt = $request->length_txt >= 0 ? $request->length_txt : 0;
@@ -186,7 +190,7 @@ class BaseController extends Controller
                 $base->is_to_moderate_image = "0";
                 $base->maxfilesize_img_doc = 0;
                 $base->maxfilesize_title_img_doc = "";
-                $base->length_txt =0;
+                $base->length_txt = 0;
                 break;
             // Число
             case 1:
@@ -210,10 +214,13 @@ class BaseController extends Controller
                 $base->maxfilesize_img_doc = 0;
                 $base->maxfilesize_title_img_doc = "";
                 $base->maxcount_lst = 0;
+                $base->is_del_maxcnt_lst = "0";
                 $base->maxcount_byuser_lst = 0;
+                $base->maxcount_user_id_lst = 0;
                 $base->is_calculated_lst = "0";
                 $base->is_setup_lst = "0";
                 $base->length_txt = 0;
+                $base->is_default_list_base_user_id = 0;
                 $base->is_default_list_base_byuser = 0;
                 $base->is_default_heading = 0;
                 break;
@@ -239,10 +246,13 @@ class BaseController extends Controller
                 $base->maxfilesize_img_doc = 0;
                 $base->maxfilesize_title_img_doc = "";
                 $base->maxcount_lst = 0;
+                $base->is_del_maxcnt_lst = "0";
                 $base->maxcount_byuser_lst = 0;
+                $base->maxcount_user_id_lst = 0;
                 $base->is_calculated_lst = "0";
                 $base->is_setup_lst = "0";
                 $base->length_txt = 0;
+                $base->is_default_list_base_user_id = 0;
                 $base->is_default_list_base_byuser = 0;
                 $base->is_default_heading = 0;
                 break;
@@ -270,10 +280,13 @@ class BaseController extends Controller
                 $base->maxfilesize_img_doc = 0;
                 $base->maxfilesize_title_img_doc = "";
                 $base->maxcount_lst = 0;
+                $base->is_del_maxcnt_lst = "0";
                 $base->maxcount_byuser_lst = 0;
+                $base->maxcount_user_id_lst = 0;
                 $base->is_calculated_lst = "0";
                 $base->is_setup_lst = "0";
                 $base->length_txt = 0;
+                $base->is_default_list_base_user_id = 0;
                 $base->is_default_list_base_byuser = 0;
                 $base->is_default_heading = 0;
                 break;
@@ -301,10 +314,13 @@ class BaseController extends Controller
                 $base->maxfilesize_img_doc = 0;
                 $base->maxfilesize_title_img_doc = "";
                 $base->maxcount_lst = 0;
+                $base->is_del_maxcnt_lst = "0";
                 $base->maxcount_byuser_lst = 0;
+                $base->maxcount_user_id_lst = 0;
                 $base->is_calculated_lst = "0";
                 $base->is_setup_lst = "0";
                 $base->length_txt = 0;
+                $base->is_default_list_base_user_id = 0;
                 $base->is_default_list_base_byuser = 0;
                 $base->is_default_heading = 0;
                 break;
@@ -330,9 +346,12 @@ class BaseController extends Controller
                 $base->maxfilesize_img_doc = 0;
                 $base->maxfilesize_title_img_doc = "";
                 $base->maxcount_lst = 0;
+                $base->is_del_maxcnt_lst = "0";
                 $base->maxcount_byuser_lst = 0;
+                $base->maxcount_user_id_lst = 0;
                 $base->is_calculated_lst = "0";
                 $base->is_setup_lst = "0";
+                $base->is_default_list_base_user_id = 0;
                 $base->is_default_list_base_byuser = 0;
                 $base->is_default_heading = 0;
                 break;
@@ -357,10 +376,13 @@ class BaseController extends Controller
                 $base->sepa_same_left_calcname = "";
                 $base->sepa_same_right_calcname = "";
                 $base->maxcount_lst = 0;
+                $base->is_del_maxcnt_lst = "0";
                 $base->maxcount_byuser_lst = 0;
+                $base->maxcount_user_id_lst = 0;
                 $base->is_calculated_lst = "0";
                 $base->is_setup_lst = "0";
                 $base->length_txt = 0;
+                $base->is_default_list_base_user_id = 0;
                 $base->is_default_list_base_byuser = 0;
                 $base->is_default_heading = 0;
                 break;
@@ -386,10 +408,13 @@ class BaseController extends Controller
                 $base->sepa_same_right_calcname = "";
                 $base->is_to_moderate_image = "0";
                 $base->maxcount_lst = 0;
+                $base->is_del_maxcnt_lst = "0";
                 $base->maxcount_byuser_lst = 0;
+                $base->maxcount_user_id_lst = 0;
                 $base->is_calculated_lst = "0";
                 $base->is_setup_lst = "0";
                 $base->length_txt = 0;
+                $base->is_default_list_base_user_id = 0;
                 $base->is_default_list_base_byuser = 0;
                 $base->is_default_heading = 0;
                 break;
@@ -429,6 +454,9 @@ class BaseController extends Controller
             $base->is_calculated_lst = "0";
             $base->is_calcname_lst = "1";
             $base->maxcount_lst = 1;
+        };
+        if ($base->maxcount_lst == 0) {
+            $base->is_del_maxcnt_lst = "0";
         };
 
         $base->save();
@@ -483,8 +511,8 @@ class BaseController extends Controller
         if ($base->desc_lang_3 == "") {
             $base->desc_lang_3 = $base->name_lang_3;
         }
-
-        $base->digits_num = $request->digits_num;
+        $base->emoji = isset($request->emoji) ? $request->emoji : "";
+        // $base->digits_num = $request->digits_num;
 
         // у этой команды два предназначения:
         // 1) заменить "on" на "1" при отмеченном checkbox
@@ -498,6 +526,7 @@ class BaseController extends Controller
         $base->is_suggest_code = isset($request->is_suggest_code) ? "1" : "0";
         $base->is_suggest_max_code = isset($request->is_suggest_max_code) ? "1" : "0";
         $base->is_recalc_code = isset($request->is_recalc_code) ? "1" : "0";
+        $base->is_default_list_base_user_id = isset($request->is_default_list_base_user_id) ? "1" : "0";
         $base->is_default_list_base_byuser = isset($request->is_default_list_base_byuser) ? "1" : "0";
         $base->is_default_heading = isset($request->is_default_heading) ? "1" : "0";
         $base->is_required_lst_num_str_txt_img_doc = isset($request->is_required_lst_num_str_txt_img_doc) ? "1" : "0";
@@ -516,7 +545,9 @@ class BaseController extends Controller
         $base->maxfilesize_title_img_doc = isset($request->maxfilesize_title_img_doc) ? $request->maxfilesize_title_img_doc : "";
 
         $base->maxcount_lst = $request->maxcount_lst >= 0 ? $request->maxcount_lst : 0;
+        $base->is_del_maxcnt_lst = isset($request->is_del_maxcnt_lst) ? "1" : "0";
         $base->maxcount_byuser_lst = $request->maxcount_byuser_lst >= 0 ? $request->maxcount_byuser_lst : 0;
+        $base->maxcount_user_id_lst = $request->maxcount_user_id_lst >= 0 ? $request->maxcount_user_id_lst : 0;
         $base->is_calculated_lst = isset($request->is_calculated_lst) ? "1" : "0";
         $base->is_setup_lst = isset($request->is_setup_lst) ? "1" : "0";
         $base->length_txt = $request->length_txt >= 0 ? $request->length_txt : 0;
@@ -541,7 +572,7 @@ class BaseController extends Controller
                 $base->is_to_moderate_image = "0";
                 $base->maxfilesize_img_doc = 0;
                 $base->maxfilesize_title_img_doc = "";
-                $base->length_txt =0;
+                $base->length_txt = 0;
                 break;
             // Число
             case 1:
@@ -565,10 +596,12 @@ class BaseController extends Controller
                 $base->maxfilesize_img_doc = 0;
                 $base->maxfilesize_title_img_doc = "";
                 $base->maxcount_lst = 0;
+                $base->is_del_maxcnt_lst = "0";
                 $base->maxcount_byuser_lst = 0;
+                $base->maxcount_user_id_lst = 0;
                 $base->is_calculated_lst = "0";
                 $base->is_setup_lst = "0";
-                $base->length_txt =0;
+                $base->length_txt = 0;
                 break;
             // Строка
             case 2:
@@ -592,10 +625,12 @@ class BaseController extends Controller
                 $base->maxfilesize_img_doc = 0;
                 $base->maxfilesize_title_img_doc = "";
                 $base->maxcount_lst = 0;
+                $base->is_del_maxcnt_lst = "0";
                 $base->maxcount_byuser_lst = 0;
+                $base->maxcount_user_id_lst = 0;
                 $base->is_calculated_lst = "0";
                 $base->is_setup_lst = "0";
-                $base->length_txt =0;
+                $base->length_txt = 0;
                 break;
             // Дата
             case 3:
@@ -621,10 +656,12 @@ class BaseController extends Controller
                 $base->maxfilesize_img_doc = 0;
                 $base->maxfilesize_title_img_doc = "";
                 $base->maxcount_lst = 0;
+                $base->is_del_maxcnt_lst = "0";
                 $base->maxcount_byuser_lst = 0;
+                $base->maxcount_user_id_lst = 0;
                 $base->is_calculated_lst = "0";
                 $base->is_setup_lst = "0";
-                $base->length_txt =0;
+                $base->length_txt = 0;
                 break;
             // Логический
             case 4:
@@ -650,10 +687,12 @@ class BaseController extends Controller
                 $base->maxfilesize_img_doc = 0;
                 $base->maxfilesize_title_img_doc = "";
                 $base->maxcount_lst = 0;
+                $base->is_del_maxcnt_lst = "0";
                 $base->maxcount_byuser_lst = 0;
+                $base->maxcount_user_id_lst = 0;
                 $base->is_calculated_lst = "0";
                 $base->is_setup_lst = "0";
-                $base->length_txt =0;
+                $base->length_txt = 0;
                 break;
             // Текст
             case 5:
@@ -677,7 +716,9 @@ class BaseController extends Controller
                 $base->maxfilesize_img_doc = 0;
                 $base->maxfilesize_title_img_doc = "";
                 $base->maxcount_lst = 0;
+                $base->is_del_maxcnt_lst = "0";
                 $base->maxcount_byuser_lst = 0;
+                $base->maxcount_user_id_lst = 0;
                 $base->is_calculated_lst = "0";
                 $base->is_setup_lst = "0";
                 break;
@@ -702,10 +743,12 @@ class BaseController extends Controller
                 $base->sepa_same_left_calcname = "";
                 $base->sepa_same_right_calcname = "";
                 $base->maxcount_lst = 0;
+                $base->is_del_maxcnt_lst = "0";
                 $base->maxcount_byuser_lst = 0;
+                $base->maxcount_user_id_lst = 0;
                 $base->is_calculated_lst = "0";
                 $base->is_setup_lst = "0";
-                $base->length_txt =0;
+                $base->length_txt = 0;
                 break;
             // Документ
             case 7:
@@ -729,10 +772,12 @@ class BaseController extends Controller
                 $base->sepa_same_right_calcname = "";
                 $base->is_to_moderate_image = "0";
                 $base->maxcount_lst = 0;
+                $base->is_del_maxcnt_lst = "0";
                 $base->maxcount_byuser_lst = 0;
+                $base->maxcount_user_id_lst = 0;
                 $base->is_calculated_lst = "0";
                 $base->is_setup_lst = "0";
-                $base->length_txt =0;
+                $base->length_txt = 0;
                 break;
         }
 
@@ -770,6 +815,9 @@ class BaseController extends Controller
             $base->is_calculated_lst = "0";
             $base->is_calcname_lst = "1";
             $base->maxcount_lst = 1;
+        };
+        if ($base->maxcount_lst == 0) {
+            $base->is_del_maxcnt_lst = "0";
         };
 
         $base->save();

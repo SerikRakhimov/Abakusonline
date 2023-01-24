@@ -15,7 +15,7 @@
     $is_delete = ItemController::is_delete($item, $role, $heading, $base_index_page, $relit_id, $parent_ret_id);
     ?>
     @include('layouts.project.show_project_role',['project'=>$project, 'role'=>$role, 'relit_id'=>$relit_id])
-    <h3 class="display-5">
+    <h4 class="display-5">
         {{--        'Показывать признак "В истории" при просмотре записи'--}}
         {{--        @if($base_right['is_show_hist_attr_enable'] == true)--}}
         @include('layouts.item.show_history',['item'=>$item])
@@ -30,7 +30,7 @@
             @endif
         @endif
         <span class="text-label">-</span> <span class="text-title">{{$item->base->info()}}</span>
-    </h3>
+    </h4>
     <br>
     <?php
     if ($base_right['is_hier_base_enable'] == true) {
@@ -163,8 +163,9 @@
             <?php
             //            $base_link_right = null;
             //            if ($heading == 1 || $base_index_page > 0) {
-            //$base_link_right = GlobalController::base_link_right($link, $role, $relit_id);
-            $base_link_right = GlobalController::base_link_right($link, $role, $link->parent_relit_id);
+            // Вычисляет $relit_id
+            $calc_link_relit_id = GlobalController::calc_link_relit_id($link, $role, $relit_id);
+            $base_link_right = GlobalController::base_link_right($link, $role, $calc_link_relit_id);
             $result_par_link = \App\Http\Controllers\GlobalController::link_par_link($link, $par_link);
             //            } else {
             //                $base_link_right = GlobalController::base_link_right($link, $role, $link->parent_relit_id);
@@ -524,4 +525,19 @@
             </p>
         </form>
     @endif
+{{--    <div class="pt-1 pl-2">--}}
+{{--        111111111111111--}}
+{{--        222222222222222--}}
+{{--        333333333333333--}}
+{{--    </div>--}}
+{{--    <div class="pt-1 pl-1">--}}
+{{--        fffffffffffff111111111111111--}}
+{{--        222222222222222--}}
+{{--        333333333333333--}}
+{{--    </div>--}}
+{{--    <div class="pt-1 pl-1">--}}
+{{--        hhhhhhhhhhhhhhhhhh111111111111111--}}
+{{--        222222222222222--}}
+{{--        333333333333333--}}
+{{--    </div>--}}
 @endsection

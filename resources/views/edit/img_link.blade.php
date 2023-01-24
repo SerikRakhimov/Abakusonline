@@ -4,6 +4,7 @@
 //view/doc.php, edit/doc_base.php, edit/doc_link.php,
 //view/img.php, edit/img_base.php, edit/img_link.php.
 use App\Models\Item;
+use \App\Http\Controllers\GlobalController;
 $item_image = null;
 if ($update) {
     if ($value != null) {
@@ -19,7 +20,7 @@ if ($update) {
             @if($base_link_right['is_edit_link_read'] == true)
                 <div class="col-sm-3 text-right">
                     <label for="{{$name}}">{{$title}}<span
-                            class="text-danger">*</span>
+                            class="text-danger">{{GlobalController::label_is_required($base)}}</span>
                     </label>
                 </div>
                 <div class="col-sm-4">
@@ -39,7 +40,7 @@ if ($update) {
                 <div class="col-sm-3 text-right">
                     {{--                            Выберите файл - изображение, размером не более 500 Кб--}}
                     <label for="{{$name}}">{{$title}}<span
-                            class="text-danger">*</span>
+                            class="text-danger">{{GlobalController::label_is_required($base)}}</span>
                         @if ($item_image != null)
                             ({{mb_strtolower(trans('main.now'))}}:<a
                                 href="{{Storage::url($item_image->filename())}}">

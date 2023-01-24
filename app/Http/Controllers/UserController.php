@@ -125,9 +125,28 @@ class UserController extends Controller
         // установка часового пояса нужно для сохранения времени
         date_default_timezone_set('Asia/Almaty');
 
-        $user = new User($request->except('_token', '_method'));
 
-        $this->set($request, $user);
+//        При добавлении записи/создания пользователя
+        try {
+            // начало транзакции
+            DB::transaction(function ($r) use ($request, $user) {
+
+                $user = new User($request->except('_token', '_method'));
+
+               // Добавление/сохранение в users
+                $this->set($request, $user);
+
+                // Добавление/сохранение в items/mains
+                // В проект "Личный кабинет пользователя"
+                $this->save_to_project_users($user);
+
+            }, 3);  // Повторить три раза, прежде чем признать неудачу
+            // окончание транзакции
+        } catch (Exception $exc) {
+            //return trans('transaction_not_completed') . ": " . $exc->getMessage();
+            return view('message', ['message' => trans('main.transaction_not_completed') . ": " . $exc->getMessage()]);
+        }
+
         //https://laravel.demiart.ru/laravel-sessions/
         if ($request->session()->has('users_previous_url')) {
             return redirect(session('users_previous_url'));
@@ -176,6 +195,11 @@ class UserController extends Controller
         $user->password = Hash::make($request->password);
         $user->is_admin = false;
         $user->save();
+    }
+
+    function save_to_project_users(User $user)
+    {
+        ItemController::ext_store_ext();
     }
 
     function edit(User $user)

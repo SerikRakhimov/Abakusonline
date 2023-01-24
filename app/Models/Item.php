@@ -164,6 +164,7 @@ class Item extends Model
     {
         $result = self::name_start($fullname, $numcat, $rightnull);
         $result = str_replace('\~', '', $result);
+        $result = (new GlobalController)->name_and_emoji($result, $this->base);
         return $result;
     }
 
@@ -184,7 +185,10 @@ class Item extends Model
     {
         //$result = self::name_start(true, false);
         $result = self::name_start($fullname, $numcat, $rightnull);
+        //$result = str_replace('\~', '<br>', $result);
         $result = str_replace('\~', '<br>', $result);
+        //$result = (new GlobalController)->name_and_emoji($result, $this->base);
+        //$result = (new GlobalController)->name_and_first_emoji($result, $this->base);
         return $result;
     }
 
@@ -227,6 +231,8 @@ class Item extends Model
                     }
                 }
             }
+            //$name = (new GlobalController)->name_and_brackets_emoji($name, $this->base);
+            $name = (new GlobalController)->name_and_emoji($name, $this->base);
             $res_array[$lang_key] = $name;
         }
         // Восстановить текущий язык

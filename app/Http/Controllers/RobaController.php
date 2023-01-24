@@ -210,6 +210,11 @@ class RobaController extends Controller
         if ($request->is_show_email_base_delete  == false && $request->is_show_email_question_base_delete == true) {
             $array_mess['is_show_email_question_base_delete'] = trans('main.is_show_email_question_base_delete_rule') . '!';
         }
+        if ($request->is_list_base_byuser  == true && $request->is_list_base_user_id == true) {
+            $array_mess['is_list_base_user_id'] = trans('main.is_list_base_user_id_byuser_rule') . '!';
+            $array_mess['is_list_base_byuser'] = trans('main.is_list_base_user_id_byuser_rule') . '!';
+
+        }
     }
 
     function set(Request $request, Roba &$roba)
@@ -231,6 +236,7 @@ class RobaController extends Controller
         $roba->is_list_base_delete = isset($request->is_list_base_delete) ? true : false;
         $roba->is_list_base_used_delete = isset($request->is_list_base_used_delete) ? true : false;
         $roba->is_list_base_byuser = isset($request->is_list_base_byuser) ? true : false;
+        $roba->is_list_base_user_id = isset($request->is_list_base_user_id) ? true : false;
         $roba->is_edit_base_read = isset($request->is_edit_base_read) ? true : false;
         $roba->is_edit_base_update = isset($request->is_edit_base_update) ? true : false;
         $roba->is_list_base_enable = isset($request->is_list_base_enable) ? true : false;

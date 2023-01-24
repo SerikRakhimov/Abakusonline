@@ -7,6 +7,7 @@ $link_base_right_array = $links_info['link_base_right_array'];
 $matrix = $links_info['matrix'];
 $rows = $links_info['rows'];
 $cols = $links_info['cols'];
+//dd($links_info);
 $i = 0;
 if ($item_heading_base == true) {
     $i = 0;

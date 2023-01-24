@@ -32,11 +32,14 @@
         <p>{{trans('main.desc')}} ({{trans('main.' . $value)}}): <b>{{$base['desc_lang_' . $key]}}</b></p>
     @endforeach
 
+    <p>{{trans('main.emoji')}}: <b>{{$base->emoji}}</b></p>
     <p>{{trans('main.type')}}: <b>{{$base->type_name()}}</b></p>
     <p>{{trans('main.is_calculated_lst')}}: <b>{{GlobalController::name_is_boolean($base->is_calculated_lst)}}</b></p>
     <p>{{trans('main.is_setup_lst')}}: <b>{{GlobalController::name_is_boolean($base->is_setup_lst)}}</b></p>
     <p>{{trans('main.is_required_lst_num_str_txt_img_doc')}}: <b>{{GlobalController::name_is_boolean($base->is_required_lst_num_str_txt_img_doc)}}</b></p>
     <p>{{trans('main.maxcount_lst')}}: <b>{{$base->maxcount_lst}}</b></p>
+    <p>{{trans('main.is_del_maxcnt_lst')}}: <b>{{GlobalController::name_is_boolean($base->is_del_maxcnt_lst)}}</b></p>
+    <p>{{trans('main.maxcount_user_id_lst')}}: <b>{{$base->maxcount_user_id_lst}}</b></p>
     <p>{{trans('main.maxcount_byuser_lst')}}: <b>{{$base->maxcount_byuser_lst}}</b></p>
     <p>{{trans('main.length_txt')}}: <b>{{$base->length_txt}}</b></p>
     <p>{{trans('main.is_code_needed')}}: <b>{{GlobalController::name_is_boolean($base->is_code_needed)}}</b></p>
@@ -48,6 +51,7 @@
     <p>{{trans('main.is_suggest_code')}}: <b>{{GlobalController::name_is_boolean($base->is_suggest_code)}}</b></p>
     <p>{{trans('main.is_suggest_max_code')}}: <b>{{GlobalController::name_is_boolean($base->is_suggest_max_code)}}</b></p>
     <p>{{trans('main.is_recalc_code')}}: <b>{{GlobalController::name_is_boolean($base->is_recalc_code)}}</b></p>
+    <p>{{trans('main.is_default_list_base_user_id')}}: <b>{{GlobalController::name_is_boolean($base->is_default_list_base_user_id)}}</b></p>
     <p>{{trans('main.is_default_list_base_byuser')}}: <b>{{GlobalController::name_is_boolean($base->is_default_list_base_byuser)}}</b></p>
     <p>{{trans('main.is_default_heading')}}: <b>{{GlobalController::name_is_boolean($base->is_default_heading)}}</b></p>
     <p>{{trans('main.digits_num')}}: <b>{{$base->digits_num}}</b></p>
@@ -57,7 +61,7 @@
     <p>{{trans('main.sepa_calcname')}}: <b>{{$base->sepa_calcname}}</b></p>
     <p>{{trans('main.is_same_small_calcname')}}: <b>{{GlobalController::name_is_boolean($base->is_same_small_calcname)}}</b></p>
     <p>{{trans('main.sepa_same_left_calcname')}}: <b>{{$base->sepa_same_left_calcname}}</b></p>
-    <p>{{trans('main.sepa_same_right_calcname')}}: <b>{{$base->name_sepa_same_right_calcname}}</b></p>
+    <p>{{trans('main.sepa_same_right_calcname')}}: <b>{{$base->sepa_same_right_calcname}}</b></p>
     <p>{{trans('main.maxfilesize_img_doc')}}: <b>{{$base->maxfilesize_img_doc}}</b></p>
     <p>{{trans('main.maxfilesize_title_img_doc')}}: <b>{{$base->maxfilesize_title_img_doc}}</b></p>
     <p>{{trans('main.date_created')}}: <b>{{$base->created_at}}</b></p>

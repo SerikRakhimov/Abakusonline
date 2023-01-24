@@ -19,7 +19,7 @@ if ($update) {
             @if($base_link_right['is_edit_link_read'] == true)
                 <div class="col-sm-3 text-right">
                     <label for="{{$name}}">{{$title}}<span
-                            class="text-danger">*</span>
+                            class="text-danger">{{GlobalController::label_is_required($base)}}</span>
                     </label>
                 </div>
                 <div class="col-sm-4">
@@ -38,7 +38,7 @@ if ($update) {
                 <div class="col-sm-3 text-right">
                     {{--Выберите файл - документ (.xls, .xlsx, .pdf, .doc, .docx, .rtf, .txt)--}}
                     <label for="{{$name}}">{{$title}}<span
-                            class="text-danger">*</span>
+                            class="text-danger">{{GlobalController::label_is_required($base)}}</span>
                         @if ($item_doc != null)
                             ({{mb_strtolower(trans('main.now'))}}:<a
                                 href="{{route('item.doc_download', ['item'=>$item_doc, 'usercode'=>$usercode])}}"

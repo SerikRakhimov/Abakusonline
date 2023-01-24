@@ -82,7 +82,8 @@ class GlobalController extends Controller
         $is_list_base_sort_creation_date_desc = $role->is_list_base_sort_creation_date_desc;
         $is_bsin_base_enable = $role->is_bsin_base_enable;
         $is_exclude_related_records = $role->is_exclude_related_records;
-        // true/false - значение по умолчанию
+        // true/false - значение по умолчанию (см.ниже)
+        // Такие же значения должны быть в формах roles\edit.php, robas\edit.php
         $is_show_head_attr_enable = false;
         $is_view_prev_next = true;
         $is_skip_count_records_equal_1_base_index = false;
@@ -93,6 +94,7 @@ class GlobalController extends Controller
         $is_list_base_delete = $role->is_list_base_delete;
         $is_list_base_used_delete = $role->is_list_base_used_delete;
         $is_list_base_byuser = $role->is_list_base_byuser;
+        $is_list_base_user_id = false;
         $is_heading = false;
         $is_edit_base_read = $role->is_edit_base_read;
         $is_edit_base_update = $role->is_edit_base_update;
@@ -186,7 +188,12 @@ class GlobalController extends Controller
 //            $is_list_base_delete = false;
 //        }
 
-//      По умолчанию фильтровать по пользователю в списке
+        //      По умолчанию фильтровать по id пользователя в списке
+        if (($is_list_base_user_id == false) && ($base->is_default_list_base_user_id == true)) {
+            $is_list_base_user_id = true;
+        }
+
+//      По умолчанию фильтровать по пользователю - автору записи в списке
         if (($is_list_base_byuser == false) && ($base->is_default_list_base_byuser == true)) {
             $is_list_base_byuser = true;
         }
@@ -229,6 +236,7 @@ class GlobalController extends Controller
             $is_roba_list_base_delete = $roba->is_list_base_delete;
             $is_roba_list_base_used_delete = $roba->is_list_base_used_delete;
             $is_roba_list_base_byuser = $roba->is_list_base_byuser;
+            $is_roba_list_base_user_id = $roba->is_list_base_user_id;
             $is_roba_edit_base_read = $roba->is_edit_base_read;
             $is_roba_edit_base_update = $roba->is_edit_base_update;
             $is_roba_list_base_enable = $roba->is_list_base_enable;
@@ -289,6 +297,7 @@ class GlobalController extends Controller
             $is_list_base_delete = $is_roba_list_base_delete;
             $is_list_base_used_delete = $is_roba_list_base_used_delete;
             $is_list_base_byuser = $is_roba_list_base_byuser;
+            $is_list_base_user_id = $is_roba_list_base_user_id;
 //          $is_edit_base_enable = $is_roba_edit_base_enable;
             $is_edit_base_read = $is_roba_edit_base_read;
             $is_edit_base_update = $is_roba_edit_base_update;
@@ -342,6 +351,7 @@ class GlobalController extends Controller
             'is_list_base_delete' => $is_list_base_delete,
             'is_list_base_used_delete' => $is_list_base_used_delete,
             'is_list_base_byuser' => $is_list_base_byuser,
+            'is_list_base_user_id' => $is_list_base_user_id,
             'is_heading' => $is_heading,
             'is_edit_base_enable' => $is_edit_base_enable,
             'is_edit_base_read' => $is_edit_base_read,
@@ -399,7 +409,6 @@ class GlobalController extends Controller
 //        $base_ret_id = $relit_dop_id;
 
         $base_right = self::base_right($base, $role, $relit_id);
-        //$base_right = self::base_right($base, $role, $base_ret_id);
 
         $is_list_base_calc = $base_right['is_list_base_calc'];
         $is_all_base_calcname_enable = $base_right['is_all_base_calcname_enable'];
@@ -416,6 +425,7 @@ class GlobalController extends Controller
         $is_list_base_delete = $base_right['is_list_base_delete'];
         $is_list_base_used_delete = $base_right['is_list_base_used_delete'];
         $is_list_base_byuser = $base_right['is_list_base_byuser'];
+        $is_list_base_user_id = $base_right['is_list_base_user_id'];
         $is_heading = $base_right['is_heading'];
         $is_edit_base_enable = $base_right['is_edit_base_enable'];
         $is_edit_base_read = $base_right['is_edit_base_read'];
@@ -502,6 +512,7 @@ class GlobalController extends Controller
             'is_list_base_delete' => $is_list_base_delete,
             'is_list_base_used_delete' => $is_list_base_used_delete,
             'is_list_base_byuser' => $is_list_base_byuser,
+            'is_list_base_user_id' => $is_list_base_user_id,
             'is_heading' => $is_heading,
             'is_edit_base_enable' => $is_edit_base_enable,
             'is_edit_base_read' => $is_edit_base_read,
@@ -631,6 +642,8 @@ class GlobalController extends Controller
                     $items = $items->where('items.is_history', false);
                 }
             }
+            //dd(Link::find($mains_link_id));
+            //dd($items->get());
             // Выборка из items
         } else {
             $base_right = self::base_right($base, $role, $relit_id);
@@ -644,9 +657,19 @@ class GlobalController extends Controller
         }
         // Такая же проверка и в GlobalController (function items_right()),
         // в ItemController (function next_all_links_mains_calc(), browser(), get_items_for_link(), get_items_ext_edit_for_link())
-        if ($base_right['is_list_base_byuser'] == true) {
+        if (($base_right['is_list_base_user_id'] == true) | ($base_right['is_list_base_byuser'] == true)) {
             if (Auth::check()) {
-                $items = $items->where('created_user_id', GlobalController::glo_user_id());
+                if ($base_right['is_list_base_user_id'] == true) {
+                    // $items = $items->where('id', GlobalController::glo_user_id());
+//                  $items = $items->where('created_user_id', GlobalController::glo_user_id());
+//                    $items = $items->whereHas('child_mains', function ($query) use () {
+//                        $query->where('link_id', $usersetup_name_link_id);
+//                    });
+                    $items = self::get_items_user_id($items);
+                }
+                if ($base_right['is_list_base_byuser'] == true) {
+                    $items = $items->where('created_user_id', GlobalController::glo_user_id());
+                }
             } else {
                 $items = null;
                 //$collection = null;
@@ -841,6 +864,31 @@ class GlobalController extends Controller
         return ['links' => $links,
             'items' => $items,
             'prev_item' => $prev_item, 'next_item' => $next_item];
+    }
+
+    // Похожие строки в ItemController::next_all_links_mains_calc(), GlobalController::get_items_user_id(), GlobalController::base_user_id_maxcount_validate()
+    function get_items_user_id($items)
+    {
+        // Устанавливает фильтр для Пользователи по текущему пользователю
+        // Сравнение на равенство по наименованию/логину
+        // Подразумевается, что наименование/логин имеет уникальное значение по base Пользователи
+        $usersetup_project_id = env('USERSETUP_PROJECT_ID');
+        $usersetup_base_id = env('USERSETUP_BASE_ID');
+        $usersetup_name_link_id = env('USERSETUP_NAME_LINK_ID');
+        $username = GlobalController::glo_user()->name();
+        //if (Auth::check()) {
+        if ($usersetup_project_id != '' && $usersetup_base_id != '' && $usersetup_name_link_id != '') {
+            $items = $items->where('project_id', $usersetup_project_id)
+                ->where('base_id', $usersetup_base_id)
+                ->whereHas('child_mains', function ($query) use ($usersetup_name_link_id, $username) {
+                    $query->where('link_id', $usersetup_name_link_id)
+                        ->whereHas('parent_item', function ($query) use ($username) {
+                            $query->where('name_lang_0', '=', $username);
+                        });
+                });
+        }
+        //}
+        return $items;
     }
 
     static function item_index_calc_data_1(Project $project, Item $item, Role $role, $relit_id, $link = null, $tree_array, $is_next_all_mains_calc)
@@ -1432,9 +1480,9 @@ class GlobalController extends Controller
     {
         $result = '';
         if ($base->maxcount_lst > 0) {
-            if ($base->type_is_list() || $base->type_is_image() || $base->type_is_document()) {
-                $result = '/' . $base->maxcount_lst;
-            }
+            //if ($base->type_is_list() || $base->type_is_image() || $base->type_is_document()) {
+            $result = '/' . $base->maxcount_lst;
+            //}
         }
         return $result;
     }
@@ -1444,10 +1492,13 @@ class GlobalController extends Controller
     {
         $result = '';
         if ($base->maxcount_lst > 0) {
-            if ($base->type_is_list() || $base->type_is_image() || $base->type_is_document()) {
-                $result = trans('main.base') . ': '
-                    . trans('main.max_count_message_first') . ' ' . $base->maxcount_lst;
+            //if ($base->type_is_list() || $base->type_is_image() || $base->type_is_document()) {
+            $result = trans('main.base') . ' "' . $base->name() . '": '
+                . trans('main.max_count_message_first') . ' ' . $base->maxcount_lst;
+            if ($base->is_del_maxcnt_lst == true) {
+                $result = $result . ', ' . PHP_EOL . trans('main.is_del_max_cnt_message');
             }
+            //}
         }
         return $result;
     }
@@ -1459,8 +1510,10 @@ class GlobalController extends Controller
         $result = '';
         $error = false;
         $maxcount = $base->maxcount_lst;
-        if ($maxcount > 0) {
-            if ($base->type_is_list() || $base->type_is_image() || $base->type_is_document()) {
+        // Проверка нужна
+        if ($base->is_del_maxcnt_lst == false) {
+            if ($maxcount > 0) {
+                //if ($base->type_is_list() || $base->type_is_image() || $base->type_is_document()) {
                 $items_count = Item::where('project_id', $project->id)->where('base_id', $base->id)->count();
                 if ($added == true) {
                     // '>=' используется
@@ -1478,12 +1531,79 @@ class GlobalController extends Controller
                         . trans('main.max_count_message_third') . '. '
                         . self::base_maxcount_message($base) . '!';
                 }
+                //}
             }
         }
         return $result;
     }
 
-    // Сообщение "максимальное количество записей" в $base
+    // Сообщение "максимальное количество записей" в $base по id пользователя для основы Пользователи
+    // Похожие строки в ItemController::next_all_links_mains_calc(), GlobalController::get_items_user_id(), GlobalController::base_user_id_maxcount_validate()
+    static function base_user_id_maxcount_message(Base $base)
+    {
+        $result = '';
+        if ($base->maxcount_user_id_lst > 0) {
+            //if ($base->type_is_list() || $base->type_is_image() || $base->type_is_document()) {
+            $result = trans('main.base') . ': '
+                . trans('main.max_count_message_first') . ' ' . $base->maxcount_user_id_lst
+                . ' (' . mb_strtolower(trans('main.is_list_base_user_id')) . ')';
+            //}
+        }
+        return $result;
+    }
+
+// Проверка на максимальное количество записей в $base по id пользователя для основы Пользователи
+// $added - true, проверка при добавлении; - false, общая проверка
+    static function base_user_id_maxcount_validate(Project $project, Base $base, bool $added)
+    {
+        $result = '';
+        $error = false;
+        $maxcount = $base->maxcount_user_id_lst;
+        if ($maxcount > 0) {
+            if (Auth::check()) {
+                //if ($base->type_is_list() || $base->type_is_image() || $base->type_is_document()) {
+                // Фильтр по пользователю, создавшему $item
+                $items_count = 0;
+
+                $usersetup_project_id = env('USERSETUP_PROJECT_ID');
+                $usersetup_base_id = env('USERSETUP_BASE_ID');
+                $usersetup_name_link_id = env('USERSETUP_NAME_LINK_ID');
+                $username = GlobalController::glo_user()->name();
+
+                if ($usersetup_project_id != '' && $usersetup_base_id != '' && $usersetup_name_link_id != '') {
+                    $items_count = Item::where('project_id', $usersetup_project_id)
+                        ->where('base_id', $usersetup_base_id)
+                        ->whereHas('child_mains', function ($query) use ($usersetup_name_link_id, $username) {
+                            $query->where('link_id', $usersetup_name_link_id)
+                                ->whereHas('parent_item', function ($query) use ($username) {
+                                    $query->where('name_lang_0', '=', $username);
+                                });
+                        })->count();
+                }
+
+                if ($added == true) {
+                    if ($items_count >= $maxcount) {
+                        $error = true;
+                    }
+                } else {
+                    if ($items_count > $maxcount) {
+                        $error = true;
+                    }
+                }
+                if ($error == true) {
+                    $result = trans('main.max_count_message_second') . $base->names()
+                        . trans('main.max_count_message_third') . '. '
+                        . self::base_user_id_maxcount_message($base) . '!';
+                }
+                //}
+            } else {
+                $result = trans('main.please_login_or_register') . '!';
+            }
+        }
+        return $result;
+    }
+
+    // Сообщение "максимальное количество записей" в $base по пользователю-автору записи
     static function base_byuser_maxcount_message(Base $base)
     {
         $result = '';
@@ -1497,7 +1617,7 @@ class GlobalController extends Controller
         return $result;
     }
 
-// Проверка на максимальное количество записей в $base
+// Проверка на максимальное количество записей в $base по пользователю-автору записи
 // $added - true, проверка при добавлении; - false, общая проверка
     static function base_byuser_maxcount_validate(Project $project, Base $base, bool $added)
     {
@@ -1506,27 +1626,27 @@ class GlobalController extends Controller
         $maxcount = $base->maxcount_byuser_lst;
         if ($maxcount > 0) {
             if (Auth::check()) {
-                if ($base->type_is_list() || $base->type_is_image() || $base->type_is_document()) {
-                    // Филтр по пользователю, создавшему $item
-                    $items_count = Item::where('project_id', $project->id)
-                        ->where('base_id', $base->id)
-                        ->where('created_user_id', GlobalController::glo_user_id())
-                        ->count();
-                    if ($added == true) {
-                        if ($items_count >= $maxcount) {
-                            $error = true;
-                        }
-                    } else {
-                        if ($items_count > $maxcount) {
-                            $error = true;
-                        }
+//                if ($base->type_is_list() || $base->type_is_image() || $base->type_is_document()) {
+                // Фильтр по пользователю, создавшему $item
+                $items_count = Item::where('project_id', $project->id)
+                    ->where('base_id', $base->id)
+                    ->where('created_user_id', GlobalController::glo_user_id())
+                    ->count();
+                if ($added == true) {
+                    if ($items_count >= $maxcount) {
+                        $error = true;
                     }
-                    if ($error == true) {
-                        $result = trans('main.max_count_message_second') . $base->names()
-                            . trans('main.max_count_message_third') . '. '
-                            . self::base_byuser_maxcount_message($base) . '!';
+                } else {
+                    if ($items_count > $maxcount) {
+                        $error = true;
                     }
                 }
+                if ($error == true) {
+                    $result = trans('main.max_count_message_second') . $base->names()
+                        . trans('main.max_count_message_third') . '. '
+                        . self::base_byuser_maxcount_message($base) . '!';
+                }
+//                }
             } else {
                 $result = trans('main.please_login_or_register') . '!';
             }
@@ -1572,18 +1692,21 @@ class GlobalController extends Controller
             if ($error == true) {
                 $result = trans('main.max_count_message_second') . $link->child_base->names()
                     . trans('main.max_count_message_third') . '. '
-                    . self::link_maxcount_message($link) . '!';
+                    . self::link_maxcount_message($link) . '! (' . $link->info_full() . ')';
             }
         }
         return $result;
     }
 
     // Сообщение "максимальное количество записей" в $link - $item
-    static function link_item_maxcount_message(Link $link)
+    static function link_item_maxcount_message(Link $link, Item $item)
     {
         $result = '';
         if ($link->child_maxcount > 0) {
-            $result = trans('main.link') . ' - ' . trans('main.item') . ': '
+//            $result = trans('main.link') . ' - ' . trans('main.item') . ': '
+//                . $item->base->name() . ' ' . $item->name()
+//                . trans('main.max_count_message_first') . ' ' . $link->child_maxcount;
+            $result = $item->base->name() . ' "' . $item->name() . '": '
                 . trans('main.max_count_message_first') . ' ' . $link->child_maxcount;
         }
         return $result;
@@ -1616,7 +1739,7 @@ class GlobalController extends Controller
             if ($error == true) {
                 $result = trans('main.max_count_message_second') . $link->child_base->names()
                     . trans('main.max_count_message_third') . '. '
-                    . self::link_item_maxcount_message($link) . '!';
+                    . self::link_item_maxcount_message($link, $item) . '! (' . $link->info_full() . ')';
             }
         }
         return $result;
@@ -1742,17 +1865,16 @@ class GlobalController extends Controller
             // Возвращается текущий проект
             $result_relit_id = $relit_id;
         } else {
-            if($link->parent_base->template_id == $role->template_id){
+            if ($link->parent_base->template_id == $role->template_id) {
                 $result_relit_id = $link->parent_relit_id;
-            }
-            else{
+            } else {
                 // Используется первый нашедший проект
                 $relit = Relit::select(DB::Raw('relits.id as relit_id'))
-                ->where('child_template_id', $role->template_id)
+                    ->where('child_template_id', $role->template_id)
                     ->where('parent_template_id', $link->parent_base->template_id)
                     ->orderBy('serial_number')
                     ->first();
-                if ($relit){
+                if ($relit) {
                     $result_relit_id = $relit['relit_id'];
                 }
             }
@@ -2485,6 +2607,10 @@ class GlobalController extends Controller
     {
         $result = '';
         if ($base_right) {
+            if ($base_right['is_list_base_user_id'] == true) {
+                // Наименование
+                $result = ' (' . mb_strtolower(trans('main.current_user')) . ')';
+            }
             if ($base_right['is_list_base_byuser'] == true) {
                 // Наименование
                 $result = ' (' . mb_strtolower(trans('main.my_records')) . ')';
@@ -2504,6 +2630,69 @@ class GlobalController extends Controller
             }
         } else {
             $result = false;
+        }
+        return $result;
+    }
+
+    static function name_and_emoji($name, Base $base)
+    {
+        $result = $name;
+        $sem = $base->em_str();
+        if (!$base->type_is_number()) {
+            $result = $sem . $result;
+        } else {
+            $result = $result . $sem;
+        }
+        return $result;
+    }
+
+    static function name_and_first_emoji($name, Base $base)
+    {
+        $result = $name;
+        $sem = $base->em_str();
+//        if (!$base->type_is_number()) {
+        $result = $sem . $result;
+//        } else {
+//        $result = $result . $sem;
+//        }
+        return $result;
+    }
+
+    static function name_and_end_emoji($name, Base $base)
+    {
+        $result = $name;
+        $sem = $base->em_str();
+//        if (!$base->type_is_number()) {
+//        $result = $sem . $result;
+//        } else {
+        $result = $result . $sem;
+//        }
+        return $result;
+    }
+
+    static function name_and_brackets_emoji($name, Base $base)
+    {
+        $result = $name;
+//        if ($base->type_is_number()) {
+//            $result = $result . $base->em_br();
+//        } else {
+//            $result = $result . $base->em_str();
+//        }
+        if (!$base->type_is_list()) {
+            //if ($base->type_is_number()) {
+            $result = $result . $base->em_br();
+            //} else {
+            //    $result = $result . $base->em_str();
+            //}
+        }
+        return $result;
+    }
+
+    static function label_is_required(Base $base)
+    {
+        $result = '';
+        if ($base->is_required_lst_num_str_txt_img_doc == true) {
+            $result = '*';
         }
         return $result;
     }

@@ -62,7 +62,7 @@
                     {{-- Используется "'parent_ret_id' => 0"--}}
                     <button type="button" class="btn btn-dreamer"
                             {{--                        Выводится $message_mc--}}
-                            title="{{trans('main.add') . ', ' . $message_bs_info}}"
+                            title="{{trans('main.add') . $message_bs_info}}"
                             onclick="document.location='{{route('item.ext_create',
                             ['base'=>$base, 'project'=>$project, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(),
                              'relit_id' =>$relit_id_par,
@@ -129,7 +129,7 @@
     $link_image = $tile_view['link'];
     //$i = $items->firstItem() - 1;
     $i = 0;
-     ?>
+    ?>
     <!---->
     {{--            <p>Выберите любимого персонажа:</p>--}}
     {{--            <p><input list="character">--}}
@@ -315,44 +315,204 @@
     {{--            </div>--}}
     {{--        </div>--}}
     {{--    @else--}}
-        {{--        Используется 'heading' => $heading'--}}
-        {{-- "'view_ret_id'=>0", 0 - текущий проект--}}
-        @include('list.table',['base'=>$base, 'links_info'=>$links_info,
-                    'items'=>$items,
-                    'its_page'=>$its_page,
-                    'base_right'=>$base_right, 'item_view'=>true,
-                    'relit_id'=>$relit_id,
-                    'string_all_codes_current' => $string_all_codes_current,
-                    'string_link_ids_current' => $string_link_ids_current,
-                    'string_item_ids_current' => $string_item_ids_current,
-                    'string_relit_ids_current' => $string_relit_ids_current,
-                    'string_current' => $string_current,
-                    'string_link_ids_next' => $string_link_ids_current,
-                    'string_item_ids_next' => $string_item_ids_current,
-                    'string_relit_ids_next' => $string_relit_ids_current,
-                    'string_all_codes_next' => $string_all_codes_current,
-                    'string_next' => $string_current,
-                    'heading' => $heading,
-                    'base_index_page'=>$base_index_page, 'body_link_page'=>$body_link_page,'body_all_page'=>$body_all_page,
-                    'view_link'=>null,
-                    'view_ret_id'=>0,
-                    'current_link'=>null, 'parent_item'=>null, 'is_table_body'=>$is_table_body,
-                    'base_index'=>true, 'item_heading_base'=>false, 'item_body_base'=>false
-                    ])
-{{--    @endif--}}
+    {{--        Используется 'heading' => $heading'--}}
+    {{-- "'view_ret_id'=>0", 0 - текущий проект--}}
+    @include('list.table',['base'=>$base, 'links_info'=>$links_info,
+                'items'=>$items,
+                'its_page'=>$its_page,
+                'base_right'=>$base_right, 'item_view'=>true,
+                'relit_id'=>$relit_id,
+                'string_all_codes_current' => $string_all_codes_current,
+                'string_link_ids_current' => $string_link_ids_current,
+                'string_item_ids_current' => $string_item_ids_current,
+                'string_relit_ids_current' => $string_relit_ids_current,
+                'string_current' => $string_current,
+                'string_link_ids_next' => $string_link_ids_current,
+                'string_item_ids_next' => $string_item_ids_current,
+                'string_relit_ids_next' => $string_relit_ids_current,
+                'string_all_codes_next' => $string_all_codes_current,
+                'string_next' => $string_current,
+                'heading' => $heading,
+                'base_index_page'=>$base_index_page, 'body_link_page'=>$body_link_page,'body_all_page'=>$body_all_page,
+                'view_link'=>null,
+                'view_ret_id'=>0,
+                'current_link'=>null, 'parent_item'=>null, 'is_table_body'=>$is_table_body,
+                'base_index'=>true, 'item_heading_base'=>false, 'item_body_base'=>false
+                ])
+    {{--    @endif--}}
     {{$items->links()}}
     {{--    <blockquote class="text-title pt-1 pl-5 pr-5"><?php echo nl2br($project->dc_ext()); ?></blockquote>--}}
     <blockquote class="text-title pt-1 pl-5 pr-5"><?php echo nl2br($project->dc_int()); ?></blockquote>
-{{--    https://www.w3schools.com/css/css3_object-fit.asp--}}
-{{--    <div style="width:100%;height:400px;">--}}
-{{--        <p style="float:left;width:50%;height:100%;">--}}
-{{--            hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh--}}
-{{--        </p>--}}
-{{--        <p style="float:left;width:50%;height:100%;">--}}
-{{--            hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh;;;;;;;;;;;;;;;; kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk lllllllllllllll--}}
-{{--        </p>--}}
-{{--        <img src="paris.jpg" alt="Paris" style="float:left;width:50%;height:100%;object-fit:cover;">--}}
+    {{--    https://www.w3schools.com/css/css3_object-fit.asp--}}
+    {{--    <div style="width:100%;height:400px;">--}}
+    {{--        <p style="float:left;width:50%;height:100%;">--}}
+    {{--            hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh--}}
+    {{--        </p>--}}
+    {{--        <p style="float:left;width:50%;height:100%;">--}}
+    {{--            hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh;;;;;;;;;;;;;;;; kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk lllllllllllllll--}}
+    {{--        </p>--}}
+    {{--        <img src="paris.jpg" alt="Paris" style="float:left;width:50%;height:100%;object-fit:cover;">--}}
+    {{--    <div class="card" style="width: 18rem;">--}}
+{{--    <div class="card shadow" style="width: 100%;">--}}
+{{--        <div class="card-body">--}}
+{{--            <h5 class="card-title">Название карточки</h5>--}}
+{{--            <h6 class="card-subtitle mb-2 text-muted">Подзаголовок карты</h6>--}}
+{{--            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the--}}
+{{--                card's--}}
+{{--                content.--}}
+{{--                лллллллллллллллллллл--}}
+{{--                ддддддддддддддддддд--}}
+{{--                жжжжжжжжжжжжжжжжжжжжжжжжжжжжжжж--}}
+{{--            </p>--}}
+{{--            <a href="#" class="card-link">Ссылка карты</a>--}}
+{{--            <a href="#" class="card-link">Другая ссылка</a>--}}
+{{--        </div>--}}
 {{--    </div>--}}
+{{--    <br>--}}
+{{--    <div class="card shadow" style="width: 100%;">--}}
+{{--        <div class="card-body">--}}
+{{--            <h5 class="card-title">Название карточки</h5>--}}
+{{--            <h6 class="card-subtitle mb-2 text-muted">Подзаголовок карты</h6>--}}
+{{--            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the--}}
+{{--                card's--}}
+{{--                content.--}}
+{{--                лллллллллллллллллллл--}}
+{{--                ддддддддддддддддддд--}}
+{{--                жжжжжжжжжжжжжжжжжжжжжжжжжжжжжжж--}}
+{{--            </p>--}}
+{{--            <a href="#" class="card-link">Ссылка карты</a>--}}
+{{--            <a href="#" class="card-link">Другая ссылка</a>--}}
+{{--        </div>--}}
+{{--    </div>--}}
+{{--    <br>--}}
+{{--    <div class="card shadow" style="width: 100%;">--}}
+{{--        <div class="card-body">--}}
+{{--            <h5 class="card-title">Название карточки</h5>--}}
+{{--            <h6 class="card-subtitle mb-2 text-muted">Подзаголовок карты</h6>--}}
+{{--            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the--}}
+{{--                card's--}}
+{{--                content.--}}
+{{--                лллллллллллллллллллл--}}
+{{--                ддддддддддддддддддд--}}
+{{--                жжжжжжжжжжжжжжжжжжжжжжжжжжжжжжж--}}
+{{--            </p>--}}
+{{--            <a href="#" class="card-link">Ссылка карты</a>--}}
+{{--            <a href="#" class="card-link">Другая ссылка</a>--}}
+{{--        </div>--}}
+{{--    </div>--}}
+    {{--    <div class="card shadow ">--}}
+    {{--        <div class="card" style="width: 100%;">--}}
+    {{--            <div class="card-body mt-0">--}}
+    {{--                <h5 class="card-title">Название карточки</h5>--}}
+    {{--                <h6 class="card-subtitle mb-2 text-muted">Подзаголовок карты</h6>--}}
+    {{--                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the--}}
+    {{--                    card's--}}
+    {{--                    content.</p>--}}
+    {{--                <a href="#" class="card-link">Ссылка карты</a>--}}
+    {{--                <a href="#" class="card-link">Другая ссылка</a>--}}
+    {{--            </div>--}}
+    {{--        </div>--}}
+    {{--    </div>--}}
+    {{--    <div class="card shadow">--}}
+    {{--        <div class="card" style="width: 18rem;">--}}
+    {{--            <div class="card-body">--}}
+    {{--                <h5 class="card-title">Название карточки</h5>--}}
+    {{--                <h6 class="card-subtitle mb-2 text-muted">Подзаголовок карты</h6>--}}
+    {{--                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the--}}
+    {{--                    card's--}}
+    {{--                    content.</p>--}}
+    {{--                <a href="#" class="card-link">Ссылка карты</a>--}}
+    {{--                <a href="#" class="card-link">Другая ссылка</a>--}}
+    {{--            </div>--}}
+    {{--        </div>--}}
+    {{--    </div>--}}
+    {{--    <div style="width:100%;">--}}
+    {{--        <p style="float:left;width:50%;height:100%;">--}}
+    {{--            hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh--}}
+    {{--        </p>--}}
+    {{--        <p style="float:left;width:50%;height:100%;">--}}
+    {{--            hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh;;;;;;;;;;;;;;;; kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk--}}
+    {{--            lllllllllllllll--}}
+    {{--        </p>--}}
+    {{--        <img src="/storage/2/3/6Ew9weglokd9WxLjXZNSizbVc7uQoOZRGJz8OrG6.png" alt="Paris"--}}
+    {{--             style="float:left;width:100%;height:150px;object-fit:contain;">--}}
+    {{--    </div>--}}
+    {{--    <div style="width:100%;">--}}
+    {{--        <p style="float:left;width:50%;height:100%;">--}}
+    {{--            22222222222222hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh--}}
+    {{--        </p>--}}
+    {{--        <p style="float:left;width:50%;height:100%;">--}}
+    {{--            hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh;;;;;;;;;;;;;;;; kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk--}}
+    {{--            lllllllllllllll--}}
+    {{--        </p>--}}
+    {{--        <img src="/storage/2/3/gDGQdvq2ytL5ONiwPY3vyA4CqPiayJOSWj1ax0Kp.jpg" alt="Paris"--}}
+    {{--             style="float:left;width:100%;height:150px;object-fit:contain;">--}}
+    {{--    </div>--}}
+    {{--    <p style="width:100%;">--}}
+    {{--        <div style="float:left;width:80%;">--}}
+    {{--            hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh11111111111--}}
+    {{--            111111111111111111111--}}
+    {{--            111111111111111111111--}}
+    {{--        </div>--}}
+    {{--        <img src="/storage/2/3/6Ew9weglokd9WxLjXZNSizbVc7uQoOZRGJz8OrG6.png" alt="Paris"--}}
+    {{--             style="float:left;width:20%;height:30%;object-fit:contain;"/>--}}
+    {{--    </p>--}}
+    {{--    <p style="width:100%;">--}}
+    {{--        <div style="float:left;width:80%;">--}}
+    {{--            hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh22222222222222222222222222--}}
+    {{--            22222222222222222222--}}
+    {{--            22222222222222222222--}}
+    {{--        </div>--}}
+    {{--        <img src="/storage/2/3/gDGQdvq2ytL5ONiwPY3vyA4CqPiayJOSWj1ax0Kp.jpg" alt="Paris"--}}
+    {{--             style="float:left;width:20%;height:30%;object-fit:contain;"/>--}}
+    {{--    </p>--}}
+{{--    <div class="row">--}}
+{{--        <div class="col-12">--}}
+{{--            <div class="text-title">--}}
+{{--                111111111111111111111--}}
+{{--            </div>--}}
+{{--        </div>--}}
+{{--    </div>--}}
+{{--    <div class="row">--}}
+{{--        <div class="col-9">--}}
+{{--            200--}}
+{{--        </div>--}}
+{{--        <div class="col-3">--}}
+{{--            <img src="/storage/2/3/gDGQdvq2ytL5ONiwPY3vyA4CqPiayJOSWj1ax0Kp.jpg"--}}
+{{--                 style="width:100px;float:right;object-fit:contain;">--}}
+{{--        </div>--}}
+{{--    </div>--}}
+{{--    <hr>--}}
+{{--    <div class="row">--}}
+{{--        <div class="col-12">--}}
+{{--            111111111111111111111--}}
+{{--        </div>--}}
+{{--    </div>--}}
+{{--    <div class="row">--}}
+{{--        <div class="col-9">--}}
+{{--            200--}}
+{{--        </div>--}}
+{{--        <div class="col-3">--}}
+{{--            <img src="/storage/2/3/6Ew9weglokd9WxLjXZNSizbVc7uQoOZRGJz8OrG6.png"--}}
+{{--                 style="width:100px;float:right;object-fit:contain;">--}}
+{{--        </div>--}}
+{{--    </div>--}}
+{{--    <hr>--}}
+{{--    <div class="row">--}}
+{{--        <div class="col-12">--}}
+{{--            111111111111111111111--}}
+{{--        </div>--}}
+{{--    </div>--}}
+{{--    <div class="row">--}}
+{{--        <div class="col-9">--}}
+{{--            200--}}
+{{--        </div>--}}
+{{--        <div class="col-3">--}}
+{{--            <img src="/storage/2/3/gDGQdvq2ytL5ONiwPY3vyA4CqPiayJOSWj1ax0Kp.jpg"--}}
+{{--                 style="width:100px;float:right;object-fit:contain;">--}}
+{{--        </div>--}}
+{{--    </div>--}}
+{{--    <hr>--}}
 @endsection
 
 

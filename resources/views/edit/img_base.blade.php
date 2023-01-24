@@ -3,13 +3,14 @@
 //Похожие алгоритмы:
 //view/doc.php, edit/doc_base.php, edit/doc_link.php,
 //view/img.php, edit/img_base.php, edit/img_link.php.
+use \App\Http\Controllers\GlobalController;
 ?>
 @if($base->type_is_image())
     <div class="form-group row">
         <div class="col-sm-3 text-right">
             {{--                            Выберите файл - изображение, размером не более 500 Кб--}}
             <label for="{{$name}}">{{$title}}<span
-                    class="text-danger">*</span>
+                    class="text-danger">{{GlobalController::label_is_required($base)}}</span>
                 @if($update)
                     @if($item->img_doc_exist())
                         ({{mb_strtolower(trans('main.now'))}}:<a href="{{Storage::url($item->filename())}}">

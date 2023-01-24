@@ -46,6 +46,7 @@ class Link extends Model
         if ($base_right) {
             $result = $result . GlobalController::my_info($base_right);
         }
+        $result = (new GlobalController)->name_and_end_emoji($result, $this->child_base);
         return $result;
     }
 
@@ -54,15 +55,13 @@ class Link extends Model
         $result = "";  // нужно, не удалять
         if (0 <= $index && $index <= 3) {
             $value = $this['parent_level_id_' . $index];
-            if ($value == 0){
+            if ($value == 0) {
                 $result = GlobalController::option_empty();
-            }
-            else{
+            } else {
                 $level = Level::find($value);
-                if ($level){
+                if ($level) {
                     $result = $level->name();
-                }
-                else{
+                } else {
                     $result = $value;
                 }
             }
@@ -70,7 +69,7 @@ class Link extends Model
         return $result;
     }
 
-    function parent_label()
+    function parent_label($emoji_enable = false)
     {
         $result = "";  // нужно, не удалять
         $index = array_search(App::getLocale(), config('app.locales'));
@@ -80,6 +79,9 @@ class Link extends Model
 //        if ($result == "") {
 //            $result = $this->parent_label_lang_0;
 //        }
+        if($emoji_enable) {
+            $result = (new GlobalController)->name_and_brackets_emoji($result, $this->parent_base);
+        }
         return $result;
     }
 
@@ -116,7 +118,7 @@ class Link extends Model
 
     function info_full()
     {
-        return trans('main.link') . " (" . $this->id . ")" . " _ " . $this->child_base->name() . " - " . $this->parent_label() . ": " . $this->parent_base->name();
+        return trans('main.link') . " (Id = " . $this->id . ")" . " _ " . $this->child_base->name() . " - " . $this->parent_label() . ": " . $this->parent_base->name();
     }
 
 

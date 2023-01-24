@@ -41,6 +41,7 @@ $i = $next_all_mains->firstItem() - 1;
             $string_link_ids_array_next[$main->link_id],
             $string_item_ids_array_next[$main->link_id],
             $string_relit_ids_array_next[$main->link_id],
+            $string_vwret_ids_array_next[$main->link_id],
             $string_all_codes_array_next[$main->link_id]);
         ?>
             <tr>

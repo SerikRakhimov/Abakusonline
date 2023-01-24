@@ -58,7 +58,8 @@ class Base extends Model
             $is_names = false;
         } else {
             if ($base_right) {
-                if ($base_right['is_list_base_byuser'] == true && $this['maxcount_byuser_lst'] == 1) {
+                if (($base_right['is_list_base_byuser'] == true && $this['maxcount_byuser_lst'] == 1) |
+                    ($base_right['is_list_base_user_id'] == true && $this['maxcount_user_id_lst'] == 1)) {
                     // Наименование
                     $is_names = false;
                 } else {
@@ -85,6 +86,23 @@ class Base extends Model
         }
         if ($base_right) {
             $result = $result . GlobalController::my_info($base_right);
+        }
+        $result = (new GlobalController)->name_and_end_emoji($result, $this);
+        return $result;
+    }
+
+    // Эмодзи
+    function em_str()
+    {
+        return trim($this->emoji);
+    }
+
+    // Эмодзи со скобками
+    function em_br()
+    {
+        $result = $this->em_str();
+        if ($result != "") {
+            $result = ' (' . $result . ')';
         }
         return $result;
     }
@@ -227,7 +245,10 @@ class Base extends Model
     function info()
     {
         //return $this->name();
-        return $this->desc();
+        //return $this->desc();
+        $result = $this->desc();
+        $result = (new GlobalController)->name_and_end_emoji($result, $this);
+        return $result;
     }
 
     function info_full()
