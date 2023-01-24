@@ -14,7 +14,7 @@ class UpdateBasesTableMaxcountUserIdLstEmoji extends Migration
     public function up()
     {
         Schema::table('bases', function (Blueprint $table) {
-            $table->integer('maxcount_user_id_lst')->default(1);
+            $table->integer('maxcount_user_id_lst')->default(0);
             $table->string('emoji', 255)->default("");
         });
     }

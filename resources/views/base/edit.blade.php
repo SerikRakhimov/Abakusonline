@@ -303,7 +303,7 @@
                        id="maxcount_user_id_lst"
                        class="form-control @error('maxcount_user_id_lst') is-invalid @enderror"
                        placeholder=""
-                       value="{{ old('maxcount_user_id_lst') ?? ($base['maxcount_user_id_lst'] ?? '1') }}">
+                       value="{{ old('maxcount_user_id_lst') ?? ($base['maxcount_user_id_lst'] ?? '0') }}">
                 @error('maxcount_user_id_lst')
                 <div class="text-danger">
                     {{$message}}
