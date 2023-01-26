@@ -3800,7 +3800,7 @@ class ItemController extends Controller
             if ($set->is_upd_cl_fn_count == true) {
                 foreach ($items_list as $item) {
                     $str = "";
-                    // Находим в исходной таблице объект, по которуму считается Количество()
+                    // Находим в исходной таблице объект, по которому считается Количество()
                     $item_find = GlobalController::view_info($item->id, $set->link_to_id);
                     if ($item_find) {
                         $seek_value = $seek_value + 1;
@@ -7308,7 +7308,7 @@ class ItemController extends Controller
                     // Такая же проверка и в GlobalController (function items_right()),
                     // в ItemController (function next_all_links_mains_calc(), browser(), get_items_for_link(), get_items_ext_edit_for_link())
                     if ($base_right['is_list_base_user_id'] == true) {
-                        $items = $items->where('id', GlobalController::glo_user_id());
+                        $items = GlobalController::get_items_user_id($items);
                     }
                     if ($base_right['is_list_base_byuser'] == true) {
                         $items = $items->where('created_user_id', GlobalController::glo_user_id());

@@ -120,19 +120,19 @@ $link_image = $tile_view['link'];
                 {{--                    </small>--}}
                 {{--                </div>--}}
                 <div class="card-footer">
-                    <div class="row">
-                        {{--                        <div class="col-sm-6 text-left text-title">--}}
-                        <div class="col-sm-4 text-left text-label">
-                            <small class="text-title">
-                                {{$i+1}}
-                            </small>
-                        </div>
-                        <div class="col-sm-8 text-right">
-                            <small class="text-title">
-                                {{$item->created_at->Format(trans('main.format_date'))}}
-                            </small>
-                        </div>
+                    {{--                    <div style="width:100%;padding-left: 100px">--}}
+                    <div style="float:left;width:50%;">
+                        <small class="text-title">
+                            {{$i+1}}
+                        </small>
                     </div>
+{{--                    Нужно 'class="text-right"'--}}
+                    <div style="float:right;width:50%;" class="text-right">
+                        <small class="text-title">
+                            {{$item->created_at->Format(trans('main.format_date'))}}
+                        </small>
+                    </div>
+                    {{--                    </div>--}}
                 </div>
             </div>
             <?php
@@ -413,19 +413,19 @@ $link_image = $tile_view['link'];
                                     {{--                                    </a>--}}
                                     {{--                                @else--}}
                                     @if ($item_index_view)
-{{--                                        <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,--}}
-{{--        'usercode' =>GlobalController::usercode_calc(),--}}
-{{--        'relit_id'=>$relit_id,--}}
-{{--        'called_from_button'=>0,--}}
-{{--        'view_link'=>$i_par_link,--}}
-{{--        'view_ret_id'=>$view_ret_id,--}}
-{{--        'string_current'=>$string_next,--}}
-{{--        'prev_base_index_page'=>$base_index_page,--}}
-{{--        'prev_body_link_page'=>$body_link_page,--}}
-{{--        'prev_body_all_page'=>$body_all_page--}}
-{{--        ])}}"--}}
-{{--                                           title="{{$item->name()}}">--}}
-                                            <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,
+                                        {{--                                        <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,--}}
+                                        {{--        'usercode' =>GlobalController::usercode_calc(),--}}
+                                        {{--        'relit_id'=>$relit_id,--}}
+                                        {{--        'called_from_button'=>0,--}}
+                                        {{--        'view_link'=>$i_par_link,--}}
+                                        {{--        'view_ret_id'=>$view_ret_id,--}}
+                                        {{--        'string_current'=>$string_next,--}}
+                                        {{--        'prev_base_index_page'=>$base_index_page,--}}
+                                        {{--        'prev_body_link_page'=>$body_link_page,--}}
+                                        {{--        'prev_body_all_page'=>$body_all_page--}}
+                                        {{--        ])}}"--}}
+                                        {{--                                           title="{{$item->name()}}">--}}
+                                        <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,
         'usercode' =>GlobalController::usercode_calc(),
         'relit_id'=>$relit_id,
         'called_from_button'=>0,
@@ -436,13 +436,13 @@ $link_image = $tile_view['link'];
         'prev_body_link_page'=>$body_link_page,
         'prev_body_all_page'=>$body_all_page
         ])}}"
-                                               title="{{$item->name()}}">
+                                           title="{{$item->name()}}">
                                             {{--                                        'string_link_ids_current'=>$string_link_ids_next,--}}
                                             {{--                                        'string_item_ids_current'=>$string_item_ids_next,--}}
                                             {{--                                        'string_all_codes_current'=>$string_all_codes_next,--}}
                                             @endif
-{{--                                            @include('layouts.item.empty_name', ['name'=>$item->name()])--}}
-                                                @include('layouts.item.empty_name', ['name'=>$item->nmbr()])
+                                            {{--                                            @include('layouts.item.empty_name', ['name'=>$item->name()])--}}
+                                            @include('layouts.item.empty_name', ['name'=>$item->nmbr()])
                                             @if ($item_index_view)
                                         </a>
                                     @endif
@@ -564,19 +564,19 @@ $link_image = $tile_view['link'];
                                     {{--        'prev_body_all_page'=>$body_all_page--}}
                                     {{--        ])}}"--}}
                                     {{--                                       title="">--}}
-{{--                                    <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$i_item, 'role'=>$role,--}}
-{{--                                                'usercode' =>GlobalController::usercode_calc(),--}}
-{{--                                                'relit_id'=>$relit_value,--}}
-{{--                                                'called_from_button'=>0,--}}
-{{--                                                'view_link'=>$i_par_link,--}}
-{{--                                                'view_ret_id'=>$view_ret_id,--}}
-{{--                                                'string_current'=>$string_value,--}}
-{{--                                                'prev_base_index_page'=>$base_index_page,--}}
-{{--                                                'prev_body_link_page'=>$body_link_page,--}}
-{{--                                                'prev_body_all_page'=>$body_all_page--}}
-{{--                                                ])}}"--}}
-{{--                                       title="">--}}
-                                        <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$i_item, 'role'=>$role,
+                                    {{--                                    <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$i_item, 'role'=>$role,--}}
+                                    {{--                                                'usercode' =>GlobalController::usercode_calc(),--}}
+                                    {{--                                                'relit_id'=>$relit_value,--}}
+                                    {{--                                                'called_from_button'=>0,--}}
+                                    {{--                                                'view_link'=>$i_par_link,--}}
+                                    {{--                                                'view_ret_id'=>$view_ret_id,--}}
+                                    {{--                                                'string_current'=>$string_value,--}}
+                                    {{--                                                'prev_base_index_page'=>$base_index_page,--}}
+                                    {{--                                                'prev_body_link_page'=>$body_link_page,--}}
+                                    {{--                                                'prev_body_all_page'=>$body_all_page--}}
+                                    {{--                                                ])}}"--}}
+                                    {{--                                       title="">--}}
+                                    <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$i_item, 'role'=>$role,
                                                 'usercode' =>GlobalController::usercode_calc(),
                                                 'relit_id'=>$relit_value,
                                                 'called_from_button'=>0,
@@ -587,7 +587,7 @@ $link_image = $tile_view['link'];
                                                 'prev_body_link_page'=>$body_link_page,
                                                 'prev_body_all_page'=>$body_all_page
                                                 ])}}"
-                                           title="">
+                                       title="">
                                         {{--                                    'string_link_ids_current'=>$string_link_ids_next,--}}
                                         {{--                                    'string_item_ids_current'=>$string_item_ids_next,--}}
                                         {{--                                    'string_all_codes_current'=>$string_all_codes_next,--}}

@@ -653,7 +653,6 @@ class GlobalController extends Controller
             if ($base_right['is_list_hist_records_enable'] == false) {
                 $items = $items->where('items.is_history', false);
             }
-
         }
         // Такая же проверка и в GlobalController (function items_right()),
         // в ItemController (function next_all_links_mains_calc(), browser(), get_items_for_link(), get_items_ext_edit_for_link())

@@ -44,7 +44,7 @@
         </div>
     </div>
     @foreach($array_relips as $relit_id=>$array_relip)
-{{--        <hr>--}}
+        {{--        <hr>--}}
         <?php
         $relit = null;
         if ($relit_id == 0) {
@@ -82,17 +82,17 @@
             $base_names = $base->names($base_right);
             ?>
             <div class="row mt-3">
-                {{--                                    <th scope="row">{{$i}}</th>--}}
-                <div class="col-sm-2 text-center">
-                    <h5>
+                <div style="width:100%;padding-left: 100px">
+                    {{--                    <p style="float:left;width:10%;">--}}
+                    <h5 style="float:left;width:5%;">
                         <a
                             href="{{route('item.base_index',['base'=>$base, 'project' => $project, 'role' => $role, 'relit_id' => $relit_id])}}"
                             title="{{$base_names}}">
                             {{$i}}
                         </a></h5>
-                </div>
-                <div class="col-sm-10 text-left">
-                    <h5>
+                    {{--                    </p>--}}
+                    {{--                    <p style="float:left;width:90%;">--}}
+                    <h5 style="float:left;width:95%;">
                         <a
                             href="{{route('item.base_index',['base'=>$base, 'project' => $project, 'role' => $role, 'relit_id' => $relit_id])}}"
                             title="{{$base_names . $message}}">
@@ -116,6 +116,7 @@
                             {{--                            @endauth--}}
                         </a>
                     </h5>
+                    {{--                    </p>--}}
                 </div>
             </div>
         @endforeach
@@ -200,7 +201,7 @@
     @endif
     @if($project->dc_ext() != "")
         <hr>
-        <blockquote class="text-title pt-1 pl-5 pr-5"><?php echo nl2br($project->dc_ext()); ?></blockquote>
+        <blockquote class="text-title pt-1 pl-0 pr-0"><?php echo nl2br($project->dc_ext()); ?></blockquote>
         {{--    <blockquote class="text-title pt-1 pl-5 pr-5"><?php echo nl2br($project->dc_int()); ?></blockquote>--}}
     @endif
     {{--    Вывод сведений о подписке--}}

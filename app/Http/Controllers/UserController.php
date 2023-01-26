@@ -16,6 +16,7 @@ use http\Env\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
@@ -129,7 +130,7 @@ class UserController extends Controller
 //        При добавлении записи/создания пользователя
         try {
             // начало транзакции
-            DB::transaction(function ($r) use ($request, $user) {
+            DB::transaction(function ($r) use ($request) {
 
                 $user = new User($request->except('_token', '_method'));
 
@@ -199,7 +200,7 @@ class UserController extends Controller
 
     function save_to_project_users(User $user)
     {
-        ItemController::ext_store_ext();
+        //ItemController::ext_store_ext();
     }
 
     function edit(User $user)
