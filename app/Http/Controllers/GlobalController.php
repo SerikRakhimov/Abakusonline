@@ -1317,7 +1317,7 @@ class GlobalController extends Controller
         //$text = $item->text();
         $text = Text::where('item_id', $item->id)->first();
         if ($text) {
-            $result = $text->name($item);
+            $result = $text->name($item->base);
         }
         return $result;
     }
