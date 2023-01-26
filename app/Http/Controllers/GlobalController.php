@@ -2633,14 +2633,18 @@ class GlobalController extends Controller
         return $result;
     }
 
-    static function name_and_emoji($name, Base $base)
+    static function name_and_emoji($name, Base $base = null)
     {
         $result = $name;
         $sem = $base->em_str();
-        if (!$base->type_is_number()) {
+        if (is_null($base)) {
             $result = $sem . $result;
         } else {
-            $result = $result . $sem;
+            if (!$base->type_is_number()) {
+                $result = $sem . $result;
+            } else {
+                $result = $result . $sem;
+            }
         }
         return $result;
     }

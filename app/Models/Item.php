@@ -164,7 +164,7 @@ class Item extends Model
     {
         $result = self::name_start($fullname, $numcat, $rightnull);
         $result = str_replace('\~', '', $result);
-        // Такая же строка в Item.php::name() и Text::name()
+        // Похожая строка в Item.php::name() и Text::name()
         $result = (new GlobalController)->name_and_emoji($result, $this->base);
         return $result;
     }
