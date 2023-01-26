@@ -1317,7 +1317,7 @@ class GlobalController extends Controller
         //$text = $item->text();
         $text = Text::where('item_id', $item->id)->first();
         if ($text) {
-            $result = $text->name();
+            $result = $text->name($item);
         }
         return $result;
     }
@@ -2633,18 +2633,14 @@ class GlobalController extends Controller
         return $result;
     }
 
-    static function name_and_emoji($name, Base $base = null)
+    static function name_and_emoji($name, Base $base)
     {
         $result = $name;
         $sem = $base->em_str();
-        if (is_null($base)) {
+        if (!$base->type_is_number()) {
             $result = $sem . $result;
         } else {
-            if (!$base->type_is_number()) {
-                $result = $sem . $result;
-            } else {
-                $result = $result . $sem;
-            }
+            $result = $result . $sem;
         }
         return $result;
     }

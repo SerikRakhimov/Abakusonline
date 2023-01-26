@@ -15,7 +15,7 @@ class Text extends Model
         return $this->belongsTo(Item::class, 'item_id');
     }
 
-    function name()
+    function name(Base $base)
     {
         $result = "";  // нужно, не удалять
 
@@ -27,8 +27,8 @@ class Text extends Model
 //            $result = $this->name_lang_0;
 //        }
         // Похожая строка в Item.php::name() и Text::name()
-        // Второй параметр не передается
-        $result = (new GlobalController)->name_and_emoji($result);
+        // Вторым параметром передается $base
+        $result = (new GlobalController)->name_and_emoji($result, $base);
 
         return $result;
     }
