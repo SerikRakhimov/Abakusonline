@@ -26,6 +26,8 @@ class Text extends Model
 //        if ($result == "") {
 //            $result = $this->name_lang_0;
 //        }
+        // Такая же строка в Item.php::name() и Text::name()
+        $result = (new GlobalController)->name_and_emoji($result, $this->base);
 
         return $result;
     }

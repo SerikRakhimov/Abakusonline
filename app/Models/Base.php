@@ -94,8 +94,7 @@ class Base extends Model
     // Эмодзи
     function em_str()
     {
-        //return trim($this->emoji);
-        return $this->emoji.$this->name();
+        return trim($this->emoji);
     }
 
     // Эмодзи со скобками
