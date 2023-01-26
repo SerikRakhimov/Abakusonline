@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Base;
 use App\Http\Controllers\GlobalController;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\App;
