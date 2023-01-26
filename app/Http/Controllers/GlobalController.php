@@ -2642,7 +2642,7 @@ class GlobalController extends Controller
         } else {
             $result = $result . $sem;
         }
-        return $result;
+        return $result.$sem.'---';
     }
 
     static function name_and_first_emoji($name, Base $base)
