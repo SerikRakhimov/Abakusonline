@@ -599,6 +599,7 @@ class ItemController extends Controller
 
             // $item, $current_link присоединяются к списку $tree_array
             // Нужно '$current_link' передавать
+
             $string_current_next_ids = self::calc_string_current_next_ids($tree_array, $item, $current_link, $relit_id, $view_ret_id, GlobalController::const_allfalse());
             $string_link_ids_current = $string_current_next_ids['string_current_link_ids'];
             $string_item_ids_current = $string_current_next_ids['string_current_item_ids'];
@@ -630,7 +631,6 @@ class ItemController extends Controller
         $string_relit_ids_next = GlobalController::set_str_const_null($string_relit_ids_next);
         $string_vwret_ids_next = GlobalController::set_str_const_null($string_vwret_ids_next);
         $string_all_codes_next = GlobalController::set_str_const_null($string_all_codes_next);
-
         // Проверки ниже нужны
         // При вызове item_index.php должно быть либо так '$body_items!=null и $next_all_mains=null',
         // либо так '$body_items=null и $next_all_mains!=null'
@@ -1223,7 +1223,8 @@ class ItemController extends Controller
 //                                //continue;
 //                            } else {
 //                        $base_link_right = GlobalController::base_link_right($link, $role, $relit_id, true, $key);
-                        $base_link_right = GlobalController::base_link_right($link, $role,$key);
+                        // "GlobalController::base_link_right($link, $role,$key,true)" - true обязательно нужно
+                        $base_link_right = GlobalController::base_link_right($link, $role,$key,true);
                         // Использовать две этих проверки
                         if (!(($base_link_right['is_body_link_enable'] == true) && ($base_link_right['is_list_base_calc'] == true))) {
                             unset($array_link_relips[$key]);

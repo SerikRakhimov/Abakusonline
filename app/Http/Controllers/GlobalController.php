@@ -2563,6 +2563,9 @@ class GlobalController extends Controller
 
     static function set_str_const_null($str)
     {
+        // Эта команда нужна '$str = $str . ""', если $str числового типа, то преобразуется в строку
+        // Нужно для правильной проверки "$str == ''", например "0 = ''" - true при числе
+        $str = $str . "";
         $result = $str;
         if ($str == '') {
             $result = GlobalController::const_null();
