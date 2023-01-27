@@ -90,9 +90,12 @@
                             title="{{$base_names}}">
                             {{$i}}
                         </a></h5>
+{{--                    Нужно--}}
+                    <div style="float:left;width:5%;">
+                    </div>
                     {{--                    </p>--}}
                     {{--                    <p style="float:left;width:90%;">--}}
-                    <h5 style="float:left;width:95%;">
+                    <h5 style="float:left;width:90%;">
                         <a
                             href="{{route('item.base_index',['base'=>$base, 'project' => $project, 'role' => $role, 'relit_id' => $relit_id])}}"
                             title="{{$base_names . $message}}">

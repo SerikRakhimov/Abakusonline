@@ -4,7 +4,7 @@ namespace App\Rules;
 
 use Illuminate\Contracts\Validation\Rule;
 
-class IsLowerUser implements Rule
+class IsLowerEmail implements Rule
 {
     /**
      * Create a new rule instance.
@@ -19,8 +19,8 @@ class IsLowerUser implements Rule
     /**
      * Determine if the validation rule passes.
      *
-     * @param  string  $attribute
-     * @param  mixed  $value
+     * @param string $attribute
+     * @param mixed $value
      * @return bool
      */
     public function passes($attribute, $value)
@@ -37,5 +37,4 @@ class IsLowerUser implements Rule
     {
         return trans('main.all_letters_must_be_lowercase'). '.';
     }
-
 }

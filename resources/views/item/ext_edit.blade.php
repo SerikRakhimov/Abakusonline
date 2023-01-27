@@ -325,8 +325,9 @@
             <?php
             $link = Link::find($key);
             // Вычисляет $relit_id
-            $calc_link_relit_id = GlobalController::calc_link_relit_id($link, $role, $relit_id);
-            $base_link_right = GlobalController::base_link_right($link, $role, $calc_link_relit_id);
+//            $calc_link_relit_id = GlobalController::calc_link_relit_id($link, $role, $relit_id);
+//            $base_link_right = GlobalController::base_link_right($link, $role, $calc_link_relit_id);
+            $base_link_right = GlobalController::base_link_right($link, $role, $relit_id);
             ?>
             @if($base_link_right['is_edit_link_enable'] == false)
                 @continue
@@ -1119,8 +1120,9 @@
         // Находим $relip_link_project
         $relip_link_project = GlobalController::calc_link_project($link, $relip_project);
         // Вычисляет $relit_id
-        $calc_link_relit_id = GlobalController::calc_link_relit_id($link, $role, $relit_id);
-        $base_link_right = GlobalController::base_link_right($link, $role, $calc_link_relit_id);
+        //$calc_link_relit_id = GlobalController::calc_link_relit_id($link, $role, $relit_id);
+        //$base_link_right = GlobalController::base_link_right($link, $role, $calc_link_relit_id);
+        $base_link_right = GlobalController::base_link_right($link, $role, $relit_id);
         ?>
         @if($base_link_right['is_edit_link_enable'] == false)
             @continue
@@ -1617,8 +1619,9 @@
         <?php
         $link = Link::find($key);
         // Вычисляет $relit_id
-        $calc_link_relit_id = GlobalController::calc_link_relit_id($link, $role, $relit_id);
-        $base_link_right = GlobalController::base_link_right($link, $role, $calc_link_relit_id);
+        //$calc_link_relit_id = GlobalController::calc_link_relit_id($link, $role, $relit_id);
+        //$base_link_right = GlobalController::base_link_right($link, $role, $calc_link_relit_id);
+        $base_link_right = GlobalController::base_link_right($link, $role, $relit_id);
         $prefix = '5_';
         ?>
 

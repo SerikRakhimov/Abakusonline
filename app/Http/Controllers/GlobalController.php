@@ -381,34 +381,25 @@ class GlobalController extends Controller
         ];
     }
 
-    static function base_link_right(Link $link, Role $role, $parent_relit_id, bool $child_base = false, $relit_dop_id = null)
+//    static function base_link_right(Link $link, Role $role, $relit_id, bool $child_base = false)
+    static function base_link_right(Link $link, Role $role, $relit_id, bool $child_base = false)
     {
         $base = null;
-        $relit_id = null;
-        $base_ret_id = null;
+        $base_rel_id = null;
+        $base_link_rel_id = null;
+        // Так использовать, в robas и rolis разные по логике $relit_id используются при вводе данных и хранении
         if ($child_base == true) {
             $base = $link->child_base;
-            // 0 - текущий проект, по умолчанию
-            //$relit_id = 0;
-            $relit_id = $relit_dop_id;
-            $base_ret_id = $parent_relit_id;
+            $base_rel_id = $relit_id;
+            $base_link_rel_id = $relit_id;
         } else {
             $base = $link->parent_base;
-            $relit_id = $parent_relit_id;
-            $base_ret_id = $relit_dop_id;
+            // Вычисляет $base_rel_id
+            $base_rel_id = GlobalController::calc_link_relit_id($link, $role, $relit_id);
+            $base_link_rel_id = $relit_id;
         }
 
-//        $base = null;
-//        if ($child_base == true) {
-//            $base = $link->child_base;
-//        } else {
-//            $base = $link->parent_base;
-//        }
-//
-//        $relit_id = $parent_relit_id;
-//        $base_ret_id = $relit_dop_id;
-
-        $base_right = self::base_right($base, $role, $relit_id);
+        $base_right = self::base_right($base, $role, $base_rel_id);
 
         $is_list_base_calc = $base_right['is_list_base_calc'];
         $is_all_base_calcname_enable = $base_right['is_all_base_calcname_enable'];
@@ -477,7 +468,7 @@ class GlobalController extends Controller
             //$is_edit_link_update = false;
         }
         // Блок проверки по rolis, используя переменные $role, $relit_id и $link
-        $roli = Roli::where('role_id', $role->id)->where('relit_id', $relit_id)->where('link_id', $link->id)->first();
+        $roli = Roli::where('role_id', $role->id)->where('relit_id', $base_link_rel_id)->where('link_id', $link->id)->first();
         $is_roli_list_link_enable = false;
         $is_roli_body_link_enable = false;
         if ($roli != null) {
@@ -2038,7 +2029,8 @@ class GlobalController extends Controller
             }
             $base_right = null;
             foreach ($array_relips as $relit_id => $value) {
-                $base_right = self::base_link_right($link, $role, $parent_relit_id, true, $relit_id);
+                //$base_right = self::base_link_right($link, $role, $parent_relit_id, true, $relit_id);
+                $base_right = self::base_link_right($link, $role, $relit_id);
                 if ($base_right['is_body_link_enable'] == false) {
                     // Удаляем элемент массива с $relit_id, если "$relit_id == $link->parent_relit_id"
                     unset($array_relips[$relit_id]);

@@ -81,7 +81,7 @@ $link_image = $tile_view['link'];
                         </div>
                     @endif
                     {{--                        <h6 class="card-title text-center pt-2">--}}
-                    <div class="card-title text-center pl-4 pt-2">
+                    <div class="card-title text-left pt-2 pl-3 pr-3">
                         <h6>
                             {{--                            <a--}}
                             {{--                                href="{{route('item.ext_show', ['item'=>$item, 'project'=>$project, 'role'=>$role, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id,--}}
@@ -107,7 +107,7 @@ $link_image = $tile_view['link'];
         'prev_body_link_page'=>$body_link_page,
         'prev_body_all_page'=>$body_all_page,
         ])}}"
-                               title="{{$item->name()}}">
+                               class="card-link"  title="{{$item->name()}}">
                                 <?php echo $item->nmbr();?>
                             </a>
                         </h6>
@@ -173,7 +173,7 @@ $link_image = $tile_view['link'];
         @if(!$heading)
             <caption>{{trans('main.select_record_for_work')}}</caption>
         @endif
-        <thead>
+        <thead class="bg-transparent">
         <tr>
             {{--        Похожие проверки ниже по тексту--}}
             @if(!$heading)

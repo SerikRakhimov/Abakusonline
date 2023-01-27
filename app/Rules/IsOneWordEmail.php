@@ -4,7 +4,7 @@ namespace App\Rules;
 
 use Illuminate\Contracts\Validation\Rule;
 
-class IsLowerUser implements Rule
+class IsOneWordEmail implements Rule
 {
     /**
      * Create a new rule instance.
@@ -25,7 +25,12 @@ class IsLowerUser implements Rule
      */
     public function passes($attribute, $value)
     {
-        return mb_strtolower($value) == $value;
+        if (strpos($value, ' ') == false) {
+            return true;
+        }
+        else{
+            return false;
+        }
     }
 
     /**
@@ -35,7 +40,6 @@ class IsLowerUser implements Rule
      */
     public function message()
     {
-        return trans('main.all_letters_must_be_lowercase'). '.';
+        return trans('main.enter_one_word_without_spaces'). '.';
     }
-
 }

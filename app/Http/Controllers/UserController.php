@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Rules\IsLatinEmail;
+use App\Rules\IsLowerEmail;
 use Illuminate\Support\Facades\App;
 use App\Models\Item;
 use App\Models\Main;
@@ -10,6 +12,7 @@ use App\Models\Access;
 use App\Rules\IsLatinUser;
 use App\Rules\IsLowerUser;
 use App\Rules\IsOneWordUser;
+use App\Rules\IsOneWordEmail;
 use App\Rules\IsUniqueAccess;
 use App\Models\User;
 use http\Env\Response;
@@ -29,7 +32,7 @@ class UserController extends Controller
         //    'confirm_password' => ['min:8','same:password'],
         return [
             'name' => ['required', 'string', 'max:255', 'unique:users', new IsOneWordUser(), new IsLatinUser(), new IsLowerUser()],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users', new IsOneWordEmail(), new IsLatinEmail(), new IsLowerEmail()],
             'password' => ['required', 'string', 'min:8'],
             'confirm_password' => ['min:8', 'same:password'],
         ];

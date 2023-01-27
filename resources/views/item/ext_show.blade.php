@@ -164,8 +164,9 @@
             //            $base_link_right = null;
             //            if ($heading == 1 || $base_index_page > 0) {
             // Вычисляет $relit_id
-            $calc_link_relit_id = GlobalController::calc_link_relit_id($link, $role, $relit_id);
-            $base_link_right = GlobalController::base_link_right($link, $role, $calc_link_relit_id);
+            //            $calc_link_relit_id = GlobalController::calc_link_relit_id($link, $role, $relit_id);
+            //            $base_link_right = GlobalController::base_link_right($link, $role, $calc_link_relit_id);
+            $base_link_right = GlobalController::base_link_right($link, $role, $relit_id);
             $result_par_link = \App\Http\Controllers\GlobalController::link_par_link($link, $par_link);
             //            } else {
             //                $base_link_right = GlobalController::base_link_right($link, $role, $link->parent_relit_id);
@@ -525,19 +526,19 @@
             </p>
         </form>
     @endif
-{{--    <div class="pt-1 pl-2">--}}
-{{--        111111111111111--}}
-{{--        222222222222222--}}
-{{--        333333333333333--}}
-{{--    </div>--}}
-{{--    <div class="pt-1 pl-1">--}}
-{{--        fffffffffffff111111111111111--}}
-{{--        222222222222222--}}
-{{--        333333333333333--}}
-{{--    </div>--}}
-{{--    <div class="pt-1 pl-1">--}}
-{{--        hhhhhhhhhhhhhhhhhh111111111111111--}}
-{{--        222222222222222--}}
-{{--        333333333333333--}}
-{{--    </div>--}}
+    {{--    <div class="pt-1 pl-2">--}}
+    {{--        111111111111111--}}
+    {{--        222222222222222--}}
+    {{--        333333333333333--}}
+    {{--    </div>--}}
+    {{--    <div class="pt-1 pl-1">--}}
+    {{--        fffffffffffff111111111111111--}}
+    {{--        222222222222222--}}
+    {{--        333333333333333--}}
+    {{--    </div>--}}
+    {{--    <div class="pt-1 pl-1">--}}
+    {{--        hhhhhhhhhhhhhhhhhh111111111111111--}}
+    {{--        222222222222222--}}
+    {{--        333333333333333--}}
+    {{--    </div>--}}
 @endsection

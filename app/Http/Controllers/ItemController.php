@@ -571,7 +571,8 @@ class ItemController extends Controller
         $body_items = null;
         $its_body_page = null;
         if ($current_link) {
-            $base_body_right = GlobalController::base_link_right($current_link, $role, $view_ret_id, true, $view_ret_id);
+//            $base_body_right = GlobalController::base_link_right($current_link, $role, $view_ret_id, true, $view_ret_id);
+            $base_body_right = GlobalController::base_link_right($current_link, $role, $view_ret_id);
             // Исключить переданный $nolink - $current_link
 //          $child_body_links_info = self::links_info($current_link->child_base, $role, $view_ret_id, null, $current_link);
             $child_body_links_info = self::links_info($current_link->child_base, $role, $view_ret_id, null, $current_link, false, $tree_array);
@@ -1221,7 +1222,8 @@ class ItemController extends Controller
 //                                // 'continue' нужно, иначе, например, в $next_all_rts_links попадают удаленные элементы массива $array_link_relips
 //                                //continue;
 //                            } else {
-                        $base_link_right = GlobalController::base_link_right($link, $role, $relit_id, true, $key);
+//                        $base_link_right = GlobalController::base_link_right($link, $role, $relit_id, true, $key);
+                        $base_link_right = GlobalController::base_link_right($link, $role,$key);
                         // Использовать две этих проверки
                         if (!(($base_link_right['is_body_link_enable'] == true) && ($base_link_right['is_list_base_calc'] == true))) {
                             unset($array_link_relips[$key]);
@@ -1532,8 +1534,10 @@ class ItemController extends Controller
                 $next_all_mains = Main::select('mains.*')
                     ->join('links', 'mains.link_id', '=', 'links.id')
                     ->join('items', 'mains.child_item_id', '=', 'items.id')
-                    ->where(function ($query) use ($next_all_links_ids, $next_all_links_user_ids, $next_all_links_byuser_ids,
-                        $usersetup_project_id, $usersetup_base_id, $usersetup_name_link_id, $username) {
+                    ->where(function ($query) use (
+                        $next_all_links_ids, $next_all_links_user_ids, $next_all_links_byuser_ids,
+                        $usersetup_project_id, $usersetup_base_id, $usersetup_name_link_id, $username
+                    ) {
                         $query->whereIn('links.id', $next_all_links_ids)
                             ->orWhere(function ($query) use ($next_all_links_user_ids, $usersetup_project_id, $usersetup_base_id, $usersetup_name_link_id, $username) {
                                 $query->whereIn('links.id', $next_all_links_user_ids)
@@ -1945,7 +1949,7 @@ class ItemController extends Controller
     }
 
     static function extstore_ext(Request $request, Base $base, Project $project, Role $role, $usercode,
-                               $relit_id)
+                                         $relit_id)
     {
         self::ext_store($request, $base, $project, $role, $usercode, $relit_id);
     }
@@ -6307,8 +6311,9 @@ class ItemController extends Controller
                 $str = '';
                 $link = Link::findOrFail($main->link_id);
                 // Вычисляет $relit_id
-                $calc_link_relit_id = GlobalController::calc_link_relit_id($link, $role, $relit_id);
-                $base_link_right = GlobalController::base_link_right($link, $role, $calc_link_relit_id);
+//                $calc_link_relit_id = GlobalController::calc_link_relit_id($link, $role, $relit_id);
+//                $base_link_right = GlobalController::base_link_right($link, $role, $calc_link_relit_id);
+                $base_link_right = GlobalController::base_link_right($link, $role, $relit_id);
                 if ($base_link_right['is_hier_link_enable'] == true) {
                     $str = self::form_parent_hier_coll_start($items, $main->parent_item_id, $level, $role);
                     $alink = '';
@@ -6401,8 +6406,9 @@ class ItemController extends Controller
                 $str = '';
                 $link = Link::findOrFail($main->link_id);
                 // Вычисляет $relit_id
-                $calc_link_relit_id = GlobalController::calc_link_relit_id($link, $role, $relit_id);
-                $base_link_right = GlobalController::base_link_right($link, $role, $calc_link_relit_id);
+//                $calc_link_relit_id = GlobalController::calc_link_relit_id($link, $role, $relit_id);
+//                $base_link_right = GlobalController::base_link_right($link, $role, $calc_link_relit_id);
+                $base_link_right = GlobalController::base_link_right($link, $role, $relit_id);
                 if ($base_link_right['is_hier_link_enable'] == true) {
                     // Получить $str - вложенные родительские значения
                     $str = self::form_parent_hier_deta_start($items, $main->parent_item_id, $project, $relit_id, $level, $role, $level_one);
@@ -6493,8 +6499,10 @@ class ItemController extends Controller
                 $str = '';
                 $link = Link::findOrFail($main->link_id);
                 // Вычисляет $relit_id
-                $calc_link_relit_id = GlobalController::calc_link_relit_id($link, $role, $relit_id);
-                $base_link_right = GlobalController::base_link_right($link, $role, $calc_link_relit_id, true, $calc_link_relit_id);
+//                $calc_link_relit_id = GlobalController::calc_link_relit_id($link, $role, $relit_id);
+//                $base_link_right = GlobalController::base_link_right($link, $role, $calc_link_relit_id, true, $calc_link_relit_id);
+                $base_link_right = GlobalController::base_link_right($link, $role, $relit_id);
+
                 if ($base_link_right['is_hier_link_enable'] == true) {
                     // Получить $str - вложенные детские значения
                     $str = self::form_child_hier_deta_start($items, $main->child_item_id, $project, $relit_id, $view_ret_id, $level, $role);
@@ -7021,8 +7029,10 @@ class ItemController extends Controller
         foreach ($links as $link) {
             //$base_link_right = GlobalController::base_link_right($link, $role, $relit_id, true, $relit_id);
             // Вычисляет $relit_id
-            $calc_link_relit_id = GlobalController::calc_link_relit_id($link, $role, $relit_id);
-            $base_link_right = GlobalController::base_link_right($link, $role, $calc_link_relit_id);
+//            $calc_link_relit_id = GlobalController::calc_link_relit_id($link, $role, $relit_id);
+//            $base_link_right = GlobalController::base_link_right($link, $role, $calc_link_relit_id);
+            $base_link_right = GlobalController::base_link_right($link, $role, $relit_id);
+
             if ($base_link_right['is_list_link_enable'] == true) {
                 $base_right = GlobalController::base_right($link->child_base, $role, $relit_id);
                 if (GlobalController::is_base_calcname_check($link->child_base, $base_right) == true) {
@@ -7034,7 +7044,6 @@ class ItemController extends Controller
             } else {
                 $links = $links->where('id', '!=', $link->id);
             }
-
         }
         // Исключить связанные записи по текущей связи (($link->parent_is_parent_related == true) && ($link->parent_parent_related_start_link_id == $nolink->id))
         // Выполняется последним, после блока
@@ -7065,7 +7074,8 @@ class ItemController extends Controller
             $calc_link_relit_id = GlobalController::calc_link_relit_id($link, $role, $relit_id);
             //$base_link_right = GlobalController::base_link_right($link, $role, $link->parent_relit_id);
             // Права
-            $base_link_right = GlobalController::base_link_right($link, $role, $calc_link_relit_id);
+            //$base_link_right = GlobalController::base_link_right($link, $role, $calc_link_relit_id);
+            $base_link_right = GlobalController::base_link_right($link, $role, $relit_id);
             //if ($base_link_right['is_list_link_enable'] == true) {
             //$is_list_base_calc = $base_link_right['is_list_base_calc'];
             $is_list_base_calc = $base_link_right['is_bsmn_base_enable'];
@@ -7223,8 +7233,9 @@ class ItemController extends Controller
         //$mains = $mains->get();
         foreach ($mains as $main) {
             // Вычисляет $relit_id
-            $calc_link_relit_id = GlobalController::calc_link_relit_id($main->link, $role, $relit_id);
-            $base_link_right = GlobalController::base_link_right($main->link, $role, $calc_link_relit_id);
+//            $calc_link_relit_id = GlobalController::calc_link_relit_id($main->link, $role, $relit_id);
+//            $base_link_right = GlobalController::base_link_right($main->link, $role, $calc_link_relit_id);
+            $base_link_right = GlobalController::base_link_right($main->link, $role, $relit_id);
             if ($base_link_right['is_list_link_enable'] == false) {
                 $mains = $mains->where('link_id', '!=', $main->link_id);
             }

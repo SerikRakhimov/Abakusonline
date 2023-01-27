@@ -25,9 +25,7 @@ class IsLatinUser implements Rule
      */
     public function passes($attribute, $value)
     {
-        //
         $chr_ru = "A-Za-z0-9\s`~!@#$%^&*()_+-={}|:;<>?,.\/\"\'\\\[\]";
-
         return (preg_match("/^[$chr_ru]+$/u", $value));
     }
 
