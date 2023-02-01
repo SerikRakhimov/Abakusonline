@@ -152,7 +152,7 @@ class GlobalController extends Controller
             // Также 'Связанные шаблоны у связанных шаблонов' не должны присутствовать в robas
             // Используется отрицание '!'
             if (!(($base->template_id == $role->template_id) || ($base->template_id == $relit_parent_template->id))) {
-                $is_list_base_calc = false;
+                //$is_list_base_calc = false;
             }
 
 //          Не 'Показывать Основы взаимосвязанных проектов'
