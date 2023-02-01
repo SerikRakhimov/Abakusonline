@@ -585,6 +585,7 @@
     {{--        <hr>--}}
     {{--        <div class="text-center">&#8595;</div>--}}
     <hr>
+    ----------{{$message_ln_validate}}
     {{--Похожие команды в ItemController::calc_tree_array() и item_index.php--}}
     @if($view_link)
         {{--        <hr>--}}
@@ -677,7 +678,6 @@
                             <small><small>{{$relip_body_name_project}}</small></small>
                         @endif
                     </div>
-                    ----------{{$message_ln_validate}}
                     <div class="col-4 text-right">
                     {{--                        @if ((count($body_items) > 0) || ($base_body_right['is_list_base_create'] == true))--}}
                     {{--                Такая же проверка на 'is_list_base_create' == true && 'is_edit_link_update' == true в item_index.php и ItemController.php--}}
