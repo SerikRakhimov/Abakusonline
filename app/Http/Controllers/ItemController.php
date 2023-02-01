@@ -572,6 +572,7 @@ class ItemController extends Controller
         $its_body_page = null;
         if ($current_link) {
 //            $base_body_right = GlobalController::base_link_right($current_link, $role, $view_ret_id, true, $view_ret_id);
+            // 'true' нужно в параметрах
             $base_body_right = GlobalController::base_link_right($current_link, $role, $view_ret_id,true);
             // Исключить переданный $nolink - $current_link
 //          $child_body_links_info = self::links_info($current_link->child_base, $role, $view_ret_id, null, $current_link);
