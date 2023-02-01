@@ -1908,8 +1908,9 @@ class GlobalController extends Controller
         // 0 - текущий шаблон (нужно)
         $array_relits[0] = $template->name() . ' (' . trans('main.current_template') . ')';
         foreach ($child_relits as $relit) {
-            $array_relits[$relit->id] = $relit->serial_number . '. ' . $relit->parent_template->name()
-                . ' (Id =' . $relit->id . ', ' . $relit->title() . ')';
+//            $array_relits[$relit->id] = $relit->serial_number . '. ' . $relit->parent_template->name()
+//                . ' (Id =' . $relit->id . ', ' . $relit->title() . ')';
+            $array_relits[$relit->id] = $relit->name();
         }
         return $array_relits;
     }
@@ -2321,8 +2322,9 @@ class GlobalController extends Controller
             $relit = Relit::find($relit_id);
             if ($relit) {
                 $template = $relit->parent_template;
-                $template_name = $relit->serial_number . '. ' . $template->name()
-                    . ' (Id =' . $relit->id . ')';
+//                $template_name = $relit->serial_number . '. ' . $template->name()
+//                    . ' (Id =' . $relit->id . ')';
+                $template_name = $relit->name();
             }
         }
         return ['template' => $template, 'template_name' => $template_name];

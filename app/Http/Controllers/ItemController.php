@@ -3975,9 +3975,10 @@ class ItemController extends Controller
                     return;
                 }
             }
-            // поиск в таблице items значение с таким же названием и base_id
-            // по одному ($link->parent_base->is_one_value_lst_str_txt == true)
-            // или всем языкам ($link->parent_base->is_one_value_lst_str_txt == false)
+            // Похожие строки в ItemController::save_main() и в UserController::save_to_project_users()
+            // Поиск в таблице items значение с таким же названием и base_id
+            // По одному ($link->parent_base->is_one_value_lst_str_txt == true)
+            // Или всем языкам ($link->parent_base->is_one_value_lst_str_txt == false)
             $item_find = Item::where('base_id', $link->parent_base_id)->where('project_id', $relip_project_id)->where('name_lang_0', $values[$index]);
             if ($link->parent_base->is_one_value_lst_str_txt == false) {
                 $i = 0;
@@ -5071,7 +5072,7 @@ class ItemController extends Controller
                         throw new Exception(trans('main.value_uniqueness_violation') . ' (' . $items_unique_bases . ')!');
                     }
                 }
-
+                // Расчет вычисляемого наименования
                 $rs = $this->calc_value_func($item);
                 if ($rs != null) {
                     $item->name_lang_0 = $rs['calc_lang_0'];

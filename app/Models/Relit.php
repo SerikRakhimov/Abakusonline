@@ -31,4 +31,11 @@ class Relit extends Model
         return $result;
     }
 
+    function name()
+    {
+        $result = $this->serial_number . '. ' . $this->parent_template->name()
+                . ' (Id =' . $this->id . ', ' . $this->title() . ')';
+        return $result;
+    }
+
 }

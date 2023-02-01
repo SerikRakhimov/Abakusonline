@@ -11,8 +11,10 @@ use App\Rules\IsLowerEmail;
 use App\Rules\IsLowerUser;
 use App\Rules\IsOneWordEmail;
 use App\Rules\IsOneWordUser;
+use \App\Http\Controllers\UserController;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
 class RegisterController extends Controller
@@ -50,7 +52,7 @@ class RegisterController extends Controller
     /**
      * Get a validator for an incoming registration request.
      *
-     * @param  array  $data
+     * @param array $data
      * @return \Illuminate\Contracts\Validation\Validator
      */
     protected function validator(array $data)
@@ -65,15 +67,33 @@ class RegisterController extends Controller
     /**
      * Create a new user instance after a valid registration.
      *
-     * @param  array  $data
+     * @param array $data
      * @return \App\Models\User
      */
     protected function create(array $data)
     {
-        return User::create([
+        // Похожие строки в RegisterController::create() и в UserController::set()
+        //$user = new User($request->except('_token', '_method'));
+        $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
+            'is_admin' => false,
         ]);
+        // Похожие строки в RegisterController::create() и в UserController::store()
+        // начало транзакции
+        DB::transaction(function ($r) use ($user) {
+            // Добавление/сохранение в items/mains
+            // В проект "Личный кабинет пользователя"
+            UserController::save_to_project_users($user);
+
+        }, 3);  // Повторить три раза, прежде чем признать неудачу
+        // окончание транзакции
+//        return User::create([
+//            'name' => $data['name'],
+//            'email' => $data['email'],
+//            'password' => Hash::make($data['password']),
+//        ]);
+        return $user;
     }
 }
