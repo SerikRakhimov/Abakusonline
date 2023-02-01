@@ -585,7 +585,7 @@
     {{--        <hr>--}}
     {{--        <div class="text-center">&#8595;</div>--}}
     <hr>
-    ----------{{$base_body_right['is_list_base_calc']}}
+    ----------{{$base_body_right['is_list_base_calc']}}*******
     {{--Похожие команды в ItemController::calc_tree_array() и item_index.php--}}
     @if($view_link)
         {{--        <hr>--}}
