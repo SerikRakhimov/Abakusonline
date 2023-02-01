@@ -2635,9 +2635,9 @@ class GlobalController extends Controller
         $result = $name;
         $sem = $base->em_str();
         if (!$base->type_is_number()) {
-            $result = $sem . $result."111".$sem."111".$base->name();
+            $result = $sem . $result;
         } else {
-            $result = $result . $sem."222";
+            $result = $result . $sem;
         }
         return $result;
     }
