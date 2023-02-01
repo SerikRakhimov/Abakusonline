@@ -79,9 +79,8 @@ class Link extends Model
 //        if ($result == "") {
 //            $result = $this->parent_label_lang_0;
 //        }
-        if($emoji_enable) {
-            //$result = (new GlobalController)->name_and_brackets_emoji($result, $this->parent_base);
-            $result = (new GlobalController)->name_and_end_emoji($result, $this->parent_base);
+        if ($emoji_enable) {
+            $result = (new GlobalController)->name_and_brackets_emoji($result, $this->parent_base);
         }
         return $result;
     }
