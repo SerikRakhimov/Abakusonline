@@ -248,7 +248,7 @@
                                         {{--                                                    <h6>--}}
                                         <big>
                                             {{GlobalController::calc_title_name($calcname_main->link->parent_label(),true, true)}}
-                                            <strong>{{$calcname_main->parent_item->name()}}200</strong>
+                                            <strong>{{$calcname_main->parent_item->name()}}</strong>
                                         </big>
                                         <br>
                                         @if($calcname_main->parent_item->base->is_code_needed == true)
