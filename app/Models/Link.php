@@ -47,7 +47,7 @@ class Link extends Model
             $result = $result . GlobalController::my_info($base_right);
         }
         $result = (new GlobalController)->name_and_end_emoji($result, $this->child_base);
-        return $result;
+        return $result.'===';
     }
 
     function parent_level($index)

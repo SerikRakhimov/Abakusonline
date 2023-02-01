@@ -133,9 +133,9 @@
             <?php
             if ($view_link) {
                 // true - с эмодзи
-                $title = $view_link->parent_label(true);
+                $title = $view_link->parent_label(true).'111';
             } else {
-                $title = $item->base->name();
+                $title = $item->base->name().'222';
             }
             ?>
             {{--                    Выводить вычисляемое наименование--}}
