@@ -6556,13 +6556,12 @@ class ItemController extends Controller
                 $base_link_right_child = GlobalController::base_link_right($link, $role, $relit_id,true);
                 $base_link_right_parent = GlobalController::base_link_right($link, $role, $relit_id);
                 $relit_child_id = array_search($main->child_item->project_id, $array_link_relips);
-                if (!$relit_child_id){
-                    dd(1);
-                }
 
-                if ($base_link_right_parent['is_hier_link_enable'] == true) {
+                // '!($relit_child_id===false)' нужно, см. https://www.php.net/manual/ru/function.array-search.php
+                if (!($relit_child_id===false) & $base_link_right_parent['is_hier_link_enable'] == true) {
                     // Получить $str - вложенные детские значения
-                    $str = self::form_child_hier_deta_start($items, $main->child_item_id, $project, $relit_id, $view_ret_id, $level, $role);
+                    //$str = self::form_child_hier_deta_start($items, $main->child_item_id, $project, $relit_id, $view_ret_id, $level, $role);
+                    $str = self::form_child_hier_deta_start($items, $main->child_item_id, $project, $relit_child_id, $view_ret_id, $level, $role);
                     $alink = '';
                     if ($base_link_right_parent['is_list_base_calc'] == true) {
                         $alink = '<a href="' . route('item.ext_show', ['item' => $main->child_item_id,
