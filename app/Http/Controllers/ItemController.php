@@ -6417,7 +6417,9 @@ class ItemController extends Controller
                     $str = self::form_parent_hier_deta_start($items, $main->parent_item_id, $project, $relit_id, $level, $role, $level_one);
                     $alink = '';
                     if ($base_link_right['is_list_base_calc'] == true) {
-                        $alink = '<a href="' . route('item.ext_show', ['item' => $main->parent_item_id, 'project' => $project, 'role' => $role, 'usercode' => GlobalController::usercode_calc(), 'relit_id' => GlobalController::set_relit_id($relit_id)]) . '" title="' .
+//                        $alink = '<a href="' . route('item.ext_show', ['item' => $main->parent_item_id, 'project' => $project, 'role' => $role, 'usercode' => GlobalController::usercode_calc(), 'relit_id' => GlobalController::set_relit_id($relit_id)]) . '" title="' .
+//                            $main->parent_item->name() . '">...</a>';
+                        $alink = '<a href="' . route('item.ext_show', ['item' => $main->parent_item_id, 'project' => $project, 'role' => $role, 'usercode' => GlobalController::usercode_calc(), 'relit_id' => $base_link_right['base_rel_id']]) . '" title="' .
                             $main->parent_item->name() . '">...</a>';
                     }
                     $img_doc = '';

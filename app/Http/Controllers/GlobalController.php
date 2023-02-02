@@ -487,6 +487,7 @@ class GlobalController extends Controller
         $is_edit_link_enable = $is_edit_link_read || $is_edit_link_update;
 
         return ['link_id' => $link->id,
+            'base_rel_id' => $base_rel_id,
             'is_list_base_calc' => $is_list_base_calc,
             'is_all_base_calcname_enable' => $is_all_base_calcname_enable,
             'is_list_base_sort_creation_date_desc' => $is_list_base_sort_creation_date_desc,
@@ -633,8 +634,6 @@ class GlobalController extends Controller
                     $items = $items->where('items.is_history', false);
                 }
             }
-            //dd(Link::find($mains_link_id));
-            //dd($items->get());
             // Выборка из items
         } else {
             $base_right = self::base_right($base, $role, $relit_id);

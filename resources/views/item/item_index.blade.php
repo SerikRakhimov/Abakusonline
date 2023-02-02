@@ -133,7 +133,7 @@
             <?php
             if ($view_link) {
                 // true - с эмодзи
-                $title = $view_link->parent_label(true);
+                $title = $view_link->parent_label();
             } else {
                 $title = $item->base->name();
             }
