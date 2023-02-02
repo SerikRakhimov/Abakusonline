@@ -573,7 +573,7 @@ class ItemController extends Controller
         if ($current_link) {
 //            $base_body_right = GlobalController::base_link_right($current_link, $role, $view_ret_id, true, $view_ret_id);
             // 'true' нужно в параметрах
-            $base_body_right = GlobalController::base_link_right($current_link, $role, $view_ret_id,true);
+            $base_body_right = GlobalController::base_link_right($current_link, $role, $view_ret_id, true);
             // Исключить переданный $nolink - $current_link
 //          $child_body_links_info = self::links_info($current_link->child_base, $role, $view_ret_id, null, $current_link);
             $child_body_links_info = self::links_info($current_link->child_base, $role, $view_ret_id, null, $current_link, false, $tree_array);
@@ -1136,25 +1136,26 @@ class ItemController extends Controller
         $next_all_rts_is_create = array();
 
         foreach ($links as $link) {
-            $array_link_relips = [];
+            //$array_link_relips = [];
             // Выводить вычисляемое наименование
             // Использовать 'is_base_calcnm_correct_check()' (а не is_base_calcname_check())
             // Использовать '$link->child_base'
             $is_calcname = GlobalController::is_base_calcnm_correct_check($link->child_base);
-            // Текущий проект
-            $array_link_relips[0] = $project->id;
-            // relips текущего проекта $parent->id
-            // '->get()' нужно
-            // Проекты $relip->parent_project_id находятся из существующих взаимосвязанных проектов $project
-            $par_prs_ids = Relip::select(DB::Raw('relips.relit_id as relit_id, relips.parent_project_id as project_id'))
-                ->join('relits', 'relips.relit_id', '=', 'relits.id')
-                ->where('child_project_id', '=', $project->id)
-                ->orderBy('relits.serial_number')
-                ->get();
-            // Заполнение массива $array_link_relips, $key = $relit_id, $value = project_id
-            foreach ($par_prs_ids as $value) {
-                $array_link_relips[$value->relit_id] = $value->project_id;
-            }
+//            // Текущий проект
+//            $array_link_relips[0] = $project->id;
+//            // relips текущего проекта $parent->id
+//            // '->get()' нужно
+//            // Проекты $relip->parent_project_id находятся из существующих взаимосвязанных проектов $project
+//            $par_prs_ids = Relip::select(DB::Raw('relips.relit_id as relit_id, relips.parent_project_id as project_id'))
+//                ->join('relits', 'relips.relit_id', '=', 'relits.id')
+//                ->where('child_project_id', '=', $project->id)
+//                ->orderBy('relits.serial_number')
+//                ->get();
+//            // Заполнение массива $array_link_relips, $key = $relit_id, $value = project_id
+//            foreach ($par_prs_ids as $value) {
+//                $array_link_relips[$value->relit_id] = $value->project_id;
+//            }
+            $array_link_relips = self::calc_array_link_relips($project);
             // Если '$link->parent_relit_id = 0' значит link..parent_project = $item->project_id
             // и link..child_project должен быть равен $item->project_id
             // Оставляем в массиве $array_link_relips только строки с проектом $item->project_id
@@ -1225,7 +1226,7 @@ class ItemController extends Controller
 //                            } else {
 //                        $base_link_right = GlobalController::base_link_right($link, $role, $relit_id, true, $key);
                         // "GlobalController::base_link_right($link, $role,$key,true)" - true обязательно нужно
-                        $base_link_right = GlobalController::base_link_right($link, $role,$key,true);
+                        $base_link_right = GlobalController::base_link_right($link, $role, $key, true);
                         // Использовать две этих проверки
                         if (!(($base_link_right['is_body_link_enable'] == true) && ($base_link_right['is_list_base_calc'] == true))) {
                             unset($array_link_relips[$key]);
@@ -1602,6 +1603,27 @@ class ItemController extends Controller
             'string_all_codes_array_next' => $string_all_codes_array_next,
             'string_array_next' => $string_array_next,
             'message_ln_array_info' => $message_ln_array_info, 'message_ln_link_array_item' => $message_ln_link_array_item];
+    }
+
+    // Заполнение массива $relit_id и соответствующими проектами
+    function calc_array_link_relips(Project $project)
+    {
+        $array_link_relips = [];
+        // Текущий проект
+        $array_link_relips[0] = $project->id;
+        // relips текущего проекта $parent->id
+        // '->get()' нужно
+        // Проекты $relip->parent_project_id находятся из существующих взаимосвязанных проектов $project
+        $par_prs_ids = Relip::select(DB::Raw('relips.relit_id as relit_id, relips.parent_project_id as project_id'))
+            ->join('relits', 'relips.relit_id', '=', 'relits.id')
+            ->where('child_project_id', '=', $project->id)
+            ->orderBy('relits.serial_number')
+            ->get();
+        // Заполнение массива $array_link_relips, $key = $relit_id, $value = project_id
+        foreach ($par_prs_ids as $value) {
+            $array_link_relips[$value->relit_id] = $value->project_id;
+        }
+        return $array_link_relips;
     }
 
     function message_bs_calc(Project $project, Base $base)
@@ -6489,9 +6511,18 @@ class ItemController extends Controller
         $base = Base::findOrFail($item->base_id);
         $base_right = GlobalController::base_right($base, $role, $relit_id);
         if ($base_right['is_hier_base_enable'] == true) {
-            $mains = Main::all()->where('parent_item_id', $item_id)->sortBy(function ($row) {
-                return $row->child_item->name();
-            });
+            $array_link_relips = self::calc_array_link_relips($project);
+//            $mains = Main::all()->where('parent_item_id', $item_id)->sortBy(function ($row) {
+//                return $row->child_item->name();
+//            });
+            $mains = Main::where('parent_item_id', $item_id)
+                ->where('parent_item_id', $item_id)
+                ->whereHas('child_item', function ($query) use ($array_link_relips) {
+                    $query->whereIn('project_id', $array_link_relips);
+                })
+                ->sortBy(function ($row) {
+                    return $row->child_item->name();
+                });
             if (count($mains) == 0) {
                 return '';
             }
