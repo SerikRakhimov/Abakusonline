@@ -6578,7 +6578,12 @@ class ItemController extends Controller
                         // '$items' использовать
                         // 'level_one = true' используется
                         // получить простые родительские поля один первый уровень
-                        $str = self::form_parent_hier_deta_start($items, $main->child_item_id, $project, $relit_id, 0, $role, true);
+//                        $str = self::form_parent_hier_deta_start($items, $main->child_item_id, $project,
+//                            $relit_id, 0, $role, true);
+                        $str = self::form_parent_hier_deta_start($items, $main->child_item_id, $project,
+                            $base_link_right_child['base_rel_id'], 0, $role, true);
+
+
                     } else {
                         // '$items_dop' использовать
                         // 'level_one = true' используется
