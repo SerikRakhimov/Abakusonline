@@ -6555,6 +6555,10 @@ class ItemController extends Controller
                 // 'true' нужно
                 $base_link_right_child = GlobalController::base_link_right($link, $role, $relit_id,true);
                 $base_link_right_parent = GlobalController::base_link_right($link, $role, $relit_id);
+                $relit_child_id = array_search($main->child_item->project_id, $array_link_relips);
+                if (!$relit_child_id){
+                    dd(1);
+                }
 
                 if ($base_link_right_parent['is_hier_link_enable'] == true) {
                     // Получить $str - вложенные детские значения
@@ -6563,7 +6567,7 @@ class ItemController extends Controller
                     if ($base_link_right_parent['is_list_base_calc'] == true) {
                         $alink = '<a href="' . route('item.ext_show', ['item' => $main->child_item_id,
                                 'project' => $project, 'role' => $role, 'usercode' => GlobalController::usercode_calc(),
-                                'relit_id' => $base_link_right_child['base_rel_id']]) . '" title="' .
+                                'relit_id' => $relit_child_id]) . '" title="' .
                             $main->child_item->name() . '">...</a>';
                     }
                     $img_doc = '';
@@ -6581,7 +6585,7 @@ class ItemController extends Controller
 //                        $str = self::form_parent_hier_deta_start($items, $main->child_item_id, $project,
 //                            $relit_id, 0, $role, true);
                         $str = self::form_parent_hier_deta_start($items, $main->child_item_id, $project,
-                            $base_link_right_parent['base_rel_id'], 0, $role, true);
+                            $relit_child_id, 0, $role, true);
 
 
                     } else {
