@@ -6581,7 +6581,7 @@ class ItemController extends Controller
 //                        $str = self::form_parent_hier_deta_start($items, $main->child_item_id, $project,
 //                            $relit_id, 0, $role, true);
                         $str = self::form_parent_hier_deta_start($items, $main->child_item_id, $project,
-                            $base_link_right_child['base_rel_id'], 0, $role, true);
+                            $base_link_right_parent['base_rel_id'], 0, $role, true);
 
 
                     } else {
