@@ -6520,7 +6520,7 @@ class ItemController extends Controller
                 ->whereHas('child_item', function ($query) use ($array_link_relips) {
                     $query->whereIn('project_id', $array_link_relips);
                 })
-                ->sortBy(function ($row) {
+                ->orderBy(function ($row) {
                     return $row->child_item->name();
                 });
             if (count($mains) == 0) {
