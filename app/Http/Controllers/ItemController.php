@@ -6515,14 +6515,21 @@ class ItemController extends Controller
 //            $mains = Main::all()->where('parent_item_id', $item_id)->sortBy(function ($row) {
 //                return $row->child_item->name();
 //            });
+//            $mains = Main::all()
+//                ->where('parent_item_id', $item_id)
+//                ->where('parent_item_id', $item_id)
+//                ->whereHas('child_item', function ($query) use ($array_link_relips) {
+//                    $query->whereIn('project_id', $array_link_relips);
+//                })
+//                ->sortBy(function ($row) {
+//                    return $row->child_item()->name();
+//                });
             $mains = Main::all()
                 ->where('parent_item_id', $item_id)
                 ->where('parent_item_id', $item_id)
-                ->whereHas('child_item', function ($query) use ($array_link_relips) {
-                    $query->whereIn('project_id', $array_link_relips);
-                })
+                ->whereIn('$row->child_item->project_id', $array_link_relips)
                 ->sortBy(function ($row) {
-                    return $row->child_item()->name();
+                    return $row->child_item->name();
                 });
             if (count($mains) == 0) {
                 return '';
