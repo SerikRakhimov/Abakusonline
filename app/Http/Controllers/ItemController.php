@@ -7076,7 +7076,7 @@ class ItemController extends Controller
         foreach ($links as $link) {
             //$base_link_right = GlobalController::base_link_right($link, $role, $relit_id);
             // Вычисляет $relit_id
-            $calc_link_relit_id = GlobalController::calc_link_relit_id($link, $role, $relit_id);
+            //$calc_link_relit_id = GlobalController::calc_link_relit_id($link, $role, $relit_id);
             //$base_link_right = GlobalController::base_link_right($link, $role, $link->parent_relit_id);
             // Права
             //$base_link_right = GlobalController::base_link_right($link, $role, $calc_link_relit_id);
@@ -7085,7 +7085,7 @@ class ItemController extends Controller
             //$is_list_base_calc = $base_link_right['is_list_base_calc'];
             $is_list_base_calc = $base_link_right['is_bsmn_base_enable'];
             $link_id_array[] = $link->id;
-            $link_base_relit_id_array[$link->id] = $calc_link_relit_id;
+            $link_base_relit_id_array[$link->id] = $base_link_right['base_rel_id'];
             $link_base_right_array[$link->id] = $base_link_right;
             // 0-ая строка с link->id
             $matrix[0][$k] = ['parent_level_id' => null, 'link_id' => $link->id, 'work_field' => null,
