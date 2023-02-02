@@ -6436,7 +6436,9 @@ class ItemController extends Controller
                 $base_link_right = GlobalController::base_link_right($link, $role, $relit_id);
                 if ($base_link_right['is_hier_link_enable'] == true) {
                     // Получить $str - вложенные родительские значения
-                    $str = self::form_parent_hier_deta_start($items, $main->parent_item_id, $project, $relit_id, $level, $role, $level_one);
+                    //$str = self::form_parent_hier_deta_start($items, $main->parent_item_id, $project, $relit_id, $level, $role, $level_one);
+                    $str = self::form_parent_hier_deta_start($items, $main->parent_item_id, $project,
+                        $base_link_right['base_rel_id'], $level, $role, $level_one);
                     $alink = '';
                     if ($base_link_right['is_list_base_calc'] == true) {
 //                        $alink = '<a href="' . route('item.ext_show', ['item' => $main->parent_item_id, 'project' => $project, 'role' => $role, 'usercode' => GlobalController::usercode_calc(), 'relit_id' => GlobalController::set_relit_id($relit_id)]) . '" title="' .
@@ -6552,18 +6554,16 @@ class ItemController extends Controller
                 // Вычисляет $relit_id
 //                $calc_link_relit_id = GlobalController::calc_link_relit_id($link, $role, $relit_id);
 //                $base_link_right = GlobalController::base_link_right($link, $role, $calc_link_relit_id, true, $calc_link_relit_id);
-                // 'true' нужно
-                $base_link_right_child = GlobalController::base_link_right($link, $role, $relit_id,true);
-                $base_link_right_parent = GlobalController::base_link_right($link, $role, $relit_id);
+                $base_link_right = GlobalController::base_link_right($link, $role, $relit_id);
                 $relit_child_id = array_search($main->child_item->project_id, $array_link_relips);
 
                 // '!($relit_child_id===false)' нужно, см. https://www.php.net/manual/ru/function.array-search.php
-                if (!($relit_child_id===false) & $base_link_right_parent['is_hier_link_enable'] == true) {
+                if (!($relit_child_id===false) & $base_link_right['is_hier_link_enable'] == true) {
                     // Получить $str - вложенные детские значения
                     //$str = self::form_child_hier_deta_start($items, $main->child_item_id, $project, $relit_id, $view_ret_id, $level, $role);
                     $str = self::form_child_hier_deta_start($items, $main->child_item_id, $project, $relit_child_id, $view_ret_id, $level, $role);
                     $alink = '';
-                    if ($base_link_right_parent['is_list_base_calc'] == true) {
+                    if ($base_link_right['is_list_base_calc'] == true) {
                         $alink = '<a href="' . route('item.ext_show', ['item' => $main->child_item_id,
                                 'project' => $project, 'role' => $role, 'usercode' => GlobalController::usercode_calc(),
                                 'relit_id' => $relit_child_id]) . '" title="' .
