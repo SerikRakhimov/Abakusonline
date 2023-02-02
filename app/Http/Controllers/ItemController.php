@@ -6524,13 +6524,18 @@ class ItemController extends Controller
 //                ->sortBy(function ($row) {
 //                    return $row->child_item()->name();
 //                });
-            $mains = Main::all()
+            $name = "";  // нужно, не удалять
+            $index = array_search(App::getLocale(), config('app.locales'));
+            if ($index !== false) {   // '!==' использовать, '!=' не использовать
+                $name = 'name_lang_' . $index;
+            }
+            $mains = Main::
+            join('items', 'mains.child_item_id', '=', 'items.id')
                 ->where('parent_item_id', $item_id)
-                ->where('parent_item_id', $item_id)
-                ->whereIn('$row->child_item->project_id', $array_link_relips)
-                ->sortBy(function ($row) {
-                    return $row->child_item->name();
-                });
+                ->whereIn('items.project_id', $array_link_relips)
+                ->orderBy('items.'. $name)
+                ->get();
+
             if (count($mains) == 0) {
                 return '';
             }
