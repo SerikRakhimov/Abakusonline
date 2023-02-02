@@ -6521,7 +6521,7 @@ class ItemController extends Controller
                     $query->whereIn('project_id', $array_link_relips);
                 })
                 ->orderBy(function ($row) {
-                    return $row->child_item->name();
+                    return $row->child_item()->name();
                 });
             if (count($mains) == 0) {
                 return '';
