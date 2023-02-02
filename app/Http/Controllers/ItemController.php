@@ -6550,7 +6550,8 @@ class ItemController extends Controller
                 // Вычисляет $relit_id
 //                $calc_link_relit_id = GlobalController::calc_link_relit_id($link, $role, $relit_id);
 //                $base_link_right = GlobalController::base_link_right($link, $role, $calc_link_relit_id, true, $calc_link_relit_id);
-                $base_link_right = GlobalController::base_link_right($link, $role, $relit_id);
+                // 'true' нужно
+                $base_link_right = GlobalController::base_link_right($link, $role, $relit_id,true);
 
                 if ($base_link_right['is_hier_link_enable'] == true) {
                     // Получить $str - вложенные детские значения
