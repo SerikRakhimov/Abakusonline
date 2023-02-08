@@ -643,6 +643,32 @@ class GlobalController extends Controller
             if ($base_right['is_list_hist_records_enable'] == false) {
                 $items = $items->where('items.is_history', false);
             }
+            // Для просмотра в base_index.php
+            if (($base_right['is_list_base_read'] == true) & ($base->is_tst_lst == true)) {
+                $mains = Main::select(['mains.*'])->
+                join('items as it_ch', 'mains.child_item_id', '=', 'it_ch.id')
+                    ->join('links', 'mains.link_id', '=', 'links.id')
+                    ->where('it_ch.base_id', $base->id)
+                    ->where('it_ch.project_id', $project->id)
+                    ->where('links.parent_is_tst_link', true);
+
+                if ($base_right['is_list_hist_records_enable'] == false) {
+                    $mains = $mains
+                        ->join('items as it_pr', 'mains.parent_item_id', '=', 'it_pr.id')
+                        ->where('it_pr.is_history', false);
+                }
+
+                // 'get()' нужно
+                $mains = $mains->get();
+
+                $arr_it = array();
+                foreach ($mains as $m) {
+                    $arr_it[] = $m['child_item_id'];
+                }
+
+                $items = $items->whereNotIn('id', $arr_it);
+
+            }
         }
         // Такая же проверка и в GlobalController (function items_right()),
         // в ItemController (function next_all_links_mains_calc(), browser(), get_items_for_link(), get_items_ext_edit_for_link())

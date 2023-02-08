@@ -451,4 +451,6 @@ return [
     'is_brow_hist_attr_enable' => 'Show the characteristic "In history" when viewing the selection lists',
     'is_brow_hist_records_enable' => 'Show entries with the "In history" characteristic when viewing selection lists',
     'is_show_head_attr_enable' => 'Show heading content in item_index.php',
+    'is_tst_lst' => 'Tree structure',
+    'parent_is_tst_link' => 'For tree structure',
 ];

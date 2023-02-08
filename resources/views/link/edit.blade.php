@@ -478,7 +478,8 @@
                            checked
                         @endif
                     >
-                    <label class="form-check-label" for="parent_is_left_calcname_lang_{{$key}}">{{trans('main.parent_is_left_calcname')}}
+                    <label class="form-check-label"
+                           for="parent_is_left_calcname_lang_{{$key}}">{{trans('main.parent_is_left_calcname')}}
                         ({{trans('main.' . $value)}}
                         )<span class="text-danger">*</span></label>
                 </div>
@@ -529,7 +530,8 @@
 
         <div class="form-group" id="parent_is_delete_child_base_record_with_zero_value_form_group">
             <div class="form-check form-check-inline">
-                <input class="form-check-input" type="checkbox" name="parent_is_delete_child_base_record_with_zero_value"
+                <input class="form-check-input" type="checkbox"
+                       name="parent_is_delete_child_base_record_with_zero_value"
                        id="parent_is_delete_child_base_record_with_zero_value"
                        {{--            "false" - значение по умолчанию --}}
                        @if ((old('parent_is_delete_child_base_record_with_zero_value') ?? ($link->parent_is_delete_child_base_record_with_zero_value ?? false)) ==  true)
@@ -541,7 +543,7 @@
             </div>
         </div>
 
-{{--        'Доступно от значения поля Логический'--}}
+        {{--        'Доступно от значения поля Логический'--}}
         <div class="form-group" id="parent_is_enabled_boolean_value_form_group">
             <div class="form-check form-check-inline">
                 <input class="form-check-input" type="checkbox" name="parent_is_enabled_boolean_value"
@@ -549,16 +551,17 @@
                        {{--            "false" - значение по умолчанию --}}
                        @if ((old('parent_is_enabled_boolean_value') ?? ($link->parent_is_enabled_boolean_value ?? false)) ==  true)
                        checked
-                    @endif
+                       @endif
                        onclick="parent_enabled_boolean_value_link_id_show_or_hide(this)">
                 <label class="form-check-label"
                        for="parent_is_enabled_boolean_value">{{trans('main.parent_is_enabled_boolean_value')}}</label>
             </div>
         </div>
 
-{{--        'Зависимое поле Логический'--}}
-        <div class="form-group"  id="parent_enabled_boolean_value_link_id_form_group">
-            <label for="parent_enabled_boolean_value_link_id">{{trans('main.parent_enabled_boolean_value_link_id')}}<span
+        {{--        'Зависимое поле Логический'--}}
+        <div class="form-group" id="parent_enabled_boolean_value_link_id_form_group">
+            <label for="parent_enabled_boolean_value_link_id">{{trans('main.parent_enabled_boolean_value_link_id')}}
+                <span
                     class="text-danger">*</span></label>
             <select class="form-control"
                     name="parent_enabled_boolean_value_link_id"
@@ -571,6 +574,21 @@
                 {{$message}}
             </div>
             @enderror
+        </div>
+
+        {{--        'Для древовидной структуры'--}}
+        <div class="form-group" id="parent_is_tst_link_form_group">
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" name="parent_is_tst_link"
+                       id="parent_is_tst_link"
+                       {{--            "false" - значение по умолчанию --}}
+                       @if ((old('parent_is_tst_link') ?? ($link->parent_is_tst_link ?? false)) ==  true)
+                       checked
+                    @endif
+                >
+                <label class="form-check-label"
+                       for="parent_is_tst_link">{{trans('main.parent_is_tst_link')}}</label>
+            </div>
         </div>
 
         <div class="form-group" id="parent_is_setup_project_logo_img_form_group">
@@ -1184,7 +1202,6 @@
                     var parent_enabled_boolean_value_link_id_value =
                         parent_enabled_boolean_value_link_id.options[parent_enabled_boolean_value_link_id.selectedIndex].value;
                 }
-
                 if (res.data['result_parent_enabled_boolean_value_link_id_options'] == "") {
                     parent_is_enabled_boolean_value.disabled = true;
                     parent_is_enabled_boolean_value_form_group.style.display = "none";
@@ -1314,7 +1331,7 @@
                 vis = "none";
                 logval = false;
             }
-             parent_base_id.disabled = logval;
+            parent_base_id.disabled = logval;
             //parent_base_id.disabled = true;
             parent_selection_calculated_table_link_id_0_form_group.style.display = vis;
             parent_selection_calculated_table_link_id_0.disabled = !logval;  // "!logval" используется
@@ -1324,7 +1341,7 @@
             parent_selection_calculated_table_link_id_1_form_group.style.display = vis;
             parent_selection_calculated_table_link_id_1.disabled = !logval;  // "!logval" используется
             if (vis == "block") {
-                if(parent_selection_calculated_table_set_id.options[parent_selection_calculated_table_set_id.selectedIndex].value != 0) {
+                if (parent_selection_calculated_table_set_id.options[parent_selection_calculated_table_set_id.selectedIndex].value != 0) {
                     axios.get('/link/get_links_from_set_id_link_from_parent_base/'
                         + parent_selection_calculated_table_set_id.options[parent_selection_calculated_table_set_id.selectedIndex].value
                     ).then(function (res) {
@@ -1337,17 +1354,17 @@
                         // только если запуск функции при загрузке страницы
                         // if (first == true) {
                         // if (true == true) {
-                            // нужно чтобы при первом вызове формы корректировки записи значения полей соответствовали значениям из базы данных
-                            @if ($update)  // при корректировке записи
-                            // child
-                            for (let i = 0; i < parent_selection_calculated_table_link_id_0.length; i++) {
-                                // если элемент списка = текущему значению из базы данных
-                                if (parent_selection_calculated_table_link_id_0[i].value == {{$link->parent_selection_calculated_table_link_id_0}}) {
-                                    // установить selected на true
-                                    parent_selection_calculated_table_link_id_0[i].selected = true;
-                                }
+                        // нужно чтобы при первом вызове формы корректировки записи значения полей соответствовали значениям из базы данных
+                        @if ($update)  // при корректировке записи
+                        // child
+                        for (let i = 0; i < parent_selection_calculated_table_link_id_0.length; i++) {
+                            // если элемент списка = текущему значению из базы данных
+                            if (parent_selection_calculated_table_link_id_0[i].value == {{$link->parent_selection_calculated_table_link_id_0}}) {
+                                // установить selected на true
+                                parent_selection_calculated_table_link_id_0[i].selected = true;
                             }
-                            @endif
+                        }
+                        @endif
                         // } else {
                         //     // нужно чтобы после обновления списка сохранить текущий выбор если соответствующий(child/parent) base не поменялся (при добавлении/корректировке записи)
                         //     // child
@@ -1418,7 +1435,7 @@
         // 1.2 В списке выбора использовать два дополнительных связанных поля вычисляемой таблицы
         function parent_selection_calculated_table_link_id_1_show_or_hide_change() {
             parent_selection_calculated_table_link_id_1_show_or_hide(parent_is_use_selection_calculated_table_link_id_1);
-         }
+        }
 
         function parent_selection_calculated_table_link_id_1_show_or_hide(box) {
             var vis = "";
@@ -1435,7 +1452,7 @@
             parent_selection_calculated_table_link_id_1_form_group.style.display = vis;
             parent_selection_calculated_table_link_id_1.disabled = !logval;  // "!logval" используется
             if (vis == "block") {
-                if(parent_selection_calculated_table_link_id_0.options[parent_selection_calculated_table_link_id_0.selectedIndex].value != 0) {
+                if (parent_selection_calculated_table_link_id_0.options[parent_selection_calculated_table_link_id_0.selectedIndex].value != 0) {
                     axios.get('/link/get_links_from_link_id_parent_base/'
                         + parent_selection_calculated_table_link_id_0.options[parent_selection_calculated_table_link_id_0.selectedIndex].value
                     ).then(function (res) {
@@ -1448,17 +1465,17 @@
                         // только если запуск функции при загрузке страницы
                         // if (first == true) {
                         // if (true == true) {
-                            // нужно чтобы при первом вызове формы корректировки записи значения полей соответствовали значениям из базы данных
-                            @if ($update)  // при корректировке записи
-                            // child
-                            for (let i = 0; i < parent_selection_calculated_table_link_id_1.length; i++) {
-                                // если элемент списка = текущему значению из базы данных
-                                if (parent_selection_calculated_table_link_id_1[i].value == {{$link->parent_selection_calculated_table_link_id_1}}) {
-                                    // установить selected на true
-                                    parent_selection_calculated_table_link_id_1[i].selected = true;
-                                }
+                        // нужно чтобы при первом вызове формы корректировки записи значения полей соответствовали значениям из базы данных
+                        @if ($update)  // при корректировке записи
+                        // child
+                        for (let i = 0; i < parent_selection_calculated_table_link_id_1.length; i++) {
+                            // если элемент списка = текущему значению из базы данных
+                            if (parent_selection_calculated_table_link_id_1[i].value == {{$link->parent_selection_calculated_table_link_id_1}}) {
+                                // установить selected на true
+                                parent_selection_calculated_table_link_id_1[i].selected = true;
                             }
-                            @endif
+                        }
+                        @endif
                         // } else {
                         //     // нужно чтобы после обновления списка сохранить текущий выбор если соответствующий(child/parent) base не поменялся (при добавлении/корректировке записи)
                         //     // child
@@ -1855,27 +1872,27 @@
 
         // Изменение parent_relit_id
         function parent_relit_id_changeOption(box) {
-                    axios.get('/global/get_bases_from_relit_id/'
-                        + parent_relit_id.options[parent_relit_id.selectedIndex].value
-                        + '/{{$base->template_id}}'
-                    ).then(function (res) {
-                        // если запуск функции не при загрузке страницы
-                        if (res.data['bases_options'] == "") {
-                            parent_base_id.innerHTML = '<option value = "0">{{trans('main.no_information_on')}} "' + parent_relit_id.options[parent_relit_id.selectedIndex].text + '"!</option>';
-                        } else {
-                            parent_base_id.innerHTML = res.data['bases_options'];
-                        }
-                            // нужно чтобы при первом вызове формы корректировки записи значения полей соответствовали значениям из базы данных
-                            @if ($update)  // при корректировке записи
-                            for (let i = 0; i < parent_base_id.length; i++) {
-                                // если элемент списка = текущему значению из базы данных
-                                if (parent_base_id[i].value == {{$link->parent_base_id}}) {
-                                    // установить selected на true
-                                    parent_base_id[i].selected = true;
-                                }
-                            }
-                            @endif
-                    });
+            axios.get('/global/get_bases_from_relit_id/'
+                + parent_relit_id.options[parent_relit_id.selectedIndex].value
+                + '/{{$base->template_id}}'
+            ).then(function (res) {
+                // если запуск функции не при загрузке страницы
+                if (res.data['bases_options'] == "") {
+                    parent_base_id.innerHTML = '<option value = "0">{{trans('main.no_information_on')}} "' + parent_relit_id.options[parent_relit_id.selectedIndex].text + '"!</option>';
+                } else {
+                    parent_base_id.innerHTML = res.data['bases_options'];
+                }
+                // нужно чтобы при первом вызове формы корректировки записи значения полей соответствовали значениям из базы данных
+                @if ($update)  // при корректировке записи
+                for (let i = 0; i < parent_base_id.length; i++) {
+                    // если элемент списка = текущему значению из базы данных
+                    if (parent_base_id[i].value == {{$link->parent_base_id}}) {
+                        // установить selected на true
+                        parent_base_id[i].selected = true;
+                    }
+                }
+                @endif
+            });
         }
 
         child_base_id.addEventListener("change", child_base_id_changeOption);

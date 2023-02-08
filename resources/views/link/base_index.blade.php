@@ -49,6 +49,7 @@
             <th class="text-left">{{trans('main.parent_is_unique')}}</th>
             <th class="text-left">{{trans('main.parent_is_parallel')}}</th>
             <th class="text-left">{{trans('main.parent_is_enter_refer')}}</th>
+            <th class="text-left">{{trans('main.parent_is_tst_link')}}</th>
             <th class="text-left">{{trans('main.parent_is_tree_value')}}</th>
             <th class="text-left">{{trans('main.parent_is_tree_top')}}</th>
             <th class="text-left">{{trans('main.parent_is_calcname')}}</th>
@@ -160,6 +161,11 @@
                 <td class="text-left">
                     <a href="{{route('link.show',$link)}}">
                         {{$link->parent_is_enter_refer}}
+                    </a>
+                </td>
+                <td class="text-left">
+                    <a href="{{route('link.show',$link)}}">
+                        {{$link->parent_is_tst_link}}
                     </a>
                 </td>
                 <td class="text-left">
