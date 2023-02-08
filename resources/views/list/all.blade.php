@@ -76,11 +76,11 @@ $i = $next_all_mains->firstItem() - 1;
         'prev_body_link_page'=>$body_link_page,
         'prev_body_all_page'=>$body_all_page
         ])}}"
-                   title="{{GlobalController::calc_title_name($main->link->child_label())}}">
+                   title="{{GlobalController::calc_title_name($main->link->child_label(true))}}">
 {{--                    'string_link_ids_current'=>$string_link_ids_array_next[$main->link_id],--}}
 {{--                    'string_item_ids_current'=>$string_item_ids_array_next[$main->link_id],--}}
 {{--                    'string_all_codes_current'=>$string_all_codes_array_next[$main->link_id],--}}
-                    <small>{{GlobalController::calc_title_name($main->link->child_label())}}</small>
+                    <small>{{GlobalController::calc_title_name($main->link->child_label(true))}}</small>
                 </a>
             </td>
             <td class="text-left">

@@ -20,7 +20,7 @@ class Link extends Model
         return $this->belongsTo(Base::class, 'parent_base_id');
     }
 
-    function child_label()
+    function child_label($emoji_enable = false)
     {
         $result = "";  // нужно, не удалять
         $index = array_search(App::getLocale(), config('app.locales'));
@@ -29,6 +29,9 @@ class Link extends Model
         }
         if ($result == "") {
             $result = $this->child_label_lang_0;
+        }
+        if ($emoji_enable) {
+            $result = (new GlobalController)->name_and_end_emoji($result, $this->child_base);
         }
         return $result;
     }
