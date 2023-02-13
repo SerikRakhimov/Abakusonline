@@ -6726,7 +6726,8 @@ class ItemController extends Controller
                         // $item->base->sepa_calcname - символ разделения для вычисляемых полей
                         // "\~" - символ перевода каретки (используется также в Item.php: функции name() nmbr())
                         // "\~" - символ перевода каретки (используется также в ItemController.php: функция calc_value_func())
-                        $sc = trim($item->base->sepa_calcname) . "\~";
+                        //$sc = trim($item->base->sepa_calcname) . "\~";
+                        $sc = trim($item->base->sepa_calcname);
 //                        $dop_sepa0 = $calc_lang_0 == "" ? "" : $sc . " ";
 //                        $dop_sepa1 = $calc_lang_1 == "" ? "" : $sc . " ";
 //                        $dop_sepa2 = $calc_lang_2 == "" ? "" : $sc . " ";
@@ -6788,6 +6789,7 @@ class ItemController extends Controller
         $calc_lang_1 = GlobalController::itnm_left($calc_lang_1);
         $calc_lang_2 = GlobalController::itnm_left($calc_lang_2);
         $calc_lang_3 = GlobalController::itnm_left($calc_lang_3);
+
         return ['calc_full_lang_0' => $calc_full_lang_0, 'calc_full_lang_1' => $calc_full_lang_1,
             'calc_full_lang_2' => $calc_full_lang_2, 'calc_full_lang_3' => $calc_full_lang_3,
             'calc_lang_0' => $calc_lang_0, 'calc_lang_1' => $calc_lang_1, 'calc_lang_2' => $calc_lang_2, 'calc_lang_3' => $calc_lang_3];
