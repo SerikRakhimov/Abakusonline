@@ -67,12 +67,24 @@ $link_image = $tile_view['link'];
                         {{--                            <div class="card-block text-center">--}}
                         <div class="text-center">
                             {{-- https://askdev.ru/q/kak-vyzvat-funkciyu-javascript-iz-tega-href-v-html-276225/--}}
-                            <a href="{{route('item.ext_show', ['item'=>$item, 'project'=>$project, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id,
-                                    'heading' => $heading,'base_index_page'=>$base_index_page, 'body_link_page'=>$body_link_page,'body_all_page'=>$body_all_page,
-                                    'par_link'=>null, 'parent_item'=>null,
-                                    'string_current' => $string_current,
-                                    ])}}"
-                               title="{{$item->name()}}">
+{{--                            <a href="{{route('item.ext_show', ['item'=>$item, 'project'=>$project, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id,--}}
+{{--                                    'heading' => $heading,'base_index_page'=>$base_index_page, 'body_link_page'=>$body_link_page,'body_all_page'=>$body_all_page,--}}
+{{--                                    'par_link'=>null, 'parent_item'=>null,--}}
+{{--                                    'string_current' => $string_current,--}}
+{{--                                    ])}}"--}}
+{{--                               title="{{$item->name()}}">--}}
+                                <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,
+        'usercode' =>GlobalController::usercode_calc(),
+        'relit_id'=>$relit_id,
+        'called_from_button'=>0,
+        'view_link'=>$i_par_link,
+        'view_ret_id'=>$view_ret_id,
+        'string_current'=>$string_next,
+        'prev_base_index_page'=>$base_index_page,
+        'prev_body_link_page'=>$body_link_page,
+        'prev_body_all_page'=>$body_all_page,
+        ])}}"
+                                   class="card-link"  title="{{$item->name()}}">
                                 {{--                                'string_all_codes_current' => $string_all_codes_current,--}}
                                 {{--                                'string_link_ids_current' => $string_link_ids_current,--}}
                                 {{--                                'string_item_ids_current' => $string_item_ids_current,--}}
@@ -123,7 +135,14 @@ $link_image = $tile_view['link'];
                     {{--                    <div style="width:100%;padding-left: 100px">--}}
                     <div style="float:left;width:50%;">
                         <small class="text-title">
+                            <a href="{{route('item.ext_show', ['item'=>$item, 'project'=>$project, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id,
+                                    'heading' => $heading,'base_index_page'=>$base_index_page, 'body_link_page'=>$body_link_page,'body_all_page'=>$body_all_page,
+                                    'par_link'=>null, 'parent_item'=>null,
+                                    'string_current' => $string_current,
+                                    ])}}"
+                               title="{{trans('main.viewing_record')}}">
                             {{$i+1}}
+                            </a>
                         </small>
                     </div>
 {{--                    Нужно 'class="text-right"'--}}
