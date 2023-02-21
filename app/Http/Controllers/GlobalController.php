@@ -645,6 +645,8 @@ class GlobalController extends Controller
             }
             // Для просмотра в base_index.php
             if (($base_right['is_list_base_read'] == true) & ($base->is_tst_lst == true)) {
+            //if ($base->is_tst_lst == true) {
+                // Если выборка идет из таблицы mains, значит mains.parent_item_id есть и заполнено
                 $mains = Main::select(['mains.*'])->
                 join('items as it_ch', 'mains.child_item_id', '=', 'it_ch.id')
                     ->join('links', 'mains.link_id', '=', 'links.id')

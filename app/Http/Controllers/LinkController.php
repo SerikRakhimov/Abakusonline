@@ -667,9 +667,9 @@ class LinkController extends Controller
             $link->parent_enabled_boolean_value_link_id = 0;
         }
 
-        if ($link->parent_is_tst_link) {
-            $link->parent_base_id = $link->child_base_id;
-        }
+        //if ($link->parent_is_tst_link) {
+        //    $link->parent_base_id = $link->child_base_id;
+        //}
 
         $link->save();
 

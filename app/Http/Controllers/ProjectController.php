@@ -201,7 +201,7 @@ class ProjectController extends Controller
 
             $roles = Role::where('template_id', $project->template->id)
                 ->where('is_default_for_external', true)
-                ->whereHas('template', function ($query) use ($project) {
+                ->WhereHas('template', function ($query) use ($project) {
                     $query->where('id', $project->template_id)
                         ->whereHas('projects', function ($query) use ($project) {
                             $query->where('id', $project->id)
@@ -215,6 +215,10 @@ class ProjectController extends Controller
             if (Auth::check()) {
                 $accesses = Access::where('project_id', $project->id)
                     ->where('user_id', GlobalController::glo_user_id())
+                    ->whereHas('role', function ($query) {
+                        $query->where('is_author', false)
+                            ->orderBy('serial_number');
+                    })
                     ->where('is_access_allowed', true)
                     ->get();
                 foreach ($accesses as $access) {
