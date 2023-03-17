@@ -16,10 +16,6 @@
     ?>
     @include('layouts.project.show_project_role',['project'=>$project, 'role'=>$role, 'relit_id'=>$relit_id])
     <h4 class="display-5">
-        {{--        'Показывать признак "В истории" при просмотре записи'--}}
-        {{--        @if($base_right['is_show_hist_attr_enable'] == true)--}}
-        @include('layouts.item.show_history',['item'=>$item])
-        {{--        @endif--}}
         @if ($type_form == 'show')
             {{trans('main.viewing_record')}}
         @elseif($type_form == 'delete_question')
@@ -30,6 +26,10 @@
             @endif
         @endif
         <span class="text-label">-</span> <span class="text-title">{{$item->base->info()}}</span>
+            {{--        'Показывать признак "В истории" при просмотре записи'--}}
+            {{--        @if($base_right['is_show_hist_attr_enable'] == true)--}}
+            @include('layouts.item.show_history',['item'=>$item])
+            {{--        @endif--}}
     </h4>
     <br>
     <?php

@@ -16,13 +16,14 @@ class CreateStepsTable extends Migration
         Schema::create('steps', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('link_id')->default(0);
+            $table->string('block',255)->default("");
             $table->integer('row')->default(0);
             $table->string('command',255)->default("");
             $table->string('first',255)->default("");
             $table->string('second',255)->default("");
             $table->timestamps();
             $table->index('link_id');
-            $table->unique(['link_id', 'row']);
+            $table->unique(['link_id', 'block', 'row']);
             $table->foreign('link_id')->references('id')->on('links')->onDelete('cascade');
         });
     }

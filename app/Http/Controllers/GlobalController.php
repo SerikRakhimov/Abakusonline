@@ -107,6 +107,7 @@ class GlobalController extends Controller
         $is_edit_link_update = $role->is_edit_link_update;
         $is_hier_base_enable = $role->is_hier_base_enable;
         $is_hier_link_enable = $role->is_hier_link_enable;
+        $is_tst_lst = $role->is_tst_lst;
         $is_show_hist_attr_enable = false;
         $is_edit_hist_attr_enable = false;
         $is_list_hist_attr_enable = false;
@@ -248,6 +249,7 @@ class GlobalController extends Controller
             $is_roba_edit_link_update = $roba->is_edit_link_update;
             $is_roba_hier_base_enable = $roba->is_hier_base_enable;
             $is_roba_hier_link_enable = $roba->is_hier_link_enable;
+            $is_roba_tst_lst = $roba->is_tst_lst;
             $is_roba_show_hist_attr_enable = $roba->is_show_hist_attr_enable;
             $is_roba_edit_hist_attr_enable = $roba->is_edit_hist_attr_enable;
             $is_roba_list_hist_attr_enable = $roba->is_list_hist_attr_enable;
@@ -313,6 +315,7 @@ class GlobalController extends Controller
             $is_edit_link_update = $is_roba_edit_link_update;
             $is_hier_base_enable = $is_roba_hier_base_enable;
             $is_hier_link_enable = $is_roba_hier_link_enable;
+            $is_tst_lst = $is_roba_tst_lst;
             $is_show_hist_attr_enable = $is_roba_show_hist_attr_enable;
             $is_edit_hist_attr_enable = $is_roba_edit_hist_attr_enable;
             $is_list_hist_attr_enable = $is_roba_list_hist_attr_enable;
@@ -366,6 +369,7 @@ class GlobalController extends Controller
             'is_edit_link_update' => $is_edit_link_update,
             'is_hier_base_enable' => $is_hier_base_enable,
             'is_hier_link_enable' => $is_hier_link_enable,
+            'is_tst_lst' => $is_tst_lst,
             'is_show_hist_attr_enable' => $is_show_hist_attr_enable,
             'is_edit_hist_attr_enable' => $is_edit_hist_attr_enable,
             'is_list_hist_attr_enable' => $is_list_hist_attr_enable,
@@ -430,6 +434,7 @@ class GlobalController extends Controller
         $is_edit_link_update = $base_right['is_edit_link_update'];
         $is_hier_base_enable = $base_right['is_hier_base_enable'];
         $is_hier_link_enable = $base_right['is_hier_link_enable'];
+        $is_tst_lst = $base_right['is_tst_lst'];
         $is_show_hist_attr_enable = $base_right['is_show_hist_attr_enable'];
         $is_edit_hist_attr_enable = $base_right['is_edit_hist_attr_enable'];
         $is_list_hist_attr_enable = $base_right['is_list_hist_attr_enable'];
@@ -519,6 +524,7 @@ class GlobalController extends Controller
             'is_edit_link_update' => $is_edit_link_update,
             'is_hier_base_enable' => $is_hier_base_enable,
             'is_hier_link_enable' => $is_hier_link_enable,
+            'is_tst_lst' => $is_tst_lst,
             'is_show_hist_attr_enable' => $is_show_hist_attr_enable,
             'is_edit_hist_attr_enable' => $is_edit_hist_attr_enable,
             'is_list_hist_attr_enable' => $is_list_hist_attr_enable,
@@ -643,9 +649,9 @@ class GlobalController extends Controller
             if ($base_right['is_list_hist_records_enable'] == false) {
                 $items = $items->where('items.is_history', false);
             }
-            // Для просмотра в base_index.php
-            if (($base_right['is_list_base_read'] == true) & ($base->is_tst_lst == true)) {
-            //if ($base->is_tst_lst == true) {
+            // Важно: Для просмотра в base_index.php
+//           dd($base_right);
+            if ($base_right['is_tst_lst'] == true) {
                 // Если выборка идет из таблицы mains, значит mains.parent_item_id есть и заполнено
                 $mains = Main::select(['mains.*'])->
                 join('items as it_ch', 'mains.child_item_id', '=', 'it_ch.id')

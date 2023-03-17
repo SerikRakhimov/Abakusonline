@@ -56,11 +56,18 @@ class ProjectController extends Controller
 
         if (Auth::check()) {
 //            // 'orwhereHas' правильно
+//            $projects = $projects->orwhereHas('accesses', function ($query) {
+//                $query->where('user_id', GlobalController::glo_user_id())
+//                    ->where('is_access_allowed', true);
+//            })->whereHas('template.roles', function ($query) {
+//                $query->where('is_author', false);
+//            });
             $projects = $projects->orwhereHas('accesses', function ($query) {
                 $query->where('user_id', GlobalController::glo_user_id())
                     ->where('is_access_allowed', true);
             })->whereHas('template.roles', function ($query) {
-                $query->where('is_author', false);
+                $query->where('is_author', false)
+                    ->where('is_default_for_external',true);
             });
             // 'orwhereHas' правильно
 //            $projects = $projects->orwhereHas('accesses', function ($query) {
@@ -89,9 +96,15 @@ class ProjectController extends Controller
 //                $query->where('is_author', false)->where('is_default_for_external', false);
 //            })
 //            ->orderBy('user_id')->orderBy('template_id')->orderBy('created_at');
-        $projects = Project::where('is_closed', true)
-            ->whereHas('template.roles', function ($query) {
-                $query->where('is_author', false);
+//        $projects = Project::where('is_closed', true)
+//            ->whereHas('template.roles', function ($query) {
+//                $query->where('is_author', false);
+//            })
+//            ->orderBy('user_id')->orderBy('template_id')->orderBy('created_at');
+
+        $projects = Project::whereHas('template.roles', function ($query) {
+                $query->where('is_author', false)
+                    ->where('is_default_for_external', false);
             })
             ->orderBy('user_id')->orderBy('template_id')->orderBy('created_at');
 
@@ -213,10 +226,19 @@ class ProjectController extends Controller
                 $result[$role->id] = $role->name();
             }
             if (Auth::check()) {
+//                $accesses = Access::where('project_id', $project->id)
+//                    ->where('user_id', GlobalController::glo_user_id())
+//                    ->whereHas('role', function ($query) {
+//                        $query->where('is_author', false)
+//                            ->orderBy('serial_number');
+//                    })
+//                    ->where('is_access_allowed', true)
+//                    ->get();
                 $accesses = Access::where('project_id', $project->id)
                     ->where('user_id', GlobalController::glo_user_id())
                     ->whereHas('role', function ($query) {
                         $query->where('is_author', false)
+                            ->where('is_default_for_external', true)
                             ->orderBy('serial_number');
                     })
                     ->where('is_access_allowed', true)
@@ -229,13 +251,23 @@ class ProjectController extends Controller
 
         } elseif ($subs_projects == true) {
 
+//            $roles = Role::where('is_author', false)
+//                ->whereHas('template', function ($query) use ($project) {
+//                    $query->where('id', $project->template_id)
+//                        ->whereHas('projects', function ($query) use ($project) {
+//                            $query->where('id', $project->id)
+//                                ->where('is_closed', true);
+//                        });
+//                })
+//                ->whereDoesntHave('accesses', function ($query) use ($project) {
+//                    $query->where('user_id', GlobalController::glo_user_id())
+//                        ->where('project_id', $project->id);
+//                })->orderBy('serial_number')->get();
+
             $roles = Role::where('is_author', false)
+                ->where('is_default_for_external', false)
                 ->whereHas('template', function ($query) use ($project) {
-                    $query->where('id', $project->template_id)
-                        ->whereHas('projects', function ($query) use ($project) {
-                            $query->where('id', $project->id)
-                                ->where('is_closed', true);
-                        });
+                    $query->where('id', $project->template_id);
                 })
                 ->whereDoesntHave('accesses', function ($query) use ($project) {
                     $query->where('user_id', GlobalController::glo_user_id())

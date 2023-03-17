@@ -14,6 +14,8 @@
     $update = isset($item);
     $base_right = GlobalController::base_right($base, $role, $relit_id);
     $relip_project = GlobalController::calc_relip_project($relit_id, $project);
+    // У $base есть ли считаемые поля (да/нет)
+    $allcalc_button = $base->child_links->where('parent_is_numcalc', true)->first();
     ?>
     {{--    <script>--}}
     {{--        function browse(link_id, project_id, role_id, item_id) {--}}
@@ -94,11 +96,11 @@
         'parent_item' => $parent_item])}}"
         method="POST"
         enctype=multipart/form-data
-        @if($par_link)
+        {{--        @if($par_link)--}}
         onsubmit=on_submit()
         {{--        @else--}}
         {{--        onsubmit="playSound('sound');"--}}
-        @endif
+        {{--        @endif--}}
         name="form">
 
         @csrf
@@ -325,8 +327,8 @@
             <?php
             $link = Link::find($key);
             // Вычисляет $relit_id
-//            $calc_link_relit_id = GlobalController::calc_link_relit_id($link, $role, $relit_id);
-//            $base_link_right = GlobalController::base_link_right($link, $role, $calc_link_relit_id);
+            //            $calc_link_relit_id = GlobalController::calc_link_relit_id($link, $role, $relit_id);
+            //            $base_link_right = GlobalController::base_link_right($link, $role, $calc_link_relit_id);
             $base_link_right = GlobalController::base_link_right($link, $role, $relit_id);
             ?>
             @if($base_link_right['is_edit_link_enable'] == false)
@@ -379,17 +381,10 @@
                 //$result = ItemController::get_items_main($link_parent_base, $project, $role, $link->parent_relit_id, $link);
                 //$result = ItemController::get_items_main($link_parent_base, $project, $role, $relit_id,
                 //   $base_link_right['is_list_hist_records_enable'], $link);
-
-                //if($project->id !=39){
-                //dd($project);
-                //	}
-                // Так правильно "$link->parent_relit_id"
-                //$result = ItemController::get_items_main($link_parent_base, $project, $role, $link->parent_relit_id,
-                //$base_link_right['is_list_hist_records_enable'], $link);
+                // Так правильно "$base_link_right['is_brow_hist_records_enable']", а не "$base_link_right['is_list_hist_records_enable']"
                 $result = ItemController::get_items_main($link_parent_base, $project, $role, $relit_id,
-                    $base_link_right['is_list_hist_records_enable'], $link);
+                    $base_link_right['is_brow_hist_records_enable'], $link);
                 $items = $result['items_no_get']->get();
-                //dd($relit_id. ' ' . $link->parent_relit_id);
             }
             $code_find = null;
             if ($value != null) {
@@ -450,6 +445,8 @@
                             <span class="form-label text-related"
                                   name="calc{{$key}}"
                                   id="link{{$key}}"></span>
+                            <span hidden
+                                  id="{{$key}}"></span>
                         @endif
                     </div>
                     <div class="col-sm-2">
@@ -600,6 +597,7 @@
                                    @if($par_link)
                                    @if ($key == $par_link->id)
                                    disabled
+                                   @endif
                                    @elseif($link->parent_is_nc_viewonly==true)
                                    {{-- Похожая строка ниже--}}
                                    readonly
@@ -610,7 +608,6 @@
                                    {{--                                   parent_base_id_work = document.getElementById('link{{$key}}').disabled = true;--}}
                                    {{--                                   parent_base_id_work = document.getElementById('link{{$key}}').disabled = false;--}}
                                    readonly
-                                @endif
                                 @endif
                                 @endif
                             >
@@ -626,7 +623,7 @@
                             {{--                                {{session('errors')!=null ? session('errors')->first($key): ''}}--}}
                             {{--                            </div>--}}
                         </div>
-                        {{-- Похожая проверка внизу--}}
+                        {{-- Похожие проверка внизу--}}
                         {{-- @if($base_link_right['is_edit_link_read'] == false)--}}
                         {{-- @if($link->parent_is_numcalc == true)--}}
                         @if($base_link_right['is_edit_link_read'] == false)
@@ -741,6 +738,7 @@
                                    @if($par_link)
                                    @if ($key == $par_link->id)
                                    disabled
+                                   @endif
                                    @elseif($link->parent_is_nc_viewonly==true)
                                    {{-- Похожая строка ниже--}}
                                    onclick="return false;"
@@ -752,7 +750,6 @@
                                    {{--                                   parent_base_id_work = document.getElementById('link{{$key}}').disabled = false;--}}
                                    {{-- https://www.codegrepper.com/code-examples/whatever/checkbox+readonly--}}
                                    onclick="return false;"
-                                @endif
                                 @endif
                                 @endif
                             >
@@ -992,15 +989,39 @@
                                     name="{{$key}}"
                                     id="link{{$key}}"
                                     class="form-control @error($key) is-invalid @enderror"
+                                    {{--                                    @if($base_link_right['is_edit_link_read'] == true)--}}
+                                    {{--                                    disabled--}}
+                                    {{--                                    @else--}}
+                                    {{--                                    @if($par_link)--}}
+                                    {{--                                    @if ($key == $par_link->id)--}}
+                                    {{--                                    disabled--}}
+                                    {{--                                    @else--}}
+                                    {{--                                    @if($hidden_list)--}}
+                                    {{--                                    hidden--}}
+                                    {{--                                    @endif--}}
+                                    {{--                                    @endif--}}
+                                    {{--                                    @endif--}}
+                                    {{--                                    @endif--}}
                                     @if($base_link_right['is_edit_link_read'] == true)
                                     disabled
                                     @else
+                                    @if($par_link || $link->parent_is_nc_viewonly==true)
                                     @if($par_link)
                                     @if ($key == $par_link->id)
+                                    disabled
+                                    @endif
+                                    @elseif($link->parent_is_nc_viewonly==true)
+                                    {{--                                Учет "disabled" при "$link->parent_is_nc_viewonly==true", см ItemController::get_array_calc()--}}
                                     disabled
                                     @else
                                     @if($hidden_list)
                                     hidden
+                                    @else
+                                    {{--                                   тут использовать readonly (при disabled (здесь) - это поле не обновляется)--}}
+                                    {{--                                   также при disabled работают строки (ниже):--}}
+                                    {{--                                   parent_base_id_work = document.getElementById('link{{$key}}').disabled = true;--}}
+                                    {{--                                   parent_base_id_work = document.getElementById('link{{$key}}').disabled = false;--}}
+                                    disabled
                                 @endif
                                 @endif
                                 @endif
@@ -1025,10 +1046,11 @@
                                                     selected
                                                 @endif
                                             >
-                                                <!--                                                --><?php
+                                            <!--                                                --><?php
                                                 //                                                echo $item_work->name();
                                                 //                                                ?>
                                                 {{$item_work->name()}}
+                                                @include('layouts.item.show_history',['item'=>$item_work])
                                             </option>
                                         @endforeach
                                     @endif
@@ -1044,8 +1066,36 @@
                             {{--                                                                                            {{session('errors')!=null ? session('errors')->first($key): ''}}--}}
                             {{--                                                                                        </div>--}}
                         </div>
-                        <div class="col-sm-2">
-                        </div>
+                        {{--                        <div class="col-sm-2">--}}
+                        {{--                        </div>--}}
+                        {{-- Похожие проверка вверху--}}
+                        @if($base_link_right['is_edit_link_read'] == false)
+                            {{--                            @if($link->parent_is_numcalc == true)--}}
+                            {{-- Похожие по смыслу проверки "$link->parent_is_nc_viewonly==false" в этом файле пять раз--}}
+                            @if($link->parent_is_numcalc==true && $link->parent_is_nc_viewonly==false)
+                                <div class="col-sm-1">
+                                    {{--                                    Не удалять--}}
+                                    {{--                                    <input type="button" value="..." title="{{trans('main.calculate')}}"--}}
+                                    {{--                                           name="button_nc{{$key}}"--}}
+                                    {{--                                           id="button_nc{{$key}}"--}}
+                                    {{--                                    >--}}
+                                    <button type="button" title="{{trans('main.calculate')}}"
+                                            name="button_nc{{$key}}"
+                                            id="button_nc{{$key}}"
+                                            class="text-label">
+                                        <i class="fas fa-calculator d-inline"></i>
+                                    </button>
+                                </div>
+                                <div class="col-sm-1">
+                                <span class="form-label text-danger"
+                                      name="name{{$key}}"
+                                      id="name{{$key}}"></span>
+                                </div>
+                            @else
+                                <div class="col-sm-2">
+                                </div>
+                            @endif
+                        @endif
                     </div>
                 @endif
             @endif
@@ -1062,6 +1112,14 @@
                 </button>
             </div>
             <div class="col-sm-2">
+                @if ($allcalc_button)
+                    <button type="button" class="btn btn-dreamer" title="{{trans('main.calculate_all')}}"
+                            onclick="javascript:on_numcalc_all();"
+                    >
+                        <i class="fas fa-calculator d-inline"></i>
+                        {{trans('main.calculate_all')}}
+                    </button>
+                @endif
             </div>
             <div class="col-sm-5 text-left">
                 <button type="button" class="btn btn-dreamer" title="{{trans('main.cancel')}}"
@@ -1074,6 +1132,17 @@
         </div>
         {{--    <audio id="sound"><source src="https://ozarnik.ru/uploads/files/2019-02/1549784984_dj-ozarnik-primite-zakaz.mp3" type="audio/mp3"></audio>--}}
     </form>
+    {{--    Не удалять--}}
+    {{--        https://stackoverflow.com/questions/16852484/use-fieldset-legend-with-bootstrap--}}
+    {{--    <fieldset class="border p-2">--}}
+    {{--        <legend class="w-auto">Your Legend</legend>--}}
+    {{--        <input type="checkbox"> создание пунктуальности (никогда не--}}
+    {{--        будете никуда опаздывать);<br>--}}
+    {{--        <input type="checkbox"> излечение от пунктуальности (никогда--}}
+    {{--        никуда не будете торопиться);<br>--}}
+    {{--        <input type="checkbox"> изменение восприятия времени и часов.--}}
+    {{--        <p><input type="submit"></p>--}}
+    {{--    </fieldset>--}}
     {{--    <?php--}}
     {{--    $array_start = $array_parent_related['array_start'];--}}
     {{--    $array_result = $array_parent_related['array_result'];--}}
@@ -1088,7 +1157,8 @@
     {{--    </script>--}}
     <?php
     $functions = array();
-    $functs_numcalc = array();
+    $functs_numcalc_all = array();
+    $functs_numcalc_viewonly = array();
     // В этом массиве хранятся функции, которые выводят наименования вычисляемых полей
     // ($link->parent_is_parent_related == true)
     // в зависимости от поля, где вводится код какого-то справочника
@@ -1097,16 +1167,13 @@
     {{--<script>--}}
     {{--    window.onload = function () {--}}
     {{--        // массив функций нужен, что при window.onload запустить обработчики всех полей--}}
-    {{--        alert('onload');--}}
     {{--                        @foreach($functions as $value)--}}
     {{--                            {{$value}}(true);--}}
     {{--                        @endforeach--}}
 
-    {{--            on_parent_refer();--}}
-
     {{--            // Не нужно вызывать функцию on_calc(),--}}
     {{--            // это связано с разрешенной корректировкой вычисляемых полей ($link->parent_is_nc_viewonly)--}}
-    {{--            // on_numcalc();--}}
+    {{--            // on_numcalc_all();--}}
     {{--            @foreach($array_disabled as $key=>$value)--}}
     {{--            parent_base_id_work = document.getElementById('link{{$key}}').disabled = true;--}}
     {{--            document.getElementById('link{{$key}}').disabled = true;--}}
@@ -1193,7 +1260,7 @@
             }
             // эта проверка не нужна
             //if (!array_key_exists($key, $array_disabled)) {
-            //          Проверка на фильтруемые поля
+            //          Проверка на фильтрируемые поля
             if ($link->parent_is_child_related == true) {
                 $lres = LinkController::get_link_ids_from_calc_link($link);
                 $const_link_id_start = $lres['const_link_id_start'];
@@ -1246,6 +1313,7 @@
                 var parent_base_id{{$prefix}}{{$link->id}} = document.getElementById('{{$link->id}}');
                 @else
                 var parent_base_id{{$prefix}}{{$link->id}} = document.getElementById('link{{$link->id}}');
+
                 @endif
 
                 {{--var parent_base_id{{$prefix}}{{$link->id}} = document.getElementById('link{{$link->id}}');--}}
@@ -1260,7 +1328,7 @@
                     $link_get = $link_start_child;
                 }
                 ?>
-                // async - await нужно, https://tproger.ru/translations/understanding-async-await-in-javascript/
+                {{-- async - await нужно, https://tproger.ru/translations/understanding-async-await-in-javascript/--}}
                 async function link_id_changeOption_{{$prefix}}{{$link->id}}(first) {
                     @if(($link->parent_is_base_link == true) || ($link->parent_base->is_code_needed==true && $link->parent_is_enter_refer==true))
                     if (parent_base_id{{$prefix}}{{$link->id}}.value == 0) {
@@ -1346,6 +1414,7 @@
                                     window.item_id.value = 0;
                                 window.item_code.value = "";
                                 window.item_name.innerHTML = "";
+                                {{-- Нужно, не удалять--}}
                                 alert("{{trans('main.select_a_field_to_filter') . '!'}}");
                             } else {
                                 open('{{route('item.browser', '')}}' + '/' + {{$link->id}} + '/' + {{$project->id}} + '/' + {{$role->id}} + '/' + {{$relit_id}}
@@ -1395,6 +1464,7 @@
                                     {{--Команда "on_parent_refer();" нужна, для вызова функция обновления данных с зависимых таблиц--}}
                                     {{--Функция code_input_{{$prefix}}{{$link->id}}(first) выполняется не сразу--}}
                                     on_parent_refer();
+                                    {{--on_numcalc_viewonly(); --}}
 
                                     link_id_changeOption_{{$prefix_prev}}{{$link->id}}();
 
@@ -1447,6 +1517,7 @@
                         {{--Команда "on_parent_refer();" нужна, для вызова функция обновления данных с зависимых таблиц--}}
                         {{--Функция code_input_{{$prefix}}{{$link->id}}(first) выполняется не сразу--}}
                         on_parent_refer();
+                        {{--on_numcalc_viewonly(); --}}
 
                         link_id_changeOption_{{$prefix_prev}}{{$link->id}}();
 
@@ -1472,17 +1543,20 @@
                 var child_base_id{{$prefix}}{{$link->id}} = document.getElementById('{{$const_link_id_start}}');
                 var child_code_id{{$prefix}}{{$link->id}} = document.getElementById('code{{$const_link_id_start}}');
                 var parent_base_id{{$prefix}}{{$link->id}} = document.getElementById('link{{$link->id}}');
-
+                {{--                var parent_related_id{{$prefix}}{{$link->id}} = document.getElementById('related_id{{$link->id}}');--}}
+                var parent_related_id{{$prefix}}{{$link->id}} = document.getElementById('{{$link->id}}');
                 <?php
                 $functs_parent_refer[count($functs_parent_refer)] = "link_id_change_" . $prefix . $link->id;
                 //           $functions[count($functions)] = "link_id_change_" . $prefix . $link->id;
                 ?>
                 function link_id_change_{{$prefix}}{{$link->id}}(first = false) {
-                    //alert('{{$link->id}} - {{$link_parent->id}} - {{$const_link_id_start}} - {{$const_link_start->parent_base->is_code_needed}} - {{$const_link_start->parent_is_enter_refer}}');
-                    //alert('child_base_id{{$prefix}}{{$link->id}}.value = ' + child_base_id{{$prefix}}{{$link->id}}.value);
                     if (child_base_id{{$prefix}}{{$link->id}}.value == 0) {
                         parent_base_id{{$prefix}}{{$link->id}}.innerHTML = "{{trans('main.no_information') . '!'}}";
-                        //alert('---->'+"{{trans('main.no_information') . '!'}}")
+                        @if($link->parent_is_nc_parameter == true)
+                        <?php
+                        echo StepController::steps_javascript_code($link, 'link_id_changeOption');
+                        ?>
+                        @endif
                     } else {
                         axios.get('/item/get_parent_item_from_calc_child_item/'
                             + child_base_id{{$prefix}}{{$link->id}}.value
@@ -1490,10 +1564,14 @@
                             + '/0'
                         ).then(function (res) {
                                 parent_base_id{{$prefix}}{{$link->id}}.innerHTML = res.data['result_item_name'];
-                                //alert('---->'+res.data['result_item_name'])
+                                {{-- "related_id" используется несколько раз по тексту --}}
+                                    parent_related_id{{$prefix}}{{$link->id}}.innerHTML = res.data['result_item_id'];
                                 @if($link->parent_is_nc_parameter == true)
-                                on_numcalc();
+                                <?php
+                                echo StepController::steps_javascript_code($link, 'link_id_changeOption');
+                                ?>
                                 @endif
+                                {{--                                @if(!$update & $link->parent_is_nc_parameter == true)--}}
                                 {{--    arr = res.data;--}}
                                 {{--for (key in arr) {--}}
                                 {{--    // console.log(`${key} = ${arr[key]}`);--}}
@@ -1501,28 +1579,34 @@
                                 {{--}--}}
                             }
                         );
-                        // При просмотре фото может неправильно работать при просмотре фото по связанному полю - проэтому закомментарено
-                        // вызываем состояние "элемент изменился", в связи с этим запустятся функции - обработчики "change"
-                        // child_code_id{{$prefix}}{{$link->id}}.dispatchEvent(new Event('input'));
+                        {{--При просмотре фото может неправильно работать при просмотре фото по связанному полю - проэтому закомментарено --}}
+                        {{--вызываем состояние "элемент изменился", в связи с этим запустятся функции - обработчики "change" --}}
+                        {{--child_code_id{{$prefix}}{{$link->id}}.dispatchEvent(new Event('input')); --}}
                     }
                 }
 
-                // Эта команда не нужна
-                //child_code_id{{$prefix}}{{$link->id}}.addEventListener("change", link_id_change_{{$prefix}}{{$link->id}});
+                {{--Эта команда не нужна --}}
+                {{--child_code_id{{$prefix}}{{$link->id}}.addEventListener("change", link_id_change_{{$prefix}}{{$link->id}}); --}}
 
                 @elseif($const_link_start->parent_base->type_is_list())
                 var child_base_id{{$prefix}}{{$link->id}} = document.getElementById('link{{$const_link_id_start}}');
                 var parent_base_id{{$prefix}}{{$link->id}} = document.getElementById('link{{$link->id}}');
+                {{-- "related_id" используется несколько раз по тексту --}}
+                {{--                var parent_related_id{{$prefix}}{{$link->id}} = document.getElementById('related_id{{$link->id}}');--}}
+                var parent_related_id{{$prefix}}{{$link->id}} = document.getElementById('{{$link->id}}');
 
                 <?php
                 $functions[count($functions)] = "link_id_changeOption_" . $prefix . $link->id;
                 ?>
                 function link_id_changeOption_{{$prefix}}{{$link->id}}(first = false) {
-//                    alert(child_base_id{{$prefix}}{{$link->id}}.options[child_base_id{{$prefix}}{{$link->id}}.selectedIndex].value);
+                    {{--parent_base_id{{$prefix}}{{$link->id}}.innerHTML = "";--}}
                     if (child_base_id{{$prefix}}{{$link->id}}.options[child_base_id{{$prefix}}{{$link->id}}.selectedIndex].value == 0) {
                         parent_base_id{{$prefix}}{{$link->id}}.innerHTML = "{{trans('main.no_information') . '!'}}";
+                        {{--                                @if(!$update & $link->parent_is_nc_parameter == true)--}}
                         @if($link->parent_is_nc_parameter == true)
-                        on_numcalc();
+                        <?php
+                        echo StepController::steps_javascript_code($link, 'link_id_changeOption');
+                        ?>
                         @endif
                     } else {
                         axios.get('/item/get_parent_item_from_calc_child_item/'
@@ -1531,13 +1615,23 @@
                             + '/0'
                         ).then(function (res) {
                                 parent_base_id{{$prefix}}{{$link->id}}.innerHTML = res.data['result_item_name'];
+                                {{-- "related_id" используется несколько раз по тексту --}}
+                                    parent_related_id{{$prefix}}{{$link->id}}.innerHTML = res.data['result_item_id'];
+                                {{--                                @if(!$update & $link->parent_is_nc_parameter == true)--}}
                                 @if($link->parent_is_nc_parameter == true)
-                                on_numcalc();
+                                <?php
+                                echo StepController::steps_javascript_code($link, 'link_id_changeOption');
+                                ?>
                                 @endif
-
                             }
                         );
                     }
+                    {{--Не использовать, работает неправильно--}}
+                    {{--@if($link->parent_is_nc_parameter == true)--}}
+                    {{--<?php--}}
+                    {{--echo StepController::steps_javascript_code($link, 'link_id_changeOption');--}}
+                    {{--?>--}}
+                    {{--@endif--}}
                 }
 
                 child_base_id{{$prefix}}{{$link->id}}.addEventListener("change", link_id_changeOption_{{$prefix}}{{$link->id}});
@@ -1608,7 +1702,13 @@
         {{--        Расчитывать значение числового поля--}}
         @if($link->parent_is_nc_parameter==true)
             <script>
+                @if($link->parent_is_parent_related == true)
+                {{-- "related_id" используется несколько раз по тексту --}}
+                {{--var nc_parameter_{{$prefix}}{{$link->id}} = document.getElementById('related_id{{$link->id}}');--}}
+                var nc_parameter_{{$prefix}}{{$link->id}} = document.getElementById('{{$link->id}}');
+                @else
                 var nc_parameter_{{$prefix}}{{$link->id}} = document.getElementById('link{{$link->id}}');
+                @endif
             </script>
         @endif
 
@@ -1622,12 +1722,13 @@
         //$calc_link_relit_id = GlobalController::calc_link_relit_id($link, $role, $relit_id);
         //$base_link_right = GlobalController::base_link_right($link, $role, $calc_link_relit_id);
         $base_link_right = GlobalController::base_link_right($link, $role, $relit_id);
+        // Префикс "5_" д.б. одинаков в StepController::steps_javascript_code() и в item\ext_edit.php
         $prefix = '5_';
         ?>
 
         {{-- Похожая проверка вверху--}}
-        {{-- @if($base_link_right['is_edit_link_read'] == false)--}}
-        {{-- @if($link->parent_is_numcalc == true)--}}
+        {{-- Кроме ($link->parent_base->is_code_needed==true && $link->parent_is_enter_refer==true)--}}
+        @if(!($link->parent_base->is_code_needed==true && $link->parent_is_enter_refer==true))
         @if($base_link_right['is_edit_link_read'] == false)
         {{--    @if($link->parent_is_numcalc == true)--}}
         @if($link->parent_is_numcalc==true && $link->parent_is_nc_screencalc==true)
@@ -1639,10 +1740,6 @@
         var name_{{$prefix}}{{$link->id}} = document.getElementById('name{{$link->id}}');
         @endif
 
-        <?php
-        $functs_numcalc[count($functs_numcalc)] = "button_nc_click_" . $prefix . $link->id;
-        ?>
-
         function button_nc_click_{{$prefix}}{{$link->id}}() {
             var x, y, result, error_message;
             x = 0;
@@ -1651,17 +1748,31 @@
             error_message = "";
             error_nodata = "Нет данных";
             error_div0 = "Деление на 0";
-            {{StepController::steps_javascript_code($link)}}
+            {{StepController::steps_javascript_code($link, 'button_nc')}}
                 @if($link->parent_base->type_is_number())
                 numcalc_{{$prefix}}{{$link->id}}.value = x;
             @elseif ($link->parent_base->type_is_boolean())
                 numcalc_{{$prefix}}{{$link->id}}.checked = (x != 0);
-            @endif
+            @elseif ($link->parent_base->type_is_list())
+            if (isNaN(x)) {
+                x = 0;
+            }
+            {{--for (let i = 0; i < numcalc_{{$prefix}}{{$link->id}}.length; i++) {--}}
+                {{--    if (numcalc_{{$prefix}}{{$link->id}}[i].value == x) {--}}
+                {{--        // установить selected на true--}}
+                {{--        numcalc_{{$prefix}}{{$link->id}}[i].selected = true;--}}
+                {{--    }--}}
+                {{--}--}}
+                numcalc_{{$prefix}}{{$link->id}}.value = x;
+            {{--numcalc_{{$prefix}}{{$link->id}}.innerHTML = "<option value='" + "0" + "'>11111111111{{trans('main.no_information') . '!'}}</option>";--}}
+                {{--numcalc_{{$prefix}}{{$link->id}}.selectedIndex = x;--}}
+                @endif
                 {{-- Похожие по смыслу проверки "$link->parent_is_nc_viewonly==false" в этом файле пять раз--}}
                 @if($link->parent_is_nc_viewonly == false)
                 name_{{$prefix}}{{$link->id}}.innerHTML = error_message;
             @endif
-
+            {{-- Нужно для обновления информации--}}
+            numcalc_{{$prefix}}{{$link->id}}.dispatchEvent(new Event('change'));
         }
 
         {{-- Похожие по смыслу проверки "$link->parent_is_nc_viewonly==false" в этом файле пять раз--}}
@@ -1669,10 +1780,15 @@
         button_nc_{{$prefix}}{{$link->id}}.addEventListener("click", button_nc_click_{{$prefix}}{{$link->id}});
         @endif
 
-        {{--    button_nc_{{$prefix}}{{$link->id}}.addEventListener("click", on_numcalc);--}}
+        <?php
+        $functs_numcalc_all[count($functs_numcalc_all)] = "button_nc_click_" . $prefix . $link->id;
+        if ($link->parent_is_nc_viewonly == true) {
+            $functs_numcalc_viewonly[count($functs_numcalc_viewonly)] = "button_nc_click_" . $prefix . $link->id;
+        }
+        ?>
 
         @endif
-        {{--    @endif--}}
+        @endif
         @endif
 
         @endforeach
@@ -1689,22 +1805,24 @@
 
         function code_change(first) {
             numStr = code_el.value;
-
             code_el.value = numBaseDigits >= numStr.length ? Array.apply(null, {length: numBaseDigits - numStr.length + 1}).join("0") + numStr : numStr.substring(0, numBaseDigits);
-
         }
 
         code_el.addEventListener("change", code_change);
-
         @endif
 
         var child_base_id_work = 0;
         var parent_base_id_work = 0;
 
-        function on_numcalc() {
-            @foreach($functs_numcalc as $value)
+        function on_numcalc_viewonly() {
+            @foreach($functs_numcalc_viewonly as $value)
                 {{$value}}();
+            @endforeach
+        }
 
+        function on_numcalc_all() {
+            @foreach($functs_numcalc_all as $value)
+                {{$value}}();
             @endforeach
         }
 
@@ -1715,12 +1833,10 @@
         }
 
         function on_submit() {
-
             @foreach($array_disabled as $key=>$value)
             {{--parent_base_id_work = document.getElementById('link{{$key}}').disabled = false;--}}
             document.getElementById('link{{$key}}').disabled = false;
             @endforeach
-
         }
 
         function round(a, b, c) {
@@ -1745,49 +1861,52 @@
         $link = Link::find($key);
         $prefix = '6_';
         ?>
-
+        {{-- Настройка автоматического перерасчета при выполнении условий--}}
         @if($link->parent_is_nc_parameter == true && $link->parent_is_numcalc == false
                 && $link->parent_is_nc_viewonly == false && $link->parent_is_parent_related == false)
         {{--            @if($link->parent_is_nc_parameter == true && $link->parent_is_nc_viewonly == false)--}}
         {{--            @if($link->parent_is_nc_parameter == true)--}}
-
         var numrecalc_{{$prefix}}{{$link->id}} = document.getElementById('link{{$link->id}}');
-
-        numrecalc_{{$prefix}}{{$link->id}}.addEventListener("change", on_numcalc);
-
+        numrecalc_{{$prefix}}{{$link->id}}.addEventListener("change", on_numcalc_viewonly);
         @endif
 
         @endforeach
     </script>
     <script>
         window.onload = function () {
-            // массив функций нужен, что при window.onload запустить обработчики всех полей
-            @foreach($functions as $value)
+            {{-- массив функций нужен, что при window.onload запустить обработчики всех полей--}}
+                @foreach($functions as $value)
                 {{$value}}(true);
             @endforeach
-            // on_parent_refer();
 
-            // Не нужно вызывать функцию on_numcalc(),
-            // это связано с разрешенной корректировкой вычисляемых полей ($link->parent_is_nc_viewonly=true)
-            //on_numcalc();
-            @foreach($array_disabled as $key=>$value)
+            {{-- on_parent_refer();--}}
+
+            {{-- Не нужно вызывать функцию on_numcalc_all(),--}}
+            {{-- это связано с разрешенной корректировкой вычисляемых полей ($link->parent_is_nc_viewonly=true)--}}
+            {{-- on_numcalc_all();--}}
+            @if(!$update)
+            on_numcalc_all();
+            @else
+            on_numcalc_viewonly();
+            @endif
+                @foreach($array_disabled as $key=>$value)
                 parent_base_id_work = document.getElementById('link{{$key}}').disabled = true;
             document.getElementById('link{{$key}}').disabled = true;
             @endforeach
         };
 
-        // https://ru.stackoverflow.com/questions/1114823/%D0%9A%D0%B0%D0%BA-%D1%81%D0%B4%D0%B5%D0%BB%D0%B0%D1%82%D1%8C-%D1%82%D0%B0%D0%BA-%D1%87%D1%82%D0%BE%D0%B1%D1%8B-%D0%BF%D1%80%D0%B8-%D0%BD%D0%B0%D0%B6%D0%B0%D1%82%D0%B8%D0%B8-%D0%BD%D0%B0-%D0%BA%D0%BD%D0%BE%D0%BF%D0%BA%D1%83-%D0%BF%D1%80%D0%BE%D0%B8%D0%B3%D1%80%D1%8B%D0%B2%D0%B0%D0%BB%D1%81%D1%8F-%D0%B7%D0%B2%D1%83%D0%BA
-        // https://odino.org/emit-a-beeping-sound-with-javascript/
-        // https://question-it.com/questions/1025607/vosproizvesti-zvukovoj-signal-pri-nazhatii-knopki
-        // function playSound(sound) {
-        //     var song = document.getElementById(sound);
-        //     song.volume = 1;
-        //     if (song.paused) {
-        //         song.play();
-        //     } else {
-        //         song.pause();
-        //     }
-        // }
+        {{--https://ru.stackoverflow.com/questions/1114823/%D0%9A%D0%B0%D0%BA-%D1%81%D0%B4%D0%B5%D0%BB%D0%B0%D1%82%D1%8C-%D1%82%D0%B0%D0%BA-%D1%87%D1%82%D0%BE%D0%B1%D1%8B-%D0%BF%D1%80%D0%B8-%D0%BD%D0%B0%D0%B6%D0%B0%D1%82%D0%B8%D0%B8-%D0%BD%D0%B0-%D0%BA%D0%BD%D0%BE%D0%BF%D0%BA%D1%83-%D0%BF%D1%80%D0%BE%D0%B8%D0%B3%D1%80%D1%8B%D0%B2%D0%B0%D0%BB%D1%81%D1%8F-%D0%B7%D0%B2%D1%83%D0%BA--}}
+        {{--https://odino.org/emit-a-beeping-sound-with-javascript/--}}
+        {{--https://question-it.com/questions/1025607/vosproizvesti-zvukovoj-signal-pri-nazhatii-knopki--}}
+        {{--function playSound(sound) { --}}
+        {{--    var song = document.getElementById(sound); --}}
+        {{--    song.volume = 1; --}}
+        {{--    if (song.paused) { --}}
+        {{--        song.play(); --}}
+        {{--    } else { --}}
+        {{--        song.pause(); --}}
+        {{--    } --}}
+        {{--} --}}
     </script>
 
 @endsection

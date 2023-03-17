@@ -1760,6 +1760,17 @@ class ItemController extends Controller
         // array_fill() - список полей со значениями (не равны null)
         // array_disabled() - список полей, которые будут недоступны для ввода
         // array_refer() - список значений $item->code
+
+        // Учет "disabled" при "$link->parent_is_nc_viewonly==true", см ItemController::get_array_calc()
+        foreach ($array_plan as $key => $value) {
+            $link = Link::find($key);
+            if ($link){
+                if ($link->parent_is_nc_viewonly==true){
+                    $array_disabled[$key] = 0;
+                }
+            }
+        }
+
 //      return ['array_calc' => $array_plan, 'array_fill' => $array_fill, 'array_disabled' => $array_disabled, 'array_refer' => $array_refer];
         return ['array_calc' => $array_plan, 'array_disabled' => $array_disabled, 'array_refer' => $array_refer];
     }
@@ -2001,7 +2012,6 @@ class ItemController extends Controller
         //        if (GlobalController::check_project_user($project, $role) == false) {
 //            return view('message', ['message' => trans('main.info_user_changed')]);
 //        }
-
         $relip_project = GlobalController::calc_relip_project($relit_id, $project);
 
         //https://webformyself.com/kak-v-php-poluchit-znachenie-checkbox/
@@ -2295,13 +2305,15 @@ class ItemController extends Controller
         foreach ($inputs as $key => $value) {
             $link = Link::findOrFail($key);
             if ($link->parent_base->is_code_needed == true && $link->parent_is_enter_refer == true) {
-                $item_needed = Item::find($value);
-                if (!$item_needed) {
-                    $array_mess['code' . $key] = trans('main.code_not_found') . "!";
-                    // повторный вызов формы
-                    return redirect()->back()
-                        ->withInput()
-                        ->withErrors($array_mess);
+                if ($value != 0) {
+                    $item_needed = Item::find($value);
+                    if (!$item_needed) {
+                        $array_mess['code' . $key] = trans('main.code_not_found') . "!";
+                        // повторный вызов формы
+                        return redirect()->back()
+                            ->withInput()
+                            ->withErrors($array_mess);
+                    }
                 }
             }
         }
@@ -4318,7 +4330,6 @@ class ItemController extends Controller
         if (!($item->code == $request->code)) {
             $request->validate($this->code_rules($request, $relip_project->id, $item->base_id));
         }
-
         // Проверка полей с типом "текст" на длину текста
         if ($item->base->type_is_text() && $item->base->length_txt > 0) {
             $errors = false;
@@ -4591,28 +4602,26 @@ class ItemController extends Controller
         if ($item->base->type_is_text()) {
             $only = array('name_lang_0', 'name_lang_1', 'name_lang_2', 'name_lang_3');
             $it_texts = $request->only($only);
-
             foreach ($it_texts as $it_key => $it_text) {
                 $it_texts[$it_key] = isset($it_texts[$it_key]) ? $it_texts[$it_key] : "";
             }
-
         }
-
         // Проверка существования кода объекта
         foreach ($inputs as $key => $value) {
             $link = Link::findOrFail($key);
             if ($link->parent_base->is_code_needed == true && $link->parent_is_enter_refer == true) {
-                $item_needed = Item::find($value);
-                if (!$item_needed) {
-                    $array_mess['code' . $key] = trans('main.code_not_found') . "!";
-                    // повторный вызов формы
-                    return redirect()->back()
-                        ->withInput()
-                        ->withErrors($array_mess);
+                if ($value != 0) {
+                    $item_needed = Item::find($value);
+                    if (!$item_needed) {
+                        $array_mess['code' . $key] = trans('main.code_not_found') . "!";
+                        // повторный вызов формы
+                        return redirect()->back()
+                            ->withInput()
+                            ->withErrors($array_mess);
+                    }
                 }
             }
         }
-
         foreach ($inputs as $key => $value) {
             $link = Link::findOrFail($key);
             if ($link->parent_base->type_is_image() || $link->parent_base->type_is_document()) {
@@ -6538,7 +6547,7 @@ class ItemController extends Controller
             join('items', 'mains.child_item_id', '=', 'items.id')
                 ->where('parent_item_id', $item_id)
                 ->whereIn('items.project_id', $array_link_relips)
-                ->orderBy('items.'. $name)
+                ->orderBy('items.' . $name)
                 ->get();
 
             if (count($mains) == 0) {
@@ -6560,7 +6569,7 @@ class ItemController extends Controller
                 $relit_child_id = array_search($main->child_item->project_id, $array_link_relips);
 
                 // '!($relit_child_id===false)' нужно, см. https://www.php.net/manual/ru/function.array-search.php
-                if (!($relit_child_id===false) & $base_link_right['is_hier_link_enable'] == true) {
+                if (!($relit_child_id === false) & $base_link_right['is_hier_link_enable'] == true) {
                     // Получить $str - вложенные детские значения
                     //$str = self::form_child_hier_deta_start($items, $main->child_item_id, $project, $relit_id, $view_ret_id, $level, $role);
                     $str = self::form_child_hier_deta_start($items, $main->child_item_id, $project, $relit_child_id, $level, $role);
@@ -7439,7 +7448,7 @@ class ItemController extends Controller
 // Выборка данных в виде списка
     static function get_items_main_code($code, Base $base, Project $project, Role $role, $relit_id, Link $link = null, Item $item = null)
     {
-        $base_right = self::base_right($base, $role, $relit_id);
+        $base_right = GlobalController::base_right($base, $role, $relit_id);
         $items_main = self::get_items_main($base, $project, $role, $relit_id, $base_right['is_list_hist_records_enable'], $link, $item);
         $items_no_get = $items_main['items_no_get'];
         $item_id = 0;
@@ -7451,6 +7460,7 @@ class ItemController extends Controller
                 $item_name = $item->name();
             }
         }
+
         return ['item_id' => $item_id, 'item_name' => $item_name];
     }
 
