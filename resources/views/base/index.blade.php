@@ -31,6 +31,7 @@
             <th class="text-center">#</th>
             <th class="text-center">{{trans('main.serial_number')}}</th>
             <th class="text-left">{{trans('main.names')}}</th>
+            <th class="text-center">{{trans('main.emoji')}}</th>
             <th class="text-center">{{trans('main.type')}}</th>
             <th class="text-center">{{trans('main.is_calculated_lst')}}</th>
             <th class="text-center">{{trans('main.is_setup_lst')}}</th>
@@ -63,6 +64,9 @@
                         {{$base->names()}}
                         ({{count(Item::where('base_id', $base->id)->get())}})
                         {{--                        </a>--}}
+                    </td>
+                    <td class="text-center">
+                        {{$base->emoji}}
                     </td>
                     <td class="text-center">
                         {{$base->type_name()}}
