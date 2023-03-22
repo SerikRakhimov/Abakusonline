@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class UpdateRobasTableIsTstLst extends Migration
+class UpdateRobasTableIsCusEnable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,7 +14,7 @@ class UpdateRobasTableIsTstLst extends Migration
     public function up()
     {
         Schema::table('robas', function (Blueprint $table) {
-            $table->boolean('is_tst_enable')->default(false);
+            $table->boolean('is_cus_enable')->default(false);
         });
     }
 

@@ -156,6 +156,7 @@ class LinkController extends Controller
         $link->parent_is_small_calcname = isset($request->parent_is_small_calcname) ? true : false;
         $link->parent_is_enabled_boolean_value = isset($request->parent_is_enabled_boolean_value) ? true : false;
         $link->parent_is_tst_link = isset($request->parent_is_tst_link) ? true : false;
+        $link->parent_is_cus_link = isset($request->parent_is_cus_link) ? true : false;
         $link->parent_is_setup_project_logo_img = isset($request->parent_is_setup_project_logo_img) ? true : false;
         $link->parent_is_setup_project_external_description_txt = isset($request->parent_is_setup_project_external_description_txt) ? true : false;
         $link->parent_is_setup_project_internal_description_txt = isset($request->parent_is_setup_project_internal_description_txt) ? true : false;
@@ -375,6 +376,13 @@ class LinkController extends Controller
             $link->parent_base_id = $link->child_base_id;
         }
 
+        if ($link->parent_is_cus_link) {
+            $usersetup_base_id = env('USERSETUP_BASE_ID');
+            if ($usersetup_base_id != '') {
+                $link->parent_base_id = $usersetup_base_id;
+            }
+        }
+
         $link->save();
 
         return redirect()->route('link.base_index', ['base' => $link->child_base, 'links' => Link::where('child_base_id', $link->child_base_id)->orderBy('parent_base_number')->get()]);
@@ -447,6 +455,7 @@ class LinkController extends Controller
         $link->parent_is_small_calcname = isset($request->parent_is_small_calcname) ? true : false;
         $link->parent_is_enabled_boolean_value = isset($request->parent_is_enabled_boolean_value) ? true : false;
         $link->parent_is_tst_link = isset($request->parent_is_tst_link) ? true : false;
+        $link->parent_is_cus_link = isset($request->parent_is_cus_link) ? true : false;
         $link->parent_is_setup_project_logo_img = isset($request->parent_is_setup_project_logo_img) ? true : false;
         $link->parent_is_setup_project_external_description_txt = isset($request->parent_is_setup_project_external_description_txt) ? true : false;
         $link->parent_is_setup_project_internal_description_txt = isset($request->parent_is_setup_project_internal_description_txt) ? true : false;
@@ -669,9 +678,17 @@ class LinkController extends Controller
             $link->parent_enabled_boolean_value_link_id = 0;
         }
 
+        // При корректировке
         //if ($link->parent_is_tst_link) {
         //    $link->parent_base_id = $link->child_base_id;
         //}
+
+//        if ($link->parent_is_cus_link) {
+//            $usersetup_base_id = env('USERSETUP_BASE_ID');
+//            if ($usersetup_base_id != '') {
+//                $link->parent_base_id = $usersetup_base_id;
+//            }
+//        }
 
         $link->save();
 

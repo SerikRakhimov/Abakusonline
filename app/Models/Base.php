@@ -48,7 +48,7 @@ class Base extends Model
     }
 
     // Используется "names"
-    function names($base_right = null)
+    function names($base_right = null, $for_base_index = false)
     {
         $result = "";  // нужно, не удалять
         // В единственном числе выводить наименование
@@ -85,9 +85,9 @@ class Base extends Model
             $result = $this->name();
         }
         if ($base_right) {
-            $result = $result . GlobalController::my_info($base_right);
+            $result = $result . GlobalController::my_info($base_right, $for_base_index);
         }
-        $result = (new GlobalController)->name_and_end_emoji($result, $this);
+        //$result = (new GlobalController)->name_and_end_emoji($result, $this);
         return $result;
     }
 
@@ -247,7 +247,7 @@ class Base extends Model
         //return $this->name();
         //return $this->desc();
         $result = $this->desc();
-        $result = (new GlobalController)->name_and_end_emoji($result, $this);
+        //$result = (new GlobalController)->name_and_end_emoji($result, $this);
         return $result;
     }
 

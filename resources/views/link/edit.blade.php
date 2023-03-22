@@ -576,7 +576,7 @@
             @enderror
         </div>
 
-        {{--        'Для древовидной структуры'--}}
+        {{--        'Для древовидной структуры (link = null, для base_index.php)'--}}
         <div class="form-group" id="parent_is_tst_link_form_group">
             <div class="form-check form-check-inline">
                 <input class="form-check-input" type="checkbox" name="parent_is_tst_link"
@@ -588,6 +588,21 @@
                 >
                 <label class="form-check-label"
                        for="parent_is_tst_link">{{trans('main.parent_is_tst_link')}}</label>
+            </div>
+        </div>
+
+        {{--        'Для текущего пользователя (link = текущий пользователь, для base_index.php)'--}}
+        <div class="form-group" id="parent_is_cus_link_form_group">
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" name="parent_is_cus_link"
+                       id="parent_is_cus_link"
+                       {{--            "false" - значение по умолчанию --}}
+                       @if ((old('parent_is_cus_link') ?? ($link->parent_is_cus_link ?? false)) ==  true)
+                       checked
+                    @endif
+                >
+                <label class="form-check-label"
+                       for="parent_is_cus_link">{{trans('main.parent_is_cus_link')}}</label>
             </div>
         </div>
 

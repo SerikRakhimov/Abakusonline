@@ -798,6 +798,31 @@
             </div>
         </div>
 
+        <div class="form-group row" id="is_default_tst_lst_form_group">
+            <div class="col-sm-3 text-right">
+                <label class="form-label"
+                       for="is_default_tst_lst">{{trans('main.is_default_tst_lst')}}</label>
+            </div>
+            <div class="col-sm-7">
+                <input class="@error('is_default_tst_lst') is-invalid @enderror"
+                       type="checkbox"
+                       name="is_default_tst_lst"
+                       id="linkis_default_tst_lst"
+                       placeholder=""
+                       @if ((old('is_default_tst_lst') ?? ($base->is_default_tst_lst ?? false)) ==  true)
+                       checked
+                    @endif
+                >
+                @error('is_default_tst_lst')
+                <div class="invalid-feedback">
+                    {{$message}}
+                </div>
+                @enderror
+            </div>
+            <div class="col-sm-2">
+            </div>
+        </div>
+
         <div class="form-group row" id="sepa_calcname_form_group">
             <div class="col-sm-3 text-right">
                 <label for="sepa_calcname">{{trans('main.sepa_calcname')}}<span
@@ -949,6 +974,7 @@
         var is_onevalue_str = document.getElementById('is_one_value_lst_str_txt_form_group');
         var is_calcname_lst = document.getElementById('is_calcname_lst_form_group');
         var is_calcnm_correct_lst = document.getElementById('is_calcnm_correct_lst_form_group');
+        var is_def_tst_lst = document.getElementById('is_default_tst_lst_form_group');
         var sepa_calcname = document.getElementById('sepa_calcname_form_group');
         var is_same_small_calcname = document.getElementById('is_same_small_calcname_form_group');
         var sepa_same_left_calcname = document.getElementById('sepa_same_left_calcname_form_group');
@@ -1007,6 +1033,7 @@
             val_onevalue_str = "hidden";
             val_calcname_lst = "hidden";
             val_calcnm_correct_lst = "hidden";
+            val_def_tst_lst = "hidden";
             val_sepa_calcname = "hidden";
             val_same_small_calcname = "hidden";
             val_sepa_same_left_calcname = "hidden";
@@ -1036,6 +1063,7 @@
                     val_onevalue_str = "visible";
                     val_calcname_lst = "visible";
                     val_calcnm_correct_lst = "visible";
+                    val_def_tst_lst = "visible";
                     val_sepa_calcname = "visible";
                     val_same_small_calcname = "visible";
                     val_sepa_same_left_calcname = "visible";
@@ -1100,6 +1128,7 @@
             is_onevalue_str.style.visibility = val_onevalue_str;
             is_calcname_lst.style.visibility = val_calcname_lst;
             is_calcnm_correct_lst.style.visibility = val_calcnm_correct_lst;
+            is_def_tst_lst.style.visibility = val_def_tst_lst;
             sepa_calcname.style.visibility = val_sepa_calcname;
             is_same_small_calcname.style.visibility = val_same_small_calcname;
             sepa_same_left_calcname.style.visibility = val_sepa_same_left_calcname;

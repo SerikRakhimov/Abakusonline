@@ -4,5 +4,5 @@
 {{--    </span>--}}
 {{--<a href="" title="{{trans('main.is_history')}}">🅗</a>--}}
 {{--🅗𝓱Ⓗ🅷𝘏𝘩𝙃--}}
-🅷
+𝓱
 @endif

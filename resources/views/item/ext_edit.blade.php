@@ -291,6 +291,19 @@
                                         <span class="text-danger">{{GlobalController::label_is_required($base)}}</span></label>
                                 </div>
                                 <div class="col-sm-7">
+{{--                                    https://getbootstrap.com/docs/4.0/components/forms/--}}
+{{--                                    <div class="input-group">--}}
+{{--                                        <div class="input-group-prepend">--}}
+{{--                                            <div class="input-group-text">🌞</div>--}}
+{{--                                        </div>--}}
+{{--                                        <input type="text"--}}
+{{--                                               name="name_lang_{{$key}}"--}}
+{{--                                               id="name_lang_{{$key}}"--}}
+{{--                                               class="form-control @error('name_lang_' . $key) is-invalid @enderror"--}}
+{{--                                               placeholder=""--}}
+{{--                                               value="{{ old('name_lang_' . $key) ?? ($item['name_lang_' . $key] ?? '') }}"--}}
+{{--                                               maxlength="255">--}}
+{{--                                    </div>--}}
                                     <input type="text"
                                            name="name_lang_{{$key}}"
                                            id="name_lang_{{$key}}"
@@ -350,6 +363,7 @@
             <?php
             // Вывести с эмодзи
             $result_parent_label = $link->parent_label(true);
+            //dd($result_parent_label);
             $link_parent_base = $link->parent_base;
             //                Загружаются данные для списков выбора
             //$result = ItemController::get_items_ext_edit_for_link($link, $project, $role, $relit_id);
@@ -1046,7 +1060,7 @@
                                                     selected
                                                 @endif
                                             >
-                                            <!--                                                --><?php
+                                                <!--                                                --><?php
                                                 //                                                echo $item_work->name();
                                                 //                                                ?>
                                                 {{$item_work->name()}}

@@ -107,7 +107,8 @@ class GlobalController extends Controller
         $is_edit_link_update = $role->is_edit_link_update;
         $is_hier_base_enable = $role->is_hier_base_enable;
         $is_hier_link_enable = $role->is_hier_link_enable;
-        $is_tst_lst = $role->is_tst_lst;
+        $is_tst_enable = $base->is_default_tst_lst;
+        $is_cus_enable = false;
         $is_show_hist_attr_enable = false;
         $is_edit_hist_attr_enable = false;
         $is_list_hist_attr_enable = false;
@@ -249,7 +250,8 @@ class GlobalController extends Controller
             $is_roba_edit_link_update = $roba->is_edit_link_update;
             $is_roba_hier_base_enable = $roba->is_hier_base_enable;
             $is_roba_hier_link_enable = $roba->is_hier_link_enable;
-            $is_roba_tst_lst = $roba->is_tst_lst;
+            $is_roba_tst_enable = $roba->is_tst_enable;
+            $is_roba_cus_enable = $roba->is_cus_enable;
             $is_roba_show_hist_attr_enable = $roba->is_show_hist_attr_enable;
             $is_roba_edit_hist_attr_enable = $roba->is_edit_hist_attr_enable;
             $is_roba_list_hist_attr_enable = $roba->is_list_hist_attr_enable;
@@ -315,7 +317,8 @@ class GlobalController extends Controller
             $is_edit_link_update = $is_roba_edit_link_update;
             $is_hier_base_enable = $is_roba_hier_base_enable;
             $is_hier_link_enable = $is_roba_hier_link_enable;
-            $is_tst_lst = $is_roba_tst_lst;
+            $is_tst_enable = $is_roba_tst_enable;
+            $is_cus_enable = $is_roba_cus_enable;
             $is_show_hist_attr_enable = $is_roba_show_hist_attr_enable;
             $is_edit_hist_attr_enable = $is_roba_edit_hist_attr_enable;
             $is_list_hist_attr_enable = $is_roba_list_hist_attr_enable;
@@ -369,7 +372,8 @@ class GlobalController extends Controller
             'is_edit_link_update' => $is_edit_link_update,
             'is_hier_base_enable' => $is_hier_base_enable,
             'is_hier_link_enable' => $is_hier_link_enable,
-            'is_tst_lst' => $is_tst_lst,
+            'is_tst_enable' => $is_tst_enable,
+            'is_cus_enable' => $is_cus_enable,
             'is_show_hist_attr_enable' => $is_show_hist_attr_enable,
             'is_edit_hist_attr_enable' => $is_edit_hist_attr_enable,
             'is_list_hist_attr_enable' => $is_list_hist_attr_enable,
@@ -391,6 +395,8 @@ class GlobalController extends Controller
         $base = null;
         $base_rel_id = null;
         $base_link_rel_id = null;
+        // Нужно, параметры $link->child_base и $relit_id, такие же как и при проверке 'if ($child_base == true)'
+        $base_child_right = self::base_right($link->child_base, $role, $relit_id);
         // Так использовать, в robas и rolis разные по логике $relit_id используются при вводе данных и хранении
         if ($child_base == true) {
             $base = $link->child_base;
@@ -434,7 +440,9 @@ class GlobalController extends Controller
         $is_edit_link_update = $base_right['is_edit_link_update'];
         $is_hier_base_enable = $base_right['is_hier_base_enable'];
         $is_hier_link_enable = $base_right['is_hier_link_enable'];
-        $is_tst_lst = $base_right['is_tst_lst'];
+        // Нужно $base_child_right['is_tst_enable'] и $base_child_right['is_cus_enable']
+        $is_tst_enable = $base_child_right['is_tst_enable'];
+        $is_cus_enable = $base_child_right['is_cus_enable'];
         $is_show_hist_attr_enable = $base_right['is_show_hist_attr_enable'];
         $is_edit_hist_attr_enable = $base_right['is_edit_hist_attr_enable'];
         $is_list_hist_attr_enable = $base_right['is_list_hist_attr_enable'];
@@ -451,7 +459,8 @@ class GlobalController extends Controller
         $is_parent_full_sort_asc = true;
         $is_parent_page_sort_asc = true;
         //  Проверка Показывать Связь с признаком "Ссылка на основу"
-        if ($role->is_list_link_baselink == false && $link->parent_is_base_link == true) {
+//      if ($role->is_list_link_baselink == false && $link->parent_is_base_link == true) {
+        if ($role->is_list_link_baselink == false & $link->parent_is_base_link == true) {
             $is_list_link_enable = false;
             $is_body_link_enable = false;
             $is_show_link_enable = false;
@@ -472,6 +481,17 @@ class GlobalController extends Controller
             // При корректировке в форме ставится пометка hidden
             //$is_edit_link_update = false;
         }
+
+        // Не показывать столбцы
+        //  Проверка 'Для древовидной структуры (link = null, для base_index.php)'
+        if ($link->parent_is_tst_link == true & $is_tst_enable == true) {
+            $is_list_link_enable = false;
+        }
+        //  Проверка 'Для текущего пользователя (link = текущий пользователь, для base_index.php)'
+        if ($link->parent_is_cus_link == true & $is_cus_enable == true) {
+            $is_list_link_enable = false;
+        }
+
         // Блок проверки по rolis, используя переменные $role, $relit_id и $link
         $roli = Roli::where('role_id', $role->id)->where('relit_id', $base_link_rel_id)->where('link_id', $link->id)->first();
         $is_roli_list_link_enable = false;
@@ -490,7 +510,6 @@ class GlobalController extends Controller
             $is_parent_page_sort_asc = $roli->is_parent_page_sort_asc;
         }
         $is_edit_link_enable = $is_edit_link_read || $is_edit_link_update;
-
         return ['link_id' => $link->id,
             'base_rel_id' => $base_rel_id,
             'is_list_base_calc' => $is_list_base_calc,
@@ -524,7 +543,8 @@ class GlobalController extends Controller
             'is_edit_link_update' => $is_edit_link_update,
             'is_hier_base_enable' => $is_hier_base_enable,
             'is_hier_link_enable' => $is_hier_link_enable,
-            'is_tst_lst' => $is_tst_lst,
+            'is_tst_enable' => $is_tst_enable,
+            'is_cus_enable' => $is_cus_enable,
             'is_show_hist_attr_enable' => $is_show_hist_attr_enable,
             'is_edit_hist_attr_enable' => $is_edit_hist_attr_enable,
             'is_list_hist_attr_enable' => $is_list_hist_attr_enable,
@@ -650,8 +670,7 @@ class GlobalController extends Controller
                 $items = $items->where('items.is_history', false);
             }
             // Важно: Для просмотра в base_index.php
-//           dd($base_right);
-            if ($base_right['is_tst_lst'] == true) {
+            if ($base_right['is_tst_enable'] == true) {
                 // Если выборка идет из таблицы mains, значит mains.parent_item_id есть и заполнено
                 $mains = Main::select(['mains.*'])->
                 join('items as it_ch', 'mains.child_item_id', '=', 'it_ch.id')
@@ -676,6 +695,28 @@ class GlobalController extends Controller
 
                 $items = $items->whereNotIn('id', $arr_it);
 
+            }
+            if ($base_right['is_cus_enable'] == true) {
+                $user_item = self::glo_user()->get_user_item();
+                if ($user_item) {
+                    $mains = Main::select(['mains.*'])->
+                    join('items as it_ch', 'mains.child_item_id', '=', 'it_ch.id')
+                        ->join('links', 'mains.link_id', '=', 'links.id')
+                        ->where('it_ch.base_id', $base->id)
+                        ->where('it_ch.project_id', $project->id)
+                        ->where('mains.parent_item_id', $user_item->id)
+                        ->where('links.parent_is_cus_link', true);
+
+                    // 'get()' нужно
+                    $mains = $mains->get();
+
+                    $arr_it = array();
+                    foreach ($mains as $m) {
+                        $arr_it[] = $m['child_item_id'];
+                    }
+
+                    $items = $items->whereIn('id', $arr_it);
+                }
             }
         }
         // Такая же проверка и в GlobalController (function items_right()),
@@ -2632,17 +2673,22 @@ class GlobalController extends Controller
         return $result;
     }
 
-    static function my_info($base_right = null)
+    static function my_info($base_right = null, $for_base_index = false)
     {
         $result = '';
         if ($base_right) {
             if ($base_right['is_list_base_user_id'] == true) {
-                // Наименование
-                $result = ' (' . mb_strtolower(trans('main.current_user')) . ')';
+                $result = $result . ' (' . mb_strtolower(trans('main.current_user')) . ')';
             }
             if ($base_right['is_list_base_byuser'] == true) {
-                // Наименование
-                $result = ' (' . mb_strtolower(trans('main.my_records')) . ')';
+                $result = $result . ' (' . mb_strtolower(trans('main.my_records')) . ')';
+            }
+//            if ($base_right['is_tst_enable'] == true & $for_base_index == true) {
+//                $result = $result . ' (' . mb_strtolower(trans('main.is_tst_enable')) . ')';
+//            }
+            if ($base_right['is_cus_enable'] == true & $for_base_index == true) {
+                //$result = $result . ' (' . GlobalController::glo_user()->get_user_itnm() . ')';
+                $result = $result . ' (' . mb_strtolower(trans('main.filter_by_current_user')) . ')';
             }
         }
         return $result;

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class UpdateRobasTableIsTstLst extends Migration
+class UpdateLinksTableParentIsCusLink extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,8 @@ class UpdateRobasTableIsTstLst extends Migration
      */
     public function up()
     {
-        Schema::table('robas', function (Blueprint $table) {
-            $table->boolean('is_tst_enable')->default(false);
+        Schema::table('links', function (Blueprint $table) {
+            $table->boolean('parent_is_cus_link')->default(false);
         });
     }
 

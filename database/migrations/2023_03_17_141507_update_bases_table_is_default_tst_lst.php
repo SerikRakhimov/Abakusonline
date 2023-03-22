@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class UpdateRolesTableIsTstLst extends Migration
+class UpdateBasesTableIsDefaultTstLst extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,8 @@ class UpdateRolesTableIsTstLst extends Migration
      */
     public function up()
     {
-        Schema::table('roles', function (Blueprint $table) {
-            $table->boolean('is_tst_lst')->default(false);
+        Schema::table('bases', function (Blueprint $table) {
+            $table->boolean('is_default_tst_lst')->default(false);
         });
     }
 

@@ -190,7 +190,7 @@ class Item extends Model
         //$result = str_replace('\~', '<br>', $result);
         $result = str_replace('\~', '<br>', $result);
         //$result = (new GlobalController)->name_and_emoji($result, $this->base);
-        //$result = (new GlobalController)->name_and_first_emoji($result, $this->base);
+        $result = (new GlobalController)->name_and_first_emoji($result, $this->base);
         return $result;
     }
 

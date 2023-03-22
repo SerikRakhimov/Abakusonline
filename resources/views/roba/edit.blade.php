@@ -742,22 +742,47 @@
             </div>
         </div>
 
-        <div class="form-group row" id="is_tst_lst_form_group">
+        <div class="form-group row" id="is_tst_enable_form_group">
             <div class="col-sm-3 text-right">
                 <label class="form-label"
-                       for="is_tst_lst">{{trans('main.is_tst_lst')}}</label>
+                       for="is_tst_enable">{{trans('main.is_tst_enable')}}</label>
             </div>
             <div class="col-sm-7">
-                <input class="@error('is_tst_lst') is-invalid @enderror"
+                <input class="@error('is_tst_enable') is-invalid @enderror"
                        type="checkbox"
-                       name="is_tst_lst"
+                       name="is_tst_enable"
                        placeholder=""
-                       {{--                       "$roba->is_tst_lst ?? false" - "false" значение по умолчанию--}}
-                       @if ((old('is_tst_lst') ?? ($roba->is_tst_lst ?? false)) ==  true)
+                       {{--                       "$roba->is_tst_enable ?? false" - "false" значение по умолчанию--}}
+                       @if ((old('is_tst_enable') ?? ($roba->is_tst_enable ?? false)) ==  true)
                        checked
                     @endif
                 >
-                @error('is_tst_lst')
+                @error('is_tst_enable')
+                <div class="invalid-feedback">
+                    {{$message}}
+                </div>
+                @enderror
+            </div>
+            <div class="col-sm-2">
+            </div>
+        </div>
+
+        <div class="form-group row" id="is_cus_enable_form_group">
+            <div class="col-sm-3 text-right">
+                <label class="form-label"
+                       for="is_cus_enable">{{trans('main.is_cus_enable')}}</label>
+            </div>
+            <div class="col-sm-7">
+                <input class="@error('is_cus_enable') is-invalid @enderror"
+                       type="checkbox"
+                       name="is_cus_enable"
+                       placeholder=""
+                       {{--                       "$roba->is_cus_enable ?? false" - "false" значение по умолчанию--}}
+                       @if ((old('is_cus_enable') ?? ($roba->is_cus_enable ?? false)) ==  true)
+                       checked
+                    @endif
+                >
+                @error('is_cus_enable')
                 <div class="invalid-feedback">
                     {{$message}}
                 </div>

@@ -43,10 +43,12 @@
                 <h3>
                     @if($message_bs_info != '')
                         <a href="#" title="{{$message_bs_info}}">
-                            {{$base->names($base_right)}}
+                            {{-- Использовать так "$base->names($base_right, true)", "true" - вызов из base_index.php--}}
+                            {{$base->names($base_right, true)}}
                         </a>
                     @else
-                        {{$base->names($base_right)}}
+                        {{-- Использовать так "$base->names($base_right, true)", "true" - вызов из base_index.php--}}
+                        {{$base->names($base_right, true)}}
                     @endif
                 </h3>
                 @if($role->is_view_info_relits == true)
@@ -354,53 +356,53 @@
     {{--        </div>--}}
     {{--        <img src="paris.jpg" alt="Paris" style="float:left;width:50%;height:100%;object-fit:cover;">--}}
     {{--    <div class="card" style="width: 18rem;">--}}
-{{--    <div class="card shadow" style="width: 100%;">--}}
-{{--        <div class="card-body">--}}
-{{--            <h5 class="card-title">Название карточки</h5>--}}
-{{--            <h6 class="card-subtitle mb-2 text-muted">Подзаголовок карты</h6>--}}
-{{--            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the--}}
-{{--                card's--}}
-{{--                content.--}}
-{{--                лллллллллллллллллллл--}}
-{{--                ддддддддддддддддддд--}}
-{{--                жжжжжжжжжжжжжжжжжжжжжжжжжжжжжжж--}}
-{{--            </p>--}}
-{{--            <a href="#" class="card-link">Ссылка карты</a>--}}
-{{--            <a href="#" class="card-link">Другая ссылка</a>--}}
-{{--        </div>--}}
-{{--    </div>--}}
-{{--    <br>--}}
-{{--    <div class="card shadow" style="width: 100%;">--}}
-{{--        <div class="card-body">--}}
-{{--            <h5 class="card-title">Название карточки</h5>--}}
-{{--            <h6 class="card-subtitle mb-2 text-muted">Подзаголовок карты</h6>--}}
-{{--            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the--}}
-{{--                card's--}}
-{{--                content.--}}
-{{--                лллллллллллллллллллл--}}
-{{--                ддддддддддддддддддд--}}
-{{--                жжжжжжжжжжжжжжжжжжжжжжжжжжжжжжж--}}
-{{--            </p>--}}
-{{--            <a href="#" class="card-link">Ссылка карты</a>--}}
-{{--            <a href="#" class="card-link">Другая ссылка</a>--}}
-{{--        </div>--}}
-{{--    </div>--}}
-{{--    <br>--}}
-{{--    <div class="card shadow" style="width: 100%;">--}}
-{{--        <div class="card-body">--}}
-{{--            <h5 class="card-title">Название карточки</h5>--}}
-{{--            <h6 class="card-subtitle mb-2 text-muted">Подзаголовок карты</h6>--}}
-{{--            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the--}}
-{{--                card's--}}
-{{--                content.--}}
-{{--                лллллллллллллллллллл--}}
-{{--                ддддддддддддддддддд--}}
-{{--                жжжжжжжжжжжжжжжжжжжжжжжжжжжжжжж--}}
-{{--            </p>--}}
-{{--            <a href="#" class="card-link">Ссылка карты</a>--}}
-{{--            <a href="#" class="card-link">Другая ссылка</a>--}}
-{{--        </div>--}}
-{{--    </div>--}}
+    {{--    <div class="card shadow" style="width: 100%;">--}}
+    {{--        <div class="card-body">--}}
+    {{--            <h5 class="card-title">Название карточки</h5>--}}
+    {{--            <h6 class="card-subtitle mb-2 text-muted">Подзаголовок карты</h6>--}}
+    {{--            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the--}}
+    {{--                card's--}}
+    {{--                content.--}}
+    {{--                лллллллллллллллллллл--}}
+    {{--                ддддддддддддддддддд--}}
+    {{--                жжжжжжжжжжжжжжжжжжжжжжжжжжжжжжж--}}
+    {{--            </p>--}}
+    {{--            <a href="#" class="card-link">Ссылка карты</a>--}}
+    {{--            <a href="#" class="card-link">Другая ссылка</a>--}}
+    {{--        </div>--}}
+    {{--    </div>--}}
+    {{--    <br>--}}
+    {{--    <div class="card shadow" style="width: 100%;">--}}
+    {{--        <div class="card-body">--}}
+    {{--            <h5 class="card-title">Название карточки</h5>--}}
+    {{--            <h6 class="card-subtitle mb-2 text-muted">Подзаголовок карты</h6>--}}
+    {{--            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the--}}
+    {{--                card's--}}
+    {{--                content.--}}
+    {{--                лллллллллллллллллллл--}}
+    {{--                ддддддддддддддддддд--}}
+    {{--                жжжжжжжжжжжжжжжжжжжжжжжжжжжжжжж--}}
+    {{--            </p>--}}
+    {{--            <a href="#" class="card-link">Ссылка карты</a>--}}
+    {{--            <a href="#" class="card-link">Другая ссылка</a>--}}
+    {{--        </div>--}}
+    {{--    </div>--}}
+    {{--    <br>--}}
+    {{--    <div class="card shadow" style="width: 100%;">--}}
+    {{--        <div class="card-body">--}}
+    {{--            <h5 class="card-title">Название карточки</h5>--}}
+    {{--            <h6 class="card-subtitle mb-2 text-muted">Подзаголовок карты</h6>--}}
+    {{--            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the--}}
+    {{--                card's--}}
+    {{--                content.--}}
+    {{--                лллллллллллллллллллл--}}
+    {{--                ддддддддддддддддддд--}}
+    {{--                жжжжжжжжжжжжжжжжжжжжжжжжжжжжжжж--}}
+    {{--            </p>--}}
+    {{--            <a href="#" class="card-link">Ссылка карты</a>--}}
+    {{--            <a href="#" class="card-link">Другая ссылка</a>--}}
+    {{--        </div>--}}
+    {{--    </div>--}}
     {{--    <div class="card shadow ">--}}
     {{--        <div class="card" style="width: 100%;">--}}
     {{--            <div class="card-body mt-0">--}}
@@ -467,53 +469,53 @@
     {{--        <img src="/storage/2/3/gDGQdvq2ytL5ONiwPY3vyA4CqPiayJOSWj1ax0Kp.jpg" alt="Paris"--}}
     {{--             style="float:left;width:20%;height:30%;object-fit:contain;"/>--}}
     {{--    </p>--}}
-{{--    <div class="row">--}}
-{{--        <div class="col-12">--}}
-{{--            <div class="text-title">--}}
-{{--                111111111111111111111--}}
-{{--            </div>--}}
-{{--        </div>--}}
-{{--    </div>--}}
-{{--    <div class="row">--}}
-{{--        <div class="col-9">--}}
-{{--            200--}}
-{{--        </div>--}}
-{{--        <div class="col-3">--}}
-{{--            <img src="/storage/2/3/gDGQdvq2ytL5ONiwPY3vyA4CqPiayJOSWj1ax0Kp.jpg"--}}
-{{--                 style="width:100px;float:right;object-fit:contain;">--}}
-{{--        </div>--}}
-{{--    </div>--}}
-{{--    <hr>--}}
-{{--    <div class="row">--}}
-{{--        <div class="col-12">--}}
-{{--            111111111111111111111--}}
-{{--        </div>--}}
-{{--    </div>--}}
-{{--    <div class="row">--}}
-{{--        <div class="col-9">--}}
-{{--            200--}}
-{{--        </div>--}}
-{{--        <div class="col-3">--}}
-{{--            <img src="/storage/2/3/6Ew9weglokd9WxLjXZNSizbVc7uQoOZRGJz8OrG6.png"--}}
-{{--                 style="width:100px;float:right;object-fit:contain;">--}}
-{{--        </div>--}}
-{{--    </div>--}}
-{{--    <hr>--}}
-{{--    <div class="row">--}}
-{{--        <div class="col-12">--}}
-{{--            111111111111111111111--}}
-{{--        </div>--}}
-{{--    </div>--}}
-{{--    <div class="row">--}}
-{{--        <div class="col-9">--}}
-{{--            200--}}
-{{--        </div>--}}
-{{--        <div class="col-3">--}}
-{{--            <img src="/storage/2/3/gDGQdvq2ytL5ONiwPY3vyA4CqPiayJOSWj1ax0Kp.jpg"--}}
-{{--                 style="width:100px;float:right;object-fit:contain;">--}}
-{{--        </div>--}}
-{{--    </div>--}}
-{{--    <hr>--}}
+    {{--    <div class="row">--}}
+    {{--        <div class="col-12">--}}
+    {{--            <div class="text-title">--}}
+    {{--                111111111111111111111--}}
+    {{--            </div>--}}
+    {{--        </div>--}}
+    {{--    </div>--}}
+    {{--    <div class="row">--}}
+    {{--        <div class="col-9">--}}
+    {{--            200--}}
+    {{--        </div>--}}
+    {{--        <div class="col-3">--}}
+    {{--            <img src="/storage/2/3/gDGQdvq2ytL5ONiwPY3vyA4CqPiayJOSWj1ax0Kp.jpg"--}}
+    {{--                 style="width:100px;float:right;object-fit:contain;">--}}
+    {{--        </div>--}}
+    {{--    </div>--}}
+    {{--    <hr>--}}
+    {{--    <div class="row">--}}
+    {{--        <div class="col-12">--}}
+    {{--            111111111111111111111--}}
+    {{--        </div>--}}
+    {{--    </div>--}}
+    {{--    <div class="row">--}}
+    {{--        <div class="col-9">--}}
+    {{--            200--}}
+    {{--        </div>--}}
+    {{--        <div class="col-3">--}}
+    {{--            <img src="/storage/2/3/6Ew9weglokd9WxLjXZNSizbVc7uQoOZRGJz8OrG6.png"--}}
+    {{--                 style="width:100px;float:right;object-fit:contain;">--}}
+    {{--        </div>--}}
+    {{--    </div>--}}
+    {{--    <hr>--}}
+    {{--    <div class="row">--}}
+    {{--        <div class="col-12">--}}
+    {{--            111111111111111111111--}}
+    {{--        </div>--}}
+    {{--    </div>--}}
+    {{--    <div class="row">--}}
+    {{--        <div class="col-9">--}}
+    {{--            200--}}
+    {{--        </div>--}}
+    {{--        <div class="col-3">--}}
+    {{--            <img src="/storage/2/3/gDGQdvq2ytL5ONiwPY3vyA4CqPiayJOSWj1ax0Kp.jpg"--}}
+    {{--                 style="width:100px;float:right;object-fit:contain;">--}}
+    {{--        </div>--}}
+    {{--    </div>--}}
+    {{--    <hr>--}}
 @endsection
 
 
