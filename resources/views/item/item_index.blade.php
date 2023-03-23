@@ -168,14 +168,14 @@
             'view_link'=> GlobalController::set_par_view_link_null($view_link),
             'par_link'=>$tree_array_last_link_id, 'parent_item'=>$tree_array_last_item_id,
             'parent_ret_id' => $view_ret_id])}}"
-                                   title="{{trans('main.viewing_record')}}: {{$item->name()}}">
+                                   title="{{trans('main.viewing_record')}}: {{$item->name(false, false, false, true)}}">
                                     {{--                                            'string_link_ids_current' => $string_link_ids_current,--}}
                                     {{--                                            'string_item_ids_current' => $string_item_ids_current,--}}
                                     {{--                                            'string_relit_ids_current' => $string_relit_ids_current,--}}
                                     {{--                                            'string_all_codes_current'=>$string_all_codes_current,--}}
                                     <mark class="text-project">
                                         {{--                                        @include('layouts.item.empty_name', ['name'=>$item->nmbr()])--}}
-                                        @include('layouts.item.empty_name', ['name'=>$item->name()])
+                                        @include('layouts.item.empty_name', ['name'=>$item->name(false, false, false, true)])
                                     </mark>
                                 </a>
                             @else
