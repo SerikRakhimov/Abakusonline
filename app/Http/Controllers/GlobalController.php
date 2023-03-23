@@ -2753,13 +2753,13 @@ class GlobalController extends Controller
 //        } else {
 //            $result = $result . $base->em_str();
 //        }
-        if (!$base->type_is_list()) {
+//        if (!$base->type_is_list()) {
             //if ($base->type_is_number()) {
             $result = $result . $base->em_br();
             //} else {
             //    $result = $result . $base->em_str();
             //}
-        }
+//        }
         return $result;
     }
 

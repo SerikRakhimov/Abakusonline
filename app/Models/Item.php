@@ -160,13 +160,24 @@ class Item extends Model
     // $fullname = true/false - вывод полной строки (более 255 символов)
     // $numcat = true/false - вывод числовых полей с разрядом тысячи/миллионы/миллиарды
     // $rightnull = true/false - у вещественных чисел убрать правые нули после запятой
-    function name($fullname = false, $numcat = false, $rightnull = false)
+    function name($fullname = false, $numcat = false, $rightnull = false, $emoji_enable = false)
     {
         $result = self::name_start($fullname, $numcat, $rightnull);
         $result = str_replace('\~', '', $result);
         // Похожая строка в Item.php::name() и Text::name()
         // Вторым параметром передается $this->base
-        $result = (new GlobalController)->name_and_emoji($result, $this->base);
+        if ($emoji_enable == true) {
+            $result = (new GlobalController)->name_and_emoji($result, $this->base);
+        }
+        return $result;
+    }
+
+    function prnm($emoji_enable = false)
+    {
+        $result = trans('main.name');
+        if ($emoji_enable == true) {
+            $result = (new GlobalController)->name_and_brackets_emoji($result, $this->base);
+        }
         return $result;
     }
 
@@ -233,8 +244,6 @@ class Item extends Model
                     }
                 }
             }
-            //$name = (new GlobalController)->name_and_brackets_emoji($name, $this->base);
-            $name = (new GlobalController)->name_and_emoji($name, $this->base);
             $res_array[$lang_key] = $name;
         }
         // Восстановить текущий язык

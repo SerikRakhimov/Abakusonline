@@ -221,10 +221,10 @@
                                                                 'called_from_button'=>0,
                                                                 'view_link'=>\App\Http\Controllers\GlobalController::const_null()])}}"
                                title="">
-                                {{$item_find->name(false, true, true)}}
+                                {{$item_find->name(false, true, true, true)}}
                             </a>
                         @else
-                            {{$item_find->name(false, true, true)}}
+                            {{$item_find->name(false, true, true, true)}}
                         @endif
                         {{--                            </b>--}}
                         {{--                            </span>--}}

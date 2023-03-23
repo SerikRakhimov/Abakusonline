@@ -80,7 +80,7 @@
             }
             $base_right = GlobalController::base_right($base, $role, $relit_id);
 //          Использовать так "$base->names($base_right, true)", "true" - вызов из base_index.php
-            $base_names = $base->names($base_right, true);
+            $base_names = $base->names($base_right, true, true);
             ?>
             <div class="row mt-3">
                 <div style="width:100%;padding-left: 100px">

@@ -48,7 +48,7 @@ class Base extends Model
     }
 
     // Используется "names"
-    function names($base_right = null, $for_base_index = false)
+    function names($base_right = null, $for_base_index = false, $emoji_enable = false)
     {
         $result = "";  // нужно, не удалять
         // В единственном числе выводить наименование
@@ -87,7 +87,9 @@ class Base extends Model
         if ($base_right) {
             $result = $result . GlobalController::my_info($base_right, $for_base_index);
         }
-        //$result = (new GlobalController)->name_and_end_emoji($result, $this);
+        if ($emoji_enable == true) {
+            $result = (new GlobalController)->name_and_brackets_emoji($result, $this);
+        }
         return $result;
     }
 

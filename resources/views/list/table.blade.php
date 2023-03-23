@@ -616,7 +616,7 @@ $link_image = $tile_view['link'];
                                             <small>
                                                 <mark class="text-project">
                                                     @endif
-                                                    @include('layouts.item.empty_name', ['name'=>$item_find->name(false,false,false)])
+                                                    @include('layouts.item.empty_name', ['name'=>$item_find->name(false,false,false,true)])
                                                     @if($heading)
                                                 </mark>
                                             </small>

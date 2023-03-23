@@ -235,7 +235,7 @@
                     @foreach (config('app.locales') as $key=>$value)
                         @if(($base->is_one_value_lst_str_txt == true && $key == 0) || ($base->is_one_value_lst_str_txt == false))
                             <div class="col-sm-3 text-right">
-                                <label for="name_lang_{{$key}}" class="col-form-label">{{trans('main.name')}}
+                                <label for="name_lang_{{$key}}" class="col-form-label">{{$item->prnm(true)}}
                                     @if($base->is_one_value_lst_str_txt == false)
                                         ({{trans('main.' . $value)}})
                                     @endif<span
@@ -284,7 +284,7 @@
                         @foreach (config('app.locales') as $key=>$value)
                             @if(($base->is_one_value_lst_str_txt == true && $key == 0) || ($base->is_one_value_lst_str_txt == false))
                                 <div class="col-sm-3 text-right">
-                                    <label for="name_lang_{{$key}}" class="col-form-label">{{trans('main.name')}}
+                                    <label for="name_lang_{{$key}}" class="col-form-label">{{$item->prnm(true)}}
                                         @if($base->is_one_value_lst_str_txt == false)
                                             ({{trans('main.' . $value)}})
                                         @endif
