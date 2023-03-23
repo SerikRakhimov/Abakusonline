@@ -260,6 +260,7 @@ class ItemController extends Controller
         $relip_project = GlobalController::calc_relip_project($relit_id, $project);
 
         $base_right = GlobalController::base_right($base, $role, $relit_id);
+
 ////      Похожая проверка в ItemController::base_index() и project/start.php
 ////      Используется 'is_list_base_calc' в ext_show.php и ItemController::item_index()
 //        if ($base_right['is_list_base_calc'] == false) {
@@ -1534,6 +1535,10 @@ class ItemController extends Controller
                 // Такая же проверка и в GlobalController (function items_right()),
                 // в ItemController (function next_all_links_mains_calc(), browser(), get_items_for_link(), get_items_ext_edit_for_link())
                 //              Похожие запросы в ItemController::next_all_links_mains_calc() и GlobalController::items_right()
+                // Фильтры GlobalController::items_right():
+                // "if ($base_right['is_tst_enable'] == true)"
+                // "if ($base_right['is_cus_enable'] == true)"
+                // здесь не настроены.
                 $next_all_mains = Main::select('mains.*')
                     ->join('links', 'mains.link_id', '=', 'links.id')
                     ->join('items', 'mains.child_item_id', '=', 'items.id')

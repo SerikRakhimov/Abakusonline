@@ -85,8 +85,17 @@ class Base extends Model
             $result = $this->name();
         }
         if ($base_right) {
-            $result = $result . GlobalController::my_info($base_right, $for_base_index);
+            $result = $result . GlobalController::my_info($base_right);
         }
+        if ($emoji_enable == true) {
+            $result = (new GlobalController)->name_and_brackets_emoji($result, $this);
+        }
+        return $result;
+    }
+
+    function prnm($emoji_enable = false)
+    {
+        $result = trans('main.name');
         if ($emoji_enable == true) {
             $result = (new GlobalController)->name_and_brackets_emoji($result, $this);
         }

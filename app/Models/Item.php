@@ -172,15 +172,6 @@ class Item extends Model
         return $result;
     }
 
-    function prnm($emoji_enable = false)
-    {
-        $result = trans('main.name');
-        if ($emoji_enable == true) {
-            $result = (new GlobalController)->name_and_brackets_emoji($result, $this->base);
-        }
-        return $result;
-    }
-
     function cdnm($fullname = false, $numcat = false, $rightnull = false)
     {
         $result = self::name($fullname, $numcat, $rightnull);

@@ -487,6 +487,7 @@ class GlobalController extends Controller
         if ($link->parent_is_tst_link == true & $is_tst_enable == true) {
             $is_list_link_enable = false;
         }
+
         //  Проверка 'Для текущего пользователя (link = текущий пользователь, для base_index.php)'
         if ($link->parent_is_cus_link == true & $is_cus_enable == true) {
             $is_list_link_enable = false;
@@ -510,6 +511,7 @@ class GlobalController extends Controller
             $is_parent_page_sort_asc = $roli->is_parent_page_sort_asc;
         }
         $is_edit_link_enable = $is_edit_link_read || $is_edit_link_update;
+
         return ['link_id' => $link->id,
             'base_rel_id' => $base_rel_id,
             'is_list_base_calc' => $is_list_base_calc,
@@ -656,9 +658,9 @@ class GlobalController extends Controller
                 $items = Item::joinSub($items_ids, 'items_ids', function ($join) {
                     $join->on('items.id', '=', 'items_ids.id');
                 });
-                if ($base_right['is_list_hist_records_enable'] == false) {
-                    $items = $items->where('items.is_history', false);
-                }
+//                if ($base_right['is_list_hist_records_enable'] == false) {
+//                    $items = $items->where('items.is_history', false);
+//                }
             }
             // Выборка из items
         } else {
@@ -666,24 +668,48 @@ class GlobalController extends Controller
             // Обязательно фильтр на два запроса:
             // where('base_id', $base->id)->where('project_id', $project->id)
             $items = Item::where('base_id', $base->id)->where('project_id', $project->id);
+        }
+
+        if ($base_right['is_list_hist_records_enable'] == false) {
+            $items = $items->where('items.is_history', false);
+        }
+        // Важно: Для просмотра в base_index.php и item_index.php(если есть $link в исходных передаваемых параметрах)
+        if ($base_right['is_tst_enable'] == true) {
+            // Если выборка идет из таблицы mains, значит mains.parent_item_id есть и заполнено
+            $mains = Main::select(['mains.*'])->
+            join('items as it_ch', 'mains.child_item_id', '=', 'it_ch.id')
+                ->join('links', 'mains.link_id', '=', 'links.id')
+                ->where('it_ch.base_id', $base->id)
+                ->where('it_ch.project_id', $project->id)
+                ->where('links.parent_is_tst_link', true);
+
             if ($base_right['is_list_hist_records_enable'] == false) {
-                $items = $items->where('items.is_history', false);
+                $mains = $mains
+                    ->join('items as it_pr', 'mains.parent_item_id', '=', 'it_pr.id')
+                    ->where('it_pr.is_history', false);
             }
-            // Важно: Для просмотра в base_index.php
-            if ($base_right['is_tst_enable'] == true) {
-                // Если выборка идет из таблицы mains, значит mains.parent_item_id есть и заполнено
+
+            // 'get()' нужно
+            $mains = $mains->get();
+
+            $arr_it = array();
+            foreach ($mains as $m) {
+                $arr_it[] = $m['child_item_id'];
+            }
+
+            $items = $items->whereNotIn('items.id', $arr_it);
+
+        }
+        if ($base_right['is_cus_enable'] == true) {
+            $user_item = self::glo_user()->get_user_item();
+            if ($user_item) {
                 $mains = Main::select(['mains.*'])->
                 join('items as it_ch', 'mains.child_item_id', '=', 'it_ch.id')
                     ->join('links', 'mains.link_id', '=', 'links.id')
                     ->where('it_ch.base_id', $base->id)
                     ->where('it_ch.project_id', $project->id)
-                    ->where('links.parent_is_tst_link', true);
-
-                if ($base_right['is_list_hist_records_enable'] == false) {
-                    $mains = $mains
-                        ->join('items as it_pr', 'mains.parent_item_id', '=', 'it_pr.id')
-                        ->where('it_pr.is_history', false);
-                }
+                    ->where('mains.parent_item_id', $user_item->id)
+                    ->where('links.parent_is_cus_link', true);
 
                 // 'get()' нужно
                 $mains = $mains->get();
@@ -693,32 +719,10 @@ class GlobalController extends Controller
                     $arr_it[] = $m['child_item_id'];
                 }
 
-                $items = $items->whereNotIn('id', $arr_it);
-
-            }
-            if ($base_right['is_cus_enable'] == true) {
-                $user_item = self::glo_user()->get_user_item();
-                if ($user_item) {
-                    $mains = Main::select(['mains.*'])->
-                    join('items as it_ch', 'mains.child_item_id', '=', 'it_ch.id')
-                        ->join('links', 'mains.link_id', '=', 'links.id')
-                        ->where('it_ch.base_id', $base->id)
-                        ->where('it_ch.project_id', $project->id)
-                        ->where('mains.parent_item_id', $user_item->id)
-                        ->where('links.parent_is_cus_link', true);
-
-                    // 'get()' нужно
-                    $mains = $mains->get();
-
-                    $arr_it = array();
-                    foreach ($mains as $m) {
-                        $arr_it[] = $m['child_item_id'];
-                    }
-
-                    $items = $items->whereIn('id', $arr_it);
-                }
+                $items = $items->whereIn('items.id', $arr_it);
             }
         }
+
         // Такая же проверка и в GlobalController (function items_right()),
         // в ItemController (function next_all_links_mains_calc(), browser(), get_items_for_link(), get_items_ext_edit_for_link())
         if (($base_right['is_list_base_user_id'] == true) | ($base_right['is_list_base_byuser'] == true)) {
@@ -2673,7 +2677,7 @@ class GlobalController extends Controller
         return $result;
     }
 
-    static function my_info($base_right = null, $for_base_index = false)
+    static function my_info($base_right = null)
     {
         $result = '';
         if ($base_right) {
@@ -2683,10 +2687,10 @@ class GlobalController extends Controller
             if ($base_right['is_list_base_byuser'] == true) {
                 $result = $result . ' (' . mb_strtolower(trans('main.my_records')) . ')';
             }
-//            if ($base_right['is_tst_enable'] == true & $for_base_index == true) {
-//                $result = $result . ' (' . mb_strtolower(trans('main.is_tst_enable')) . ')';
-//            }
-            if ($base_right['is_cus_enable'] == true & $for_base_index == true) {
+            if ($base_right['is_tst_enable'] == true) {
+                $result = $result . ' (' . mb_strtolower(trans('main.tree_structure')) . ')';
+            }
+            if ($base_right['is_cus_enable'] == true) {
                 //$result = $result . ' (' . GlobalController::glo_user()->get_user_itnm() . ')';
                 $result = $result . ' (' . mb_strtolower(trans('main.filter_by_current_user')) . ')';
             }
