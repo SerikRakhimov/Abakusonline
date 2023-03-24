@@ -485,6 +485,9 @@ class GlobalController extends Controller
         // Не показывать столбцы
         //  Проверка 'Для древовидной структуры (link = null, для base_index.php)'
         if ($link->parent_is_tst_link == true & $is_tst_enable == true) {
+            // Нужно "$is_tst_enable = false;"
+            // для случая "item_index.php, $link->parent_is_tst_link = true, $link->child_base_id = $link->parent_base_id"
+            $is_tst_enable = false;
             $is_list_link_enable = false;
         }
 
@@ -613,8 +616,10 @@ class GlobalController extends Controller
 //            Не использовать "if ($view_ret_id != null)"
             $mains_link = Link::find($mains_link_id);
             if ($mains_link) {
-//              $base_right = self::base_right($base, $role, $view_ret_id);
-                $base_right = self::base_right($mains_link->child_base, $role, $view_ret_id);
+                // $base_right = self::base_right($base, $role, $view_ret_id);
+                // $base_right = self::base_right($mains_link->child_base, $role, $view_ret_id);
+                // Нужно "$link->child_base_id"
+                $base_right = self::base_link_right($mains_link, $role, $view_ret_id);
                 //        $mains = Main::all()->where('parent_item_id', $item->id)->where('link_id', $current_link->id)->sortBy(function ($main) {
                 //            return $main->link->child_base->name() . $main->child_item->name();
                 //        });
