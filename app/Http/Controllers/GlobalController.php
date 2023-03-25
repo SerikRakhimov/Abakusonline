@@ -2723,9 +2723,9 @@ class GlobalController extends Controller
         $result = $name;
         $sem = $base->em_str();
         if (!$base->type_is_number()) {
-            $result = $sem . $result;
+            $result = $sem . ' ' . $result;
         } else {
-            $result = $result . $sem;
+            $result = $result . ' ' . $sem;
         }
         return $result;
     }
@@ -2735,7 +2735,7 @@ class GlobalController extends Controller
         $result = $name;
         $sem = $base->em_str();
 //        if (!$base->type_is_number()) {
-        $result = $sem . $result;
+        $result = $sem . ' ' . $result;
 //        } else {
 //        $result = $result . $sem;
 //        }
@@ -2749,7 +2749,7 @@ class GlobalController extends Controller
 //        if (!$base->type_is_number()) {
 //        $result = $sem . $result;
 //        } else {
-        $result = $result . $sem;
+        $result = $result . ' ' . $sem;
 //        }
         return $result;
     }
