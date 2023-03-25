@@ -291,19 +291,19 @@
                                         <span class="text-danger">{{GlobalController::label_is_required($base)}}</span></label>
                                 </div>
                                 <div class="col-sm-7">
-{{--                                    https://getbootstrap.com/docs/4.0/components/forms/--}}
-{{--                                    <div class="input-group">--}}
-{{--                                        <div class="input-group-prepend">--}}
-{{--                                            <div class="input-group-text">🌞</div>--}}
-{{--                                        </div>--}}
-{{--                                        <input type="text"--}}
-{{--                                               name="name_lang_{{$key}}"--}}
-{{--                                               id="name_lang_{{$key}}"--}}
-{{--                                               class="form-control @error('name_lang_' . $key) is-invalid @enderror"--}}
-{{--                                               placeholder=""--}}
-{{--                                               value="{{ old('name_lang_' . $key) ?? ($item['name_lang_' . $key] ?? '') }}"--}}
-{{--                                               maxlength="255">--}}
-{{--                                    </div>--}}
+                                    {{--                                    https://getbootstrap.com/docs/4.0/components/forms/--}}
+                                    {{--                                    <div class="input-group">--}}
+                                    {{--                                        <div class="input-group-prepend">--}}
+                                    {{--                                            <div class="input-group-text">🌞</div>--}}
+                                    {{--                                        </div>--}}
+                                    {{--                                        <input type="text"--}}
+                                    {{--                                               name="name_lang_{{$key}}"--}}
+                                    {{--                                               id="name_lang_{{$key}}"--}}
+                                    {{--                                               class="form-control @error('name_lang_' . $key) is-invalid @enderror"--}}
+                                    {{--                                               placeholder=""--}}
+                                    {{--                                               value="{{ old('name_lang_' . $key) ?? ($item['name_lang_' . $key] ?? '') }}"--}}
+                                    {{--                                               maxlength="255">--}}
+                                    {{--                                    </div>--}}
                                     <input type="text"
                                            name="name_lang_{{$key}}"
                                            id="name_lang_{{$key}}"
@@ -615,13 +615,13 @@
                                    @elseif($link->parent_is_nc_viewonly==true)
                                    {{-- Похожая строка ниже--}}
                                    readonly
-                                   @endif
-                                   @else
-                                   {{--                                   тут использовать readonly (при disabled (здесь) - это поле не обновляется)--}}
-                                   {{--                                   также при disabled работают строки (ниже):--}}
-                                   {{--                                   parent_base_id_work = document.getElementById('link{{$key}}').disabled = true;--}}
-                                   {{--                                   parent_base_id_work = document.getElementById('link{{$key}}').disabled = false;--}}
-                                   readonly
+                                @endif
+                                {{--                                    @else--}}
+                                {{--                                   тут использовать readonly (при disabled (здесь) - это поле не обновляется)--}}
+                                {{--                                   также при disabled работают строки (ниже):--}}
+                                {{--                                   parent_base_id_work = document.getElementById('link{{$key}}').disabled = true;--}}
+                                {{--                                   parent_base_id_work = document.getElementById('link{{$key}}').disabled = false;--}}
+                                {{--                                   readonly--}}
                                 @endif
                                 @endif
                             >
@@ -756,14 +756,14 @@
                                    @elseif($link->parent_is_nc_viewonly==true)
                                    {{-- Похожая строка ниже--}}
                                    onclick="return false;"
-                                   @endif
-                                   @else
-                                   {{--                                   тут использовать readonly (при disabled (здесь) - это поле не обновляется)--}}
-                                   {{--                                   также при disabled работают строки (ниже):--}}
-                                   {{--                                   parent_base_id_work = document.getElementById('link{{$key}}').disabled = true;--}}
-                                   {{--                                   parent_base_id_work = document.getElementById('link{{$key}}').disabled = false;--}}
-                                   {{-- https://www.codegrepper.com/code-examples/whatever/checkbox+readonly--}}
-                                   onclick="return false;"
+                                @endif
+                                {{--                                   @else--}}
+                                {{--                                   тут использовать readonly (при disabled (здесь) - это поле не обновляется)--}}
+                                {{--                                   также при disabled работают строки (ниже):--}}
+                                {{--                                   parent_base_id_work = document.getElementById('link{{$key}}').disabled = true;--}}
+                                {{--                                   parent_base_id_work = document.getElementById('link{{$key}}').disabled = false;--}}
+                                {{-- https://www.codegrepper.com/code-examples/whatever/checkbox+readonly--}}
+                                {{--                                   onclick="return false;"--}}
                                 @endif
                                 @endif
                             >
