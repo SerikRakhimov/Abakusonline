@@ -7450,9 +7450,9 @@ class ItemController extends Controller
             }
         } else {
             if(!$base->is_required_lst_num_str_txt_img_doc){
-                $result_items_name_options = "<option value='0'>" .GlobalController::option_empty()."1111111111</option>";
+                $result_items_name_options = "<option value='0'>" .GlobalController::option_empty()."</option>";
             }else {
-                $result_items_name_options = "<option value='0'>" . trans('main.no_information') . "!2222222222</option>";
+                $result_items_name_options = "<option value='0'>" . trans('main.no_information') . "!</option>";
             }
         }
 

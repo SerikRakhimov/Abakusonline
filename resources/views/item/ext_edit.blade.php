@@ -1353,7 +1353,11 @@
                         @else
                         if (parent_base_id{{$prefix}}{{$link->id}}.options[parent_base_id{{$prefix}}{{$link->id}}.selectedIndex].value == 0) {
                             @endif
-                                child_base_id{{$prefix}}{{$link->id}}.innerHTML = "<option value='0'>{{trans('main.no_information') . '!'}}</option>";
+                                @if(!$link->parent_base->is_required_lst_num_str_txt_img_doc)
+                                child_base_id{{$prefix}}{{$link->id}}.innerHTML = "{{GlobalController::option_empty()}}";
+                            @else
+                                child_base_id{{$prefix}}{{$link->id}}.innerHTML = "{{trans('main.no_information') . '!'}}";
+                            @endif
                         } else {
                             @if(($link_start_child->parent_is_base_link == true) || ($link_start_child->parent_base->is_code_needed==true && $link_start_child->parent_is_enter_refer==true))
                                 @else
@@ -1569,7 +1573,11 @@
                 ?>
                 function link_id_change_{{$prefix}}{{$link->id}}(first = false) {
                     if (child_base_id{{$prefix}}{{$link->id}}.value == 0) {
-                        parent_base_id{{$prefix}}{{$link->id}}.innerHTML = "{{trans('main.no_information') . '!'}}";
+                        @if(!$const_link_start->parent_base->is_required_lst_num_str_txt_img_doc)
+                            parent_base_id{{$prefix}}{{$link->id}}.innerHTML = "{{GlobalController::option_empty()}}";
+                        @else
+                            parent_base_id{{$prefix}}{{$link->id}}.innerHTML = "{{trans('main.no_information') . '!'}}";
+                        @endif
                         @if($link->parent_is_nc_parameter == true)
                         <?php
                         echo StepController::steps_javascript_code($link, 'link_id_changeOption');
@@ -1619,7 +1627,11 @@
                 function link_id_changeOption_{{$prefix}}{{$link->id}}(first = false) {
                     {{--parent_base_id{{$prefix}}{{$link->id}}.innerHTML = "";--}}
                     if (child_base_id{{$prefix}}{{$link->id}}.options[child_base_id{{$prefix}}{{$link->id}}.selectedIndex].value == 0) {
-                        parent_base_id{{$prefix}}{{$link->id}}.innerHTML = "{{trans('main.no_information') . '!'}}";
+                        @if(!$const_link_start->parent_base->is_required_lst_num_str_txt_img_doc)
+                            parent_base_id{{$prefix}}{{$link->id}}.innerHTML = "{{GlobalController::option_empty()}}";
+                        @else
+                            parent_base_id{{$prefix}}{{$link->id}}.innerHTML = "{{trans('main.no_information') . '!'}}";
+                        @endif
                         {{--                                @if(!$update & $link->parent_is_nc_parameter == true)--}}
                         @if($link->parent_is_nc_parameter == true)
                         <?php
@@ -1782,9 +1794,7 @@
                 {{--    }--}}
                 {{--}--}}
                 numcalc_{{$prefix}}{{$link->id}}.value = x;
-            {{--numcalc_{{$prefix}}{{$link->id}}.innerHTML = "<option value='" + "0" + "'>11111111111{{trans('main.no_information') . '!'}}</option>";--}}
-                {{--numcalc_{{$prefix}}{{$link->id}}.selectedIndex = x;--}}
-                @endif
+            @endif
                 {{-- Похожие по смыслу проверки "$link->parent_is_nc_viewonly==false" в этом файле пять раз--}}
                 @if($link->parent_is_nc_viewonly == false)
                 name_{{$prefix}}{{$link->id}}.innerHTML = error_message;
