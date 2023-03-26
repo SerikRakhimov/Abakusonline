@@ -1048,7 +1048,7 @@
                                 @else
                                     @if ((count($items) == 0)))
                                     @if(!$link->parent_base->is_required_lst_num_str_txt_img_doc)
-                                        <option value="0">{{GlobalController::option_empty()}}</option>
+                                        <option value='0'>{{GlobalController::option_empty()}}</option>
                                     @else
                                         <option value='0'>{{trans('main.no_information_on')}}
                                             "{{$result_parent_label}}"!
@@ -1056,7 +1056,7 @@
                                     @endif
                                     @else
                                         @if(!$link->parent_base->is_required_lst_num_str_txt_img_doc)
-                                            <option value="0">{{GlobalController::option_empty()}}</option>
+                                            <option value='0'>{{GlobalController::option_empty()}}</option>
                                         @endif
                                         @foreach ($items as $item_work)
                                             <option value="{{$item_work->id}}"
@@ -1348,15 +1348,13 @@
                 ?>
                 {{-- async - await нужно, https://tproger.ru/translations/understanding-async-await-in-javascript/--}}
                 async function link_id_changeOption_{{$prefix}}{{$link->id}}(first) {
-                    alert(parent_base_id{{$prefix}}{{$link->id}}.options[parent_base_id{{$prefix}}{{$link->id}}.selectedIndex].value);
                     @if(($link->parent_is_base_link == true) || ($link->parent_base->is_code_needed==true && $link->parent_is_enter_refer==true))
                     if (parent_base_id{{$prefix}}{{$link->id}}.value == 0) {
                         @else
                         if (parent_base_id{{$prefix}}{{$link->id}}.options[parent_base_id{{$prefix}}{{$link->id}}.selectedIndex].value == 0) {
                             @endif
-                                alert(100);
                                 @if(!$link->child_base->is_required_lst_num_str_txt_img_doc)
-                                child_base_id{{$prefix}}{{$link->id}}.innerHTML = "{{GlobalController::option_empty()}}";
+                                child_base_id{{$prefix}}{{$link->id}}.innerHTML = "<option value='0'>{{GlobalController::option_empty()}}</option>";
                             @else
                                 child_base_id{{$prefix}}{{$link->id}}.innerHTML = "{{trans('main.no_information') . '!'}}";
                             @endif
@@ -1575,11 +1573,7 @@
                 ?>
                 function link_id_change_{{$prefix}}{{$link->id}}(first = false) {
                     if (child_base_id{{$prefix}}{{$link->id}}.value == 0) {
-                        @if(!$const_link_start->parent_base->is_required_lst_num_str_txt_img_doc)
-                            parent_base_id{{$prefix}}{{$link->id}}.innerHTML = "{{GlobalController::option_empty()}}";
-                        @else
-                            parent_base_id{{$prefix}}{{$link->id}}.innerHTML = "{{trans('main.no_information') . '!'}}";
-                        @endif
+                        parent_base_id{{$prefix}}{{$link->id}}.innerHTML = "{{trans('main.no_information') . '!'}}";
                         @if($link->parent_is_nc_parameter == true)
                         <?php
                         echo StepController::steps_javascript_code($link, 'link_id_changeOption');
@@ -1629,11 +1623,7 @@
                 function link_id_changeOption_{{$prefix}}{{$link->id}}(first = false) {
                     {{--parent_base_id{{$prefix}}{{$link->id}}.innerHTML = "";--}}
                     if (child_base_id{{$prefix}}{{$link->id}}.options[child_base_id{{$prefix}}{{$link->id}}.selectedIndex].value == 0) {
-                        @if(!$const_link_start->parent_base->is_required_lst_num_str_txt_img_doc)
-                            parent_base_id{{$prefix}}{{$link->id}}.innerHTML = "{{GlobalController::option_empty()}}";
-                        @else
-                            parent_base_id{{$prefix}}{{$link->id}}.innerHTML = "{{trans('main.no_information') . '!'}}";
-                        @endif
+                        parent_base_id{{$prefix}}{{$link->id}}.innerHTML = "{{trans('main.no_information') . '!'}}";
                         {{--                                @if(!$update & $link->parent_is_nc_parameter == true)--}}
                         @if($link->parent_is_nc_parameter == true)
                         <?php
