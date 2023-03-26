@@ -1348,18 +1348,16 @@
                 ?>
                 {{-- async - await нужно, https://tproger.ru/translations/understanding-async-await-in-javascript/--}}
                 async function link_id_changeOption_{{$prefix}}{{$link->id}}(first) {
-                   alert('{{$link->child_base->name()}}'');
-
-                        @if(($link->parent_is_base_link == true) || ($link->parent_base->is_code_needed==true && $link->parent_is_enter_refer==true))
+                    @if(($link->parent_is_base_link == true) || ($link->parent_base->is_code_needed==true && $link->parent_is_enter_refer==true))
                     if (parent_base_id{{$prefix}}{{$link->id}}.value == 0) {
                         @else
                         if (parent_base_id{{$prefix}}{{$link->id}}.options[parent_base_id{{$prefix}}{{$link->id}}.selectedIndex].value == 0) {
                             @endif
-{{--                                @if(!$link->parent_base->is_required_lst_num_str_txt_img_doc)--}}
-{{--                                child_base_id{{$prefix}}{{$link->id}}.innerHTML = "{{GlobalController::option_empty()}}";--}}
-{{--                            @else--}}
+                                @if(!$link->child_base->is_required_lst_num_str_txt_img_doc)
+                                child_base_id{{$prefix}}{{$link->id}}.innerHTML = "{{GlobalController::option_empty()}}";
+                            @else
                                 child_base_id{{$prefix}}{{$link->id}}.innerHTML = "{{trans('main.no_information') . '!'}}";
-{{--                            @endif--}}
+                            @endif
                         } else {
                             @if(($link_start_child->parent_is_base_link == true) || ($link_start_child->parent_base->is_code_needed==true && $link_start_child->parent_is_enter_refer==true))
                                 @else
