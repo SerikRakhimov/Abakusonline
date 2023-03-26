@@ -1354,6 +1354,7 @@
                         @else
                         if (parent_base_id{{$prefix}}{{$link->id}}.options[parent_base_id{{$prefix}}{{$link->id}}.selectedIndex].value == 0) {
                             @endif
+                                alert(100);
                                 @if(!$link->child_base->is_required_lst_num_str_txt_img_doc)
                                 child_base_id{{$prefix}}{{$link->id}}.innerHTML = "{{GlobalController::option_empty()}}";
                             @else
