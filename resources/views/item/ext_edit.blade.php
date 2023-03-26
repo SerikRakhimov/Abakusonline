@@ -1353,11 +1353,11 @@
                         @else
                         if (parent_base_id{{$prefix}}{{$link->id}}.options[parent_base_id{{$prefix}}{{$link->id}}.selectedIndex].value == 0) {
                             @endif
-{{--                                @if(!$link->child_base->is_required_lst_num_str_txt_img_doc)--}}
-{{--                                child_base_id{{$prefix}}{{$link->id}}.innerHTML = "<option value='0'>{{GlobalController::option_empty()}}</option>";--}}
-{{--                            @else--}}
+                                @if(!$link->child_base->is_required_lst_num_str_txt_img_doc)
+                                child_base_id{{$prefix}}{{$link->id}}.innerHTML = "<option value='0'>{{GlobalController::option_empty()}}</option>";
+                            @else
                                 child_base_id{{$prefix}}{{$link->id}}.innerHTML = "<option value='0'>{{trans('main.no_information') . '!'}}</option>";
-{{--                            @endif--}}
+                            @endif
                         } else {
                             @if(($link_start_child->parent_is_base_link == true) || ($link_start_child->parent_base->is_code_needed==true && $link_start_child->parent_is_enter_refer==true))
                                 @else
