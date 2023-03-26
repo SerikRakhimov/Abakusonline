@@ -1348,6 +1348,7 @@
                 ?>
                 {{-- async - await нужно, https://tproger.ru/translations/understanding-async-await-in-javascript/--}}
                 async function link_id_changeOption_{{$prefix}}{{$link->id}}(first) {
+                    alert(parent_base_id{{$prefix}}{{$link->id}}.options[parent_base_id{{$prefix}}{{$link->id}}.selectedIndex].value);
                     @if(($link->parent_is_base_link == true) || ($link->parent_base->is_code_needed==true && $link->parent_is_enter_refer==true))
                     if (parent_base_id{{$prefix}}{{$link->id}}.value == 0) {
                         @else
@@ -1370,7 +1371,6 @@
                                 @endif
                                ).then(function (res) {
                                         child_base_id{{$prefix}}{{$link->id}}.innerHTML = res.data['result_items_name_options'];
-                                        alert(res.data['result_items_name_options']);
                                         for (let i = 0; i < child_base_id{{$prefix}}{{$link->id}}.length; i++) {
                                             if (child_base_id{{$prefix}}{{$link->id}}[i].value ==
                                                 {{old($link_start_child->id) ?? (($array_calc[$link_start_child->id] != null) ? $array_calc[$link_start_child->id] : 0)}}) {
