@@ -6120,6 +6120,9 @@ class ItemController extends Controller
                 $result_items = $items_child;
                 if ($items_child) {
                     $result_items_name_options = "";
+                    if(!$base_start->is_required_lst_num_str_txt_img_doc){
+                        $result_items_name_options = "<option value='0'>" .GlobalController::option_empty()."</option>";
+                    }
                     $selected = false;
                     foreach ($items_child as $item_id) {
                         $item = Item::find($item_id);
@@ -6134,7 +6137,11 @@ class ItemController extends Controller
                     }
                     //$result_items_name_options = $result_items_name_options . "<option value='0'>" . trans('main.no_information') . "!</option>";
                 } else {
-                    $result_items_name_options = "<option value='0'>" . trans('main.no_information') . "!</option>";
+                    if(!$base_start->is_required_lst_num_str_txt_img_doc){
+                        $result_items_name_options = "<option value='0'>" .GlobalController::option_empty()."</option>";
+                    }else {
+                        $result_items_name_options = "<option value='0'>" . trans('main.no_information') . "!</option>";
+                    }
                 }
             }
         }
@@ -7435,11 +7442,18 @@ class ItemController extends Controller
         $result_items_name_options = "";
         if (count($result_items) > 0) {
             $result_items_name_options = "";
+            if(!$base->is_required_lst_num_str_txt_img_doc){
+                $result_items_name_options = "<option value='0'>" .GlobalController::option_empty()."</option>";
+            }
             foreach ($result_items as $it) {
                 $result_items_name_options = $result_items_name_options . "<option value='" . $it->id . "'>" . $it->name() . "</option>";
             }
         } else {
-            $result_items_name_options = "<option value='0'>" . trans('main.no_information') . "!</option>";
+            if(!$base->is_required_lst_num_str_txt_img_doc){
+                $result_items_name_options = "<option value='0'>" .GlobalController::option_empty()."</option>";
+            }else {
+                $result_items_name_options = "<option value='0'>" . trans('main.no_information') . "!</option>";
+            }
         }
 
         return ['items_no_get' => $items_no_get,

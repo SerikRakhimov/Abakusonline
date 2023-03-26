@@ -1047,9 +1047,13 @@
                                     </option>
                                 @else
                                     @if ((count($items) == 0)))
-                                    <option value='0'>{{trans('main.no_information_on')}}
-                                        "{{$result_parent_label}}"!
-                                    </option>
+                                    @if(!$link->parent_base->is_required_lst_num_str_txt_img_doc)
+                                        <option value="0">{{GlobalController::option_empty()}}</option>
+                                    @else
+                                        <option value='0'>{{trans('main.no_information_on')}}
+                                            "{{$result_parent_label}}"!
+                                        </option>
+                                    @endif
                                     @else
                                         @if(!$link->parent_base->is_required_lst_num_str_txt_img_doc)
                                             <option value="0">{{GlobalController::option_empty()}}</option>
