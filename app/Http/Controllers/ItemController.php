@@ -7460,8 +7460,7 @@ class ItemController extends Controller
             'result_parent_label' => $items_main['result_parent_label'],
             'result_parent_base_name' => $items_main['result_parent_base_name'],
             'result_items' => $result_items,
-            'result_items_name_options' => $result_items_name_options.
-                "<option value='0'>" .GlobalController::option_empty()."77777777777777777777777777</option>"];
+            'result_items_name_options' => $result_items_name_options];
 
     }
 
