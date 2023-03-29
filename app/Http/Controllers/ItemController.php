@@ -1769,8 +1769,8 @@ class ItemController extends Controller
         // Учет "disabled" при "$link->parent_is_nc_viewonly==true", см ItemController::get_array_calc()
         foreach ($array_plan as $key => $value) {
             $link = Link::find($key);
-            if ($link){
-                if ($link->parent_is_nc_viewonly==true){
+            if ($link) {
+                if ($link->parent_is_nc_viewonly == true) {
                     $array_disabled[$key] = 0;
                 }
             }
@@ -6120,8 +6120,8 @@ class ItemController extends Controller
                 $result_items = $items_child;
                 if ($items_child) {
                     $result_items_name_options = "";
-                    if(!$base_start->is_required_lst_num_str_txt_img_doc){
-                        $result_items_name_options = "<option value='0'>" .GlobalController::option_empty()."</option>";
+                    if (!$base_start->is_required_lst_num_str_txt_img_doc) {
+                        $result_items_name_options = "<option value='0'>" . GlobalController::option_empty() . "</option>";
                     }
                     $selected = false;
                     foreach ($items_child as $item_id) {
@@ -6137,9 +6137,9 @@ class ItemController extends Controller
                     }
                     //$result_items_name_options = $result_items_name_options . "<option value='0'>" . trans('main.no_information') . "!</option>";
                 } else {
-                    if(!$base_start->is_required_lst_num_str_txt_img_doc){
-                        $result_items_name_options = "<option value='0'>" .GlobalController::option_empty()."</option>";
-                    }else {
+                    if (!$base_start->is_required_lst_num_str_txt_img_doc) {
+                        $result_items_name_options = "<option value='0'>" . GlobalController::option_empty() . "</option>";
+                    } else {
                         $result_items_name_options = "<option value='0'>" . trans('main.no_information') . "!</option>";
                     }
                 }
@@ -6842,7 +6842,9 @@ class ItemController extends Controller
             ->join('links', 'mains.link_id', '=', 'links.id')
             ->join('items', 'mains.child_item_id', '=', 'items.id')
             ->where('mains.parent_item_id', '=', $item->id)
-            ->where('links.parent_is_calcname', '=', true);
+            ->where('links.parent_is_calcname', '=', true)
+            ->where('items.base_id', '!=', $item->base_id);
+
 
         // "->get()" нужно
         $items = Item::joinSub($items_ids, 'items_ids', function ($join) {
@@ -7442,16 +7444,16 @@ class ItemController extends Controller
         $result_items_name_options = "";
         if (count($result_items) > 0) {
             $result_items_name_options = "";
-            if(!$base->is_required_lst_num_str_txt_img_doc){
-                $result_items_name_options = "<option value='0'>" .GlobalController::option_empty()."</option>";
+            if (!$base->is_required_lst_num_str_txt_img_doc) {
+                $result_items_name_options = "<option value='0'>" . GlobalController::option_empty() . "</option>";
             }
             foreach ($result_items as $it) {
                 $result_items_name_options = $result_items_name_options . "<option value='" . $it->id . "'>" . $it->name() . "</option>";
             }
         } else {
-            if(!$base->is_required_lst_num_str_txt_img_doc){
-                $result_items_name_options = "<option value='0'>" .GlobalController::option_empty()."</option>";
-            }else {
+            if (!$base->is_required_lst_num_str_txt_img_doc) {
+                $result_items_name_options = "<option value='0'>" . GlobalController::option_empty() . "</option>";
+            } else {
                 $result_items_name_options = "<option value='0'>" . trans('main.no_information') . "!</option>";
             }
         }
