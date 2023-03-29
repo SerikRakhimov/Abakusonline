@@ -6838,12 +6838,12 @@ class ItemController extends Controller
     // Перерасчет $items по переданным $item по всем проектам
     function calc_item_names(Item $item)
     {
+        //->where('items.base_id', '!=', $item->base_id)
         $items_ids = Main::select(DB::Raw('mains.child_item_id as id'))
             ->join('links', 'mains.link_id', '=', 'links.id')
             ->join('items', 'mains.child_item_id', '=', 'items.id')
             ->where('mains.parent_item_id', '=', $item->id)
-            ->where('links.parent_is_calcname', '=', true)
-            ->where('items.base_id', '!=', $item->base_id);
+            ->where('links.parent_is_calcname', '=', true);
 
 
         // "->get()" нужно
