@@ -159,14 +159,16 @@ class GlobalController extends Controller
 
 //          Не 'Показывать Основы взаимосвязанных проектов'
             if ($role->is_list_base_relits == false) {
-                if ($base->template_id != $role->template_id) {
+//              if ($base->template_id != $role->template_id) {
+                if ($relit_id != 0) {
                     $is_list_base_calc = false;
                 }
             }
 
 //          'Показывать Основы взаимосвязанных проектов'
             if ($role->is_list_base_relits == true) {
-                if ($base->template_id != $role->template_id) {
+//              if ($base->template_id != $role->template_id) {
+                if ($relit_id != 0) {
                     // 'Показывать только для чтения Основы взаимосвязанных проектов'
                     if ($role->is_read_base_relits == true) {
                         $is_list_base_read = true;
@@ -2202,7 +2204,6 @@ class GlobalController extends Controller
                 unset($array_relips[$relit_id]);
             }
         }
-
         $first_found_ret_id = false;
         $first_ret_id = -1;
         $view_found_ret_id = false;
@@ -2763,11 +2764,11 @@ class GlobalController extends Controller
 //            $result = $result . $base->em_str();
 //        }
 //        if (!$base->type_is_list()) {
-            //if ($base->type_is_number()) {
-            $result = $result . $base->em_br();
-            //} else {
-            //    $result = $result . $base->em_str();
-            //}
+        //if ($base->type_is_number()) {
+        $result = $result . $base->em_br();
+        //} else {
+        //    $result = $result . $base->em_str();
+        //}
 //        }
         return $result;
     }

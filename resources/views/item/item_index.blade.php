@@ -21,7 +21,8 @@
     $relip_name_project = '';
     $relip_body_name_project = '';
     if ($relip_project) {
-        if ($relip_project->id != $project->id) {
+//      if ($relip_project->id != $project->id) {
+        if ($relit_id != 0) {
 //          $relip_name_project = trans('main.project') . ': ' . $relip_project->name();
             $relip_name_project = $relip_project->name();
         }

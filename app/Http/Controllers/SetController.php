@@ -168,16 +168,18 @@ class SetController extends Controller
         $link_from = Link::find($request->link_from_id);
         $link_to = Link::find($request->link_to_id);
 
-        //Детские Основы должны быть с признаком "Вычисляемое наименование"
-        if ($link_from) {
-            if ($link_to) {
-                if (($link_from->child_base->is_calcname_lst == false) || ($link_to->child_base->is_calcname_lst == false)) {
-                    $message = trans('main.childrens_bases_must_be_with_the_characteristic_calculated_name')
-                        . ' ("' . $link_from->child_base->name() . '" ' . mb_strtolower(trans('main.and')) .
-                        ' "' . $link_to->child_base->name() . '")!';;
-                    $array_mess['link_from_id'] = $message;
-                    $array_mess['link_to_id'] = $message;
-                    return;
+        if(1==1) {
+            //Детские Основы должны быть с признаком "Вычисляемое наименование"
+            if ($link_from) {
+                if ($link_to) {
+                    if (($link_from->child_base->is_calcname_lst == false) || ($link_to->child_base->is_calcname_lst == false)) {
+                        $message = trans('main.childrens_bases_must_be_with_the_characteristic_calculated_name')
+                            . ' ("' . $link_from->child_base->name() . '" ' . mb_strtolower(trans('main.and')) .
+                            ' "' . $link_to->child_base->name() . '")!';;
+                        $array_mess['link_from_id'] = $message;
+                        $array_mess['link_to_id'] = $message;
+                        return;
+                    }
                 }
             }
         }

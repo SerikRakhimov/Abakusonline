@@ -3437,7 +3437,6 @@ class ItemController extends Controller
                 $item_find->created_user_id = Auth::user()->id;
                 $item_find->updated_user_id = Auth::user()->id;
                 $item_find->save();
-
             }
         }
         return $item_find;
@@ -3713,6 +3712,10 @@ class ItemController extends Controller
     {
         $params = $request->query();
         $result = trans('main.no_information') . '!';
+        $project = null;
+        if (array_key_exists('project_id', $params)) {
+            $project = Project::find($params['project_id']);
+        }
         $base = null;
         if (array_key_exists('base_id', $params)) {
             $base = Base::find($params['base_id']);
@@ -3735,13 +3738,13 @@ class ItemController extends Controller
             if ($sets_group) {
                 // base_id вычисляемой таблицы
                 $calc_table_base_id = $set->link_to->child_base_id;
-
                 $item_seek0 = null;
                 if (isset($items_id_group[0])) {
                     $item_seek0 = Item::find($items_id_group[0]);
                 }
                 if ($item_seek0) {
                     $items = Item::where('base_id', $calc_table_base_id)->where('project_id', $item_seek0->project_id);
+//                  $items = Item::where('base_id', $calc_table_base_id)->where('project_id', $project->id);
 
                     $i = 0;
                     // Фильтрация/поиск
@@ -3762,6 +3765,7 @@ class ItemController extends Controller
                     }
 
                     $result_item = self::output_calculated_table_dop($base, $link, $set, $item_seek0->project, $items);
+//                  $result_item = self::output_calculated_table_dop($base, $link, $set, $project, $items);
 
                 }
                 if ($result_item) {

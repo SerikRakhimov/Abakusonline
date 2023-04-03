@@ -1687,7 +1687,8 @@
                     {{--    parent_base_id{{$prefix}}{{$link->id}}.innerHTML = "{{trans('main.no_information') . '!'}}";--}}
                     {{--} else {--}}
                     axios.get('/item/get_parent_item_from_output_calculated_table?'
-                        + 'base_id={{$base->id}}'
+                        + 'project_id={{$project->id}}'
+                        + '&base_id={{$base->id}}'
                         + '&link_id={{$link->id}}'
                         @foreach($sets_group as $to_key => $to_value)
                         {{-- Если $to_value->link_from->Ссылка на основу = true --}}
