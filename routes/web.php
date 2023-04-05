@@ -893,9 +893,12 @@ Route::delete('/item/ext_delete/{item}/{project}/{role}/{usercode}/{relit_id}/{s
     ->name('item.ext_delete')
     ->middleware('auth');
 
+//"->middleware('auth')" не использовать
+//Route::get('/item/ext_return/{item}/{project}/{role}/{usercode}/{relit_id}/{string_current?}/{heading?}/{base_index_page?}/{body_link_page?}/{body_all_page?}/{parent_ret_id?}/{view_link?}/{par_link?}/{parent_item?}', [ItemController::class, 'ext_return'])
+//    ->name('item.ext_return')
+//    ->middleware('auth');
 Route::get('/item/ext_return/{item}/{project}/{role}/{usercode}/{relit_id}/{string_current?}/{heading?}/{base_index_page?}/{body_link_page?}/{body_all_page?}/{parent_ret_id?}/{view_link?}/{par_link?}/{parent_item?}', [ItemController::class, 'ext_return'])
-    ->name('item.ext_return')
-    ->middleware('auth');
+    ->name('item.ext_return');
 
 Route::post('/store_link_change', [ItemController::class, 'store_link_change'])
     ->name('item.store_link_change');
