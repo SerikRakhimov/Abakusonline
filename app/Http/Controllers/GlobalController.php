@@ -2693,9 +2693,10 @@ class GlobalController extends Controller
             if ($base_right['is_list_base_byuser'] == true) {
                 $result = $result . ' (' . mb_strtolower(trans('main.my_records')) . ')';
             }
-            if ($base_right['is_tst_enable'] == true) {
-                $result = $result . ' (' . mb_strtolower(trans('main.tree_structure')) . ')';
-            }
+//          Не нужно
+//          if ($base_right['is_tst_enable'] == true) {
+//              $result = $result . ' (' . mb_strtolower(trans('main.tree_structure')) . ')';
+//          }
             if ($base_right['is_cus_enable'] == true) {
                 //$result = $result . ' (' . GlobalController::glo_user()->get_user_itnm() . ')';
                 $result = $result . ' (' . mb_strtolower(trans('main.filter_by_current_user')) . ')';
