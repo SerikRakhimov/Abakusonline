@@ -901,7 +901,13 @@ class GlobalController extends Controller
                 $current_item = Item::find($current_item_id);
                 if ($current_item) {
                     $itget = $items->get();
-                    $current_index = $itget->search($current_item);
+                    // Так работает некорректно
+//                  $current_index = $itget->search($current_item);
+                    // Так использовать
+//                  https://laravel.ru/docs/v5/collections#search
+                    $current_index = $itget->search(function ($item_collection, $key_collection) use ($current_item) {
+                        return $item_collection->id == $current_item->id;
+                    });
                     // Использовать '!==' для правильного сравнения
                     if ($current_index !== false) {
                         $prev_index = $current_index - 1;
