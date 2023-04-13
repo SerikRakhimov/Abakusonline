@@ -237,7 +237,7 @@ $link_image = $tile_view['link'];
                             {{--                                'string_all_codes_current' => $string_all_codes_current,--}}
                             {{--                                'string_link_ids_current' => $string_link_ids_current,--}}
                             {{--                                'string_item_ids_current' => $string_item_ids_current,--}}
-                            @include('view.img',['item'=>$item_find, 'size'=>"medium", 'filenametrue'=>false, 'link'=>false, 'img_fluid'=>true, 'card_img_top'=>false, 'title'=>$item->name()])
+                            @include('view.img',['item'=>$item_find, 'size'=>"small", 'filenametrue'=>false, 'link'=>false, 'img_fluid'=>true, 'card_img_top'=>false, 'title'=>$item->name()])
                         </a>
                         </td>
                     @endif
