@@ -459,4 +459,5 @@ return [
     'is_cus_enable' => 'Ағымдық пайдаланушының жазбалары (link = ағымдық пайдаланушы, base_index.php, item_index($link) үшін)',
     'parent_is_cus_link' => 'Ағымдық пайдаланушы үшін (link = ағымдық пайдаланушы, base_index.php, item_index($link) үшін)',
     'tree_structure' => 'Ағаш тәрізді құрылым',
+    'is_base_required' =>'Қажет (тізімдер үшін, егер $base->is_required_lst_num_str_txt_img_doc = жалған болса)',
 ];

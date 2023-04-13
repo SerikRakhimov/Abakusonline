@@ -919,9 +919,9 @@ Route::get('/item/get_items_for_link/{link}/{project}/{role}/{relit_id}', [ItemC
     ->name('item.get_items_for_link')
     ->middleware('auth');
 
-Route::get('/item/get_child_items_from_parent_item/{base_start}/{item_start}/{link}', [ItemController::class, 'get_child_items_from_parent_item'])
-    ->name('item.get_child_items_from_parent_item')
-    ->middleware('auth');
+//Route::get('/item/get_child_items_from_parent_item/{base_start}/{item_start}/{link}', [ItemController::class, 'get_child_items_from_parent_item'])
+//    ->name('item.get_child_items_from_parent_item')
+//    ->middleware('auth');
 
 //Route::get('/item/get_selection_child_items_from_parent_item/{link}/{item_select}', [ItemController::class, 'get_selection_child_items_from_parent_item')
 //    ->name('item.get_selection_child_items_from_parent_item')

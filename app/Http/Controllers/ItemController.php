@@ -2084,9 +2084,11 @@ class ItemController extends Controller
                     ->withErrors($array_mess);
             }
         }
-
+        $base_right = GlobalController::base_right($base, $role, $relit_id);
         // Проверка на обязательность ввода наименования
-        if ($base->is_required_lst_num_str_txt_img_doc == true && $base->is_calcname_lst == false) {
+        //if ($base->is_required_lst_num_str_txt_img_doc == true && $base->is_calcname_lst == false) {
+        //          'Обязательно к заполнению (для списков, при условии $base->is_required_lst_num_str_txt_img_doc = false
+        if ($base_right['is_base_required'] == true && $base->is_calcname_lst == false) {
             // Тип - список, строка или текст
             if ($base->type_is_list() || $base->type_is_string() || $base->type_is_text()) {
                 $name_lang_array = array();
@@ -2474,7 +2476,7 @@ class ItemController extends Controller
         $errors = false;
         foreach ($inputs as $key => $value) {
             $link = Link::findOrFail($key);
-
+            $base_link_right = GlobalController::base_link_right($link, $role, $relit_id);
             $work_base = $link->parent_base;
             // при типе "логический" проверять на обязательность заполнения не нужно
             $control_required = false;
@@ -2484,13 +2486,11 @@ class ItemController extends Controller
                 if ($work_base->type_is_list()) {
                     // так не использовать
                     // Проверка на обязательность ввода
-                    if ($work_base->is_required_lst_num_str_txt_img_doc == true) {
+                    //if ($work_base->is_required_lst_num_str_txt_img_doc == true) {
+                    //          'Обязательно к заполнению (для списков, при условии $base->is_required_lst_num_str_txt_img_doc = false
+                    if ($base_link_right['is_base_required'] == true) {
                         $control_required = true;
                     }
-                    // это правильно
-
-                    //$control_required = true;
-
                 } // Тип - число
                 elseif ($work_base->type_is_number()) {
                     // Проверка на обязательность ввода
@@ -4356,8 +4356,12 @@ class ItemController extends Controller
             }
         }
 
+        $base_right = GlobalController::base_right($item->base, $role, $relit_id);
+
         // Проверка на обязательность ввода
-        if ($item->base->is_required_lst_num_str_txt_img_doc == true && $item->base->is_calcname_lst == false) {
+        //if ($item->base->is_required_lst_num_str_txt_img_doc == true && $item->base->is_calcname_lst == false) {
+        //          'Обязательно к заполнению (для списков, при условии $base->is_required_lst_num_str_txt_img_doc = false
+        if ($base_right['is_base_required'] == true && $item->base->is_calcname_lst == false) {
             // Тип - список, строка или текст
             if ($item->base->type_is_list() || $item->base->type_is_string() || $item->base->type_is_text()) {
                 $name_lang_array = array();
@@ -4792,6 +4796,7 @@ class ItemController extends Controller
         $errors = false;
         foreach ($inputs as $key => $value) {
             $link = Link::findOrFail($key);
+            $base_link_right = GlobalController::base_link_right($link, $role, $relit_id);
             $work_base = $link->parent_base;
             // при типе "логический" проверять на обязательность заполнения не нужно
             $control_required = false;
@@ -4801,11 +4806,11 @@ class ItemController extends Controller
                 if ($work_base->type_is_list()) {
                     // так не использовать
                     // Проверка на обязательность ввода
-                    if ($work_base->is_required_lst_num_str_txt_img_doc == true) {
+                    //if ($work_base->is_required_lst_num_str_txt_img_doc == true) {
+                    //          'Обязательно к заполнению (для списков, при условии $base->is_required_lst_num_str_txt_img_doc = false
+                    if ($base_link_right['is_base_required'] == true) {
                         $control_required = true;
                     }
-                    // это правильно
-                    //$control_required = true;
                 } // Тип - число
                 elseif ($work_base->type_is_number()) {
                     // Проверка на обязательность ввода
@@ -6073,86 +6078,86 @@ class ItemController extends Controller
 //            'result_items_name_options' => $result_items_name_options];
 //    }
 
-// Используется в ext_edit.php при обычной фильтрации данных
-    static function get_child_items_from_parent_item(Base $base_start, Item $item_start, Link $link)
-    {
-        $link_result = Link::find($link->parent_child_related_result_link_id);
-        $result_items = null;
-        $result_items_name_options = null;
-        $cn = 0;
-        $error = false;
-        $link = null;
-        $mains = null;
-        $items_parent = null;
-        $items_child = null;
-        // список links - маршрутов до поиска нужного объекта
-        $links = BaseController::get_array_bases_tree_routes($base_start->id, $link_result->id, false);
-        if ($links) {
-            $items_parent = array();
-            // добавление элемента в конец массива
-            array_unshift($items_parent, $item_start->id);
-            $cn = 0;
-            $error = false;
-            foreach ($links as $link_value) {
-                $cn = $cn + 1;
-                $link = Link::find($link_value);
-                if (!$link) {
-                    $error = true;
-                    break;
-                }
-                // обнуление массива $items_child
-                $items_child = array();
-                foreach ($items_parent as $item_id) {
-                    // $item используется в цикле
-                    $mains = Main::select(['child_item_id'])
-                        ->where('parent_item_id', $item_id)->where('link_id', $link->id)->get();
-                    if (!$mains) {
-                        $error = true;
-                        break;
-                    }
-                    foreach ($mains as $main) {
-                        // добавление элемента в конец массива
-                        array_unshift($items_child, $main->child_item_id);
-                    }
-                }
-                $items_parent = $items_child;
-            }
-        }
-        if (!$error) {
-            // проверки "цикл прошел по всем элементам до конца";
-            if (count($links) == $cn) {
-                $result_items = $items_child;
-                if ($items_child) {
-                    $result_items_name_options = "";
-                    if (!$base_start->is_required_lst_num_str_txt_img_doc) {
-                        $result_items_name_options = "<option value='0'>" . GlobalController::option_empty() . "</option>";
-                    }
-                    $selected = false;
-                    foreach ($items_child as $item_id) {
-                        $item = Item::find($item_id);
-                        if ($item) {
-//                            $result_items_name_options = $result_items_name_options . "<option value='" . $item_id . "'>" . $item->name() . "</option>";
-                            $result_items_name_options = $result_items_name_options . "<option value='" . $item_id;
-                            if ($selected) {
-                                $result_items_name_options = $result_items_name_options . " selected ";
-                            }
-                            $result_items_name_options = $result_items_name_options . "'>" . $item->name() . "</option>";
-                        }
-                    }
-                    //$result_items_name_options = $result_items_name_options . "<option value='0'>" . trans('main.no_information') . "!</option>";
-                } else {
-                    if (!$base_start->is_required_lst_num_str_txt_img_doc) {
-                        $result_items_name_options = "<option value='0'>" . GlobalController::option_empty() . "</option>";
-                    } else {
-                        $result_items_name_options = "<option value='0'>" . trans('main.no_information') . "!</option>";
-                    }
-                }
-            }
-        }
-        // }
-        return ['result_items' => $result_items,
-            'result_items_name_options' => $result_items_name_options];
-    }
+//// Используется в ext_edit.php при обычной фильтрации данных
+//    static function get_child_items_from_parent_item(Base $base_start, Item $item_start, Link $link)
+//    {
+//        $link_result = Link::find($link->parent_child_related_result_link_id);
+//        $result_items = null;
+//        $result_items_name_options = null;
+//        $cn = 0;
+//        $error = false;
+//        $link = null;
+//        $mains = null;
+//        $items_parent = null;
+//        $items_child = null;
+//        // список links - маршрутов до поиска нужного объекта
+//        $links = BaseController::get_array_bases_tree_routes($base_start->id, $link_result->id, false);
+//        if ($links) {
+//            $items_parent = array();
+//            // добавление элемента в конец массива
+//            array_unshift($items_parent, $item_start->id);
+//            $cn = 0;
+//            $error = false;
+//            foreach ($links as $link_value) {
+//                $cn = $cn + 1;
+//                $link = Link::find($link_value);
+//                if (!$link) {
+//                    $error = true;
+//                    break;
+//                }
+//                // обнуление массива $items_child
+//                $items_child = array();
+//                foreach ($items_parent as $item_id) {
+//                    // $item используется в цикле
+//                    $mains = Main::select(['child_item_id'])
+//                        ->where('parent_item_id', $item_id)->where('link_id', $link->id)->get();
+//                    if (!$mains) {
+//                        $error = true;
+//                        break;
+//                    }
+//                    foreach ($mains as $main) {
+//                        // добавление элемента в конец массива
+//                        array_unshift($items_child, $main->child_item_id);
+//                    }
+//                }
+//                $items_parent = $items_child;
+//            }
+//        }
+//        if (!$error) {
+//            // проверки "цикл прошел по всем элементам до конца";
+//            if (count($links) == $cn) {
+//                $result_items = $items_child;
+//                if ($items_child) {
+//                    $result_items_name_options = "";
+//                    if (!$base_start->is_required_lst_num_str_txt_img_doc) {
+//                        $result_items_name_options = "<option value='0'>" . GlobalController::option_empty() . "</option>";
+//                    }
+//                    $selected = false;
+//                    foreach ($items_child as $item_id) {
+//                        $item = Item::find($item_id);
+//                        if ($item) {
+////                            $result_items_name_options = $result_items_name_options . "<option value='" . $item_id . "'>" . $item->name() . "</option>";
+//                            $result_items_name_options = $result_items_name_options . "<option value='" . $item_id;
+//                            if ($selected) {
+//                                $result_items_name_options = $result_items_name_options . " selected ";
+//                            }
+//                            $result_items_name_options = $result_items_name_options . "'>" . $item->name() . "</option>";
+//                        }
+//                    }
+//                    //$result_items_name_options = $result_items_name_options . "<option value='0'>" . trans('main.no_information') . "!</option>";
+//                } else {
+//                    if (!$base_start->is_required_lst_num_str_txt_img_doc) {
+//                        $result_items_name_options = "<option value='0'>" . GlobalController::option_empty() . "</option>";
+//                    } else {
+//                        $result_items_name_options = "<option value='0'>" . trans('main.no_information') . "!</option>";
+//                    }
+//                }
+//            }
+//        }
+//        // }
+//        return ['result_items' => $result_items,
+//            'result_items_name_options' => $result_items_name_options];
+//    }
 
     static function get_parent_item_from_child_item(Item $item_start, Link $link_result)
     {
@@ -7439,23 +7444,33 @@ class ItemController extends Controller
     static function get_items_main_options(Base $base, Project $project, Role $role, $relit_id, Link $link = null, Item $item = null)
     {
         $base_right = GlobalController::base_right($base, $role, $relit_id);
+        $base_link_right = null;
         //$items_main = self::get_items_main($base, $project, $role, $relit_id, $base_right['is_list_hist_records_enable'], $link, $item);
         $items_main = self::get_items_main($base, $project, $role, $relit_id, $base_right['is_brow_hist_records_enable'], $link, $item);
         $items_no_get = $items_main['items_no_get'];
         // '->get()' нужно
         $result_items = $items_no_get->get();
 
+        $is_base_required = $base_right['is_base_required'];
+        $base_link_right = null;
+        if ($link) {
+            $base_link_right = GlobalController::base_link_right($link, $role, $relit_id);
+            $is_base_required = $base_link_right['is_base_required'];
+        }
         $result_items_name_options = "";
         if (count($result_items) > 0) {
-            $result_items_name_options = "";
-            if (!$base->is_required_lst_num_str_txt_img_doc) {
+//            if (!$base->is_required_lst_num_str_txt_img_doc) {
+            //          'Обязательно к заполнению (для списков, при условии $base->is_required_lst_num_str_txt_img_doc = false
+            if (!$is_base_required) {
                 $result_items_name_options = "<option value='0'>" . GlobalController::option_empty() . "</option>";
             }
             foreach ($result_items as $it) {
                 $result_items_name_options = $result_items_name_options . "<option value='" . $it->id . "'>" . $it->name() . "</option>";
             }
         } else {
-            if (!$base->is_required_lst_num_str_txt_img_doc) {
+//            if (!$base->is_required_lst_num_str_txt_img_doc) {
+            //          'Обязательно к заполнению (для списков, при условии $base->is_required_lst_num_str_txt_img_doc = false
+            if (!$is_base_required) {
                 $result_items_name_options = "<option value='0'>" . GlobalController::option_empty() . "</option>";
             } else {
                 $result_items_name_options = "<option value='0'>" . trans('main.no_information') . "!</option>";

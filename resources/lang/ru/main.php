@@ -459,4 +459,5 @@ return [
     'is_cus_enable' => 'Записи текущего пользователя (link = текущий пользователь, для base_index.php, item_index($link))',
     'parent_is_cus_link' => 'Для текущего пользователя (link = текущий пользователь, для base_index.php, item_index($link))',
     'tree_structure' => 'Древовидная структура',
+    'is_base_required' =>'Обязательно к заполнению (для списков, при условии $base->is_required_lst_num_str_txt_img_doc = false)',
 ];

@@ -61,6 +61,8 @@
     <p>{{trans('main.is_edit_link_read')}}: <b>{{GlobalController::name_is_boolean($roba->is_edit_link_read)}}</b></p>
     <p>{{trans('main.is_edit_link_update')}}: <b>{{GlobalController::name_is_boolean($roba->is_edit_link_update)}}</b></p>
     <p>{{trans('main.is_hier_base_enable')}}: <b>{{GlobalController::name_is_boolean($roba->is_hier_base_enable)}}</b></p>
+    <p>{{trans('main.is_hier_link_enable')}}: <b>{{GlobalController::name_is_boolean($roba->is_hier_link_enable)}}</b></p>
+    <p>{{trans('main.is_base_required')}}: <b>{{GlobalController::name_is_boolean($roba->is_base_required)}}</b></p>
     <p>{{trans('main.is_tst_enable')}}: <b>{{GlobalController::name_is_boolean($roba->is_tst_enable)}}</b></p>
     <p>{{trans('main.is_cus_enable')}}: <b>{{GlobalController::name_is_boolean($roba->is_cus_enable)}}</b></p>
     <p>{{trans('main.is_show_hist_attr_enable')}}: <b>{{GlobalController::name_is_boolean($roba->is_show_hist_attr_enable)}}</b></p>

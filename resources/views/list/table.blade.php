@@ -36,43 +36,44 @@ $link_image = $tile_view['link'];
 {{--@endif--}}
 {{--    ">--}}
 @if(($base_index==true || $item_body_base==true) & $tile_view['result'] == true)
-    <div class="card-deck">
-        {{--        $its_page используется--}}
-        @foreach($its_page as $item)
-            <?php
-            //$i = $i + 1;
-            $item_find = GlobalController::view_info($item->id, $link_image->id);
-            ?>
-            {{--                <div class="card text-center">--}}
-            {{--                    <div class="card card-inverse text-center" style="background-color: rgba(222,255,162,0.23); border-color: #3548ee;">--}}
-            <div class="card shadow m-2">
-                {{--                <p class="card-header text-center text-label">{{$item->base->name()}}: {{$item->id}}--}}
-                <small class="card-header text-center text-title">{{$item->base->name()}}: {{$item->id}}
-                    @if($base->is_code_needed == true)
-                        {{--                        <a href="{{route('item.ext_show', ['item'=>$item, 'project'=>$project, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id,--}}
-                        {{--                                    'heading' => $heading,'base_index_page'=>$base_index_page, 'body_link_page'=>$body_link_page,'body_all_page'=>$body_all_page,--}}
-                        {{--                                    'par_link'=>null, 'parent_item'=>null,--}}
-                        {{--                                    'string_current' => $string_current,--}}
-                        {{--                                    ])}}" title="{{$item->name()}}">--}}
-                        {{--                            'string_all_codes_current' => $string_all_codes_current,--}}
-                        {{--                            'string_link_ids_current' => $string_link_ids_current,--}}
-                        {{--                            'string_item_ids_current' => $string_item_ids_current,--}}
-                        &nbsp;({{trans('main.code')}}: {{$item->code}})
-                        {{--                        </a>--}}
-                    @endif
-                </small>
-                {{--                    <div class="card-body d-flex align-items-center">--}}
-                <div class="card-body p-0">
-                    @if($item_find)
-                        {{--                            <div class="card-block text-center">--}}
-                        <div class="text-center">
-                            {{-- https://askdev.ru/q/kak-vyzvat-funkciyu-javascript-iz-tega-href-v-html-276225/--}}
-{{--                            <a href="{{route('item.ext_show', ['item'=>$item, 'project'=>$project, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id,--}}
-{{--                                    'heading' => $heading,'base_index_page'=>$base_index_page, 'body_link_page'=>$body_link_page,'body_all_page'=>$body_all_page,--}}
-{{--                                    'par_link'=>null, 'parent_item'=>null,--}}
-{{--                                    'string_current' => $string_current,--}}
-{{--                                    ])}}"--}}
-{{--                               title="{{$item->name()}}">--}}
+    @if($base_right['is_list_base_sort_creation_date_desc'] == true)
+        <div class="card-deck">
+            {{--        $its_page используется--}}
+            @foreach($its_page as $item)
+                <?php
+                //$i = $i + 1;
+                $item_find = GlobalController::view_info($item->id, $link_image->id);
+                ?>
+                {{--                <div class="card text-center">--}}
+                {{--                    <div class="card card-inverse text-center" style="background-color: rgba(222,255,162,0.23); border-color: #3548ee;">--}}
+                <div class="card shadow m-2">
+                    {{--                <p class="card-header text-center text-label">{{$item->base->name()}}: {{$item->id}}--}}
+                    <small class="card-header text-center text-title">{{$item->base->name()}}: {{$item->id}}
+                        @if($base->is_code_needed == true)
+                            {{--                        <a href="{{route('item.ext_show', ['item'=>$item, 'project'=>$project, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id,--}}
+                            {{--                                    'heading' => $heading,'base_index_page'=>$base_index_page, 'body_link_page'=>$body_link_page,'body_all_page'=>$body_all_page,--}}
+                            {{--                                    'par_link'=>null, 'parent_item'=>null,--}}
+                            {{--                                    'string_current' => $string_current,--}}
+                            {{--                                    ])}}" title="{{$item->name()}}">--}}
+                            {{--                            'string_all_codes_current' => $string_all_codes_current,--}}
+                            {{--                            'string_link_ids_current' => $string_link_ids_current,--}}
+                            {{--                            'string_item_ids_current' => $string_item_ids_current,--}}
+                            &nbsp;({{trans('main.code')}}: {{$item->code}})
+                            {{--                        </a>--}}
+                        @endif
+                    </small>
+                    {{--                    <div class="card-body d-flex align-items-center">--}}
+                    <div class="card-body p-0">
+                        @if($item_find)
+                            {{--                            <div class="card-block text-center">--}}
+                            <div class="text-center">
+                                {{-- https://askdev.ru/q/kak-vyzvat-funkciyu-javascript-iz-tega-href-v-html-276225/--}}
+                                {{--                            <a href="{{route('item.ext_show', ['item'=>$item, 'project'=>$project, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id,--}}
+                                {{--                                    'heading' => $heading,'base_index_page'=>$base_index_page, 'body_link_page'=>$body_link_page,'body_all_page'=>$body_all_page,--}}
+                                {{--                                    'par_link'=>null, 'parent_item'=>null,--}}
+                                {{--                                    'string_current' => $string_current,--}}
+                                {{--                                    ])}}"--}}
+                                {{--                               title="{{$item->name()}}">--}}
                                 <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,
         'usercode' =>GlobalController::usercode_calc(),
         'relit_id'=>$relit_id,
@@ -84,31 +85,31 @@ $link_image = $tile_view['link'];
         'prev_body_link_page'=>$body_link_page,
         'prev_body_all_page'=>$body_all_page,
         ])}}"
-                                   class="card-link"  title="{{$item->name()}}">
-                                {{--                                'string_all_codes_current' => $string_all_codes_current,--}}
-                                {{--                                'string_link_ids_current' => $string_link_ids_current,--}}
-                                {{--                                'string_item_ids_current' => $string_item_ids_current,--}}
-                                @include('view.img',['item'=>$item_find, 'size'=>"medium", 'filenametrue'=>false, 'link'=>false, 'img_fluid'=>true, 'card_img_top'=>true, 'title'=>$item->name()])
-                            </a>
-                        </div>
-                    @endif
-                    {{--                        <h6 class="card-title text-center pt-2">--}}
-                    <div class="card-title text-left pt-2 pl-3 pr-3">
-                        <h6>
-                            {{--                            <a--}}
-                            {{--                                href="{{route('item.ext_show', ['item'=>$item, 'project'=>$project, 'role'=>$role, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id,--}}
-                            {{--                                    'heading' => $heading,'base_index_page'=>$base_index_page, 'body_link_page'=>$body_link_page,'body_all_page'=>$body_all_page,--}}
-                            {{--                                    'par_link'=>null, 'parent_item'=>null,--}}
-                            {{--                             'string_current' => $string_current,--}}
-                            {{--                                    ])}}"--}}
-                            {{--                                title="{{$item->name()}}">--}}
-                            {{--                                --}}{{--                                'string_all_codes_current' => $string_all_codes_current,--}}
-                            {{--                                --}}{{--                                'string_link_ids_current' => $string_link_ids_current,--}}
-                            {{--                                --}}{{--                                'string_item_ids_current' => $string_item_ids_current,--}}
-                            {{--                                --}}{{--                            Где $item->name() выходит в cards выводить "<?php echo GlobalController::to_html();?>"--}}
-                            {{--                                <?php echo $item->nmbr(false);?>--}}
-                            {{--                            </a>--}}
-                            <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,
+                                   class="card-link" title="{{$item->name()}}">
+                                    {{--                                'string_all_codes_current' => $string_all_codes_current,--}}
+                                    {{--                                'string_link_ids_current' => $string_link_ids_current,--}}
+                                    {{--                                'string_item_ids_current' => $string_item_ids_current,--}}
+                                    @include('view.img',['item'=>$item_find, 'size'=>"medium", 'filenametrue'=>false, 'link'=>false, 'img_fluid'=>true, 'card_img_top'=>true, 'title'=>$item->name()])
+                                </a>
+                            </div>
+                        @endif
+                        {{--                        <h6 class="card-title text-center pt-2">--}}
+                        <div class="card-title text-left pt-2 pl-3 pr-3">
+                            <h6>
+                                {{--                            <a--}}
+                                {{--                                href="{{route('item.ext_show', ['item'=>$item, 'project'=>$project, 'role'=>$role, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id,--}}
+                                {{--                                    'heading' => $heading,'base_index_page'=>$base_index_page, 'body_link_page'=>$body_link_page,'body_all_page'=>$body_all_page,--}}
+                                {{--                                    'par_link'=>null, 'parent_item'=>null,--}}
+                                {{--                             'string_current' => $string_current,--}}
+                                {{--                                    ])}}"--}}
+                                {{--                                title="{{$item->name()}}">--}}
+                                {{--                                --}}{{--                                'string_all_codes_current' => $string_all_codes_current,--}}
+                                {{--                                --}}{{--                                'string_link_ids_current' => $string_link_ids_current,--}}
+                                {{--                                --}}{{--                                'string_item_ids_current' => $string_item_ids_current,--}}
+                                {{--                                --}}{{--                            Где $item->name() выходит в cards выводить "<?php echo GlobalController::to_html();?>"--}}
+                                {{--                                <?php echo $item->nmbr(false);?>--}}
+                                {{--                            </a>--}}
+                                <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,
         'usercode' =>GlobalController::usercode_calc(),
         'relit_id'=>$relit_id,
         'called_from_button'=>0,
@@ -119,70 +120,131 @@ $link_image = $tile_view['link'];
         'prev_body_link_page'=>$body_link_page,
         'prev_body_all_page'=>$body_all_page,
         ])}}"
-                               class="card-link"  title="{{$item->name()}}">
-                                <?php echo $item->nmbr();?>
-                            </a>
-                        </h6>
+                                   class="card-link" title="{{$item->name()}}">
+                                    <?php echo $item->nmbr();?>
+                                </a>
+                            </h6>
+                        </div>
                     </div>
-                </div>
-                {{--                    </div>--}}
-                {{--                <div class="card-footer">--}}
-                {{--                    <small class="text-title">--}}
-                {{--                        {{$item->created_at->Format(trans('main.format_date'))}}--}}
-                {{--                    </small>--}}
-                {{--                </div>--}}
-                <div class="card-footer">
-                    {{--                    <div style="width:100%;padding-left: 100px">--}}
-                    <div style="float:left;width:50%;">
-                        <small class="text-title">
-                            <a href="{{route('item.ext_show', ['item'=>$item, 'project'=>$project, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id,
+                    {{--                    </div>--}}
+                    {{--                <div class="card-footer">--}}
+                    {{--                    <small class="text-title">--}}
+                    {{--                        {{$item->created_at->Format(trans('main.format_date'))}}--}}
+                    {{--                    </small>--}}
+                    {{--                </div>--}}
+                    <div class="card-footer">
+                        {{--                    <div style="width:100%;padding-left: 100px">--}}
+                        <div style="float:left;width:50%;">
+                            <small class="text-title">
+                                <a href="{{route('item.ext_show', ['item'=>$item, 'project'=>$project, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id,
                                     'heading' => $heading,'base_index_page'=>$base_index_page, 'body_link_page'=>$body_link_page,'body_all_page'=>$body_all_page,
                                     'par_link'=>null, 'parent_item'=>null,
                                     'string_current' => $string_current,
                                     ])}}"
-                               title="{{trans('main.viewing_record')}}">
-                            {{$i+1}}
-                            </a>
-                        </small>
+                                   title="{{trans('main.viewing_record')}}">
+                                    {{$i+1}}
+                                </a>
+                            </small>
+                        </div>
+                        {{--                    Нужно 'class="text-right"'--}}
+                        <div style="float:right;width:50%;" class="text-right">
+                            <small class="text-title">
+                                {{$item->created_at->Format(trans('main.format_date'))}}
+                            </small>
+                        </div>
+                        {{--                    </div>--}}
                     </div>
-{{--                    Нужно 'class="text-right"'--}}
-                    <div style="float:right;width:50%;" class="text-right">
-                        <small class="text-title">
-                            {{$item->created_at->Format(trans('main.format_date'))}}
-                        </small>
-                    </div>
-                    {{--                    </div>--}}
                 </div>
-            </div>
-            <?php
-            $i++;
-            ?>
-            @if($i % 3 == 0)
-    </div>
-    <div class="card-deck">
-        @endif
-        @endforeach
-        {{-- Если строка из 3-х элементов не завершилась до 3-х столбцов--}}
-        {{-- (т.е. $i не делится без остатка на 3)--}}
-        @if($i % 3 != 0)
-            <?php
-            // Подсчитываем количество оставшихся колонок
-            $n = 3 - ($i % 3);
-            ?>
-            {{-- В цикле $n раз вставляем вставляем пустые колонки--}}
-            @for($k = 0; $k < $n; $k++)
-                {{-- Вставляем пустую карточку--}}
-                {{--                        <div class="card border-0 m-1">--}}
-                <div class="card m-2 bg-transparent">
-                </div>
-            @endfor
-        @endif
-    </div>
-    <div class="row">
-        <div class="col text-center text-label">
-            {{trans('main.select_record_for_work')}}
+                <?php
+                $i++;
+                ?>
+                @if($i % 3 == 0)
         </div>
-    </div>
+        <div class="card-deck">
+            @endif
+            @endforeach
+            {{-- Если строка из 3-х элементов не завершилась до 3-х столбцов--}}
+            {{-- (т.е. $i не делится без остатка на 3)--}}
+            @if($i % 3 != 0)
+                <?php
+                // Подсчитываем количество оставшихся колонок
+                $n = 3 - ($i % 3);
+                ?>
+                {{-- В цикле $n раз вставляем вставляем пустые колонки--}}
+                @for($k = 0; $k < $n; $k++)
+                    {{-- Вставляем пустую карточку--}}
+                    {{--                        <div class="card border-0 m-1">--}}
+                    <div class="card m-2 bg-transparent">
+                    </div>
+                @endfor
+            @endif
+        </div>
+        <div class="row">
+            <div class="col text-center text-label">
+                {{trans('main.select_record_for_work')}}
+            </div>
+        </div>
+        {{--    т.е. if($base_right['is_list_base_sort_creation_date_desc'] == false)--}}
+    @else
+        <table class="table table-borderless">
+            @foreach($its_page as $item)
+                <tr>
+                <?php
+                $item_find = GlobalController::view_info($item->id, $link_image->id);
+                ?>
+                @if($base->is_code_needed == true)
+                    &nbsp;({{trans('main.code')}}: {{$item->code}})
+                @endif
+                @if($item_find)
+                        <td>
+                        {{-- https://askdev.ru/q/kak-vyzvat-funkciyu-javascript-iz-tega-href-v-html-276225/--}}
+                        {{--                            <a href="{{route('item.ext_show', ['item'=>$item, 'project'=>$project, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id,--}}
+                        {{--                                    'heading' => $heading,'base_index_page'=>$base_index_page, 'body_link_page'=>$body_link_page,'body_all_page'=>$body_all_page,--}}
+                        {{--                                    'par_link'=>null, 'parent_item'=>null,--}}
+                        {{--                                    'string_current' => $string_current,--}}
+                        {{--                                    ])}}"--}}
+                        {{--                               title="{{$item->name()}}">--}}
+                        <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,
+        'usercode' =>GlobalController::usercode_calc(),
+        'relit_id'=>$relit_id,
+        'called_from_button'=>0,
+        'view_link'=>$i_par_link,
+        'view_ret_id'=>$view_ret_id,
+        'string_current'=>$string_next,
+        'prev_base_index_page'=>$base_index_page,
+        'prev_body_link_page'=>$body_link_page,
+        'prev_body_all_page'=>$body_all_page,
+        ])}}"
+                           class="card-link" title="{{$item->name()}}">
+                            {{--                                'string_all_codes_current' => $string_all_codes_current,--}}
+                            {{--                                'string_link_ids_current' => $string_link_ids_current,--}}
+                            {{--                                'string_item_ids_current' => $string_item_ids_current,--}}
+                            @include('view.img',['item'=>$item_find, 'size'=>"medium", 'filenametrue'=>false, 'link'=>false, 'img_fluid'=>true, 'card_img_top'=>false, 'title'=>$item->name()])
+                        </a>
+                        </td>
+                    @endif
+                <td>
+                <span class="ml-3">
+                    <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,
+        'usercode' =>GlobalController::usercode_calc(),
+        'relit_id'=>$relit_id,
+        'called_from_button'=>0,
+        'view_link'=>$i_par_link,
+        'view_ret_id'=>$view_ret_id,
+        'string_current'=>$string_next,
+        'prev_base_index_page'=>$base_index_page,
+        'prev_body_link_page'=>$body_link_page,
+        'prev_body_all_page'=>$body_all_page,
+        ])}}"
+                       class="card-link" title="{{$item->name()}}">
+                        <?php echo $item->nmbr();?>
+                    </a>
+                </span>
+                </td>
+                </tr>
+            @endforeach
+        </table>
+    @endif
 @else
     <table class="table table-sm table-hover
         @if($heading)

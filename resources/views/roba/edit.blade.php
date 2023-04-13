@@ -742,6 +742,56 @@
             </div>
         </div>
 
+        <div class="form-group row" id="is_hier_link_enable_form_group">
+            <div class="col-sm-3 text-right">
+                <label class="form-label"
+                       for="is_hier_link_enable">{{trans('main.is_hier_link_enable')}}</label>
+            </div>
+            <div class="col-sm-7">
+                <input class="@error('is_hier_link_enable') is-invalid @enderror"
+                       type="checkbox"
+                       name="is_hier_link_enable"
+                       placeholder=""
+                       {{--                       "$roba->is_hier_link_enable ?? false" - "false" значение по умолчанию--}}
+                       @if ((old('is_hier_link_enable') ?? ($roba->is_hier_link_enable ?? false)) ==  true)
+                       checked
+                    @endif
+                >
+                @error('is_hier_link_enable')
+                <div class="invalid-feedback">
+                    {{$message}}
+                </div>
+                @enderror
+            </div>
+            <div class="col-sm-2">
+            </div>
+        </div>
+
+        <div class="form-group row" id="is_base_required_form_group">
+            <div class="col-sm-3 text-right">
+                <label class="form-label"
+                       for="is_base_required">{{trans('main.is_base_required')}}</label>
+            </div>
+            <div class="col-sm-7">
+                <input class="@error('is_base_required') is-invalid @enderror"
+                       type="checkbox"
+                       name="is_base_required"
+                       placeholder=""
+                       {{--                       "$roba->is_base_required ?? false" - "false" значение по умолчанию--}}
+                       @if ((old('is_base_required') ?? ($roba->is_base_required ?? false)) ==  true)
+                       checked
+                    @endif
+                >
+                @error('is_base_required')
+                <div class="invalid-feedback">
+                    {{$message}}
+                </div>
+                @enderror
+            </div>
+            <div class="col-sm-2">
+            </div>
+        </div>
+
         <div class="form-group row" id="is_tst_enable_form_group">
             <div class="col-sm-3 text-right">
                 <label class="form-label"
@@ -783,31 +833,6 @@
                     @endif
                 >
                 @error('is_cus_enable')
-                <div class="invalid-feedback">
-                    {{$message}}
-                </div>
-                @enderror
-            </div>
-            <div class="col-sm-2">
-            </div>
-        </div>
-
-        <div class="form-group row" id="is_hier_link_enable_form_group">
-            <div class="col-sm-3 text-right">
-                <label class="form-label"
-                       for="is_hier_link_enable">{{trans('main.is_hier_link_enable')}}</label>
-            </div>
-            <div class="col-sm-7">
-                <input class="@error('is_hier_link_enable') is-invalid @enderror"
-                       type="checkbox"
-                       name="is_hier_link_enable"
-                       placeholder=""
-                       {{--                       "$roba->is_hier_link_enable ?? false" - "false" значение по умолчанию--}}
-                       @if ((old('is_hier_link_enable') ?? ($roba->is_hier_link_enable ?? false)) ==  true)
-                       checked
-                    @endif
-                >
-                @error('is_hier_link_enable')
                 <div class="invalid-feedback">
                     {{$message}}
                 </div>

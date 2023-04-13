@@ -459,4 +459,5 @@ return [
     'is_cus_enable' => 'Current user entries (link = current user, for base_index.php, item_index($link))',
     'parent_is_cus_link' => 'For the current user (link = current user, for base_index.php, item_index($link))',
     'tree_structure' => 'Tree structure',
+    'is_base_required' =>'Required (for lists, if $base->is_required_lst_num_str_txt_img_doc = false',
 ];

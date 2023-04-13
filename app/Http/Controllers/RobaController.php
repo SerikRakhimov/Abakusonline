@@ -248,6 +248,7 @@ class RobaController extends Controller
         $roba->is_edit_link_update = isset($request->is_edit_link_update) ? true : false;
         $roba->is_hier_base_enable = isset($request->is_hier_base_enable) ? true : false;
         $roba->is_hier_link_enable = isset($request->is_hier_link_enable) ? true : false;
+        $roba->is_base_required = isset($request->is_base_required) ? true : false;
         $roba->is_tst_enable = isset($request->is_tst_enable) ? true : false;
         $roba->is_cus_enable = isset($request->is_cus_enable) ? true : false;
         $roba->is_show_hist_attr_enable = isset($request->is_show_hist_attr_enable) ? true : false;

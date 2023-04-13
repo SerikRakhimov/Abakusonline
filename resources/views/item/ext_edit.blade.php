@@ -238,7 +238,8 @@
                                 <label for="name_lang_{{$key}}" class="col-form-label">{{$base->prnm(true)}}
                                     @if($base->is_one_value_lst_str_txt == false)
                                         ({{trans('main.' . $value)}})
-                                    @endif<span
+                                    @endif
+                                    <span
                                         class="text-danger">{{GlobalController::label_is_required($base)}}</span></label>
                             </div>
                             <div class="col-sm-7">
@@ -288,7 +289,7 @@
                                         @if($base->is_one_value_lst_str_txt == false)
                                             ({{trans('main.' . $value)}})
                                         @endif
-                                        <span class="text-danger">{{GlobalController::label_is_required($base)}}</span></label>
+                                        <span class="text-danger">{{GlobalController::label_is_required($base, $base_right)}}</span></label>
                                 </div>
                                 <div class="col-sm-7">
                                     {{--                                    https://getbootstrap.com/docs/4.0/components/forms/--}}
@@ -1047,7 +1048,8 @@
                                     </option>
                                 @else
                                     @if ((count($items) == 0)))
-                                    @if(!$link->parent_base->is_required_lst_num_str_txt_img_doc)
+                                    {{--                                    @if(!$link->parent_base->is_required_lst_num_str_txt_img_doc)--}}
+                                    @if($base_link_right['is_base_required'] == false)
                                         <option value='0'>{{GlobalController::option_empty()}}</option>
                                     @else
                                         <option value='0'>{{trans('main.no_information_on')}}
@@ -1055,7 +1057,8 @@
                                         </option>
                                     @endif
                                     @else
-                                        @if(!$link->parent_base->is_required_lst_num_str_txt_img_doc)
+                                        {{--                                        @if(!$link->parent_base->is_required_lst_num_str_txt_img_doc)--}}
+                                        @if($base_link_right['is_base_required'] == false)
                                             <option value='0'>{{GlobalController::option_empty()}}</option>
                                         @endif
                                         @foreach ($items as $item_work)
@@ -1084,34 +1087,36 @@
                             {{--                                                                                            {{session('errors')!=null ? session('errors')->first($key): ''}}--}}
                             {{--                                                                                        </div>--}}
                         </div>
-                        {{--                        <div class="col-sm-2">--}}
-                        {{--                        </div>--}}
-                        {{-- Похожие проверка вверху--}}
-                        @if($base_link_right['is_edit_link_read'] == false)
-                            {{--                            @if($link->parent_is_numcalc == true)--}}
-                            {{-- Похожие по смыслу проверки "$link->parent_is_nc_viewonly==false" в этом файле пять раз--}}
-                            @if($link->parent_is_numcalc==true && $link->parent_is_nc_viewonly==false)
-                                <div class="col-sm-1">
-                                    {{--                                    Не удалять--}}
-                                    {{--                                    <input type="button" value="..." title="{{trans('main.calculate')}}"--}}
-                                    {{--                                           name="button_nc{{$key}}"--}}
-                                    {{--                                           id="button_nc{{$key}}"--}}
-                                    {{--                                    >--}}
-                                    <button type="button" title="{{trans('main.calculate')}}"
-                                            name="button_nc{{$key}}"
-                                            id="button_nc{{$key}}"
-                                            class="text-label">
-                                        <i class="fas fa-calculator d-inline"></i>
-                                    </button>
-                                </div>
-                                <div class="col-sm-1">
+                        @if(1==2)
+                            {{--                        <div class="col-sm-2">--}}
+                            {{--                        </div>--}}
+                            {{-- Похожие проверка вверху--}}
+                            @if($base_link_right['is_edit_link_read'] == false)
+                                {{--                            @if($link->parent_is_numcalc == true)--}}
+                                {{-- Похожие по смыслу проверки "$link->parent_is_nc_viewonly==false" в этом файле пять раз--}}
+                                @if($link->parent_is_numcalc==true && $link->parent_is_nc_viewonly==false)
+                                    <div class="col-sm-1">
+                                        {{--                                    Не удалять--}}
+                                        {{--                                    <input type="button" value="..." title="{{trans('main.calculate')}}"--}}
+                                        {{--                                           name="button_nc{{$key}}"--}}
+                                        {{--                                           id="button_nc{{$key}}"--}}
+                                        {{--                                    >--}}
+                                        <button type="button" title="{{trans('main.calculate')}}"
+                                                name="button_nc{{$key}}"
+                                                id="button_nc{{$key}}"
+                                                class="text-label">
+                                            <i class="fas fa-calculator d-inline"></i>
+                                        </button>
+                                    </div>
+                                    <div class="col-sm-1">
                                 <span class="form-label text-danger"
                                       name="name{{$key}}"
                                       id="name{{$key}}"></span>
-                                </div>
-                            @else
-                                <div class="col-sm-2">
-                                </div>
+                                    </div>
+                                @else
+                                    <div class="col-sm-2">
+                                    </div>
+                                @endif
                             @endif
                         @endif
                     </div>
@@ -1353,7 +1358,8 @@
                         @else
                         if (parent_base_id{{$prefix}}{{$link->id}}.options[parent_base_id{{$prefix}}{{$link->id}}.selectedIndex].value == 0) {
                             @endif
-                                @if(!$link->child_base->is_required_lst_num_str_txt_img_doc)
+                                {{--                                @if(!$link->child_base->is_required_lst_num_str_txt_img_doc)--}}
+                                @if($base_link_right['is_base_required'] == false)
                                 child_base_id{{$prefix}}{{$link->id}}.innerHTML = "<option value='0'>{{GlobalController::option_empty()}}</option>";
                             @else
                                 child_base_id{{$prefix}}{{$link->id}}.innerHTML = "<option value='0'>{{trans('main.no_information') . '!'}}</option>";

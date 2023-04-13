@@ -107,6 +107,8 @@ class GlobalController extends Controller
         $is_edit_link_update = $role->is_edit_link_update;
         $is_hier_base_enable = $role->is_hier_base_enable;
         $is_hier_link_enable = $role->is_hier_link_enable;
+        // '$base->is_required_lst_num_str_txt_img_doc' - значение по умолчанию
+        $is_base_required = $base->is_required_lst_num_str_txt_img_doc;
         $is_tst_enable = $base->is_default_tst_lst;
         $is_cus_enable = false;
         $is_show_hist_attr_enable = false;
@@ -252,6 +254,12 @@ class GlobalController extends Controller
             $is_roba_edit_link_update = $roba->is_edit_link_update;
             $is_roba_hier_base_enable = $roba->is_hier_base_enable;
             $is_roba_hier_link_enable = $roba->is_hier_link_enable;
+            // '$is_base_required' - значение по умолчанию
+            $is_roba_base_required = $is_base_required;
+            //          'Обязательно к заполнению (для списков, при условии $base->is_required_lst_num_str_txt_img_doc = false
+            if (!$base->is_required_lst_num_str_txt_img_doc & $base->type_is_list()) {
+                $is_roba_base_required = $roba->is_base_required;
+            }
             $is_roba_tst_enable = $roba->is_tst_enable;
             $is_roba_cus_enable = $roba->is_cus_enable;
             $is_roba_show_hist_attr_enable = $roba->is_show_hist_attr_enable;
@@ -319,6 +327,7 @@ class GlobalController extends Controller
             $is_edit_link_update = $is_roba_edit_link_update;
             $is_hier_base_enable = $is_roba_hier_base_enable;
             $is_hier_link_enable = $is_roba_hier_link_enable;
+            $is_base_required = $is_roba_base_required;
             $is_tst_enable = $is_roba_tst_enable;
             $is_cus_enable = $is_roba_cus_enable;
             $is_show_hist_attr_enable = $is_roba_show_hist_attr_enable;
@@ -374,6 +383,7 @@ class GlobalController extends Controller
             'is_edit_link_update' => $is_edit_link_update,
             'is_hier_base_enable' => $is_hier_base_enable,
             'is_hier_link_enable' => $is_hier_link_enable,
+            'is_base_required' => $is_base_required,
             'is_tst_enable' => $is_tst_enable,
             'is_cus_enable' => $is_cus_enable,
             'is_show_hist_attr_enable' => $is_show_hist_attr_enable,
@@ -457,6 +467,7 @@ class GlobalController extends Controller
         $is_edit_email_question_base_update = $base_right['is_edit_email_question_base_update'];
         $is_show_email_base_delete = $base_right['is_show_email_base_delete'];
         $is_show_email_question_base_delete = $base_right['is_show_email_question_base_delete'];
+        $is_base_required = $base_right['is_base_required'];
         // 'true' - значение по умолчанию
         $is_parent_full_sort_asc = true;
         $is_parent_page_sort_asc = true;
@@ -512,6 +523,10 @@ class GlobalController extends Controller
             $is_edit_link_update = $roli->is_edit_link_update;
             $is_hier_base_enable = $roli->is_hier_base_enable;
             $is_hier_link_enable = $roli->is_hier_link_enable;
+//          'Обязательно к заполнению (для списков, при условии $base->is_required_lst_num_str_txt_img_doc = false
+            if (!$base->is_required_lst_num_str_txt_img_doc & $base->type_is_list()) {
+                $is_base_required = $roli->is_base_required;
+            }
             $is_parent_full_sort_asc = $roli->is_parent_full_sort_asc;
             $is_parent_page_sort_asc = $roli->is_parent_page_sort_asc;
         }
@@ -550,6 +565,7 @@ class GlobalController extends Controller
             'is_edit_link_update' => $is_edit_link_update,
             'is_hier_base_enable' => $is_hier_base_enable,
             'is_hier_link_enable' => $is_hier_link_enable,
+            'is_base_required' => $is_base_required,
             'is_tst_enable' => $is_tst_enable,
             'is_cus_enable' => $is_cus_enable,
             'is_show_hist_attr_enable' => $is_show_hist_attr_enable,
@@ -2780,11 +2796,18 @@ class GlobalController extends Controller
         return $result;
     }
 
-    static function label_is_required(Base $base)
+    static function label_is_required(Base $base, $base_right = null)
     {
         $result = '';
-        if ($base->is_required_lst_num_str_txt_img_doc == true) {
-            $result = '*';
+        if($base_right){
+            if ($base_right['is_base_required'] == true) {
+                $result = '*';
+            }
+        }
+        else{
+            if ($base->is_required_lst_num_str_txt_img_doc == true) {
+                $result = '*';
+            }
         }
         return $result;
     }
