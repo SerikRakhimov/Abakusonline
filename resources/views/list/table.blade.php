@@ -233,23 +233,10 @@ $link_image = $tile_view['link'];
                         {{--                                    'string_current' => $string_current,--}}
                         {{--                                    ])}}"--}}
                         {{--                               title="{{$item->name()}}">--}}
-                        <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,
-        'usercode' =>GlobalController::usercode_calc(),
-        'relit_id'=>$relit_id,
-        'called_from_button'=>0,
-        'view_link'=>$i_par_link,
-        'view_ret_id'=>$view_ret_id,
-        'string_current'=>$string_next,
-        'prev_base_index_page'=>$base_index_page,
-        'prev_body_link_page'=>$body_link_page,
-        'prev_body_all_page'=>$body_all_page,
-        ])}}"
-                           class="card-link" title="{{$item->name()}}">
                             {{--                                'string_all_codes_current' => $string_all_codes_current,--}}
                             {{--                                'string_link_ids_current' => $string_link_ids_current,--}}
                             {{--                                'string_item_ids_current' => $string_item_ids_current,--}}
-                            @include('view.img',['item'=>$item_find, 'size'=>"medium", 'filenametrue'=>false, 'link'=>false, 'img_fluid'=>true, 'card_img_top'=>false, 'title'=>$item->name()])
-                        </a>
+                            @include('view.img',['item'=>$item_find, 'size'=>"medium", 'filenametrue'=>false, 'link'=>true, 'img_fluid'=>true, 'card_img_top'=>false, 'title'=>$item->name()])
                         </td>
                     @endif
                 </tr>
