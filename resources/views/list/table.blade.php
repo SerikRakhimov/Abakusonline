@@ -191,10 +191,21 @@ $link_image = $tile_view['link'];
                 <tr>
                 <?php
                 $item_find = GlobalController::view_info($item->id, $link_image->id);
+                    $i++;
                 ?>
 {{--                @if($base->is_code_needed == true)--}}
 {{--                    &nbsp;({{trans('main.code')}}: {{$item->code}})--}}
 {{--                @endif--}}
+                    <td>
+                            <a href="{{route('item.ext_show', ['item'=>$item, 'project'=>$project, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id,
+                                    'heading' => $heading,'base_index_page'=>$base_index_page, 'body_link_page'=>$body_link_page,'body_all_page'=>$body_all_page,
+                                    'par_link'=>null, 'parent_item'=>null,
+                                    'string_current' => $string_current,
+                                    ])}}"
+                               title="{{trans('main.viewing_record')}}">
+                                <span class="badge badge-related">{{$i}}</span>
+                            </a>
+                    </td>
                     <td>
                 <span>
                     <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,
