@@ -192,9 +192,27 @@ $link_image = $tile_view['link'];
                 <?php
                 $item_find = GlobalController::view_info($item->id, $link_image->id);
                 ?>
-                @if($base->is_code_needed == true)
-                    &nbsp;({{trans('main.code')}}: {{$item->code}})
-                @endif
+{{--                @if($base->is_code_needed == true)--}}
+{{--                    &nbsp;({{trans('main.code')}}: {{$item->code}})--}}
+{{--                @endif--}}
+                    <td>
+                <span>
+                    <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,
+        'usercode' =>GlobalController::usercode_calc(),
+        'relit_id'=>$relit_id,
+        'called_from_button'=>0,
+        'view_link'=>$i_par_link,
+        'view_ret_id'=>$view_ret_id,
+        'string_current'=>$string_next,
+        'prev_base_index_page'=>$base_index_page,
+        'prev_body_link_page'=>$body_link_page,
+        'prev_body_all_page'=>$body_all_page,
+        ])}}"
+                       class="card-link" title="{{$item->name()}}">
+                        <?php echo $item->nmbr();?>
+                    </a>
+                </span>
+                    </td>
                 @if($item_find)
                         <td>
                         {{-- https://askdev.ru/q/kak-vyzvat-funkciyu-javascript-iz-tega-href-v-html-276225/--}}
@@ -223,24 +241,6 @@ $link_image = $tile_view['link'];
                         </a>
                         </td>
                     @endif
-                <td>
-                <span class="ml-3">
-                    <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,
-        'usercode' =>GlobalController::usercode_calc(),
-        'relit_id'=>$relit_id,
-        'called_from_button'=>0,
-        'view_link'=>$i_par_link,
-        'view_ret_id'=>$view_ret_id,
-        'string_current'=>$string_next,
-        'prev_base_index_page'=>$base_index_page,
-        'prev_body_link_page'=>$body_link_page,
-        'prev_body_all_page'=>$body_all_page,
-        ])}}"
-                       class="card-link" title="{{$item->name()}}">
-                        <?php echo $item->nmbr();?>
-                    </a>
-                </span>
-                </td>
                 </tr>
             @endforeach
         </table>
