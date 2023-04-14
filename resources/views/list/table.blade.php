@@ -186,7 +186,7 @@ $link_image = $tile_view['link'];
         </div>
         {{--    т.е. if($base_right['is_list_base_sort_creation_date_desc'] == false)--}}
     @else
-        <table class="table">
+        <table class="table table-sm table-hover">
             @foreach($its_page as $item)
                 <tr>
                     <?php
