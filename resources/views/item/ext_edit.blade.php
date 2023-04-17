@@ -461,10 +461,8 @@
                             <span class="form-label text-related"
                                   name="calc{{$key}}"
                                   id="link{{$key}}"></span>
-                            {{--                            <span hidden--}}
-                            {{--                                  id='{{$key}}'></span>--}}
-                            <span
-                                id='{{$key}}'></span>
+                                                        <span hidden
+                                                              id='{{$key}}'></span>
                         @endif
                     </div>
                     <div class="col-sm-2">
