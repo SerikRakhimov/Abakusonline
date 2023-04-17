@@ -1734,7 +1734,7 @@
         {{--        Расчитывать значение числового поля--}}
         @if($link->parent_is_nc_parameter==true)
             <script>
-                @if($link->parent_is_parent_related == true)
+                @if($link->parent_is_parent_related == true & $link->parent_base->type_is_list())
                 {{-- "related_id" используется несколько раз по тексту --}}
                 {{--var nc_parameter_{{$prefix}}{{$link->id}} = document.getElementById('related_id{{$link->id}}');--}}
                 var nc_parameter_{{$prefix}}{{$link->id}} = document.getElementById('{{$link->id}}');
