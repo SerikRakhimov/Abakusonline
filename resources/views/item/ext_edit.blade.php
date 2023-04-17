@@ -1599,7 +1599,6 @@
                                 <?php
                                 echo StepController::steps_javascript_code($link, 'link_id_changeOption');
                                 ?>
-                                on_numcalc_viewonly();
                                 @endif
                                 {{--                                @if(!$update & $link->parent_is_nc_parameter == true)--}}
                                 {{--    arr = res.data;--}}
@@ -1613,6 +1612,7 @@
                         {{--вызываем состояние "элемент изменился", в связи с этим запустятся функции - обработчики "change" --}}
                         {{--child_code_id{{$prefix}}{{$link->id}}.dispatchEvent(new Event('input')); --}}
                     }
+                    on_numcalc_viewonly();
                 }
 
                 {{--Эта команда не нужна --}}
@@ -1652,11 +1652,11 @@
                                 <?php
                                 echo StepController::steps_javascript_code($link, 'link_id_changeOption');
                                 ?>
-                                on_numcalc_viewonly();
                                 @endif
                             }
                         );
                     }
+                    on_numcalc_viewonly();
                     {{--Не использовать, работает неправильно--}}
                     {{--@if($link->parent_is_nc_parameter == true)--}}
                     {{--<?php--}}
