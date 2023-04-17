@@ -1666,6 +1666,7 @@
                     {{--?>--}}
                     {{--@endif--}}
                     @if($link->parent_is_nc_parameter == true)
+                        vv={{$link->id}};
                     on_numcalc_viewonly();
                     @endif
                 }
