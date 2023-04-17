@@ -461,8 +461,8 @@
                             <span class="form-label text-related"
                                   name="calc{{$key}}"
                                   id="link{{$key}}"></span>
-                                                        <span hidden
-                                                              id='{{$key}}'></span>
+                            <span hidden
+                                  id='{{$key}}'></span>
                         @endif
                     </div>
                     <div class="col-sm-2">
@@ -1612,6 +1612,9 @@
                         {{--вызываем состояние "элемент изменился", в связи с этим запустятся функции - обработчики "change" --}}
                         {{--child_code_id{{$prefix}}{{$link->id}}.dispatchEvent(new Event('input')); --}}
                     }
+                    @if($link->parent_is_nc_parameter == true)
+                    on_numcalc_viewonly();
+                    @endif
                 }
 
                 {{--Эта команда не нужна --}}
@@ -1661,6 +1664,9 @@
                     {{--echo StepController::steps_javascript_code($link, 'link_id_changeOption');--}}
                     {{--?>--}}
                     {{--@endif--}}
+                    @if($link->parent_is_nc_parameter == true)
+                    on_numcalc_viewonly();
+                    @endif
                 }
 
                 child_base_id{{$prefix}}{{$link->id}}.addEventListener("change", link_id_changeOption_{{$prefix}}{{$link->id}});
@@ -1765,13 +1771,11 @@
         {{--    Не срабатывает--}}
         {{--var numcalc_{{$prefix}}{{$link->id}} = document.getElementById('link{{$link->id}}');--}}
 
-        @if(1==1)
-        {{-- Похожие по смыслу проверки "$link->parent_is_nc_viewonly==false" в этом файле пять раз--}}
+         {{-- Похожие по смыслу проверки "$link->parent_is_nc_viewonly==false" в этом файле пять раз--}}
         {{--        @if($link->parent_is_numcalc==true && $link->parent_is_nc_viewonly==false)--}}
         @if($link->parent_is_nc_viewonly == false)
         var button_nc_{{$prefix}}{{$link->id}} = document.getElementById('button_nc{{$link->id}}');
         var name_{{$prefix}}{{$link->id}} = document.getElementById('name{{$link->id}}');
-        @endif
         @endif
 
         function button_nc_click_{{$prefix}}{{$link->id}}() {
@@ -1902,7 +1906,6 @@
         $link = Link::find($key);
         $prefix = '6_';
         ?>
-            vv={{$link->id}};
         {{-- Настройка автоматического перерасчета при выполнении условий--}}
         @if($link->parent_is_nc_parameter == true && $link->parent_is_numcalc == false
                 && $link->parent_is_nc_viewonly == false && $link->parent_is_parent_related == false
