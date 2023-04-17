@@ -1902,9 +1902,11 @@
         $link = Link::find($key);
         $prefix = '6_';
         ?>
+            vv={{$link->id}};
         {{-- Настройка автоматического перерасчета при выполнении условий--}}
         @if($link->parent_is_nc_parameter == true && $link->parent_is_numcalc == false
-                && $link->parent_is_nc_viewonly == false && $link->parent_is_parent_related == false)
+                && $link->parent_is_nc_viewonly == false && $link->parent_is_parent_related == false
+                && !$link->parent_base->type_is_list())
         {{--            @if($link->parent_is_nc_parameter == true && $link->parent_is_nc_viewonly == false)--}}
         {{--            @if($link->parent_is_nc_parameter == true)--}}
         var numrecalc_{{$prefix}}{{$link->id}} = document.getElementById('link{{$link->id}}');
