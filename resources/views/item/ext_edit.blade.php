@@ -1789,9 +1789,11 @@
             {{StepController::steps_javascript_code($link, 'button_nc')}}
 
                 @if($link->parent_base->type_is_number())
-                numcalc_{{$prefix}}{{$link->id}}.value = x;
+                {{--numcalc_{{$prefix}}{{$link->id}}.value = x;--}}
+                v.value = x;
             @elseif ($link->parent_base->type_is_boolean())
-                numcalc_{{$prefix}}{{$link->id}}.checked = (x != 0);
+                {{--numcalc_{{$prefix}}{{$link->id}}.checked = (x != 0);--}}
+                v.checked = (x != 0);
             @elseif ($link->parent_base->type_is_list())
             if (isNaN(x)) {
                 x = 0;
