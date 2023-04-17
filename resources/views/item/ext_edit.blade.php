@@ -1582,8 +1582,10 @@
                     if (child_base_id{{$prefix}}{{$link->id}}.value == 0) {
                         parent_base_id{{$prefix}}{{$link->id}}.innerHTML = "{{trans('main.no_information') . '!'}}";
                         @if($link->parent_is_nc_parameter == true)
+                        on_numcalc_viewonly();
                         <?php
-                        echo StepController::steps_javascript_code($link, 'link_id_changeOption');
+                        // Отключено
+                        //echo StepController::steps_javascript_code($link, 'link_id_changeOption');
                         ?>
                         @endif
                     } else {
@@ -1596,8 +1598,10 @@
                                 {{-- "related_id" используется несколько раз по тексту --}}
                                     parent_related_id{{$prefix}}{{$link->id}}.innerHTML = res.data['result_item_id'];
                                 @if($link->parent_is_nc_parameter == true)
+                                on_numcalc_viewonly();
                                 <?php
-                                echo StepController::steps_javascript_code($link, 'link_id_changeOption');
+                                // Отключено
+                                //echo StepController::steps_javascript_code($link, 'link_id_changeOption');
                                 ?>
                                 @endif
                                 {{--                                @if(!$update & $link->parent_is_nc_parameter == true)--}}
@@ -1612,7 +1616,8 @@
                         {{--вызываем состояние "элемент изменился", в связи с этим запустятся функции - обработчики "change" --}}
                         {{--child_code_id{{$prefix}}{{$link->id}}.dispatchEvent(new Event('input')); --}}
                     }
-                    on_numcalc_viewonly();
+                    {{--Так не работает--}}
+                    {{--on_numcalc_viewonly();--}}
                 }
 
                 {{--Эта команда не нужна --}}
@@ -1634,8 +1639,10 @@
                         parent_base_id{{$prefix}}{{$link->id}}.innerHTML = "{{trans('main.no_information') . '!'}}";
                         {{--                                @if(!$update & $link->parent_is_nc_parameter == true)--}}
                         @if($link->parent_is_nc_parameter == true)
+                        on_numcalc_viewonly();
                         <?php
-                        echo StepController::steps_javascript_code($link, 'link_id_changeOption');
+                        // Отключено
+                        //echo StepController::steps_javascript_code($link, 'link_id_changeOption');
                         ?>
                         @endif
                     } else {
@@ -1649,14 +1656,18 @@
                                     parent_related_id{{$prefix}}{{$link->id}}.innerHTML = res.data['result_item_id'];
                                 {{--                                @if(!$update & $link->parent_is_nc_parameter == true)--}}
                                 @if($link->parent_is_nc_parameter == true)
+                                on_numcalc_viewonly();
                                 <?php
-                                echo StepController::steps_javascript_code($link, 'link_id_changeOption');
+                                // Отключено
+                                //echo StepController::steps_javascript_code($link, 'link_id_changeOption');
                                 ?>
                                 @endif
                             }
                         );
                     }
-                    on_numcalc_viewonly();
+                    {{--Так не работает--}}
+                    {{--on_numcalc_viewonly();--}}
+
                     {{--Не использовать, работает неправильно--}}
                     {{--@if($link->parent_is_nc_parameter == true)--}}
                     {{--<?php--}}
@@ -1767,7 +1778,7 @@
         {{--    Не срабатывает--}}
         {{--var numcalc_{{$prefix}}{{$link->id}} = document.getElementById('link{{$link->id}}');--}}
 
-         {{-- Похожие по смыслу проверки "$link->parent_is_nc_viewonly==false" в этом файле пять раз--}}
+        {{-- Похожие по смыслу проверки "$link->parent_is_nc_viewonly==false" в этом файле пять раз--}}
         {{--        @if($link->parent_is_numcalc==true && $link->parent_is_nc_viewonly==false)--}}
         @if($link->parent_is_nc_viewonly == false)
         var button_nc_{{$prefix}}{{$link->id}} = document.getElementById('button_nc{{$link->id}}');

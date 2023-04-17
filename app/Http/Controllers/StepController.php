@@ -21,6 +21,7 @@ class StepController extends Controller
             foreach ($steps as $step) {
                 switch ($step->command) {
                     // вызов функции button_nc_click_5_XXX();
+                    // Отключено
                     case "L":
                         $ln_first = Link::find($step->first);
                         if ($ln_first) {
