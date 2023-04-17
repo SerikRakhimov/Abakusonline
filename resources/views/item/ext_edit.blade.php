@@ -1613,6 +1613,7 @@
                         {{--child_code_id{{$prefix}}{{$link->id}}.dispatchEvent(new Event('input')); --}}
                     }
                     @if($link->parent_is_nc_parameter == true)
+                        vv={{$link->id}};
                     on_numcalc_viewonly();
                     @endif
                 }
