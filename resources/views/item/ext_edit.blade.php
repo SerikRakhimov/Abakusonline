@@ -289,7 +289,8 @@
                                         @if($base->is_one_value_lst_str_txt == false)
                                             ({{trans('main.' . $value)}})
                                         @endif
-                                        <span class="text-danger">{{GlobalController::label_is_required($base, $base_right)}}</span></label>
+                                        <span
+                                            class="text-danger">{{GlobalController::label_is_required($base, $base_right)}}</span></label>
                                 </div>
                                 <div class="col-sm-7">
                                     {{--                                    https://getbootstrap.com/docs/4.0/components/forms/--}}
@@ -460,8 +461,10 @@
                             <span class="form-label text-related"
                                   name="calc{{$key}}"
                                   id="link{{$key}}"></span>
-                            <span hidden
-                                  id="{{$key}}"></span>
+                            {{--                            <span hidden--}}
+                            {{--                                  id='{{$key}}'></span>--}}
+                            <span
+                                id='{{$key}}'></span>
                         @endif
                     </div>
                     <div class="col-sm-2">
@@ -1067,7 +1070,7 @@
                                                     selected
                                                 @endif
                                             >
-                                                <!--                                                --><?php
+                                                <?php
                                                 //                                                echo $item_work->name();
                                                 //                                                ?>
                                                 {{$item_work->name()}}
@@ -1087,7 +1090,7 @@
                             {{--                                                                                            {{session('errors')!=null ? session('errors')->first($key): ''}}--}}
                             {{--                                                                                        </div>--}}
                         </div>
-                        @if(1==2)
+                        @if(1==1)
                             {{--                        <div class="col-sm-2">--}}
                             {{--                        </div>--}}
                             {{-- Похожие проверка вверху--}}
@@ -1761,12 +1764,16 @@
         @if($base_link_right['is_edit_link_read'] == false)
         {{--    @if($link->parent_is_numcalc == true)--}}
         @if($link->parent_is_numcalc==true && $link->parent_is_nc_screencalc==true)
-        var numcalc_{{$prefix}}{{$link->id}} = document.getElementById('link{{$link->id}}');
+        {{--    Не срабатывает--}}
+        {{--var numcalc_{{$prefix}}{{$link->id}} = document.getElementById('link{{$link->id}}');--}}
 
+        @if(1==1)
         {{-- Похожие по смыслу проверки "$link->parent_is_nc_viewonly==false" в этом файле пять раз--}}
+        {{--        @if($link->parent_is_numcalc==true && $link->parent_is_nc_viewonly==false)--}}
         @if($link->parent_is_nc_viewonly == false)
         var button_nc_{{$prefix}}{{$link->id}} = document.getElementById('button_nc{{$link->id}}');
         var name_{{$prefix}}{{$link->id}} = document.getElementById('name{{$link->id}}');
+        @endif
         @endif
 
         function button_nc_click_{{$prefix}}{{$link->id}}() {
@@ -1774,10 +1781,13 @@
             x = 0;
             y = 0;
             z = 0;
+            v = document.getElementById('link{{$link->id}}');
             error_message = "";
             error_nodata = "Нет данных";
             error_div0 = "Деление на 0";
+
             {{StepController::steps_javascript_code($link, 'button_nc')}}
+
                 @if($link->parent_base->type_is_number())
                 numcalc_{{$prefix}}{{$link->id}}.value = x;
             @elseif ($link->parent_base->type_is_boolean())
@@ -1792,14 +1802,18 @@
                 {{--        numcalc_{{$prefix}}{{$link->id}}[i].selected = true;--}}
                 {{--    }--}}
                 {{--}--}}
-                numcalc_{{$prefix}}{{$link->id}}.value = x;
+
+                {{--numcalc_{{$prefix}}{{$link->id}}.value = x;--}}
+                v.value = x;
             @endif
                 {{-- Похожие по смыслу проверки "$link->parent_is_nc_viewonly==false" в этом файле пять раз--}}
+                {{--            @if($link->parent_is_numcalc==true && $link->parent_is_nc_viewonly==false)--}}
                 @if($link->parent_is_nc_viewonly == false)
                 name_{{$prefix}}{{$link->id}}.innerHTML = error_message;
             @endif
             {{-- Нужно для обновления информации--}}
-            numcalc_{{$prefix}}{{$link->id}}.dispatchEvent(new Event('change'));
+            {{--numcalc_{{$prefix}}{{$link->id}}.dispatchEvent(new Event('change'));--}}
+            v.dispatchEvent(new Event('change'));
         }
 
         {{-- Похожие по смыслу проверки "$link->parent_is_nc_viewonly==false" в этом файле пять раз--}}

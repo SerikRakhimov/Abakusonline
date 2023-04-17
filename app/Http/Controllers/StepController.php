@@ -26,7 +26,8 @@ class StepController extends Controller
                         if ($ln_first) {
                             if ($ln_first->parent_is_nc_viewonly == true) {
                                 // Префикс "5_" д.б. одинаков в StepController::steps_javascript_code() и в item\ext_edit.php
-                                $result = $result . "\nbutton_nc_click_5_" . $step->first . '();';
+                                //$result = $result . "\nbutton_nc_click_5_" . $step->first . '();';
+                            $result = $result . "\nbutton_nc_click_5_" . $step->first . "();";
                             }
                         }
                         break;
