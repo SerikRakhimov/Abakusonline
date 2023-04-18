@@ -1806,7 +1806,8 @@
                 {{--numcalc_{{$prefix}}{{$link->id}}.checked = (x != 0);--}}
                 v.checked = (x != 0);
             @elseif ($link->parent_base->type_is_list())
-            alert(x);
+            alert(nc_parameter_4_654);
+            alert(document.getElementById('654'));
             if (isNaN(x)) {
                 x = 0;
             }
