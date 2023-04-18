@@ -1806,6 +1806,7 @@
                 {{--numcalc_{{$prefix}}{{$link->id}}.checked = (x != 0);--}}
                 v.checked = (x != 0);
             @elseif ($link->parent_base->type_is_list())
+            alert(x);
             if (isNaN(x)) {
                 x = 0;
             }
@@ -1818,7 +1819,6 @@
 
                 {{--numcalc_{{$prefix}}{{$link->id}}.value = x;--}}
                 v.value = x;
-                alert(x);
             @endif
                 {{-- Похожие по смыслу проверки "$link->parent_is_nc_viewonly==false" в этом файле пять раз--}}
                 {{--            @if($link->parent_is_numcalc==true && $link->parent_is_nc_viewonly==false)--}}
