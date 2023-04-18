@@ -1793,12 +1793,11 @@
             y = 0;
             z = 0;
             v = document.getElementById('link{{$link->id}}');
+
             error_message = "";
             error_nodata = "Нет данных";
             error_div0 = "Деление на 0";
-
             {{StepController::steps_javascript_code($link, 'button_nc')}}
-
                 @if($link->parent_base->type_is_number())
                 {{--numcalc_{{$prefix}}{{$link->id}}.value = x;--}}
                 v.value = x;
@@ -1806,8 +1805,6 @@
                 {{--numcalc_{{$prefix}}{{$link->id}}.checked = (x != 0);--}}
                 v.checked = (x != 0);
             @elseif ($link->parent_base->type_is_list())
-            alert(nc_parameter_4_654.value);
-            alert(document.getElementById('654').value);
             if (isNaN(x)) {
                 x = 0;
             }
