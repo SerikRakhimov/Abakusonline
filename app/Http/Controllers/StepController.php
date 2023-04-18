@@ -43,14 +43,14 @@ class StepController extends Controller
 //                            $result = $result . "\n alert(Number(nc_parameter_4_315.innerHTML));x = Number(nc_parameter_4_" . $step->first
 //                            . "." . $step->second == "V" ? "innerHTML" : "value" . ");";
                             $result = $result . "\n x = Number(nc_parameter_4_" . $step->first
-                                . "." . ($step->second == "V" ? "innerHTML" : "value") . ");";
+                                . "." . ($step->second == "I" ? "innerHTML" : "value") . ");";
                         } elseif ($link->parent_base->type_is_boolean()) {
                             $result = $result . "\n if(nc_parameter_4_" . $step->first . ".checked) {x = 1;}
                                 else {x = 0;}";
 //                                $result = $result . "\n x = 0;";
                         } elseif ($link->parent_base->type_is_list()) {
                             $result = $result . "\n x = Number(nc_parameter_4_" . $step->first
-                                . "." . ($step->second == "V" ? "innerHTML" : "value") . ");";
+                                . "." . ($step->second == "I" ? "innerHTML" : "value") . ");";
                         }
                         break;
                     case "M":

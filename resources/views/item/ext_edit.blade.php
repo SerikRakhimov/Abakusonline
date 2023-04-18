@@ -461,9 +461,7 @@
                             <span class="form-label text-related"
                                   name="calc{{$key}}"
                                   id="link{{$key}}"></span>
-{{--                            <span hidden--}}
-{{--                                  id='{{$key}}'></span>--}}
-                            <span
+                            <span hidden
                                   id='{{$key}}'></span>
                         @endif
                     </div>
@@ -1793,7 +1791,6 @@
             y = 0;
             z = 0;
             v = document.getElementById('link{{$link->id}}');
-
             error_message = "";
             error_nodata = "Нет данных";
             error_div0 = "Деление на 0";
