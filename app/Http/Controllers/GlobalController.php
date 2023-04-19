@@ -723,8 +723,8 @@ class GlobalController extends Controller
             $items = $items->whereNotIn('items.id', $arr_it);
 
         }
-        if (Auth::check()) {
-            if ($base_right['is_cus_enable'] == true) {
+        if ($base_right['is_cus_enable'] == true) {
+            if (Auth::check()) {
                 $user_item = self::glo_user()->get_user_item();
                 if ($user_item) {
                     $mains = Main::select(['mains.*'])->
@@ -745,6 +745,8 @@ class GlobalController extends Controller
 
                     $items = $items->whereIn('items.id', $arr_it);
                 }
+            } else {
+                $items = null;
             }
         }
         // Такая же проверка и в GlobalController (function items_right()),
@@ -2800,12 +2802,11 @@ class GlobalController extends Controller
     static function label_is_required(Base $base, $base_right = null)
     {
         $result = '';
-        if($base_right){
+        if ($base_right) {
             if ($base_right['is_base_required'] == true) {
                 $result = '*';
             }
-        }
-        else{
+        } else {
             if ($base->is_required_lst_num_str_txt_img_doc == true) {
                 $result = '*';
             }
