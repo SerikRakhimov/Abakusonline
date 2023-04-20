@@ -1354,18 +1354,18 @@
                 ?>
                 {{-- async - await нужно, https://tproger.ru/translations/understanding-async-await-in-javascript/--}}
                 async function link_id_changeOption_{{$prefix}}{{$link->id}}(first) {
-                    @if(($link->parent_is_base_link == true) || ($link->parent_base->is_code_needed==true && $link->parent_is_enter_refer==true))
-                    if (parent_base_id{{$prefix}}{{$link->id}}.value == 0) {
-                        @else
-                        if (parent_base_id{{$prefix}}{{$link->id}}.options[parent_base_id{{$prefix}}{{$link->id}}.selectedIndex].value == 0) {
-                            @endif
-                                {{--                                @if(!$link->child_base->is_required_lst_num_str_txt_img_doc)--}}
-                                @if($base_link_right['is_base_required'] == false)
-                                child_base_id{{$prefix}}{{$link->id}}.innerHTML = "<option value='0'>{{GlobalController::option_empty()}}</option>";
-                            @else
-                                child_base_id{{$prefix}}{{$link->id}}.innerHTML = "<option value='0'>{{trans('main.no_information') . '!'}}</option>";
-                            @endif
-                        } else {
+{{--                    @if(($link->parent_is_base_link == true) || ($link->parent_base->is_code_needed==true && $link->parent_is_enter_refer==true))--}}
+{{--                    if (parent_base_id{{$prefix}}{{$link->id}}.value == 0) {--}}
+{{--                        @else--}}
+{{--                        if (parent_base_id{{$prefix}}{{$link->id}}.options[parent_base_id{{$prefix}}{{$link->id}}.selectedIndex].value == 0) {--}}
+{{--                            @endif--}}
+{{--                                --}}{{--                                @if(!$link->child_base->is_required_lst_num_str_txt_img_doc)--}}
+{{--                                @if($base_link_right['is_base_required'] == false)--}}
+{{--                                child_base_id{{$prefix}}{{$link->id}}.innerHTML = "<option value='0'>{{GlobalController::option_empty()}}</option>";--}}
+{{--                            @else--}}
+{{--                                child_base_id{{$prefix}}{{$link->id}}.innerHTML = "<option value='0'>{{trans('main.no_information') . '!'}}</option>";--}}
+{{--                            @endif--}}
+{{--                        } else {--}}
                             @if(($link_start_child->parent_is_base_link == true) || ($link_start_child->parent_base->is_code_needed==true && $link_start_child->parent_is_enter_refer==true))
                                 @else
                                 await axios.get('/item/get_items_main_options/'
@@ -1387,7 +1387,7 @@
                                     }
                                 );
                             @endif
-                        }
+                        // }
                         {{-- http://javascript.ru/forum/events/76761-programmno-vyzvat-sobytie-change.html#post503465--}}
                         {{-- Вызываем состояние "элемент изменился", в связи с этим запустятся функции - обработчики "change"--}}
                         @if($link_start_child->parent_base->is_code_needed==true && $link_start_child->parent_is_enter_refer==true)

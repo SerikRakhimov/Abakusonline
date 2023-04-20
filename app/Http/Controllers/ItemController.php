@@ -130,7 +130,7 @@ class ItemController extends Controller
         $name = BaseController::field_name();
         // Только в функции browser() используется 'Показывать записи с признаком "В истории" при просмотре списков выбора',
         // в других функциях выборки таблиц данных подразумевается 'Показывать записи с признаком "В истории" при просмотре списков'
-        $items = self::get_items_main($base, $project, $role, $relit_id, $base_right['is_brow_hist_records_enable'], $link, $item)['items_no_get'];
+        $items = self::get_items_main($base, $project, $role, $relit_id, $base_right['is_brow_hist_records_enable'], $link, $item->id)['items_no_get'];
         if ($order_by == null) {
             $order_by = "name";
         }
@@ -7360,7 +7360,7 @@ class ItemController extends Controller
     }
 
 // Выборка данных в виде списка
-    static function get_items_main(Base $base, Project $project, Role $role, $relit_id, $enable_hist_records = true, Link $link = null, Item $item = null)
+    static function get_items_main(Base $base, Project $project, Role $role, $relit_id, $enable_hist_records = true, Link $link = null, $item_id = null)
     {
         // Фильтр данных
         $is_filter = false;
@@ -7368,21 +7368,27 @@ class ItemController extends Controller
         $is_calcuse = false;
         // Результат, no get()
         $items = null;
+        $base_right = null;
         $items_filter = null;
         $result_parent_label = $link->parent_label();
         $result_parent_base_name = $link->parent_base->name();
         $relip_proj = GlobalController::calc_relip_project($relit_id, $project);
         if ($relip_proj) {
             if ($link) {
-                if ($item) {
-                    // Если это фильтрируемое поле (в связка ЕдинИзмерения-Материал - поле Материал(parent_child_related_start_link_id) является фильтрируемым полем)
-                    // Первый вариант
-                    //$is_filter = Link::where('parent_is_child_related', true)->where('parent_child_related_start_link_id', $link->id)->exists();
-                    $is_filter = Link::where('child_base_id', $link->child_base_id)
-                        ->where('parent_is_child_related', true)
-                        ->where('parent_child_related_start_link_id', $link->id)
-                        ->exists();
-                }
+                $base_right = GlobalController::base_right($link->child_base, $role, $relit_id);
+                // Если это фильтрируемое поле (в связка ЕдинИзмерения-Материал - поле Материал(parent_child_related_start_link_id) является фильтрируемым полем)
+                // Первый вариант
+                //$is_filter = Link::where('parent_is_child_related', true)->where('parent_child_related_start_link_id', $link->id)->exists();
+                $is_filter = Link::where('child_base_id', $link->child_base_id)
+                    ->where('parent_is_child_related', true)
+                    ->where('parent_child_related_start_link_id', $link->id);
+                // Этот блок не использовать
+//                 //'$item_id == 0' т.е. передано null, выбранное в форме
+//                if ($item_id == 0 & $base_right['is_tst_enable'] == true) {
+//                    $is_filter = $is_filter->where('parent_is_tst_link', true);
+//                }
+                $is_filter = $is_filter->exists();
+
                 // 1.0 В списке выбора использовать поле вычисляемой таблицы
                 $is_calcuse = $link->parent_is_in_the_selection_list_use_the_calculated_table_field;
                 //////////////////////////////\\\\\\\\\\\\\\\\\\\\\\\\\/////////////////////////}
@@ -7393,7 +7399,7 @@ class ItemController extends Controller
                     $base_right = GlobalController::base_right($base, $role, $link->parent_relit_id);
                     if (($is_filter) || ($is_calcuse)) {
                         if ($is_filter) {
-                            $items_filter = self::get_items_filter_main($base, $link, $item);
+                            $items_filter = self::get_items_filter_main($base, $link, $base_right, $relip_proj, $item_id);
                             $items = $items_filter;
                         }
                         if ($is_calcuse) {
@@ -7441,12 +7447,12 @@ class ItemController extends Controller
     }
 
 // Выборка данных в виде списка
-    static function get_items_main_options(Base $base, Project $project, Role $role, $relit_id, Link $link = null, Item $item = null)
+    static function get_items_main_options(Base $base, Project $project, Role $role, $relit_id, Link $link = null, $item_id = null)
     {
         $base_right = GlobalController::base_right($base, $role, $relit_id);
         $base_link_right = null;
         //$items_main = self::get_items_main($base, $project, $role, $relit_id, $base_right['is_list_hist_records_enable'], $link, $item);
-        $items_main = self::get_items_main($base, $project, $role, $relit_id, $base_right['is_brow_hist_records_enable'], $link, $item);
+        $items_main = self::get_items_main($base, $project, $role, $relit_id, $base_right['is_brow_hist_records_enable'], $link, $item_id);
         $items_no_get = $items_main['items_no_get'];
         // '->get()' нужно
         $result_items = $items_no_get->get();
@@ -7486,10 +7492,10 @@ class ItemController extends Controller
     }
 
 // Выборка данных в виде списка
-    static function get_items_main_code($code, Base $base, Project $project, Role $role, $relit_id, Link $link = null, Item $item = null)
+    static function get_items_main_code($code, Base $base, Project $project, Role $role, $relit_id, Link $link = null, $item_id = null)
     {
         $base_right = GlobalController::base_right($base, $role, $relit_id);
-        $items_main = self::get_items_main($base, $project, $role, $relit_id, $base_right['is_list_hist_records_enable'], $link, $item);
+        $items_main = self::get_items_main($base, $project, $role, $relit_id, $base_right['is_list_hist_records_enable'], $link, $item_id);
         $items_no_get = $items_main['items_no_get'];
         $item_id = 0;
         $item_name = trans('main.no_information') . '!';
@@ -7590,7 +7596,7 @@ class ItemController extends Controller
     }
 
 // Выборка данных с фильтром
-    static function get_items_filter_main(Base $base, Link $link_filter, Item $item)
+    static function get_items_filter_main(Base $base, Link $link_filter, $base_right, Project $project, $item_id)
     {
         // Результат, no get()
         $items = null;
@@ -7600,8 +7606,14 @@ class ItemController extends Controller
         //$link_find = Link::where('parent_is_child_related', true)->where('parent_child_related_start_link_id', $link_filter->id)->first();
         $link_find = Link::where('child_base_id', $link_filter->child_base_id)
             ->where('parent_is_child_related', true)
-            ->where('parent_child_related_start_link_id', $link_filter->id)
-            ->first();
+            ->where('parent_child_related_start_link_id', $link_filter->id);
+        // Этот блок не использовать
+//        // '$item_id == 0' т.е. передано null, выбранное в форме
+//        if ($item_id == 0 & $base_right['is_tst_enable'] == true) {
+//            $link_find = $link_find->where('parent_is_tst_link', true);
+//        }
+        $link_find = $link_find->first();
+
         if ($link_find) {
             $link_result = Link::find($link_find->parent_child_related_result_link_id);
             $result_items = null;
@@ -7618,7 +7630,7 @@ class ItemController extends Controller
             if ($links) {
                 $items_parent = array();
                 // добавление элемента в конец массива
-                array_unshift($items_parent, $item->id);
+                array_unshift($items_parent, $item_id);
                 $cn = 0;
                 $error = false;
                 foreach ($links as $link_value) {
@@ -7630,17 +7642,32 @@ class ItemController extends Controller
                     }
                     // обнуление массива $items_child
                     $items_child = array();
-                    foreach ($items_parent as $item_id) {
-                        // $item используется в цикле
-                        $mains = Main::select(['child_item_id'])
-                            ->where('parent_item_id', $item_id)->where('link_id', $link->id)->get();
-                        if (!$mains) {
-                            $error = true;
-                            break;
-                        }
-                        foreach ($mains as $main) {
-                            // добавление элемента в конец массива
-                            array_unshift($items_child, $main->child_item_id);
+                    foreach ($items_parent as $item_value) {
+                        // $item_value нужно использовать в проверке
+                        if ($item_value == 0 & $base_right['is_tst_enable'] == true
+                            & $link->parent_is_tst_link == true) {
+
+                            $items_n = Item::where('project_id','=',$project->id)
+                            ->where('base_id','=',$base->id)
+                            ->whereDoesntHave('child_mains', function ( $query)  use($link) {
+                                $query->where('link_id','=',$link->id);
+                            })->get();
+
+                            foreach ($items_n as $it) {
+                                // добавление элемента в конец массива
+                                array_unshift($items_child, $it->id);
+                            }
+                        } else {
+                            $mains = Main::select(['child_item_id'])
+                                ->where('parent_item_id', $item_value)->where('link_id', $link->id)->get();
+                            if (!$mains) {
+                                $error = true;
+                                break;
+                            }
+                            foreach ($mains as $main) {
+                                // добавление элемента в конец массива
+                                array_unshift($items_child, $main->child_item_id);
+                            }
                         }
                     }
                     $items_parent = $items_child;

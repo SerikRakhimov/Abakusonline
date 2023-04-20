@@ -903,15 +903,15 @@ Route::get('/item/ext_return/{item}/{project}/{role}/{usercode}/{relit_id}/{stri
 Route::post('/store_link_change', [ItemController::class, 'store_link_change'])
     ->name('item.store_link_change');
 
-Route::get('/item/get_items_main/{base}/{project}/{role}/{relit_id}/{enable_hist_records?}/{link?}/{item?}', [ItemController::class, 'get_items_main'])
+Route::get('/item/get_items_main/{base}/{project}/{role}/{relit_id}/{enable_hist_records?}/{link?}/{item_id?}', [ItemController::class, 'get_items_main'])
     ->name('item.get_items_main')
     ->middleware('auth');
 
-Route::get('/item/get_items_main_options/{base}/{project}/{role}/{relit_id}/{link?}/{item?}', [ItemController::class, 'get_items_main_options'])
+Route::get('/item/get_items_main_options/{base}/{project}/{role}/{relit_id}/{link?}/{item_id?}', [ItemController::class, 'get_items_main_options'])
     ->name('item.get_items_main_options')
     ->middleware('auth');
 
-Route::get('/item/get_items_main_code/{code}/{base}/{project}/{role}/{relit_id}/{link?}/{item?}', [ItemController::class, 'get_items_main_code'])
+Route::get('/item/get_items_main_code/{code}/{base}/{project}/{role}/{relit_id}/{link?}/{item_id?}', [ItemController::class, 'get_items_main_code'])
     ->name('item.get_items_main_code')
     ->middleware('auth');
 
