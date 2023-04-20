@@ -7647,6 +7647,7 @@ class ItemController extends Controller
                         if ($item_value == 0 & $base_right['is_tst_enable'] == true
                             & $link->parent_is_tst_link == true) {
 
+                            // для  древовидной структуры, 'whereDoesntHave()' - не содержит
                             $items_n = Item::where('project_id','=',$project->id)
                             ->where('base_id','=',$base->id)
                             ->whereDoesntHave('child_mains', function ( $query)  use($link) {
