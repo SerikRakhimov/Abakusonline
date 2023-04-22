@@ -1632,6 +1632,7 @@
 
                 <?php
                 $functions[count($functions)] = "link_id_changeOption_" . $prefix . $link->id;
+                $functs_parent_refer[count($functs_parent_refer)] = "link_id_change_" . $prefix . $link->id;
                 ?>
                 function link_id_changeOption_{{$prefix}}{{$link->id}}(first = false) {
                     {{--parent_base_id{{$prefix}}{{$link->id}}.innerHTML = "";--}}
@@ -1768,7 +1769,6 @@
         // Префикс "5_" д.б. одинаков в StepController::steps_javascript_code() и в item\ext_edit.php
         $prefix = '5_';
         ?>
-
         {{-- Похожая проверка вверху--}}
         {{-- Кроме ($link->parent_base->is_code_needed==true && $link->parent_is_enter_refer==true)--}}
         @if(!($link->parent_base->is_code_needed==true && $link->parent_is_enter_refer==true))
@@ -1930,7 +1930,7 @@
                 {{$value}}(true);
             @endforeach
 
-            {{-- on_parent_refer();--}}
+            // on_parent_refer();
 
             {{-- Не нужно вызывать функцию on_numcalc_all(),--}}
             {{-- это связано с разрешенной корректировкой вычисляемых полей ($link->parent_is_nc_viewonly=true)--}}
