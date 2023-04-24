@@ -1353,55 +1353,56 @@
                 }
                 ?>
                 {{-- async - await нужно, https://tproger.ru/translations/understanding-async-await-in-javascript/--}}
-                async function link_id_changeOption_{{$prefix}}{{$link->id}}(first) {
-{{--                    @if(($link->parent_is_base_link == true) || ($link->parent_base->is_code_needed==true && $link->parent_is_enter_refer==true))--}}
-{{--                    if (parent_base_id{{$prefix}}{{$link->id}}.value == 0) {--}}
-{{--                        @else--}}
-{{--                        if (parent_base_id{{$prefix}}{{$link->id}}.options[parent_base_id{{$prefix}}{{$link->id}}.selectedIndex].value == 0) {--}}
-{{--                            @endif--}}
-{{--                                --}}{{--                                @if(!$link->child_base->is_required_lst_num_str_txt_img_doc)--}}
-{{--                                @if($base_link_right['is_base_required'] == false)--}}
-{{--                                child_base_id{{$prefix}}{{$link->id}}.innerHTML = "<option value='0'>{{GlobalController::option_empty()}}</option>";--}}
-{{--                            @else--}}
-{{--                                child_base_id{{$prefix}}{{$link->id}}.innerHTML = "<option value='0'>{{trans('main.no_information') . '!'}}</option>";--}}
-{{--                            @endif--}}
-{{--                        } else {--}}
-                            @if(($link_start_child->parent_is_base_link == true) || ($link_start_child->parent_base->is_code_needed==true && $link_start_child->parent_is_enter_refer==true))
-                                @else
-                                await axios.get('/item/get_items_main_options/'
-                                + '{{$link_start_child->parent_base_id}}' + '/' + {{$project->id}} + '/' + {{$role->id}} + '/' + {{$relit_id}} + '/' + {{$link_get->id}}
-                                    @if(($link->parent_is_base_link == true) || ($link->parent_base->is_code_needed==true && $link->parent_is_enter_refer==true))
-                                + '/' + parent_base_id{{$prefix}}{{$link->id}}.value
-                                @else
-                                + '/' + parent_base_id{{$prefix}}{{$link->id}}.options[parent_base_id{{$prefix}}{{$link->id}}.selectedIndex].value
-                                @endif
-                               ).then(function (res) {
-                                        child_base_id{{$prefix}}{{$link->id}}.innerHTML = res.data['result_items_name_options'];
-                                        for (let i = 0; i < child_base_id{{$prefix}}{{$link->id}}.length; i++) {
-                                            if (child_base_id{{$prefix}}{{$link->id}}[i].value ==
-                                                {{old($link_start_child->id) ?? (($array_calc[$link_start_child->id] != null) ? $array_calc[$link_start_child->id] : 0)}}) {
-                                                // установить selected на true
-                                                child_base_id{{$prefix}}{{$link->id}}[i].selected = true;
-                                            }
-                                        }
-                                    }
-                                );
-                            @endif
-                        // }
-                        {{-- http://javascript.ru/forum/events/76761-programmno-vyzvat-sobytie-change.html#post503465--}}
-                        {{-- Вызываем состояние "элемент изменился", в связи с этим запустятся функции - обработчики "change"--}}
-                        @if($link_start_child->parent_base->is_code_needed==true && $link_start_child->parent_is_enter_refer==true)
-                        document.getElementById('code{{$link_start_child->id}}').dispatchEvent(new Event('change'));
+                async function link_id_changeOption_{{$prefix}}{{$link->id}}(first = false) {
+                    {{--                    @if(($link->parent_is_base_link == true) || ($link->parent_base->is_code_needed==true && $link->parent_is_enter_refer==true))--}}
+                        {{--                    if (parent_base_id{{$prefix}}{{$link->id}}.value == 0) {--}}
+                        {{--                        @else--}}
+                        {{--                        if (parent_base_id{{$prefix}}{{$link->id}}.options[parent_base_id{{$prefix}}{{$link->id}}.selectedIndex].value == 0) {--}}
+                        {{--                            @endif--}}
+                        {{--                                --}}{{--                                @if(!$link->child_base->is_required_lst_num_str_txt_img_doc)--}}
+                        {{--                                @if($base_link_right['is_base_required'] == false)--}}
+                        {{--                                child_base_id{{$prefix}}{{$link->id}}.innerHTML = "<option value='0'>{{GlobalController::option_empty()}}</option>";--}}
+                        {{--                            @else--}}
+                        {{--                                child_base_id{{$prefix}}{{$link->id}}.innerHTML = "<option value='0'>{{trans('main.no_information') . '!'}}</option>";--}}
+                        {{--                            @endif--}}
+                        {{--                        } else {--}}
+                        @if(($link_start_child->parent_is_base_link == true) || ($link_start_child->parent_base->is_code_needed==true && $link_start_child->parent_is_enter_refer==true))
                         @else
-                        document.getElementById('link{{$link_start_child->id}}').dispatchEvent(new Event('change'));
+                        await axios.get('/item/get_items_main_options/'
+                        + '{{$link_start_child->parent_base_id}}' + '/' + {{$project->id}} + '/' + {{$role->id}} + '/' + {{$relit_id}} + '/' + {{$link_get->id}}
+                            @if(($link->parent_is_base_link == true) || ($link->parent_base->is_code_needed==true && $link->parent_is_enter_refer==true))
+                        + '/' + parent_base_id{{$prefix}}{{$link->id}}.value
+                        @else
+                        + '/' + parent_base_id{{$prefix}}{{$link->id}}.options[parent_base_id{{$prefix}}{{$link->id}}.selectedIndex].value
                         @endif
-                    }
-                    {{-- Событие на изменение значения--}}
-                    @if($link->parent_base->is_code_needed==true && $link->parent_is_enter_refer==true)
-                    {{--Не нужно--}}
-                    {{--document.getElementById('code{{$link->id}}').addEventListener("change", link_id_changeOption_{{$prefix}}{{$link->id}});--}}
+                       ).then(function (res) {
+                                child_base_id{{$prefix}}{{$link->id}}.innerHTML = res.data['result_items_name_options'];
+                                for (let i = 0; i < child_base_id{{$prefix}}{{$link->id}}.length; i++) {
+                                    if (child_base_id{{$prefix}}{{$link->id}}[i].value ==
+                                        {{old($link_start_child->id) ?? (($array_calc[$link_start_child->id] != null) ? $array_calc[$link_start_child->id] : 0)}}) {
+                                        // установить selected на true
+                                        child_base_id{{$prefix}}{{$link->id}}[i].selected = true;
+                                    }
+                                }
+                            }
+                        );
+                    @endif
+                    {{-- }{{--
+                    {{-- http://javascript.ru/forum/events/76761-programmno-vyzvat-sobytie-change.html#post503465{{--
+                    {{-- Вызываем состояние "элемент изменился", в связи с этим запустятся функции - обработчики "change"--}}
+                    @if($link_start_child->parent_base->is_code_needed==true && $link_start_child->parent_is_enter_refer==true)
+                    document.getElementById('code{{$link_start_child->id}}').dispatchEvent(new Event('change'));
                     @else
-                    document.getElementById('link{{$link->id}}').addEventListener("change", link_id_changeOption_{{$prefix}}{{$link->id}});
+                    document.getElementById('link{{$link_start_child->id}}').dispatchEvent(new Event('change'));
+                    @endif
+                }
+
+                {{-- Событие на изменение значения--}}
+                @if($link->parent_base->is_code_needed==true && $link->parent_is_enter_refer==true)
+                {{--Не нужно--}}
+                {{--document.getElementById('code{{$link->id}}').addEventListener("change", link_id_changeOption_{{$prefix}}{{$link->id}});--}}
+                @else
+                document.getElementById('link{{$link->id}}').addEventListener("change", link_id_changeOption_{{$prefix}}{{$link->id}});
                 @endif
 
             </script>
@@ -1467,7 +1468,7 @@
                         //$functs_parent_refer[count($functs_parent_refer)] = "code_input_" . $prefix . $link->id;
                         ?>
                         {{-- async - await нужно, https://tproger.ru/translations/understanding-async-await-in-javascript/--}}
-                        async function code_input_{{$prefix}}{{$link->id}}(first) {
+                        async function code_input_{{$prefix}}{{$link->id}}(first = false) {
                             @if(($link_refer_main->parent_is_base_link == true) || ($link_refer_main->parent_base->is_code_needed==true && $link_refer_main->parent_is_enter_refer==true))
                             if (parent_base_id{{$prefix}}{{$link->id}}.value == 0) {
                                 @else
@@ -1491,8 +1492,10 @@
                                         );
 
                                     {{--Команда "on_parent_refer();" нужна, для вызова функция обновления данных с зависимых таблиц--}}
-                                    {{--Функция code_input_{{$prefix}}{{$link->id}}(first) выполняется не сразу--}}
-                                    on_parent_refer();
+                                        {{--Функция code_input_{{$prefix}}{{$link->id}}(first) выполняется не сразу--}}
+                                    if (first == false) {
+                                        on_parent_refer();
+                                    }
                                     {{--on_numcalc_viewonly(); --}}
 
                                     link_id_changeOption_{{$prefix_prev}}{{$link->id}}();
@@ -1532,7 +1535,7 @@
                     ?>
 
                     {{--async - await нужно, https://tproger.ru/translations/understanding-async-await-in-javascript/--}}
-                    async function code_input_{{$prefix}}{{$link->id}}(first) {
+                    async function code_input_{{$prefix}}{{$link->id}}(first = false) {
                         await axios.get('/item/item_from_base_code/'
                             + '{{$link->parent_base_id}}'
                             + '/' + '{{$relip_link_project->id}}'
@@ -1544,8 +1547,10 @@
                             }
                         );
                         {{--Команда "on_parent_refer();" нужна, для вызова функция обновления данных с зависимых таблиц--}}
-                        {{--Функция code_input_{{$prefix}}{{$link->id}}(first) выполняется не сразу--}}
-                        on_parent_refer();
+                            {{--Функция code_input_{{$prefix}}{{$link->id}}(first) выполняется не сразу--}}
+                        if (first == false) {
+                            on_parent_refer();
+                        }
                         {{--on_numcalc_viewonly(); --}}
 
                         link_id_changeOption_{{$prefix_prev}}{{$link->id}}();
@@ -1582,13 +1587,15 @@
                     if (child_base_id{{$prefix}}{{$link->id}}.value == 0) {
                         parent_base_id{{$prefix}}{{$link->id}}.innerHTML = "{{trans('main.no_information') . '!'}}";
                         parent_related_id{{$prefix}}{{$link->id}}.innerHTML = "0";
-                        @if($link->parent_is_nc_parameter == true)
-                        on_numcalc_viewonly();
-                        <?php
-                        // Отключено
-                        //echo StepController::steps_javascript_code($link, 'link_id_changeOption');
-                        ?>
-                        @endif
+                        if (first == false) {
+                            @if($link->parent_is_nc_parameter == true)
+                            on_numcalc_viewonly();
+                            <?php
+                            // Отключено
+                            //echo StepController::steps_javascript_code($link, 'link_id_changeOption');
+                            ?>
+                            @endif
+                        }
                     } else {
                         axios.get('/item/get_parent_item_from_calc_child_item/'
                             + child_base_id{{$prefix}}{{$link->id}}.value
@@ -1598,13 +1605,15 @@
                                 parent_base_id{{$prefix}}{{$link->id}}.innerHTML = res.data['result_item_name'];
                                 {{-- "related_id" используется несколько раз по тексту --}}
                                     parent_related_id{{$prefix}}{{$link->id}}.innerHTML = res.data['result_item_id'];
-                                @if($link->parent_is_nc_parameter == true)
-                                on_numcalc_viewonly();
-                                <?php
-                                // Отключено
-                                //echo StepController::steps_javascript_code($link, 'link_id_changeOption');
-                                ?>
-                                @endif
+                                if (first == false) {
+                                    @if($link->parent_is_nc_parameter == true)
+                                    on_numcalc_viewonly();
+                                    <?php
+                                    // Отключено
+                                    //echo StepController::steps_javascript_code($link, 'link_id_changeOption');
+                                    ?>
+                                    @endif
+                                }
                                 {{--                                @if(!$update & $link->parent_is_nc_parameter == true)--}}
                                 {{--    arr = res.data;--}}
                                 {{--for (key in arr) {--}}
@@ -1633,7 +1642,7 @@
 
                 <?php
                 $functions[count($functions)] = "link_id_changeOption_" . $prefix . $link->id;
-                $functs_parent_refer[count($functs_parent_refer)] = "link_id_change_" . $prefix . $link->id;
+                $functs_parent_refer[count($functs_parent_refer)] = "link_id_changeOption_" . $prefix . $link->id;
                 ?>
                 function link_id_changeOption_{{$prefix}}{{$link->id}}(first = false) {
                     {{--parent_base_id{{$prefix}}{{$link->id}}.innerHTML = "";--}}
@@ -1641,6 +1650,8 @@
                         parent_base_id{{$prefix}}{{$link->id}}.innerHTML = "{{trans('main.no_information') . '!'}}";
                         parent_related_id{{$prefix}}{{$link->id}}.innerHTML = "0";
                         {{--                                @if(!$update & $link->parent_is_nc_parameter == true)--}}
+                        {{--Не использовать проверку if (first == false) {--}}
+                        {{--if (first == false) {--}}
                         @if($link->parent_is_nc_parameter == true)
                         on_numcalc_viewonly();
                         <?php
@@ -1648,6 +1659,7 @@
                         //echo StepController::steps_javascript_code($link, 'link_id_changeOption');
                         ?>
                         @endif
+                        {{--}--}}
                     } else {
                         axios.get('/item/get_parent_item_from_calc_child_item/'
                             + child_base_id{{$prefix}}{{$link->id}}.options[child_base_id{{$prefix}}{{$link->id}}.selectedIndex].value
@@ -1658,6 +1670,8 @@
                                 {{-- "related_id" используется несколько раз по тексту --}}
                                     parent_related_id{{$prefix}}{{$link->id}}.innerHTML = res.data['result_item_id'];
                                 {{--                                @if(!$update & $link->parent_is_nc_parameter == true)--}}
+                                {{--Не использовать проверку if (first == false) {--}}
+                                {{--if (first == false) {--}}
                                 @if($link->parent_is_nc_parameter == true)
                                 on_numcalc_viewonly();
                                 <?php
@@ -1665,6 +1679,7 @@
                                 //echo StepController::steps_javascript_code($link, 'link_id_changeOption');
                                 ?>
                                 @endif
+                                {{--}--}}
                             }
                         );
                     }
@@ -1813,7 +1828,6 @@
                 {{--        numcalc_{{$prefix}}{{$link->id}}[i].selected = true;--}}
                 {{--    }--}}
                 {{--}--}}
-
                 {{--numcalc_{{$prefix}}{{$link->id}}.value = x;--}}
                 v.value = x;
             @endif
@@ -1824,7 +1838,9 @@
             @endif
             {{-- Нужно для обновления информации--}}
             {{--numcalc_{{$prefix}}{{$link->id}}.dispatchEvent(new Event('change'));--}}
+
             v.dispatchEvent(new Event('change'));
+
         }
 
         {{-- Похожие по смыслу проверки "$link->parent_is_nc_viewonly==false" в этом файле пять раз--}}
@@ -1863,8 +1879,8 @@
         code_el.addEventListener("change", code_change);
         @endif
 
-        var child_base_id_work = 0;
-        var parent_base_id_work = 0;
+        {{-- var child_base_id_work = 0;--}}
+        {{-- var parent_base_id_work= 0;--}}
 
         function on_numcalc_viewonly() {
             @foreach($functs_numcalc_viewonly as $value)
@@ -1878,9 +1894,9 @@
             @endforeach
         }
 
-        function on_parent_refer() {
+        function on_parent_refer(first = false) {
             @foreach($functs_parent_refer as $value)
-                {{$value}}();
+                {{$value}}(first);
             @endforeach
         }
 
@@ -1927,12 +1943,13 @@
     </script>
     <script>
         window.onload = function () {
+
+            on_parent_refer(true);
+
             {{-- массив функций нужен, что при window.onload запустить обработчики всех полей--}}
                 @foreach($functions as $value)
                 {{$value}}(true);
             @endforeach
-
-            // on_parent_refer();
 
             {{-- Не нужно вызывать функцию on_numcalc_all(),--}}
             {{-- это связано с разрешенной корректировкой вычисляемых полей ($link->parent_is_nc_viewonly=true)--}}
@@ -1942,8 +1959,9 @@
             @else
             on_numcalc_viewonly();
             @endif
+
                 @foreach($array_disabled as $key=>$value)
-                parent_base_id_work = document.getElementById('link{{$key}}').disabled = true;
+                {{--parent_base_id_work = document.getElementById('link{{$key}}').disabled = true;--}}
             document.getElementById('link{{$key}}').disabled = true;
             @endforeach
         };
