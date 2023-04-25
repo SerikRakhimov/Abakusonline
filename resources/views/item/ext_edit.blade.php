@@ -1943,7 +1943,7 @@
     <script>
         window.onload = function () {
 
-            //on_parent_refer(true);
+            on_parent_refer(true);
 
             {{-- массив функций нужен, что при window.onload запустить обработчики всех полей--}}
                 @foreach($functions as $value)
