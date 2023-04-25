@@ -1668,18 +1668,19 @@
                             ).then(function (res) {
                                     parent_base_id{{$prefix}}{{$link->id}}.innerHTML = res.data['result_item_name'];
                                     {{-- "related_id" используется несколько раз по тексту --}}
-                                    parent_related_id{{$prefix}}{{$link->id}}.innerHTML = res.data['result_item_id'];
-                                {{--                                @if(!$update & $link->parent_is_nc_parameter == true)--}}
-                                {{--Не использовать проверку if (first == false) {--}}
-                        {{--if (first == false)--}}
-                        @if($link->parent_is_nc_parameter == true)
-                        on_numcalc_viewonly();
-                        <?php
-                        // Отключено
-                        //echo StepController::steps_javascript_code($link, 'link_id_changeOption');
-                        ?>
-                        @endif
-                        {{--}--}}
+                                        parent_related_id{{$prefix}}{{$link->id}}.innerHTML = res.data['result_item_id'];
+                                    {{--                                @if(!$update & $link->parent_is_nc_parameter == true)--}}
+                                    {{--Не использовать проверку if (first == false) {--}}
+                                    {{--if (first == false)--}}
+                                    @if($link->parent_is_nc_parameter == true)
+                                    on_numcalc_viewonly();
+                                    <?php
+                                    // Отключено
+                                    //echo StepController::steps_javascript_code($link, 'link_id_changeOption');
+                                    ?>
+                                    @endif
+                                        {{--}--}}
+                                }
                         );
                     }
                     {{--Так не работает--}}
