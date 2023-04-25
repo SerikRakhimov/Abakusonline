@@ -1944,11 +1944,11 @@
     <script>
         window.onload = function () {
 
-            on_parent_refer(true);
+            on_parent_refer(false);
 
             {{-- массив функций нужен, что при window.onload запустить обработчики всех полей--}}
                 @foreach($functions as $value)
-                {{$value}}(true);
+                {{$value}}(false);
             @endforeach
 
             {{-- Не нужно вызывать функцию on_numcalc_all(),--}}
