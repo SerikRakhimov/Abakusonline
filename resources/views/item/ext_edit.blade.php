@@ -1584,7 +1584,6 @@
                 //           $functions[count($functions)] = "link_id_change_" . $prefix . $link->id;
                 ?>
                 function link_id_change_{{$prefix}}{{$link->id}}(first = false) {
-                    u=100;
                     if (child_base_id{{$prefix}}{{$link->id}}.value == 0) {
                         parent_base_id{{$prefix}}{{$link->id}}.innerHTML = "{{trans('main.no_information') . '!'}}";
                         parent_related_id{{$prefix}}{{$link->id}}.innerHTML = "0";
@@ -1652,7 +1651,7 @@
                         parent_related_id{{$prefix}}{{$link->id}}.innerHTML = "0";
                         {{--                                @if(!$update & $link->parent_is_nc_parameter == true)--}}
                         {{--Не использовать проверку if (first == false) {--}}
-                            {{--if (first == false) {
+                            {{--if (first == false) {--}}
                             @if($link->parent_is_nc_parameter == true)
                             on_numcalc_viewonly();
                             <?php
@@ -1660,7 +1659,7 @@
                             //echo StepController::steps_javascript_code($link, 'link_id_changeOption');
                             ?>
                             @endif
-                            {{--}
+                            {{--}--}}
                         } else {
                             axios.get('/item/get_parent_item_from_calc_child_item/'
                                 + child_base_id{{$prefix}}{{$link->id}}.options[child_base_id{{$prefix}}{{$link->id}}.selectedIndex].value
@@ -1672,7 +1671,7 @@
                                     parent_related_id{{$prefix}}{{$link->id}}.innerHTML = res.data['result_item_id'];
                                 {{--                                @if(!$update & $link->parent_is_nc_parameter == true)--}}
                                 {{--Не использовать проверку if (first == false) {--}}
-                        {{--if (first == false)
+                        {{--if (first == false)--}}
                         @if($link->parent_is_nc_parameter == true)
                         on_numcalc_viewonly();
                         <?php
@@ -1944,7 +1943,7 @@
     <script>
         window.onload = function () {
 
-            on_parent_refer(true);
+            //on_parent_refer(true);
 
             {{-- массив функций нужен, что при window.onload запустить обработчики всех полей--}}
                 @foreach($functions as $value)
