@@ -1876,7 +1876,7 @@
             ?>
             numBaseDigits = {{$base->significance_code}};
 
-        function code_change(first) {
+        function code_change() {
             numStr = code_el.value;
             code_el.value = numBaseDigits >= numStr.length ? Array.apply(null, {length: numBaseDigits - numStr.length + 1}).join("0") + numStr : numStr.substring(0, numBaseDigits);
         }
@@ -1899,9 +1899,9 @@
             @endforeach
         }
 
-        function on_parent_refer(first = false) {
+        function on_parent_refer() {
             @foreach($functs_parent_refer as $value)
-                {{$value}}(first);
+                {{$value}}();
             @endforeach
         }
 
@@ -1949,12 +1949,12 @@
     <script>
         window.onload = function () {
 
-            on_parent_refer(true);
+            on_parent_refer();
 
             {{-- Не нужно вызывать функции,--}}
             {{-- массив функций нужен, что при window.onload запустить обработчики всех полей--}}
                 @foreach($functions as $value)
-            {{--{{$value}}(true);--}}
+            {{--{{$value}}();--}}
         @endforeach
 
             {{-- Не нужно вызывать функцию on_numcalc_all(),--}}
