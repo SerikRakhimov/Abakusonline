@@ -1230,7 +1230,7 @@
                 <?php
                 $functions[count($functions)] = "code_change_" . $prefix . $link->id;
                 ?>
-                function code_change_{{$prefix}}{{$link->id}}(first) {
+                function code_change_{{$prefix}}{{$link->id}}() {
                     numStr = code_{{$prefix}}{{$link->id}}.value;
                     numDigits = {{$link->parent_base->significance_code}};
                     code_{{$prefix}}{{$link->id}}.value = numDigits >= numStr.length ? Array.apply(null, {length: numDigits - numStr.length + 1}).join("0") + numStr : numStr.substring(0, numDigits);
@@ -1353,7 +1353,7 @@
                 }
                 ?>
                 {{-- async - await нужно, https://tproger.ru/translations/understanding-async-await-in-javascript/--}}
-                async function link_id_changeOption_{{$prefix}}{{$link->id}}(first = false) {
+                async function link_id_changeOption_{{$prefix}}{{$link->id}}() {
                     {{--                    @if(($link->parent_is_base_link == true) || ($link->parent_base->is_code_needed==true && $link->parent_is_enter_refer==true))--}}
                         {{--                    if (parent_base_id{{$prefix}}{{$link->id}}.value == 0) {--}}
                         {{--                        @else--}}
@@ -1467,7 +1467,7 @@
                         //$functs_parent_refer[count($functs_parent_refer)] = "code_input_" . $prefix . $link->id;
                         ?>
                         {{-- async - await нужно, https://tproger.ru/translations/understanding-async-await-in-javascript/--}}
-                        async function code_input_{{$prefix}}{{$link->id}}(first = false) {
+                        async function code_input_{{$prefix}}{{$link->id}}() {
                             @if(($link_refer_main->parent_is_base_link == true) || ($link_refer_main->parent_base->is_code_needed==true && $link_refer_main->parent_is_enter_refer==true))
                             if (parent_base_id{{$prefix}}{{$link->id}}.value == 0) {
                                 @else
@@ -1536,7 +1536,7 @@
                     ?>
 
                     {{--async - await нужно, https://tproger.ru/translations/understanding-async-await-in-javascript/--}}
-                    async function code_input_{{$prefix}}{{$link->id}}(first = 0) {
+                    async function code_input_{{$prefix}}{{$link->id}}() {
                         await axios.get('/item/item_from_base_code/'
                             + '{{$link->parent_base_id}}'
                             + '/' + '{{$relip_link_project->id}}'
@@ -1586,7 +1586,7 @@
                 $functs_parent_refer[count($functs_parent_refer)] = "link_id_change_" . $prefix . $link->id;
                 //           $functions[count($functions)] = "link_id_change_" . $prefix . $link->id;
                 ?>
-                function link_id_change_{{$prefix}}{{$link->id}}(first = false) {
+                function link_id_change_{{$prefix}}{{$link->id}}() {
                     if (child_base_id{{$prefix}}{{$link->id}}.value == 0) {
                         parent_base_id{{$prefix}}{{$link->id}}.innerHTML = "{{trans('main.no_information') . '!'}}";
                         parent_related_id{{$prefix}}{{$link->id}}.innerHTML = "0";
@@ -1649,7 +1649,7 @@
                 //~~~$functions[count($functions)] = "link_id_changeOption_" . $prefix . $link->id;
                 $functs_parent_refer[count($functs_parent_refer)] = "link_id_changeOption_" . $prefix . $link->id;
                 ?>
-                function link_id_changeOption_{{$prefix}}{{$link->id}}(first = false) {
+                function link_id_changeOption_{{$prefix}}{{$link->id}}() {
                     {{--parent_base_id{{$prefix}}{{$link->id}}.innerHTML = "";--}}
                     if (child_base_id{{$prefix}}{{$link->id}}.options[child_base_id{{$prefix}}{{$link->id}}.selectedIndex].value == 0) {
                         parent_base_id{{$prefix}}{{$link->id}}.innerHTML = "{{trans('main.no_information') . '!'}}";
@@ -1725,7 +1725,7 @@
                 $functs_parent_refer[count($functs_parent_refer)] = "link_id_changeOption_" . $prefix . $link->id;
                 //~~~$functions[count($functions)] = "link_id_changeOption_" . $prefix . $link->id;
                 ?>
-                function link_id_changeOption_{{$prefix}}{{$link->id}}(first = false) {
+                function link_id_changeOption_{{$prefix}}{{$link->id}}() {
                     {{--if (child_base_id{{$prefix}}{{$link->id}}.options[child_base_id{{$prefix}}{{$link->id}}.selectedIndex].value == 0) {--}}
                     {{--    parent_base_id{{$prefix}}{{$link->id}}.innerHTML = "{{trans('main.no_information') . '!'}}";--}}
                     {{--} else {--}}
