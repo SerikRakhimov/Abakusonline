@@ -1962,9 +1962,9 @@
             {{-- это связано с разрешенной корректировкой вычисляемых полей ($link->parent_is_nc_viewonly=true)--}}
             {{-- on_numcalc_all();--}}
             @if(!$update)
-            on_numcalc_all();
+            //on_numcalc_all();
             @else
-            on_numcalc_viewonly();
+            //on_numcalc_viewonly();
             @endif
 
             @foreach($array_disabled as $key=>$value)
