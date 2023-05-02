@@ -1463,8 +1463,8 @@
                         child_base_id{{$prefix}}{{$link->id}}.addEventListener("click", link_id_changeOption_{{$prefix}}{{$link->id}});
 
                         <?php
-                        $functions[count($functions)] = "code_input_" . $prefix . $link->id;
-                        //$functs_parent_refer[count($functs_parent_refer)] = "code_input_" . $prefix . $link->id;
+                        //~~~$functions[count($functions)] = "code_input_" . $prefix . $link->id;
+                        $functs_parent_refer[count($functs_parent_refer)] = "code_input_" . $prefix . $link->id;
                         ?>
                         {{-- async - await нужно, https://tproger.ru/translations/understanding-async-await-in-javascript/--}}
                         async function code_input_{{$prefix}}{{$link->id}}(first = false) {
@@ -1531,8 +1531,8 @@
                     child_base_id{{$prefix}}{{$link->id}}.addEventListener("click", link_id_changeOption_{{$prefix}}{{$link->id}});
 
                     <?php
-                    $functions[count($functions)] = "code_input_" . $prefix . $link->id;
-                    //$functs_parent_refer[count($functs_parent_refer)] = "code_input_" . $prefix . $link->id;
+                    //~~~$functions[count($functions)] = "code_input_" . $prefix . $link->id;
+                    $functs_parent_refer[count($functs_parent_refer)] = "code_input_" . $prefix . $link->id;
                     ?>
 
                     {{--async - await нужно, https://tproger.ru/translations/understanding-async-await-in-javascript/--}}
@@ -1955,6 +1955,8 @@
                 @foreach($functions as $value)
                 //{{$value}}(true);
             @endforeach
+
+            //on_parent_refer(true);
 
             {{-- Не нужно вызывать функцию on_numcalc_all(),--}}
             {{-- это связано с разрешенной корректировкой вычисляемых полей ($link->parent_is_nc_viewonly=true)--}}
