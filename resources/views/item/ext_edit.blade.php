@@ -1549,9 +1549,9 @@
                         );
                         {{--Команда "on_parent_refer();" нужна, для вызова функция обновления данных с зависимых таблиц--}}
                             {{--Функция code_input_{{$prefix}}{{$link->id}}(first) выполняется не сразу--}}
-                        if (first == false) {
+                        // if (first == false) {
                             on_parent_refer();
-                        }
+                        // }
                         {{--on_numcalc_viewonly(); --}}
 
                         {{-- ? --}}
