@@ -1951,20 +1951,19 @@
 
             on_parent_refer(true);
 
+            {{-- Не нужно вызывать функции,--}}
             {{-- массив функций нужен, что при window.onload запустить обработчики всех полей--}}
                 @foreach($functions as $value)
-                //{{$value}}(true);
-            @endforeach
-
-            //on_parent_refer(true);
+            {{--{{$value}}(true);--}}
+        @endforeach
 
             {{-- Не нужно вызывать функцию on_numcalc_all(),--}}
             {{-- это связано с разрешенной корректировкой вычисляемых полей ($link->parent_is_nc_viewonly=true)--}}
             {{-- on_numcalc_all();--}}
             @if(!$update)
-            //on_numcalc_all();
+            {{--on_numcalc_all();--}}
             @else
-            //on_numcalc_viewonly();
+            {{--on_numcalc_viewonly();--}}
             @endif
 
             @foreach($array_disabled as $key=>$value)
