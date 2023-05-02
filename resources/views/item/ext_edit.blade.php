@@ -1498,7 +1498,7 @@
                                     }
                                     {{--on_numcalc_viewonly(); --}}
 
-                                    link_id_changeOption_{{$prefix_prev}}{{$link->id}}();
+                                    {{--link_id_changeOption_{{$prefix_prev}}{{$link->id}}();--}}
 
                                     {{-- http://javascript.ru/forum/events/76761-programmno-vyzvat-sobytie-change.html#post503465--}}
                                     {{-- вызываем состояние "элемент изменился", в связи с этим запустятся функции - обработчики "change"--}}
