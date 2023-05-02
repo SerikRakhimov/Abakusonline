@@ -1462,7 +1462,6 @@
                         {{-- Событие на кнопку "..."--}}
                         child_base_id{{$prefix}}{{$link->id}}.addEventListener("click", link_id_changeOption_{{$prefix}}{{$link->id}});
 
-
                         <?php
                         $functions[count($functions)] = "code_input_" . $prefix . $link->id;
                         //$functs_parent_refer[count($functs_parent_refer)] = "code_input_" . $prefix . $link->id;
@@ -1492,10 +1491,11 @@
                                         );
 
                                     {{--Команда "on_parent_refer();" нужна, для вызова функция обновления данных с зависимых таблиц--}}
-                                        {{--Функция code_input_{{$prefix}}{{$link->id}}(first) выполняется не сразу--}}
-                                    if (first == false) {
-                                        on_parent_refer();
-                                    }
+                                    {{--Функция code_input_{{$prefix}}{{$link->id}}(first) выполняется не сразу--}}
+                                    {{--Не использовать проверку if (first == false) {--}}
+                                    {{--if (first == false) {--}}
+                                    on_parent_refer();
+                                    {{--}--}}
                                     {{--on_numcalc_viewonly(); --}}
 
                                     {{-- ? --}}
@@ -1548,10 +1548,11 @@
                             }
                         );
                         {{--Команда "on_parent_refer();" нужна, для вызова функция обновления данных с зависимых таблиц--}}
-                            {{--Функция code_input_{{$prefix}}{{$link->id}}(first) выполняется не сразу--}}
-                        // if (first == false) {
-                            on_parent_refer();
-                        // }
+                        {{--Функция code_input_{{$prefix}}{{$link->id}}(first) выполняется не сразу--}}
+                        {{--Не использовать проверку if (first == false) {--}}
+                        {{--if (first == false) {--}}
+                        on_parent_refer();
+                        {{--}--}}
                         {{--on_numcalc_viewonly(); --}}
 
                         {{-- ? --}}
@@ -1589,15 +1590,16 @@
                     if (child_base_id{{$prefix}}{{$link->id}}.value == 0) {
                         parent_base_id{{$prefix}}{{$link->id}}.innerHTML = "{{trans('main.no_information') . '!'}}";
                         parent_related_id{{$prefix}}{{$link->id}}.innerHTML = "0";
-                        if (first == false) {
-                            @if($link->parent_is_nc_parameter == true)
-                            on_numcalc_viewonly();
-                            <?php
-                            // Отключено
-                            //echo StepController::steps_javascript_code($link, 'link_id_changeOption');
-                            ?>
-                            @endif
-                        }
+                        {{--Не использовать проверку if (first == false) {--}}
+                        {{--if (first == false) {--}}
+                        @if($link->parent_is_nc_parameter == true)
+                        on_numcalc_viewonly();
+                        <?php
+                        // Отключено
+                        //echo StepController::steps_javascript_code($link, 'link_id_changeOption');
+                        ?>
+                        @endif
+                        {{--}--}}
                     } else {
                         axios.get('/item/get_parent_item_from_calc_child_item/'
                             + child_base_id{{$prefix}}{{$link->id}}.value
@@ -1607,15 +1609,16 @@
                                 parent_base_id{{$prefix}}{{$link->id}}.innerHTML = res.data['result_item_name'];
                                 {{-- "related_id" используется несколько раз по тексту --}}
                                     parent_related_id{{$prefix}}{{$link->id}}.innerHTML = res.data['result_item_id'];
-                                if (first == false) {
-                                    @if($link->parent_is_nc_parameter == true)
-                                    on_numcalc_viewonly();
-                                    <?php
-                                    // Отключено
-                                    //echo StepController::steps_javascript_code($link, 'link_id_changeOption');
-                                    ?>
-                                    @endif
-                                }
+                                {{--Не использовать проверку if (first == false) {--}}
+                                {{--if (first == false) {--}}
+                                @if($link->parent_is_nc_parameter == true)
+                                on_numcalc_viewonly();
+                                <?php
+                                // Отключено
+                                //echo StepController::steps_javascript_code($link, 'link_id_changeOption');
+                                ?>
+                                @endif
+                                {{--}--}}
                                 {{--                                @if(!$update & $link->parent_is_nc_parameter == true)--}}
                                 {{--    arr = res.data;--}}
                                 {{--for (key in arr) {--}}
@@ -1643,7 +1646,7 @@
                 var parent_related_id{{$prefix}}{{$link->id}} = document.getElementById('{{$link->id}}');
 
                 <?php
-                $functions[count($functions)] = "link_id_changeOption_" . $prefix . $link->id;
+                //~~~$functions[count($functions)] = "link_id_changeOption_" . $prefix . $link->id;
                 $functs_parent_refer[count($functs_parent_refer)] = "link_id_changeOption_" . $prefix . $link->id;
                 ?>
                 function link_id_changeOption_{{$prefix}}{{$link->id}}(first = false) {
@@ -1653,36 +1656,36 @@
                         parent_related_id{{$prefix}}{{$link->id}}.innerHTML = "0";
                         {{--                                @if(!$update & $link->parent_is_nc_parameter == true)--}}
                         {{--Не использовать проверку if (first == false) {--}}
-                            {{--if (first == false) {--}}
-                            @if($link->parent_is_nc_parameter == true)
-                            on_numcalc_viewonly();
-                            <?php
-                            // Отключено
-                            //echo StepController::steps_javascript_code($link, 'link_id_changeOption');
-                            ?>
-                            @endif
-                            {{--}--}}
-                        } else {
-                            axios.get('/item/get_parent_item_from_calc_child_item/'
-                                + child_base_id{{$prefix}}{{$link->id}}.options[child_base_id{{$prefix}}{{$link->id}}.selectedIndex].value
-                                + '/{{$link->id}}'
-                                + '/0'
-                            ).then(function (res) {
-                                    parent_base_id{{$prefix}}{{$link->id}}.innerHTML = res.data['result_item_name'];
-                                    {{-- "related_id" используется несколько раз по тексту --}}
-                                        parent_related_id{{$prefix}}{{$link->id}}.innerHTML = res.data['result_item_id'];
-                                    {{--                                @if(!$update & $link->parent_is_nc_parameter == true)--}}
-                                    {{--Не использовать проверку if (first == false) {--}}
-                                    {{--if (first == false)--}}
-                                    @if($link->parent_is_nc_parameter == true)
-                                    on_numcalc_viewonly();
-                                    <?php
-                                    // Отключено
-                                    //echo StepController::steps_javascript_code($link, 'link_id_changeOption');
-                                    ?>
-                                    @endif
-                                        {{--}--}}
-                                }
+                        {{--if (first == false) {--}}
+                        @if($link->parent_is_nc_parameter == true)
+                        on_numcalc_viewonly();
+                        <?php
+                        // Отключено
+                        //echo StepController::steps_javascript_code($link, 'link_id_changeOption');
+                        ?>
+                        @endif
+                        {{--}--}}
+                    } else {
+                        axios.get('/item/get_parent_item_from_calc_child_item/'
+                            + child_base_id{{$prefix}}{{$link->id}}.options[child_base_id{{$prefix}}{{$link->id}}.selectedIndex].value
+                            + '/{{$link->id}}'
+                            + '/0'
+                        ).then(function (res) {
+                                parent_base_id{{$prefix}}{{$link->id}}.innerHTML = res.data['result_item_name'];
+                                {{-- "related_id" используется несколько раз по тексту --}}
+                                    parent_related_id{{$prefix}}{{$link->id}}.innerHTML = res.data['result_item_id'];
+                                {{--                                @if(!$update & $link->parent_is_nc_parameter == true)--}}
+                                {{--Не использовать проверку if (first == false) {--}}
+                                {{--if (first == false)--}}
+                                @if($link->parent_is_nc_parameter == true)
+                                on_numcalc_viewonly();
+                                <?php
+                                // Отключено
+                                //echo StepController::steps_javascript_code($link, 'link_id_changeOption');
+                                ?>
+                                @endif
+                                {{--}--}}
+                            }
                         );
                     }
                     {{--Так не работает--}}
@@ -1720,7 +1723,7 @@
 
                 <?php
                 $functs_parent_refer[count($functs_parent_refer)] = "link_id_changeOption_" . $prefix . $link->id;
-                $functions[count($functions)] = "link_id_changeOption_" . $prefix . $link->id;
+                //~~~$functions[count($functions)] = "link_id_changeOption_" . $prefix . $link->id;
                 ?>
                 function link_id_changeOption_{{$prefix}}{{$link->id}}(first = false) {
                     {{--if (child_base_id{{$prefix}}{{$link->id}}.options[child_base_id{{$prefix}}{{$link->id}}.selectedIndex].value == 0) {--}}
@@ -1962,8 +1965,8 @@
             on_numcalc_viewonly();
             @endif
 
-                @foreach($array_disabled as $key=>$value)
-                {{--parent_base_id_work = document.getElementById('link{{$key}}').disabled = true;--}}
+            @foreach($array_disabled as $key=>$value)
+            {{--parent_base_id_work = document.getElementById('link{{$key}}').disabled = true;--}}
             document.getElementById('link{{$key}}').disabled = true;
             @endforeach
         };
