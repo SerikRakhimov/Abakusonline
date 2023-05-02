@@ -130,7 +130,7 @@ class ItemController extends Controller
         $name = BaseController::field_name();
         // Только в функции browser() используется 'Показывать записи с признаком "В истории" при просмотре списков выбора',
         // в других функциях выборки таблиц данных подразумевается 'Показывать записи с признаком "В истории" при просмотре списков'
-        $items = self::get_items_main($base, $project, $role, $relit_id, $base_right['is_brow_hist_records_enable'], $link, $item->id)['items_no_get'];
+        $items = self::get_items_main($base, $project, $role, $relit_id, $base_right['is_brow_hist_records_enable'], $link, $item_id)['items_no_get'];
         if ($order_by == null) {
             $order_by = "name";
         }
