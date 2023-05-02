@@ -1552,6 +1552,7 @@
                         // if (first == false) {
                             on_parent_refer();
                         // }
+                        first = 0;
                         alert(first);
                         {{--on_numcalc_viewonly(); --}}
 
