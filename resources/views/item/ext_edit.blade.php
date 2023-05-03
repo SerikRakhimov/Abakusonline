@@ -1342,7 +1342,13 @@
 
                 {{--var parent_base_id{{$prefix}}{{$link->id}} = document.getElementById('link{{$link->id}}');--}}
                 <?php
-                $functions[count($functions)] = "link_id_changeOption_" . $prefix . $link->id;
+                // Эта проверка if() нужна, для правильного отображения значений
+                //                'parent_is_numcalc' => 'Вычислять значение для числового поля, логического поля, списка',
+                //                'parent_is_nc_screencalc' => 'Экранное вычисление',
+                //                'parent_is_nc_viewonly' => 'Расчитанное значение только показывать',
+                if (!($link->parent_is_numcalc == true & $link->parent_is_nc_screencalc == true & $link->parent_is_nc_viewonly == true)) {
+                    $functions[count($functions)] = "link_id_changeOption_" . $prefix . $link->id;
+                }
                 $link_get = null;
                 // 1.0 В списке выбора использовать поле вычисляемой таблицы
                 if ($link_selection_table) {
@@ -1951,19 +1957,17 @@
 
             on_parent_refer();
 
-            {{-- Не нужно вызывать функции,--}}
             {{-- массив функций нужен, что при window.onload запустить обработчики всех полей--}}
                 @foreach($functions as $value)
-            {{--{{$value}}();--}}
-        @endforeach
+                {{$value}}();
+            @endforeach
 
             {{-- Не нужно вызывать функцию on_numcalc_all(),--}}
             {{-- это связано с разрешенной корректировкой вычисляемых полей ($link->parent_is_nc_viewonly=true)--}}
-            {{-- on_numcalc_all();--}}
             @if(!$update)
-            {{--on_numcalc_all();--}}
+            on_numcalc_all();
             @else
-            {{--on_numcalc_viewonly();--}}
+            on_numcalc_viewonly();
             @endif
 
             @foreach($array_disabled as $key=>$value)
