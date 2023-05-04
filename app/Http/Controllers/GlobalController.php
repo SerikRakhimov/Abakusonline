@@ -111,6 +111,7 @@ class GlobalController extends Controller
         $is_base_required = $base->is_required_lst_num_str_txt_img_doc;
         $is_tst_enable = $base->is_default_tst_lst;
         $is_cus_enable = false;
+        $is_edit_parlink_enable = false;
         $is_show_hist_attr_enable = false;
         $is_edit_hist_attr_enable = false;
         $is_list_hist_attr_enable = false;
@@ -262,6 +263,7 @@ class GlobalController extends Controller
             }
             $is_roba_tst_enable = $roba->is_tst_enable;
             $is_roba_cus_enable = $roba->is_cus_enable;
+            $is_roba_edit_parlink_enable = $roba->is_edit_parlink_enable;
             $is_roba_show_hist_attr_enable = $roba->is_show_hist_attr_enable;
             $is_roba_edit_hist_attr_enable = $roba->is_edit_hist_attr_enable;
             $is_roba_list_hist_attr_enable = $roba->is_list_hist_attr_enable;
@@ -330,6 +332,7 @@ class GlobalController extends Controller
             $is_base_required = $is_roba_base_required;
             $is_tst_enable = $is_roba_tst_enable;
             $is_cus_enable = $is_roba_cus_enable;
+            $is_edit_parlink_enable = $is_roba_edit_parlink_enable;
             $is_show_hist_attr_enable = $is_roba_show_hist_attr_enable;
             $is_edit_hist_attr_enable = $is_roba_edit_hist_attr_enable;
             $is_list_hist_attr_enable = $is_roba_list_hist_attr_enable;
@@ -386,6 +389,7 @@ class GlobalController extends Controller
             'is_base_required' => $is_base_required,
             'is_tst_enable' => $is_tst_enable,
             'is_cus_enable' => $is_cus_enable,
+            'is_edit_parlink_enable' => $is_edit_parlink_enable,
             'is_show_hist_attr_enable' => $is_show_hist_attr_enable,
             'is_edit_hist_attr_enable' => $is_edit_hist_attr_enable,
             'is_list_hist_attr_enable' => $is_list_hist_attr_enable,
@@ -455,6 +459,7 @@ class GlobalController extends Controller
         // Нужно $base_child_right['is_tst_enable'] и $base_child_right['is_cus_enable']
         $is_tst_enable = $base_child_right['is_tst_enable'];
         $is_cus_enable = $base_child_right['is_cus_enable'];
+        $is_edit_parlink_enable = $base_right['is_edit_parlink_enable'];
         $is_show_hist_attr_enable = $base_right['is_show_hist_attr_enable'];
         $is_edit_hist_attr_enable = $base_right['is_edit_hist_attr_enable'];
         $is_list_hist_attr_enable = $base_right['is_list_hist_attr_enable'];
@@ -521,7 +526,8 @@ class GlobalController extends Controller
             $is_show_link_enable = $roli->is_show_link_enable;
             $is_edit_link_read = $roli->is_edit_link_read;
             $is_edit_link_update = $roli->is_edit_link_update;
-            $is_hier_base_enable = $roli->is_hier_base_enable;
+            $is_edit_parlink_enable = $roli->is_edit_parlink_enable;
+            //$is_hier_base_enable = $roli->is_hier_base_enable;
             $is_hier_link_enable = $roli->is_hier_link_enable;
 //          'Обязательно к заполнению (для списков, при условии $base->is_required_lst_num_str_txt_img_doc = false
             if (!$base->is_required_lst_num_str_txt_img_doc & $base->type_is_list()) {
@@ -568,6 +574,7 @@ class GlobalController extends Controller
             'is_base_required' => $is_base_required,
             'is_tst_enable' => $is_tst_enable,
             'is_cus_enable' => $is_cus_enable,
+            'is_edit_parlink_enable' => $is_edit_parlink_enable,
             'is_show_hist_attr_enable' => $is_show_hist_attr_enable,
             'is_edit_hist_attr_enable' => $is_edit_hist_attr_enable,
             'is_list_hist_attr_enable' => $is_list_hist_attr_enable,

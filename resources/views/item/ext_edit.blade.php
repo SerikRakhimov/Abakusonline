@@ -517,7 +517,7 @@
                                    disabled
                                    @else
                                    @if($par_link)
-                                   @if ($key == $par_link->id)
+                                   @if (($key == $par_link->id) & ($base_link_right['is_edit_parlink_enable'] == false))
                                    disabled
                                 @endif
                                 @endif
@@ -558,8 +558,8 @@
                                     @if($base_link_right['is_edit_link_read'] == true)
                                     disabled
                                     @else
-                                    @if($par_link)
-                                    @if ($key == $par_link->id)
+                                    @if($par_link )
+                                    @if (($key == $par_link->id) & ($base_link_right['is_edit_parlink_enable'] == false))
                                     disabled
                                 @endif
                                 @endif
@@ -610,8 +610,8 @@
                                    disabled
                                    @else
                                    @if($par_link || $link->parent_is_nc_viewonly==true)
-                                   @if($par_link)
-                                   @if ($key == $par_link->id)
+                                   @if($par_link )
+                                   @if (($key == $par_link->id) & ($base_link_right['is_edit_parlink_enable'] == false))
                                    disabled
                                    @endif
                                    @elseif($link->parent_is_nc_viewonly==true)
@@ -692,8 +692,8 @@
                                    @if($base_link_right['is_edit_link_read'] == true)
                                    disabled
                                    @else
-                                   @if($par_link)
-                                   @if ($key == $par_link->id)
+                                   @if($par_link )
+                                   @if (($key == $par_link->id) & ($base_link_right['is_edit_parlink_enable'] == false))
                                    disabled
                                 @endif
                                 @endif
@@ -742,7 +742,7 @@
                                    {{--                                disabled--}}
                                    {{--                            @else--}}
                                    {{--                                @if($par_link)--}}
-                                   {{--                                    @if ($key == $par_link->id)--}}
+                                   {{--                                    @if (($key == $par_link->id) & ($base_link_right['is_edit_parlink_enable'] == false))--}}
                                    {{--                                        disabled--}}
                                    {{--                                    @endif--}}
                                    {{--                                @endif--}}
@@ -751,8 +751,8 @@
                                    disabled
                                    @else
                                    @if($par_link || $link->parent_is_nc_viewonly==true)
-                                   @if($par_link)
-                                   @if ($key == $par_link->id)
+                                   @if($par_link )
+                                   @if (($key == $par_link->id) & ($base_link_right['is_edit_parlink_enable'] == false))
                                    disabled
                                    @endif
                                    @elseif($link->parent_is_nc_viewonly==true)
@@ -803,8 +803,8 @@
                               @if($base_link_right['is_edit_link_read'] == true)
                               disabled
                               @else
-                              @if($par_link)
-                              @if ($key == $par_link->id)
+                              @if($par_link )
+                              @if (($key == $par_link->id) & ($base_link_right['is_edit_parlink_enable'] == false))
                               disabled
                         @endif
                         @endif
@@ -898,8 +898,8 @@
                               @if($base_link_right['is_edit_link_read'] == true)
                               disabled
                               @else
-                              @if($par_link)
-                              @if ($key == $par_link->id)
+                              @if($par_link )
+                              @if (($key == $par_link->id) & ($base_link_right['is_edit_parlink_enable'] == false))
                               disabled
                         @endif
                         @endif
@@ -1009,7 +1009,7 @@
                                     {{--                                    disabled--}}
                                     {{--                                    @else--}}
                                     {{--                                    @if($par_link)--}}
-                                    {{--                                    @if ($key == $par_link->id)--}}
+                                    {{--                                    @if (($key == $par_link->id) & ($base_link_right['is_edit_parlink_enable'] == false))--}}
                                     {{--                                    disabled--}}
                                     {{--                                    @else--}}
                                     {{--                                    @if($hidden_list)--}}
@@ -1022,8 +1022,8 @@
                                     disabled
                                     @else
                                     @if($par_link || $link->parent_is_nc_viewonly==true)
-                                    @if($par_link)
-                                    @if ($key == $par_link->id)
+                                    @if($par_link )
+                                    @if (($key == $par_link->id) & ($base_link_right['is_edit_parlink_enable'] == false))
                                     disabled
                                     @endif
                                     @elseif($link->parent_is_nc_viewonly==true)
@@ -1969,10 +1969,19 @@
             @else
             on_numcalc_viewonly();
             @endif
-
+                ds = true;
             @foreach($array_disabled as $key=>$value)
-            {{--parent_base_id_work = document.getElementById('link{{$key}}').disabled = true;--}}
-            document.getElementById('link{{$key}}').disabled = true;
+                ds = true;
+            @if($par_link)
+                {{-- Проверки на ($base_link_right['is_edit_parlink_enable'] == false)) проводятся по тексту выше, здесь не нужные--}}
+                {{-- @if (($key == $par_link->id) & ($base_link_right['is_edit_parlink_enable'] == false))--}}
+                @if($key == $par_link->id)
+                ds = false;
+            @endif
+                @endif
+            if (ds == true) {
+                document.getElementById('link{{$key}}').disabled = true;
+            }
             @endforeach
         };
 

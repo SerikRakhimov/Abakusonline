@@ -455,9 +455,10 @@ return [
     'is_show_head_attr_enable' => 'Показывать содержимое заголовка в item_index.php',
     'is_default_tst_lst' => 'По умолчанию, древовидная структура (link = null, для base_index.php, item_index($link))',
     'is_tst_enable' => 'Древовидная структура (link = null, для base_index.php, item_index($link))',
-    'parent_is_tst_link' => 'Для древовидной структуры (link = null, для base_index.php, item_index($link))',
-    'is_cus_enable' => 'Записи текущего пользователя (link = текущий пользователь, для base_index.php, item_index($link))',
-    'parent_is_cus_link' => 'Для текущего пользователя (link = текущий пользователь, для base_index.php, item_index($link))',
+    'parent_is_tst_link' => 'Для древовидной структуры (robas) (link = null, для base_index.php, item_index($link))',
+    'is_cus_enable' => 'Записи текущего пользователя (robas) (link = текущий пользователь, для base_index.php, item_index($link))',
+    'parent_is_cus_link' => 'Для текущего пользователя (links) (link = текущий пользователь, для base_index.php, item_index($link))',
     'tree_structure' => 'Древовидная структура',
     'is_base_required' =>'Обязательно к заполнению (для списков, при условии $base->is_required_lst_num_str_txt_img_doc = false)',
-];
+    'is_edit_parlink_enable' => 'Разрешить корректировку поля при связи parlink',
+    ];

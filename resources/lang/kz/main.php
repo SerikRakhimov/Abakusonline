@@ -455,9 +455,10 @@ return [
     'is_show_head_attr_enable' => 'Тақырыптың мазмұнын item_index.php көрсету',
     'is_default_tst_lst' => 'Әдепкі ағаш тәрізді құрылым (link = null, base_index.php, item_index($link) үшін)',
     'is_tst_enable' => 'Ағаш құрылымы (link = null, base_index.php, item_index($link) үшін)',
-    'parent_is_tst_link' => 'Ағаш құрылымы үшін (link = null, base_index.php, item_index($link) үшін)',
-    'is_cus_enable' => 'Ағымдық пайдаланушының жазбалары (link = ағымдық пайдаланушы, base_index.php, item_index($link) үшін)',
-    'parent_is_cus_link' => 'Ағымдық пайдаланушы үшін (link = ағымдық пайдаланушы, base_index.php, item_index($link) үшін)',
+    'parent_is_tst_link' => 'Ағаш құрылымы үшін (robas) (link = null, base_index.php, item_index($link) үшін)',
+    'is_cus_enable' => 'Ағымдық пайдаланушының жазбалары (robas) (link = ағымдық пайдаланушы, base_index.php, item_index($link) үшін)',
+    'parent_is_cus_link' => 'Ағымдық пайдаланушы үшін (links) (link = ағымдық пайдаланушы, base_index.php, item_index($link) үшін)',
     'tree_structure' => 'Ағаш тәрізді құрылым',
     'is_base_required' =>'Қажет (тізімдер үшін, егер $base->is_required_lst_num_str_txt_img_doc = жалған болса)',
-];
+    'is_edit_parlink_enable' => 'Parlink байланысы кезінде өрісті түзетуге рұқсат ету',
+    ];

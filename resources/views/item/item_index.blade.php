@@ -71,7 +71,7 @@
                             @if($value['is_bsmn_base_enable'] == true)
                         </a>
                     @endif
-{{--                    Нужно "'called_from_button' => 1"--}}
+                    {{--                    Нужно "'called_from_button' => 1"--}}
                     <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$value['item_id'], 'role'=>$role,
                                         'usercode' => GlobalController::usercode_calc(), 'relit_id'=>$value['relit_id'],
                                         'called_from_button' => 1,
@@ -506,14 +506,20 @@
                                                                       'prev_body_all_page'=>$body_all_page
                                                                       ])}}"'
                                         title="{{$child_labels . ' ('.mb_strtolower(trans('main.link')).')'}}">
-                                    <span class="text-label">
+                                    <span class="text-label"
+{{--                                          @if(isset($view_link))--}}
+                                        {{--                                          @if($value->id == $view_link->id)--}}
+                                        {{--                                          style="text-decoration: underline;"--}}
+                                        {{--                                                                                  @endif--}}
+                                        {{--                                        @endif--}}
+                                    >
                                     {{$child_labels}}</span>
-                                    @if(isset($view_link))
-                                        @if($value->id == $view_link->id)
-                                            {{--                                                                                                                    Этот символ используется в двух местах--}}
-                                            &#10003;
-                                        @endif
-                                    @endif
+                                                                        @if(isset($view_link))
+                                                                            @if($value->id == $view_link->id)
+{{--                                            Этот символ используется в двух местах--}}
+                                                                                &#10003;
+                                                                            @endif
+                                                                        @endif
                                     @if(isset($array["\x00*\x00items"][$value->id]))
                                         *
                                     @endif
@@ -832,7 +838,7 @@
                 {{--        Используется "'heading'=>intval(false)"--}}
                 {{--        'view_link' передавать не нужно, затем (в list\all.php) в 'item.ext_show' как 'par_link' передается $main->link--}}
                 {{--        Параметры 'relit_id' и 'view_ret_id' передаются в зависимости от значения $heading--}}
-{{--                'message_ln_array_info' => $message_ln_array_info, 'message_ln_link_array_item' => $message_ln_link_array_item--}}
+                {{--                'message_ln_array_info' => $message_ln_array_info, 'message_ln_link_array_item' => $message_ln_link_array_item--}}
                 @include('list.all',['project'=>$project,
             'relit_id'=>$relit_body_id,
             'view_ret_id'=>$view_ret_body_id,

@@ -455,9 +455,10 @@ return [
     'is_show_head_attr_enable' => 'Show heading content in item_index.php',
     'is_default_tst_lst' => 'Default tree structure (link = null, for base_index.php, item_index($link))',
     'is_tst_enable' => 'Tree structure (link = null, for base_index.php, item_index($link))',
-    'parent_is_tst_link' => 'For tree structure (link = null, for base_index.php, item_index($link))',
-    'is_cus_enable' => 'Current user entries (link = current user, for base_index.php, item_index($link))',
-    'parent_is_cus_link' => 'For the current user (link = current user, for base_index.php, item_index($link))',
+    'parent_is_tst_link' => 'For tree structure (robas) (link = null, for base_index.php, item_index($link))',
+    'is_cus_enable' => 'Current user entries (robas) (link = current user, for base_index.php, item_index($link))',
+    'parent_is_cus_link' => 'For the current user (links) (link = current user, for base_index.php, item_index($link))',
     'tree_structure' => 'Tree structure',
     'is_base_required' =>'Required (for lists, if $base->is_required_lst_num_str_txt_img_doc = false',
-];
+    'is_edit_parlink_enable' => 'Allow field adjustment when linking parlink',
+    ];

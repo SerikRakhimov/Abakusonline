@@ -842,6 +842,31 @@
             </div>
         </div>
 
+        <div class="form-group row" id="is_edit_parlink_enable_form_group">
+            <div class="col-sm-3 text-right">
+                <label class="form-label"
+                       for="is_edit_parlink_enable">{{trans('main.is_edit_parlink_enable')}}</label>
+            </div>
+            <div class="col-sm-7">
+                <input class="@error('is_edit_parlink_enable') is-invalid @enderror"
+                       type="checkbox"
+                       name="is_edit_parlink_enable"
+                       placeholder=""
+                       {{--                       "$roba->is_edit_parlink_enable ?? false" - "false" значение по умолчанию--}}
+                       @if ((old('is_edit_parlink_enable') ?? ($roba->is_edit_parlink_enable ?? false)) ==  true)
+                       checked
+                    @endif
+                >
+                @error('is_edit_parlink_enable')
+                <div class="invalid-feedback">
+                    {{$message}}
+                </div>
+                @enderror
+            </div>
+            <div class="col-sm-2">
+            </div>
+        </div>
+
         <div class="form-group row" id="is_show_hist_attr_enable_form_group">
             <div class="col-sm-3 text-right">
                 <label class="form-label"
