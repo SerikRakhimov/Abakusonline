@@ -174,7 +174,7 @@
             ?>
             @if($base_link_right['is_show_link_enable'] == true)
                 <hr class="hr_ext_show">
-                <small class="text-label">
+                <small class="text-title">
                     <small>
                         {{--                        @if($base_link_right['is_bsmn_base_enable'] == true)--}}
                         @if($base_link_right['is_bsmn_base_enable'] == true && $base_link_right['is_list_base_calc'] == true)

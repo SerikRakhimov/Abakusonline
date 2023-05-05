@@ -224,7 +224,10 @@ $link_image = $tile_view['link'];
         'prev_body_all_page'=>$body_all_page,
         ])}}"
                        class="card-link" title="{{$item->name()}}">
-                        <?php echo $item->nmbr();?>
+                        <?php
+                        echo $item->nmbr();
+                        echo GlobalController::it_txnm_n2b($item_find);
+                        ?>
                     </a>
                 </span>
                         </td>
