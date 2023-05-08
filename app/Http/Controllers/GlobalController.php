@@ -2838,7 +2838,7 @@ class GlobalController extends Controller
     static function get_number_of_columns_brow()
     {
         // При выводе cards-browser количество столбцов в строке таблицы
-        $result = 3;
+        $result = 4;
         return $result;
     }
 
