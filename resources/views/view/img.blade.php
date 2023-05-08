@@ -6,7 +6,7 @@
 //view/img.php, edit/img_base.php, edit/img_link.php.
 use \App\Http\Controllers\GlobalController;
 
-$url_filename = "no_image.png";
+$url_filename = "noimage.png";
 $is_moderation_info = false;
 if ($item) {
     if ($item->base->type_is_image()) {
