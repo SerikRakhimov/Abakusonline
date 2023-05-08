@@ -225,10 +225,9 @@ $link_image = $tile_view['link'];
         ])}}"
                        class="card-link" title="{{$item->name()}}">
                         <?php
-                        echo $item->nmbr();
+                        //echo $item->nmbr();
                         echo GlobalController::it_txnm_n2b($item);
                         ?>
-                    111
                     </a>
                 </span>
                         </td>

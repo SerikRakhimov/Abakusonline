@@ -256,23 +256,26 @@ b {
 }
 
 .card-header {
-    /*background: #fdead1;*/
-    background: #fef4e8;
+    /*background: #fef4e8;*/
+    background: #fbfbfd;
     align-self: normal;
     padding-top: 0.25rem;
     padding-bottom: 0.25rem;
 }
 
 .card-block {
-    background: #fef4e8;
+    /*background: #fef4e8;*/
+    background: #fbfbfd;
 }
 
 .card-body {
-    background: #fef4e8;
+    /*background: #fef4e8;*/
+    background: #fbfbfd;
 }
 
 .card-footer {
-    background: #fef4e8;
+    /*background: #fef4e8;*/
+    background: #fbfbfd;
     padding-top: 0.25rem;
     padding-bottom: 0.25rem;
 }

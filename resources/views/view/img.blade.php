@@ -24,7 +24,7 @@ use \App\Http\Controllers\GlobalController;
                                     @endif
                                     @if($size == 'avatar')
                                     class="circle"
-                                    {{--                                    @elseif($size == 'medium')--}}
+                                    {{--                                    @elseif( == 'medium')--}}
                                     {{--                                    class="rectangle"--}}
                                     @endif
                                     @if($img_fluid == true)
@@ -55,4 +55,3 @@ use \App\Http\Controllers\GlobalController;
                                 {{GlobalController::image_is_missing_html()}}</div>
             @endif
         @endif
-
