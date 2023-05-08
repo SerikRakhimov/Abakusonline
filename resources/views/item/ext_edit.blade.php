@@ -23,7 +23,7 @@
     {{--            window.item_id = document.getElementById("'" + link_id + "'");--}}
     {{--            window.item_code = document.getElementById('code' + link_id);--}}
     {{--            window.item_name = document.getElementById('name' + link_id);--}}
-    {{--            open('{{route('item.browser', '')}}' + '/' + link_id + '/' + base_id + '/' + project_id + '/' + role_id + '/' + {{$relit_id}} + '/' + item_id + '/1/1', 'browse', 'width=800, height=800');--}}
+    {{--            open('{{route('item.browser', '')}}' + '/' + link_id + '/' + base_id + '/' + project_id + '/' + role_id + '/' + {{$relit_id}} + '/' + item_id + '/1/1', 'browse', 'width=1200, height=800');--}}
     {{--        };--}}
     {{--    </script>--}}
 
@@ -1459,7 +1459,7 @@
                                     @else
                                     + '/' + parent_base_id{{$prefix}}{{$link->id}}.options[parent_base_id{{$prefix}}{{$link->id}}.selectedIndex].value
                                     @endif
-                                    + '/code/code', 'browse', 'width=800, height=800');
+                                    + '/code/code', 'browse', 'width=1200, height=800');
                             }
                             {{-- Вызываем событие - обновление кода--}}
                             document.getElementById('code{{$link->id}}').dispatchEvent(new Event('change'));
@@ -1530,7 +1530,7 @@
                         window.item_code = document.getElementById('code{{$link->id}}');
                         window.item_name = document.getElementById('name{{$link->id}}');
                         open('{{route('item.browser', '')}}' + '/' + {{$link->id}} + '/' + {{$project->id}} + '/' + {{$role->id}} + '/' + {{$relit_id}}
-                            , 'browse', 'width=800, height=800');
+                            , 'browse', 'width=1200, height=800');
                     }
 
                     {{--Событие на кнопку "..."--}}
