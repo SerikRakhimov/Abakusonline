@@ -7,7 +7,7 @@ $item_id = 0;
 if ($item) {
     $item_id = $item->id;
 }
-$num_cols = GlobalController::get_number_of_columns_info();
+$num_cols = GlobalController::get_number_of_columns_brow();
 ?>
 <head>
     <meta charset="UTF-8">

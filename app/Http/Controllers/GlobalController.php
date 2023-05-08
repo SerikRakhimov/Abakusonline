@@ -2835,6 +2835,13 @@ class GlobalController extends Controller
         return $result;
     }
 
+    static function get_number_of_columns_brow()
+    {
+        // При выводе cards-browser количество столбцов в строке таблицы
+        $result = 3;
+        return $result;
+    }
+
 
 
 //    function get_display()

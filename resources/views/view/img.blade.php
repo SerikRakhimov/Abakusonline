@@ -35,7 +35,6 @@ use \App\Http\Controllers\GlobalController;
                                     @endif
                                     height=
                                     @include('types.img.height',['size'=>$size])
-                                        width=200
                                         alt="" title=
                                     @if($title == "")
                                         "{{$item->title_img()}}"
