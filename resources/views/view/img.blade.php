@@ -35,6 +35,7 @@ use \App\Http\Controllers\GlobalController;
                                     @endif
                                     height=
                                     @include('types.img.height',['size'=>$size])
+                                        width=200
                                         alt="" title=
                                     @if($title == "")
                                         "{{$item->title_img()}}"
@@ -56,3 +57,5 @@ use \App\Http\Controllers\GlobalController;
                                 {{GlobalController::image_is_missing_html()}}</div>
             @endif
         @endif
+
+

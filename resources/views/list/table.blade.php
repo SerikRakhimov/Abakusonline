@@ -25,6 +25,7 @@ if ($base_index == true) {
 }
 $tile_view = $base->tile_view($base_right);
 $link_image = $tile_view['link'];
+$num_cols = GlobalController::get_number_of_columns_info();
 ?>
 {{--<table class="table table-sm table-bordered table-hover">--}}
 {{--<table class="table table-sm table-borderless table-hover">--}}
@@ -158,17 +159,17 @@ $link_image = $tile_view['link'];
                 <?php
                 $i++;
                 ?>
-                @if($i % 3 == 0)
+                @if($i % $num_cols == 0)
         </div>
         <div class="card-deck">
             @endif
             @endforeach
-            {{-- Если строка из 3-х элементов не завершилась до 3-х столбцов--}}
-            {{-- (т.е. $i не делится без остатка на 3)--}}
-            @if($i % 3 != 0)
+            {{-- Если строка из $num_cols элементов не завершилась до $num_cols столбцов--}}
+            {{-- (т.е. $i не делится без остатка на $num_cols)--}}
+            @if($i % $num_cols != 0)
                 <?php
                 // Подсчитываем количество оставшихся колонок
-                $n = 3 - ($i % 3);
+                $n = $num_cols - ($i % $num_cols);
                 ?>
                 {{-- В цикле $n раз вставляем вставляем пустые колонки--}}
                 @for($k = 0; $k < $n; $k++)

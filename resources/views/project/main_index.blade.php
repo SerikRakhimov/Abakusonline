@@ -5,15 +5,14 @@
     use App\Http\Controllers\GlobalController;
     use App\Http\Controllers\ProjectController;
     Use App\Models\Role;
+    //$i = $projects->firstItem() - 1;
+    $i = 0;
+    $num_cols = GlobalController::get_number_of_columns_projects();
     ?>
     <p>
     <h3 class="display-5 text-center">{{$title}}</h3>
     </p>
     <br>
-    <?php
-    //$i = $projects->firstItem() - 1;
-	$i = 0;
-    ?>
     <div class="card-deck">
         @foreach($projects as $project)
             <?php
@@ -174,17 +173,17 @@
             <?php
             $i++;
 				?>
-				@if($i % 3 == 0)
+				@if($i % $num_cols == 0)
 				 </div>
 		  		 <div class="card-deck">
 				@endif
         @endforeach
-		{{-- Если строка из 3-х элементов не завершилась до 3-х столбцов--}}
-        {{-- (т.е. $i не делится без остатка на 3)--}}
-        @if($i % 3 != 0)
+		{{-- Если строка из $num_cols элементов не завершилась до $num_cols столбцов--}}
+        {{-- (т.е. $i не делится без остатка на $num_cols)--}}
+        @if($i % $num_cols != 0)
                    <?php
                     // Подсчитываем количество оставшихся колонок
-                    $n = 3 - ($i % 3);
+                    $n = $num_cols - ($i % $num_cols);
                     ?>
         			{{-- В цикле $n раз вставляем вставляем пустые колонки--}}
                     @for($k = 0; $k < $n; $k++)

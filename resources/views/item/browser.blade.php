@@ -7,6 +7,7 @@ $item_id = 0;
 if ($item) {
     $item_id = $item->id;
 }
+$num_cols = GlobalController::get_number_of_columns_info();
 ?>
 <head>
     <meta charset="UTF-8">
@@ -73,14 +74,14 @@ if ($item) {
             </div>
         </div>
         <br>
-        {{--            Таблица из 3-х колонок--}}
+        {{--            Таблица из $num_cols колонок--}}
         <div class="card-deck">
             @foreach($items as $it)
                 <?php
                 //$i = $i + 1;
                 $item_find = GlobalController::view_info($it->id, $link_image->id);
                 ?>
-                {{--            @if(($i-1) % 3 == 0)--}}
+                {{--            @if(($i-1) % $num_cols == 0)--}}
                 {{--                --}}{{--                Открывает /row--}}
                 {{--                <div class="row">--}}
                 {{--                    @endif--}}
@@ -122,24 +123,24 @@ if ($item) {
                 {{--                    </div>--}}
 
                 {{--                    --}}{{--                $i делится без остатка на 3--}}
-                {{--                    @if($i % 3 == 0)--}}
+                {{--                    @if($i % $num_cols == 0)--}}
                 {{--                        --}}{{--                Закрывает /row--}}
                 {{--                </div><br>--}}
                 {{--            @endif--}}
                 <?php
                 $i++;
                 ?>
-                @if($i % 3 == 0)
+                @if($i % $num_cols == 0)
         </div>
         <div class="card-deck">
             @endif
             @endforeach
-            {{-- Если строка из 3-х элементов не завершилась до 3-х столбцов--}}
-            {{-- (т.е. $i не делится без остатка на 3)--}}
-            @if($i % 3 != 0)
+            {{-- Если строка из $num_cols элементов не завершилась до $num_cols столбцов--}}
+            {{-- (т.е. $i не делится без остатка на $num_cols)--}}
+            @if($i % $num_cols != 0)
                 <?php
                 // Подсчитываем количество оставшихся колонок
-                $n = 3 - ($i % 3);
+                $n = $num_cols - ($i % $num_cols);
                 ?>
                 {{-- В цикле $n раз вставляем вставляем пустые колонки--}}
                 @for($k = 0; $k < $n; $k++)

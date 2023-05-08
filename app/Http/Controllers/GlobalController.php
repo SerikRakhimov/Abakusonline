@@ -2821,6 +2821,22 @@ class GlobalController extends Controller
         return $result;
     }
 
+    static function get_number_of_columns_projects()
+    {
+        // При выводе cards-проекты количество столбцов в строке таблицы
+        $result = 3;
+        return $result;
+    }
+
+    static function get_number_of_columns_info()
+    {
+        // При выводе cards-информация количество столбцов в строке таблицы
+        $result = 5;
+        return $result;
+    }
+
+
+
 //    function get_display()
 //    {
 //        return config('app.display');
