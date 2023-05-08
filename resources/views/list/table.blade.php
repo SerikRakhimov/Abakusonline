@@ -65,17 +65,17 @@ $num_cols = GlobalController::get_number_of_columns_info();
                     </small>
                     {{--                    <div class="card-body d-flex align-items-center">--}}
                     <div class="card-body p-0">
-                        @if($item_find)
-                            {{--                            <div class="card-block text-center">--}}
-                            <div class="text-center">
-                                {{-- https://askdev.ru/q/kak-vyzvat-funkciyu-javascript-iz-tega-href-v-html-276225/--}}
-                                {{--                            <a href="{{route('item.ext_show', ['item'=>$item, 'project'=>$project, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id,--}}
-                                {{--                                    'heading' => $heading,'base_index_page'=>$base_index_page, 'body_link_page'=>$body_link_page,'body_all_page'=>$body_all_page,--}}
-                                {{--                                    'par_link'=>null, 'parent_item'=>null,--}}
-                                {{--                                    'string_current' => $string_current,--}}
-                                {{--                                    ])}}"--}}
-                                {{--                               title="{{$item->name()}}">--}}
-                                <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,
+                        {{--                        @if($item_find)--}}
+                        {{--                            <div class="card-block text-center">--}}
+                        <div class="text-center">
+                            {{-- https://askdev.ru/q/kak-vyzvat-funkciyu-javascript-iz-tega-href-v-html-276225/--}}
+                            {{--                            <a href="{{route('item.ext_show', ['item'=>$item, 'project'=>$project, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id,--}}
+                            {{--                                    'heading' => $heading,'base_index_page'=>$base_index_page, 'body_link_page'=>$body_link_page,'body_all_page'=>$body_all_page,--}}
+                            {{--                                    'par_link'=>null, 'parent_item'=>null,--}}
+                            {{--                                    'string_current' => $string_current,--}}
+                            {{--                                    ])}}"--}}
+                            {{--                               title="{{$item->name()}}">--}}
+                            <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,
         'usercode' =>GlobalController::usercode_calc(),
         'relit_id'=>$relit_id,
         'called_from_button'=>0,
@@ -86,14 +86,14 @@ $num_cols = GlobalController::get_number_of_columns_info();
         'prev_body_link_page'=>$body_link_page,
         'prev_body_all_page'=>$body_all_page,
         ])}}"
-                                   class="card-link" title="{{$item->name()}}">
-                                    {{--                                'string_all_codes_current' => $string_all_codes_current,--}}
-                                    {{--                                'string_link_ids_current' => $string_link_ids_current,--}}
-                                    {{--                                'string_item_ids_current' => $string_item_ids_current,--}}
-                                    @include('view.img',['item'=>$item_find, 'size'=>"medium", 'filenametrue'=>false, 'link'=>false, 'img_fluid'=>true, 'card_img_top'=>true, 'title'=>$item->name()])
-                                </a>
-                            </div>
-                        @endif
+                               class="card-link" title="{{$item->name()}}">
+                                {{--                                'string_all_codes_current' => $string_all_codes_current,--}}
+                                {{--                                'string_link_ids_current' => $string_link_ids_current,--}}
+                                {{--                                'string_item_ids_current' => $string_item_ids_current,--}}
+                                @include('view.img',['item'=>$item_find, 'size'=>"medium", 'filenametrue'=>false, 'link'=>false, 'img_fluid'=>true, 'card_img_top'=>true, 'title'=>$item->name()])
+                            </a>
+                        </div>
+                        {{--                        @endif--}}
                         {{--                        <h6 class="card-title text-center pt-2">--}}
                         <div class="card-title text-left pt-2 pl-3 pr-3">
                             <h6>
