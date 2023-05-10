@@ -24,7 +24,7 @@ if ($item) {
 @if($link == true)
     <a href="{{Storage::url($url_filename)}}">
         @endif
-        <img src="{{Storage::url($url_filename)}}"
+        <img src="{{Storage::url($url_filename)}}" border="2"
              @if($card_img_top)
              {{--                                    class="card-img-top" style="object-fit:contain"--}}
              class="card-img-top" style="object-fit:cover"
@@ -47,7 +47,6 @@ if ($item) {
         @else
             "{{$title}}"
         @endif
-        border=1px
         >
         @if($link == true)
     </a>
