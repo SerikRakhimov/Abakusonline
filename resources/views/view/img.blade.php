@@ -47,6 +47,7 @@ if ($item) {
         @else
             "{{$title}}"
         @endif
+        border=1px
         >
         @if($link == true)
     </a>
