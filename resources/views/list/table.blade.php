@@ -226,8 +226,8 @@ $num_cols = GlobalController::get_number_of_columns_info();
         ])}}"
                        class="card-link" title="{{$item->name()}}">
                         <?php
-                        //echo $item->nmbr();
-                        echo GlobalController::it_txnm_n2b($item);
+                        echo $item->nmbr();
+                        //echo GlobalController::it_txnm_n2b($item);
                         ?>
                     </a>
                 </span>
