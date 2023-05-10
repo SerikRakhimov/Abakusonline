@@ -24,7 +24,7 @@ if ($item) {
 @if($link == true)
     <a href="{{Storage::url($url_filename)}}">
         @endif
-        <img src="{{Storage::url($url_filename)}}" style="border: 2mm ridge rgba(211, 220, 50, .6);"
+        <img src="{{Storage::url($url_filename)}}"
              @if($card_img_top)
              {{--                                    class="card-img-top" style="object-fit:contain"--}}
              class="card-img-top" style="object-fit:cover"
