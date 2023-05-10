@@ -227,7 +227,6 @@ $num_cols = GlobalController::get_number_of_columns_info();
                        class="card-link" title="{{$item->name()}}">
                         <?php
                         echo $item->nmbr();
-                        //echo GlobalController::it_txnm_n2b($item);
                         ?>
                     </a>
                 </span>
@@ -250,6 +249,49 @@ $num_cols = GlobalController::get_number_of_columns_info();
                 </tr>
             @endforeach
         </table>
+
+        @foreach($its_page as $item)
+            <?php
+            $item_find = GlobalController::view_info($item->id, $link_image->id);
+            $i++;
+            ?>
+            <a href="{{route('item.ext_show', ['item'=>$item, 'project'=>$project, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id,
+                                    'heading' => $heading,'base_index_page'=>$base_index_page, 'body_link_page'=>$body_link_page,'body_all_page'=>$body_all_page,
+                                    'par_link'=>null, 'parent_item'=>null,
+                                    'string_current' => $string_current,
+                                    ])}}"
+               title="{{trans('main.viewing_record')}}">
+                <span class="badge badge-related">{{$i}}</span>
+            </a>
+            <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,
+        'usercode' =>GlobalController::usercode_calc(),
+        'relit_id'=>$relit_id,
+        'called_from_button'=>0,
+        'view_link'=>$i_par_link,
+        'view_ret_id'=>$view_ret_id,
+        'string_current'=>$string_next,
+        'prev_base_index_page'=>$base_index_page,
+        'prev_body_link_page'=>$body_link_page,
+        'prev_body_all_page'=>$body_all_page,
+        ])}}"
+               class="card-link" title="{{$item->name()}}">
+                <article style="text-indent: 40px; text-align: justify">
+                    <?php
+                    echo $item->nmbr();
+                    ?>
+                </article>
+            </a>
+            @if($item_find)
+                <center>
+                    @include('view.img',['item'=>$item_find, 'size'=>"medium", 'filenametrue'=>false, 'link'=>true, 'img_fluid'=>true, 'card_img_top'=>false, 'title'=>$item->name()])
+                </center>
+            @endif
+        @endforeach
+
+
+
+
+
     @endif
 @else
     <table class="table table-sm table-hover
