@@ -1,11 +1,11 @@
 {{--Алгоритмы одинаковые в types.img.height.blade.php и GlobalController::types_img_height()--}}
 @if($size == "avatar")
-    "30"
+    "30px"
 @elseif($size == "small")
-    "50"
+    "50px"
 @elseif($size == "medium")
-    "250"
+    "250px"
 @elseif($size == "big")
-    "450"
+    "450px"
 @endif
 
