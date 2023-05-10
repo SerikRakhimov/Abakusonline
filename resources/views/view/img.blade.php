@@ -39,7 +39,6 @@ if ($item) {
              @endif
              height=
              @include('types.img.height',['size'=>$size])
-                 width = 300
                  alt="" title=
              @if($title == "")
                  "{{$item->title_img()}}"
