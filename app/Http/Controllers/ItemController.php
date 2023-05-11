@@ -6802,6 +6802,7 @@ class ItemController extends Controller
                 }
             }
         }
+        //full
         $calc_full_lang_0 = $calc_lang_0;
         $calc_full_lang_1 = $calc_lang_1;
         $calc_full_lang_2 = $calc_lang_2;
