@@ -136,8 +136,10 @@ class Item extends Model
                     if ($fullname == true) {
                         //ограниченные 255 - размером полей хранятся в $item->name_lang_0 - $item->name_lang_3
                         $maxlen = 255;
+                        $result = "@@22". $result;
                         if (($base->is_calcname_lst == true) && (mb_strlen($result) >= $maxlen)) {
                             // похожи GlobalController::itnm_left() и Item.php ("...")
+                            $result = "@@23". $result;
                             if (mb_substr($result, $maxlen - 3, 3) == "...") {
                                 // Полное наименование, более 255 символов
                                 //https://stackoverflow.com/questions/19693946/non-static-method-should-not-be-called-statically
