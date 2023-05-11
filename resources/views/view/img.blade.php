@@ -27,7 +27,7 @@ if ($item) {
         <img src="{{Storage::url($url_filename)}}" style="border: thick double #32a1ce;"
              @if($card_img_top)
              {{--                                    class="card-img-top" style="object-fit:contain"--}}
-             class="card-img-top" style="object-fit:cover"
+             style="object-fit:cover"
              @endif
              @if($size == 'avatar')
              class="circle"
