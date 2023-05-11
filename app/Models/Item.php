@@ -153,7 +153,7 @@ class Item extends Model
 //            $result = $this->name_lang_0;
 //        }
 
-        return "@@@".$result;
+        return $result;
     }
 
     // "\~" - символ перевода каретки (используется также в Item.php: функции name() nmbr())
