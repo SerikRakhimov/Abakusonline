@@ -92,7 +92,7 @@ class Item extends Model
     // $rightnull = true/false - у вещественных чисел убрать правые нули после запятой
     function name_start($fullname = false, $numcat = false, $rightnull = false)
     {
-        $result = "::::::";  // нужно, не удалять
+        $result = "";  // нужно, не удалять
 
 //        //этот вариант тоже работает, но второй вариант предпочтительней
 //        if ($this->base->type_is_date()) {
@@ -193,7 +193,7 @@ class Item extends Model
         $result = str_replace('\~', '<br>', $result);
         //$result = (new GlobalController)->name_and_emoji($result, $this->base);
         $result = (new GlobalController)->name_and_first_emoji($result, $this->base);
-        return $result;
+        return "***".$result;
     }
 
     //names() используется для расчета вычисляемого наименования
