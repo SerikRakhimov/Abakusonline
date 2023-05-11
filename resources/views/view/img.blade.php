@@ -25,7 +25,6 @@ if ($item) {
     <a href="{{Storage::url($url_filename)}}">
         @endif
         <img src="{{Storage::url($url_filename)}}"
-{{--             style=""--}}
              style="object-fit:cover;border: solid #bfc7f6;"
              @if($card_img_top)
              {{--                                    class="card-img-top" style="object-fit:contain"--}}
@@ -39,8 +38,8 @@ if ($item) {
              @if($img_fluid == true)
              class="img-fluid"
              @endif
-{{--             height=--}}
-             width=
+             height=
+{{--             width=--}}
              @include('types.img.height',['size'=>$size])
                  alt="" title=
              @if($title == "")
