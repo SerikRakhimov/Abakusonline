@@ -39,6 +39,7 @@ if ($item) {
              @if($img_fluid == true)
              class="img-fluid"
              @endif
+                 width="300px"
              height=
              @include('types.img.height',['size'=>$size])
                  alt="" title=
