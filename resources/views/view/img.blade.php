@@ -26,7 +26,7 @@ if ($item) {
         @endif
         <img src="{{Storage::url($url_filename)}}"
 {{--             style=""--}}
-             style="object-fit:cover;border: solid #e4fce2;"
+             style="object-fit:cover;border: solid #bfc7f6;"
              @if($card_img_top)
              {{--                                    class="card-img-top" style="object-fit:contain"--}}
              class="card-img-top"
