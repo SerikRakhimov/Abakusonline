@@ -92,7 +92,7 @@ class Item extends Model
     // $rightnull = true/false - у вещественных чисел убрать правые нули после запятой
     function name_start($fullname = false, $numcat = false, $rightnull = false)
     {
-        $result = "www";  // нужно, не удалять
+        $result = "";  // нужно, не удалять
 
 //        //этот вариант тоже работает, но второй вариант предпочтительней
 //        if ($this->base->type_is_date()) {
@@ -152,7 +152,7 @@ class Item extends Model
 //            $result = $this->name_lang_0;
 //        }
 
-        return $result;
+        return "@@@".$result;
     }
 
     // "\~" - символ перевода каретки (используется также в Item.php: функции name() nmbr())
