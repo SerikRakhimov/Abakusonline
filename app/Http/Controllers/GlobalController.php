@@ -1412,9 +1412,9 @@ class GlobalController extends Controller
         $result = "";
         // похожи GlobalController::itnm_left() и Item.php ("...")
         if (mb_strlen($str) > $maxlen) {
-            $result = mb_substr($str, 0, $maxlen - 3) . "***...";
+            $result = mb_substr($str, 0, $maxlen - 3) . "...";
         } else {
-            $result = mb_substr($str, 0, $maxlen);
+            $result = mb_substr($str, 0, $maxlen)."+++";
         }
         return $result;
     }
