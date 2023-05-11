@@ -6820,7 +6820,7 @@ class ItemController extends Controller
         $calc_lang_2 = GlobalController::itnm_left($calc_lang_2);
         $calc_lang_3 = GlobalController::itnm_left($calc_lang_3);
 
-        return ['calc_full_lang_0' => "777".$calc_full_lang_0, 'calc_full_lang_1' => $calc_full_lang_1,
+        return ['calc_full_lang_0' => $calc_full_lang_0, 'calc_full_lang_1' => $calc_full_lang_1,
             'calc_full_lang_2' => $calc_full_lang_2, 'calc_full_lang_3' => $calc_full_lang_3,
             'calc_lang_0' => $calc_lang_0, 'calc_lang_1' => $calc_lang_1, 'calc_lang_2' => $calc_lang_2, 'calc_lang_3' => $calc_lang_3];
     }
