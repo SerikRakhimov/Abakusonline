@@ -268,14 +268,14 @@ $num_cols = GlobalController::get_number_of_columns_info();
         ])}}"
                class="card-link" title="{{$item->name()}}">
                 <article style="text-indent: 40px; text-align: justify">
-                    <a href="{{route('item.ext_show', ['item'=>$item, 'project'=>$project, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id,
-                                    'heading' => $heading,'base_index_page'=>$base_index_page, 'body_link_page'=>$body_link_page,'body_all_page'=>$body_all_page,
-                                    'par_link'=>null, 'parent_item'=>null,
-                                    'string_current' => $string_current,
-                                    ])}}"
-                       title="{{trans('main.viewing_record')}}">
-                        <span class="badge badge-related">{{$i}}</span>
-                    </a>
+{{--                    <a href="{{route('item.ext_show', ['item'=>$item, 'project'=>$project, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id,--}}
+{{--                                    'heading' => $heading,'base_index_page'=>$base_index_page, 'body_link_page'=>$body_link_page,'body_all_page'=>$body_all_page,--}}
+{{--                                    'par_link'=>null, 'parent_item'=>null,--}}
+{{--                                    'string_current' => $string_current,--}}
+{{--                                    ])}}"--}}
+{{--                       title="{{trans('main.viewing_record')}}">--}}
+{{--                        <span class="badge badge-related">{{$i}}</span>--}}
+{{--                    </a>--}}
                     <?php
                     echo $item->nmbr();
                     ?>
@@ -286,7 +286,7 @@ $num_cols = GlobalController::get_number_of_columns_info();
                     @include('view.img',['item'=>$item_find, 'size'=>"medium", 'filenametrue'=>false, 'link'=>true, 'img_fluid'=>false, 'card_img_top'=>false, 'title'=>$item->name()])
                 </center>
             @endif
-            <hr>
+            <br>
         @endforeach
 
 
