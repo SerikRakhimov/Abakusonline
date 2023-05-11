@@ -131,9 +131,9 @@ class Item extends Model
 
             } else {
                 $index = array_search(App::getLocale(), config('app.locales'));
-                if ($index !== false) {   // '!==' использовать, '!=' не использовать
+                //if ($index !== false) {   // '!==' использовать, '!=' не использовать
                     $result = trim($this['name_lang_' . $index]);
-                    if ($fullname == true) {
+                    //if ($fullname == true) {
                         //ограниченные 255 - размером полей хранятся в $item->name_lang_0 - $item->name_lang_3
                         $maxlen = 255;
                         //if (($base->is_calcname_lst == true) && (mb_strlen($result) >= $maxlen)) {
@@ -144,8 +144,8 @@ class Item extends Model
                                 $result = (new ItemController)->calc_value_func($this)['calc_full_lang_' . $index];
                             //}
                         //}
-                    }
-                }
+                    //}
+                //}
             }
         }
 //        if ($result == "") {
