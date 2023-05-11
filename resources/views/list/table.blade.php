@@ -282,9 +282,9 @@ $num_cols = GlobalController::get_number_of_columns_info();
                 </article>
             </a>
             @if($item_find)
-                <center>
+{{--                <center>--}}
                     @include('view.img',['item'=>$item_find, 'size'=>"medium", 'filenametrue'=>false, 'link'=>true, 'img_fluid'=>false, 'card_img_top'=>false, 'title'=>$item->name()])
-                </center>
+{{--                </center>--}}
             @endif
             <br>
         @endforeach
