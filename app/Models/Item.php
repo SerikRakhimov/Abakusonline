@@ -131,6 +131,7 @@ class Item extends Model
 
             } else {
                 $index = array_search(App::getLocale(), config('app.locales'));
+                $result = $result . "===============";
                 if ($index !== false) {   // '!==' использовать, '!=' не использовать
                     $result = trim($this['name_lang_' . $index]);
                     if ($fullname == true) {
