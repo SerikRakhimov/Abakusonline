@@ -24,10 +24,12 @@ if ($item) {
 @if($link == true)
     <a href="{{Storage::url($url_filename)}}">
         @endif
-        <img src="{{Storage::url($url_filename)}}" style="border: thick double #32a1ce;"
+        <img src="{{Storage::url($url_filename)}}"
+{{--             style=""--}}
+             style="object-fit:cover;border: solid #e4fce2;"
              @if($card_img_top)
              {{--                                    class="card-img-top" style="object-fit:contain"--}}
-             style="object-fit:cover"
+             class="card-img-top"
              @endif
              @if($size == 'avatar')
              class="circle"
