@@ -6721,7 +6721,7 @@ class ItemController extends Controller
 
                         // всего два запуска этой функции (основной и этот), только для однородных значений (например: ФизЛицо имеет поле Мать(ФизЛицо), Отец(ФизЛицо))
                         $rs = $this->calc_value_func($item_result, $level, false);
-                        $dop_name_0 = "000000".$rs['calc_lang_0'] == "" ? "" : $item->base->sepa_same_left_calcname . $rs['calc_lang_0'] . $item->base->sepa_same_right_calcname;
+                        $dop_name_0 = $rs['calc_lang_0'] == "" ? "" : $item->base->sepa_same_left_calcname . $rs['calc_lang_0'] . $item->base->sepa_same_right_calcname;
                         $dop_name_1 = $rs['calc_lang_1'] == "" ? "" : $item->base->sepa_same_left_calcname . $rs['calc_lang_1'] . $item->base->sepa_same_right_calcname;
                         $dop_name_2 = $rs['calc_lang_2'] == "" ? "" : $item->base->sepa_same_left_calcname . $rs['calc_lang_2'] . $item->base->sepa_same_right_calcname;
                         $dop_name_3 = $rs['calc_lang_3'] == "" ? "" : $item->base->sepa_same_left_calcname . $rs['calc_lang_3'] . $item->base->sepa_same_right_calcname;
@@ -6743,7 +6743,7 @@ class ItemController extends Controller
 
                     } else {
                         $res_names = $item_result->names();
-                        $dop_name_0 = "11111".$res_names[0];
+                        $dop_name_0 = $res_names[0];
                         $dop_name_1 = $res_names[1];
                         $dop_name_2 = $res_names[2];
                         $dop_name_3 = $res_names[3];
