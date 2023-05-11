@@ -92,7 +92,7 @@ class Item extends Model
     // $rightnull = true/false - у вещественных чисел убрать правые нули после запятой
     function name_start($fullname = false, $numcat = false, $rightnull = false)
     {
-        $result = "";  // нужно, не удалять
+        $result = "::::::";  // нужно, не удалять
 
 //        //этот вариант тоже работает, но второй вариант предпочтительней
 //        if ($this->base->type_is_date()) {
@@ -131,7 +131,6 @@ class Item extends Model
 
             } else {
                 $index = array_search(App::getLocale(), config('app.locales'));
-                $result = $result . "===============";
                 if ($index !== false) {   // '!==' использовать, '!=' не использовать
                     $result = trim($this['name_lang_' . $index]);
                     if ($fullname == true) {
