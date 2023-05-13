@@ -46,7 +46,7 @@
         {{--        @endforeach--}}
         @if($base->type_is_image)
             {{--                            <li>--}}
-            @include('view.img',['item'=>$item, 'size'=>"medium", 'filenametrue'=>false, 'link'=>true, 'img_fluid'=>false, 'card_img_top'=>false, 'title'=>""])
+            @include('view.img',['item'=>$item, 'size'=>"medium", 'border'=>true, 'filenametrue'=>false, 'link'=>true, 'img_fluid'=>false, 'card_img_top'=>false, 'title'=>""])
             {{--                <a href="{{Storage::url($item->filename())}}">--}}
             {{--                    <img src="{{Storage::url($item->filename())}}" height="250"--}}
             {{--                         alt="" title="{{$item->title_img()}}">--}}
@@ -196,7 +196,7 @@
                         {{--                        </span>--}}
                         {{--                                </b>--}}
                     @elseif($link->parent_base->type_is_image())
-                        @include('view.img',['item'=>$item_find, 'size'=>"medium", 'filenametrue'=>false, 'link'=>true, 'img_fluid'=>false, 'card_img_top'=>false, 'title'=>""])
+                        @include('view.img',['item'=>$item_find, 'size'=>"medium", 'border'=>true, 'filenametrue'=>false, 'link'=>true, 'img_fluid'=>false, 'card_img_top'=>false, 'title'=>""])
                         {{--                            <a href="{{Storage::url($item_find->filename())}}">--}}
                         {{--                                <img src="{{Storage::url($item_find->filename())}}" height="250"--}}
                         {{--                                     alt="" title="{{$item_find->title_img()}}">--}}
