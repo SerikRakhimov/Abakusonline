@@ -185,14 +185,16 @@ class Item extends Model
     // "\~" - символ перевода каретки (используется также в ItemController.php: функция calc_value_func())
     // $numcat = true/false - вывод числовых полей с разрядом тысячи/миллионы/миллиарды
     // fullname = true
-    function nmbr($fullname = false, $numcat = false, $rightnull = false)
+    function nmbr($fullname = false, $numcat = false, $emoji_enable = false, $rightnull = false)
     {
         //$result = self::name_start(true, false);
         $result = self::name_start($fullname, $numcat, $rightnull);
         //$result = str_replace('\~', '<br>', $result);
         $result = str_replace('\~', '<br>', $result);
         //$result = (new GlobalController)->name_and_emoji($result, $this->base);
-        $result = (new GlobalController)->name_and_first_emoji($result, $this->base);
+        if ($emoji_enable == true) {
+            $result = (new GlobalController)->name_and_first_emoji($result, $this->base);
+        }
         return $result;
     }
 
