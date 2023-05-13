@@ -226,7 +226,7 @@ $num_cols = GlobalController::get_number_of_columns_info();
         ])}}"
                        class="card-link" title="{{$item->name()}}">
                         <?php
-                        echo $item->nmbr();
+                        echo $item->nmbr(true, true);
                         ?>
                     </a>
                 </span>
@@ -250,7 +250,6 @@ $num_cols = GlobalController::get_number_of_columns_info();
                 </tr>
             @endforeach
         </table>
-
         @foreach($its_page as $item)
             <?php
             $item_find = GlobalController::view_info($item->id, $link_image->id);
@@ -288,13 +287,8 @@ $num_cols = GlobalController::get_number_of_columns_info();
                     @include('view.img',['item'=>$item_find, 'size'=>"medium", 'width'=>"40%", 'border'=>true, 'filenametrue'=>false, 'link'=>true, 'img_fluid'=>false, 'card_img_top'=>false, 'title'=>$item->name()])
                 </center>
             @endif
-            <br>
+            <hr>
         @endforeach
-
-
-
-
-
     @endif
 @else
     <table class="table table-sm table-hover
