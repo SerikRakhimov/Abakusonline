@@ -38,9 +38,9 @@ if ($item) {
              @if($img_fluid == true)
              class="img-fluid"
              @endif
-             height=
-{{--             width=--}}
-             @include('types.img.height',['size'=>$size])
+                          width=30%
+{{--             height=--}}
+{{--             @include('types.img.height',['size'=>$size])--}}
                  alt="" title=
              @if($title == "")
                  "{{$item->title_img()}}"
