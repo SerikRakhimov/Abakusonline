@@ -51,9 +51,9 @@ if ($item) {
                  @if($img_fluid == true)
                  class="img-fluid"
                  @endif
-{{--                 @if(isset($width))--}}
-{{--                 width={{$width}}--}}
-{{--                 @endif--}}
+                 @if(isset($width))
+                 width={{$width}}
+                 @endif
 {{--                 @if(!isset($width))--}}
 {{--                     height=--}}
 {{--                 @include('types.img.height',['size'=>$size])--}}
