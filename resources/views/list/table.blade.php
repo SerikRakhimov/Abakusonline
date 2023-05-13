@@ -187,7 +187,7 @@ $num_cols = GlobalController::get_number_of_columns_info();
         </div>
         {{--    т.е. if($base_right['is_list_base_sort_creation_date_desc'] == false)--}}
     @else
-{{--        @if(1==2)--}}
+        @if(1==2)
             <table class="table table-sm table-hover">
                 @foreach($its_page as $item)
                     <tr>
@@ -251,7 +251,7 @@ $num_cols = GlobalController::get_number_of_columns_info();
                     </tr>
                 @endforeach
             </table>
-{{--        @endif--}}
+        @endif
         @foreach($its_page as $item)
             <?php
             $item_find = GlobalController::view_info($item->id, $link_image->id);
@@ -259,14 +259,14 @@ $num_cols = GlobalController::get_number_of_columns_info();
             ?>
             {{--                <article style="text-indent: 40px; text-align: justify">--}}
             <article>
-{{--                <a href="{{route('item.ext_show', ['item'=>$item, 'project'=>$project, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id,--}}
-{{--                                                        'heading' => $heading,'base_index_page'=>$base_index_page, 'body_link_page'=>$body_link_page,'body_all_page'=>$body_all_page,--}}
-{{--                                                        'par_link'=>null, 'parent_item'=>null,--}}
-{{--                                                        'string_current' => $string_current,--}}
-{{--                                                        ])}}"--}}
-{{--                   title="{{trans('main.viewing_record')}}">--}}
-{{--                    <span class="badge badge-related">{{$i}}</span>--}}
-{{--                </a>--}}
+                {{--                <a href="{{route('item.ext_show', ['item'=>$item, 'project'=>$project, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id,--}}
+                {{--                                                        'heading' => $heading,'base_index_page'=>$base_index_page, 'body_link_page'=>$body_link_page,'body_all_page'=>$body_all_page,--}}
+                {{--                                                        'par_link'=>null, 'parent_item'=>null,--}}
+                {{--                                                        'string_current' => $string_current,--}}
+                {{--                                                        ])}}"--}}
+                {{--                   title="{{trans('main.viewing_record')}}">--}}
+                {{--                    <span class="badge badge-related">{{$i}}</span>--}}
+                {{--                </a>--}}
                 <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,
         'usercode' =>GlobalController::usercode_calc(),
         'relit_id'=>$relit_id,
