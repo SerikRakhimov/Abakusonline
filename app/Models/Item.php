@@ -196,7 +196,8 @@ class Item extends Model
         return $result;
     }
 
-    //names() используется для расчета вычисляемого наименования
+    // Массив names() в разбивке по языкам
+    // names() используется для расчета вычисляемого наименования
     function names()
     {
         $res_array = array();
@@ -232,6 +233,10 @@ class Item extends Model
                         $name = $name == "1" ? trans('main.yes')
                             : ($name == "0" ? trans('main.no') : trans('main.empty'));
                         //
+
+                    } elseif ($base->type_is_text()) {
+                        // Полное текстовое наименование(более 255 символов), с разметкой
+                        $name = GlobalController::it_txnm_n2b($this);
                     }
                 }
             }

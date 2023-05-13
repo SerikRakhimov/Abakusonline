@@ -277,7 +277,7 @@ $num_cols = GlobalController::get_number_of_columns_info();
 {{--                        <span class="badge badge-related">{{$i}}</span>--}}
 {{--                    </a>--}}
                     <?php
-                    echo $item->nmbr();
+                    echo $item->nmbr(true, true);;
                     ?>
                 </article>
             </a>

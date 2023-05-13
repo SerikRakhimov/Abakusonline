@@ -38,11 +38,6 @@
         echo $result;
     }
     ?>
-    <?php
-    echo $item->nmbr(false, true);
-    echo "---------------------------";
-    echo $item->nmbr(true, true);
-    ?>
     {{--                    Вывод основы--}}
     @if($base_right['is_show_base_enable'] == true)
         {{--        <p>--}}
