@@ -187,7 +187,7 @@ $num_cols = GlobalController::get_number_of_columns_info();
         </div>
         {{--    т.е. if($base_right['is_list_base_sort_creation_date_desc'] == false)--}}
     @else
-        @if(1==2)
+{{--        @if(1==2)--}}
             <table class="table table-sm table-hover">
                 @foreach($its_page as $item)
                     <tr>
@@ -251,7 +251,7 @@ $num_cols = GlobalController::get_number_of_columns_info();
                     </tr>
                 @endforeach
             </table>
-        @endif
+{{--        @endif--}}
         @foreach($its_page as $item)
             <?php
             $item_find = GlobalController::view_info($item->id, $link_image->id);
