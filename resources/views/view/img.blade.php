@@ -38,10 +38,14 @@ if ($item) {
              @if($img_fluid == true)
              class="img-fluid"
              @endif
-                          width=50%
-{{--             height=--}}
-{{--             @include('types.img.height',['size'=>$size])--}}
-                 alt="" title=
+             @if($width)
+             width={{$width}}
+             @endif
+             @if(!$width)
+                 height=
+             @include('types.img.height',['size'=>$size])
+             @endif
+             alt="" title=
              @if($title == "")
                  "{{$item->title_img()}}"
         @elseif($title == "empty")
@@ -53,10 +57,10 @@ if ($item) {
         @if($link == true)
     </a>
 @endif
-        @if($is_moderation_info == true)
-            <div class="text-danger">
-                {{$item->title_img()}}</div>
-        @endif
+@if($is_moderation_info == true)
+    <div class="text-danger">
+        {{$item->title_img()}}</div>
+@endif
 {{--        @if($item->base->type_is_image())--}}
 {{--            @if($item->img_doc_exist())--}}
 {{--                @if($filenametrue == true)--}}

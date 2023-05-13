@@ -283,7 +283,7 @@ $num_cols = GlobalController::get_number_of_columns_info();
             </a>
             @if($item_find)
                 <center>
-                    @include('view.img',['item'=>$item_find, 'size'=>"medium", 'filenametrue'=>false, 'link'=>true, 'img_fluid'=>false, 'card_img_top'=>false, 'title'=>$item->name()])
+                    @include('view.img',['item'=>$item_find, 'size'=>"medium", 'width'=>"50%", 'filenametrue'=>false, 'link'=>true, 'img_fluid'=>false, 'card_img_top'=>false, 'title'=>$item->name()])
                 </center>
             @endif
             <br>
