@@ -54,10 +54,10 @@ if ($item) {
                  @if(isset($width))
                  width={{$width}}
                  @endif
-{{--                 @if(!isset($width))--}}
-{{--                     height=--}}
-{{--                 @include('types.img.height',['size'=>$size])--}}
-{{--                 @endif--}}
+                 @if(!isset($width))
+                     height=
+                 @include('types.img.height',['size'=>$size])
+                 @endif
             class="mx-auto d-block"
                  alt="" title=
                  @if($title == "")
