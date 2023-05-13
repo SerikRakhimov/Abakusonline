@@ -6,7 +6,13 @@
 //view/img.php, edit/img_base.php, edit/img_link.php.
 use \App\Http\Controllers\GlobalController;
 
-$url_filename = "noimage.png";
+// Нужно "", ниже идет сравнение на ""
+$url_filename = "";
+if (isset($noimg_def)) {
+    if ($noimg_def == true) {
+        $url_filename = "noimage.png";
+    }
+}
 $is_moderation_info = false;
 if ($item) {
     if ($item->base->type_is_image()) {
@@ -21,51 +27,53 @@ if ($item) {
     }
 }
 ?>
-@if($link == true)
-    <a href="{{Storage::url($url_filename)}}">
-        @endif
-        <img src="{{Storage::url($url_filename)}}"
-             style="object-fit:cover;
-             @if(isset($border))
-             @if($border==true)
-                 border: solid #bfc7f6;
-             @endif
-             @endif
-                 "
-             @if($card_img_top)
-             {{--                                    class="card-img-top" style="object-fit:contain"--}}
-             class="card-img-top"
-             @endif
-             @if($size == 'avatar')
-             class="circle"
-             {{--                                    @elseif( == 'medium')--}}
-             {{--                                    class="rectangle"--}}
-             @endif
-             @if($img_fluid == true)
-             class="img-fluid"
-             @endif
-             @if(isset($width))
-             width={{$width}}
-             @endif
-             @if(!isset($width))
-                 height=
-             @include('types.img.height',['size'=>$size])
-             @endif
-             alt="" title=
-             @if($title == "")
-                 "{{$item->title_img()}}"
-        @elseif($title == "empty")
-            ""
-        @else
-            "{{$title}}"
-        @endif
-        >
-        @if($link == true)
-    </a>
-@endif
-@if($is_moderation_info == true)
-    <div class="text-danger">
-        {{$item->title_img()}}</div>
+@if($url_filename !="")
+    @if($link == true)
+        <a href="{{Storage::url($url_filename)}}">
+            @endif
+            <img src="{{Storage::url($url_filename)}}"
+                 style="object-fit:cover;
+                 @if(isset($border))
+                 @if($border==true)
+                     border: solid #bfc7f6;
+                 @endif
+                 @endif
+                     "
+                 @if($card_img_top)
+                 {{--                                    class="card-img-top" style="object-fit:contain"--}}
+                 class="card-img-top"
+                 @endif
+                 @if($size == 'avatar')
+                 class="circle"
+                 {{--                                    @elseif( == 'medium')--}}
+                 {{--                                    class="rectangle"--}}
+                 @endif
+                 @if($img_fluid == true)
+                 class="img-fluid"
+                 @endif
+                 @if(isset($width))
+                 width={{$width}}
+                 @endif
+                 @if(!isset($width))
+                     height=
+                 @include('types.img.height',['size'=>$size])
+                 @endif
+                 alt="" title=
+                 @if($title == "")
+                     "{{$item->title_img()}}"
+            @elseif($title == "empty")
+                ""
+            @else
+                "{{$title}}"
+            @endif
+            >
+            @if($link == true)
+        </a>
+    @endif
+    @if($is_moderation_info == true)
+        <div class="text-danger">
+            {{$item->title_img()}}</div>
+    @endif
 @endif
 {{--        @if($item->base->type_is_image())--}}
 {{--            @if($item->img_doc_exist())--}}
