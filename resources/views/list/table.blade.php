@@ -244,7 +244,7 @@ $num_cols = GlobalController::get_number_of_columns_info();
                                 {{--                                'string_link_ids_current' => $string_link_ids_current,--}}
                                 {{--                                'string_item_ids_current' => $string_item_ids_current,--}}
 {{--                                @include('view.img',['item'=>$item_find, 'size'=>"medium", 'width'=>"40%", 'border'=>true, 'filenametrue'=>false, 'link'=>true, 'img_fluid'=>true, 'card_img_top'=>false, 'title'=>$item->name()])--}}
-                                @include('view.img',['item'=>$item_find, 'size'=>"medium", 'border'=>true, 'filenametrue'=>false, 'link'=>true, 'img_fluid'=>true, 'card_img_top'=>false, 'title'=>$item->name()])
+                                @include('view.img',['item'=>$item_find, 'size'=>"medium", 'width'=>"30%", 'border'=>true, 'filenametrue'=>false, 'link'=>true, 'img_fluid'=>true, 'card_img_top'=>false, 'title'=>$item->name()])
                             </td>
                         @endif
                 </tr>
