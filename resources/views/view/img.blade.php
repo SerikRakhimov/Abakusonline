@@ -38,10 +38,10 @@ if ($item) {
              @if($img_fluid == true)
              class="img-fluid"
              @endif
-             @if($width)
+             @if(isset($width))
              width={{$width}}
              @endif
-             @if(!$width)
+             @if(!isset($width))
                  height=
              @include('types.img.height',['size'=>$size])
              @endif
