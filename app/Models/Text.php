@@ -16,7 +16,7 @@ class Text extends Model
         return $this->belongsTo(Item::class, 'item_id');
     }
 
-    function name(Base $base)
+    function name(Base $base, $emoji_enable = false)
     {
         $result = "";  // нужно, не удалять
 
@@ -29,8 +29,9 @@ class Text extends Model
 //        }
         // Похожая строка в Item.php::name() и Text::name()
         // Вторым параметром передается $base
-        $result = (new GlobalController)->name_and_emoji($result, $base);
-
+        if ($emoji_enable == true) {
+            $result = (new GlobalController)->name_and_emoji($result, $base);
+        }
         return $result;
     }
 

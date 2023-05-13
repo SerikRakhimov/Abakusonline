@@ -1422,17 +1422,22 @@ class GlobalController extends Controller
     static function it_text_name(Item $item)
     {
         $result = "";
-        //$text = $item->text();
-        $text = Text::where('item_id', $item->id)->first();
-        if ($text) {
-            $result = $text->name($item->base);
+        if ($item->base->type_is_text()) {
+            //$text = $item->text();
+            $text = Text::where('item_id', $item->id)->first();
+            if ($text) {
+                $result = $text->name($item->base);
+            }
         }
         return $result;
     }
 
     static function it_txnm_n2b(Item $item)
     {
-        $result = nl2br(self::it_text_name($item));
+        $result = "";
+        if ($item->base->type_is_text()) {
+            $result = nl2br(self::it_text_name($item));
+        }
         return $result;
     }
 
