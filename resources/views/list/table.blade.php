@@ -187,32 +187,33 @@ $num_cols = GlobalController::get_number_of_columns_info();
         </div>
         {{--    т.е. if($base_right['is_list_base_sort_creation_date_desc'] == false)--}}
     @else
-        <table class="table table-sm table-hover">
-            @foreach($its_page as $item)
-                <tr>
-                    <?php
-                    $item_find = GlobalController::view_info($item->id, $link_image->id);
-                    $i++;
-                    ?>
-                    {{--                @if($base->is_code_needed == true)--}}
-                    {{--                    &nbsp;({{trans('main.code')}}: {{$item->code}})--}}
-                    {{--                @endif--}}
-                    <td>
-                        <a href="{{route('item.ext_show', ['item'=>$item, 'project'=>$project, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id,
+        @if(1==2)
+            <table class="table table-sm table-hover">
+                @foreach($its_page as $item)
+                    <tr>
+                        <?php
+                        $item_find = GlobalController::view_info($item->id, $link_image->id);
+                        $i++;
+                        ?>
+                        {{--                @if($base->is_code_needed == true)--}}
+                        {{--                    &nbsp;({{trans('main.code')}}: {{$item->code}})--}}
+                        {{--                @endif--}}
+                        <td>
+                            <a href="{{route('item.ext_show', ['item'=>$item, 'project'=>$project, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id,
                                     'heading' => $heading,'base_index_page'=>$base_index_page, 'body_link_page'=>$body_link_page,'body_all_page'=>$body_all_page,
                                     'par_link'=>null, 'parent_item'=>null,
                                     'string_current' => $string_current,
                                     ])}}"
-                           title="{{trans('main.viewing_record')}}">
-                            <span class="badge badge-related">{{$i}}</span>
-                        </a>
-                    </td>
-                    @if($item_find)
-                        <td>
-                    @else
-                        <td colspan="2">
-                            @endif
-                            <span>
+                               title="{{trans('main.viewing_record')}}">
+                                <span class="badge badge-related">{{$i}}</span>
+                            </a>
+                        </td>
+                        @if($item_find)
+                            <td>
+                        @else
+                            <td colspan="2">
+                                @endif
+                                <span>
                     <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,
         'usercode' =>GlobalController::usercode_calc(),
         'relit_id'=>$relit_id,
@@ -230,26 +231,27 @@ $num_cols = GlobalController::get_number_of_columns_info();
                         ?>
                     </a>
                 </span>
-                        </td>
-                        @if($item_find)
-                            <td>
-                                {{-- https://askdev.ru/q/kak-vyzvat-funkciyu-javascript-iz-tega-href-v-html-276225/--}}
-                                {{--                            <a href="{{route('item.ext_show', ['item'=>$item, 'project'=>$project, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id,--}}
-                                {{--                                    'heading' => $heading,'base_index_page'=>$base_index_page, 'body_link_page'=>$body_link_page,'body_all_page'=>$body_all_page,--}}
-                                {{--                                    'par_link'=>null, 'parent_item'=>null,--}}
-                                {{--                                    'string_current' => $string_current,--}}
-                                {{--                                    ])}}"--}}
-                                {{--                               title="{{$item->name()}}">--}}
-                                {{--                                'string_all_codes_current' => $string_all_codes_current,--}}
-                                {{--                                'string_link_ids_current' => $string_link_ids_current,--}}
-                                {{--                                'string_item_ids_current' => $string_item_ids_current,--}}
-                                {{--                                @include('view.img',['item'=>$item_find, 'size'=>"medium", 'width'=>"40%", 'border'=>true, 'filenametrue'=>false, 'link'=>true, 'img_fluid'=>true, 'card_img_top'=>false, 'title'=>$item->name()])--}}
-                                @include('view.img',['item'=>$item_find, 'size'=>"medium", 'width'=>"90%", 'border'=>true, 'filenametrue'=>false, 'link'=>true, 'img_fluid'=>true, 'card_img_top'=>false, 'title'=>$item->name()])
                             </td>
-                        @endif
-                </tr>
-            @endforeach
-        </table>
+                            @if($item_find)
+                                <td>
+                                    {{-- https://askdev.ru/q/kak-vyzvat-funkciyu-javascript-iz-tega-href-v-html-276225/--}}
+                                    {{--                            <a href="{{route('item.ext_show', ['item'=>$item, 'project'=>$project, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id,--}}
+                                    {{--                                    'heading' => $heading,'base_index_page'=>$base_index_page, 'body_link_page'=>$body_link_page,'body_all_page'=>$body_all_page,--}}
+                                    {{--                                    'par_link'=>null, 'parent_item'=>null,--}}
+                                    {{--                                    'string_current' => $string_current,--}}
+                                    {{--                                    ])}}"--}}
+                                    {{--                               title="{{$item->name()}}">--}}
+                                    {{--                                'string_all_codes_current' => $string_all_codes_current,--}}
+                                    {{--                                'string_link_ids_current' => $string_link_ids_current,--}}
+                                    {{--                                'string_item_ids_current' => $string_item_ids_current,--}}
+                                    {{--                                @include('view.img',['item'=>$item_find, 'size'=>"medium", 'width'=>"40%", 'border'=>true, 'filenametrue'=>false, 'link'=>true, 'img_fluid'=>true, 'card_img_top'=>false, 'title'=>$item->name()])--}}
+                                    @include('view.img',['item'=>$item_find, 'size'=>"medium", 'width'=>"90%", 'border'=>true, 'filenametrue'=>false, 'link'=>true, 'img_fluid'=>true, 'card_img_top'=>false, 'title'=>$item->name()])
+                                </td>
+                            @endif
+                    </tr>
+                @endforeach
+            </table>
+        @endif
         @foreach($its_page as $item)
             <?php
             $item_find = GlobalController::view_info($item->id, $link_image->id);
@@ -287,7 +289,7 @@ $num_cols = GlobalController::get_number_of_columns_info();
                     @include('view.img',['item'=>$item_find, 'size'=>"medium", 'width'=>"40%", 'border'=>true, 'filenametrue'=>false, 'link'=>true, 'img_fluid'=>false, 'card_img_top'=>false, 'title'=>$item->name()])
                 </center>
             @endif
-            <hr>
+            <br>
         @endforeach
     @endif
 @else
