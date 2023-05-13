@@ -58,7 +58,6 @@ if ($item) {
                      height=
                  @include('types.img.height',['size'=>$size])
                  @endif
-            class="mx-auto d-block"
                  alt="" title=
                  @if($title == "")
                      "{{$item->title_img()}}"
