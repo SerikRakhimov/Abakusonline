@@ -2166,6 +2166,7 @@ class ItemController extends Controller
             }
         }
         // Проверка полей с типом "текст" на наличие запрещенных тегов HTML
+        // Правило: только в текстовых полях можно применять разрешенную HTML-теги
         if ($base->type_is_text()) {
             $errors = false;
             foreach (config('app.locales') as $lang_key => $lang_value) {
@@ -2557,6 +2558,7 @@ class ItemController extends Controller
                 }
             }
             // Проверка полей с типом "текст" на наличие запрещенных тегов HTML
+            // Правило: только в текстовых полях можно применять разрешенную HTML-теги
             if ($work_base->type_is_text()) {
                 // поиск в таблице items значение с таким же названием и base_id
                 $name_lang_value = null;
@@ -4445,6 +4447,7 @@ class ItemController extends Controller
         }
 
         // Проверка полей с типом "текст" на наличие запрещенных тегов HTML
+        // Правило: только в текстовых полях можно применять разрешенную HTML-теги
         if ($item->base->type_is_text()) {
             $errors = false;
             foreach (config('app.locales') as $lang_key => $lang_value) {
@@ -4877,6 +4880,7 @@ class ItemController extends Controller
                 }
             }
             // Проверка полей с типом "текст" на наличие запрещенных тегов HTML
+            // Правило: только в текстовых полях можно применять разрешенную HTML-теги
             if ($work_base->type_is_text()) {
                 // поиск в таблице items значение с таким же названием и base_id
                 $name_lang_value = null;
@@ -6754,8 +6758,8 @@ class ItemController extends Controller
                     $dop_name_3 = trim($dop_name_3);
                     if (!($dop_name_0 == "" && $dop_name_1 == "" && $dop_name_2 == "" && $dop_name_3 == "")) {
                         // $item->base->sepa_calcname - символ разделения для вычисляемых полей
-                        // "\~" - символ перевода каретки (используется также в Item.php: функции name() nmbr())
-                        // "\~" - символ перевода каретки (используется также в ItemController.php: функция calc_value_func())
+                        // "\~" - символ перевода каретки (используется также в Item.php: name() nmbr())
+                        // "\~" - символ перевода каретки (используется также в ItemController.php: calc_value_func(), GlobalController: itnm_left)
                         //$sc = trim($item->base->sepa_calcname) . "\~";
                         $sc = trim($item->base->sepa_calcname);
 //                        $dop_sepa0 = $calc_lang_0 == "" ? "" : $sc . " ";

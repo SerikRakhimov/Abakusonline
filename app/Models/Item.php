@@ -156,7 +156,9 @@ class Item extends Model
     }
 
     // "\~" - символ перевода каретки (используется также в Item.php: функции name() nmbr())
-    // "\~" - символ перевода каретки (используется также в ItemController.php: функция calc_value_func())
+    // "\~" - символ перевода каретки (используется также в ItemController.php: calc_value_func(); GlobalController: itnm_left)
+    // "\t" - символ широкого пробела(исп. для отступа в абзаце)
+    //  (используется также в Item.php: name(),nmbr(), GlobalController:itnm_left()
     // $fullname = true/false - вывод полной строки (более 255 символов)
     // $numcat = true/false - вывод числовых полей с разрядом тысячи/миллионы/миллиарды
     // $rightnull = true/false - у вещественных чисел убрать правые нули после запятой
@@ -164,6 +166,8 @@ class Item extends Model
     {
         $result = self::name_start($fullname, $numcat, $rightnull);
         $result = str_replace('\~', '', $result);
+        // Не нужна эта строка
+        // $result = str_replace('\t', '', $result);
         // Похожая строка в Item.php::name() и Text::name()
         // Вторым параметром передается $this->base
         if ($emoji_enable == true) {
@@ -181,17 +185,18 @@ class Item extends Model
         return $result;
     }
 
-    // "\~" - символ перевода каретки (используется также в Item.php: функции name() nmbr())
-    // "\~" - символ перевода каретки (используется также в ItemController.php: функция calc_value_func())
+    // "\~" - символ перевода каретки (используется также в Item.php: name() nmbr())
+    // "\~" - символ перевода каретки (используется также в ItemController.php: calc_value_func(), GlobalController: itnm_left)
+    // "\t" - символ широкого пробела(исп. для отступа в абзаце) (используется также в Item.php: функции name() nmbr())
     // $numcat = true/false - вывод числовых полей с разрядом тысячи/миллионы/миллиарды
     // fullname = true
     function nmbr($fullname = false, $numcat = false, $emoji_enable = false, $rightnull = false)
     {
         //$result = self::name_start(true, false);
         $result = self::name_start($fullname, $numcat, $rightnull);
-        //$result = str_replace('\~', '<br>', $result);
         $result = str_replace('\~', '<br>', $result);
-        //$result = (new GlobalController)->name_and_emoji($result, $this->base);
+        // Не нужна эта строка
+        // $result = str_replace('\t', '&emsp;&emsp;', $result);
         if ($emoji_enable == true) {
             $result = (new GlobalController)->name_and_first_emoji($result, $this->base);
         }

@@ -27,6 +27,10 @@ class Text extends Model
 //        if ($result == "") {
 //            $result = $this->name_lang_0;
 //        }
+        // Нужна эта строка
+        $result = str_replace('\~', '<br>', $result);
+        // Правило: только в текстовых полях можно применять "\t"
+        $result = str_replace('\t', '&emsp;&emsp;', $result);
         // Похожая строка в Item.php::name() и Text::name()
         // Вторым параметром передается $base
         if ($emoji_enable == true) {

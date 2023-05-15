@@ -257,8 +257,8 @@ $num_cols = GlobalController::get_number_of_columns_info();
             $item_find = GlobalController::view_info($item->id, $link_image->id);
             $i++;
             ?>
-            {{--                <article style="text-indent: 40px; text-align: justify">--}}
-            <article>
+{{--            <article style="text-indent: 40px; text-align: justify">--}}
+                            <article>
                 {{--                <a href="{{route('item.ext_show', ['item'=>$item, 'project'=>$project, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id,--}}
                 {{--                                                        'heading' => $heading,'base_index_page'=>$base_index_page, 'body_link_page'=>$body_link_page,'body_all_page'=>$body_all_page,--}}
                 {{--                                                        'par_link'=>null, 'parent_item'=>null,--}}
