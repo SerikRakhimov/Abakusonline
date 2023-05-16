@@ -95,7 +95,8 @@ class Base extends Model
 
     function prnm($emoji_enable = false)
     {
-        $result = trans('main.name');
+        //$result = trans('main.name');
+        $result = $this->name();
         if ($emoji_enable == true) {
             $result = (new GlobalController)->name_and_brackets_emoji($result, $this);
         }
