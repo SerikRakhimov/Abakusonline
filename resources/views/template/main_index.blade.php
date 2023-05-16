@@ -2,6 +2,7 @@
 
 @section('content')
     <?php
+    use App\Http\Controllers\GlobalController;
     Use App\Models\Role;
     //$i = $templates->firstItem() - 1;
     $i = 0;
