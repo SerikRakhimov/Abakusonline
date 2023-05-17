@@ -15,7 +15,6 @@
             </div>
         </div>
     </div>
-    </p>
     <div class="card-deck">
         @foreach($templates as $template)
 <!--            --><?php
