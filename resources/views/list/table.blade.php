@@ -286,8 +286,8 @@ $num_cols = GlobalController::get_number_of_columns_info();
             </article>
             @if($item_find)
                 <center>
-{{--                    @include('view.img',['item'=>$item_find, 'size'=>"medium", 'width'=>"55%", 'border'=>true, 'filenametrue'=>false, 'link'=>true, 'img_fluid'=>false, 'card_img_top'=>false, 'title'=>$item->name()])--}}
-                    @include('view.img',['item'=>$item_find, 'size'=>"big", 'border'=>true, 'filenametrue'=>false, 'link'=>true, 'img_fluid'=>false, 'card_img_top'=>false, 'title'=>$item->name()])
+                    @include('view.img',['item'=>$item_find, 'size'=>"medium", 'width'=>"55%", 'border'=>true, 'filenametrue'=>false, 'link'=>true, 'img_fluid'=>false, 'card_img_top'=>false, 'title'=>$item->name()])
+{{--                    @include('view.img',['item'=>$item_find, 'size'=>"big", 'border'=>true, 'filenametrue'=>false, 'link'=>true, 'img_fluid'=>false, 'card_img_top'=>false, 'title'=>$item->name()])--}}
                 </center>
             @endif
             <br>
