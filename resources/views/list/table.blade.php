@@ -59,7 +59,7 @@ $num_cols = GlobalController::get_number_of_columns_info();
                             {{--                            'string_all_codes_current' => $string_all_codes_current,--}}
                             {{--                            'string_link_ids_current' => $string_link_ids_current,--}}
                             {{--                            'string_item_ids_current' => $string_item_ids_current,--}}
-                            &nbsp;({{trans('main.code')}}: {{$item->code}})
+                            &nbsp;({{trans('main.code')}} {{$item->code}})
                             {{--                        </a>--}}
                         @endif
                     </small>

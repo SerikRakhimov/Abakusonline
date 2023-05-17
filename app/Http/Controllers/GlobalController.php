@@ -642,9 +642,10 @@ class GlobalController extends Controller
             $mains_link = Link::find($mains_link_id);
             if ($mains_link) {
                 // $base_right = self::base_right($base, $role, $view_ret_id);
-                // $base_right = self::base_right($mains_link->child_base, $role, $view_ret_id);
+                // Так нужно
+                $base_right = self::base_right($mains_link->child_base, $role, $view_ret_id);
                 // Нужно "$link->child_base_id"
-                $base_right = self::base_link_right($mains_link, $role, $view_ret_id);
+                //$base_right = self::base_link_right($mains_link, $role, $view_ret_id);
                 //        $mains = Main::all()->where('parent_item_id', $item->id)->where('link_id', $current_link->id)->sortBy(function ($main) {
                 //            return $main->link->child_base->name() . $main->child_item->name();
                 //        });
