@@ -194,6 +194,37 @@
             @enderror
         </div>
 
+        {{--        'Порядковый номер (автоматическое вычисление первоначальных значений)'--}}
+        <div class="form-group" id="parent_is_seqnum_form_group">
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" name="parent_is_seqnum"
+                       id="parent_is_seqnum"
+                       {{--            "false" - значение по умолчанию --}}
+                       @if ((old('parent_is_seqnum') ?? ($link->parent_is_seqnum ?? false)) ==  true)
+                       checked
+                    @endif
+                >
+                <label class="form-check-label"
+                       for="parent_is_seqnum">{{trans('main.parent_is_seqnum')}}</label>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="parent_seqnum_link_id">{{trans('main.parent')}}_{{trans('main.parent_seqnum_link_id')}}<span
+                    class="text-danger">*</span></label>
+            <input type="number"
+                   name="parent_seqnum_link_id"
+                   id="parent_seqnum_link_id"
+                   class="form-control @error('parent_seqnum_link_id') is-invalid @enderror"
+                   placeholder=""
+                   value="{{ old('parent_seqnum_link_id') ?? ($link->parent_seqnum_link_id ?? 0) }}">
+            @error('parent_seqnum_link_id')
+            <div class="text-danger">
+                {{$message}}
+            </div>
+            @enderror
+        </div>
+
         <div class="form-group">
             <label for="parent_num_bool_default_value">{{trans('main.parent')}}
                 _{{trans('main.parent_num_bool_default_value')}}<span

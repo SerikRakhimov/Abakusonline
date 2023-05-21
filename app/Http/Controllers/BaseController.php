@@ -147,6 +147,7 @@ class BaseController extends Controller
         $base->is_default_list_base_user_id = isset($request->is_default_list_base_user_id) ? "1" : "0";
         $base->is_default_list_base_byuser = isset($request->is_default_list_base_byuser) ? "1" : "0";
         $base->is_default_heading = isset($request->is_default_heading) ? "1" : "0";
+        $base->is_default_view_cards = isset($request->is_default_view_cards) ? "1" : "0";
         $base->is_required_lst_num_str_txt_img_doc = isset($request->is_required_lst_num_str_txt_img_doc) ? "1" : "0";
         $base->is_to_moderate_image = isset($request->is_to_moderate_image) ? "1" : "0";
         $base->is_one_value_lst_str_txt = isset($request->is_one_value_lst_str_txt) ? "1" : "0";
@@ -225,6 +226,7 @@ class BaseController extends Controller
                 $base->is_default_list_base_user_id = 0;
                 $base->is_default_list_base_byuser = 0;
                 $base->is_default_heading = 0;
+                $base->is_default_view_cards = 0;
                 break;
             // Строка
             case 2:
@@ -258,6 +260,7 @@ class BaseController extends Controller
                 $base->is_default_list_base_user_id = 0;
                 $base->is_default_list_base_byuser = 0;
                 $base->is_default_heading = 0;
+                $base->is_default_view_cards = 0;
                 break;
             // Дата
             case 3:
@@ -293,6 +296,7 @@ class BaseController extends Controller
                 $base->is_default_list_base_user_id = 0;
                 $base->is_default_list_base_byuser = 0;
                 $base->is_default_heading = 0;
+                $base->is_default_view_cards = 0;
                 break;
             // Логический
             case 4:
@@ -328,6 +332,7 @@ class BaseController extends Controller
                 $base->is_default_list_base_user_id = 0;
                 $base->is_default_list_base_byuser = 0;
                 $base->is_default_heading = 0;
+                $base->is_default_view_cards = 0;
                 break;
             // Текст
             case 5:
@@ -360,6 +365,7 @@ class BaseController extends Controller
                 $base->is_default_list_base_user_id = 0;
                 $base->is_default_list_base_byuser = 0;
                 $base->is_default_heading = 0;
+                $base->is_default_view_cards = 0;
                 break;
             // Изображение
             case 6:
@@ -392,6 +398,7 @@ class BaseController extends Controller
                 $base->is_default_list_base_user_id = 0;
                 $base->is_default_list_base_byuser = 0;
                 $base->is_default_heading = 0;
+                $base->is_default_view_cards = 0;
                 break;
             // Документ
             case 7:
@@ -425,6 +432,7 @@ class BaseController extends Controller
                 $base->is_default_list_base_user_id = 0;
                 $base->is_default_list_base_byuser = 0;
                 $base->is_default_heading = 0;
+                $base->is_default_view_cards = 0;
                 break;
         }
         if ($base->is_code_needed == "0") {
@@ -537,6 +545,7 @@ class BaseController extends Controller
         $base->is_default_list_base_user_id = isset($request->is_default_list_base_user_id) ? "1" : "0";
         $base->is_default_list_base_byuser = isset($request->is_default_list_base_byuser) ? "1" : "0";
         $base->is_default_heading = isset($request->is_default_heading) ? "1" : "0";
+        $base->is_default_view_cards = isset($request->is_default_view_cards) ? "1" : "0";
         $base->is_required_lst_num_str_txt_img_doc = isset($request->is_required_lst_num_str_txt_img_doc) ? "1" : "0";
         $base->is_to_moderate_image = isset($request->is_to_moderate_image) ? "1" : "0";
         $base->is_one_value_lst_str_txt = isset($request->is_one_value_lst_str_txt) ? "1" : "0";

@@ -341,20 +341,23 @@ height: 100%;
         </div>
     </nav>
     <main class="py-4 w-75 mw-75 mx-auto">
+        {{--                <div class="mx-auto" style="width: 1200px;">--}}
+        @yield('content')
+        {{--                </div>--}}
         @guest
             {{--            Похожие строки layouts\app.blade.php и message.blade.php--}}
-            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            {{--            <div class="alert alert-danger alert-dismissible fade show" role="alert">--}}
+            <div class="alert alert-dismissible fade show" role="alert">
                 <p>
-                <h5 class="display-5 text-danger text-center">{{trans('main.please_login_or_register')}}</h5>
+                <h5 class="display-5 text-danger text-center">
+                    {{trans('main.please_login_or_register')}}
+                </h5>
                 </p>
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
         @endguest
-        {{--                <div class="mx-auto" style="width: 1200px;">--}}
-        @yield('content')
-        {{--                </div>--}}
     </main>
 </div>
 <!-- Ajax -->

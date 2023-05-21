@@ -1955,6 +1955,7 @@ class ItemController extends Controller
         $array_disabled = $arrays['array_disabled'];
         $code_new = $this->calculate_new_code($base, $relip_project);
         // Похожая строка внизу
+        // создать уникальный идентификато
         $code_uniqid = uniqid($base->id . '_', true);
         //$view_link = GlobalController::set_view_link_null($view_link);
 
@@ -2411,6 +2412,30 @@ class ItemController extends Controller
 
         foreach ($inputs as $key => $value) {
             $inputs[$key] = ($value != null) ? $value : "";
+        }
+
+        // Только при добавлении записи
+        foreach ($inputs as $key => $value) {
+            $link = Link::findOrFail($key);
+            if ($link->parent_is_seqnum == 1 & floatval($inputs[$key]) == 0) {
+                $pr_item = null;
+                if ($link->parent_seqnum_link_id != 0) {
+                    $lnk = Link::find($link->parent_seqnum_link_id);
+                    if ($lnk) {
+                        if (isset($inputs[$link->parent_seqnum_link_id])) {
+                            $pr_item = Item::find($inputs[$link->parent_seqnum_link_id]);
+                            // Нужно проверять "if ($pr_item)",
+                            // т.к. вызов calculate_new_seqnum($project, $link, null, null) - расчет кода для всей основы(таблицы)
+                            if ($pr_item) {
+                                $inputs[$key] = $this->calculate_new_seqnum($project, $link, $pr_item, $lnk);
+                            }
+                        }
+                    }
+                } else {
+                    $pr_item = null;
+                    $inputs[$key] = $this->calculate_new_seqnum($project, $link);
+                }
+            }
         }
         $strings_inputs = $request->only($string_names);
 
@@ -2921,6 +2946,7 @@ class ItemController extends Controller
             }
         }
     }
+
 // save_info_sets() выполняет все присваивания для $item с отниманием/прибавлением значений
 // $reverse = true - отнимать, false - прибавлять
 // $urepl = true используется при добавлении/корректировке записи, = false при удалении записи; проверяется при Заменить(->is_upd_replace = true)
@@ -5650,7 +5676,8 @@ class ItemController extends Controller
 
     // Рекурсивная функция
     // Вычисление вложенных items_ids для удаления взависимости от переданного $item
-    private function calc_items_ids_for_delete(Item $item, &$array_items_ids, bool $exist)
+    private
+    function calc_items_ids_for_delete(Item $item, &$array_items_ids, bool $exist)
     {
         // '->get()' нужно
         $mains = Main::where('parent_item_id', $item->id)->get();
@@ -5669,7 +5696,8 @@ class ItemController extends Controller
     }
 
     // Удаление $items для удаления
-    private function run_items_ids_for_delete($array_items_ids)
+    private
+    function run_items_ids_for_delete($array_items_ids)
     {
         foreach ($array_items_ids as $item_id) {
             $item_find = Item::find($item_id);
@@ -6852,13 +6880,12 @@ class ItemController extends Controller
     // Перерасчет $items по переданным $item по всем проектам
     function calc_item_names(Item $item)
     {
+        //->join('items', 'mains.child_item_id', '=', 'items.id')
         //->where('items.base_id', '!=', $item->base_id)
         $items_ids = Main::select(DB::Raw('mains.child_item_id as id'))
             ->join('links', 'mains.link_id', '=', 'links.id')
-            ->join('items', 'mains.child_item_id', '=', 'items.id')
             ->where('mains.parent_item_id', '=', $item->id)
             ->where('links.parent_is_calcname', '=', true);
-
 
         // "->get()" нужно
         $items = Item::joinSub($items_ids, 'items_ids', function ($join) {
@@ -6887,9 +6914,10 @@ class ItemController extends Controller
             if ($base->is_suggest_code == true) {
                 //Список, отсортированный по коду
 //          $items = Item::where('base_id', $base->id)->orderBy('code')->get();
-                $items = Item::all()->where('base_id', $base->id)->where('project_id', $project->id)->sortBy(function ($row) {
-                    return $row->code;
-                })->toArray();
+                $items = Item::all()->where('base_id', $base->id)->where('project_id', $project->id)
+                    ->sortBy(function ($row) {
+                        return $row->code;
+                    })->toArray();
                 if ($items == null) {
                     $result = 1;
                 } else {
@@ -6909,6 +6937,70 @@ class ItemController extends Controller
                             }
                         }
                     }
+                }
+            }
+        }
+        return $result;
+    }
+
+    function calculate_new_seqnum(Project $project, Link $link, Item $parent_item = null, Link $par_ln = null)
+    {
+        $result = 0;
+        // "      if ($parent_item & $par_ln)",
+        // т.е. расчет значения проходит для body-таблиц формы item_index.php
+        // при добавлении записи в base_table.php - значение 0, значение не вычисляется
+        if ($link->parent_base->type_is_number == true
+            & $link->parent_is_seqnum == true) {
+            if ($parent_item) {
+                if ($par_ln) {
+                    if ($link->parent_seqnum_link_id != 0) {
+                        if ($link->parent_seqnum_link_id == $par_ln->id) {
+                            // "->get()" нужно
+                            $mains = Main::select(['mains.*'])
+                                ->where('mains.parent_item_id', $parent_item->id)
+                                ->where('link_id', $link->parent_seqnum_link_id)
+                                ->get();
+                            // Блок похожих строк в этой функции
+                            foreach ($mains as $main) {
+                                $item_find = GlobalController::view_info($main->child_item_id, $link->id);
+                                if ($item_find) {
+                                    $numval = $item_find->numval();
+                                    if ($numval['result'] == true) {
+                                        // $numval['int_vl'] - целая часть числа
+                                        $value = $numval['int_vl'];
+                                        if ($value > $result) {
+                                            $result = $value;
+                                        }
+                                    }
+                                }
+                            }
+                            $result = $result + 1;
+                        }
+                    }
+                }
+            } else {
+                if ($link->parent_seqnum_link_id == 0) {
+                    // "->get()" нужно
+                    $mains = Main::select(['mains.*'])
+                        ->join('items', 'mains.child_item_id', '=', 'items.id')
+                        ->where('items.project_id', $project->id)
+                        ->where('link_id', $link->id)
+                        ->get();
+                    // Блок похожих строк в этой функции
+                    foreach ($mains as $main) {
+                        $item_find = Item::find($main->parent_item_id);
+                        if ($item_find) {
+                            $numval = $item_find->numval();
+                            if ($numval['result'] == true) {
+                                // $numval['int_vl'] - целая часть числа
+                                $value = $numval['int_vl'];
+                                if ($value > $result) {
+                                    $result = $value;
+                                }
+                            }
+                        }
+                    }
+                    $result = $result + 1;
                 }
             }
         }
@@ -7653,11 +7745,11 @@ class ItemController extends Controller
                             & $link->parent_is_tst_link == true) {
 
                             // для  древовидной структуры, 'whereDoesntHave()' - не содержит
-                            $items_n = Item::where('project_id','=',$project->id)
-                            ->where('base_id','=',$base->id)
-                            ->whereDoesntHave('child_mains', function ( $query)  use($link) {
-                                $query->where('link_id','=',$link->id);
-                            })->get();
+                            $items_n = Item::where('project_id', '=', $project->id)
+                                ->where('base_id', '=', $base->id)
+                                ->whereDoesntHave('child_mains', function ($query) use ($link) {
+                                    $query->where('link_id', '=', $link->id);
+                                })->get();
 
                             foreach ($items_n as $it) {
                                 // добавление элемента в конец массива

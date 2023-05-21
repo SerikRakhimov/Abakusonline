@@ -422,9 +422,11 @@ class Item extends Model
     }
 
 // Для типа полей Число или Логический
+// Результат, число дробное, целое число
     function numval()
     {
         $value = 0;
+        $int_vl = 0;
         $result = false;
         if ($this->base->type_is_number() || $this->base->type_is_boolean()) {
             //if ($this->base->type_is_number()) {
@@ -432,10 +434,12 @@ class Item extends Model
             if ($this->name_lang_0 == "") {
                 $value = 0;
             } else {
-                $value = strval($this->name_lang_0);
+                //$value = strval($this->name_lang_0);
+                $value = floatval(strval($this->name_lang_0));
             }
+            $int_vl = intval($value);
         }
-        return ['result' => $result, 'value' => $value];
+        return ['result' => $result, 'value' => $value, 'int_vl' => $int_vl];
     }
 
 // Для типа полей Число

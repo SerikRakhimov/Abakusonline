@@ -37,7 +37,7 @@ $num_cols = GlobalController::get_number_of_columns_info();
 {{--@endif--}}
 {{--    ">--}}
 @if(($base_index==true || $item_body_base==true) & $tile_view['result'] == true)
-    @if($base_right['is_list_base_sort_creation_date_desc'] == true)
+    @if($base_right['is_view_cards'] == true)
         <div class="card-deck">
             {{--        $its_page используется--}}
             @foreach($its_page as $item)
@@ -642,7 +642,8 @@ $num_cols = GlobalController::get_number_of_columns_info();
                                     if ($base_link_right['is_list_base_calc'] == true) {
                                         $item_index_view = true;
                                         // Для "шапки" item_index.php
-                                        $string_value = $string_current;
+//                                      $string_value = $string_current;
+                                        $string_value = GlobalController::const_null();;
                                         $relit_value = $link_base_relit_id_array[$link->id];
                                     }
                                 } else {

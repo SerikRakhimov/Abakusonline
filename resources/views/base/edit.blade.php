@@ -723,6 +723,32 @@
             </div>
         </div>
 
+        <div class="form-group row" id="is_default_view_cards_form_group">
+            <div class="col-sm-3 text-right">
+                <label class="form-label"
+                       for="is_default_view_cards">{{trans('main.is_default_view_cards')}}</label>
+            </div>
+            <div class="col-sm-7">
+                <input class="@error('is_default_view_cards') is-invalid @enderror"
+                       type="checkbox"
+                       name="is_default_view_cards"
+                       id="linkis_default_view_cards"
+                       placeholder=""
+{{--                       Значение по умолчанию false--}}
+                       @if ((old('is_default_view_cards') ?? ($base->is_default_view_cards ?? false)) ==  true)
+                       checked
+                    @endif
+                >
+                @error('is_default_view_cards')
+                <div class="invalid-feedback">
+                    {{$message}}
+                </div>
+                @enderror
+            </div>
+            <div class="col-sm-2">
+            </div>
+        </div>
+
         <div class="form-group row" id="is_one_value_lst_str_txt_form_group">
             <div class="col-sm-3 text-right">
                 <label class="form-label"
@@ -967,6 +993,7 @@
         var is_userid = document.getElementById('is_default_list_base_user_id_form_group');
         var is_byuser = document.getElementById('is_default_list_base_byuser_form_group');
         var is_heading = document.getElementById('is_default_heading_form_group');
+        var is_cards = document.getElementById('is_default_view_cards_form_group');
         var is_required_lst_num_str_txt_img_doc = document.getElementById('is_required_lst_num_str_txt_img_doc_form_group');
         var is_tomoderate_img = document.getElementById('is_to_moderate_image_form_group');
         var maxfilesize_img_doc = document.getElementById('maxfilesize_img_doc_form_group');
@@ -1025,6 +1052,7 @@
             val_is_userid = "hidden";
             val_is_byuser = "hidden";
             val_is_heading = "hidden";
+            val_is_cards = "hidden";
             val_digits_num = "hidden";
             val_required_num_str = "hidden";
             val_tomoderate_img = "hidden";
@@ -1059,6 +1087,7 @@
                     val_is_userid = "visible";
                     val_is_byuser = "visible";
                     val_is_heading = "visible";
+                    val_is_cards = "visible";
                     val_required_num_str = "visible";
                     val_onevalue_str = "visible";
                     val_calcname_lst = "visible";
@@ -1120,6 +1149,7 @@
             is_userid.style.visibility = val_is_userid;
             is_byuser.style.visibility = val_is_byuser;
             is_heading.style.visibility = val_is_heading;
+            is_cards.style.visibility = val_is_cards;
             digits_num.style.visibility = val_digits_num;
             is_required_lst_num_str_txt_img_doc.style.visibility = val_required_num_str;
             is_tomoderate_img.style.visibility = val_tomoderate_img;

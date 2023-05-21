@@ -124,6 +124,8 @@ class LinkController extends Controller
         $link->child_maxcount = $request->child_maxcount >= 0 ? $request->child_maxcount : 0;
         $link->parent_base_number = $request->parent_base_number;
         $link->parent_relit_id = $request->parent_relit_id;
+        $link->parent_is_seqnum = isset($request->parent_is_seqnum) ? true : false;
+        $link->parent_seqnum_link_id = $request->parent_seqnum_link_id >= 0 ? $request->parent_seqnum_link_id : 0;
         $link->parent_num_bool_default_value = isset($request->parent_num_bool_default_value) ? $request->parent_num_bool_default_value : "";
         $link->parent_level_id_0 = isset($request->parent_level_id_0) ? ($request->parent_level_id_0 == 0 ? null : $request->parent_level_id_0) : null;
         $link->parent_level_id_1 = isset($request->parent_level_id_1) ? ($request->parent_level_id_1 == 0 ? null : $request->parent_level_id_1) : null;
@@ -323,11 +325,16 @@ class LinkController extends Controller
 //            $link->parent_is_use_selection_calculated_table_link_id_1 = false;
 //            $link->parent_selection_calculated_table_link_id_1 = 0;
 //        }
-//      if ($link->parent_base->type_is_number == false) {
-        if ($link->parent_base->type_is_number == false && $link->parent_base->type_is_boolean == false) {
+//        if ($link->parent_base->type_is_number == false && $link->parent_base->type_is_boolean == false) {
+        if ($link->parent_base->type_is_number == false
+            && $link->parent_base->type_is_boolean == false
+            && $link->parent_base->type_is_list == false) {
             $link->parent_is_numcalc = 0;
             $link->parent_is_nc_viewonly = 0;
             $link->parent_is_nc_parameter = 0;
+        }
+        if ($link->parent_base->type_is_number == false && $link->parent_base->type_is_boolean == false) {
+            $link->parent_num_bool_default_value = "";
         }
         if ($link->parent_is_numcalc == false) {
             $link->parent_is_nc_screencalc = 0;
@@ -383,6 +390,10 @@ class LinkController extends Controller
             }
         }
 
+        $check_seqnum = $this->check_seqnum($link);
+        $link->parent_is_seqnum = $check_seqnum['$parent_is_seqnum'];
+        $link->parent_seqnum_link_id = $check_seqnum['$parent_seqnum_link_id'];
+
         $link->save();
 
         return redirect()->route('link.base_index', ['base' => $link->child_base, 'links' => Link::where('child_base_id', $link->child_base_id)->orderBy('parent_base_number')->get()]);
@@ -423,6 +434,8 @@ class LinkController extends Controller
         $link->child_maxcount = $request->child_maxcount >= 0 ? $request->child_maxcount : 0;
         $link->parent_base_number = $request->parent_base_number;
         $link->parent_relit_id = $request->parent_relit_id;
+        $link->parent_is_seqnum = isset($request->parent_is_seqnum) ? true : false;
+        $link->parent_seqnum_link_id = $request->parent_seqnum_link_id >= 0 ? $request->parent_seqnum_link_id : 0;
         $link->parent_num_bool_default_value = isset($request->parent_num_bool_default_value) ? $request->parent_num_bool_default_value : "";
         $link->parent_level_id_0 = isset($request->parent_level_id_0) ? ($request->parent_level_id_0 == 0 ? null : $request->parent_level_id_0) : null;
         $link->parent_level_id_1 = isset($request->parent_level_id_1) ? ($request->parent_level_id_1 == 0 ? null : $request->parent_level_id_1) : null;
@@ -630,6 +643,9 @@ class LinkController extends Controller
             $link->parent_is_nc_viewonly = 0;
             $link->parent_is_nc_parameter = 0;
         }
+        if ($link->parent_base->type_is_number == false && $link->parent_base->type_is_boolean == false) {
+            $link->parent_num_bool_default_value = "";
+        }
         if ($link->parent_is_numcalc == false) {
             $link->parent_is_nc_screencalc = 0;
         }
@@ -678,6 +694,8 @@ class LinkController extends Controller
             $link->parent_enabled_boolean_value_link_id = 0;
         }
 
+        // Не использовать эти команды при корректировке,
+        // чтобы при случайном нажатии отметки не испортить $link->parent_base_id
         // При корректировке
         //if ($link->parent_is_tst_link) {
         //    $link->parent_base_id = $link->child_base_id;
@@ -690,9 +708,42 @@ class LinkController extends Controller
 //            }
 //        }
 
+        $check_seqnum = $this->check_seqnum($link);
+        $link->parent_is_seqnum = $check_seqnum['$parent_is_seqnum'];
+        $link->parent_seqnum_link_id = $check_seqnum['$parent_seqnum_link_id'];
+
         $link->save();
 
         return redirect()->route('link.base_index', ['base' => $link->child_base, 'links' => Link::where('child_base_id', $link->child_base_id)->orderBy('parent_base_number')->get()]);
+    }
+
+    function check_seqnum(Link $link)
+    {
+        $is_seqnum = $link->parent_is_seqnum;
+        $seqnum_link_id = $link->parent_seqnum_link_id;
+        // Только для числовых полей, $is_seqnum = 1
+        if ($link->parent_base->type_is_number == false
+            | $is_seqnum != 1) {
+            $is_seqnum = 0;
+            $seqnum_link_id = 0;
+        } else {
+            // Допускается значение $seqnum_link_id = 0 (пор.номер для всей основы(таблицы) при $is_seqnum = 1
+            if ($seqnum_link_id != 0) {
+                $ln_find = Link::find($seqnum_link_id);
+                if ($ln_find) {
+                    // Обе проверки нужны
+                    if ($ln_find->child_base_id != $link->child_base_id
+                        | $link->id == $seqnum_link_id) {
+                        $is_seqnum = 0;
+                        $seqnum_link_id = 0;
+                    }
+                } else {
+                    $is_seqnum = 0;
+                    $seqnum_link_id = 0;
+                }
+            }
+        }
+        return ['$parent_is_seqnum' => $is_seqnum, '$parent_seqnum_link_id' => $seqnum_link_id];
     }
 
     function edit(Link $link, Base $base)
@@ -729,8 +780,8 @@ class LinkController extends Controller
         return redirect()->route('link.base_index', ['base' => $link->child_base, 'links' => Link::where('child_base_id', $link->child_base_id)->orderBy('parent_base_number')->get()]);
     }
 
-    // 1.0 В списке выбора использовать поле вычисляемой таблицы
-    // Возвращает какой $link_id_result главный в зависимости от основного $link_main
+// 1.0 В списке выбора использовать поле вычисляемой таблицы
+// Возвращает какой $link_id_result главный в зависимости от основного $link_main
     static function get_link_id_selection_calc(Link $link_main)
     {
         $link_id_result = null;
@@ -750,7 +801,7 @@ class LinkController extends Controller
         return $link_id_result;
     }
 
-    // Возвращает список для выбора в parent_parent_related_start_link_id
+// Возвращает список для выбора в parent_parent_related_start_link_id
     static function get_parent_parent_related_start_link_id(Base $base, Link $link_current = null)
     {
         $result_parent_parent_related_start_link_id_options = '';
@@ -798,9 +849,9 @@ class LinkController extends Controller
         ];
     }
 
-    // В списке выбора использовать поле вычисляемой таблицы
-    // Возвращает список для выбора
-    // Вызывается из link/edit
+// В списке выбора использовать поле вычисляемой таблицы
+// Возвращает список для выбора
+// Вызывается из link/edit
     static function get_parent_selection_calculated_table_set_id(Base $base)
     {
         $result_parent_selection_calculated_table_set_id_options = '';
@@ -828,8 +879,8 @@ class LinkController extends Controller
         ];
     }
 
-    // Выводить поле вычисляемой таблицы
-    // Возвращает список для выбора
+// Выводить поле вычисляемой таблицы
+// Возвращает список для выбора
     static function get_parent_output_calculated_table_set_id(Base $base)
     {
         $result_parent_output_calculated_table_set_id_options = '';
@@ -864,8 +915,8 @@ class LinkController extends Controller
         ];
     }
 
-    // Выводить список полей links в зависимости от $base
-    // Возвращает список для выбора
+// Выводить список полей links в зависимости от $base
+// Возвращает список для выбора
     static function get_parent_enabled_boolean_value_link_id(Base $base)
     {
         $result_parent_enabled_boolean_value_link_id_options = "<option value='0'>" . trans('main.no_information') . "!</option>";
@@ -931,7 +982,7 @@ class LinkController extends Controller
         ];
     }
 
-    // Заполняет поле "Маршрут" в link/edit.php
+// Заполняет поле "Маршрут" в link/edit.php
     static function get_tree_from_link_id(Link $link_start)
     {
         $result_parent_parent_related_result_link_id_options = '';
@@ -951,8 +1002,8 @@ class LinkController extends Controller
         ];
     }
 
-    // Выводить связанное поле
-    // Возвращает parent_base_id, parent_base_name
+// Выводить связанное поле
+// Возвращает parent_base_id, parent_base_name
     static function get_parent_base_id_from_link_id(Link $link)
     {
         $parent_base_id = '';
@@ -967,9 +1018,9 @@ class LinkController extends Controller
         ];
     }
 
-    // a) Выводить поле вычисляемой таблицы
-    // b) 1.0 В списке выбора использовать поле вычисляемой таблицы
-    // Возвращает parent_base_id, parent_base_name
+// a) Выводить поле вычисляемой таблицы
+// b) 1.0 В списке выбора использовать поле вычисляемой таблицы
+// Возвращает parent_base_id, parent_base_name
     static function get_parent_base_id_from_set_id(Set $set)
     {
         $parent_base_id = '';
@@ -989,8 +1040,8 @@ class LinkController extends Controller
         ];
     }
 
-    // 1.1 В списке выбора использовать дополнительное связанное поле вычисляемой таблицы
-    // Возвращает links_options
+// 1.1 В списке выбора использовать дополнительное связанное поле вычисляемой таблицы
+// Возвращает links_options
     static function get_links_from_set_id_link_from_parent_base($set_id)
     {
         $set = Set::find($set_id);
@@ -1018,8 +1069,8 @@ class LinkController extends Controller
         ];
     }
 
-    // 1.2 В списке выбора использовать два дополнительных связанных поля вычисляемой таблицы
-    // Возвращает links_options
+// 1.2 В списке выбора использовать два дополнительных связанных поля вычисляемой таблицы
+// Возвращает links_options
     static function get_links_from_link_id_parent_base($link_id)
     {
         $link = Link::find($link_id);
@@ -1047,10 +1098,10 @@ class LinkController extends Controller
         ];
     }
 
-    // возвращает маршрут $link_ids по вычисляемым полям
-    //                              --------------------
-    // до первого найденного постоянного link_id ($const_link_id_start)
-    // для маршрута используется поле $link->parent_parent_related_start_link_id
+// возвращает маршрут $link_ids по вычисляемым полям
+//                              --------------------
+// до первого найденного постоянного link_id ($const_link_id_start)
+// для маршрута используется поле $link->parent_parent_related_start_link_id
     static function get_link_ids_from_calc_link(Link $link_init)
     {
         // максимальное количество итераций при возможном зацикливании

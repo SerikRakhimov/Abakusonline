@@ -461,4 +461,7 @@ return [
     'tree_structure' => 'Tree structure',
     'is_base_required' =>'Required (for lists, if $base->is_required_lst_num_str_txt_img_doc = false',
     'is_edit_parlink_enable' => 'Allow field adjustment when linking parlink',
+    'parent_is_seqnum' => 'Sequence number (automatic calculation of initial values, for numeric fields)',
+    'parent_seqnum_link_id' => 'Link_id for calculating the sequence number (with Sequence number = mark), 0 - calculation of the sequence number for the entire base (table)',
+    'is_default_view_cards' => 'By default, view Cards',
     ];

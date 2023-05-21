@@ -58,7 +58,7 @@ $num_cols = GlobalController::get_number_of_columns_brow();
     $link_image = $tile_view['link'];
     $i = 0;
     ?>
-    @if($tile_view['result'] == true)
+    @if($tile_view['result'] == true & $base_right['is_view_cards'] == true)
         <div class="row">
             <div class="col text-center text-label">
                 {{trans('main.sort_by')}}:

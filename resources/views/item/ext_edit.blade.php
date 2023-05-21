@@ -601,9 +601,17 @@
                                    id="link{{$key}}"
                                    class="form-control @error($key) is-invalid @enderror"
                                    placeholder=""
-                                   value="{{(old($key)) ?? (($value != null) ? GlobalController::restore_number_from_item($link->parent_base, Item::find($value)->name()) :
-                                    (($link->parent_num_bool_default_value!="")? $link->parent_num_bool_default_value:'0')
-                                    )}}"
+{{--                                   value="{{(old($key)) ?? (($value != null) ? GlobalController::restore_number_from_item($link->parent_base, Item::find($value)->name()) :--}}
+{{--                                    (($link->parent_num_bool_default_value!="")? $link->parent_num_bool_default_value:'0')--}}
+{{--                                    )}}"--}}
+{{--                                    GlobalController::restore_number_from_item() - на вход число с нулями спереди--}}
+{{--                                    На выходе это же число в виде строки--}}
+{{--                                    Нужно для правильного отображения чисел--}}
+{{--                            "$parent_item->project_id" не использовать, правильно "$project"--}}
+                            value="{{(old($key)) ?? (($value != null) ? GlobalController::restore_number_from_item($link->parent_base, Item::find($value)->name()) :
+                                                                (($link->parent_is_seqnum==true)? ItemController::calculate_new_seqnum($project, $link, $parent_item, $par_link):
+                                                                (($link->parent_num_bool_default_value!="")? $link->parent_num_bool_default_value: '0'))
+                                                                )}}"
                                    step="{{$link->parent_base->digits_num_format()}}"
 
                                    @if($base_link_right['is_edit_link_read'] == true)

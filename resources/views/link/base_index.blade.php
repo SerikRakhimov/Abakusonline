@@ -40,6 +40,8 @@
             <th class="text-left">{{trans('main.parent')}}_{{trans('main.serial_number')}}</th>
             <th class="text-left">{{trans('main.parent')}}_{{trans('main.template')}}</th>
             <th class="text-left">{{trans('main.parent')}}_{{trans('main.base')}}</th>
+            <th class="text-left">{{trans('main.parent_is_seqnum')}}</th>
+            <th class="text-left">{{trans('main.parent_seqnum_link_id')}}</th>
             <th class="text-left">{{trans('main.level')}}_0</th>
             <th class="text-left">{{trans('main.level')}}_1</th>
             <th class="text-left">{{trans('main.level')}}_2</th>
@@ -121,6 +123,16 @@
                 <td class="text-left">
                     <a href="{{route('link.show',$link)}}">
                         {{$link->parent_base->info()}}
+                    </a>
+                </td>
+                <td class="text-left">
+                    <a href="{{route('link.show',$link)}}">
+                        {{$link->parent_is_seqnum}}
+                    </a>
+                </td>
+                <td class="text-left">
+                    <a href="{{route('link.show',$link)}}">
+                        {{$link->parent_seqnum_link_id}}
                     </a>
                 </td>
                 <td class="text-left">
