@@ -2417,23 +2417,27 @@ class ItemController extends Controller
         // Только при добавлении записи
         foreach ($inputs as $key => $value) {
             $link = Link::findOrFail($key);
-            if ($link->parent_is_seqnum == 1 & floatval($inputs[$key]) == 0) {
-                $pr_item = null;
-                if ($link->parent_seqnum_link_id != 0) {
-                    $lnk = Link::find($link->parent_seqnum_link_id);
-                    if ($lnk) {
-                        if (isset($inputs[$link->parent_seqnum_link_id])) {
-                            $pr_item = Item::find($inputs[$link->parent_seqnum_link_id]);
-                            // Нужно проверять "if ($pr_item)",
-                            // т.к. вызов calculate_new_seqnum($project, $link, null, null) - расчет кода для всей основы(таблицы)
-                            if ($pr_item) {
-                                $inputs[$key] = $this->calculate_new_seqnum($project, $link, $pr_item, $lnk);
+            // Так не использовать
+//          if ($link->parent_is_seqnum == 1 & floatval($inputs[$key]) == 0) {
+            if ($link->parent_is_seqnum == 1) {
+                if (floatval($inputs[$key]) == 0) {
+                    $pr_item = null;
+                    if ($link->parent_seqnum_link_id != 0) {
+                        $lnk = Link::find($link->parent_seqnum_link_id);
+                        if ($lnk) {
+                            if (isset($inputs[$link->parent_seqnum_link_id])) {
+                                $pr_item = Item::find($inputs[$link->parent_seqnum_link_id]);
+                                // Нужно проверять "if ($pr_item)",
+                                // т.к. вызов calculate_new_seqnum($project, $link, null, null) - расчет кода для всей основы(таблицы)
+                                if ($pr_item) {
+                                    $inputs[$key] = $this->calculate_new_seqnum($project, $link, $pr_item, $lnk);
+                                }
                             }
                         }
+                    } else {
+                        $pr_item = null;
+                        $inputs[$key] = $this->calculate_new_seqnum($project, $link);
                     }
-                } else {
-                    $pr_item = null;
-                    $inputs[$key] = $this->calculate_new_seqnum($project, $link);
                 }
             }
         }
