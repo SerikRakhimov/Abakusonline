@@ -257,8 +257,8 @@ $num_cols = GlobalController::get_number_of_columns_info();
             $item_find = GlobalController::view_info($item->id, $link_image->id);
             $i++;
             ?>
-{{--            <article style="text-indent: 40px; text-align: justify">--}}
-                            <article style="text-align: justify">
+            {{--            <article style="text-indent: 40px; text-align: justify">--}}
+            <article style="text-align: justify">
                 {{--                <a href="{{route('item.ext_show', ['item'=>$item, 'project'=>$project, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id,--}}
                 {{--                                                        'heading' => $heading,'base_index_page'=>$base_index_page, 'body_link_page'=>$body_link_page,'body_all_page'=>$body_all_page,--}}
                 {{--                                                        'par_link'=>null, 'parent_item'=>null,--}}
@@ -287,7 +287,7 @@ $num_cols = GlobalController::get_number_of_columns_info();
             @if($item_find)
                 <center>
                     @include('view.img',['item'=>$item_find, 'size'=>"medium", 'width'=>"50%", 'border'=>true, 'filenametrue'=>false, 'link'=>true, 'img_fluid'=>false, 'card_img_top'=>false, 'title'=>$item->name()])
-{{--                    @include('view.img',['item'=>$item_find, 'size'=>"big", 'border'=>true, 'filenametrue'=>false, 'link'=>true, 'img_fluid'=>false, 'card_img_top'=>false, 'title'=>$item->name()])--}}
+                    {{--                    @include('view.img',['item'=>$item_find, 'size'=>"big", 'border'=>true, 'filenametrue'=>false, 'link'=>true, 'img_fluid'=>false, 'card_img_top'=>false, 'title'=>$item->name()])--}}
                 </center>
             @endif
             <br>
@@ -355,7 +355,8 @@ $num_cols = GlobalController::get_number_of_columns_info();
                             @if($matrix[$x][$y]["view_field"] != null)
                                 <th rowspan="{{$matrix[$x][$y]["rowspan"]}}"
                                     colspan="{{$matrix[$x][$y]["colspan"]}}"
-                                    @if($x == 0)
+                                    {{--                                    @if($x == 0)--}}
+                                    @if($x == 0 & !$heading)
                                     @include('layouts.class_from_base',['base'=>$link->parent_base, 'align_top'=>true])
                                     @else
                                     class="text-center align-top"
@@ -371,10 +372,12 @@ $num_cols = GlobalController::get_number_of_columns_info();
                                                 {{--                                                </a>--}}
                                                 <a href="{{route('item.base_index',['base'=>$link->parent_base_id, 'project'=>$project, 'role'=>$role, 'relit_id' => $link->parent_relit_id])}}"
                                                    title="{{$link->parent_base->names()}}">
-                                                    {{GlobalController::calc_title_name($matrix[$x][$y]["view_name"], $heading, $heading)}}
+                                                    {{--                                                    {{GlobalController::calc_title_name($matrix[$x][$y]["view_name"], $heading, $heading)}}--}}
+                                                    {{GlobalController::calc_title_name($matrix[$x][$y]["view_name"], true)}}
                                                 </a>
                                             @else
-                                                {{GlobalController::calc_title_name($matrix[$x][$y]["view_name"], $heading, $heading)}}
+                                                {{--                                                {{GlobalController::calc_title_name($matrix[$x][$y]["view_name"], $heading, $heading)}}--}}
+                                                {{GlobalController::calc_title_name($matrix[$x][$y]["view_name"], true)}}
                                             @endif
                                             @if($heading)
                                         </small>
@@ -588,7 +591,11 @@ $num_cols = GlobalController::get_number_of_columns_info();
                     $base_link_right = $link_base_right_array[$link->id];
                     ?>
                     <td
+                        @if(!$heading)
                         @include('layouts.class_from_base',['base'=>$link->parent_base])
+                        @else
+                        class="text-center"
+                        @endif
                     >
                         <?php
                         $item_find = GlobalController::view_info($item->id, $link->id);
@@ -725,11 +732,11 @@ $num_cols = GlobalController::get_number_of_columns_info();
                                         {{--                                    @endif--}}
                                         @if($heading)
                                             <small>
-                                                <mark class="text-project">
-                                                    @endif
-                                                    @include('layouts.item.empty_name', ['name'=>$item_find->name(false,false,false,true)])
-                                                    @if($heading)
-                                                </mark>
+                                                {{--                                                <mark class="text-project">--}}
+                                                @endif
+                                                @include('layouts.item.empty_name', ['name'=>$item_find->name(false,false,false,true)])
+                                                @if($heading)
+                                                    {{--                                                </mark>--}}
                                             </small>
                                         @endif
                                         {{--                                    @if ($ext_show_view || $item_index_view)--}}
