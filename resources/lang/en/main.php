@@ -346,7 +346,7 @@ return [
     'instructions' => 'Instructions',
     'maxcount_lst' => 'Maximum number of records allowed (0 - unlimited)',
     'is_del_maxcnt_lst' => 'Delete records when the allowed number of records is reached',
-    'maxcount_user_id_lst' => 'Максимальное разрешенное количество записей при фильтре по user_id пользователя (0 - без ограничений)',
+    'maxcount_user_id_lst' => 'Maximum allowed number of user user_id filter entries (0 - unlimited)',
     'maxcount_byuser_lst' => 'Maximum number of entries allowed when filtering by user (0 - unlimited)',
     'child_maxcount' => 'Maximum number of records allowed (0 - unlimited)',
     'link_maxcount' => 'Maximum number of records allowed (0 - unlimited)',

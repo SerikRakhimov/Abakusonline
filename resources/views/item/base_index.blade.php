@@ -561,6 +561,34 @@
 {{--    <img src="http://abakusonline/storage/2/3/gDGQdvq2ytL5ONiwPY3vyA4CqPiayJOSWj1ax0Kp.jpg" alt="Иллюстрация"--}}
 {{--         width="30%">--}}
 {{--    </center>--}}
+
+{{--    https://itchief.ru/bootstrap/tables--}}
+{{--    <table class="table table-fixed">--}}
+{{--        <thead>--}}
+{{--        <tr>--}}
+{{--            <th class="col-xs-2">#</th><th class="col-xs-8">Наименование</th><th class="col-xs-2">Цена</th>--}}
+{{--        </tr>--}}
+{{--        </thead>--}}
+{{--        <tbody>--}}
+{{--        <tr>--}}
+{{--            <td class="col-xs-2">1</td><td class="col-xs-8">Хлеб ржаной</td><td class="col-xs-2">23,50 р.</td>--}}
+{{--        </tr>--}}
+{{--        <tr>--}}
+{{--            <td class="col-xs-2">2</td><td class="col-xs-8">Хлеб пшеничный</td><td class="col-xs-2">27,00 р.</td>--}}
+{{--        </tr>--}}
+{{--        <tr>--}}
+{{--            <td class="col-xs-2">3</td><td class="col-xs-8" ">Хлеб новый</td><td class="col-xs-2">33,20 р.</td>--}}
+{{--        </tr>--}}
+{{--        <tr>--}}
+{{--            <td class="col-xs-2">4</td><td class="col-xs-8">Хлеб подольский</td><td class="col-xs-2">27,50 р.</td>--}}
+{{--        </tr>--}}
+{{--        <tr>--}}
+{{--            <td class="col-xs-2">5</td><td class="col-xs-8">Хлеб серый</td><td class="col-xs-2">21,00 р.</td>--}}
+{{--        </tr>--}}
+{{--        </tbody>--}}
+{{--    </table>--}}
+
+
 @endsection
 
 

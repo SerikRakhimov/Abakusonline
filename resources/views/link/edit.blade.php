@@ -431,6 +431,20 @@
             </div>
         </div>
 
+        <div class="form-group" id="parent_is_nc_parameter_form_group">
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" name="parent_is_nc_parameter"
+                       id="parent_is_nc_parameter"
+                       {{--            "(int) 0" нужно--}}
+                       @if ((old('parent_is_nc_parameter') ?? ($link->parent_is_nc_parameter ?? false)) ==  true)
+                       checked
+                    @endif
+                >
+                <label class="form-check-label"
+                       for="parent_is_nc_parameter">{{trans('main.parent_is_nc_parameter')}}</label>
+            </div>
+        </div>
+
         <div class="form-group" id="parent_is_numcalc_form_group">
             <div class="form-check form-check-inline">
                 <input class="form-check-input" type="checkbox" name="parent_is_numcalc"
@@ -469,20 +483,6 @@
                 >
                 <label class="form-check-label"
                        for="parent_is_nc_viewonly">{{trans('main.parent_is_nc_viewonly')}}</label>
-            </div>
-        </div>
-
-        <div class="form-group" id="parent_is_nc_parameter_form_group">
-            <div class="form-check form-check-inline">
-                <input class="form-check-input" type="checkbox" name="parent_is_nc_parameter"
-                       id="parent_is_nc_parameter"
-                       {{--            "(int) 0" нужно--}}
-                       @if ((old('parent_is_nc_parameter') ?? ($link->parent_is_nc_parameter ?? false)) ==  true)
-                       checked
-                    @endif
-                >
-                <label class="form-check-label"
-                       for="parent_is_nc_parameter">{{trans('main.parent_is_nc_parameter')}}</label>
             </div>
         </div>
 

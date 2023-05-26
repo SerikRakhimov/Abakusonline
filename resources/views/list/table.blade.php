@@ -294,7 +294,8 @@ $num_cols = GlobalController::get_number_of_columns_info();
         @endforeach
     @endif
 @else
-    <table class="table table-sm table-hover
+    <table class="
+    table table-sm table-hover
         @if($heading)
         table-borderless
         @endif

@@ -638,7 +638,6 @@ class GlobalController extends Controller
         $prev_index = null;
         $next_index = null;
         $seek_item = null;
-
         // Выборка из mains
 //      "if ($mains_item_id && $mains_link_id && $parent_proj && $view_ret_id)" так некорректно
         if ($mains_item_id && $mains_link_id && $parent_proj) {
@@ -708,8 +707,10 @@ class GlobalController extends Controller
         if ($base_right['is_list_hist_records_enable'] == false) {
             $items = $items->where('items.is_history', false);
         }
+
         // Важно: Для просмотра в base_index.php и item_index.php(если есть $link в исходных передаваемых параметрах)
-        if ($base_right['is_tst_enable'] == true) {
+//        if ($base_right['is_tst_enable'] == true) {
+        if ($base_right['is_tst_enable'] == true & !$mains_link_id) {
             // Если выборка идет из таблицы mains, значит mains.parent_item_id есть и заполнено
             $mains = Main::select(['mains.*'])->
             join('items as it_ch', 'mains.child_item_id', '=', 'it_ch.id')
@@ -733,7 +734,6 @@ class GlobalController extends Controller
             }
 
             $items = $items->whereNotIn('items.id', $arr_it);
-
         }
         if ($base_right['is_cus_enable'] == true) {
             if (Auth::check()) {

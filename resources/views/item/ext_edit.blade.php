@@ -1962,6 +1962,21 @@
     </script>
     <script>
         window.onload = function () {
+            //Этот блок перед вызовом on_parent_refer()
+            ds = true;
+            @foreach($array_disabled as $key=>$value)
+                ds = true;
+            @if($par_link)
+                {{-- Проверки на ($base_link_right['is_edit_parlink_enable'] == false)) проводятся по тексту выше, здесь не нужные--}}
+                {{-- @if (($key == $par_link->id) & ($base_link_right['is_edit_parlink_enable'] == false))--}}
+                @if($key == $par_link->id)
+                ds = false;
+            @endif
+                @endif
+            if (ds == true) {
+                document.getElementById('link{{$key}}').disabled = true;
+            }
+            @endforeach
 
             on_parent_refer();
 
@@ -1977,20 +1992,6 @@
             @else
             on_numcalc_viewonly();
             @endif
-                ds = true;
-            @foreach($array_disabled as $key=>$value)
-                ds = true;
-            @if($par_link)
-                {{-- Проверки на ($base_link_right['is_edit_parlink_enable'] == false)) проводятся по тексту выше, здесь не нужные--}}
-                {{-- @if (($key == $par_link->id) & ($base_link_right['is_edit_parlink_enable'] == false))--}}
-                @if($key == $par_link->id)
-                ds = false;
-            @endif
-                @endif
-            if (ds == true) {
-                document.getElementById('link{{$key}}').disabled = true;
-            }
-            @endforeach
         };
 
         {{--https://ru.stackoverflow.com/questions/1114823/%D0%9A%D0%B0%D0%BA-%D1%81%D0%B4%D0%B5%D0%BB%D0%B0%D1%82%D1%8C-%D1%82%D0%B0%D0%BA-%D1%87%D1%82%D0%BE%D0%B1%D1%8B-%D0%BF%D1%80%D0%B8-%D0%BD%D0%B0%D0%B6%D0%B0%D1%82%D0%B8%D0%B8-%D0%BD%D0%B0-%D0%BA%D0%BD%D0%BE%D0%BF%D0%BA%D1%83-%D0%BF%D1%80%D0%BE%D0%B8%D0%B3%D1%80%D1%8B%D0%B2%D0%B0%D0%BB%D1%81%D1%8F-%D0%B7%D0%B2%D1%83%D0%BA--}}

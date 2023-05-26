@@ -1,3 +1,38 @@
+/*https://itchief.ru/bootstrap/tables*/
+/*.table-fixed {*/
+/*    width: 100%;*/
+/*}*/
+/*table.table-fixed,*/
+/*table.table-fixed>thead,*/
+/*table.table-fixed>tbody,*/
+/*table.table-fixed>thead>tr,*/
+/*table.table-fixed>tbody>tr,*/
+/*table.table-fixed>thead>tr>th,*/
+/*table.table-fixed>tbody>td {*/
+/*    display: block;*/
+/*}*/
+/*table.table-fixed>thead>tr:after,*/
+/*table.table-fixed>tbody>tr:after {*/
+/*    content: ' ';*/
+/*    display: block;*/
+/*    visibility: hidden;*/
+/*    clear: both;*/
+/*}*/
+/*table.table-fixed>tbody {*/
+/*    overflow-y: scroll;*/
+/*    height: 150px;*/
+/*}*/
+/*table.table-fixed>thead {*/
+/*    overflow-y: scroll;*/
+/*}*/
+/*table.table-fixed>thead::-webkit-scrollbar{*/
+/*    background-color: inherit;*/
+/*}*/
+/*table.table-fixed>thead>tr>th,*/
+/*table.table-fixed>tbody>tr>td {*/
+/*    float: left;*/
+/*}*/
+
 /*.article{*/
 /*    text-indent: 40px;*/
 /*    text-align: justify;*/
@@ -6,6 +41,7 @@
 /*    float: left; !* Выравнивание по левому краю *!*/
 /*    margin: 0px 15px 15px 0; !* Отступы вокруг картинки *!*/
 /*}*/
+
 .circle {
     background: rgba(15, 28, 63, 0.125);
     border-radius: 50%;

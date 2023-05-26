@@ -51,10 +51,10 @@
             <th class="text-left">{{trans('main.parent_is_unique')}}</th>
             <th class="text-left">{{trans('main.parent_is_parallel')}}</th>
             <th class="text-left">{{trans('main.parent_is_enter_refer')}}</th>
+            <th class="text-left">{{trans('main.parent_is_nc_parameter')}}</th>
             <th class="text-left">{{trans('main.parent_is_numcalc')}}</th>
             <th class="text-left">{{trans('main.parent_is_nc_screencalc')}}</th>
             <th class="text-left">{{trans('main.parent_is_nc_viewonly')}}</th>
-            <th class="text-left">{{trans('main.parent_is_nc_parameter')}}</th>
             <th class="text-left">{{trans('main.parent_is_tst_link')}}</th>
             <th class="text-left">{{trans('main.parent_is_cus_link')}}</th>
             <th class="text-left">{{trans('main.parent_is_tree_value')}}</th>
@@ -182,6 +182,11 @@
                 </td>
                 <td class="text-left">
                     <a href="{{route('link.show',$link)}}">
+                        {{$link->parent_is_nc_parameter}}
+                    </a>
+                </td>
+                <td class="text-left">
+                    <a href="{{route('link.show',$link)}}">
                         {{$link->parent_is_numcalc}}
                     </a>
                 </td>
@@ -193,11 +198,6 @@
                 <td class="text-left">
                     <a href="{{route('link.show',$link)}}">
                         {{$link->parent_is_nc_viewonly}}
-                    </a>
-                </td>
-                <td class="text-left">
-                    <a href="{{route('link.show',$link)}}">
-                        {{$link->parent_is_nc_parameter}}
                     </a>
                 </td>
                 <td class="text-left">
