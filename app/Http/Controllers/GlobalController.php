@@ -1463,7 +1463,7 @@ class GlobalController extends Controller
             "<audio", "</audio",
             "<img", "</img",
             "<video", "</video",
-//          "<a", "</a",
+            "<a", "</a",
             "onblur",
             "onchange",
             "onclick",
