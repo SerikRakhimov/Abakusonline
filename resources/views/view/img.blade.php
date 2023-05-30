@@ -8,19 +8,6 @@ use \App\Http\Controllers\GlobalController;
 
 // Нужно "", ниже идет сравнение на ""
 $url_filename = "";
-if (isset($noimg_def)) {
-    if ($noimg_def == true) {
-        //$url_filename = "noimage.png";
-        if (isset($project)) {
-            if ($project) {
-                $get_project_logo_item = $project->get_items_setup()['logo_item'];
-                if ($get_project_logo_item) {
-                    $item = $get_project_logo_item;
-                }
-            }
-        }
-    }
-}
 $is_moderation_info = false;
 if ($item) {
     if ($item->base->type_is_image()) {
@@ -32,6 +19,20 @@ if ($item) {
                 $url_filename = $item->filename();
             }
             $is_moderation_info = $item->is_moderation_info();
+        }
+    } else {
+        if (isset($noimg_def)) {
+            if ($noimg_def == true) {
+                //$url_filename = "noimage.png";
+                if (isset($project)) {
+                    if ($project) {
+                        $get_project_logo_item = $project->get_items_setup()['logo_item'];
+                        if ($get_project_logo_item) {
+                            $url_filename = $get_project_logo_item->filename();
+                        }
+                    }
+                }
+            }
         }
     }
 }
