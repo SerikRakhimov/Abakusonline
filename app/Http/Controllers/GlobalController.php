@@ -2816,6 +2816,21 @@ class GlobalController extends Controller
         return $result;
     }
 
+
+    static function date_emoji()
+    {
+        return '📅';
+    }
+
+    static function date_print($date, $emoji_enable = false)
+    {
+        $result = $date;
+        if ($emoji_enable == true) {
+            $result = $result . ' ' . self::date_emoji();
+        }
+        return $result;
+    }
+
     static function label_is_required(Base $base, $base_right = null)
     {
         $result = '';
@@ -2851,8 +2866,6 @@ class GlobalController extends Controller
         $result = 4;
         return $result;
     }
-
-
 
 //    function get_display()
 //    {
