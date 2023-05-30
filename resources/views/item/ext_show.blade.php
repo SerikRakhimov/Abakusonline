@@ -27,7 +27,7 @@
                 {{trans('main.delete_record_question')}}?
             @endif
         @endif
-        <span class="text-label">-</span> <span class="text-title">{{$item->base->info()}}</span>
+        <span class="text-label">-</span> <span class="text-title">{{$item->base->name($emoji_enable)}}</span>
         {{--        'Показывать признак "В истории" при просмотре записи'--}}
         {{--        @if($base_right['is_show_hist_attr_enable'] == true)--}}
         @include('layouts.item.show_history',['item'=>$item])
