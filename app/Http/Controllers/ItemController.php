@@ -1694,7 +1694,7 @@ class ItemController extends Controller
     function get_array_calc(Base $base, Item $item = null, $create = false, Link $par_link = null, Item $parent_item = null)  // 'Item $item=null' нужно
     {
         // по настройке links
-        $plan_child_links = $this->get_child_links($base);
+        $plan_child_links = self::get_child_links($base);
         if (!$create) {
             // по факту в таблице mains
             // Не использовать команду "$fact_child_mains = $item->child_mains;"
@@ -1789,7 +1789,7 @@ class ItemController extends Controller
     private
     function get_array_calc_edit(Item $item, Link $par_link = null, Item $parent_item = null)
     {
-        return $this->get_array_calc($item->base, $item, false, $par_link, $parent_item);
+        return self::get_array_calc($item->base, $item, false, $par_link, $parent_item);
     }
 
 // Рекурсивная функция
@@ -6697,7 +6697,7 @@ class ItemController extends Controller
         }
         $level = $level + 1;
 
-        $array_calc = $this->get_array_calc_edit($item)['array_calc'];
+        $array_calc = self::get_array_calc_edit($item)['array_calc'];
         $item_find = null;
         $item_result = null;
         $result_func = null;

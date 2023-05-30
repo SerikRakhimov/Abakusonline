@@ -171,7 +171,8 @@ class Item extends Model
         // Похожая строка в Item.php::name() и Text::name()
         // Вторым параметром передается $this->base
         if ($emoji_enable == true) {
-            $result = GlobalController::name_and_emoji($result, $this->base);
+            // Передается значение $numcat - выводить пробел между числом и символом валюты (в основном для этого используется)
+            $result = GlobalController::name_and_emoji($result, $this->base, $numcat);
         }
         return $result;
     }
@@ -198,7 +199,7 @@ class Item extends Model
         // Не нужна эта строка
         // $result = str_replace('\t', '&emsp;&emsp;', $result);
         if ($emoji_enable == true) {
-            $result = GlobalController::name_and_first_emoji($result, $this->base);
+            $result = GlobalController::name_and_first_emoji($result, $this->base, $numcat);
         }
         return $result;
     }

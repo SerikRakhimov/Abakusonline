@@ -65,6 +65,8 @@ $num_cols = GlobalController::get_number_of_columns_info();
                     </small>
                     {{--                    <div class="card-body d-flex align-items-center">--}}
                     <div class="card-body p-0">
+{{--                        <div class="card-title text-center">Card title</div>--}}
+{{--                        <div class="card-subtitle m-2 text-center text-muted">Card subtitle</div>--}}
                         {{--                        @if($item_find)--}}
                         {{--                            <div class="card-block text-center">--}}
                         <div class="text-center">

@@ -2762,14 +2762,21 @@ class GlobalController extends Controller
         return $result;
     }
 
-    static function name_and_emoji($name, Base $base)
+//  $space_number_insert - выводить пробел между числом и символом валюты (в основном для этого используется)
+    static function name_and_emoji($name, Base $base, $space_number_insert = false)
     {
         $result = $name;
         $sem = $base->em_str();
+        // В основном, для денежных величин (цена, сумма)
+        // справа присоединяется символ валюты
         if ($base->type_is_number()) {
-            $result = $result . ' ' . $sem;
+            if ($space_number_insert == true) {
+                $result = $result . ' ';
+            }
+            $result = $result . $sem;
         } else {
-            $result = $sem . ' ' . $result;
+//          $result = $sem . ' ' . $result;
+            $result = $sem . $result;
         }
         return $result;
     }
@@ -2825,7 +2832,8 @@ class GlobalController extends Controller
     {
         $result = $id;
         if ($emoji_enable == true) {
-            $result = self::const_id_emoji() . ' ' . $result;
+//          $result = self::const_id_emoji() . ' ' . $result;
+            $result = self::const_id_emoji() . $result;
         }
         return $result;
     }
@@ -2839,9 +2847,20 @@ class GlobalController extends Controller
     {
         $result = $date;
         if ($emoji_enable == true) {
-            $result = self::const_date_emoji() . ' ' . $result;
+//          $result = self::const_date_emoji() . ' ' . $result;
+            $result = self::const_date_emoji() . $result;
         }
         return $result;
+    }
+
+    static function item_image($item)
+    {
+        $result = null;
+        $link = $item->base->child_links->where('parent_is_primary_image', true)->first();
+        if ($link) {
+            $result = GlobalController::view_info($item->id, $link->id);
+        }
+        return ['item' => $result, 'link' => $link];
     }
 
     static function label_is_required(Base $base, $base_right = null)

@@ -15,6 +15,7 @@
     $is_delete = ItemController::is_delete($item, $role, $heading, $base_index_page, $relit_id, $parent_ret_id);
     // Показывать emoji - да/нет
     $emoji_enable = true;
+    $link_image = null;
     ?>
     @include('layouts.project.show_project_role',['project'=>$project, 'role'=>$role, 'relit_id'=>$relit_id])
     <h4 class="display-5">
@@ -27,7 +28,17 @@
                 {{trans('main.delete_record_question')}}?
             @endif
         @endif
-        <span class="text-label">-</span> <span class="text-title">{{$item->base->name($emoji_enable)}}</span>
+        <span class="text-label">-</span>
+        <span class="text-title">
+                @if($base_right['is_bsmn_base_enable'] == true)
+                <a href="{{route('item.base_index',['base'=>$item->base_id, 'project'=>$project, 'role'=>$role, 'relit_id'=>$relit_id])}}"
+                   title="{{$item->base->names($base_right)}}">
+                                {{$item->base->name($emoji_enable)}}
+                            </a>
+            @else
+                {{$item->base->name($emoji_enable)}}
+            @endif
+            </span>
         {{--        'Показывать признак "В истории" при просмотре записи'--}}
         {{--        @if($base_right['is_show_hist_attr_enable'] == true)--}}
         @include('layouts.item.show_history',['item'=>$item])
@@ -83,12 +94,21 @@
                                 ?>
                             </big></big>
                     @else
+                        <?php
+                        $item_image = GlobalController::item_image($item);
+                        $link_image = $item_image['link'];
+                        ?>
+                        @if($item_image)
+                            @include('view.img',['item'=>$item_image['item'], 'size'=>"medium", 'width'=>"50%", 'border'=>true, 'filenametrue'=>false, 'link'=>true, 'img_fluid'=>true, 'card_img_top'=>false, 'title'=>$link_image->parent_label()])
+                            <br><br>
+                        @endif
                         <big><big>
                                 <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,
                                        'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id])}}"
                                    title="">
                                     {{--                                    {{$item->name(false, true)}}--}}
                                     <?php
+//                                  echo $item->nmbr(true, true, $emoji_enable);
                                     echo $item->nmbr(false, true, $emoji_enable);
                                     ?>
                                 </a>
@@ -161,6 +181,12 @@
         $link = Link::find($key);
         $item_find = GlobalController::view_info($item->id, $key);
         ?>
+{{--    Основное изображение второй раз не выводится--}}
+        @if($link_image)
+            @if($link->id == $link_image->id)
+                @continue
+            @endif
+        @endif
         @if($link && $item_find)
             <?php
             //            $base_link_right = null;
