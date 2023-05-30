@@ -10,7 +10,15 @@ use \App\Http\Controllers\GlobalController;
 $url_filename = "";
 if (isset($noimg_def)) {
     if ($noimg_def == true) {
-        $url_filename = "noimage.png";
+        //$url_filename = "noimage.png";
+        if (isset($project)) {
+            if ($project) {
+                $get_project_logo_item = $project->get_items_setup()['logo_item'];
+                if ($get_project_logo_item) {
+                    $item = $get_project_logo_item;
+                }
+            }
+        }
     }
 }
 $is_moderation_info = false;
@@ -18,6 +26,7 @@ if ($item) {
     if ($item->base->type_is_image()) {
         if ($item->img_doc_exist()) {
             if ($filenametrue == true) {
+                // '$moderation = true' -  возвращать имя файла, независимо прошло/не прошло модерацию
                 $url_filename = $item->filename(true);
             } else {
                 $url_filename = $item->filename();

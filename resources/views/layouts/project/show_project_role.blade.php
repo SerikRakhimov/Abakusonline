@@ -27,7 +27,7 @@ $get_user_author_avatar_item = $project->user->get_user_avatar_item();
                title="{{trans('main.mainmenu')}}">
                 @if($get_project_logo_item)
                     @include('view.img',['item'=>$get_project_logo_item, 'size'=>"avatar", 'filenametrue'=>false, 'link'=>false, 'img_fluid'=>false, 'card_img_top'=>false, 'title'=>'empty'])
-                    &nbsp;
+{{--                    &nbsp;--}}
                 @endif
                 <mark class="text-project">{{$project->name()}}</mark>
                 &nbsp;@include('layouts.project.show_icons',['project'=>$project])
