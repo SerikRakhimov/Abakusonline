@@ -71,7 +71,9 @@ if ($item) {
                  @endif
                  alt="" title=
                  @if($title == "")
+                 @if($item)
                      "{{$item->title_img()}}"
+            @endif
             @elseif($title == "empty")
                 ""
             @else
