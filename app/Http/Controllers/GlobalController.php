@@ -1424,24 +1424,24 @@ class GlobalController extends Controller
         return $result;
     }
 
-    static function it_text_name(Item $item)
+    static function it_text_name(Item $item, $emoji_enable = false)
     {
         $result = "";
         if ($item->base->type_is_text()) {
             //$text = $item->text();
             $text = Text::where('item_id', $item->id)->first();
             if ($text) {
-                $result = $text->name($item->base);
+                $result = $text->name($item->base, $emoji_enable);
             }
         }
         return $result;
     }
 
-    static function it_txnm_n2b(Item $item)
+    static function it_txnm_n2b(Item $item, $emoji_enable = false)
     {
         $result = "";
         if ($item->base->type_is_text()) {
-            $result = nl2br(self::it_text_name($item));
+            $result = nl2br(self::it_text_name($item, $emoji_enable));
         }
         return $result;
     }
