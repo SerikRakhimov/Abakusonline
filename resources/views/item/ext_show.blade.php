@@ -136,7 +136,7 @@
                 {{trans('main.date')}}
             </small></small>
         <div class="text-project">
-            {{(new GlobalController)->date_print($item->created_date(), true)}}
+            {{(new GlobalController)->date_and_emoji($item->created_date(), true)}}
         </div>
     @endif
     {{--    @foreach($array_plan as $key=>$value)--}}

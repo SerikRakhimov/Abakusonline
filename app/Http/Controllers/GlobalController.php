@@ -2766,10 +2766,10 @@ class GlobalController extends Controller
     {
         $result = $name;
         $sem = $base->em_str();
-        if (!$base->type_is_number()) {
-            $result = $sem . ' ' . $result;
-        } else {
+        if ($base->type_is_number()) {
             $result = $result . ' ' . $sem;
+        } else {
+            $result = $sem . ' ' . $result;
         }
         return $result;
     }
@@ -2822,11 +2822,11 @@ class GlobalController extends Controller
         return '📅';
     }
 
-    static function date_print($date, $emoji_enable = false)
+    static function date_and_emoji($date, $emoji_enable = false)
     {
         $result = $date;
         if ($emoji_enable == true) {
-            $result = $result . ' ' . self::date_emoji();
+            $result = self::date_emoji() . ' ' . $result;
         }
         return $result;
     }
