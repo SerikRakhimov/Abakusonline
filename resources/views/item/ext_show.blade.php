@@ -26,10 +26,10 @@
             @endif
         @endif
         <span class="text-label">-</span> <span class="text-title">{{$item->base->info()}}</span>
-            {{--        'Показывать признак "В истории" при просмотре записи'--}}
-            {{--        @if($base_right['is_show_hist_attr_enable'] == true)--}}
-            @include('layouts.item.show_history',['item'=>$item])
-            {{--        @endif--}}
+        {{--        'Показывать признак "В истории" при просмотре записи'--}}
+        {{--        @if($base_right['is_show_hist_attr_enable'] == true)--}}
+        @include('layouts.item.show_history',['item'=>$item])
+        {{--        @endif--}}
     </h4>
     <br>
     <?php
@@ -176,8 +176,8 @@
                 <hr class="hr_ext_show">
                 <small class="text-title">
                     <small>
-                        {{--                        @if($base_link_right['is_bsmn_base_enable'] == true)--}}
-                        @if($base_link_right['is_bsmn_base_enable'] == true && $base_link_right['is_list_base_calc'] == true)
+                        {{--                        @if($base_link_right['is_bsmn_base_enable'] == true && $base_link_right['is_list_base_calc'] == true)--}}
+                        @if($base_link_right['is_bsmn_base_enable'] == true)
                             <a href="{{route('item.base_index',['base'=>$link->parent_base_id, 'project'=>$project, 'role'=>$role, 'relit_id'=>$link->parent_relit_id])}}"
                                title="{{$link->parent_base->names($base_link_right)}}">
                                 @include('layouts.item.ext_show.parent_label', ['link'=>$link, 'par_link'=>$par_link])
@@ -237,14 +237,14 @@
     {{--                    </p>--}}
 
     @if($base_right['is_hier_base_enable'] == true)
-    <hr>
-    <?php
-    //        $result = ItemController::form_parent_coll_hier($item->id, $role, $relit_id);
-    //        echo $result;
-    //$result = ItemController::form_child_deta_hier($item, $project, $role, $relit_par_id, $parent_ret_par_id);
-    $result = ItemController::form_child_deta_hier($item, $project, $role, $relit_id);
-    echo $result;
-    ?>
+        <hr>
+        <?php
+        //        $result = ItemController::form_parent_coll_hier($item->id, $role, $relit_id);
+        //        echo $result;
+        //$result = ItemController::form_child_deta_hier($item, $project, $role, $relit_par_id, $parent_ret_par_id);
+        $result = ItemController::form_child_deta_hier($item, $project, $role, $relit_id);
+        echo $result;
+        ?>
     @endif
 
     @if($role->is_author())
