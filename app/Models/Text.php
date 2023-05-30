@@ -34,7 +34,7 @@ class Text extends Model
         // Похожая строка в Item.php::name() и Text::name()
         // Вторым параметром передается $base
         if ($emoji_enable == true) {
-            $result = (new GlobalController)->name_and_emoji($result, $base);
+            $result = GlobalController::name_and_emoji($result, $base);
         }
         return $result;
     }

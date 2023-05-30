@@ -31,7 +31,7 @@ class Link extends Model
             $result = $this->child_label_lang_0;
         }
         if ($emoji_enable) {
-            $result = (new GlobalController)->name_and_end_emoji($result, $this->child_base);
+            $result = GlobalController::name_and_end_emoji($result, $this->child_base);
         }
         return $result;
     }
@@ -49,7 +49,7 @@ class Link extends Model
         if ($base_right) {
             $result = $result . GlobalController::my_info($base_right);
         }
-        //$result = (new GlobalController)->name_and_end_emoji($result, $this->child_base);
+        //$result = GlobalController::name_and_end_emoji($result, $this->child_base);
         return $result;
     }
 
@@ -83,7 +83,7 @@ class Link extends Model
 //            $result = $this->parent_label_lang_0;
 //        }
         if ($emoji_enable) {
-            $result = (new GlobalController)->name_and_brackets_emoji($result, $this->parent_base);
+            $result = GlobalController::name_and_brackets_emoji($result, $this->parent_base);
         }
         return $result;
     }

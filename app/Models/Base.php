@@ -88,7 +88,8 @@ class Base extends Model
             $result = $result . GlobalController::my_info($base_right);
         }
         if ($emoji_enable == true) {
-            $result = (new GlobalController)->name_and_brackets_emoji($result, $this);
+//            $result = (new GlobalController)->name_and_brackets_emoji($result, $this);
+            $result = GlobalController::name_and_brackets_emoji($result, $this);
         }
         return $result;
     }
@@ -98,7 +99,7 @@ class Base extends Model
         //$result = trans('main.name');
         $result = $this->name();
         if ($emoji_enable == true) {
-            $result = (new GlobalController)->name_and_brackets_emoji($result, $this);
+            $result = GlobalController::name_and_brackets_emoji($result, $this);
         }
         return $result;
     }
@@ -259,7 +260,7 @@ class Base extends Model
         //return $this->name();
         //return $this->desc();
         $result = $this->desc();
-        //$result = (new GlobalController)->name_and_end_emoji($result, $this);
+        //$result = GlobalController::name_and_end_emoji($result, $this);
         return $result;
     }
 
