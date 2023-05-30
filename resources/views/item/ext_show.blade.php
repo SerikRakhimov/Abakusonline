@@ -13,6 +13,7 @@
     //$base_right = GlobalController::base_right($base, $role, $relit_id);
     $relip_project = GlobalController::calc_relip_project($relit_id, $project);
     $is_delete = ItemController::is_delete($item, $role, $heading, $base_index_page, $relit_id, $parent_ret_id);
+    $emoji_enable = false;
     ?>
     @include('layouts.project.show_project_role',['project'=>$project, 'role'=>$role, 'relit_id'=>$relit_id])
     <h4 class="display-5">
@@ -77,7 +78,7 @@
                     @if($base->type_is_text())
                         <big><big>
                                 <?php
-                                echo GlobalController::it_txnm_n2b($item);
+                                echo GlobalController::it_txnm_n2b($item, $emoji_enable);
                                 ?>
                             </big></big>
                     @else
@@ -87,7 +88,7 @@
                                    title="">
                                     {{--                                    {{$item->name(false, true)}}--}}
                                     <?php
-                                    echo $item->nmbr(false, true);
+                                    echo $item->nmbr(false, true, $emoji_enable);
                                     ?>
                                 </a>
                             </big></big>
@@ -136,7 +137,7 @@
                 {{trans('main.date')}}
             </small></small>
         <div class="text-project">
-            {{(new GlobalController)->date_and_emoji($item->created_date(), true)}}
+            {{(new GlobalController)->date_and_emoji($item->created_date(), $emoji_enable)}}
         </div>
     @endif
     {{--    @foreach($array_plan as $key=>$value)--}}
@@ -191,7 +192,7 @@
                         {{--                            <span class="text-related">--}}
                         {{--                                <b>--}}
                         <?php
-                        echo GlobalController::it_txnm_n2b($item_find, true);
+                        echo GlobalController::it_txnm_n2b($item_find, $emoji_enable);
                         ?>
                         {{--                        </span>--}}
                         {{--                                </b>--}}
@@ -221,10 +222,10 @@
                                                                 'called_from_button'=>0,
                                                                 'view_link'=>\App\Http\Controllers\GlobalController::const_null()])}}"
                                title="">
-                                {{$item_find->name(false, true, true, true)}}
+                                {{$item_find->name(false, true, true, $emoji_enable)}}
                             </a>
                         @else
-                            {{$item_find->name(false, true, true, true)}}
+                            {{$item_find->name(false, true, true, $emoji_enable)}}
                         @endif
                         {{--                            </b>--}}
                         {{--                            </span>--}}
