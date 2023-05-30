@@ -173,7 +173,8 @@
             'view_link'=> GlobalController::set_par_view_link_null($view_link),
             'par_link'=>$tree_array_last_link_id, 'parent_item'=>$tree_array_last_item_id,
             'parent_ret_id' => $view_ret_id])}}"
-                                       title="{{trans('main.viewing_record')}}: {{$item->name(false, false, false, true)}}">
+                                       title="{{trans('main.viewing_record')}}: {{$item->name(false, false, false, false)}}"
+                                    >
                                         {{--                                            'string_link_ids_current' => $string_link_ids_current,--}}
                                         {{--                                            'string_item_ids_current' => $string_item_ids_current,--}}
                                         {{--                                            'string_relit_ids_current' => $string_relit_ids_current,--}}

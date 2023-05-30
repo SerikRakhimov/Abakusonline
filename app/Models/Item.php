@@ -141,7 +141,7 @@ class Item extends Model
                             if (mb_substr($result, $maxlen - 3, 3) == "...") {
                                 // Полное наименование, более 255 символов
                                 //https://stackoverflow.com/questions/19693946/non-static-method-should-not-be-called-statically
-                                $result = (new ItemController)->calc_value_func($this)['calc_full_lang_' . $index];
+                                $result = ItemController::calc_value_func($this)['calc_full_lang_' . $index];
                             }
                         }
                     }

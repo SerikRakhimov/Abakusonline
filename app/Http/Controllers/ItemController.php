@@ -6706,6 +6706,8 @@ class ItemController extends Controller
         $calc_lang_2 = "";
         $calc_lang_3 = "";
         $is_required_second = false;
+        // При первой итерации цикла равно "", в последующих итерациях равно " "
+        $space = "";
         // по циклу значений mains
         foreach ($array_calc as $key => $value) {
             $next = false;
@@ -6798,10 +6800,10 @@ class ItemController extends Controller
 //                        $dop_sepa1 = $calc_lang_1 == "" ? "" : $sc . " ";
 //                        $dop_sepa2 = $calc_lang_2 == "" ? "" : $sc . " ";
 //                        $dop_sepa3 = $calc_lang_3 == "" ? "" : $sc . " ";
-                        $dop_sepa0 = $calc_lang_0 == "" ? "" : $sc . " ";
-                        $dop_sepa1 = $calc_lang_1 == "" ? "" : $sc . " ";
-                        $dop_sepa2 = $calc_lang_2 == "" ? "" : $sc . " ";
-                        $dop_sepa3 = $calc_lang_3 == "" ? "" : $sc . " ";
+                        $dop_sepa0 = $calc_lang_0 == "" ? "" : $sc;
+                        $dop_sepa1 = $calc_lang_1 == "" ? "" : $sc;
+                        $dop_sepa2 = $calc_lang_2 == "" ? "" : $sc;
+                        $dop_sepa3 = $calc_lang_3 == "" ? "" : $sc;
 
 //Лучше без пробела ("Цена = 15000" на одной строке может быть "Цена =", на второй "15000"; а если "Цена=15000" всегда выходит на одной строке, т.к. это одно слово)
 //                        $left_str0 = $link->parent_is_left_calcname_lang_0 == true ? $link->parent_calcname_prefix_lang_0 . " " : "";
@@ -6830,10 +6832,16 @@ class ItemController extends Controller
                         $right_str2 = $link->parent_is_left_calcname_lang_2 == false ? $link->parent_calcname_prefix_lang_2 : "";
                         $right_str3 = $link->parent_is_left_calcname_lang_3 == false ? $link->parent_calcname_prefix_lang_3 : "";
 
-                        $calc_lang_0 = $calc_lang_0 . ($dop_name_0 == "" ? "" : $dop_sepa0 . $left_str0) . $dop_name_0 . ($dop_name_0 == "" ? "" : $right_str0);
-                        $calc_lang_1 = $calc_lang_1 . ($dop_name_1 == "" ? "" : $dop_sepa1 . $left_str1) . $dop_name_1 . ($dop_name_1 == "" ? "" : $right_str1);
-                        $calc_lang_2 = $calc_lang_2 . ($dop_name_2 == "" ? "" : $dop_sepa2 . $left_str2) . $dop_name_2 . ($dop_name_2 == "" ? "" : $right_str2);
-                        $calc_lang_3 = $calc_lang_3 . ($dop_name_3 == "" ? "" : $dop_sepa3 . $left_str3) . $dop_name_3 . ($dop_name_3 == "" ? "" : $right_str3);
+//                        $calc_lang_0 = $calc_lang_0 . ($dop_name_0 == "" ? "" : $dop_sepa0 . $left_str0) . $dop_name_0 . ($dop_name_0 == "" ? "" : $right_str0);
+//                        $calc_lang_1 = $calc_lang_1 . ($dop_name_1 == "" ? "" : $dop_sepa1 . $left_str1) . $dop_name_1 . ($dop_name_1 == "" ? "" : $right_str1);
+//                        $calc_lang_2 = $calc_lang_2 . ($dop_name_2 == "" ? "" : $dop_sepa2 . $left_str2) . $dop_name_2 . ($dop_name_2 == "" ? "" : $right_str2);
+//                        $calc_lang_3 = $calc_lang_3 . ($dop_name_3 == "" ? "" : $dop_sepa3 . $left_str3) . $dop_name_3 . ($dop_name_3 == "" ? "" : $right_str3);
+
+                        $calc_lang_0 = $calc_lang_0 . ($dop_name_0 == "" ? "" : $dop_sepa0 . $space . $left_str0) . $dop_name_0 . ($dop_name_0 == "" ? "" : $right_str0);
+                        $calc_lang_1 = $calc_lang_1 . ($dop_name_1 == "" ? "" : $dop_sepa1 . $space . $left_str1) . $dop_name_1 . ($dop_name_1 == "" ? "" : $right_str1);
+                        $calc_lang_2 = $calc_lang_2 . ($dop_name_2 == "" ? "" : $dop_sepa2 . $space . $left_str2) . $dop_name_2 . ($dop_name_2 == "" ? "" : $right_str2);
+                        $calc_lang_3 = $calc_lang_3 . ($dop_name_3 == "" ? "" : $dop_sepa3 . $space . $left_str3) . $dop_name_3 . ($dop_name_3 == "" ? "" : $right_str3);
+                        $space = " ";
                     }
                 }
             }
