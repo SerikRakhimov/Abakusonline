@@ -98,7 +98,7 @@
                         $item_image = GlobalController::item_image($item);
                         $link_image = $item_image['link'];
                         ?>
-                        @if($item_image)
+                        @if($item_image['item'])
                             @include('view.img',['item'=>$item_image['item'], 'size'=>"medium", 'width'=>"50%", 'border'=>true, 'filenametrue'=>false, 'link'=>true, 'img_fluid'=>true, 'card_img_top'=>false, 'title'=>$link_image->parent_label()])
                             <br><br>
                         @endif
@@ -113,6 +113,7 @@
                                     ?>
                                 </a>
                             </big></big>
+                        <br><br>
                     @endif
                     {{--                </span>--}}
                     {{--                                        </b>--}}
