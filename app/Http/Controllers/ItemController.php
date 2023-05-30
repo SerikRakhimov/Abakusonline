@@ -1234,7 +1234,7 @@ class ItemController extends Controller
                         } else {
                             // 'is_edit_link_update' - 'Корректировка Связи в форме'
                             $next_create = $base_link_right['is_list_base_create'] == true && $base_link_right['is_edit_link_update'] == true;
-                            if (!(ItemController::item_link_parent_mains_exists($item, $link) || $next_create)) {
+                            if (!(self::item_link_parent_mains_exists($item, $link) || $next_create)) {
                                 unset($array_link_relips[$key]);
                             } else {
                                 // Такая же проверка и в GlobalController (function items_right()),

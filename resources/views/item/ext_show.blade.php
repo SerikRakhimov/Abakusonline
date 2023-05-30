@@ -222,9 +222,13 @@
                                                                 'view_link'=>\App\Http\Controllers\GlobalController::const_null()])}}"
                                title="">
                                 {{$item_find->name(false, true, true, true)}}
+                                111{{$item_find->base->emoji}}{{$item_find->base->name()}}222
+                                ---{{$item_find->base->emoji}}---  ---{{trim($item_find->base->emoji)}}---
                             </a>
                         @else
                             {{$item_find->name(false, true, true, true)}}
+                            333{{$item_find->base->emoji}}{{$item_find->base->name()}}444
+                            ---{{$item_find->base->emoji}}---  ---{{trim($item_find->base->emoji)}}---
                         @endif
                         {{--                            </b>--}}
                         {{--                            </span>--}}
