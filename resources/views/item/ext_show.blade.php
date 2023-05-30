@@ -13,7 +13,7 @@
     //$base_right = GlobalController::base_right($base, $role, $relit_id);
     $relip_project = GlobalController::calc_relip_project($relit_id, $project);
     $is_delete = ItemController::is_delete($item, $role, $heading, $base_index_page, $relit_id, $parent_ret_id);
-    // Показывать emojii - да/нет
+    // Показывать emoji - да/нет
     $emoji_enable = true;
     ?>
     @include('layouts.project.show_project_role',['project'=>$project, 'role'=>$role, 'relit_id'=>$relit_id])
@@ -115,7 +115,7 @@
         {{--                <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role, 'relit_id'=>$relit_id,--}}
         {{--                        'usercode' =>GlobalController::usercode_calc()])}}"--}}
         {{--                   title="">--}}
-        {{GlobalController::date_and_emoji($item->id, $emoji_enable)}}
+        {{GlobalController::id_and_emoji($item->id, $emoji_enable)}}
         {{--                </a>--}}
     </div>
     @if($base->is_code_needed == true)
