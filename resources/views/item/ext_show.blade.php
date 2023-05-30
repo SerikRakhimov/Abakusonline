@@ -114,7 +114,7 @@
         {{--                <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role, 'relit_id'=>$relit_id,--}}
         {{--                        'usercode' =>GlobalController::usercode_calc()])}}"--}}
         {{--                   title="">--}}
-        {{$item->id}}
+        {{GlobalController::date_and_emoji($item->id, $emoji_enable)}}
         {{--                </a>--}}
     </div>
     @if($base->is_code_needed == true)
@@ -137,7 +137,7 @@
                 {{trans('main.date')}}
             </small></small>
         <div class="text-project">
-            {{(new GlobalController)->date_and_emoji($item->created_date(), $emoji_enable)}}
+            {{GlobalController::date_and_emoji($item->created_date(), $emoji_enable)}}
         </div>
     @endif
     {{--    @foreach($array_plan as $key=>$value)--}}

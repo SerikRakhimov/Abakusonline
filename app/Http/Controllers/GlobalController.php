@@ -2816,8 +2816,21 @@ class GlobalController extends Controller
         return $result;
     }
 
+    static function const_id_emoji()
+    {
+        return '🆔';
+    }
 
-    static function date_emoji()
+    static function id_and_emoji($id, $emoji_enable = false)
+    {
+        $result = $id;
+        if ($emoji_enable == true) {
+            $result = self::const_id_emoji() . ' ' . $result;
+        }
+        return $result;
+    }
+
+    static function const_date_emoji()
     {
         return '📅';
     }
@@ -2826,7 +2839,7 @@ class GlobalController extends Controller
     {
         $result = $date;
         if ($emoji_enable == true) {
-            $result = self::date_emoji() . ' ' . $result;
+            $result = self::const_date_emoji() . ' ' . $result;
         }
         return $result;
     }
