@@ -179,7 +179,7 @@
                                         {{--                                            'string_all_codes_current'=>$string_all_codes_current,--}}
 {{--                                        <mark class="text-project">--}}
                                             {{--                                        @include('layouts.item.empty_name', ['name'=>$item->nmbr()])--}}
-                                            @include('layouts.item.empty_name', ['name'=>$item->name(false, false, false, true)])
+                                            @include('layouts.item.empty_name', ['name'=>$item->nmbr(false, false, false, true)])
 {{--                                        </mark>--}}
                                     </a>
                                 @else

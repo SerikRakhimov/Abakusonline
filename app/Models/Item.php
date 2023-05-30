@@ -190,7 +190,7 @@ class Item extends Model
     // "\t" - символ широкого пробела(исп. для отступа в абзаце) (используется также в Item.php: функции name() nmbr())
     // $numcat = true/false - вывод числовых полей с разрядом тысячи/миллионы/миллиарды
     // fullname = true
-    function nmbr($fullname = false, $numcat = false, $emoji_enable = false, $rightnull = false)
+    function nmbr($fullname = false, $numcat = false, $rightnull = false, $emoji_enable = false)
     {
         //$result = self::name_start(true, false);
         $result = self::name_start($fullname, $numcat, $rightnull);
