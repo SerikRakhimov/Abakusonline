@@ -50,6 +50,7 @@
     $view_ret_heading_id = GlobalController::set_relit_id($view_ret_id);
     $relit_body_id = GlobalController::set_relit_id($view_ret_id);
     $view_ret_body_id = GlobalController::set_relit_id($relit_id);
+    $emoji_enable = true;
     ?>
     @include('layouts.project.show_project_role',['project'=>$project, 'role'=>$role, 'relit_id'=>$relit_id])
     {{--    <h3 class="display-5">--}}
@@ -134,9 +135,9 @@
             <?php
             if ($view_link) {
                 // true - с эмодзи
-                $title = $view_link->parent_label();
+                $title = $view_link->parent_label($emoji_enable);
             } else {
-                $title = $item->base->name();
+                $title = $item->base->name($emoji_enable);
             }
             ?>
             {{--                    Выводить вычисляемое наименование--}}
@@ -159,7 +160,7 @@
                             </a>
                         @endif
 {{--                        <big/>--}}
-                        <big><big>
+                        <big>
                                 {{-- Одинаковые строки рядом (route('item.ext_show'))--}}
                                 @if ($base_right['is_list_base_calc'] == true)
                                     {{--              Использовать "'heading' => intval(true)", проверяется в окончании функции ItemController:ext_delete()--}}
@@ -179,16 +180,18 @@
                                         {{--                                            'string_all_codes_current'=>$string_all_codes_current,--}}
 {{--                                        <mark class="text-project">--}}
                                             {{--                                        @include('layouts.item.empty_name', ['name'=>$item->nmbr()])--}}
-                                            @include('layouts.item.empty_name', ['name'=>$item->nmbr(false, false, false, true)])
+{{--                                        emoji не показывать    --}}
+                                        @include('layouts.item.empty_name', ['name'=>$item->nmbr(false, false, false, false)])
 {{--                                        </mark>--}}
                                     </a>
                                 @else
                                     {{--                                {{$item->name()}}--}}
                                     <?php
-                                    echo $item->nmbr();
+//                                    emoji не показывать
+                                    echo $item->nmbr(false, false, false, false);
                                     ?>
                                 @endif
-                            </big></big>
+                            </big>
                         @if($item->base->is_code_needed == true)
                             {{trans('main.code')}}: <strong>{{$item->code}}</strong>
                         @endif

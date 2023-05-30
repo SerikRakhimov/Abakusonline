@@ -732,13 +732,13 @@ $num_cols = GlobalController::get_number_of_columns_info();
                                         @endif
                                         {{--                                    @endif--}}
                                         @if($heading)
-                                            <small>
+{{--                                            <small>--}}
                                                 {{--                                                <mark class="text-project">--}}
                                                 @endif
                                                 @include('layouts.item.empty_name', ['name'=>$item_find->name(false,false,false,true)])
                                                 @if($heading)
                                                     {{--                                                </mark>--}}
-                                            </small>
+{{--                                            </small>--}}
                                         @endif
                                         {{--                                    @if ($ext_show_view || $item_index_view)--}}
                                         @if ($item_index_view)

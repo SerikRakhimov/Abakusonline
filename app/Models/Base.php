@@ -33,7 +33,8 @@ class Base extends Model
     }
 
     // Используется "name"
-    function name($base_right = null)
+//    function name($base_right = null)
+    function name($emoji_enable = false)
     {
         $result = "";  // нужно, не удалять
         //$index = array_search(App::getLocale(), session('glo_menu_save'));
@@ -44,6 +45,9 @@ class Base extends Model
 //        if ($result == "") {
 //            $result = $this->name_lang_0;
 //        }
+        if ($emoji_enable == true) {
+            $result = GlobalController::name_and_brackets_emoji($result, $this);
+        }
         return $result;
     }
 
