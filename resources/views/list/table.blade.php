@@ -1,6 +1,7 @@
 <?php
 use App\Models\Link;
 use \App\Http\Controllers\GlobalController;
+$emoji_enable = true;
 $link_id_array = $links_info['link_id_array'];
 $link_base_relit_id_array = $links_info['link_base_relit_id_array'];
 $link_base_right_array = $links_info['link_base_right_array'];
