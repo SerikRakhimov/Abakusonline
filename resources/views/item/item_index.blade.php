@@ -223,6 +223,7 @@
                     {{--                                </div>--}}
                     {{--                    </h6>--}}
                     @if($role->is_view_info_relits == true)
+                        <br>
                         <small><small>{{$relip_name_project}}</small></small>
                     @endif
                 </div>
@@ -702,7 +703,7 @@
                                    title="{{$view_link->child_base->names($base_body_right) . $message_ln_info}}">
                                     @endif
                                     {{--                                    {{$view_link->child_labels($base_body_right)}}:--}}
-                                    {{$view_link->child_labels($base_body_right)}}
+                                    {{$view_link->child_labels($base_body_right, $emoji_enable)}}
                                     @if($base_body_right['is_bsmn_base_enable'] == true)
                                 </a>
                             @endif

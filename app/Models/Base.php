@@ -93,7 +93,7 @@ class Base extends Model
         }
         if ($emoji_enable == true) {
 //            $result = (new GlobalController)->name_and_brackets_emoji($result, $this);
-            $result = GlobalController::name_and_brackets_emoji($result, $this);
+            $result = GlobalController::name_and_end_emoji($result, $this);
         }
         return $result;
     }

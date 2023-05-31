@@ -101,8 +101,9 @@ $i = $next_all_mains->firstItem() - 1;
 {{--                    'string_all_codes_current'=>$string_all_codes_array_next[$main->link_id],--}}
                     {{--                    Выводить вычисляемое наименование--}}
                     @if($next_all_is_calcname[$main->link_id])
-{{--                        @include('layouts.item.empty_name', ['name'=>$main->child_item->name()])--}}
-                        @include('layouts.item.empty_name', ['name'=>$main->child_item->nmbr()])
+                        {{--                        @include('layouts.item.empty_name', ['name'=>$main->child_item->nmbr()])--}}
+                        {{--                        "child_item->name()" чтобы быстрее выводилось на экран--}}
+                        @include('layouts.item.empty_name', ['name'=>$main->child_item->name()])
                     @else
                         <span class="text-danger">
                         {{mb_strtolower(trans('main.empty'))}}

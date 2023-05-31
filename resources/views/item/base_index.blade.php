@@ -34,7 +34,7 @@
         $relit_id_par = $parent_ret_id;
         $parent_ret_id_par = $relit_id;
     }
-
+    $emoji_enable = true;
     //    Config::set('app.display', 'table');
     ?>
     @include('layouts.project.show_project_role',['project'=>$project, 'role'=>$role, 'relit_id'=>$relit_id])
@@ -45,11 +45,11 @@
                     @if($message_bs_info != '')
                         <a href="#" title="{{$message_bs_info}}">
                             {{-- Использовать так "$base->names($base_right, true)", "true" - вызов из base_index.php--}}
-                            {{$base->names($base_right, true)}}
+                            {{$base->names($base_right, true, $emoji_enable)}}
                         </a>
                     @else
                         {{-- Использовать так "$base->names($base_right, true)", "true" - вызов из base_index.php--}}
-                        {{$base->names($base_right, true)}}
+                        {{$base->names($base_right, true, $emoji_enable)}}
                     @endif
                 </h3>
                 @if($role->is_view_info_relits == true)

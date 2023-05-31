@@ -31,12 +31,13 @@ class Link extends Model
             $result = $this->child_label_lang_0;
         }
         if ($emoji_enable) {
+            //Использовать name_and_end_emoji()
             $result = GlobalController::name_and_end_emoji($result, $this->child_base);
         }
         return $result;
     }
 
-    function child_labels($base_right = null)
+    function child_labels($base_right = null, $emoji_enable = false)
     {
         $result = "";  // нужно, не удалять
         $index = array_search(App::getLocale(), config('app.locales'));
@@ -49,7 +50,10 @@ class Link extends Model
         if ($base_right) {
             $result = $result . GlobalController::my_info($base_right);
         }
-        //$result = GlobalController::name_and_end_emoji($result, $this->child_base);
+        if ($emoji_enable) {
+            //Использовать name_and_end_emoji()
+            $result = GlobalController::name_and_end_emoji($result, $this->child_base);
+        }
         return $result;
     }
 

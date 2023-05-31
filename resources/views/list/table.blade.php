@@ -339,8 +339,10 @@ $num_cols = GlobalController::get_number_of_columns_info();
                             {{--                            {{$base->name()}}--}}
                             {{--                        @endif--}}
                             @if($view_link)
+{{--                            {{$view_link->child_label(!$heading & $emoji_enable)}}--}}
                                 {{$view_link->child_label()}}
                             @else
+{{--                            {{$base->name(!$heading & $emoji_enable)}}--}}
                                 {{$base->name()}}
                             @endif
                         </th>
@@ -504,7 +506,7 @@ $num_cols = GlobalController::get_number_of_columns_info();
                                 {{--                            'string_item_ids_current'=>$string_item_ids_next,--}}
                                 {{--                            'string_all_codes_current'=>$string_all_codes_next,--}}
                                 {{--                                    @endif--}}
-                                {{GlobalController::date_and_emoji($item->created_date(), $emoji_enable)}}
+                                {{GlobalController::date_and_emoji($item->created_date(), $heading & $emoji_enable)}}
                                 {{--                                    @if($base_index || $item_body_base)--}}
                             </a>
                             {{--                            @endif--}}
@@ -754,7 +756,7 @@ $num_cols = GlobalController::get_number_of_columns_info();
                                             {{--                                            <small>--}}
                                             {{--                                                <mark class="text-project">--}}
                                         @endif
-                                        @include('layouts.item.empty_name', ['name'=>$item_find->name(false,false,false,true)])
+                                        @include('layouts.item.empty_name', ['name'=>$item_find->name(false,false,false,$heading & $emoji_enable)])
                                         @if($heading)
                                             {{--                                                </mark>--}}
                                             {{--                                            </small>--}}
