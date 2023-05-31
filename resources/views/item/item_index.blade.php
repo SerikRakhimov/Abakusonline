@@ -113,7 +113,7 @@
                 $link_image = $item_image['link'];
             }
             ?>
-{{--        Показывать основное изображение при "$base_right['is_list_base_read'] == true"--}}
+            {{--        Показывать основное изображение при "$base_right['is_list_base_read'] == true"--}}
             @if(isset($item_image['item']))
                 @if($item_image['item'])
                     <center>
@@ -189,7 +189,7 @@
             'view_link'=> GlobalController::set_par_view_link_null($view_link),
             'par_link'=>$tree_array_last_link_id, 'parent_item'=>$tree_array_last_item_id,
             'parent_ret_id' => $view_ret_id])}}"
-                               title="{{trans('main.viewing_record')}}: {{$item->name(false, false, false, false)}}"
+                               title="{{trans('main.viewing_record')}}:{{$item->name(false, false, false, false)}}"
                             >
                                 {{--                                            'string_link_ids_current' => $string_link_ids_current,--}}
                                 {{--                                            'string_item_ids_current' => $string_item_ids_current,--}}
@@ -198,7 +198,11 @@
                                 {{--                                        <mark class="text-project">--}}
                                 {{--                                        @include('layouts.item.empty_name', ['name'=>$item->nmbr()])--}}
                                 {{--                                        emoji не показывать    --}}
-                                @include('layouts.item.empty_name', ['name'=>$item->nmbr(false, false, false, false)])
+                                @if($base_right['is_list_base_read'] == true)
+                                    @include('layouts.item.empty_name', ['name'=>$item->nmbr(true, false, false, false)])
+                                @else
+                                    @include('layouts.item.empty_name', ['name'=>$item->name(false, false, false, false)])
+                                @endif
                                 {{--                                        </mark>--}}
                             </a>
                         @else

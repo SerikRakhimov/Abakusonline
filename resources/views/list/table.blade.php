@@ -187,7 +187,7 @@ $num_cols = GlobalController::get_number_of_columns_info();
                 {{trans('main.select_record_for_work')}}
             </div>
         </div>
-        {{--    т.е. if($base_right['is_list_base_sort_creation_date_desc'] == false)--}}
+        {{--    т.е. "$base_right['is_view_cards'] == true"--}}
     @else
         @if(1==2)
             <table class="table table-sm table-hover">
@@ -382,11 +382,11 @@ $num_cols = GlobalController::get_number_of_columns_info();
                                                 <a href="{{route('item.base_index',['base'=>$link->parent_base_id, 'project'=>$project, 'role'=>$role, 'relit_id' => $link->parent_relit_id])}}"
                                                    title="{{$link->parent_base->names()}}">
                                                     {{--                                                    {{GlobalController::calc_title_name($matrix[$x][$y]["view_name"], $heading, $heading)}}--}}
-                                                    {{GlobalController::calc_title_name($matrix[$x][$y]["view_name"], true)}}
+                                                    {{GlobalController::calc_title_name($matrix[$x][$y]["view_name"], $heading)}}
                                                 </a>
                                             @else
                                                 {{--                                                {{GlobalController::calc_title_name($matrix[$x][$y]["view_name"], $heading, $heading)}}--}}
-                                                {{GlobalController::calc_title_name($matrix[$x][$y]["view_name"], true)}}
+                                                {{GlobalController::calc_title_name($matrix[$x][$y]["view_name"], $heading)}}
                                             @endif
                                             @if($heading)
                                         </small>
@@ -503,7 +503,7 @@ $num_cols = GlobalController::get_number_of_columns_info();
                                 {{--                            'string_item_ids_current'=>$string_item_ids_next,--}}
                                 {{--                            'string_all_codes_current'=>$string_all_codes_next,--}}
                                 {{--                                    @endif--}}
-                                {{$item->created_date()}}
+                                {{GlobalController::date_and_emoji($item->created_date(), $emoji_enable)}}
                                 {{--                                    @if($base_index || $item_body_base)--}}
                             </a>
                             {{--                            @endif--}}

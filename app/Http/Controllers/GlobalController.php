@@ -795,6 +795,8 @@ class GlobalController extends Controller
             // Сортировать по дате создания записи в порядке убывания
             if ($base_right['is_list_base_sort_creation_date_desc'] == true) {
                 //$items = $items->orderByDesc('created_user_id');
+                // "$items->latest()" сортирует по полю $item->created_date
+                // https://www.mousedc.ru/learning/421-sortirovka-gruppirovka-vyborki-baza-dannyh-laravel/
                 $items = $items->latest();
             } elseif ($base->is_code_needed == true) {
                 // Сортировка по коду
