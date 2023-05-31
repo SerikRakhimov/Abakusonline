@@ -586,7 +586,7 @@ $num_cols = GlobalController::get_number_of_columns_info();
                                             @endif
                                             {{--                                            @include('layouts.item.empty_name', ['name'=>$item->name()])--}}
 {{--                                            @include('layouts.item.empty_name', ['name'=>$item->nmbr()])--}}
-{{--                                            "$item->name()" чтобы быстрее выводилось--}}
+{{--                                            "$item->name()" чтобы быстрее выводилось на экран--}}
                                             @include('layouts.item.empty_name', ['name'=>$item->name()])
                                             @if ($item_index_view)
                                         </a>
