@@ -315,6 +315,7 @@ class Base extends Model
         $result = false;
         $link = null;
         // Только чтение данных(без создания, корректировки и удаления)
+        // Проверка должна быть одинакова "$base_right['is_list_base_read'] == true" ItemController::item_index() и Base::tile_view()
         if ($base_right['is_list_base_read'] == true) {
             $links = $this->child_links();
             $link = $links->where('parent_is_primary_image', true)->first();

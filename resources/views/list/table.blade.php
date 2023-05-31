@@ -7,7 +7,6 @@ $link_base_right_array = $links_info['link_base_right_array'];
 $matrix = $links_info['matrix'];
 $rows = $links_info['rows'];
 $cols = $links_info['cols'];
-//dd($links_info);
 $i = 0;
 if ($item_heading_base == true) {
     $i = 0;
@@ -24,6 +23,7 @@ if ($base_index == true) {
     $i_par_link = $view_link;
 }
 $tile_view = $base->tile_view($base_right);
+// $link_image используется не только при выводе Карт, но и при выводе таблицы(см.ниже)
 $link_image = $tile_view['link'];
 $num_cols = GlobalController::get_number_of_columns_info();
 ?>
@@ -65,8 +65,8 @@ $num_cols = GlobalController::get_number_of_columns_info();
                     </small>
                     {{--                    <div class="card-body d-flex align-items-center">--}}
                     <div class="card-body p-0">
-{{--                        <div class="card-title text-center">Card title</div>--}}
-{{--                        <div class="card-subtitle m-2 text-center text-muted">Card subtitle</div>--}}
+                        {{--                        <div class="card-title text-center">Card title</div>--}}
+                        {{--                        <div class="card-subtitle m-2 text-center text-muted">Card subtitle</div>--}}
                         {{--                        @if($item_find)--}}
                         {{--                            <div class="card-block text-center">--}}
                         <div class="text-center">
@@ -355,6 +355,12 @@ $num_cols = GlobalController::get_number_of_columns_info();
                             <?php
                             $link = Link::findOrFail($matrix[$x][$y]["link_id"]);
                             ?>
+                            {{--    Основное изображение второй раз не выводится--}}
+                            @if($link_image)
+                                @if($link->id == $link_image->id)
+                                    @continue
+                                @endif
+                            @endif
                             @if($matrix[$x][$y]["view_field"] != null)
                                 <th rowspan="{{$matrix[$x][$y]["rowspan"]}}"
                                     colspan="{{$matrix[$x][$y]["colspan"]}}"
@@ -571,13 +577,17 @@ $num_cols = GlobalController::get_number_of_columns_info();
         'prev_body_link_page'=>$body_link_page,
         'prev_body_all_page'=>$body_all_page
         ])}}"
-                                           title="{{$item->name()}}">
+{{--                                           title="{{$item->name()}}"--}}
+                                           title=""
+                                        >
                                             {{--                                        'string_link_ids_current'=>$string_link_ids_next,--}}
                                             {{--                                        'string_item_ids_current'=>$string_item_ids_next,--}}
                                             {{--                                        'string_all_codes_current'=>$string_all_codes_next,--}}
                                             @endif
                                             {{--                                            @include('layouts.item.empty_name', ['name'=>$item->name()])--}}
-                                            @include('layouts.item.empty_name', ['name'=>$item->nmbr()])
+{{--                                            @include('layouts.item.empty_name', ['name'=>$item->nmbr()])--}}
+{{--                                            "$item->name()" чтобы быстрее выводилось--}}
+                                            @include('layouts.item.empty_name', ['name'=>$item->name()])
                                             @if ($item_index_view)
                                         </a>
                                     @endif
@@ -593,6 +603,12 @@ $num_cols = GlobalController::get_number_of_columns_info();
                     $link = Link::findOrFail($value);
                     $base_link_right = $link_base_right_array[$link->id];
                     ?>
+                    {{--    Основное изображение второй раз не выводится--}}
+                    @if($link_image)
+                        @if($link->id == $link_image->id)
+                            @continue
+                        @endif
+                    @endif
                     <td
                         @if(!$heading)
                         @include('layouts.class_from_base',['base'=>$link->parent_base])
@@ -734,13 +750,13 @@ $num_cols = GlobalController::get_number_of_columns_info();
                                         @endif
                                         {{--                                    @endif--}}
                                         @if($heading)
-{{--                                            <small>--}}
-                                                {{--                                                <mark class="text-project">--}}
-                                                @endif
-                                                @include('layouts.item.empty_name', ['name'=>$item_find->name(false,false,false,true)])
-                                                @if($heading)
-                                                    {{--                                                </mark>--}}
-{{--                                            </small>--}}
+                                            {{--                                            <small>--}}
+                                            {{--                                                <mark class="text-project">--}}
+                                        @endif
+                                        @include('layouts.item.empty_name', ['name'=>$item_find->name(false,false,false,true)])
+                                        @if($heading)
+                                            {{--                                                </mark>--}}
+                                            {{--                                            </small>--}}
                                         @endif
                                         {{--                                    @if ($ext_show_view || $item_index_view)--}}
                                         @if ($item_index_view)

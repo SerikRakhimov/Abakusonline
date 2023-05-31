@@ -51,6 +51,7 @@
     $relit_body_id = GlobalController::set_relit_id($view_ret_id);
     $view_ret_body_id = GlobalController::set_relit_id($relit_id);
     $emoji_enable = true;
+    $link_image = null;
     ?>
     @include('layouts.project.show_project_role',['project'=>$project, 'role'=>$role, 'relit_id'=>$relit_id])
     {{--    <h3 class="display-5">--}}
@@ -105,6 +106,21 @@
     <div class="container-fluid">
         {{--    @if((count($child_links) != 0) && ($base_right['is_show_head_attr_enable'] == true))--}}
         @if(count($child_links) != 0)
+            <?php
+            // Проверка должна быть одинакова "$base_right['is_list_base_read'] == true" ItemController::item_index() и Base::tile_view()
+            if ($base_right['is_list_base_read'] == true) {
+                $item_image = GlobalController::item_image($item);
+                $link_image = $item_image['link'];
+            }
+            ?>
+{{--        Показывать основное изображение при "$base_right['is_list_base_read'] == true"--}}
+            @if(isset($item_image['item']))
+                @if($item_image['item'])
+                    <center>
+                        @include('view.img',['item'=>$item_image['item'], 'size'=>"medium", 'width'=>"30%", 'border'=>true, 'filenametrue'=>false, 'link'=>true, 'img_fluid'=>true, 'card_img_top'=>false, 'title'=>$link_image->parent_label()])
+                    </center><br><br>
+                @endif
+            @endif
             {{--        Выводится одна запись в шапке(все родительские links - столбы)--}}
             {{--        Используется "'heading'=>intval(true)"--}}
             {{--        Используется "'items'=>$items->get()"; два раза, т.к. в заголовке выводится только одна строка, ее на страницы не надо разбивать/сортировать--}}
@@ -147,24 +163,24 @@
             {{--                @if(GlobalController::is_base_calcname_check($item->base, $base_right) || $item->base->is_calcnm_correct_lst == true)--}}
             @if(GlobalController::is_base_calcname_check($item->base, $base_right))
                 <div class="col-8 text-left">
-{{--                    <big>--}}
-                        {{--                    <h6>--}}
-                        @if($base_right['is_bsmn_base_enable'] == true)
-                            <a href="{{route('item.base_index', ['base'=>$item->base,
+                    {{--                    <big>--}}
+                    {{--                    <h6>--}}
+                    @if($base_right['is_bsmn_base_enable'] == true)
+                        <a href="{{route('item.base_index', ['base'=>$item->base,
                             'project'=>$project, 'role'=>$role, 'relit_id'=>$relit_id])}}"
-                               title="{{$item->base->names($base_right) . $message_bs_info}}">
-                                @endif
-                                {{$title}}
-                                <br>
-                                @if ($base_right['is_bsmn_base_enable'] == true)
-                            </a>
-                        @endif
-{{--                        <big/>--}}
-                        <big>
-                                {{-- Одинаковые строки рядом (route('item.ext_show'))--}}
-                                @if ($base_right['is_list_base_calc'] == true)
-                                    {{--              Использовать "'heading' => intval(true)", проверяется в окончании функции ItemController:ext_delete()--}}
-                                    <a href="{{route('item.ext_show', ['item'=>$item, 'project'=>$project, 'role'=>$role,
+                           title="{{$item->base->names($base_right) . $message_bs_info}}">
+                            @endif
+                            {{$title}}
+                            <br>
+                            @if ($base_right['is_bsmn_base_enable'] == true)
+                        </a>
+                    @endif
+                    {{--                        <big/>--}}
+                    <big>
+                        {{-- Одинаковые строки рядом (route('item.ext_show'))--}}
+                        @if ($base_right['is_list_base_calc'] == true)
+                            {{--              Использовать "'heading' => intval(true)", проверяется в окончании функции ItemController:ext_delete()--}}
+                            <a href="{{route('item.ext_show', ['item'=>$item, 'project'=>$project, 'role'=>$role,
                                             'usercode' =>GlobalController::usercode_calc(),
                                             'relit_id'=>$relit_id,
                                             'string_current' => $string_current,
@@ -173,37 +189,37 @@
             'view_link'=> GlobalController::set_par_view_link_null($view_link),
             'par_link'=>$tree_array_last_link_id, 'parent_item'=>$tree_array_last_item_id,
             'parent_ret_id' => $view_ret_id])}}"
-                                       title="{{trans('main.viewing_record')}}: {{$item->name(false, false, false, false)}}"
-                                    >
-                                        {{--                                            'string_link_ids_current' => $string_link_ids_current,--}}
-                                        {{--                                            'string_item_ids_current' => $string_item_ids_current,--}}
-                                        {{--                                            'string_relit_ids_current' => $string_relit_ids_current,--}}
-                                        {{--                                            'string_all_codes_current'=>$string_all_codes_current,--}}
-{{--                                        <mark class="text-project">--}}
-                                            {{--                                        @include('layouts.item.empty_name', ['name'=>$item->nmbr()])--}}
-{{--                                        emoji не показывать    --}}
-                                        @include('layouts.item.empty_name', ['name'=>$item->nmbr(false, false, false, false)])
-{{--                                        </mark>--}}
-                                    </a>
-                                @else
-                                    {{--                                {{$item->name()}}--}}
-                                    <?php
-//                                    emoji не показывать
-                                    echo $item->nmbr(false, false, false, false);
-                                    ?>
-                                @endif
-                            </big>
-                        @if($item->base->is_code_needed == true)
-                            {{trans('main.code')}}: <strong>{{$item->code}}</strong>
+                               title="{{trans('main.viewing_record')}}: {{$item->name(false, false, false, false)}}"
+                            >
+                                {{--                                            'string_link_ids_current' => $string_link_ids_current,--}}
+                                {{--                                            'string_item_ids_current' => $string_item_ids_current,--}}
+                                {{--                                            'string_relit_ids_current' => $string_relit_ids_current,--}}
+                                {{--                                            'string_all_codes_current'=>$string_all_codes_current,--}}
+                                {{--                                        <mark class="text-project">--}}
+                                {{--                                        @include('layouts.item.empty_name', ['name'=>$item->nmbr()])--}}
+                                {{--                                        emoji не показывать    --}}
+                                @include('layouts.item.empty_name', ['name'=>$item->nmbr(false, false, false, false)])
+                                {{--                                        </mark>--}}
+                            </a>
+                        @else
+                            {{--                                {{$item->name()}}--}}
+                            <?php
+                            //                                    emoji не показывать
+                            echo $item->nmbr(false, false, false, false);
+                            ?>
                         @endif
-                        {{--                                <div class="col-4 text-left">--}}
-                        {{--                                    @if($item->base->is_code_needed == true)--}}
-                        {{--                                        {{trans('main.code')}}: <strong>{{$item->code}}</strong>--}}
-                        {{--                                    @endif--}}
-                        {{--                                </div>--}}
-                        {{--                    </h6>--}}
-                        @if($role->is_view_info_relits == true)
-                            <small><small>{{$relip_name_project}}</small></small>
+                    </big>
+                    @if($item->base->is_code_needed == true)
+                        {{trans('main.code')}}: <strong>{{$item->code}}</strong>
+                    @endif
+                    {{--                                <div class="col-4 text-left">--}}
+                    {{--                                    @if($item->base->is_code_needed == true)--}}
+                    {{--                                        {{trans('main.code')}}: <strong>{{$item->code}}</strong>--}}
+                    {{--                                    @endif--}}
+                    {{--                                </div>--}}
+                    {{--                    </h6>--}}
+                    @if($role->is_view_info_relits == true)
+                        <small><small>{{$relip_name_project}}</small></small>
                     @endif
                 </div>
             @else
