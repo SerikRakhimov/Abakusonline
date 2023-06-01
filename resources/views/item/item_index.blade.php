@@ -106,21 +106,6 @@
     <div class="container-fluid">
         {{--    @if((count($child_links) != 0) && ($base_right['is_show_head_attr_enable'] == true))--}}
         @if(count($child_links) != 0)
-            <?php
-            // Проверка должна быть одинакова "$base_right['is_list_base_read'] == true" ItemController::item_index() и Base::tile_view()
-            if ($base_right['is_list_base_read'] == true) {
-                $item_image = GlobalController::item_image($item);
-                $link_image = $item_image['link'];
-            }
-            ?>
-            {{--        Показывать основное изображение при "$base_right['is_list_base_read'] == true"--}}
-            @if(isset($item_image['item']))
-                @if($item_image['item'])
-                    <center>
-                        @include('view.img',['item'=>$item_image['item'], 'size'=>"medium", 'width'=>"30%", 'border'=>true, 'filenametrue'=>false, 'link'=>true, 'img_fluid'=>true, 'card_img_top'=>false, 'title'=>$link_image->parent_label()])
-                    </center><br><br>
-                @endif
-            @endif
             {{--        Выводится одна запись в шапке(все родительские links - столбы)--}}
             {{--        Используется "'heading'=>intval(true)"--}}
             {{--        Используется "'items'=>$items->get()"; два раза, т.к. в заголовке выводится только одна строка, ее на страницы не надо разбивать/сортировать--}}
@@ -412,6 +397,21 @@
             {{--                </a>--}}
             {{--            </div>--}}
         </div>
+        <?php
+        // Проверка должна быть одинакова "$base_right['is_list_base_read'] == true" ItemController::item_index() и Base::tile_view()
+        if ($base_right['is_list_base_read'] == true) {
+            $item_image = GlobalController::item_image($item);
+            $link_image = $item_image['link'];
+        }
+        ?>
+        {{--        Показывать основное изображение при "$base_right['is_list_base_read'] == true"--}}
+        @if(isset($item_image['item']))
+            @if($item_image['item'])
+                <center>
+                    @include('view.img',['item'=>$item_image['item'], 'size'=>"medium", 'width'=>"30%", 'border'=>true, 'filenametrue'=>false, 'link'=>true, 'img_fluid'=>true, 'card_img_top'=>false, 'title'=>$link_image->parent_label()])
+                </center><br><br>
+            @endif
+        @endif
         {{-- Связи--}}
         {{-- Нужно '@if(count($next_all_links)>0)'--}}
         @if(count($next_all_links)>0)
