@@ -64,7 +64,7 @@
             {{--                    <img src="{{Storage::url($item->filename())}}" height="250"--}}
             {{--                         alt="" title="{{$item->title_img()}}">--}}
             {{--                </a>--}}
-            {{--                            </li>--}}
+                                        </li>--}}
             <hr class="hr_ext_show">
         @elseif($base->type_is_document)
             {{--                            <li>--}}
