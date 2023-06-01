@@ -2764,6 +2764,15 @@ class GlobalController extends Controller
         return $result;
     }
 
+    static function br_work($emoji)
+    {
+        $result = $emoji;
+        if ($result != "") {
+            $result = ' (' . $result . ')';
+        }
+        return $result;
+    }
+
 //  $space_number_insert - выводить пробел между числом и символом валюты (в основном для этого используется)
     static function name_and_emoji($name, Base $base, $space_number_insert = false)
     {
@@ -2836,6 +2845,15 @@ class GlobalController extends Controller
         if ($emoji_enable == true) {
 //          $result = self::const_id_emoji() . ' ' . $result;
             $result = self::const_id_emoji() . $result;
+        }
+        return $result;
+    }
+
+    static function id_and_brackets_emoji($id, $emoji_enable = false)
+    {
+        $result = $id;
+        if ($emoji_enable == true) {
+            $result = $result . GlobalController::br_work(self::const_id_emoji());
         }
         return $result;
     }

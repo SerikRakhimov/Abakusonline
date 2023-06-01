@@ -16,6 +16,7 @@
     $relip_project = GlobalController::calc_relip_project($relit_id, $project);
     // У $base есть ли считаемые поля (да/нет)
     $allcalc_button = $base->child_links->where('parent_is_numcalc', true)->first();
+    $emoji_enable = true;
     ?>
     {{--    <script>--}}
     {{--        function browse(link_id, project_id, role_id, item_id) {--}}
@@ -112,7 +113,8 @@
         @if ($update)
             <div class="form-group row">
                 <div class="col-sm-3 text-right">
-                    <label>Id</label>
+                    <label>{{\App\Http\Controllers\GlobalController::id_and_brackets_emoji('Id', $emoji_enable)}}
+                    </label>
                 </div>
                 <div class="col-sm-9">
                     <label>{{$item->id}}</label>

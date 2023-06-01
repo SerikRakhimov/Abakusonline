@@ -117,11 +117,7 @@ class Base extends Model
     // Эмодзи со скобками
     function em_br()
     {
-        $result = $this->em_str();
-        if ($result != "") {
-            $result = ' (' . $result . ')';
-        }
-        return $result;
+        return GlobalController::br_work($this->em_str());
     }
 
 // Используется "desc"
