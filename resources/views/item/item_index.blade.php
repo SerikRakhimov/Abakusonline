@@ -408,7 +408,7 @@
         @if(isset($item_image['item']))
             @if($item_image['item'])
                 <center>
-                    @include('view.img',['item'=>$item_image['item'], 'size'=>"medium", 'width'=>"30%", 'border'=>true, 'filenametrue'=>false, 'link'=>true, 'img_fluid'=>true, 'card_img_top'=>false, 'title'=>$link_image->parent_label()])
+                    @include('view.img',['item'=>$item_image['item'], 'size'=>"medium", 'width'=>"45%", 'border'=>true, 'filenametrue'=>false, 'link'=>true, 'img_fluid'=>true, 'card_img_top'=>false, 'title'=>$link_image->parent_label()])
                 </center><br><br>
             @endif
         @endif
