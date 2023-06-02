@@ -26,6 +26,7 @@
     @endforeach
 
     <p>{{trans('main.is_author')}}: <b>{{GlobalController::name_is_boolean($role->is_author)}}</b></p>
+    <p>{{trans('main.is_external')}}: <b>{{GlobalController::name_is_boolean($role->is_external)}}</b></p>
     <p>{{trans('main.is_default_for_external')}}: <b>{{GlobalController::name_is_boolean($role->is_default_for_external)}}</b></p>
     <p>{{trans('main.is_list_base_relits')}}: <b>{{GlobalController::name_is_boolean($role->is_list_base_relits)}}</b></p>
     <p>{{trans('main.is_read_base_relits')}}: <b>{{GlobalController::name_is_boolean($role->is_read_base_relits)}}</b></p>

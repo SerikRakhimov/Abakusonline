@@ -20,7 +20,7 @@ class CreateRolesTable extends Migration
             $table->string('name_lang_1',255)->default("");
             $table->string('name_lang_2',255)->default("");
             $table->string('name_lang_3',255)->default("");
-            $table->boolean('is_default_for_external')->default(false);
+            $table->boolean('is_external')->default(false);
             $table->timestamps();
             $table->index('template_id');
             $table->foreign('template_id')->references('id')->on('templates')->onDelete('cascade');

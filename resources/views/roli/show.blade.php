@@ -47,7 +47,7 @@
     <p>{{trans('main.is_parent_full_sort_asc')}}: <b>{{GlobalController::name_is_boolean($roli->is_parent_full_sort_asc)}}</b></p>
     <p>{{trans('main.is_parent_page_sort_asc')}}: <b>{{GlobalController::name_is_boolean($roli->is_parent_page_sort_asc)}}</b></p>
     @if ($type_form == 'show')
-{{--        @if (Auth::user()->isAdmin() ||!(($is_user == true) && ($roli->role->is_default_for_external == false)))--}}
+{{--        @if (Auth::user()->isAdmin() ||!(($is_user == true) && ($roli->role->is_external == false)))--}}
             <p>
                 <button type="button" class="btn btn-dreamer"
                         onclick="document.location='{{route($roli_edit,$roli)}}'"

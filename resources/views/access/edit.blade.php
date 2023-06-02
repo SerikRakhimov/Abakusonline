@@ -44,8 +44,8 @@
                             class="@error('project_id') is-invalid @enderror">
                         @foreach ($projects as $project)
                             <?php
-                            //                            Только те проекты, у которых where('roles.is_default_for_external', true)
-                            $find = Role::where('template_id', $project->template_id)->where('is_default_for_external', true)->exists();
+                            //                            Только те проекты, у которых where('roles.is_external', true)
+                            $find = Role::where('template_id', $project->template_id)->where('is_external', true)->exists();
                             ?>
                             @if($find)
                                 <option value="{{$project->id}}"

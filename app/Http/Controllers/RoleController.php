@@ -165,6 +165,9 @@ class RoleController extends Controller
         if ($request->is_list_base_setup == false && $request->is_list_base_relits_setup == true) {
             $array_mess['is_list_base_relits_setup'] = trans('main.need_to_uncheck') . '!';
         }
+        if ($request->is_external == false && $request->is_default_for_external == true) {
+            $array_mess['is_default_for_external'] = trans('main.no_external_role_check_mark') . '!';
+        }
     }
 
     function set(Request $request, Role &$role)
@@ -183,6 +186,7 @@ class RoleController extends Controller
         $role->desc_lang_3 = isset($request->desc_lang_3) ? $request->desc_lang_3 : "";
 
         $role->is_author = isset($request->is_author) ? true : false;
+        $role->is_external = isset($request->is_external) ? true : false;
         $role->is_default_for_external = isset($request->is_default_for_external) ? true : false;
         $role->is_list_base_relits = isset($request->is_list_base_relits) ? true : false;
         $role->is_read_base_relits = isset($request->is_read_base_relits) ? true : false;

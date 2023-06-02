@@ -31,6 +31,7 @@
             <th class="text-center">{{trans('main.serial_number')}}</th>
             <th class="text-left">{{trans('main.name')}}</th>
             <th class="text-left">{{trans('main.is_author')}}</th>
+            <th class="text-left">{{trans('main.is_external')}}</th>
             <th class="text-left">{{trans('main.is_default_for_external')}}</th>
 {{--            Не удалять--}}
             <th class="text-center">{{trans('main.accesses')}}</th>
@@ -64,6 +65,11 @@
                 <td class="text-left">
                     <a href="{{route('role.show',$role)}}" title="{{trans('main.show')}}">
                         {{GlobalController::name_is_boolean($role->is_author)}}
+                    </a>
+                </td>
+                <td class="text-left">
+                    <a href="{{route('role.show',$role)}}" title="{{trans('main.show')}}">
+                        {{GlobalController::name_is_boolean($role->is_external)}}
                     </a>
                 </td>
                 <td class="text-left">

@@ -20,7 +20,7 @@
             //            $role = null;
             $message = "";
             //            if ($all_projects == true) {
-            //                $role = Role::where('template_id', $project->template_id)->where('is_default_for_external', true)->first();
+            //                $role = Role::where('template_id', $project->template_id)->where('is_external', true)->first();
             //                if (!$role) {
             //                    $message = trans('main.role_default_for_external_not_found');
             //                }

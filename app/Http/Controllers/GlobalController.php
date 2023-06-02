@@ -1215,7 +1215,7 @@ class GlobalController extends Controller
     {
         $result = false;
         if ($project->template_id == $role->template_id) {
-            if ($role->is_default_for_external == true) {
+            if ($role->is_external == true) {
                 $result = true;
             } else {
                 if ($role->is_author == true) {
@@ -1234,7 +1234,7 @@ class GlobalController extends Controller
                     } else {
                         $result = false;
                     }
-                    // Обычная роль (не $role->is_default_for_external и не $role->is_author)
+                    // Обычная роль (не $role->is_external и не $role->is_author)
                 } else {
                     if (Auth::check()) {
                         // Проверка, если доступ у этого пользователя

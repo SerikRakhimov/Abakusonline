@@ -169,7 +169,7 @@ class AccessController extends Controller
             }
         }
 
-//        if (!(Auth::user()->isAdmin() || ($access->role->is_default_for_external == true))) {
+//        if (!(Auth::user()->isAdmin() || ($access->role->is_external == true))) {
 //            return null;
 //        }
         if (!(($access->template_id == $request->template_id) && ($access->user_id == $request->user_id) && ($access->role_id == $request->role_id))) {
@@ -244,7 +244,7 @@ class AccessController extends Controller
             }
         }
 
-//        if (!(Auth::user()->isAdmin() ||!($access->role->is_default_for_external == false))) {
+//        if (!(Auth::user()->isAdmin() ||!($access->role->is_external == false))) {
 //            return null;
 //        }
         $project = $access->project;
@@ -254,14 +254,14 @@ class AccessController extends Controller
 //        Первоначальный вариант
 //        if (!Auth::user()->isAdmin()) {
 //            if (Auth::user() != $project->user) {
-//                $roles = $roles->where('is_default_for_external', true);
+//                $roles = $roles->where('is_external', true);
 //            }
 //        }
 
 //        if (!
 //        Auth::user()->isAdmin()) {
 //            if (!GlobalController::is_author_roles_project($project->id)) {
-//                $roles = $roles->where('is_default_for_external', true);
+//                $roles = $roles->where('is_external', true);
 //            }
 //        }
 
@@ -274,7 +274,7 @@ class AccessController extends Controller
             return redirect()->route('project.all_index');
         }
 
-//            if (!(Auth::user()->isAdmin() ||!($access->role->is_default_for_external == false))){
+//            if (!(Auth::user()->isAdmin() ||!($access->role->is_external == false))){
 //            return null;
 //        }
         $user = User::findOrFail($access->user_id);
@@ -315,7 +315,7 @@ class AccessController extends Controller
             }
         }
 
-//        if (!(Auth::user()->isAdmin() || ($access->role->is_default_for_external == true))) {
+//        if (!(Auth::user()->isAdmin() || ($access->role->is_external == true))) {
 //            return null;
 //        }
         $project = Project::findOrFail($access->project_id);
@@ -336,7 +336,7 @@ class AccessController extends Controller
             }
         }
 
-//        if (!(Auth::user()->isAdmin() || ($access->role->is_default_for_external == true))) {
+//        if (!(Auth::user()->isAdmin() || ($access->role->is_external == true))) {
 //            return null;
 //        }
 
@@ -391,13 +391,13 @@ class AccessController extends Controller
 
 //            Первоначальный вариант
 //            if (!Auth::user()->isAdmin()) {
-//                $result_roles = $result_roles->where('is_default_for_external', true);
+//                $result_roles = $result_roles->where('is_external', true);
 //            }
 
 //            if (!
 //            Auth::user()->isAdmin()) {
 //                if (!GlobalController::is_author_roles_project($project->id)) {
-//                    $result_roles = $result_roles->where('is_default_for_external', true);
+//                    $result_roles = $result_roles->where('is_external', true);
 //                }
 //            }
 

@@ -80,7 +80,7 @@
     <p>{{trans('main.is_show_email_question_base_delete')}}: <b>{{GlobalController::name_is_boolean($roba->is_show_email_question_base_delete)}}</b></p>
 
     @if ($type_form == 'show')
-{{--        @if (Auth::user()->isAdmin() ||!(($is_user == true) && ($roba->role->is_default_for_external == false)))--}}
+{{--        @if (Auth::user()->isAdmin() ||!(($is_user == true) && ($roba->role->is_external == false)))--}}
             <p>
                 <button type="button" class="btn btn-dreamer"
                         onclick="document.location='{{route($roba_edit,$roba)}}'"

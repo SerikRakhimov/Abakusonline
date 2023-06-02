@@ -50,9 +50,9 @@ class Role extends Model
         return $this->is_author == true;
     }
 
-    function is_default_for_external()
+    function is_external()
     {
-        return $this->is_default_for_external == true;
+        return $this->is_external == true;
     }
 
 }
