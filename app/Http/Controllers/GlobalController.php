@@ -1966,7 +1966,10 @@ class GlobalController extends Controller
             }
         }
         // Проверка и вывод сообщения нужны
+        // Первый вариант
         if ($parent_is_required && $project == null && $is_message == true) {
+        // Второй вариант, правильный
+        //if ($project == null && $is_message == true) {
             dd('current_project: ' . $current_project->name_id()
                 . ', template: ' . $current_project->template->name_id()
                 . ', relit_id: ' . $relit_id . ', '

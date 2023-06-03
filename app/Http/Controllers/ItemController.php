@@ -3951,6 +3951,9 @@ class ItemController extends Controller
         $link = Link::findOrFail($keys[$index]);
         // Находим $relip_project
         $relip_project = GlobalController::calc_link_project($link, $item->project);
+        if(!$relip_project){
+            dd(trans('main.check_project_properties_projects_parents_are_not_set') . '!');
+        }
         $relip_project_id = $relip_project->id;
 
         // тип корректировки поля - список
