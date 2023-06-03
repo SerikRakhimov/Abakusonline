@@ -976,9 +976,10 @@ Route::get('/item/item_from_base_code/{base}/{project}/{code}', [ItemController:
     ->name('item.item_from_base_code')
     ->middleware('auth');
 
+//"->middleware('auth')" не использовать
 Route::get('/item/doc_download/{item}/{usercode}', [ItemController::class, 'doc_download'])
-    ->name('item.doc_download')
-    ->middleware('auth');
+    ->name('item.doc_download');
+//    ->middleware('auth');
 
 Route::get('/item/change_history/{item}', [ItemController::class, 'change_history'])
     ->name('item.change_history')
