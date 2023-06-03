@@ -3956,8 +3956,8 @@ class ItemController extends Controller
         $relip_project = GlobalController::calc_link_project($link, $item->project);
         // Проверка и вывод сообщения нужны
         // Похожие проверка и вывод сообщения GlobalController::calc_relip_project() и ItemController::save_main()
-        if(!$relip_project){
-            $message =trans('main.check_project_properties_projects_parents_are_not_set') . '!';
+        if (!$relip_project) {
+            $message = "'" . trans('main.check_project_properties_projects_parents_are_not_set') . '!' . "'";
             return;
         }
         $relip_project_id = $relip_project->id;
