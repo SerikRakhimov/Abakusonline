@@ -339,10 +339,10 @@ $num_cols = GlobalController::get_number_of_columns_info();
                             {{--                            {{$base->name()}}--}}
                             {{--                        @endif--}}
                             @if($view_link)
-{{--                            {{$view_link->child_label(!$heading & $emoji_enable)}}--}}
+                                {{--                            {{$view_link->child_label(!$heading & $emoji_enable)}}--}}
                                 {{$view_link->child_label()}}
                             @else
-{{--                            {{$base->name(!$heading & $emoji_enable)}}--}}
+                                {{--                            {{$base->name(!$heading & $emoji_enable)}}--}}
                                 {{$base->name()}}
                             @endif
                         </th>
@@ -580,7 +580,7 @@ $num_cols = GlobalController::get_number_of_columns_info();
         'prev_body_link_page'=>$body_link_page,
         'prev_body_all_page'=>$body_all_page
         ])}}"
-{{--                                           title="{{$item->name()}}"--}}
+                                           {{--                                           title="{{$item->name()}}"--}}
                                            title=""
                                         >
                                             {{--                                        'string_link_ids_current'=>$string_link_ids_next,--}}
@@ -588,8 +588,8 @@ $num_cols = GlobalController::get_number_of_columns_info();
                                             {{--                                        'string_all_codes_current'=>$string_all_codes_next,--}}
                                             @endif
                                             {{--                                            @include('layouts.item.empty_name', ['name'=>$item->name()])--}}
-{{--                                            @include('layouts.item.empty_name', ['name'=>$item->nmbr()])--}}
-{{--                                            "$item->name()" чтобы быстрее выводилось на экран--}}
+                                            {{--                                            @include('layouts.item.empty_name', ['name'=>$item->nmbr()])--}}
+                                            {{--                                            "$item->name()" чтобы быстрее выводилось на экран--}}
                                             @include('layouts.item.empty_name', ['name'=>$item->name()])
                                             @if ($item_index_view)
                                         </a>
@@ -755,8 +755,10 @@ $num_cols = GlobalController::get_number_of_columns_info();
                                         @if($heading)
                                             {{--                                            <small>--}}
                                             {{--                                                <mark class="text-project">--}}
+                                            @include('layouts.item.empty_name', ['name'=>$item_find->name(true,false,false,$heading & $emoji_enable)])
+                                        @else
+                                            @include('layouts.item.empty_name', ['name'=>$item_find->name(false,false,false,$heading & $emoji_enable)])
                                         @endif
-                                        @include('layouts.item.empty_name', ['name'=>$item_find->name(false,false,false,$heading & $emoji_enable)])
                                         @if($heading)
                                             {{--                                                </mark>--}}
                                             {{--                                            </small>--}}
