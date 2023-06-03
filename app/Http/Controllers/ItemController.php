@@ -2746,8 +2746,11 @@ class ItemController extends Controller
                             }
                         }
                     }
-
-                    $this->save_main($main, $item, $keys, $values, $valits, $i, $strings_inputs);
+                    $message = '';
+                    $this->save_main($main, $item, $keys, $values, $valits, $i, $strings_inputs, $message);
+                    if ($message != '') {
+                        throw new Exception($message);
+                    }
                     // После выполнения массив $valits заполнен ссылками $item->id
 
                     // Проверка на максимальное количество записей
@@ -3942,7 +3945,7 @@ class ItemController extends Controller
 
 // Сохранение $main, $index - номер $link,
 // Присваивание $valits[] значениями $item->id, изначально там значения и $item->id в зависимости от типа данных(Число, Строка, Список, Изображение, Документ и т.д.)
-    function save_main(Main $main, $item, $keys, $values, &$valits, $index, $strings_inputs)
+    function save_main(Main $main, $item, $keys, $values, &$valits, $index, $strings_inputs, &$message)
     {
         $main->link_id = $keys[$index];
         $main->child_item_id = $item->id;
@@ -3951,8 +3954,11 @@ class ItemController extends Controller
         $link = Link::findOrFail($keys[$index]);
         // Находим $relip_project
         $relip_project = GlobalController::calc_link_project($link, $item->project);
+        // Проверка и вывод сообщения нужны
+        // Похожие проверка и вывод сообщения GlobalController::calc_relip_project() и ItemController::save_main()
         if(!$relip_project){
-            dd(trans('main.check_project_properties_projects_parents_are_not_set') . '!');
+            $message =trans('main.check_project_properties_projects_parents_are_not_set') . '!';
+            return;
         }
         $relip_project_id = $relip_project->id;
 
@@ -5063,7 +5069,11 @@ class ItemController extends Controller
                                 }
                             }
                         }
-                        $this->save_main($main, $item, $keys, $values, $valits, $i, $strings_inputs);
+                        $message = '';
+                        $this->save_main($main, $item, $keys, $values, $valits, $i, $strings_inputs, $message);
+                        if ($message != '') {
+                            throw new Exception($message);
+                        }
                         // После выполнения массив $valits заполнен ссылками $item->id
 
                         // Проверка на максимальное количество записей

@@ -1966,10 +1966,11 @@ class GlobalController extends Controller
             }
         }
         // Проверка и вывод сообщения нужны
+        // Похожие проверка и вывод сообщения GlobalController::calc_relip_project() и ItemController::save_main()
         // Первый вариант
-        if ($parent_is_required && $project == null && $is_message == true) {
-        // Второй вариант, правильный
         //if ($project == null && $is_message == true) {
+        // Второй вариант, правильный
+        if ($parent_is_required && $project == null && $is_message == true) {
             dd('current_project: ' . $current_project->name_id()
                 . ', template: ' . $current_project->template->name_id()
                 . ', relit_id: ' . $relit_id . ', '
