@@ -614,11 +614,11 @@ $num_cols = GlobalController::get_number_of_columns_info();
                     @endif
                     <td
                         @if($heading)
-                        @if($link->parent_base->type_is_text())
-                        class="text-left"
-                        @else
+                        {{--                        @if($link->parent_base->type_is_text())--}}
+                        {{--                        class="text-left"--}}
+                        {{--                        @else--}}
                         class="text-center"
-                        @endif
+                        {{--                        @endif--}}
                     @else
                         @include('layouts.class_from_base',['base'=>$link->parent_base])
                         @endif
