@@ -613,10 +613,14 @@ $num_cols = GlobalController::get_number_of_columns_info();
                         @endif
                     @endif
                     <td
-                        @if(!$heading)
-                        @include('layouts.class_from_base',['base'=>$link->parent_base])
+                        @if($heading)
+                        @if($link->parent_base->type_is_text())
+                        class="text-left"
                         @else
                         class="text-center"
+                        @endif
+                    @else
+                        @include('layouts.class_from_base',['base'=>$link->parent_base])
                         @endif
                     >
                         <?php
@@ -759,7 +763,11 @@ $num_cols = GlobalController::get_number_of_columns_info();
                                         @else
                                             {{--                                            @include('layouts.item.empty_name', ['name'=>$item_find->name(false,false,false,$heading & $emoji_enable)])--}}
                                         @endif
-                                        @include('layouts.item.empty_name', ['name'=>$item_find->name(false,false,false,$heading & $emoji_enable)])
+                                        @if($heading & $link->parent_base->type_is_text() & $base_link_right['is_list_base_read'] == true)
+                                            @include('layouts.item.empty_name', ['name'=>GlobalController::it_txnm_n2b($item_find,$heading & $emoji_enable)])
+                                        @else
+                                            @include('layouts.item.empty_name', ['name'=>$item_find->name(false,false,false,$heading & $emoji_enable)])
+                                        @endif
                                         @if($heading)
                                             {{--                                                </mark>--}}
                                             {{--                                            </small>--}}
