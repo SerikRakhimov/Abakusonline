@@ -329,6 +329,7 @@ class ItemController extends Controller
                 ]);
             }
         } else {
+            // Нужная команда (при доступе без входа/регистрации) , не удалять
             return view('message', ['message' => trans('main.no_access_for_unregistered_users')]);
         }
 

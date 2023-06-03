@@ -233,12 +233,21 @@ height: 100%;
                     <?php
                     // Ссылка на проект Инструкции Abakusonline
                     $instr_link = env('INSTRUCTIONS_LINK');
+                    $instr_new_link = env('INSTRUCTIONS_NEW_LINK');
                     ?>
                     @if($instr_link !='')
                         <li class="nav-item"><a class="nav-link"
                                                 href="{{$instr_link}}"
                                                 title="{{trans('main.instructions')}}">
                                 {{trans('main.instructions')}}
+                            </a>
+                        </li>
+                    @endif
+                    @if($instr_new_link !='')
+                        <li class="nav-item"><a class="nav-link"
+                                                href="{{$instr_new_link}}"
+                                                title="{{trans('main.instructions_new_version')}}">
+                                {{trans('main.instructions_new_version')}}
                             </a>
                         </li>
                     @endif
@@ -350,7 +359,12 @@ height: 100%;
             <div class="alert alert-dismissible fade show" role="alert">
                 <p>
                 <h5 class="display-5 text-danger text-center">
-                    {{trans('main.please_login_or_register')}}
+                    {{trans('main.please_follow')}}
+                    <a href="{{ route('login') }}"
+                       title="{{trans('main.login')}}">{{trans('main.login')}}</a>
+                    {{trans('main.or')}}
+                    <a href="{{ route('register') }}" title="{{trans('main.register')}}">
+                        {{trans('main.register')}}</a>
                 </h5>
                 </p>
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
