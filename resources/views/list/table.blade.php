@@ -755,10 +755,11 @@ $num_cols = GlobalController::get_number_of_columns_info();
                                         @if($heading)
                                             {{--                                            <small>--}}
                                             {{--                                                <mark class="text-project">--}}
-                                            @include('layouts.item.empty_name', ['name'=>$item_find->name(true,false,false,$heading & $emoji_enable)])
+                                            {{--                                            @include('layouts.item.empty_name', ['name'=>$item_find->name(true,false,false,$heading & $emoji_enable)])--}}
                                         @else
-                                            @include('layouts.item.empty_name', ['name'=>$item_find->name(false,false,false,$heading & $emoji_enable)])
+                                            {{--                                            @include('layouts.item.empty_name', ['name'=>$item_find->name(false,false,false,$heading & $emoji_enable)])--}}
                                         @endif
+                                        @include('layouts.item.empty_name', ['name'=>$item_find->name(false,false,false,$heading & $emoji_enable)])
                                         @if($heading)
                                             {{--                                                </mark>--}}
                                             {{--                                            </small>--}}
