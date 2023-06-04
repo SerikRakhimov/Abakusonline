@@ -478,8 +478,7 @@ class ItemController extends Controller
             $view_link = Link::find($view_link);
         }
 
-        // Нужно все
-        //$view_ret_id = null;
+        // Нужно
         $view_ret_id = GlobalController::set_relit_id($view_ret_id);
 
         // Нужно
@@ -561,6 +560,8 @@ class ItemController extends Controller
         $array_relips = $next_all_links_mains_calc['array_relips'];
         $current_link = $next_all_links_mains_calc['current_link'];
         $view_ret_id = $next_all_links_mains_calc['current_vw_ret_id'];
+        // Нужно
+        $view_ret_id = GlobalController::set_relit_id($view_ret_id);
         $message_ln_info = '';
         $message_ln_validate = '';
 
@@ -650,159 +651,113 @@ class ItemController extends Controller
         $string_current = self::string_zip_current_next($string_link_ids_current, $string_item_ids_current, $string_relit_ids_current, $string_vwret_ids_current, $string_all_codes_current);
         $string_next = self::string_zip_current_next($string_link_ids_next, $string_item_ids_next, $string_relit_ids_next, $string_vwret_ids_next, $string_all_codes_next);
 
-        if (count($next_all_links) == 0) {
-            // Нужно использовать 'GlobalController::set_rev_relit_id($view_ret_id))' - преобразовать в строку 'null' при $view_ret_id = null
+//        if (count($next_all_links) == 0) {
+////            "'par_link' => GlobalController::set_par_view_link_null($tree_array_last_link_id)" неправильно
+////            "'par_link' => $tree_array_last_link_id" правильно
 //            return redirect()->route('item.ext_show', [
 //                'item' => $item,
 //                'project' => $project,
 //                'role' => $role,
 //                'usercode' => GlobalController::usercode_calc(),
-//                'relit_id' => GlobalController::set_relit_id($relit_id),
-//                'string_current' => $string_current,
+//                'relit_id' => GlobalController::set_relit_id($save_relit_id),
+//                'string_current' => $tree_array_last_string_previous,
 //                'heading' => intval(false),
 //                'base_index_page' => $prev_base_index_page,
 //                'body_link_page' => $prev_body_link_page,
 //                'body_all_page' => $prev_body_all_page,
 //                'view_link' => GlobalController::set_par_view_link_null($tree_array_last_link_id),
-//                'par_link' => $tree_array_last_link_id,
 //                'parent_item' => $tree_array_last_item_id,
-//                'parent_ret_id' => GlobalController::set_relit_id($view_ret_id)
+//                'par_link' => $tree_array_last_link_id,
+//                'parent_ret_id' => GlobalController::set_relit_id($save_view_ret_id)
 //            ]);
-//            "'par_link' => GlobalController::set_par_view_link_null($tree_array_last_link_id)" неправильно
-//            "'par_link' => $tree_array_last_link_id" правильно
-            return redirect()->route('item.ext_show', [
-                'item' => $item,
-                'project' => $project,
-                'role' => $role,
-                'usercode' => GlobalController::usercode_calc(),
-                'relit_id' => GlobalController::set_relit_id($save_relit_id),
-                'string_current' => $tree_array_last_string_previous,
-                'heading' => intval(false),
-                'base_index_page' => $prev_base_index_page,
-                'body_link_page' => $prev_body_link_page,
-                'body_all_page' => $prev_body_all_page,
-                'view_link' => GlobalController::set_par_view_link_null($tree_array_last_link_id),
-                'parent_item' => $tree_array_last_item_id,
-                'par_link' => $tree_array_last_link_id,
-                'parent_ret_id' => GlobalController::set_relit_id($save_view_ret_id)
-            ]);
-
-        } else {
-            //     session(['links' => ((!empty($_SERVER['HTTPS'])) ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . '/' . request()->path()]);
-
-            // Передача параметров "$project, $role, false, true, $view_ret_id, $view_link, $item->base" нужна
-//            $get_project_bases = GlobalController::get_project_bases($project, $role, false, true, $view_ret_id, $item->base, $view_link, $relit_id);
-//            //$array_relips = $get_project_bases['array_relips'];
-//            $view_found_ret_id = $get_project_bases['view_found_ret_id'];
-//            $view_ret_new_id = $get_project_bases['view_ret_id'];
 //
-//            // Если $view_ret_id найдено
-//            if ($view_found_ret_id) {
-//                // Если $view_ret_id поменялось
-//                if ($view_ret_id != $view_ret_new_id) {
-//                    // Нужно присваивание
-//                    $view_ret_id = $view_ret_new_id;
-//                    // Перевызов с правильным значением $view_ret_id
-//                    return redirect()->route('item.item_index', ['project' => $project, 'item' => $item, 'role' => $role,
-//                        'usercode' => GlobalController::usercode_calc(),
-//                        'relit_id' => $relit_id,
-//                        'called_from_button' => 0,
-//                        'view_link' => GlobalController::set_par_view_link_null($view_link),
-//                        'string_current' => $string_current,
-//                        'prev_base_index_page' => $prev_base_index_page,
-//                        'prev_body_link_page' => $prev_body_link_page,
-//                        'prev_body_all_page' => $prev_body_all_page,
-//                        'view_ret_id' => $view_ret_id]);
-//                }
-//            } else {
-//                return view('message', ['message' => 'view_ret_id: ' . mb_strtolower(trans('main.value_not_found'))]);
-//            }
-
-            // Редирект страницы
-            // Если одна запись в списке - тогда идти дальше, пропустить
-            // Нужно '$redirect_item_index = false;'
-            $redirect_item_index = false;
-            if ($view_link) {
-                if ($base_body_right['is_skip_count_records_equal_1_item_body_index'] == true) {
-                    if (count($body_items) == 1) {
-                        $item_redirect = $body_items->first();
-                        if ($item_redirect) {
-                            $redirect_item_index = true;
-                            // "'view_link' => $view_link" не использовать
-                            return redirect()->route('item.item_index', ['project' => $project, 'item' => $item_redirect, 'role' => $role,
-                                'usercode' => GlobalController::usercode_calc(),
-                                'relit_id' => $view_ret_id,
-                                'called_from_button' => 0,
-                                'view_link' => GlobalController::par_link_const_textnull(),
-                                'string_current' => $string_next,
-                                'prev_base_index_page' => $base_index_page_current,
-                                'prev_body_link_page' => $body_link_page_current,
-                                'prev_body_all_page' => $body_all_page_current,
-                                'view_ret_id' => $view_ret_id]);
-                        }
+//        } else {
+        //     session(['links' => ((!empty($_SERVER['HTTPS'])) ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . '/' . request()->path()]);
+        // Редирект страницы
+        // Если одна запись в списке - тогда идти дальше, пропустить
+        // Нужно '$redirect_item_index = false;'
+        $redirect_item_index = false;
+        if ($view_link) {
+            if ($base_body_right['is_skip_count_records_equal_1_item_body_index'] == true) {
+                if (count($body_items) == 1) {
+                    $item_redirect = $body_items->first();
+                    if ($item_redirect) {
+                        $redirect_item_index = true;
+                        // "'view_link' => $view_link" не использовать
+                        return redirect()->route('item.item_index', ['project' => $project, 'item' => $item_redirect, 'role' => $role,
+                            'usercode' => GlobalController::usercode_calc(),
+                            'relit_id' => $view_ret_id,
+                            'called_from_button' => 0,
+                            'view_link' => GlobalController::par_link_const_textnull(),
+                            'string_current' => $string_next,
+                            'prev_base_index_page' => $base_index_page_current,
+                            'prev_body_link_page' => $body_link_page_current,
+                            'prev_body_all_page' => $body_all_page_current,
+                            'view_ret_id' => $view_ret_id]);
                     }
                 }
             }
-            if ($redirect_item_index == false) {
-                $message_bs_calc = ItemController::message_bs_calc($relip_project, $item->base);
-                $message_bs_info = $message_bs_calc['message_bs_info'];
-                $message_bs_validate = $message_bs_calc['message_bs_validate'];
-                return view('item/item_index', ['project' => $project, 'item' => $item, 'role' => $role,
-                    'relit_id' => $relit_id,
-                    'view_link' => GlobalController::set_par_view_link_null($view_link),
-                    'view_ret_id' => $view_ret_id,
-                    'array_relips' => $array_relips,
-                    'base_right' => $base_right,
-                    'items' => $items,
-                    'prev_item' => $prev_item,
-                    'next_item' => $next_item,
-                    'child_links' => $child_links,
-                    'child_links_info' => $child_links_info,
-                    'child_mains_link_is_calcname' => $child_mains_link_is_calcname,
-                    'child_body_links_info' => $child_body_links_info,
-                    'body_items' => $body_items,
-                    'its_body_page' => $its_body_page,
-                    'base_body_right' => $base_body_right,
-                    'tree_array' => $tree_array,
-                    'tree_array_last_link_id' => $tree_array_last_link_id,
-                    'tree_array_last_item_id' => $tree_array_last_item_id,
-                    'string_link_ids_current' => $string_link_ids_current,
-                    'string_item_ids_current' => $string_item_ids_current,
-                    'string_relit_ids_current' => $string_relit_ids_current,
-                    'string_vwret_ids_current' => $string_vwret_ids_current,
-                    'string_all_codes_current' => $string_all_codes_current,
-                    'string_current' => $string_current,
-                    'string_link_ids_next' => $string_link_ids_next,
-                    'string_item_ids_next' => $string_item_ids_next,
-                    'string_relit_ids_next' => $string_relit_ids_next,
-                    'string_vwret_ids_next' => $string_vwret_ids_next,
-                    'string_all_codes_next' => $string_all_codes_next,
-                    'string_next' => $string_next,
-                    'next_all_links' => $next_all_links,
-                    'next_all_mains' => $next_all_mains,
-                    'next_all_is_create' => $next_all_is_create,
-                    'next_all_is_all_create' => $next_all_is_all_create,
-                    'next_all_is_calcname' => $next_all_is_calcname,
-                    'next_all_is_code_enable' => $next_all_is_code_enable,
-                    'next_all_is_enable' => $next_all_is_enable,
-                    'message_bs_info' => $message_bs_info,
-                    'message_bs_validate' => $message_bs_validate,
-                    'message_ln_info' => $message_ln_info,
-                    'message_ln_validate' => $message_ln_validate,
-                    'string_link_ids_array_next' => $string_link_ids_array_next,
-                    'string_item_ids_array_next' => $string_item_ids_array_next,
-                    'string_relit_ids_array_next' => $string_relit_ids_array_next,
-                    'string_vwret_ids_array_next' => $string_vwret_ids_array_next,
-                    'string_all_codes_array_next' => $string_all_codes_array_next,
-                    'string_array_next' => $string_array_next,
-                    'message_ln_array_info' => $message_ln_array_info,
-                    'message_ln_link_array_item' => $message_ln_link_array_item,
-                    'base_index_page' => $base_index_page_current,
-                    'body_link_page' => $body_link_page_current,
-                    'body_all_page' => $body_all_page_current
-                ]);
-            }
         }
+        if ($redirect_item_index == false) {
+            $message_bs_calc = ItemController::message_bs_calc($relip_project, $item->base);
+            $message_bs_info = $message_bs_calc['message_bs_info'];
+            $message_bs_validate = $message_bs_calc['message_bs_validate'];
+            return view('item/item_index', ['project' => $project, 'item' => $item, 'role' => $role,
+                'relit_id' => $relit_id,
+                'view_link' => GlobalController::set_par_view_link_null($view_link),
+                'view_ret_id' => $view_ret_id,
+                'array_relips' => $array_relips,
+                'base_right' => $base_right,
+                'items' => $items,
+                'prev_item' => $prev_item,
+                'next_item' => $next_item,
+                'child_links' => $child_links,
+                'child_links_info' => $child_links_info,
+                'child_mains_link_is_calcname' => $child_mains_link_is_calcname,
+                'child_body_links_info' => $child_body_links_info,
+                'body_items' => $body_items,
+                'its_body_page' => $its_body_page,
+                'base_body_right' => $base_body_right,
+                'tree_array' => $tree_array,
+                'tree_array_last_link_id' => $tree_array_last_link_id,
+                'tree_array_last_item_id' => $tree_array_last_item_id,
+                'string_link_ids_current' => $string_link_ids_current,
+                'string_item_ids_current' => $string_item_ids_current,
+                'string_relit_ids_current' => $string_relit_ids_current,
+                'string_vwret_ids_current' => $string_vwret_ids_current,
+                'string_all_codes_current' => $string_all_codes_current,
+                'string_current' => $string_current,
+                'string_link_ids_next' => $string_link_ids_next,
+                'string_item_ids_next' => $string_item_ids_next,
+                'string_relit_ids_next' => $string_relit_ids_next,
+                'string_vwret_ids_next' => $string_vwret_ids_next,
+                'string_all_codes_next' => $string_all_codes_next,
+                'string_next' => $string_next,
+                'next_all_links' => $next_all_links,
+                'next_all_mains' => $next_all_mains,
+                'next_all_is_create' => $next_all_is_create,
+                'next_all_is_all_create' => $next_all_is_all_create,
+                'next_all_is_calcname' => $next_all_is_calcname,
+                'next_all_is_code_enable' => $next_all_is_code_enable,
+                'next_all_is_enable' => $next_all_is_enable,
+                'message_bs_info' => $message_bs_info,
+                'message_bs_validate' => $message_bs_validate,
+                'message_ln_info' => $message_ln_info,
+                'message_ln_validate' => $message_ln_validate,
+                'string_link_ids_array_next' => $string_link_ids_array_next,
+                'string_item_ids_array_next' => $string_item_ids_array_next,
+                'string_relit_ids_array_next' => $string_relit_ids_array_next,
+                'string_vwret_ids_array_next' => $string_vwret_ids_array_next,
+                'string_all_codes_array_next' => $string_all_codes_array_next,
+                'string_array_next' => $string_array_next,
+                'message_ln_array_info' => $message_ln_array_info,
+                'message_ln_link_array_item' => $message_ln_link_array_item,
+                'base_index_page' => $base_index_page_current,
+                'body_link_page' => $body_link_page_current,
+                'body_all_page' => $body_all_page_current
+            ]);
+        }
+        //}
     }
 
     function string_null()
