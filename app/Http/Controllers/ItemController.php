@@ -651,6 +651,8 @@ class ItemController extends Controller
         $string_current = self::string_zip_current_next($string_link_ids_current, $string_item_ids_current, $string_relit_ids_current, $string_vwret_ids_current, $string_all_codes_current);
         $string_next = self::string_zip_current_next($string_link_ids_next, $string_item_ids_next, $string_relit_ids_next, $string_vwret_ids_next, $string_all_codes_next);
 
+        // Не удалять
+        // Перенаправление на "route('item.ext_show'" при "count($next_all_links) == 0"
 //        if (count($next_all_links) == 0) {
 ////            "'par_link' => GlobalController::set_par_view_link_null($tree_array_last_link_id)" неправильно
 ////            "'par_link' => $tree_array_last_link_id" правильно
