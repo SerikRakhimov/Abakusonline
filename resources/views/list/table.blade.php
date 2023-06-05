@@ -765,8 +765,10 @@ $num_cols = GlobalController::get_number_of_columns_info();
                                         @endif
                                         {{--                                        @if($heading & $link->parent_base->type_is_text() & $base_link_right['is_list_base_read'] == true)--}}
                                         @if($link->parent_base->type_is_text() & $base_link_right['is_list_base_read'] == true)
+                                            1000
                                             @include('layouts.item.empty_name', ['name'=>GlobalController::it_txnm_n2b($item_find,$heading & $emoji_enable)])
                                         @else
+                                            2222
                                             @include('layouts.item.empty_name', ['name'=>$item_find->name(false,false,false,$heading & $emoji_enable)])
                                         @endif
                                         @if($heading)
