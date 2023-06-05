@@ -129,7 +129,7 @@ class Item extends Model
 //                    : ($this->name_lang_0 == "0" ? "0-".trans('main.false') : trans('main.empty'));
                 //
             } elseif ($base->type_is_text()) {
-                $result = GlobalController::it_txnm_n2b($this->id);
+                $result = GlobalController::it_txnm_n2b($this);
             } else {
                 $index = array_search(App::getLocale(), config('app.locales'));
                 if ($index !== false) {   // '!==' использовать, '!=' не использовать
