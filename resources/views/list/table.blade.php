@@ -367,10 +367,17 @@ $num_cols = GlobalController::get_number_of_columns_info();
                             @if($matrix[$x][$y]["view_field"] != null)
                                 <th rowspan="{{$matrix[$x][$y]["rowspan"]}}"
                                     colspan="{{$matrix[$x][$y]["colspan"]}}"
-                                    {{--                                    @if($x == 0)--}}
-                                    @if($x == 0 & !$heading)
-                                    @include('layouts.class_from_base',['base'=>$link->parent_base, 'align_top'=>true])
+                                    @if($x == 0)
+                                    @if($heading)
+                                    @if($link->parent_base->type_is_text())
+                                    class="text-left"
                                     @else
+                                    class="text-center align-top"
+                                    @endif
+                                    @else  // no ($heading)
+                                    @include('layouts.class_from_base',['base'=>$link->parent_base, 'align_top'=>true])
+                                    @endif
+                                    @else  // no ($x == 0)
                                     class="text-center align-top"
                                     @endif
                                 >
@@ -385,11 +392,11 @@ $num_cols = GlobalController::get_number_of_columns_info();
                                                 <a href="{{route('item.base_index',['base'=>$link->parent_base_id, 'project'=>$project, 'role'=>$role, 'relit_id' => $link->parent_relit_id])}}"
                                                    title="{{$link->parent_base->names()}}">
                                                     {{--                                                    {{GlobalController::calc_title_name($matrix[$x][$y]["view_name"], $heading, $heading)}}--}}
-                                                    {{GlobalController::calc_title_name($matrix[$x][$y]["view_name"], $heading)}}
+                                                    {{GlobalController::calc_title_name($matrix[$x][$y]["view_name"])}}
                                                 </a>
                                             @else
                                                 {{--                                                {{GlobalController::calc_title_name($matrix[$x][$y]["view_name"], $heading, $heading)}}--}}
-                                                {{GlobalController::calc_title_name($matrix[$x][$y]["view_name"], $heading)}}
+                                                {{GlobalController::calc_title_name($matrix[$x][$y]["view_name"])}}
                                             @endif
                                             @if($heading)
                                         </small>

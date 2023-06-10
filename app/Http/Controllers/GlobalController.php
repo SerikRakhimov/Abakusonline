@@ -2718,7 +2718,7 @@ class GlobalController extends Controller
         return $name;
     }
 
-    static function calc_title_name($name, $lower = true, $dvoetoch = false)
+    static function calc_title_name($name, $lower = false, $dvoetoch = true)
     {
         $result = $name;
         if ($lower) {
