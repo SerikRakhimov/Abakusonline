@@ -380,7 +380,7 @@ $num_cols = GlobalController::get_number_of_columns_info();
                                     @else  // no ($x == 0)
                                     class="text-center align-top"
                                     @endif
-                                >
+                                >1
                                     @if($heading)
                                         <small>
                                             @endif
@@ -396,7 +396,7 @@ $num_cols = GlobalController::get_number_of_columns_info();
                                                 </a>
                                             @else
                                                 {{--                                                {{GlobalController::calc_title_name($matrix[$x][$y]["view_name"], $heading, $heading)}}--}}
-                                                {{GlobalController::calc_title_name($matrix[$x][$y]["view_name"],false, false)}}
+                                                {{GlobalController::calc_title_name($matrix[$x][$y]["view_name"],false, $heading)}}
                                             @endif
                                             @if($heading)
                                         </small>
