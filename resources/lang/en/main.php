@@ -347,7 +347,7 @@ return [
     'descendants' => 'Descendants',
     'docnm' => 'Document name',
     'instructions' => 'Instructions',
-    'instructions_new_version' => 'Instructions (new version)',
+    'instructions_new_version' => 'Interactive instructions',
     'maxcount_lst' => 'Maximum number of records allowed (0 - unlimited)',
     'is_del_maxcnt_lst' => 'Delete records when the allowed number of records is reached',
     'maxcount_user_id_lst' => 'Maximum allowed number of user user_id filter entries (0 - unlimited)',

@@ -380,7 +380,7 @@ $num_cols = GlobalController::get_number_of_columns_info();
                                     @else  // no ($x == 0)
                                     class="text-center align-top"
                                     @endif
-                                >1
+                                >
                                     @if($heading)
                                         <small>
                                             @endif
