@@ -396,7 +396,7 @@ $num_cols = GlobalController::get_number_of_columns_info();
                                                 </a>
                                             @else
                                                 {{--                                                {{GlobalController::calc_title_name($matrix[$x][$y]["view_name"], $heading, $heading)}}--}}
-                                                {{GlobalController::calc_title_name($matrix[$x][$y]["view_name"])}}
+                                                {{GlobalController::calc_title_name($matrix[$x][$y]["view_name"],false, false)}}
                                             @endif
                                             @if($heading)
                                         </small>
