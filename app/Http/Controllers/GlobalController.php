@@ -709,8 +709,8 @@ class GlobalController extends Controller
         }
 
         // Важно: Для просмотра в base_index.php и item_index.php(если есть $link в исходных передаваемых параметрах)
-//        if ($base_right['is_tst_enable'] == true) {
-        if ($base_right['is_tst_enable'] == true & !$mains_link_id) {
+        // if ($base_right['is_tst_enable'] == true & isset($mains_link_id)) {
+        if ($base_right['is_tst_enable'] == true) {
             // Если выборка идет из таблицы mains, значит mains.parent_item_id есть и заполнено
             $mains = Main::select(['mains.*'])->
             join('items as it_ch', 'mains.child_item_id', '=', 'it_ch.id')
