@@ -505,6 +505,7 @@ class ItemController extends Controller
         $child_links_info = self::links_info($item->base, $role, $relit_id,
             $item, null, true, $tree_array, $para_child_mains_link_is_calcname);
 
+        // Похожие строки в ItemController::item_index() и ItemController::ext_update()
         // Используется последний элемент массива $tree_array
         $tree_array_last_link_id = null;
         $tree_array_last_item_id = null;
@@ -518,7 +519,6 @@ class ItemController extends Controller
         }
 
         // "Шапка" документа
-        // Используется $relip_project
         // Используется фильтр на равенство одному $item->id (для вывода таблицы из одной строки)
         if (empty($tree_array)) {
             $items_right = GlobalController::items_right($item->base, $item->project, $role, $relit_id, null, null, null, null, $item->id);
@@ -4969,7 +4969,7 @@ class ItemController extends Controller
                     }
                 }
 
-                // только для ext_update()
+                // Только для ext_update()
                 // true - с реверсом
                 // обязательно true - с заменой
                 $this->save_info_sets($item, true, true);
@@ -5139,7 +5139,7 @@ class ItemController extends Controller
                 $item->save();
 
                 // Нужно
-                // только для ext_update()
+                // Только для ext_update()
                 // Перерасчет $items по переданным $item по всем проектам,
                 // т.к. $item->names... могли поменяться
                 // обязательно нужно после команды " $item->save();"
@@ -5228,19 +5228,72 @@ class ItemController extends Controller
 //                    'prev_body_link_page' => $body_link_page,
 //                    'prev_body_all_page' => $body_all_page,
 //                    'view_ret_id' => $relit_id]);
-                return redirect()->route('item.item_index', ['project' => $project, 'item' => $item, 'role' => $role,
-                    'usercode' => GlobalController::usercode_calc(),
-                    'relit_id' => $relit_id,
-                    'called_from_button' => 1,
-                    'view_link' => $str_link,
-                    // 'string_link_ids_current' => $string_link_ids_current, 'string_item_ids_current' => $string_item_ids_current, 'string_all_codes_current' => $string_all_codes_current,
-                    'string_current' => $string_current,
-                    'base_index_page' => $base_index_page, 'body_link_page' => $body_link_page, 'body_all_page' => $body_all_page,
-                    'prev_base_index_page' => $base_index_page,
-                    'prev_body_link_page' => $body_link_page,
-                    'prev_body_all_page' => $body_all_page,
-                    'view_ret_id' => $parent_ret_id
-                ]);
+
+                // Только для ext_update()
+                // Этот блок нужен, если $base_link_right['is_edit_parlink_enable'] == true есть в $item->links
+                // Например, корректировка "На модерации"
+                $is_redirect = false;
+                // Похожие строки в ItemController::item_index() и ItemController::ext_update()
+                $string_unzip_current_next = self::string_unzip_current_next($string_current);
+                $string_link_ids_current = $string_unzip_current_next['string_link_ids'];
+                $string_item_ids_current = $string_unzip_current_next['string_item_ids'];
+                $string_relit_ids_current = $string_unzip_current_next['string_relit_ids'];
+                $string_vwret_ids_current = $string_unzip_current_next['string_vwret_ids'];
+                $string_all_codes_current = $string_unzip_current_next['string_all_codes'];
+
+                $tree_array = self::calc_tree_array($role,
+                    $string_link_ids_current,
+                    $string_item_ids_current,
+                    $string_relit_ids_current,
+                    $string_vwret_ids_current,
+                    $string_all_codes_current);
+                $count_tree_array = count($tree_array);
+                if ($count_tree_array > 0) {
+                    // Используется последний элемент массива $tree_array
+                    // ' - 1' т.к. нумерация массива $tree_array с нуля начинается
+                    $tree_array_last_link_id = $tree_array[$count_tree_array - 1]['link_id'];
+                    $tree_array_last_item_id = $tree_array[$count_tree_array - 1]['item_id'];
+                    $tree_array_last_relit_id = $tree_array[$count_tree_array - 1]['relit_id'];
+                    $tree_array_last_string_previous = $tree_array[$count_tree_array - 1]['string_previous'];
+                    // "Шапка" документа
+                    // Используется фильтр на равенство одному $item->id (для вывода таблицы из одной строки)
+                    // $relit_id нужно передавать, предпоследний параметр, нужно так, чтобы правильно данные выбирались
+                    // Эта проверка "GlobalController::items_right() и count($items_right) == 0" нужна чтобы проверить нужно ли отображать запись $item (в "шапке")
+                    // Например, корректируется "На модерации": ставится null, в $tree_array есть значение "На модерации"
+                    // "count($items_right) == 0" - значит запись $item не должна отображаться
+                    // "count($items_right) != 0" - если значение "На модерации" осталось как в $tree_array, значит запись отображается
+                    $items_right = GlobalController::items_right($item->base, $item->project, $role, $relit_id, $tree_array_last_item_id, $tree_array_last_link_id, $project, $relit_id, $item->id)['items']->get();
+                    // Использовать проверку 'count($items_right) == 0'
+                    if (count($items_right) == 0) {
+                        $is_redirect = true;
+                        return redirect()->route('item.item_index', ['project' => $project, 'item' => $tree_array_last_item_id, 'role' => $role,
+                            'usercode' => GlobalController::usercode_calc(),
+                            'relit_id' => $tree_array_last_relit_id,
+                            'called_from_button' => 1,
+                            'view_link' => $tree_array_last_link_id,
+                            'string_current' => $tree_array_last_string_previous,
+                            'base_index_page' => $base_index_page, 'body_link_page' => $body_link_page, 'body_all_page' => $body_all_page,
+                            'prev_base_index_page' => $base_index_page,
+                            'prev_body_link_page' => $body_link_page,
+                            'prev_body_all_page' => $body_all_page
+                        ]);
+                    }
+                }
+                if (!$is_redirect) {
+                    return redirect()->route('item.item_index', ['project' => $project, 'item' => $item, 'role' => $role,
+                        'usercode' => GlobalController::usercode_calc(),
+                        'relit_id' => $relit_id,
+                        'called_from_button' => 1,
+                        'view_link' => $str_link,
+                        // 'string_link_ids_current' => $string_link_ids_current, 'string_item_ids_current' => $string_item_ids_current, 'string_all_codes_current' => $string_all_codes_current,
+                        'string_current' => $string_current,
+                        'base_index_page' => $base_index_page, 'body_link_page' => $body_link_page, 'body_all_page' => $body_all_page,
+                        'prev_base_index_page' => $base_index_page,
+                        'prev_body_link_page' => $body_link_page,
+                        'prev_body_all_page' => $body_all_page,
+                        'view_ret_id' => $parent_ret_id
+                    ]);
+                }
             }
         }
     }

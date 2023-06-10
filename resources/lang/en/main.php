@@ -464,7 +464,7 @@ return [
     'parent_is_cus_link' => 'For the current user (links) (link = current user, for base_index.php, item_index($link))',
     'tree_structure' => 'Tree structure',
     'is_base_required' =>'Required (for lists, if $base->is_required_lst_num_str_txt_img_doc = false',
-    'is_edit_parlink_enable' => 'Allow field adjustment when linking parlink',
+    'is_edit_parlink_enable' => 'Allow field adjustment on parlink (on record adjustment)',
     'parent_is_seqnum' => 'Sequence number (automatic calculation of initial values, for numeric fields)',
     'parent_seqnum_link_id' => 'Link_id for calculating the sequence number (with Sequence number = mark), 0 - calculation of the sequence number for the entire base (table)',
     'no_external_role_check_mark' => 'No external role check mark',

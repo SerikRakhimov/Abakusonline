@@ -519,8 +519,14 @@
                                    disabled
                                    @else
                                    @if($par_link)
-                                   @if (($key == $par_link->id) & ($base_link_right['is_edit_parlink_enable'] == false))
+                                   {{--                                   @if (($key == $par_link->id) & ($base_link_right['is_edit_parlink_enable'] == false))--}}
+                                   {{--                                   disabled--}}
+                                   {{--                                @endif--}}
+                                   @if ($key == $par_link->id)
+                                   {{-- '(!$update)' - только при добавлении записи--}}
+                                   @if ((!$update) | ($base_link_right['is_edit_parlink_enable'] == false))
                                    disabled
+                                @endif
                                 @endif
                                 @endif
                                 @endif
@@ -561,8 +567,14 @@
                                     disabled
                                     @else
                                     @if($par_link )
-                                    @if (($key == $par_link->id) & ($base_link_right['is_edit_parlink_enable'] == false))
+                                    {{--                                    @if (($key == $par_link->id) & ($base_link_right['is_edit_parlink_enable'] == false))--}}
+                                    {{--                                    disabled--}}
+                                    {{--                                @endif--}}
+                                    @if ($key == $par_link->id)
+                                    {{-- '(!$update)' - только при добавлении записи--}}
+                                    @if ((!$update) | ($base_link_right['is_edit_parlink_enable'] == false))
                                     disabled
+                                @endif
                                 @endif
                                 @endif
                                 @endif
@@ -603,14 +615,14 @@
                                    id="link{{$key}}"
                                    class="form-control @error($key) is-invalid @enderror"
                                    placeholder=""
-{{--                                   value="{{(old($key)) ?? (($value != null) ? GlobalController::restore_number_from_item($link->parent_base, Item::find($value)->name()) :--}}
-{{--                                    (($link->parent_num_bool_default_value!="")? $link->parent_num_bool_default_value:'0')--}}
-{{--                                    )}}"--}}
-{{--                                    GlobalController::restore_number_from_item() - на вход число с нулями спереди--}}
-{{--                                    На выходе это же число в виде строки--}}
-{{--                                    Нужно для правильного отображения чисел--}}
-{{--                            "$parent_item->project_id" не использовать, правильно "$project"--}}
-                            value="{{(old($key)) ?? (($value != null) ? GlobalController::restore_number_from_item($link->parent_base, Item::find($value)->name()) :
+                                   {{--                                   value="{{(old($key)) ?? (($value != null) ? GlobalController::restore_number_from_item($link->parent_base, Item::find($value)->name()) :--}}
+                                   {{--                                    (($link->parent_num_bool_default_value!="")? $link->parent_num_bool_default_value:'0')--}}
+                                   {{--                                    )}}"--}}
+                                   {{--                                    GlobalController::restore_number_from_item() - на вход число с нулями спереди--}}
+                                   {{--                                    На выходе это же число в виде строки--}}
+                                   {{--                                    Нужно для правильного отображения чисел--}}
+                                   {{--                            "$parent_item->project_id" не использовать, правильно "$project"--}}
+                                   value="{{(old($key)) ?? (($value != null) ? GlobalController::restore_number_from_item($link->parent_base, Item::find($value)->name()) :
                                                                 (($link->parent_is_seqnum==true)? ItemController::calculate_new_seqnum($project, $link, $parent_item, $par_link):
                                                                 (($link->parent_num_bool_default_value!="")? $link->parent_num_bool_default_value: '0'))
                                                                 )}}"
@@ -621,8 +633,14 @@
                                    @else
                                    @if($par_link || $link->parent_is_nc_viewonly==true)
                                    @if($par_link )
-                                   @if (($key == $par_link->id) & ($base_link_right['is_edit_parlink_enable'] == false))
+                                   {{--                                   @if (($key == $par_link->id) & ($base_link_right['is_edit_parlink_enable'] == false))--}}
+                                   {{--                                   disabled--}}
+                                   {{--                                   @endif--}}
+                                   @if ($key == $par_link->id)
+                                   {{-- '(!$update)' - только при добавлении записи--}}
+                                   @if ((!$update) | ($base_link_right['is_edit_parlink_enable'] == false))
                                    disabled
+                                   @endif
                                    @endif
                                    @elseif($link->parent_is_nc_viewonly==true)
                                    {{-- Похожая строка ниже--}}
@@ -703,8 +721,14 @@
                                    disabled
                                    @else
                                    @if($par_link )
-                                   @if (($key == $par_link->id) & ($base_link_right['is_edit_parlink_enable'] == false))
+                                   {{--                                   @if (($key == $par_link->id) & ($base_link_right['is_edit_parlink_enable'] == false))--}}
+                                   {{--                                   disabled--}}
+                                   {{--                                @endif--}}
+                                   @if ($key == $par_link->id)
+                                   {{-- '(!$update)' - только при добавлении записи--}}
+                                   @if ((!$update) | ($base_link_right['is_edit_parlink_enable'] == false))
                                    disabled
+                                @endif
                                 @endif
                                 @endif
                                 @endif
@@ -762,8 +786,14 @@
                                    @else
                                    @if($par_link || $link->parent_is_nc_viewonly==true)
                                    @if($par_link )
-                                   @if (($key == $par_link->id) & ($base_link_right['is_edit_parlink_enable'] == false))
+                                   {{--                                   @if (($key == $par_link->id) & ($base_link_right['is_edit_parlink_enable'] == false))--}}
+                                   {{--                                   disabled--}}
+                                   {{--                                   @endif--}}
+                                   @if ($key == $par_link->id)
+                                   {{-- '(!$update)' - только при добавлении записи--}}
+                                   @if ((!$update) | ($base_link_right['is_edit_parlink_enable'] == false))
                                    disabled
+                                   @endif
                                    @endif
                                    @elseif($link->parent_is_nc_viewonly==true)
                                    {{-- Похожая строка ниже--}}
@@ -814,8 +844,14 @@
                               disabled
                               @else
                               @if($par_link )
-                              @if (($key == $par_link->id) & ($base_link_right['is_edit_parlink_enable'] == false))
+                              {{--                              @if (($key == $par_link->id) & ($base_link_right['is_edit_parlink_enable'] == false))--}}
+                              {{--                              disabled--}}
+                              {{--                        @endif--}}
+                              @if ($key == $par_link->id)
+                              {{-- '(!$update)' - только при добавлении записи--}}
+                              @if ((!$update) | ($base_link_right['is_edit_parlink_enable'] == false))
                               disabled
+                        @endif
                         @endif
                         @endif
                         @endif
@@ -909,8 +945,14 @@
                               disabled
                               @else
                               @if($par_link )
-                              @if (($key == $par_link->id) & ($base_link_right['is_edit_parlink_enable'] == false))
+                              {{--                              @if (($key == $par_link->id) & ($base_link_right['is_edit_parlink_enable'] == false))--}}
+                              {{--                              disabled--}}
+                              {{--                        @endif--}}
+                              @if ($key == $par_link->id)
+                              {{-- '(!$update)' - только при добавлении записи--}}
+                              @if ((!$update) | ($base_link_right['is_edit_parlink_enable'] == false))
                               disabled
+                        @endif
                         @endif
                         @endif
                         @endif
@@ -1032,9 +1074,15 @@
                                     disabled
                                     @else
                                     @if($par_link || $link->parent_is_nc_viewonly==true)
-                                    @if($par_link )
-                                    @if (($key == $par_link->id) & ($base_link_right['is_edit_parlink_enable'] == false))
+                                    @if($par_link)
+                                    {{--                                    @if (($key == $par_link->id) & ($base_link_right['is_edit_parlink_enable'] == false))--}}
+                                    {{--                                    disabled--}}
+                                    {{--                                    @endif--}}
+                                    @if ($key == $par_link->id)
+                                    {{-- '(!$update)' - только при добавлении записи--}}
+                                    @if ((!$update) | ($base_link_right['is_edit_parlink_enable'] == false))
                                     disabled
+                                    @endif
                                     @endif
                                     @elseif($link->parent_is_nc_viewonly==true)
                                     {{--                                Учет "disabled" при "$link->parent_is_nc_viewonly==true", см ItemController::get_array_calc()--}}
@@ -1969,7 +2017,7 @@
             @foreach($array_disabled as $key=>$value)
                 ds = true;
             @if($par_link)
-                {{-- Проверки на ($base_link_right['is_edit_parlink_enable'] == false)) проводятся по тексту выше, здесь не нужные--}}
+                {{-- Проверки на ((!$update) | ($base_link_right['is_edit_parlink_enable'] == false)) проводятся по тексту выше, здесь не нужные--}}
                 {{-- @if (($key == $par_link->id) & ($base_link_right['is_edit_parlink_enable'] == false))--}}
                 @if($key == $par_link->id)
                 ds = false;
