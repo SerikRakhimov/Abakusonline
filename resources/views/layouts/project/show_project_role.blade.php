@@ -48,7 +48,7 @@ $get_user_author_avatar_item = $project->user->get_user_avatar_item();
             </a>
         </div>
     </div>
-    <blockquote class="text-title pt-1 pl-5 pr-5"><?php echo nl2br($role->desc()); ?></blockquote>
+    <blockquote class="text-title pt-5 pl-5 pr-5"><?php echo nl2br($role->desc()); ?></blockquote>
 </div>
 </p>
 <br>

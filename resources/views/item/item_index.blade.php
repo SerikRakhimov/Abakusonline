@@ -900,4 +900,5 @@
             @endif
         @endif
     @endif
+    <blockquote class="text-title pt-1 pl-0 pr-0"><?php echo nl2br($project->dc_int()); ?></blockquote>
 @endsection
