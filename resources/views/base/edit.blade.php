@@ -824,6 +824,33 @@
             </div>
         </div>
 
+        {{--        'По умолчанию, древовидная структура (main->parent_item = null, для base_index.php)'--}}
+        <div class="form-group row" id="is_default_twt_lst_form_group">
+            <div class="col-sm-3 text-right">
+                <label class="form-label"
+                       for="is_default_twt_lst">{{trans('main.is_default_twt_lst')}}</label>
+            </div>
+            <div class="col-sm-7">
+                <input class="@error('is_default_twt_lst') is-invalid @enderror"
+                       type="checkbox"
+                       name="is_default_twt_lst"
+                       id="linkis_default_twt_lst"
+                       placeholder=""
+                       @if ((old('is_default_twt_lst') ?? ($base->is_default_twt_lst ?? false)) ==  true)
+                       checked
+                    @endif
+                >
+                @error('is_default_twt_lst')
+                <div class="invalid-feedback">
+                    {{$message}}
+                </div>
+                @enderror
+            </div>
+            <div class="col-sm-2">
+            </div>
+        </div>
+
+{{--        'По умолчанию, tst структура (main->parent_item = null, для base_index.php, item_index($link))'--}}
         <div class="form-group row" id="is_default_tst_lst_form_group">
             <div class="col-sm-3 text-right">
                 <label class="form-label"
@@ -1001,6 +1028,7 @@
         var is_onevalue_str = document.getElementById('is_one_value_lst_str_txt_form_group');
         var is_calcname_lst = document.getElementById('is_calcname_lst_form_group');
         var is_calcnm_correct_lst = document.getElementById('is_calcnm_correct_lst_form_group');
+        var is_def_twt_lst = document.getElementById('is_default_twt_lst_form_group');
         var is_def_tst_lst = document.getElementById('is_default_tst_lst_form_group');
         var sepa_calcname = document.getElementById('sepa_calcname_form_group');
         var is_same_small_calcname = document.getElementById('is_same_small_calcname_form_group');
@@ -1061,6 +1089,7 @@
             val_onevalue_str = "hidden";
             val_calcname_lst = "hidden";
             val_calcnm_correct_lst = "hidden";
+            val_def_twt_lst = "hidden";
             val_def_tst_lst = "hidden";
             val_sepa_calcname = "hidden";
             val_same_small_calcname = "hidden";
@@ -1092,6 +1121,7 @@
                     val_onevalue_str = "visible";
                     val_calcname_lst = "visible";
                     val_calcnm_correct_lst = "visible";
+                    val_def_twt_lst = "visible";
                     val_def_tst_lst = "visible";
                     val_sepa_calcname = "visible";
                     val_same_small_calcname = "visible";
@@ -1158,6 +1188,7 @@
             is_onevalue_str.style.visibility = val_onevalue_str;
             is_calcname_lst.style.visibility = val_calcname_lst;
             is_calcnm_correct_lst.style.visibility = val_calcnm_correct_lst;
+            is_def_twt_lst.style.visibility = val_def_twt_lst;
             is_def_tst_lst.style.visibility = val_def_tst_lst;
             sepa_calcname.style.visibility = val_sepa_calcname;
             is_same_small_calcname.style.visibility = val_same_small_calcname;

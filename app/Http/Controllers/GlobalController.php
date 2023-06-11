@@ -110,6 +110,7 @@ class GlobalController extends Controller
         $is_hier_link_enable = $role->is_hier_link_enable;
         // '$base->is_required_lst_num_str_txt_img_doc' - значение по умолчанию
         $is_base_required = $base->is_required_lst_num_str_txt_img_doc;
+        $is_twt_enable = $base->is_default_twt_lst;
         $is_tst_enable = $base->is_default_tst_lst;
         $is_cus_enable = false;
         $is_edit_parlink_enable = false;
@@ -262,6 +263,7 @@ class GlobalController extends Controller
             if (!$base->is_required_lst_num_str_txt_img_doc & $base->type_is_list()) {
                 $is_roba_base_required = $roba->is_base_required;
             }
+            $is_roba_twt_enable = $roba->is_twt_enable;
             $is_roba_tst_enable = $roba->is_tst_enable;
             $is_roba_cus_enable = $roba->is_cus_enable;
             $is_roba_edit_parlink_enable = $roba->is_edit_parlink_enable;
@@ -331,6 +333,7 @@ class GlobalController extends Controller
             $is_hier_base_enable = $is_roba_hier_base_enable;
             $is_hier_link_enable = $is_roba_hier_link_enable;
             $is_base_required = $is_roba_base_required;
+            $is_twt_enable = $is_roba_twt_enable;
             $is_tst_enable = $is_roba_tst_enable;
             $is_cus_enable = $is_roba_cus_enable;
             $is_edit_parlink_enable = $is_roba_edit_parlink_enable;
@@ -389,6 +392,7 @@ class GlobalController extends Controller
             'is_hier_base_enable' => $is_hier_base_enable,
             'is_hier_link_enable' => $is_hier_link_enable,
             'is_base_required' => $is_base_required,
+            'is_twt_enable' => $is_twt_enable,
             'is_tst_enable' => $is_tst_enable,
             'is_cus_enable' => $is_cus_enable,
             'is_edit_parlink_enable' => $is_edit_parlink_enable,
@@ -407,7 +411,6 @@ class GlobalController extends Controller
         ];
     }
 
-//    static function base_link_right(Link $link, Role $role, $relit_id, bool $child_base = false)
     static function base_link_right(Link $link, Role $role, $relit_id, bool $child_base = false)
     {
         $base = null;
@@ -459,7 +462,8 @@ class GlobalController extends Controller
         $is_edit_link_update = $base_right['is_edit_link_update'];
         $is_hier_base_enable = $base_right['is_hier_base_enable'];
         $is_hier_link_enable = $base_right['is_hier_link_enable'];
-        // Нужно $base_child_right['is_tst_enable'] и $base_child_right['is_cus_enable']
+        // Нужно $base_child_right['is_twt_enable'], $base_child_right['is_tst_enable'] и $base_child_right['is_cus_enable']
+        $is_twt_enable = $base_child_right['is_twt_enable'];
         $is_tst_enable = $base_child_right['is_tst_enable'];
         $is_cus_enable = $base_child_right['is_cus_enable'];
         $is_edit_parlink_enable = $base_right['is_edit_parlink_enable'];
@@ -503,11 +507,19 @@ class GlobalController extends Controller
             //$is_edit_link_update = false;
         }
 
-        // Не показывать столбцы
-        //  Проверка 'Для древовидной структуры (link = null, для base_index.php)'
+        // Не показывать столбцы c null
+        //  Проверка 'Для древовидной структуры (main->parent_item = null, для base_index.php)'
+        if ($link->parent_is_twt_link == true & $is_twt_enable == true) {
+            // Нужно "$is_twt_enable = false;"
+            // для случая "item_index.php, $link->parent_is_tst_link = true, $link->child_base_id = $link->parent_base_id"
+            $is_twt_enable = false;
+            $is_list_link_enable = false;
+        }
+
+        // Не показывать столбцы c null
+        //  Проверка 'Для tst структуры (main->parent_item = null, для base_index.php, item_index($link))'
         if ($link->parent_is_tst_link == true & $is_tst_enable == true) {
             // Нужно "$is_tst_enable = false;"
-            // для случая "item_index.php, $link->parent_is_tst_link = true, $link->child_base_id = $link->parent_base_id"
             $is_tst_enable = false;
             $is_list_link_enable = false;
         }
@@ -576,6 +588,7 @@ class GlobalController extends Controller
             'is_hier_base_enable' => $is_hier_base_enable,
             'is_hier_link_enable' => $is_hier_link_enable,
             'is_base_required' => $is_base_required,
+            'is_twt_enable' => $is_twt_enable,
             'is_tst_enable' => $is_tst_enable,
             'is_cus_enable' => $is_cus_enable,
             'is_edit_parlink_enable' => $is_edit_parlink_enable,
@@ -702,14 +715,44 @@ class GlobalController extends Controller
             // Обязательно фильтр на два запроса:
             // where('base_id', $base->id)->where('project_id', $project->id)
             $items = Item::where('base_id', $base->id)->where('project_id', $project->id);
+
+            // 'Древовидная структура (main->parent_item = null, для base_index.php)'
+            // Важно: Для просмотра в base_index.php
+            // При вызове этой функции items_right() из base_index.php параметры '($mains_item_id && $mains_link_id && $parent_proj)' не передаются
+            // Использовать так:
+            if ($base_right['is_twt_enable'] == true) {
+                // Если выборка идет из таблицы mains, значит mains.parent_item_id есть и заполнено
+                $mains = Main::select(['mains.*'])->
+                join('items as it_ch', 'mains.child_item_id', '=', 'it_ch.id')
+                    ->join('links', 'mains.link_id', '=', 'links.id')
+                    ->where('it_ch.base_id', $base->id)
+                    ->where('it_ch.project_id', $project->id)
+                    ->where('links.parent_is_twt_link', true);
+
+                if ($base_right['is_list_hist_records_enable'] == false) {
+                    $mains = $mains
+                        ->join('items as it_pr', 'mains.parent_item_id', '=', 'it_pr.id')
+                        ->where('it_pr.is_history', false);
+                }
+
+                // 'get()' нужно
+                $mains = $mains->get();
+
+                $arr_it = array();
+                foreach ($mains as $m) {
+                    $arr_it[] = $m['child_item_id'];
+                }
+
+                $items = $items->whereNotIn('items.id', $arr_it);
+            }
         }
 
         if ($base_right['is_list_hist_records_enable'] == false) {
             $items = $items->where('items.is_history', false);
         }
 
+        // 'tst структура (main->parent_item = null, для base_index.php, item_index($link))'
         // Важно: Для просмотра в base_index.php и item_index.php(если есть $link в исходных передаваемых параметрах)
-        // if ($base_right['is_tst_enable'] == true & isset($mains_link_id)) {
         // Использовать так:
         if ($base_right['is_tst_enable'] == true) {
             // Если выборка идет из таблицы mains, значит mains.parent_item_id есть и заполнено
@@ -736,6 +779,7 @@ class GlobalController extends Controller
 
             $items = $items->whereNotIn('items.id', $arr_it);
         }
+
         if ($base_right['is_cus_enable'] == true) {
             if (Auth::check()) {
                 $user_item = self::glo_user()->get_user_item();

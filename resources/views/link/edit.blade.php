@@ -607,7 +607,22 @@
             @enderror
         </div>
 
-        {{--        'Для древовидной структуры (link = null, для base_index.php)'--}}
+        {{--        'Для древовидной структуры (main->parent_item = null, для base_index.php)'--}}
+        <div class="form-group" id="parent_is_twt_link_form_group">
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" name="parent_is_twt_link"
+                       id="parent_is_twt_link"
+                       {{--            "false" - значение по умолчанию --}}
+                       @if ((old('parent_is_twt_link') ?? ($link->parent_is_twt_link ?? false)) ==  true)
+                       checked
+                    @endif
+                >
+                <label class="form-check-label"
+                       for="parent_is_twt_link">{{trans('main.parent_is_twt_link')}}</label>
+            </div>
+        </div>
+
+        {{--        'Для tst структуры (main->parent_item = null, для base_index.php, item_index($link))'--}}
         <div class="form-group" id="parent_is_tst_link_form_group">
             <div class="form-check form-check-inline">
                 <input class="form-check-input" type="checkbox" name="parent_is_tst_link"

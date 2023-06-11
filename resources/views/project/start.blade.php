@@ -79,7 +79,7 @@
                 $message = ' (' . $message . ')';
             }
             $base_right = GlobalController::base_right($base, $role, $relit_id);
-//          Использовать так "$base->names($base_right, true)", "true" - вызов из base_index.php
+            //          Использовать так "$base->names($base_right, true)", "true" - вызов из base_index.php
             $base_names = $base->names($base_right, true, true);
             ?>
             <div class="row mt-3">
@@ -91,7 +91,7 @@
                             title="{{$base_names}}">
                             {{$i}}
                         </a></h5>
-{{--                    Нужно--}}
+                    {{--                    Нужно--}}
                     <div style="float:left;width:5%;">
                     </div>
                     {{--                    </p>--}}
@@ -211,24 +211,26 @@
     {{--    Вывод сведений о подписке--}}
     @if(Auth::check())
         <hr>
-        <small>
-            {{trans('main.current_status')}}: <span
-                class="text-title">{{ProjectController::current_status($project, $role)}}</span>
-        </small>
-        @if($is_subs == true)
-            <button type="button" class="btn btn-sm btn-dreamer" title="{{trans('main.subscribe')}}"
-                    onclick="document.location='{{route('project.subs_create',
+        <div class="pl-5">
+            <small>
+                {{trans('main.current_status')}}: <span
+                    class="text-title">{{ProjectController::current_status($project, $role)}}</span>
+            </small>
+            @if($is_subs == true)
+                <button type="button" class="btn btn-sm btn-dreamer" title="{{trans('main.subscribe')}}"
+                        onclick="document.location='{{route('project.subs_create',
                         ['is_request' => $is_num_request, 'project'=>$project, 'role'=>$role])}}'">
-                <i class="fas fa-book-open d-inline"></i>&nbsp;{{trans('main.subscribe')}}
-            </button>
-        @endif
-        @if($is_delete == true)
-            <button type="button" class="btn btn-sm btn-dreamer" title="{{trans('main.delete_subscription')}}"
-                    onclick="document.location='{{route('project.subs_delete',
+                    <i class="fas fa-book-open d-inline"></i>&nbsp;{{trans('main.subscribe')}}
+                </button>
+            @endif
+            @if($is_delete == true)
+                <button type="button" class="btn btn-sm btn-dreamer" title="{{trans('main.delete_subscription')}}"
+                        onclick="document.location='{{route('project.subs_delete',
                         [ 'project'=>$project, 'role'=>$role])}}'">
-                <i class="fas fa-trash"></i>&nbsp;{{trans('main.delete_subscription')}}
-            </button>
-        @endif
+                    <i class="fas fa-trash"></i>&nbsp;{{trans('main.delete_subscription')}}
+                </button>
+            @endif
+        </div>
     @endif
 @endsection
 

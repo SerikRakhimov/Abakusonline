@@ -153,6 +153,7 @@ class BaseController extends Controller
         $base->is_one_value_lst_str_txt = isset($request->is_one_value_lst_str_txt) ? "1" : "0";
         $base->is_calcname_lst = isset($request->is_calcname_lst) ? "1" : "0";
         $base->is_calcnm_correct_lst = isset($request->is_calcnm_correct_lst) ? "1" : "0";
+        $base->is_default_twt_lst = isset($request->is_default_twt_lst) ? "1" : "0";
         $base->is_default_tst_lst = isset($request->is_default_tst_lst) ? "1" : "0";
         $base->is_same_small_calcname = isset($request->is_same_small_calcname) ? "1" : "0";
 
@@ -208,6 +209,7 @@ class BaseController extends Controller
                 $base->is_one_value_lst_str_txt = "0";
                 $base->is_calcname_lst = "0";
                 $base->is_calcnm_correct_lst = "0";
+                $base->is_default_twt_lst = "0";
                 $base->is_default_tst_lst = "0";
                 $base->sepa_calcname = "";
                 $base->is_same_small_calcname = "0";
@@ -242,6 +244,7 @@ class BaseController extends Controller
                 $base->digits_num = 0;
                 $base->is_calcname_lst = "0";
                 $base->is_calcnm_correct_lst = "0";
+                $base->is_default_twt_lst = "0";
                 $base->is_default_tst_lst = "0";
                 $base->sepa_calcname = "";
                 $base->is_same_small_calcname = "0";
@@ -279,6 +282,7 @@ class BaseController extends Controller
                 $base->is_one_value_lst_str_txt = "0";
                 $base->is_calcname_lst = "0";
                 $base->is_calcnm_correct_lst = "0";
+                $base->is_default_twt_lst = "0";
                 $base->is_default_tst_lst = "0";
                 $base->sepa_calcname = "";
                 $base->is_same_small_calcname = "0";
@@ -315,6 +319,7 @@ class BaseController extends Controller
                 $base->is_one_value_lst_str_txt = "0";
                 $base->is_calcname_lst = "0";
                 $base->is_calcnm_correct_lst = "0";
+                $base->is_default_twt_lst = "0";
                 $base->is_default_tst_lst = "0";
                 $base->sepa_calcname = "";
                 $base->is_same_small_calcname = "0";
@@ -348,6 +353,7 @@ class BaseController extends Controller
                 $base->digits_num = 0;
                 $base->is_calcname_lst = "0";
                 $base->is_calcnm_correct_lst = "0";
+                $base->is_default_twt_lst = "0";
                 $base->is_default_tst_lst = "0";
                 $base->sepa_calcname = "";
                 $base->is_same_small_calcname = "0";
@@ -383,6 +389,7 @@ class BaseController extends Controller
                 $base->is_one_value_lst_str_txt = "0";
                 $base->is_calcname_lst = "0";
                 $base->is_calcnm_correct_lst = "0";
+                $base->is_default_twt_lst = "0";
                 $base->is_default_tst_lst = "0";
                 $base->sepa_calcname = "";
                 $base->is_same_small_calcname = "0";
@@ -416,6 +423,7 @@ class BaseController extends Controller
                 $base->is_one_value_lst_str_txt = "0";
                 $base->is_calcname_lst = "0";
                 $base->is_calcnm_correct_lst = "0";
+                $base->is_default_twt_lst = "0";
                 $base->is_default_tst_lst = "0";
                 $base->sepa_calcname = "";
                 $base->is_same_small_calcname = "0";
@@ -551,6 +559,7 @@ class BaseController extends Controller
         $base->is_one_value_lst_str_txt = isset($request->is_one_value_lst_str_txt) ? "1" : "0";
         $base->is_calcname_lst = isset($request->is_calcname_lst) ? "1" : "0";
         $base->is_calcnm_correct_lst = isset($request->is_calcnm_correct_lst) ? "1" : "0";
+        $base->is_default_twt_lst = isset($request->is_default_twt_lst) ? "1" : "0";
         $base->is_default_tst_lst = isset($request->is_default_tst_lst) ? "1" : "0";
         $base->is_same_small_calcname = isset($request->is_same_small_calcname) ? "1" : "0";
 
@@ -606,6 +615,7 @@ class BaseController extends Controller
                 $base->is_one_value_lst_str_txt = "0";
                 $base->is_calcname_lst = "0";
                 $base->is_calcnm_correct_lst = "0";
+                $base->is_default_twt_lst = "0";
                 $base->is_default_tst_lst = "0";
                 $base->sepa_calcname = "";
                 $base->is_same_small_calcname = "0";
@@ -636,6 +646,7 @@ class BaseController extends Controller
                 $base->digits_num = 0;
                 $base->is_calcname_lst = "0";
                 $base->is_calcnm_correct_lst = "0";
+                $base->is_default_twt_lst = "0";
                 $base->is_default_tst_lst = "0";
                 $base->sepa_calcname = "";
                 $base->is_same_small_calcname = "0";
@@ -669,6 +680,7 @@ class BaseController extends Controller
                 $base->is_one_value_lst_str_txt = "0";
                 $base->is_calcname_lst = "0";
                 $base->is_calcnm_correct_lst = "0";
+                $base->is_default_twt_lst = "0";
                 $base->is_default_tst_lst = "0";
                 $base->sepa_calcname = "";
                 $base->is_same_small_calcname = "0";
@@ -701,6 +713,7 @@ class BaseController extends Controller
                 $base->is_one_value_lst_str_txt = "0";
                 $base->is_calcname_lst = "0";
                 $base->is_calcnm_correct_lst = "0";
+                $base->is_default_twt_lst = "0";
                 $base->is_default_tst_lst = "0";
                 $base->sepa_calcname = "";
                 $base->is_same_small_calcname = "0";
@@ -730,6 +743,7 @@ class BaseController extends Controller
                 $base->digits_num = 0;
                 $base->is_calcname_lst = "0";
                 $base->is_calcnm_correct_lst = "0";
+                $base->is_default_twt_lst = "0";
                 $base->is_default_tst_lst = "0";
                 $base->sepa_calcname = "";
                 $base->is_same_small_calcname = "0";
@@ -761,6 +775,7 @@ class BaseController extends Controller
                 $base->is_one_value_lst_str_txt = "0";
                 $base->is_calcname_lst = "0";
                 $base->is_calcnm_correct_lst = "0";
+                $base->is_default_twt_lst = "0";
                 $base->is_default_tst_lst = "0";
                 $base->sepa_calcname = "";
                 $base->is_same_small_calcname = "0";
@@ -790,6 +805,7 @@ class BaseController extends Controller
                 $base->is_one_value_lst_str_txt = "0";
                 $base->is_calcname_lst = "0";
                 $base->is_calcnm_correct_lst = "0";
+                $base->is_default_twt_lst = "0";
                 $base->is_default_tst_lst = "0";
                 $base->sepa_calcname = "";
                 $base->is_same_small_calcname = "0";

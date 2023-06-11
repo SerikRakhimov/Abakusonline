@@ -55,6 +55,7 @@
             <th class="text-left">{{trans('main.parent_is_numcalc')}}</th>
             <th class="text-left">{{trans('main.parent_is_nc_screencalc')}}</th>
             <th class="text-left">{{trans('main.parent_is_nc_viewonly')}}</th>
+            <th class="text-left">{{trans('main.parent_is_twt_link')}}</th>
             <th class="text-left">{{trans('main.parent_is_tst_link')}}</th>
             <th class="text-left">{{trans('main.parent_is_cus_link')}}</th>
             <th class="text-left">{{trans('main.parent_is_tree_value')}}</th>
@@ -198,6 +199,11 @@
                 <td class="text-left">
                     <a href="{{route('link.show',$link)}}">
                         {{$link->parent_is_nc_viewonly}}
+                    </a>
+                </td>
+                <td class="text-left">
+                    <a href="{{route('link.show',$link)}}">
+                        {{$link->parent_is_twt_link}}
                     </a>
                 </td>
                 <td class="text-left">

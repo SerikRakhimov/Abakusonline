@@ -274,6 +274,7 @@ class ItemController extends Controller
         }
 
         // Используется $relip_project
+        // Вызывается без параметров '($mains_item_id && $mains_link_id && $parent_proj)', чтобы проверка сработала '$base_right['is_twt_enable'] == true'
         $items_right = GlobalController::items_right($base, $relip_project, $role, $relit_id);
         $items = $items_right['items'];
         if ($items) {
@@ -283,8 +284,6 @@ class ItemController extends Controller
             $base_index_page_current = $items->currentPage();
             $body_link_page_current = 0;
             $body_all_page_current = 0;
-            //if ($items) {
-            //}pphioh
 
 //            // Похожая проверка в GlobalController::get_project_bases(), ItemController::base_index() и project/start.php
 //            // Две проверки использовать
@@ -7779,8 +7778,7 @@ class ItemController extends Controller
                         // $item_value нужно использовать в проверке
                         if ($item_value == 0 & $base_right['is_tst_enable'] == true
                             & $link->parent_is_tst_link == true) {
-
-                            // для  древовидной структуры, 'whereDoesntHave()' - не содержит
+                            // для tst структуры, 'whereDoesntHave()' - не содержит
                             $items_n = Item::where('project_id', '=', $project->id)
                                 ->where('base_id', '=', $base->id)
                                 ->whereDoesntHave('child_mains', function ($query) use ($link) {
