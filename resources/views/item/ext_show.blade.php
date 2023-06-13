@@ -53,77 +53,77 @@
     ?>
     {{--                    Вывод основы--}}
     @if($base_right['is_show_base_enable'] == true)
-        {{--        <p>--}}
-        {{--        @foreach (config('app.locales') as $key=>$value)--}}
-        {{--            {{trans('main.name')}} ({{trans('main.' . $value)}}): <span class="text-related">{{$item['name_lang_' . $key]}}</span><br>--}}
-        {{--        @endforeach--}}
-        @if($base->type_is_image)
-            {{--                            <li>--}}
-            @include('view.img',['item'=>$item, 'size'=>"medium", 'border'=>true, 'filenametrue'=>false, 'link'=>true, 'img_fluid'=>false, 'card_img_top'=>false, 'title'=>""])
-            {{--                <a href="{{Storage::url($item->filename())}}">--}}
-            {{--                    <img src="{{Storage::url($item->filename())}}" height="250"--}}
-            {{--                         alt="" title="{{$item->title_img()}}">--}}
-            {{--                </a>--}}
-                                        </li>--}}
-            <hr class="hr_ext_show">
-        @elseif($base->type_is_document)
-            {{--                            <li>--}}
-            {{--                                <b>--}}
-            @include('view.doc',['item'=>$item,'usercode'=>GlobalController::usercode_calc()])
-            {{--                <a href="{{Storage::url($item->filename())}}" target="_blank">--}}
-            {{--                    Открыть документ--}}
-            {{--                </a>--}}
-            {{--                                </b>--}}
-            {{--                            </li>--}}
-            <hr class="hr_ext_show">
-        @else
-            {{--                Если тип-вычисляемое наименование и Показывать Основу с вычисляемым наименованием--}}
-            {{--                или если тип-не вычисляемое наименование--}}
-            {{--            похожая проверка в base_index.blade.php--}}
-            @if(GlobalController::is_base_calcname_check($base, $base_right))
-                {{--                                            $numcat = true - вывод числовых полей с разрядом тысячи/миллионы/миллиарды--}}
-                {{--                                <li>--}}
-                <div class="text-label">
-                    {{--                    <big>{{$base->name()}}:</big>--}}
-                    {{--                            <span class="text-related">--}}
-                    {{--                                        <b>--}}
-                    @if($base->type_is_text())
-                        <big><big>
-                                <?php
-                                echo GlobalController::it_txnm_n2b($item, $emoji_enable);
-                                ?>
-                            </big></big>
-                    @else
-                        <?php
-                        $item_image = GlobalController::item_image($item);
-                        $link_image = $item_image['link'];
-                        ?>
-                        @if($item_image['item'])
-                            @include('view.img',['item'=>$item_image['item'], 'size'=>"medium", 'width'=>"30%", 'border'=>true, 'filenametrue'=>false, 'link'=>true, 'img_fluid'=>true, 'card_img_top'=>false, 'title'=>$link_image->parent_label()])
-                            <br><br>
-                        @endif
-                        <big><big>
-                                <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,
-                                       'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id])}}"
-                                   title="">
-                                    {{--                                    {{$item->name(false, true)}}--}}
-                                    <?php
-//                                  echo $item->nmbr(true, true, $emoji_enable);
-                                    echo $item->nmbr(false, true, $emoji_enable);
-                                    ?>
-                                </a>
-                            </big></big>
+    {{--        <p>--}}
+    {{--        @foreach (config('app.locales') as $key=>$value)--}}
+    {{--            {{trans('main.name')}} ({{trans('main.' . $value)}}): <span class="text-related">{{$item['name_lang_' . $key]}}</span><br>--}}
+    {{--        @endforeach--}}
+    @if($base->type_is_image)
+    {{--                            <li>--}}
+    @include('view.img',['item'=>$item, 'size'=>"medium", 'border'=>true, 'filenametrue'=>false, 'link'=>true, 'img_fluid'=>false, 'card_img_top'=>false, 'title'=>""])
+    {{--                <a href="{{Storage::url($item->filename())}}">--}}
+    {{--                    <img src="{{Storage::url($item->filename())}}" height="250"--}}
+    {{--                         alt="" title="{{$item->title_img()}}">--}}
+    {{--                </a>--}}
+    </li>--}}
+    <hr class="hr_ext_show">
+    @elseif($base->type_is_document)
+        {{--                            <li>--}}
+        {{--                                <b>--}}
+        @include('view.doc',['item'=>$item,'usercode'=>GlobalController::usercode_calc()])
+        {{--                <a href="{{Storage::url($item->filename())}}" target="_blank">--}}
+        {{--                    Открыть документ--}}
+        {{--                </a>--}}
+        {{--                                </b>--}}
+        {{--                            </li>--}}
+        <hr class="hr_ext_show">
+    @else
+        {{--                Если тип-вычисляемое наименование и Показывать Основу с вычисляемым наименованием--}}
+        {{--                или если тип-не вычисляемое наименование--}}
+        {{--            похожая проверка в base_index.blade.php--}}
+        @if(GlobalController::is_base_calcname_check($base, $base_right))
+            {{--                                            $numcat = true - вывод числовых полей с разрядом тысячи/миллионы/миллиарды--}}
+            {{--                                <li>--}}
+            <div class="text-label">
+                {{--                    <big>{{$base->name()}}:</big>--}}
+                {{--                            <span class="text-related">--}}
+                {{--                                        <b>--}}
+                @if($base->type_is_text())
+                    <big><big>
+                            <?php
+                            echo GlobalController::it_txnm_n2b($item, $emoji_enable);
+                            ?>
+                        </big></big>
+                @else
+                    <?php
+                    $item_image = GlobalController::item_image($item);
+                    $link_image = $item_image['link'];
+                    ?>
+                    @if($item_image['item'])
+                        @include('view.img',['item'=>$item_image['item'], 'size'=>"medium", 'width'=>"30%", 'border'=>true, 'filenametrue'=>false, 'link'=>true, 'img_fluid'=>true, 'card_img_top'=>false, 'title'=>$link_image->parent_label()])
                         <br><br>
                     @endif
-                    {{--                </span>--}}
-                    {{--                                        </b>--}}
-                </div>
-                <hr class="hr_ext_show">
-                {{--                                </li>--}}
-            @endif
+                    <big><big>
+                            <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,
+                                       'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id])}}"
+                               title="">
+                                {{--                                    {{$item->name(false, true)}}--}}
+                                <?php
+                                //                                  echo $item->nmbr(true, true, $emoji_enable);
+                                echo $item->nmbr(false, true, $emoji_enable);
+                                ?>
+                            </a>
+                        </big></big>
+                    <br><br>
+                @endif
+                {{--                </span>--}}
+                {{--                                        </b>--}}
+            </div>
+            <hr class="hr_ext_show">
+            {{--                                </li>--}}
         @endif
-        {{--            <br>--}}
-        {{--        </p>--}}
+    @endif
+    {{--            <br>--}}
+    {{--        </p>--}}
     @endif
     {{--    <ul class="list-group list-group-flush">--}}
     {{--        <li class="list-group-item pb-0 pl-0">--}}
@@ -180,9 +180,10 @@
     @foreach($array_calc as $key=>$value)
         <?php
         $link = Link::find($key);
-        $item_find = GlobalController::view_info($item->id, $key);
+        // Нужны все параметры GlobalController::view_info($item->id, $link->id, $role, $relit_id, false)
+        $item_find = GlobalController::view_info($item->id, $key, $role, $relit_id, false);
         ?>
-{{--    Основное изображение второй раз не выводится--}}
+        {{--    Основное изображение второй раз не выводится--}}
         @if($link_image)
             @if($link->id == $link_image->id)
                 @continue
@@ -200,6 +201,8 @@
             //            } else {
             //                $base_link_right = GlobalController::base_link_right($link, $role, $link->parent_relit_id);
             //            }
+            // Проверка $item_find
+            $item_find = GlobalController::items_check_right($item_find, $role, $relit_id);
             ?>
             @if($base_link_right['is_show_link_enable'] == true)
                 <hr class="hr_ext_show">
@@ -215,50 +218,56 @@
                             @include('layouts.item.ext_show.parent_label', ['link'=>$link, 'par_link'=>$par_link])
                         @endif
                     </small></small>
-                <div class="text-project">
-                    @if($link->parent_base->type_is_text())
-                        {{--                            <span class="text-related">--}}
-                        {{--                                <b>--}}
-                        <?php
-                        echo GlobalController::it_txnm_n2b($item_find, $emoji_enable);
-                        ?>
-                        {{--                        </span>--}}
-                        {{--                                </b>--}}
-                    @elseif($link->parent_base->type_is_image())
-                        @include('view.img',['item'=>$item_find, 'size'=>"medium", 'border'=>true, 'filenametrue'=>false, 'link'=>true, 'img_fluid'=>false, 'card_img_top'=>false, 'title'=>""])
-                        {{--                            <a href="{{Storage::url($item_find->filename())}}">--}}
-                        {{--                                <img src="{{Storage::url($item_find->filename())}}" height="250"--}}
-                        {{--                                     alt="" title="{{$item_find->title_img()}}">--}}
-                        {{--                            </a>--}}
-                    @elseif($link->parent_base->type_is_document())
-                        {{--                            <b>--}}
-                        @include('view.doc',['item'=>$item_find, 'usercode'=>GlobalController::usercode_calc()])
-                        {{--                            <a href="{{Storage::url($item_find->filename())}}" target="_blank">--}}
-                        {{--                                Открыть документ--}}
-                        {{--                            </a>--}}
-                        {{--                            </b>--}}
-                    @else
-                        {{--                                            $numcat = true - вывод числовых полей с разрядом тысячи/миллионы/миллиарды--}}
-                        {{--                            <span class="text-related">--}}
-                        {{--                            <b>--}}
-                        {{--  Используется 'is_list_base_calc' в ext_show.php и ItemController::item_index()  --}}
-                        {{--                        @if($base_link_right['is_list_base_calc'] == true && $base_link_right['is_bsmn_base_enable'] == true)--}}
-                        {{--                    Если $par_link == $link, то не показывать ссылку--}}
-                        @if($result_par_link ==false & $base_link_right['is_list_base_calc'] == true)
-                            <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item_find, 'role'=>$role,
+                @if($item_find)
+                    <div class="text-project">
+                        @if($link->parent_base->type_is_text())
+                            {{--                            <span class="text-related">--}}
+                            {{--                                <b>--}}
+                            <?php
+                            echo GlobalController::it_txnm_n2b($item_find, $emoji_enable);
+                            ?>
+                            {{--                        </span>--}}
+                            {{--                                </b>--}}
+                        @elseif($link->parent_base->type_is_image())
+                            @include('view.img',['item'=>$item_find, 'size'=>"medium", 'border'=>true, 'filenametrue'=>false, 'link'=>true, 'img_fluid'=>false, 'card_img_top'=>false, 'title'=>""])
+                            {{--                            <a href="{{Storage::url($item_find->filename())}}">--}}
+                            {{--                                <img src="{{Storage::url($item_find->filename())}}" height="250"--}}
+                            {{--                                     alt="" title="{{$item_find->title_img()}}">--}}
+                            {{--                            </a>--}}
+                        @elseif($link->parent_base->type_is_document())
+                            {{--                            <b>--}}
+                            @include('view.doc',['item'=>$item_find, 'usercode'=>GlobalController::usercode_calc()])
+                            {{--                            <a href="{{Storage::url($item_find->filename())}}" target="_blank">--}}
+                            {{--                                Открыть документ--}}
+                            {{--                            </a>--}}
+                            {{--                            </b>--}}
+                        @else
+                            {{--                                            $numcat = true - вывод числовых полей с разрядом тысячи/миллионы/миллиарды--}}
+                            {{--                            <span class="text-related">--}}
+                            {{--                            <b>--}}
+                            {{--  Используется 'is_list_base_calc' в ext_show.php и ItemController::item_index()  --}}
+                            {{--                        @if($base_link_right['is_list_base_calc'] == true && $base_link_right['is_bsmn_base_enable'] == true)--}}
+                            {{--                    Если $par_link == $link, то не показывать ссылку--}}
+                            @if($result_par_link ==false & $base_link_right['is_list_base_calc'] == true)
+                                <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item_find, 'role'=>$role,
                                                                 'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$link->parent_relit_id,
                                                                 'called_from_button'=>0,
                                                                 'view_link'=>\App\Http\Controllers\GlobalController::const_null()])}}"
-                               title="">
+                                   title="">
+                                    {{$item_find->name(false, true, true, $emoji_enable)}}
+                                </a>
+                            @else
                                 {{$item_find->name(false, true, true, $emoji_enable)}}
-                            </a>
-                        @else
-                            {{$item_find->name(false, true, true, $emoji_enable)}}
+                            @endif
+                            {{--                            </b>--}}
+                            {{--                            </span>--}}
                         @endif
-                        {{--                            </b>--}}
-                        {{--                            </span>--}}
-                    @endif
-                </div>
+                    </div>
+                @else
+                    <div class="text-danger">
+                        {{GlobalController::access_restricted()}}
+                    </div>
+                @endif
                 {{--                    <br>--}}
             @endif
         @endif

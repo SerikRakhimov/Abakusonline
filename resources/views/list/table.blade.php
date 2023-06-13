@@ -44,7 +44,7 @@ $num_cols = GlobalController::get_number_of_columns_info();
             @foreach($its_page as $item)
                 <?php
                 //$i = $i + 1;
-                $item_find = GlobalController::view_info($item->id, $link_image->id);
+                $item_find = GlobalController::view_info($item->id, $link_image->id, $role, $relit_id, true);
                 ?>
                 {{--                <div class="card text-center">--}}
                 {{--                    <div class="card card-inverse text-center" style="background-color: rgba(222,255,162,0.23); border-color: #3548ee;">--}}
@@ -257,7 +257,7 @@ $num_cols = GlobalController::get_number_of_columns_info();
         @endif
         @foreach($its_page as $item)
             <?php
-            $item_find = GlobalController::view_info($item->id, $link_image->id);
+            $item_find = GlobalController::view_info($item->id, $link_image->id, $role, $relit_id, true);
             $i++;
             ?>
             {{--            <article style="text-indent: 40px; text-align: justify">--}}
@@ -373,34 +373,34 @@ $num_cols = GlobalController::get_number_of_columns_info();
                                     class="text-left"
                                     @else
                                     class="text-center align-top"
+                            @endif
+                            @else  // no ($heading)
+                            @include('layouts.class_from_base',['base'=>$link->parent_base, 'align_top'=>true])
+                            @endif
+                            @else  // no ($x == 0)
+                            class="text-center align-top"
+                            @endif
+                            >
+                            @if($heading)
+                                <small>
                                     @endif
-                                    @else  // no ($heading)
-                                    @include('layouts.class_from_base',['base'=>$link->parent_base, 'align_top'=>true])
+                                    @if($item_heading_base && $matrix[$x][$y]["fin_link"] == true)
+                                        {{--                                                <a href="{{route('item.base_index',['base'=>$link->parent_base_id, 'project'=>$project, 'role'=>$role, 'relit_id' => $relit_id])}}"--}}
+                                        {{--                                                   title="{{$link->parent_base->names()}}">--}}
+                                        {{--                                                    {{GlobalController::calc_title_name($matrix[$x][$y]["view_name"], $heading, $heading)}}--}}
+                                        {{--                                                </a>--}}
+                                        <a href="{{route('item.base_index',['base'=>$link->parent_base_id, 'project'=>$project, 'role'=>$role, 'relit_id' => $link->parent_relit_id])}}"
+                                           title="{{$link->parent_base->names()}}">
+                                            {{--                                                    {{GlobalController::calc_title_name($matrix[$x][$y]["view_name"], $heading, $heading)}}--}}
+                                            {{GlobalController::calc_title_name($matrix[$x][$y]["view_name"])}}
+                                        </a>
+                                    @else
+                                        {{--                                                {{GlobalController::calc_title_name($matrix[$x][$y]["view_name"], $heading, $heading)}}--}}
+                                        {{GlobalController::calc_title_name($matrix[$x][$y]["view_name"],false, $heading)}}
                                     @endif
-                                    @else  // no ($x == 0)
-                                    class="text-center align-top"
-                                    @endif
-                                >
                                     @if($heading)
-                                        <small>
-                                            @endif
-                                            @if($item_heading_base && $matrix[$x][$y]["fin_link"] == true)
-                                                {{--                                                <a href="{{route('item.base_index',['base'=>$link->parent_base_id, 'project'=>$project, 'role'=>$role, 'relit_id' => $relit_id])}}"--}}
-                                                {{--                                                   title="{{$link->parent_base->names()}}">--}}
-                                                {{--                                                    {{GlobalController::calc_title_name($matrix[$x][$y]["view_name"], $heading, $heading)}}--}}
-                                                {{--                                                </a>--}}
-                                                <a href="{{route('item.base_index',['base'=>$link->parent_base_id, 'project'=>$project, 'role'=>$role, 'relit_id' => $link->parent_relit_id])}}"
-                                                   title="{{$link->parent_base->names()}}">
-                                                    {{--                                                    {{GlobalController::calc_title_name($matrix[$x][$y]["view_name"], $heading, $heading)}}--}}
-                                                    {{GlobalController::calc_title_name($matrix[$x][$y]["view_name"])}}
-                                                </a>
-                                            @else
-                                                {{--                                                {{GlobalController::calc_title_name($matrix[$x][$y]["view_name"], $heading, $heading)}}--}}
-                                                {{GlobalController::calc_title_name($matrix[$x][$y]["view_name"],false, $heading)}}
-                                            @endif
-                                            @if($heading)
-                                        </small>
-                                    @endif
+                                </small>
+                                @endif
                                 </th>
                                 {{--                    {{$x}} {{$y}}  rowspan = {{$matrix[$x][$y]["rowspan"]}} colspan = {{$matrix[$x][$y]["colspan"]}} view_level_id = {{$matrix[$x][$y]["view_level_id"]}} view_level_name = {{$matrix[$x][$y]["view_level_name"]}}--}}
                                 {{--                    <br>--}}
@@ -631,122 +631,128 @@ $num_cols = GlobalController::get_number_of_columns_info();
                         @endif
                     >
                         <?php
-                        $item_find = GlobalController::view_info($item->id, $link->id);
+                        // Нужны все параметры GlobalController::view_info($item->id, $link->id, $role, $relit_id, false)
+                        $item_find = GlobalController::view_info($item->id, $link->id, $role, $relit_id, false);
                         ?>
                         @if($item_find)
-                            @if($link->parent_base->type_is_image())
-                                @include('view.img',['item'=>$item_find, 'size'=>"small", 'border'=>true, 'filenametrue'=>false, 'link'=>true, 'img_fluid'=>false, 'card_img_top'=>false, 'title'=>""])
-                            @elseif($link->parent_base->type_is_document())
-                                @include('view.doc',['item'=>$item_find, 'usercode'=>GlobalController::usercode_calc()])
-                            @else
-                                {{--                                Не удалять: просмотр Пространство--}}
-                                {{--                                                                            проверка, если link - вычисляемое поле--}}
-                                {{--                                    @if ($link->parent_is_parent_related == true || $link->parent_is_numcalc == true)--}}
-                                {{--                                        <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item_find, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc()])}}">--}}
-                                {{--                                            @else--}}
-                                {{--                                                <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item_find, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(), 'par_link'=>$link])}}">--}}
-                                {{--                                                    @endif--}}
-                                {{--                                             Так использовать: 'item'=>$item--}}
-                                {{--                            <a href="{{route('item.ext_show', ['item'=>$item, 'project'=>$project, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(),--}}
-                                {{--                                'heading'=>$heading, 'base_index_page'=>$base_index_page, 'body_link_page'=>$body_link_page,'body_all_page'=>$body_all_page,--}}
-                                {{--                                'par_link'=>$par_link, 'parent_item'=>$parent_item])}}">--}}
-                                {{--                                --}}{{--                            Где $item->name() выходит в cards выводить "<?php echo GlobalController::to_html();?>"--}}
-                                {{--                                {{$item_find->name(false,false,false)}}--}}
-                                {{--                            </a>--}}
-                                <?php
-                                // Похожие строки ниже/выше (метка 111); разница $base_right/$base_link_right
-                                // Открывать ext_show.php
-                                $ext_show_view = $is_table_body;
-                                // Открывать item_index.php
-                                $item_index_view = false;
-                                //                                if (!$ext_show_view) {
-                                //                                    // Открывать item_index.php - проверка
-                                //                                    if ($heading) {
-                                //                                        // В таблице-заголовке ($heading=true) ссылки будут, если '$base_link_right['is_list_base_calc'] == true'
-                                //                                        if ($base_link_right['is_list_base_calc'] == true) {
-                                //                                            $item_index_view = true;
-                                //                                        }
-                                //                                    } else {
-                                //                                        // В таблице-теле ($heading=false) все ссылки будут
-                                //                                        $item_index_view = true;
-                                //                                    }
-                                //                                }
-                                // Значение по умолчанию
-                                $string_value = $string_next;
-                                $relit_value = $relit_id;
-                                // Открывать item_index.php - проверка
-                                if ($item_heading_base) {
+                            <?php
+                            // Проверка $item_find
+                                $item_find = GlobalController::items_check_right($item_find, $role, $relit_id);
+                            ?>
+                            @if($item_find)
+                                @if($link->parent_base->type_is_image())
+                                    @include('view.img',['item'=>$item_find, 'size'=>"small", 'border'=>true, 'filenametrue'=>false, 'link'=>true, 'img_fluid'=>false, 'card_img_top'=>false, 'title'=>""])
+                                @elseif($link->parent_base->type_is_document())
+                                    @include('view.doc',['item'=>$item_find, 'usercode'=>GlobalController::usercode_calc()])
+                                @else
+                                    {{--                                Не удалять: просмотр Пространство--}}
+                                    {{--                                                                            проверка, если link - вычисляемое поле--}}
+                                    {{--                                    @if ($link->parent_is_parent_related == true || $link->parent_is_numcalc == true)--}}
+                                    {{--                                        <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item_find, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc()])}}">--}}
+                                    {{--                                            @else--}}
+                                    {{--                                                <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item_find, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(), 'par_link'=>$link])}}">--}}
+                                    {{--                                                    @endif--}}
+                                    {{--                                             Так использовать: 'item'=>$item--}}
+                                    {{--                            <a href="{{route('item.ext_show', ['item'=>$item, 'project'=>$project, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(),--}}
+                                    {{--                                'heading'=>$heading, 'base_index_page'=>$base_index_page, 'body_link_page'=>$body_link_page,'body_all_page'=>$body_all_page,--}}
+                                    {{--                                'par_link'=>$par_link, 'parent_item'=>$parent_item])}}">--}}
+                                    {{--                                --}}{{--                            Где $item->name() выходит в cards выводить "<?php echo GlobalController::to_html();?>"--}}
+                                    {{--                                {{$item_find->name(false,false,false)}}--}}
+                                    {{--                            </a>--}}
+                                    <?php
+                                    // Похожие строки ниже/выше (метка 111); разница $base_right/$base_link_right
+                                    // Открывать ext_show.php
+                                    $ext_show_view = $is_table_body;
+                                    // Открывать item_index.php
+                                    $item_index_view = false;
+                                    //                                if (!$ext_show_view) {
+                                    //                                    // Открывать item_index.php - проверка
+                                    //                                    if ($heading) {
+                                    //                                        // В таблице-заголовке ($heading=true) ссылки будут, если '$base_link_right['is_list_base_calc'] == true'
+                                    //                                        if ($base_link_right['is_list_base_calc'] == true) {
+                                    //                                            $item_index_view = true;
+                                    //                                        }
+                                    //                                    } else {
+                                    //                                        // В таблице-теле ($heading=false) все ссылки будут
+                                    //                                        $item_index_view = true;
+                                    //                                    }
+                                    //                                }
+                                    // Значение по умолчанию
+                                    $string_value = $string_next;
+                                    $relit_value = $relit_id;
+                                    // Открывать item_index.php - проверка
+                                    if ($item_heading_base) {
 // В таблице-заголовке ($heading=true) ссылки будут, если '$base_link_right['is_list_base_calc'] == true'
 // В таблице-заголовке ($heading=true) ссылки будут, если '$base_link_right['is_bsmn_base_enable'] == true'
 //                                   if ($base_link_right['is_bsmn_base_enable'] == true) {
-                                    if ($base_link_right['is_list_base_calc'] == true) {
-                                        $item_index_view = true;
-                                        // Для "шапки" item_index.php
+                                        if ($base_link_right['is_list_base_calc'] == true) {
+                                            $item_index_view = true;
+                                            // Для "шапки" item_index.php
 //                                      $string_value = $string_current;
-                                        $string_value = GlobalController::const_null();;
-                                        $relit_value = $link_base_relit_id_array[$link->id];
-                                    }
-                                } else {
-// В таблице-теле ($heading=false) все ссылки будут
-                                    $item_index_view = true;
-                                    $string_value = $string_next;
-                                    $relit_value = $relit_id;
-                                }
-                                ?>
-                                {{--                                @if($ext_show_view)--}}
-                                {{--                                        Вызывается ext_show.php--}}
-                                {{--                                <a href="{{route('item.ext_show', ['item'=>$item, 'project'=>$project, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id,--}}
-                                {{--                                        'heading'=>$heading, 'base_index_page'=>$base_index_page, 'body_link_page'=>$body_link_page,'body_all_page'=>$body_all_page,--}}
-                                {{--                                    'par_link'=>$par_link, 'parent_item'=>$parent_item])}}">--}}
-                                {{--                                    @else--}}
-                                @if ($item_index_view)
-                                    {{--                                        Вызывается item_index.php--}}
-                                    <?php
-                                    $i_item = null;
-                                    //                                $i_par_link = null;
-                                    if ($item_heading_base) {
-                                        $i_item = $item_find;//
+                                            $string_value = GlobalController::const_null();;
+                                            $relit_value = $link_base_relit_id_array[$link->id];
+                                        }
                                     } else {
-                                        $i_item = $item;//
+// В таблице-теле ($heading=false) все ссылки будут
+                                        $item_index_view = true;
+                                        $string_value = $string_next;
+                                        $relit_value = $relit_id;
                                     }
                                     ?>
-                                    {{--                                                                        <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$i_item, 'role'=>$role,--}}
-                                    {{--                                            'usercode' =>GlobalController::usercode_calc(),--}}
-                                    {{--                                            'relit_id'=>$relit_id,--}}
-                                    {{--                                            'called_from_button'=>0,--}}
-                                    {{--                                            'view_link'=>$i_par_link,--}}
-                                    {{--                                            'view_ret_id'=>$view_ret_id,--}}
-                                    {{--                                            'string_current'=>$string_next,--}}
-                                    {{--                                            'prev_base_index_page'=>$base_index_page,--}}
-                                    {{--                                            'prev_body_link_page'=>$body_link_page,--}}
-                                    {{--                                            'prev_body_all_page'=>$body_all_page--}}
-                                    {{--                                            ])}}"--}}
-                                    {{--                                                                           title="">--}}
-                                    {{--                                    <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$i_item, 'role'=>$role,--}}
-                                    {{--        'usercode' =>GlobalController::usercode_calc(),--}}
-                                    {{--        'relit_id'=>$link->parent_relit_id,--}}
-                                    {{--        'called_from_button'=>0,--}}
-                                    {{--        'view_link'=>$i_par_link,--}}
-                                    {{--        'view_ret_id'=>$view_ret_id,--}}
-                                    {{--        'string_current'=>$string_value,--}}
-                                    {{--        'prev_base_index_page'=>$base_index_page,--}}
-                                    {{--        'prev_body_link_page'=>$body_link_page,--}}
-                                    {{--        'prev_body_all_page'=>$body_all_page--}}
-                                    {{--        ])}}"--}}
-                                    {{--                                       title="">--}}
-                                    {{--                                    <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$i_item, 'role'=>$role,--}}
-                                    {{--                                                'usercode' =>GlobalController::usercode_calc(),--}}
-                                    {{--                                                'relit_id'=>$relit_value,--}}
-                                    {{--                                                'called_from_button'=>0,--}}
-                                    {{--                                                'view_link'=>$i_par_link,--}}
-                                    {{--                                                'view_ret_id'=>$view_ret_id,--}}
-                                    {{--                                                'string_current'=>$string_value,--}}
-                                    {{--                                                'prev_base_index_page'=>$base_index_page,--}}
-                                    {{--                                                'prev_body_link_page'=>$body_link_page,--}}
-                                    {{--                                                'prev_body_all_page'=>$body_all_page--}}
-                                    {{--                                                ])}}"--}}
-                                    {{--                                       title="">--}}
-                                    <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$i_item, 'role'=>$role,
+                                    {{--                                @if($ext_show_view)--}}
+                                    {{--                                        Вызывается ext_show.php--}}
+                                    {{--                                <a href="{{route('item.ext_show', ['item'=>$item, 'project'=>$project, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id,--}}
+                                    {{--                                        'heading'=>$heading, 'base_index_page'=>$base_index_page, 'body_link_page'=>$body_link_page,'body_all_page'=>$body_all_page,--}}
+                                    {{--                                    'par_link'=>$par_link, 'parent_item'=>$parent_item])}}">--}}
+                                    {{--                                    @else--}}
+                                    @if ($item_index_view)
+                                        {{--                                        Вызывается item_index.php--}}
+                                        <?php
+                                        $i_item = null;
+                                        //                                $i_par_link = null;
+                                        if ($item_heading_base) {
+                                            $i_item = $item_find;//
+                                        } else {
+                                            $i_item = $item;//
+                                        }
+                                        ?>
+                                        {{--                                                                        <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$i_item, 'role'=>$role,--}}
+                                        {{--                                            'usercode' =>GlobalController::usercode_calc(),--}}
+                                        {{--                                            'relit_id'=>$relit_id,--}}
+                                        {{--                                            'called_from_button'=>0,--}}
+                                        {{--                                            'view_link'=>$i_par_link,--}}
+                                        {{--                                            'view_ret_id'=>$view_ret_id,--}}
+                                        {{--                                            'string_current'=>$string_next,--}}
+                                        {{--                                            'prev_base_index_page'=>$base_index_page,--}}
+                                        {{--                                            'prev_body_link_page'=>$body_link_page,--}}
+                                        {{--                                            'prev_body_all_page'=>$body_all_page--}}
+                                        {{--                                            ])}}"--}}
+                                        {{--                                                                           title="">--}}
+                                        {{--                                    <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$i_item, 'role'=>$role,--}}
+                                        {{--        'usercode' =>GlobalController::usercode_calc(),--}}
+                                        {{--        'relit_id'=>$link->parent_relit_id,--}}
+                                        {{--        'called_from_button'=>0,--}}
+                                        {{--        'view_link'=>$i_par_link,--}}
+                                        {{--        'view_ret_id'=>$view_ret_id,--}}
+                                        {{--        'string_current'=>$string_value,--}}
+                                        {{--        'prev_base_index_page'=>$base_index_page,--}}
+                                        {{--        'prev_body_link_page'=>$body_link_page,--}}
+                                        {{--        'prev_body_all_page'=>$body_all_page--}}
+                                        {{--        ])}}"--}}
+                                        {{--                                       title="">--}}
+                                        {{--                                    <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$i_item, 'role'=>$role,--}}
+                                        {{--                                                'usercode' =>GlobalController::usercode_calc(),--}}
+                                        {{--                                                'relit_id'=>$relit_value,--}}
+                                        {{--                                                'called_from_button'=>0,--}}
+                                        {{--                                                'view_link'=>$i_par_link,--}}
+                                        {{--                                                'view_ret_id'=>$view_ret_id,--}}
+                                        {{--                                                'string_current'=>$string_value,--}}
+                                        {{--                                                'prev_base_index_page'=>$base_index_page,--}}
+                                        {{--                                                'prev_body_link_page'=>$body_link_page,--}}
+                                        {{--                                                'prev_body_all_page'=>$body_all_page--}}
+                                        {{--                                                ])}}"--}}
+                                        {{--                                       title="">--}}
+                                        <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$i_item, 'role'=>$role,
                                                 'usercode' =>GlobalController::usercode_calc(),
                                                 'relit_id'=>$relit_value,
                                                 'called_from_button'=>0,
@@ -757,38 +763,46 @@ $num_cols = GlobalController::get_number_of_columns_info();
                                                 'prev_body_link_page'=>$body_link_page,
                                                 'prev_body_all_page'=>$body_all_page
                                                 ])}}"
-                                       title="">
-                                        {{--                                    'string_link_ids_current'=>$string_link_ids_next,--}}
-                                        {{--                                    'string_item_ids_current'=>$string_item_ids_next,--}}
-                                        {{--                                    'string_all_codes_current'=>$string_all_codes_next,--}}
-                                        @endif
-                                        {{--                                    @endif--}}
-                                        @if($heading)
-                                            {{--                                            <small>--}}
-                                            {{--                                                <mark class="text-project">--}}
-                                            {{--                                            @include('layouts.item.empty_name', ['name'=>$item_find->name(true,false,false,$heading & $emoji_enable)])--}}
-                                        @else
-                                            {{--                                            @include('layouts.item.empty_name', ['name'=>$item_find->name(false,false,false,$heading & $emoji_enable)])--}}
-                                        @endif
-                                        {{--                                        @if($heading & $link->parent_base->type_is_text() & $base_link_right['is_list_base_read'] == true)--}}
-                                        @if($link->parent_base->type_is_text() & $base_link_right['is_list_base_read'] == true)
-                                            @include('layouts.item.empty_name', ['name'=>GlobalController::it_txnm_n2b($item_find,$heading & $emoji_enable)])
-                                        @else
-                                            @include('layouts.item.empty_name', ['name'=>$item_find->name(false,false,false,$heading & $emoji_enable)])
-                                        @endif
-                                        @if($heading)
-                                            {{--                                                </mark>--}}
-                                            {{--                                            </small>--}}
-                                        @endif
-                                        {{--                                    @if ($ext_show_view || $item_index_view)--}}
-                                        @if ($item_index_view)
-                                    </a>
+                                           title="">
+                                            {{--                                    'string_link_ids_current'=>$string_link_ids_next,--}}
+                                            {{--                                    'string_item_ids_current'=>$string_item_ids_next,--}}
+                                            {{--                                    'string_all_codes_current'=>$string_all_codes_next,--}}
+                                            @endif
+                                            {{--                                    @endif--}}
+                                            @if($heading)
+                                                {{--                                            <small>--}}
+                                                {{--                                                <mark class="text-project">--}}
+                                                {{--                                            @include('layouts.item.empty_name', ['name'=>$item_find->name(true,false,false,$heading & $emoji_enable)])--}}
+                                            @else
+                                                {{--                                            @include('layouts.item.empty_name', ['name'=>$item_find->name(false,false,false,$heading & $emoji_enable)])--}}
+                                            @endif
+                                            {{--                                        @if($heading & $link->parent_base->type_is_text() & $base_link_right['is_list_base_read'] == true)--}}
+                                            @if($link->parent_base->type_is_text() & $base_link_right['is_list_base_read'] == true)
+                                                @include('layouts.item.empty_name', ['name'=>GlobalController::it_txnm_n2b($item_find,$heading & $emoji_enable)])
+                                            @else
+                                                @include('layouts.item.empty_name', ['name'=>$item_find->name(false,false,false,$heading & $emoji_enable)])
+                                            @endif
+                                            @if($heading)
+                                                {{--                                                </mark>--}}
+                                                {{--                                            </small>--}}
+                                            @endif
+                                            {{--                                    @if ($ext_show_view || $item_index_view)--}}
+                                            @if ($item_index_view)
+                                        </a>
+                                    @endif
                                 @endif
+                            @else
+                                {{--                            Этот блок нужен, не удалять--}}
+                                <div class="text-danger">
+                                    {{--                                    {{GlobalController::empty_html()}}--}}
+                                    {{GlobalController::access_restricted()}}
+                                </div>
                             @endif
                         @else
-                            {{--                        <div class="text-danger">--}}
-                            {{--                            {{GlobalController::empty_html()}}--}}
-                            {{--                        </div>--}}
+                            {{--                            <div class="text-danger">--}}
+                            {{--                                --}}{{--                                    {{GlobalController::empty_html()}}--}}
+                            {{--                                {{GlobalController::value_not_found()}}--}}
+                            {{--                            </div>--}}
                         @endif
                     </td>
                 @endforeach

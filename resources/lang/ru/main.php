@@ -63,6 +63,7 @@ return [
     'no_data_on' => 'Нет данных по',
     'no_access' => 'Нет доступа',
     'no_access_for_unregistered_users' => 'Нет доступа для незарегистрированных пользователей. Выполните "Вход" или "Регистрация".',
+    'access_restricted' => 'Доступ ограничен',
     'without links' => 'Без связей',
     'transaction_not_completed' => 'Транзакция не завершена',
     'another_attitude' => 'Другое отношение',

@@ -392,7 +392,8 @@
             {{--        Используется "'heading'=>intval(true)"--}}
             {{--        Используется "'items'=>$items->get()"; два раза, т.к. в заголовке выводится только одна строка, ее на страницы не надо разбивать/сортировать--}}
             {{--        Параметры 'relit_id' и 'view_ret_id' передаются в зависимости от значения $heading--}}
-            @include('list.table',['base'=>$item->base, 'project'=>$project, 'links_info'=>$child_links_info,
+            @include('list.table',['base'=>$item->base, 'project'=>$project, 'role'=>$role,
+                    'links_info'=>$child_links_info,
                     'items'=>$items->get(),
                     'its_page'=>$items->get(),
                     'base_right'=>$base_right, 'relit_id'=>$relit_heading_id,
@@ -766,7 +767,7 @@
             {{--        'view_link' передается затем (в list\table.php) в 'item.ext_show' как 'par_link'--}}
             {{--        Параметры 'relit_id' и 'view_ret_id' передаются в зависимости от значения $heading--}}
             {{--        "'its_page'=>$its_body_page->get()" "->get()" нужно--}}
-            @include('list.table',['base'=>$view_link->child_base, 'project'=>$project,
+            @include('list.table',['base'=>$view_link->child_base, 'project'=>$project, 'role'=>$role,
         'links_info'=>$child_body_links_info,
         'items'=>$body_items,
         'its_page'=>$its_body_page,
@@ -869,7 +870,7 @@
                 {{--        'view_link' передавать не нужно, затем (в list\all.php) в 'item.ext_show' как 'par_link' передается $main->link--}}
                 {{--        Параметры 'relit_id' и 'view_ret_id' передаются в зависимости от значения $heading--}}
                 {{--                'message_ln_array_info' => $message_ln_array_info, 'message_ln_link_array_item' => $message_ln_link_array_item--}}
-                @include('list.all',['project'=>$project,
+                @include('list.all',['project'=>$project, 'role'=>$role,
             'relit_id'=>$relit_body_id,
             'view_ret_id'=>$view_ret_body_id,
             'next_all_mains'=>$next_all_mains,

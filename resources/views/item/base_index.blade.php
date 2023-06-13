@@ -226,6 +226,7 @@
                 'items'=>$items,
                 'its_page'=>$its_page,
                 'base_right'=>$base_right, 'item_view'=>true,
+                'role'=>$role,
                 'relit_id'=>$relit_id,
                 'string_all_codes_current' => $string_all_codes_current,
                 'string_link_ids_current' => $string_link_ids_current,

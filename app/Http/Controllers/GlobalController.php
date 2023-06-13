@@ -638,6 +638,9 @@ class GlobalController extends Controller
 //                $query->whereDate('name_lang_0', '>','2020-02-09');});
 //        });
 
+//    В функциях items_right() и items_check_right() похожие алгоритмы
+//  items_right() - полная основная функция
+//  items_check_right() - проверка по одному $item, с учетом всех доступов и разрешений
     static function items_right(Base $base, Project $project, Role $role, $relit_id,
                                      $mains_item_id = null, $mains_link_id = null, $parent_proj = null, $view_ret_id = null, $current_item_id = null)
     {
@@ -718,39 +721,42 @@ class GlobalController extends Controller
 
             // 'Древовидная структура (main->parent_item = null, для base_index.php)'
             // Важно: Для просмотра в base_index.php
-            // При вызове этой функции items_right() из base_index.php параметры '($mains_item_id && $mains_link_id && $parent_proj)' не передаются
+            // При вызове этой функции items_right() из base_index.php параметры '($mains_item_id, $mains_link_id, $parent_proj и $current_item_id)' не передаются
             // Использовать так:
-            if ($base_right['is_twt_enable'] == true) {
-                // Если выборка идет из таблицы mains, значит mains.parent_item_id есть и заполнено
-                $mains = Main::select(['mains.*'])->
-                join('items as it_ch', 'mains.child_item_id', '=', 'it_ch.id')
-                    ->join('links', 'mains.link_id', '=', 'links.id')
-                    ->where('it_ch.base_id', $base->id)
-                    ->where('it_ch.project_id', $project->id)
-                    ->where('links.parent_is_twt_link', true);
+            // Нужно 'if (!$current_item_id) '
+            if (!$current_item_id) {
+                if ($base_right['is_twt_enable'] == true) {
+                    // Если выборка идет из таблицы mains, значит mains.parent_item_id есть и заполнено
+                    $mains = Main::select(['mains.*'])->
+                    join('items as it_ch', 'mains.child_item_id', '=', 'it_ch.id')
+                        ->join('links', 'mains.link_id', '=', 'links.id')
+                        ->where('it_ch.base_id', $base->id)
+                        ->where('it_ch.project_id', $project->id)
+                        ->where('links.parent_is_twt_link', true);
 
-                if ($base_right['is_list_hist_records_enable'] == false) {
-                    $mains = $mains
-                        ->join('items as it_pr', 'mains.parent_item_id', '=', 'it_pr.id')
-                        ->where('it_pr.is_history', false);
+                    if ($base_right['is_list_hist_records_enable'] == false) {
+                        $mains = $mains
+                            ->join('items as it_pr', 'mains.parent_item_id', '=', 'it_pr.id')
+                            ->where('it_pr.is_history', false);
+                    }
+
+                    // 'get()' нужно
+                    $mains = $mains->get();
+
+                    $arr_it = array();
+                    foreach ($mains as $m) {
+                        $arr_it[] = $m['child_item_id'];
+                    }
+
+                    $items = $items->whereNotIn('items.id', $arr_it);
                 }
-
-                // 'get()' нужно
-                $mains = $mains->get();
-
-                $arr_it = array();
-                foreach ($mains as $m) {
-                    $arr_it[] = $m['child_item_id'];
-                }
-
-                $items = $items->whereNotIn('items.id', $arr_it);
             }
         }
-
         if ($base_right['is_list_hist_records_enable'] == false) {
             $items = $items->where('items.is_history', false);
         }
 
+        // Одинаковые строки GlobalController::items_right(), GlobalController::items_check_right() и ItemController::get_items_main()
         // 'tst структура (main->parent_item = null, для base_index.php, item_index($link))'
         // Важно: Для просмотра в base_index.php и item_index.php(если есть $link в исходных передаваемых параметрах)
         // Использовать так:
@@ -806,7 +812,7 @@ class GlobalController extends Controller
                 $items = null;
             }
         }
-        // Такая же проверка и в GlobalController (function items_right()),
+        // Такая же проверка и в GlobalController (function items_right(), items_check_right()),
         // в ItemController (function next_all_links_mains_calc(), browser(), get_items_for_link(), get_items_ext_edit_for_link())
         if (($base_right['is_list_base_user_id'] == true) | ($base_right['is_list_base_byuser'] == true)) {
             if (Auth::check()) {
@@ -860,7 +866,7 @@ class GlobalController extends Controller
                 // Если одна запись - нет смысла сортировать
             } elseif (count($items->get()) > 1) {
                 //if (count($items->get()) > 0) {
-                // Такая же проверка и в GlobalController (function items_right()),
+                // Такая же проверка и в GlobalController (function items_right(), items_check_right()),
                 // в ItemController (function next_all_links_mains_calc(), browser(), get_items_for_link(), get_items_ext_edit_for_link())
 //            if ($base_right['is_list_base_byuser'] == true) {
 //                if (Auth::check()) {
@@ -1024,6 +1030,106 @@ class GlobalController extends Controller
             'items' => $items,
             'prev_item' => $prev_item, 'next_item' => $next_item];
     }
+
+//    В функциях items_right() и items_check_right() похожие алгоритмы
+//  items_right() - полная основная функция
+//  items_check_right() - проверка по одному $item, с учетом всех доступов и разрешений
+    static function items_check_right(Item $item, Role $role, $relit_id)
+    {
+        $base = $item->base;
+        $project = $item->project;
+        // Выборка из mains
+        $base_right = self::base_right($base, $role, $relit_id);
+
+        $items = Item::where('base_id', $base->id)->where('project_id', $project->id)
+            ->where('id', $item->id);
+
+        if ($base_right['is_list_hist_records_enable'] == false) {
+            $items = $items->where('items.is_history', false);
+        }
+
+        if (count($items->get()) == 1) {
+            // Одинаковые строки GlobalController::items_right(), GlobalController::items_check_right() и ItemController::get_items_main()
+            // 'tst структура (main->parent_item = null, для base_index.php, item_index($link))'
+            // Важно: Для просмотра в base_index.php и item_index.php(если есть $link в исходных передаваемых параметрах)
+            // Использовать так:
+            if ($base_right['is_tst_enable'] == true) {
+                // Если выборка идет из таблицы mains, значит mains.parent_item_id есть и заполнено
+                $mains = Main::select(['mains.*'])->
+                join('items as it_ch', 'mains.child_item_id', '=', 'it_ch.id')
+                    ->join('links', 'mains.link_id', '=', 'links.id')
+                    ->where('it_ch.base_id', $base->id)
+                    ->where('it_ch.project_id', $project->id)
+                    ->where('links.parent_is_tst_link', true);
+
+                if ($base_right['is_list_hist_records_enable'] == false) {
+                    $mains = $mains
+                        ->join('items as it_pr', 'mains.parent_item_id', '=', 'it_pr.id')
+                        ->where('it_pr.is_history', false);
+                }
+
+                // 'get()' нужно
+                $mains = $mains->get();
+
+                $arr_it = array();
+                foreach ($mains as $m) {
+                    $arr_it[] = $m['child_item_id'];
+                }
+
+                $items = $items->whereNotIn('items.id', $arr_it);
+            }
+            if (count($items->get()) == 1) {
+                if ($base_right['is_cus_enable'] == true) {
+                    if (Auth::check()) {
+                        $user_item = self::glo_user()->get_user_item();
+                        if ($user_item) {
+                            $mains = Main::select(['mains.*'])->
+                            join('items as it_ch', 'mains.child_item_id', '=', 'it_ch.id')
+                                ->join('links', 'mains.link_id', '=', 'links.id')
+                                ->where('it_ch.base_id', $base->id)
+                                ->where('it_ch.project_id', $project->id)
+                                ->where('mains.parent_item_id', $user_item->id)
+                                ->where('links.parent_is_cus_link', true);
+
+                            // 'get()' нужно
+                            $mains = $mains->get();
+
+                            $arr_it = array();
+                            foreach ($mains as $m) {
+                                $arr_it[] = $m['child_item_id'];
+                            }
+
+                            $items = $items->whereIn('items.id', $arr_it);
+                        }
+                    } else {
+                        $items = null;
+                    }
+                }
+                if (count($items->get()) == 1) {
+                    // Такая же проверка и в GlobalController (function items_right(), items_check_right()),
+                    // в ItemController (function next_all_links_mains_calc(), browser(), get_items_for_link(), get_items_ext_edit_for_link())
+                    if (($base_right['is_list_base_user_id'] == true) | ($base_right['is_list_base_byuser'] == true)) {
+                        if (Auth::check()) {
+                            if ($base_right['is_list_base_user_id'] == true) {
+                                $items = self::get_items_user_id($items);
+                            }
+                            if ($base_right['is_list_base_byuser'] == true) {
+                                $items = $items->where('created_user_id', GlobalController::glo_user_id());
+                            }
+                        } else {
+                            $items = null;
+                        }
+                    }
+                }
+            }
+        }
+
+        // Если значение first() не найдено, возвращается null, иначе - $item, должен остаться
+        $result_item = $items->first();
+
+        return $result_item;
+    }
+
 
     // Похожие строки в ItemController::next_all_links_mains_calc(), GlobalController::get_items_user_id(), GlobalController::base_user_id_maxcount_validate()
     function get_items_user_id($items)
@@ -1221,6 +1327,21 @@ class GlobalController extends Controller
     static function empty_html()
     {
         return trans('main.empty');
+    }
+
+    static function value_not_found()
+    {
+        return trans('main.value_not_found');
+    }
+
+    static function no_access()
+    {
+        return trans('main.no_access');
+    }
+
+    static function access_restricted()
+    {
+        return trans('main.access_restricted');
     }
 
     static function image_is_missing_html()
@@ -1923,7 +2044,8 @@ class GlobalController extends Controller
     }
 
     // Вывод объекта по имени главного $item и $link
-    static function view_info($child_item_id, $link_id)
+    // Два варианта запуска view_info() с $role и $relit_id и без них
+    static function view_info($child_item_id, $link_id, Role $role = null, $relit_id = null, $check = true)
     {
         // Нужно '$item = null;'
         $item = null;
@@ -1939,7 +2061,7 @@ class GlobalController extends Controller
                 if ($link_find->parent_is_parent_related == true) {
                     $link_related_result = Link::find($link_find->parent_parent_related_result_link_id);
                     if ($link_related_result) {
-                        $item = ItemController::get_parent_item_from_calc_child_item($item_find, $link_find, true)['result_item'];
+                        $item = ItemController::get_parent_item_from_calc_child_item($item_find, $link_find, true, $role, $relit_id)['result_item'];
                     }
                     // Выводить поле вычисляемой таблицы
                 } elseif ($link_find->parent_is_output_calculated_table_field == true) {
@@ -1947,6 +2069,17 @@ class GlobalController extends Controller
                     // Иначе - обычный вывод поля по $child_item_id, $link_id
                 } else {
                     $item = self::get_parent_item_from_main($child_item_id, $link_id);
+                }
+                if ($check) {
+                    if ($item) {
+                        if ($role) {
+//                    Использовать так '$relit_id!=null'
+                            if ($relit_id != null) {
+                                // Проверка $item_find
+                                $item = GlobalController::items_check_right($item, $role, $relit_id);
+                            }
+                        }
+                    }
                 }
             }
         }

@@ -63,6 +63,7 @@ return [
     'no_data_on' => 'No data on',
     'no_access' => 'No access',
     'no_access_for_unregistered_users' => 'No access for unregistered users. Execute "Login" or "Register".',
+    'access_restricted' => 'Access restricted',
     'without links' => 'Without links',
     'transaction_not_completed' => 'Transaction not completed',
     'another_attitude' => 'Another Attitude',
