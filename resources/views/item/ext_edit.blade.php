@@ -1440,6 +1440,7 @@
                         + '/' + parent_base_id{{$prefix}}{{$link->id}}.options[parent_base_id{{$prefix}}{{$link->id}}.selectedIndex].value
                         @endif
                        ).then(function (res) {
+
                                 child_base_id{{$prefix}}{{$link->id}}.innerHTML = res.data['result_items_name_options'];
                                 for (let i = 0; i < child_base_id{{$prefix}}{{$link->id}}.length; i++) {
                                     if (child_base_id{{$prefix}}{{$link->id}}[i].value ==

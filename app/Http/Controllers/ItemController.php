@@ -7619,7 +7619,7 @@ class ItemController extends Controller
 
                     if ($base_right['is_cus_enable'] == true) {
                         if (Auth::check()) {
-                            $user_item = self::glo_user()->get_user_item();
+                            $user_item = GlobalController::glo_user()->get_user_item();
                             if ($user_item) {
                                 $mains = Main::select(['mains.*'])->
                                 join('items as it_ch', 'mains.child_item_id', '=', 'it_ch.id')
