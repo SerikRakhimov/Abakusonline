@@ -1125,7 +1125,10 @@ class GlobalController extends Controller
         }
 
         // Если значение first() не найдено, возвращается null, иначе - $item, должен остаться
-        $result_item = $items->first();
+        $result_item = null;
+        if ($items) {
+            $result_item = $items->first();
+        }
 
         return $result_item;
     }
