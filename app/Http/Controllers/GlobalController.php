@@ -1105,19 +1105,22 @@ class GlobalController extends Controller
                         $items = null;
                     }
                 }
-                if (count($items->get()) == 1) {
-                    // Такая же проверка и в GlobalController (function items_right(), items_check_right()),
-                    // в ItemController (function next_all_links_mains_calc(), browser(), get_items_for_link(), get_items_ext_edit_for_link())
-                    if (($base_right['is_list_base_user_id'] == true) | ($base_right['is_list_base_byuser'] == true)) {
-                        if (Auth::check()) {
-                            if ($base_right['is_list_base_user_id'] == true) {
-                                $items = self::get_items_user_id($items);
+                // Проверка 'if ($items)' нужна
+                if ($items) {
+                    if (count($items->get()) == 1) {
+                        // Такая же проверка и в GlobalController (function items_right(), items_check_right()),
+                        // в ItemController (function next_all_links_mains_calc(), browser(), get_items_for_link(), get_items_ext_edit_for_link())
+                        if (($base_right['is_list_base_user_id'] == true) | ($base_right['is_list_base_byuser'] == true)) {
+                            if (Auth::check()) {
+                                if ($base_right['is_list_base_user_id'] == true) {
+                                    $items = self::get_items_user_id($items);
+                                }
+                                if ($base_right['is_list_base_byuser'] == true) {
+                                    $items = $items->where('created_user_id', GlobalController::glo_user_id());
+                                }
+                            } else {
+                                $items = null;
                             }
-                            if ($base_right['is_list_base_byuser'] == true) {
-                                $items = $items->where('created_user_id', GlobalController::glo_user_id());
-                            }
-                        } else {
-                            $items = null;
                         }
                     }
                 }
