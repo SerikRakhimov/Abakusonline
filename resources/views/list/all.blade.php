@@ -5,8 +5,8 @@ use \App\Http\Controllers\ItemController;
 $i = $next_all_mains->firstItem() - 1;
 ?>
 {{--<table class="table table-sm table-bordered table-hover">--}}
-    <table class="table table-sm table-hover">
-{{--<table class="table table-sm table-borderless table-hover">--}}
+<table class="table table-sm table-hover">
+    {{--<table class="table table-sm table-borderless table-hover">--}}
     <caption>{{trans('main.select_record_for_work')}}</caption>
     <thead>
     <tr>
@@ -44,7 +44,7 @@ $i = $next_all_mains->firstItem() - 1;
             $string_vwret_ids_array_next[$main->link_id],
             $string_all_codes_array_next[$main->link_id]);
         ?>
-            <tr>
+        <tr>
             <td class="text-center">
                 <a href="{{route('item.ext_show', ['item'=>$main->child_item, 'project'=>$project, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(),
     'relit_id'=>$relit_id,
@@ -54,11 +54,11 @@ $i = $next_all_mains->firstItem() - 1;
         'parent_ret_id' => $view_ret_id,
         'string_current' => $string_current,
     ])}}"
-                    title = "{{trans('main.viewing_record')}}">
-{{--                    'string_link_ids_current'=>$string_link_ids_current,--}}
-{{--                    'string_item_ids_current'=>$string_item_ids_current,--}}
-{{--                    'string_all_codes_current'=>$string_all_codes_current--}}
-                <span class="badge badge-related">{{$i}}</span>
+                   title="{{trans('main.viewing_record')}}">
+                    {{--                    'string_link_ids_current'=>$string_link_ids_current,--}}
+                    {{--                    'string_item_ids_current'=>$string_item_ids_current,--}}
+                    {{--                    'string_all_codes_current'=>$string_all_codes_current--}}
+                    <span class="badge badge-related">{{$i}}</span>
                 </a>
             </td>
             {{--            <td class="text-left">--}}
@@ -76,11 +76,11 @@ $i = $next_all_mains->firstItem() - 1;
         'prev_body_link_page'=>$body_link_page,
         'prev_body_all_page'=>$body_all_page
         ])}}"
-                   title="{{GlobalController::calc_title_name($main->link->child_label(true))}}">
-{{--                    'string_link_ids_current'=>$string_link_ids_array_next[$main->link_id],--}}
-{{--                    'string_item_ids_current'=>$string_item_ids_array_next[$main->link_id],--}}
-{{--                    'string_all_codes_current'=>$string_all_codes_array_next[$main->link_id],--}}
-                    <small>{{GlobalController::calc_title_name($main->link->child_label(true))}}</small>
+                   title="{{GlobalController::calc_title_name($main->link->child_label(true),true,false)}}">
+                    {{--                    'string_link_ids_current'=>$string_link_ids_array_next[$main->link_id],--}}
+                    {{--                    'string_item_ids_current'=>$string_item_ids_array_next[$main->link_id],--}}
+                    {{--                    'string_all_codes_current'=>$string_all_codes_array_next[$main->link_id],--}}
+                    <small>{{GlobalController::calc_title_name($main->link->child_label(true),true,false)}}</small>
                 </a>
             </td>
             <td class="text-left">
@@ -96,9 +96,9 @@ $i = $next_all_mains->firstItem() - 1;
         'prev_body_all_page'=>$body_all_page
         ])}}"
                    title="{{GlobalController::calc_title_name($main->link->child_label(true))}}">
-{{--                    'string_link_ids_current'=>$string_link_ids_array_next[$main->link_id],--}}
-{{--                    'string_item_ids_current'=>$string_item_ids_array_next[$main->link_id],--}}
-{{--                    'string_all_codes_current'=>$string_all_codes_array_next[$main->link_id],--}}
+                    {{--                    'string_link_ids_current'=>$string_link_ids_array_next[$main->link_id],--}}
+                    {{--                    'string_item_ids_current'=>$string_item_ids_array_next[$main->link_id],--}}
+                    {{--                    'string_all_codes_current'=>$string_all_codes_array_next[$main->link_id],--}}
                     {{--                    Выводить вычисляемое наименование--}}
                     @if($next_all_is_calcname[$main->link_id])
                         {{--                        @include('layouts.item.empty_name', ['name'=>$main->child_item->nmbr()])--}}
@@ -126,9 +126,9 @@ $i = $next_all_mains->firstItem() - 1;
         'prev_body_all_page'=>$body_all_page
         ])}}"
                            title="{{$item->name()}}">
-{{--                            'string_link_ids_current'=>$string_link_ids_array_next[$main->link_id],--}}
-{{--                            'string_item_ids_current'=>$string_item_ids_array_next[$main->link_id],--}}
-{{--                            'string_all_codes_current'=>$string_all_codes_array_next[$main->link_id],--}}
+                            {{--                            'string_link_ids_current'=>$string_link_ids_array_next[$main->link_id],--}}
+                            {{--                            'string_item_ids_current'=>$string_item_ids_array_next[$main->link_id],--}}
+                            {{--                            'string_all_codes_current'=>$string_all_codes_array_next[$main->link_id],--}}
                             {{$main->child_item->code}}
                         </a>
                     @endif
