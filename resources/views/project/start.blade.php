@@ -67,7 +67,7 @@
                 </div>
             @endif
         @endif
-        <table class="ml-5">
+        <table class="table ml-5">
             @foreach($base_ids as $base_id)
                 <?php
                 $base = Base::findOrFail($base_id);
