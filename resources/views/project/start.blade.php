@@ -32,17 +32,6 @@
             @endif
         @endif
     @endauth
-{{--    <div class="container-fluid">--}}
-{{--        <div class="row">--}}
-{{--            <div class="col-1">--}}
-{{--            </div>--}}
-{{--            <div class="col-6 text-left">--}}
-{{--                <h3>{{trans('main.mainmenu')}}</h3>--}}
-{{--            </div>--}}
-{{--            <div class="col-5 text-right">--}}
-{{--            </div>--}}
-{{--        </div>--}}
-{{--    </div>--}}
     <h3 class="ml-5">{{trans('main.mainmenu')}}</h3>
     @foreach($array_relips as $relit_id=>$array_relip)
         {{--        <hr>--}}
@@ -84,50 +73,6 @@
                 //          Использовать так "$base->names($base_right, true)", "true" - вызов из base_index.php
                 $base_names = $base->names($base_right, true, true);
                 ?>
-                @if(1==2)
-                    <div class="row mt-3">
-                        <div style="width:100%;padding-left: 100px">
-                            {{--                    <p style="float:left;width:10%;">--}}
-                            <h5 style="float:left;width:5%;">
-                                <a
-                                    href="{{route('item.base_index',['base'=>$base, 'project' => $project, 'role' => $role, 'relit_id' => $relit_id])}}"
-                                    title="{{$base_names}}">
-                                    {{$i}}
-                                </a></h5>
-                            {{--                    Нужно--}}
-                            <div style="float:left;width:5%;">
-                            </div>
-                            {{--                    </p>--}}
-                            {{--                    <p style="float:left;width:90%;">--}}
-                            <h5 style="float:left;width:90%;">
-                                <a
-                                    href="{{route('item.base_index',['base'=>$base, 'project' => $project, 'role' => $role, 'relit_id' => $relit_id])}}"
-                                    title="{{$base_names . $message}}">
-                                    {{$base_names}}
-                                    {{--                            @auth--}}
-                                    {{--                                <span--}}
-                                    {{--                                    class="text-muted text-related">--}}
-                                    {{--                                    {{GlobalController::items_right($base, $project, $role)['view_count']}}--}}
-                                    {{--                                </span>--}}
-                                </a>
-                                <?php
-                                // Вывести иконки для вычисляемых основ и настроек
-                                $menu_type_name = $base->menu_type_name();
-                                ?>
-                                <a
-                                    href="{{route('item.base_index',['base'=>$base, 'project' => $project, 'role' => $role, 'relit_id' => $relit_id])}}"
-                                    title="{{$menu_type_name['text']}}">
-                                <span class="badge badge-related"><?php
-                                    echo $menu_type_name['icon'];
-                                    ?></span>
-                                    {{--                            @endauth--}}
-                                </a>
-                            </h5>
-                            {{--                    </p>--}}
-                        </div>
-                    </div>
-                @endif
-
                 <tr>
                     <td class="col-1 text-right">
                         <h5>
@@ -165,8 +110,6 @@
                         </a>
                     </td>
                 </tr>
-
-
             @endforeach
         </table>
     @endforeach
