@@ -125,7 +125,7 @@
             </div>
 
             <div class="row mt-3 ml-3">
-                <div class="col-sm-1 text-right d-inline">
+                <div class="col-1 text-right">
                     <a href="{{route('item.base_index',['base'=>$base, 'project' => $project, 'role' => $role, 'relit_id' => $relit_id])}}"
                        title="{{$base_names}}">
                         <h5>
@@ -133,7 +133,7 @@
                         </h5>
                     </a>
                 </div>
-                <div class="col-sm-11 text-left d-inline">
+                <div class="col-11 text-left">
                     <a
                         href="{{route('item.base_index',['base'=>$base, 'project' => $project, 'role' => $role, 'relit_id' => $relit_id])}}"
                         title="{{$base_names . $message}}">
