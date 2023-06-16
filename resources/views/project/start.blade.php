@@ -135,9 +135,7 @@
                     <a
                         href="{{route('item.base_index',['base'=>$base, 'project' => $project, 'role' => $role, 'relit_id' => $relit_id])}}"
                         title="{{$base_names . $message}}">
-                        <h5>
                             {{$base_names}}
-                        </h5>
                         {{--                            @auth--}}
                         {{--                                <span--}}
                         {{--                                    class="text-muted text-related">--}}
