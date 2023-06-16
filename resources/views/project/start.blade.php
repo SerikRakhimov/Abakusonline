@@ -123,6 +123,45 @@
                     {{--                    </p>--}}
                 </div>
             </div>
+
+            <div class="row mt-3 ml-3">
+                <div class="col-sm-1 text-right d-inline">
+                    <a href="{{route('item.base_index',['base'=>$base, 'project' => $project, 'role' => $role, 'relit_id' => $relit_id])}}"
+                       title="{{$base_names}}">
+                        <h5>
+                            {{$i}}
+                        </h5>
+                    </a>
+                </div>
+                <div class="col-sm-11 text-left d-inline">
+                    <a
+                        href="{{route('item.base_index',['base'=>$base, 'project' => $project, 'role' => $role, 'relit_id' => $relit_id])}}"
+                        title="{{$base_names . $message}}">
+                        <h5>
+                            {{$base_names}}
+                        </h5>
+                        {{--                            @auth--}}
+                        {{--                                <span--}}
+                        {{--                                    class="text-muted text-related">--}}
+                        {{--                                    {{GlobalController::items_right($base, $project, $role)['view_count']}}--}}
+                        {{--                                </span>--}}
+                    </a>
+                    <?php
+                    // Вывести иконки для вычисляемых основ и настроек
+                    $menu_type_name = $base->menu_type_name();
+                    ?>
+                    <a
+                        href="{{route('item.base_index',['base'=>$base, 'project' => $project, 'role' => $role, 'relit_id' => $relit_id])}}"
+                        title="{{$menu_type_name['text']}}">
+                                <span class="badge badge-related"><?php
+                                    echo $menu_type_name['icon'];
+                                    ?></span>
+                        {{--                            @endauth--}}
+                    </a>
+                </div>
+            </div>
+
+
         @endforeach
     @endforeach
 
@@ -224,7 +263,8 @@
                 </button>
             @endif
             @if($is_delete == true)
-                <button type="button" class="btn btn-sm btn-dreamer" title="{{trans('main.delete_subscription')}}"
+                <button type="button" class="btn btn-sm btn-dreamer"
+                        title="{{trans('main.delete_subscription')}}"
                         onclick="document.location='{{route('project.subs_delete',
                         [ 'project'=>$project, 'role'=>$role])}}'">
                     <i class="fas fa-trash"></i>&nbsp;{{trans('main.delete_subscription')}}
