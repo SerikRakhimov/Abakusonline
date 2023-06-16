@@ -128,27 +128,28 @@
                 @endif
 
                 <tr>
-                    <td class="col-1 text-right">
-                        <a href="{{route('item.base_index',['base'=>$base, 'project' => $project, 'role' => $role, 'relit_id' => $relit_id])}}"
-                           title="{{$base_names}}">
-                            <h5>
-                            {{$i}}
-                            </h5>
-                        </a>
+                    <td class="text-right">
+                        <h5>
+                            <a href="{{route('item.base_index',['base'=>$base, 'project' => $project, 'role' => $role, 'relit_id' => $relit_id])}}"
+                               title="{{$base_names}}">
+
+                                {{$i}}
+                            </a>
+                        </h5>
                     </td>
-                    <td class="col-11 text-left">
-                        <a
-                            href="{{route('item.base_index',['base'=>$base, 'project' => $project, 'role' => $role, 'relit_id' => $relit_id])}}"
-                            title="{{$base_names . $message}}">
-                            <h5>
-                            {{$base_names}}
-                            </h5>
-                            {{--                            @auth--}}
-                            {{--                                <span--}}
-                            {{--                                    class="text-muted text-related">--}}
-                            {{--                                    {{GlobalController::items_right($base, $project, $role)['view_count']}}--}}
-                            {{--                                </span>--}}
-                        </a>
+                    <td class="text-left">
+                        <h5>
+                            <a
+                                href="{{route('item.base_index',['base'=>$base, 'project' => $project, 'role' => $role, 'relit_id' => $relit_id])}}"
+                                title="{{$base_names . $message}}">
+                                {{$base_names}}
+                                {{--                            @auth--}}
+                                {{--                                <span--}}
+                                {{--                                    class="text-muted text-related">--}}
+                                {{--                                    {{GlobalController::items_right($base, $project, $role)['view_count']}}--}}
+                                {{--                                </span>--}}
+                            </a>
+                        </h5>
                         <?php
                         // Вывести иконки для вычисляемых основ и настроек
                         $menu_type_name = $base->menu_type_name();
