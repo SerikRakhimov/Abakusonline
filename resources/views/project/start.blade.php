@@ -67,40 +67,82 @@
                 </div>
             @endif
         @endif
-        @foreach($base_ids as $base_id)
-            <?php
-            $base = Base::findOrFail($base_id);
-            ?>
-            <?php
-            $i++;
-            $message = GlobalController::base_maxcount_message($base);
-            if ($message != '') {
-                // Такая же проверка в GlobalController::items_right() и start.php
-                $message = ' (' . $message . ')';
-            }
-            $base_right = GlobalController::base_right($base, $role, $relit_id);
-            //          Использовать так "$base->names($base_right, true)", "true" - вызов из base_index.php
-            $base_names = $base->names($base_right, true, true);
-            ?>
-            <div class="row mt-3">
-                <div style="width:100%;padding-left: 100px">
-                    {{--                    <p style="float:left;width:10%;">--}}
-                    <h5 style="float:left;width:5%;">
-                        <a
-                            href="{{route('item.base_index',['base'=>$base, 'project' => $project, 'role' => $role, 'relit_id' => $relit_id])}}"
-                            title="{{$base_names}}">
-                            {{$i}}
-                        </a></h5>
-                    {{--                    Нужно--}}
-                    <div style="float:left;width:5%;">
+        <table class="ml-5">
+            @foreach($base_ids as $base_id)
+                <?php
+                $base = Base::findOrFail($base_id);
+                ?>
+                <?php
+                $i++;
+                $message = GlobalController::base_maxcount_message($base);
+                if ($message != '') {
+                    // Такая же проверка в GlobalController::items_right() и start.php
+                    $message = ' (' . $message . ')';
+                }
+                $base_right = GlobalController::base_right($base, $role, $relit_id);
+                //          Использовать так "$base->names($base_right, true)", "true" - вызов из base_index.php
+                $base_names = $base->names($base_right, true, true);
+                ?>
+                @if(1==2)
+                    <div class="row mt-3">
+                        <div style="width:100%;padding-left: 100px">
+                            {{--                    <p style="float:left;width:10%;">--}}
+                            <h5 style="float:left;width:5%;">
+                                <a
+                                    href="{{route('item.base_index',['base'=>$base, 'project' => $project, 'role' => $role, 'relit_id' => $relit_id])}}"
+                                    title="{{$base_names}}">
+                                    {{$i}}
+                                </a></h5>
+                            {{--                    Нужно--}}
+                            <div style="float:left;width:5%;">
+                            </div>
+                            {{--                    </p>--}}
+                            {{--                    <p style="float:left;width:90%;">--}}
+                            <h5 style="float:left;width:90%;">
+                                <a
+                                    href="{{route('item.base_index',['base'=>$base, 'project' => $project, 'role' => $role, 'relit_id' => $relit_id])}}"
+                                    title="{{$base_names . $message}}">
+                                    {{$base_names}}
+                                    {{--                            @auth--}}
+                                    {{--                                <span--}}
+                                    {{--                                    class="text-muted text-related">--}}
+                                    {{--                                    {{GlobalController::items_right($base, $project, $role)['view_count']}}--}}
+                                    {{--                                </span>--}}
+                                </a>
+                                <?php
+                                // Вывести иконки для вычисляемых основ и настроек
+                                $menu_type_name = $base->menu_type_name();
+                                ?>
+                                <a
+                                    href="{{route('item.base_index',['base'=>$base, 'project' => $project, 'role' => $role, 'relit_id' => $relit_id])}}"
+                                    title="{{$menu_type_name['text']}}">
+                                <span class="badge badge-related"><?php
+                                    echo $menu_type_name['icon'];
+                                    ?></span>
+                                    {{--                            @endauth--}}
+                                </a>
+                            </h5>
+                            {{--                    </p>--}}
+                        </div>
                     </div>
-                    {{--                    </p>--}}
-                    {{--                    <p style="float:left;width:90%;">--}}
-                    <h5 style="float:left;width:90%;">
+                @endif
+
+                <tr>
+                    <td class="col-1 text-right">
+                        <a href="{{route('item.base_index',['base'=>$base, 'project' => $project, 'role' => $role, 'relit_id' => $relit_id])}}"
+                           title="{{$base_names}}">
+                            <h5>
+                            {{$i}}
+                            </h5>
+                        </a>
+                    </td>
+                    <td class="col-11 text-left">
                         <a
                             href="{{route('item.base_index',['base'=>$base, 'project' => $project, 'role' => $role, 'relit_id' => $relit_id])}}"
                             title="{{$base_names . $message}}">
+                            <h5>
                             {{$base_names}}
+                            </h5>
                             {{--                            @auth--}}
                             {{--                                <span--}}
                             {{--                                    class="text-muted text-related">--}}
@@ -119,46 +161,12 @@
                                     ?></span>
                             {{--                            @endauth--}}
                         </a>
-                    </h5>
-                    {{--                    </p>--}}
-                </div>
-            </div>
-
-            <div class="row mt-3 ml-3">
-                <div class="col-1 text-right">
-                    <a href="{{route('item.base_index',['base'=>$base, 'project' => $project, 'role' => $role, 'relit_id' => $relit_id])}}"
-                       title="{{$base_names}}">
-                            {{$i}}
-                    </a>
-                </div>
-                <div class="col-11 text-left">
-                    <a
-                        href="{{route('item.base_index',['base'=>$base, 'project' => $project, 'role' => $role, 'relit_id' => $relit_id])}}"
-                        title="{{$base_names . $message}}">
-                            {{$base_names}}
-                        {{--                            @auth--}}
-                        {{--                                <span--}}
-                        {{--                                    class="text-muted text-related">--}}
-                        {{--                                    {{GlobalController::items_right($base, $project, $role)['view_count']}}--}}
-                        {{--                                </span>--}}
-                    </a>
-                    <?php
-                    // Вывести иконки для вычисляемых основ и настроек
-                    $menu_type_name = $base->menu_type_name();
-                    ?>
-                    <a
-                        href="{{route('item.base_index',['base'=>$base, 'project' => $project, 'role' => $role, 'relit_id' => $relit_id])}}"
-                        title="{{$menu_type_name['text']}}">
-                                <span class="badge badge-related"><?php
-                                    echo $menu_type_name['icon'];
-                                    ?></span>
-                        {{--                            @endauth--}}
-                    </a>
-                </div>
-            </div>
+                    </td>
+                </tr>
 
 
-        @endforeach
+            @endforeach
+        </table>
     @endforeach
 
     {{--    <h3 class="text-center">Справочники</h3><br>--}}
