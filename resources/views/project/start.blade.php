@@ -32,17 +32,18 @@
             @endif
         @endif
     @endauth
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-1">
-            </div>
-            <div class="col-6 text-left">
-                <h3>{{trans('main.mainmenu')}}</h3>
-            </div>
-            <div class="col-5 text-right">
-            </div>
-        </div>
-    </div>
+{{--    <div class="container-fluid">--}}
+{{--        <div class="row">--}}
+{{--            <div class="col-1">--}}
+{{--            </div>--}}
+{{--            <div class="col-6 text-left">--}}
+{{--                <h3>{{trans('main.mainmenu')}}</h3>--}}
+{{--            </div>--}}
+{{--            <div class="col-5 text-right">--}}
+{{--            </div>--}}
+{{--        </div>--}}
+{{--    </div>--}}
+    <h3 class="ml-5">{{trans('main.mainmenu')}}</h3>
     @foreach($array_relips as $relit_id=>$array_relip)
         {{--        <hr>--}}
         <?php
@@ -67,7 +68,7 @@
                 </div>
             @endif
         @endif
-        <table class="table ml-5">
+        <table class="table">
             @foreach($base_ids as $base_id)
                 <?php
                 $base = Base::findOrFail($base_id);
