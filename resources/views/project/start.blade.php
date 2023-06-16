@@ -128,9 +128,7 @@
                 <div class="col-1 text-right">
                     <a href="{{route('item.base_index',['base'=>$base, 'project' => $project, 'role' => $role, 'relit_id' => $relit_id])}}"
                        title="{{$base_names}}">
-                        <h5>
                             {{$i}}
-                        </h5>
                     </a>
                 </div>
                 <div class="col-11 text-left">
