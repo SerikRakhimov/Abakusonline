@@ -128,7 +128,7 @@
                 @endif
 
                 <tr>
-                    <td class="text-right">
+                    <td class="col-1 text-right">
                         <h5>
                             <a href="{{route('item.base_index',['base'=>$base, 'project' => $project, 'role' => $role, 'relit_id' => $relit_id])}}"
                                title="{{$base_names}}">
@@ -137,7 +137,7 @@
                             </a>
                         </h5>
                     </td>
-                    <td class="text-left">
+                    <td class="col-11 text-left">
                         <h5>
                             <a
                                 href="{{route('item.base_index',['base'=>$base, 'project' => $project, 'role' => $role, 'relit_id' => $relit_id])}}"
