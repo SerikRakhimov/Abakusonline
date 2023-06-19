@@ -364,7 +364,7 @@
             @if($view_enable == false)
                 @continue
             @endif
-            <?php
+        <?php
             // Вывести с эмодзи
             $result_parent_label = $link->parent_label(true);
             //dd($result_parent_label);
@@ -395,7 +395,11 @@
                 }
             }
             $items = [];
-            if ($items_default == true && $link->parent_base->type_is_list()) {
+            //if ($items_default == true && $link->parent_base->type_is_list()) {
+//            Даты если они используются для фильтрации данных ($link->parent_is_child_related == true)
+//            - выводить в виде списка
+//            Похожие строки '($link->parent_base->type_is_date() & $link->parent_is_child_related == true)' см. по тексту, не удалять эти комментарии
+                if ($items_default == true & ($link->parent_base->type_is_list() | ($link->parent_base->type_is_date() & $link->parent_is_child_related == true))) {
                 //$result = ItemController::get_items_main($link_parent_base, $project, $role, $link->parent_relit_id, $link);
                 //$result = ItemController::get_items_main($link_parent_base, $project, $role, $relit_id,
                 //   $base_link_right['is_list_hist_records_enable'], $link);
@@ -410,7 +414,7 @@
                 $code_find = $item_find->code;
             }
             ?>
-            {{--            @if($link_start_child)--}}
+            {{--     @if($link_start_child)--}}
             {{--                @if(($link->parent_is_base_link == true) || ($link->parent_base->is_code_needed==true && $link->parent_is_enter_refer==true))--}}
             {{--                    <script>--}}
             {{--                        var child_base_start_id{{$link_start_child->id}} = document.getElementById('{{$link->id}}');--}}
@@ -700,7 +704,9 @@
                     </div>
 
                     {{--                                если тип корректировки поля - дата--}}
-                @elseif($link->parent_base->type_is_date())
+{{--                @elseif($link->parent_base->type_is_date())--}}
+                    {{--Похожие строки '($link->parent_base->type_is_date() & $link->parent_is_child_related == true)' см. по тексту, не удалять эти комментарии--}}
+                    @elseif($link->parent_base->type_is_date() & $link->parent_is_child_related == false)
                     <div class="form-group row">
                         <div class="col-sm-3 text-right">
                             <label for="{{$key}}" class="col-form-label">
@@ -1021,8 +1027,10 @@
                              'title'=>$result_parent_label, 'name'=>$key,'id'=>"link".$key])
                     {{--                         Такая же проверка ItemController::get_items_ext_edit_for_link(),--}}
                     {{--                         в ext_edit.php--}}
-                @elseif($link->parent_base->type_is_list())
-                    <?php
+{{--                @elseif($link->parent_base->type_is_list())--}}
+                        {{-- Похожие строки '($link->parent_base->type_is_date() & $link->parent_is_child_related == true)' см. по тексту, не удалять эти комментарии--}}
+                    @elseif($link->parent_base->type_is_list() | ($link->parent_base->type_is_date() & $link->parent_is_child_related == true))
+                        <?php
                     $hidden_list = false;
                     if ($par_link) {
                         //                                   При параллельной связи $par_link
