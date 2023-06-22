@@ -336,7 +336,7 @@
                                              'string_current'=>$string_current,
                                              'heading'=>intval(true),
                                              'base_index_page'=>$base_index_page, 'body_link_page'=>$body_link_page,'body_all_page'=>$body_all_page,
-                                             'view_link'=>$view_link,
+                                             'view_link'=>GlobalController::set_par_view_link_null($view_link),
                                              'par_link'=>$tree_array_last_link_id, 'parent_item'=>$tree_array_last_item_id,
                                              'parent_ret_id' => $view_ret_heading_id
                                              ])}}'">
