@@ -2814,20 +2814,6 @@ class GlobalController extends Controller
         return 'text_base_null';
     }
 
-    // Функция нужна, что в строке запуска не было без параметра
-    // (http://abakusonline:8080/item/item_index/33/2789/21/18/0//195/2787) - неправильно
-    // http://abakusonline:8080/item/item_index/33/2789/21/18/0/textnull/195/2787 - правильно
-    static function par_link_textnull($par_link)
-    {
-        $result = null;
-        if ($par_link) {
-            $result = $par_link;
-        } else {
-            $result = self::par_link_const_textnull();
-        }
-        return $result;
-    }
-
     static function const_alltrue()
     {
         return 'alltrue';
@@ -2860,6 +2846,9 @@ class GlobalController extends Controller
         }
         return $result;
     }
+    // Функция нужна, что в строке запуска не было без параметра
+    // (http://abakusonline:8080/item/item_index/33/2789/21/18/0//195/2787) - неправильно
+    // http://abakusonline:8080/item/item_index/33/2789/21/18/0/textnull/195/2787 - правильно
 
     static function set_par_view_link_null($view_link)
     {
