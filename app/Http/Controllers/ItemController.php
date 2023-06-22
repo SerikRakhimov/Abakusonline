@@ -6342,11 +6342,13 @@ class ItemController extends Controller
             // Вычисляем первоначальный $item;
             if ($item_calc == true) {
                 $item = GlobalController::get_parent_item_from_main($item_start->id, $const_link_id_start);
-                if ($role) {
+                if ($item) {
+                    if ($role) {
 //                    Использовать так '$relit_id!=null'
-                    if ($relit_id != null) {
-                        // Проверка $item_find
-                        $item = GlobalController::items_check_right($item, $role, $relit_id);
+                        if ($relit_id != null) {
+                            // Проверка $item_find
+                            $item = GlobalController::items_check_right($item, $role, $relit_id);
+                        }
                     }
                 }
             } else {
