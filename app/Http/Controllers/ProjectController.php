@@ -67,7 +67,7 @@ class ProjectController extends Controller
                     ->where('is_access_allowed', true);
             })->whereHas('template.roles', function ($query) {
                 $query->where('is_author', false)
-                    ->where('is_external',true);
+                    ->where('is_external', true);
             });
             // 'orwhereHas' правильно
 //            $projects = $projects->orwhereHas('accesses', function ($query) {
@@ -103,9 +103,9 @@ class ProjectController extends Controller
 //            ->orderBy('user_id')->orderBy('template_id')->orderBy('created_at');
 
         $projects = Project::whereHas('template.roles', function ($query) {
-                $query->where('is_author', false)
-                    ->where('is_external', false);
-            })
+            $query->where('is_author', false)
+                ->where('is_external', false);
+        })
             ->orderBy('user_id')->orderBy('template_id')->orderBy('created_at');
 
         $name = "";  // нужно, не удалять
@@ -1376,11 +1376,14 @@ class ProjectController extends Controller
                 // Удаление записей
                 foreach ($bases_to as $base_to_id) {
                     $base = Base::findOrFail($base_to_id['base_id']);
-                    echo nl2br(trans('main.base') . ": " . $base->name() . " - ");
-                    $items = Item::where('project_id', $project->id)->where('base_id', $base->id);
-                    $count = $items->count();
-                    $items->delete();
-                    echo nl2br(trans('main.deleted') . " " . $count . " " . $str_records . PHP_EOL);
+                    // Проверка нужна, только для вычисляемых основ
+                    if ($base->is_calculated_lst == true) {
+                        echo nl2br(trans('main.base') . ": " . $base->name() . " - ");
+                        $items = Item::where('project_id', $project->id)->where('base_id', $base->id);
+                        $count = $items->count();
+                        $items->delete();
+                        echo nl2br(trans('main.deleted') . " " . $count . " " . $str_records . PHP_EOL);
+                    }
                 }
 
                 // Обработка записей текущего проекта
