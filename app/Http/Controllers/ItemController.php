@@ -7760,6 +7760,7 @@ class ItemController extends Controller
         $set = Set::findOrFail($link->parent_selection_calculated_table_set_id);
         $set_link = $set->link_to;
         // Получаем список из вычисляемой таблицы
+        // "->distinct();" не нужен здесь
         $items = Item::select(DB::Raw('items.*'))
             ->join('mains', 'items.id', '=', 'mains.parent_item_id')
             ->where('mains.link_id', '=', $set_link->id);

@@ -1338,7 +1338,8 @@
             //            1.0 В списке выбора использовать поле вычисляемой таблицы
             if ($link->parent_is_in_the_selection_list_use_the_calculated_table_field == true) {
                 $link_selection_table = true;
-                $link_id_selection_calc = LinkController::get_link_id_selection_calc($link);
+                // не удалять
+                //$link_id_selection_calc = LinkController::get_link_id_selection_calc($link);
             }
             // эта проверка не нужна
             //if (!array_key_exists($key, $array_disabled)) {
@@ -1384,14 +1385,16 @@
             {{--                <script>--}}
             {{--                </script>--}}
             <script>
-                @if(($link_start_child->parent_is_base_link == true) || ($link_start_child->parent_base->is_code_needed==true && $link_start_child->parent_is_enter_refer==true))
+                {{--                @if(($link_start_child->parent_is_base_link == true) || ($link_start_child->parent_base->is_code_needed==true && $link_start_child->parent_is_enter_refer==true))--}}
+                @if($link_start_child->parent_base->is_code_needed==true && $link_start_child->parent_is_enter_refer==true)
                 var child_base_id{{$prefix}}{{$link->id}} = document.getElementById('{{$link_start_child->id}}');
                 @else
                 var child_base_id{{$prefix}}{{$link->id}} = document.getElementById('link{{$link_start_child->id}}');
                 @endif
                 {{--var child_base_id{{$prefix}}{{$link->id}} = document.getElementById('link{{$link_start_child->id}}');--}}
 
-                @if(($link->parent_is_base_link == true) || ($link->parent_base->is_code_needed==true && $link->parent_is_enter_refer==true))
+                {{--                @if(($link->parent_is_base_link == true) || ($link->parent_base->is_code_needed==true && $link->parent_is_enter_refer==true))--}}
+                @if($link->parent_base->is_code_needed==true && $link->parent_is_enter_refer==true)
                 var parent_base_id{{$prefix}}{{$link->id}} = document.getElementById('{{$link->id}}');
                 @else
                 var parent_base_id{{$prefix}}{{$link->id}} = document.getElementById('link{{$link->id}}');
@@ -1430,6 +1433,7 @@
                         {{--                                child_base_id{{$prefix}}{{$link->id}}.innerHTML = "<option value='0'>{{trans('main.no_information') . '!'}}</option>";--}}
                         {{--                            @endif--}}
                         {{--                        } else {--}}
+                        {{-- Здесь правильные проверки на условия--}}
                         @if(($link_start_child->parent_is_base_link == true) || ($link_start_child->parent_base->is_code_needed==true && $link_start_child->parent_is_enter_refer==true))
                         @else
                         await axios.get('/item/get_items_main_options/'
@@ -1440,7 +1444,6 @@
                         + '/' + parent_base_id{{$prefix}}{{$link->id}}.options[parent_base_id{{$prefix}}{{$link->id}}.selectedIndex].value
                         @endif
                        ).then(function (res) {
-
                                 child_base_id{{$prefix}}{{$link->id}}.innerHTML = res.data['result_items_name_options'];
                                 for (let i = 0; i < child_base_id{{$prefix}}{{$link->id}}.length; i++) {
                                     if (child_base_id{{$prefix}}{{$link->id}}[i].value ==
@@ -1478,7 +1481,7 @@
         ?>
         {{--        Вводить как справочник--}}
         @if($link_enter_refer)
-            {{-- Проверка на фильтруемые поля--}}
+            {{-- Проверка на фильтрируемые поля--}}
             @if($link_refer_main)
                 <script>
                     var code_{{$prefix}}{{$link->id}} = document.getElementById('code{{$link->id}}');
@@ -1487,7 +1490,8 @@
 
                     var child_base_id{{$prefix}}{{$link->id}} = document.getElementById('buttonbrow{{$link->id}}');
 
-                    @if(($link_refer_main->parent_is_base_link == true) || ($link_refer_main->parent_base->is_code_needed==true && $link_refer_main->parent_is_enter_refer==true))
+                    {{--                    @if(($link_refer_main->parent_is_base_link == true) || ($link_refer_main->parent_base->is_code_needed==true && $link_refer_main->parent_is_enter_refer==true))--}}
+                    @if($link_refer_main->parent_base->is_code_needed==true && $link_refer_main->parent_is_enter_refer==true)
                     var parent_base_id{{$prefix}}{{$link->id}} = document.getElementById('{{$link_refer_main->id}}');
                     @else
                     var parent_base_id{{$prefix}}{{$link->id}} = document.getElementById('link{{$link_refer_main->id}}');
@@ -1500,8 +1504,8 @@
                             window.item_id = document.getElementById('{{$link->id}}');
                         window.item_code = document.getElementById('code{{$link->id}}');
                         window.item_name = document.getElementById('name{{$link->id}}');
-
-                        @if(($link_refer_main->parent_is_base_link == true) || ($link_refer_main->parent_base->is_code_needed==true && $link_refer_main->parent_is_enter_refer==true))
+                        {{-- Здесь правильные проверки на условия--}}
+                            @if(($link_refer_main->parent_is_base_link == true) || ($link_refer_main->parent_base->is_code_needed==true && $link_refer_main->parent_is_enter_refer==true))
                         if (parent_base_id{{$prefix}}{{$link->id}}.value == 0) {
                             @else
                             if (parent_base_id{{$prefix}}{{$link->id}}.options[parent_base_id{{$prefix}}{{$link->id}}.selectedIndex].value == 0) {
@@ -1798,6 +1802,7 @@
                         + 'project_id={{$project->id}}'
                         + '&base_id={{$base->id}}'
                         + '&link_id={{$link->id}}'
+                        {{-- Такой вариант рабочий, правильный, когда '&items_id_group[]=' в каждой итерации цикла используется --}}
                         @foreach($sets_group as $to_key => $to_value)
                         {{-- Если $to_value->link_from->Ссылка на основу = true --}}
                         {{-- Выше по тексту тоже используется "parent_is_base_link"--}}
