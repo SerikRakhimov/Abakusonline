@@ -416,6 +416,62 @@
             ])
         @endif
         {{-- Связи--}}
+        {{-- Взаимосвязанные шаблоны--}}
+        {{-- "count($array_relips) > 1" - т.е. есть взаимосвязанные шаблоны--}}
+        @if(count($array_relips) > 1)
+            <div class="row">
+                <div class="col-12 text-center mt-1">
+                    @foreach($array_relips as $relit_key_id=>$array_relip_id)
+                        <?php
+                        $relit = null;
+                        if ($relit_key_id == 0) {
+                            $relit = null;
+                        } else {
+                            $relit = Relit::findOrFail($relit_key_id);
+                        }
+                        // Находим родительский проект
+                        $relip_select_body_project = Project::findOrFail($array_relip_id);
+                        if ($view_link) {
+                            $view_value_link = $view_link->id;
+                        } else {
+                            $view_value_link = GlobalController::const_null();
+                        }
+                        ?>
+                        <div class="btn-group btn-group-sm" role="group" aria-label="Relips">
+                            <button type="button" class="btn btn-icon"
+                                    {{--                                'called_from_button'=>1 - вызов из кнопки--}}
+                                    onclick='document.location="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,
+                                          'usercode' =>GlobalController::usercode_calc(),
+                                          'relit_id'=>$relit_id,
+                                          'called_from_button'=>1,
+                                          'view_link'=>$view_value_link,
+                                          'view_ret_id'=>$relit_key_id,
+                                          'string_current'=>$string_current,
+                                          'prev_base_index_page'=>$base_index_page,
+                                          'prev_body_link_page'=>$body_link_page,
+                                          'prev_body_all_page'=>$body_all_page
+                                                                      ])}}"'
+                                    title="{{$relip_select_body_project->name() . ' ('.mb_strtolower(trans('main.relip')).')'}}">
+                                <i>
+                                    {{$relip_select_body_project->name()}}
+                                    @if($relit)
+                                        <small
+                                            class="text-project"><small><small>{{$relit->title()}}</small></small></small>
+                                    @endif
+                                </i>
+                                {{--                                    - {{$relit_key_id}}- {{$relip_select_body_project->id}}--}}
+                                @if(isset($view_ret_id))
+                                    @if($relit_key_id == $view_ret_id)
+                                        {{-- Этот символ используется в двух местах--}}
+                                        &#10003;
+                                    @endif
+                                @endif
+                            </button>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+        @endif
         {{-- Нужно '@if(count($next_all_links)>0)'--}}
         @if(count($next_all_links)>0)
             {{-- Для команды '@if(!($view_link && count($next_all_links) == 1))', чтобы исключить вариант count($next_all_links) == 0--}}
@@ -560,62 +616,6 @@
                     </div>
                 </div>
             @endif
-        @endif
-        {{-- Взаимосвязанные шаблоны--}}
-        {{-- "count($array_relips) > 1" - т.е. есть взаимосвязанные шаблоны--}}
-        @if(count($array_relips) > 1)
-            <div class="row">
-                <div class="col-12 text-center mt-1">
-                    @foreach($array_relips as $relit_key_id=>$array_relip_id)
-                        <?php
-                        $relit = null;
-                        if ($relit_key_id == 0) {
-                            $relit = null;
-                        } else {
-                            $relit = Relit::findOrFail($relit_key_id);
-                        }
-                        // Находим родительский проект
-                        $relip_select_body_project = Project::findOrFail($array_relip_id);
-                        if ($view_link) {
-                            $view_value_link = $view_link->id;
-                        } else {
-                            $view_value_link = GlobalController::const_null();
-                        }
-                        ?>
-                        <div class="btn-group btn-group-sm" role="group" aria-label="Relips">
-                            <button type="button" class="btn btn-icon"
-                                    {{--                                'called_from_button'=>1 - вызов из кнопки--}}
-                                    onclick='document.location="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,
-                                          'usercode' =>GlobalController::usercode_calc(),
-                                          'relit_id'=>$relit_id,
-                                          'called_from_button'=>1,
-                                          'view_link'=>$view_value_link,
-                                          'view_ret_id'=>$relit_key_id,
-                                          'string_current'=>$string_current,
-                                          'prev_base_index_page'=>$base_index_page,
-                                          'prev_body_link_page'=>$body_link_page,
-                                          'prev_body_all_page'=>$body_all_page
-                                                                      ])}}"'
-                                    title="{{$relip_select_body_project->name() . ' ('.mb_strtolower(trans('main.relip')).')'}}">
-                                <i>
-                                    {{$relip_select_body_project->name()}}
-                                    @if($relit)
-                                        <small
-                                            class="text-project"><small><small>{{$relit->title()}}</small></small></small>
-                                    @endif
-                                </i>
-                                {{--                                    - {{$relit_key_id}}- {{$relip_select_body_project->id}}--}}
-                                @if(isset($view_ret_id))
-                                    @if($relit_key_id == $view_ret_id)
-                                        {{-- Этот символ используется в двух местах--}}
-                                        &#10003;
-                                    @endif
-                                @endif
-                            </button>
-                        </div>
-                    @endforeach
-                </div>
-            </div>
         @endif
     </div>
     {{--    <hr align="center" width="100%" size="2" color="#ff0000"/>--}}
