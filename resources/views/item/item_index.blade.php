@@ -28,10 +28,10 @@
         }
     }
     if ($relip_body_project) {
-        if ($relip_body_project->id != $project->id) {
+        //if ($relip_body_project->id != $project->id) {
 //            $relip_body_name_project = trans('main.project') . ': ' . $relip_body_project->name();
             $relip_body_name_project = $relip_body_project->name();
-        }
+        //}
     }
     // Нужно
     $view_link = GlobalController::set_un_par_view_link_null($view_link);
@@ -712,7 +712,7 @@
                             @endif
                         </h6>
                         @if($role->is_view_info_relits == true)
-                            <small><small>100{{$relip_body_name_project}}</small></small>
+                            <small><small>{{$relip_body_name_project}}</small></small>
                         @endif
                     </div>
                     <div class="col-4 text-right">
