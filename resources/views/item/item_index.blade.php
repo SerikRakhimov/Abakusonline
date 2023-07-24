@@ -712,7 +712,7 @@
                             @endif
                         </h6>
                         @if($role->is_view_info_relits == true)
-                            <small><small>{{$relip_body_name_project}}</small></small>
+                            <small><small>100{{$relip_body_name_project}}</small></small>
                         @endif
                     </div>
                     <div class="col-4 text-right">
