@@ -29,9 +29,10 @@
     }
     if ($relip_body_project) {
         //if ($relip_body_project->id != $project->id) {
+        if ($relit_id != $view_ret_id) {
 //            $relip_body_name_project = trans('main.project') . ': ' . $relip_body_project->name();
-        $relip_body_name_project = $relip_body_project->name() . ' $relit_id=' . $relit_id . ' $view_ret_id=' . $view_ret_id;
-        //}
+            $relip_body_name_project = $relip_body_project->name();
+        }
     }
     // Нужно
     $view_link = GlobalController::set_un_par_view_link_null($view_link);
