@@ -40,9 +40,9 @@
             @endif
             </span>
         {{--        'Показывать признак "В истории" при просмотре записи'--}}
-        {{--        @if($base_right['is_show_hist_attr_enable'] == true)--}}
-        @include('layouts.item.show_history',['item'=>$item])
-        {{--        @endif--}}
+        @if($base_right['is_show_hist_attr_enable'] == true)
+            @include('layouts.item.show_history',['item'=>$item])
+        @endif
     </h4>
     <br>
     <?php
@@ -202,7 +202,8 @@
             //                $base_link_right = GlobalController::base_link_right($link, $role, $link->parent_relit_id);
             //            }
             // Проверка $item_find
-            $item_find = GlobalController::items_check_right($item_find, $role, $relit_id);
+            // Использовать так "GlobalController::items_check_right($item_find, $role, $relit_id, true)"
+            $item_find = GlobalController::items_check_right($item_find, $role, $relit_id, true);
             ?>
             @if($base_link_right['is_show_link_enable'] == true)
                 <hr class="hr_ext_show">

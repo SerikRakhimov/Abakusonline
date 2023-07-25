@@ -1825,7 +1825,8 @@ class ItemController extends Controller
         }
 
         // Проверка $item
-        $item_ch = GlobalController::items_check_right($item, $role, $relit_id);
+        // Использовать так "GlobalController::items_check_right($item, $role, $relit_id, true)"
+        $item_ch = GlobalController::items_check_right($item, $role, $relit_id, true);
         if (!$item_ch) {
             return view('message', ['message' => trans('main.access_restricted')]);
         }

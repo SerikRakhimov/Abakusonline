@@ -1034,7 +1034,7 @@ class GlobalController extends Controller
 //    В функциях items_right() и items_check_right() похожие алгоритмы
 //  items_right() - полная основная функция
 //  items_check_right() - проверка по одному $item, с учетом всех доступов и разрешений
-    static function items_check_right(Item $item, Role $role, $relit_id)
+    static function items_check_right(Item $item, Role $role, $relit_id, $call_from_ext_show = false)
     {
         $base = $item->base;
         $project = $item->project;
@@ -1045,7 +1045,9 @@ class GlobalController extends Controller
             ->where('id', $item->id);
 
         if ($base_right['is_list_hist_records_enable'] == false) {
-            $items = $items->where('items.is_history', false);
+            if ($call_from_ext_show == false) {
+                $items = $items->where('items.is_history', false);
+            }
         }
 
         if (count($items->get()) == 1) {
