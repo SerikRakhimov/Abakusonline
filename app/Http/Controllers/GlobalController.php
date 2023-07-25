@@ -3096,6 +3096,24 @@ class GlobalController extends Controller
         return $result;
     }
 
+    static function calc_relip_info(Project $project, Role $role, Project $relip_proj, $relit_id)
+    {
+        $proj_name = '';
+        $relit_title = '';
+        if ($role->is_view_info_relits == true) {
+            if ($project->id != $relip_proj->id) {
+                $proj_name = $relip_proj->name();
+            }
+            if ($relit_id != 0) {
+                $relit = Relit::find($relit_id);
+                if ($relit) {
+                    $relit_title = $relit->title();
+                }
+            }
+        }
+        return ['proj_name' => $proj_name, 'relit_title' => $relit_title, 'proj_relit_total' => $proj_name . $relit_title];
+    }
+
 //    function get_display()
 //    {
 //        return config('app.display');

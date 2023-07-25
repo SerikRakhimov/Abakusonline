@@ -10,14 +10,14 @@
     use \App\Http\Controllers\ItemController;
     use \App\Http\Controllers\MainController;
     $relip_project = GlobalController::calc_relip_project($relit_id, $project);
-    $relip_name_project = '';
-    if ($relip_project) {
-//      if ($relip_project->id != $project->id) {
-        if ($relit_id != 0) {
-//          $relip_name_project = trans('main.project') . ': ' . $relip_project->name();
-            $relip_name_project = $relip_project->name();
-        }
-    }
+//    $relip_name_project = '';
+//    if ($relip_project) {
+//        if ($relit_id != 0) {
+//            $relip_name_project = $relip_project->name();
+//        }
+//    }
+
+    $calc_relip_info = GlobalController::calc_relip_info($project, $role, $relip_project, $relit_id);
 
     $message_bs_calc = ItemController::message_bs_calc($relip_project, $base);
     $message_bs_info = $message_bs_calc['message_bs_info'];
@@ -52,9 +52,7 @@
                         {{$base->names($base_right, true, $emoji_enable)}}
                     @endif
                 </h3>
-                @if($role->is_view_info_relits == true)
-                    <small><small>{{$relip_name_project}}</small></small>
-                @endif
+                @include('layouts.project.show_relip_info',['calc_relip_info'=>$calc_relip_info])
             </div>
         </div>
         {{--        Похожая проверка в ItemController::ext_create() и base_index.php--}}

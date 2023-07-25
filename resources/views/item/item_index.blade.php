@@ -18,21 +18,22 @@
     //        }
     $relip_project = GlobalController::calc_relip_project($relit_id, $project);
     $relip_body_project = GlobalController::calc_relip_project($view_ret_id, $project);
-    $relip_name_project = '';
-    $relip_body_name_project = '';
-    if ($relip_project) {
-//      if ($relip_project->id != $project->id) {
-        if ($relit_id != 0) {
-//          $relip_name_project = trans('main.project') . ': ' . $relip_project->name();
-            $relip_name_project = $relip_project->name();
-        }
-    }
-    if ($relip_body_project) {
-        if ($relip_body_project->id != $project->id) {
-//            $relip_body_name_project = trans('main.project') . ': ' . $relip_body_project->name();
-            $relip_body_name_project = $relip_body_project->name();
-        }
-    }
+//    $relip_name_project = '';
+//    $relip_body_name_project = '';
+//    if ($relip_project) {
+//        if ($relit_id != 0) {
+//            $relip_name_project = $relip_project->name();
+//        }
+//    }
+//    if ($relip_body_project) {
+//        if ($relip_body_project->id != $project->id) {
+//            $relip_body_name_project = $relip_body_project->name();
+//        }
+//    }
+
+    $calc_relip_info = GlobalController::calc_relip_info($project, $role, $relip_project, $relit_id);
+    $calc_body_relip_info = GlobalController::calc_relip_info($project, $role, $relip_body_project, $view_ret_id);
+
     // Нужно
     $view_link = GlobalController::set_un_par_view_link_null($view_link);
 
@@ -179,10 +180,7 @@
                     {{--                                    @endif--}}
                     {{--                                </div>--}}
                     {{--                    </h6>--}}
-                    @if($role->is_view_info_relits == true)
-                        <br>
-                        <small><small>{{$relip_name_project}}</small></small>
-                    @endif
+                    @include('layouts.project.show_relip_info',['calc_relip_info'=>$calc_relip_info])
                 </div>
             @else
                 <div class="col-8 text-left">
@@ -451,12 +449,12 @@
                                           'prev_body_link_page'=>$body_link_page,
                                           'prev_body_all_page'=>$body_all_page
                                                                       ])}}"'
-                                    title="{{$relip_select_body_project->name() . ' ('.mb_strtolower(trans('main.relip')).')'}}">
+                                    title="{{$relip_select_body_project->name() . ' '. mb_strtolower($relit->title()) .' ('.mb_strtolower(trans('main.relip')).')'}}">
                                 <i>
                                     {{$relip_select_body_project->name()}}
                                     @if($relit)
-                                        <small
-                                            class="text-project"><small><small>{{$relit->title()}}</small></small></small>
+                                        - <span
+                                            class="text-project">{{mb_strtolower($relit->title())}}</span>
                                     @endif
                                 </i>
                                 {{--                                    - {{$relit_key_id}}- {{$relip_select_body_project->id}}--}}
@@ -711,9 +709,7 @@
                                 </a>
                             @endif
                         </h6>
-                        @if($role->is_view_info_relits == true)
-                            <small><small>{{$relip_body_name_project}}</small></small>
-                        @endif
+                        @include('layouts.project.show_relip_info',['calc_relip_info'=>$calc_body_relip_info])
                     </div>
                     <div class="col-4 text-right">
                     {{--                        @if ((count($body_items) > 0) || ($base_body_right['is_list_base_create'] == true))--}}
@@ -807,7 +803,7 @@
                             {{--                        @endif--}}
                             {{trans('main.all_links')}}:
                         </h3>
-                        <small><small>{{$relip_body_name_project}}</small></small>
+                        @include('layouts.project.show_relip_info',['calc_relip_info'=>$calc_body_relip_info])
                     </div>
                     <div class="col-2 text-right">
                         {{-- Вся кнопка 'Добавить' доступна (для связей)--}}

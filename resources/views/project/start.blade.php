@@ -43,19 +43,28 @@
             $relit = Relit::findOrFail($relit_id);
         }
         // Находим родительский проект
+        // Использовать Project::findOrFail(), а не Project::find()
         $relip_project = Project::findOrFail($array_relip['project_id']);
         $base_ids = $array_relip['base_ids'];
+        $calc_relip_info = GlobalController::calc_relip_info($project, $role, $relip_project, $relit_id);
         ?>
-        @if($role->is_view_info_relits == true)
-            @if($relit_id != 0)
-                <div class="row ml-5">
-                    <div class="col-12 text-left">
-                        {{--                    <small><small>{{trans('main.project')}}: </small></small>--}}
-                        <small>{{$relip_project->name()}}</small>
-                        <h6>{{$relit->title()}}</h6>
-                    </div>
+        {{--        @if($role->is_view_info_relits == true)--}}
+        {{--            @if($relit_id != 0)--}}
+        {{--                <div class="row ml-5">--}}
+        {{--                    <div class="col-12 text-left">--}}
+        {{--                        --}}{{--                    <small><small>{{trans('main.project')}}: </small></small>--}}
+        {{--                        <small>{{$relip_project->name()}}</small>--}}
+        {{--                        <h6>{{$relit->title()}}</h6>--}}
+        {{--                    </div>--}}
+        {{--                </div>--}}
+        {{--            @endif--}}
+        {{--        @endif--}}
+        @if($calc_relip_info['proj_relit_total'] != '')
+            <div class="row ml-5">
+                <div class="col-12 text-left">
+                    @include('layouts.project.show_relip_info',['calc_relip_info'=>$calc_relip_info])
                 </div>
-            @endif
+            </div>
         @endif
         <table class="table">
             @foreach($base_ids as $base_id)
