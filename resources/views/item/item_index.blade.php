@@ -449,7 +449,7 @@
                                           'prev_body_link_page'=>$body_link_page,
                                           'prev_body_all_page'=>$body_all_page
                                                                       ])}}"'
-                                    title="{{$relip_select_body_project->name() . ' '. mb_strtolower($relit->title()) .' ('.mb_strtolower(trans('main.relip')).')'}}">
+                                    title="{{$relip_select_body_project->name() . ' ('.mb_strtolower(trans('main.relip')).')'}}">
                                 <i>
                                     {{$relip_select_body_project->name()}}
                                     @if($relit)
