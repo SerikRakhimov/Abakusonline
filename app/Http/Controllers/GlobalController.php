@@ -1065,9 +1065,11 @@ class GlobalController extends Controller
                     ->where('links.parent_is_tst_link', true);
 
                 if ($base_right['is_list_hist_records_enable'] == false) {
-                    $mains = $mains
-                        ->join('items as it_pr', 'mains.parent_item_id', '=', 'it_pr.id')
-                        ->where('it_pr.is_history', false);
+                    if ($call_from_ext_show == false) {
+                        $mains = $mains
+                            ->join('items as it_pr', 'mains.parent_item_id', '=', 'it_pr.id')
+                            ->where('it_pr.is_history', false);
+                    }
                 }
 
                 // 'get()' нужно
@@ -3100,8 +3102,8 @@ class GlobalController extends Controller
 
     static function calc_relip_info(Project $project, Role $role, Project $relip_proj, $relit_id)
     {
-        $proj_name = '';
-        $relit_title = '';
+        $proj_name = "";
+        $relit_title = "";
         if ($role->is_view_info_relits == true) {
             if ($project->id != $relip_proj->id) {
                 $proj_name = $relip_proj->name();

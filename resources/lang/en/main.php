@@ -473,4 +473,5 @@ return [
     'parent_seqnum_link_id' => 'Link_id for calculating the sequence number (with Sequence number = mark), 0 - calculation of the sequence number for the entire base (table)',
     'no_external_role_check_mark' => 'No external role check mark',
     'is_default_view_cards' => 'By default, view Cards',
+    'record_already_exists' => 'A record with this value already exists in the database',
     ];

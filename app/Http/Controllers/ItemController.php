@@ -2582,6 +2582,13 @@ class ItemController extends Controller
             }
         }
 
+        // Проверка на уникальность базовых типов Дата, Число, Строка, Логический
+        $message = self::verify_item_unique($item);
+        if ($message != '') {
+            $array_mess['name_lang_0'] = $message;
+            $errors = true;
+        }
+
         if ($errors) {
             // повторный вызов формы
             return redirect()->back()
@@ -2919,6 +2926,38 @@ class ItemController extends Controller
                 self::run_items_ids_for_delete($array_items_ids);
             }
         }
+    }
+
+    // Вызывается из ext_store(), ext_update()
+    // Проверка на уникальность базовых типов Дата, Число, Строка, Логический
+    // Похожие строки есть в ItemController::save_main() и в ItemController::verify_item_unique()
+    function verify_item_unique(Item $item)
+    {
+        $result = "";
+        $base = $item->base;
+        $result_dop = "";
+        if ($base->type_is_number() | $base->type_is_string() | $base->type_is_date() | $base->type_is_boolean()) {
+            $items = Item::where('base_id', '=', $base->id)
+                ->where('name_lang_0', '=', $item->name_lang_0);
+            if ($base->type_is_string() & $base->is_one_value_lst_str_txt == false) {
+                $i = 0;
+                $result_dop = '"' . $item->name_lang_0;
+                foreach (config('app.locales') as $lang_key => $lang_value) {
+                    // начиная со второго(индекс==1) элемента массива языков учитывать
+                    if ($i > 0) {
+                        $items = $items->where('name_lang_' . $lang_key, $item['name_lang_' . $lang_key]);
+                        $result_dop = $result_dop . ", " . $item['name_lang_' . $lang_key];
+                    }
+                    $i = $i + 1;
+                }
+                $result_dop = $result_dop . '" - ';
+            }
+            $exists = $items->exists();
+            if ($exists) {
+                $result = $result_dop . trans('main.record_already_exists') . '!';
+            }
+        }
+        return $result;
     }
 
 // save_info_sets() выполняет все присваивания для $item с отниманием/прибавлением значений
@@ -3911,6 +3950,7 @@ class ItemController extends Controller
 
 // Сохранение $main, $index - номер $link,
 // Присваивание $valits[] значениями $item->id, изначально там значения и $item->id в зависимости от типа данных(Число, Строка, Список, Изображение, Документ и т.д.)
+// Похожие строки есть в ItemController::save_main() и в ItemController::verify_item_unique()
     function save_main(Main $main, $item, $keys, $values, &$valits, $index, $strings_inputs, &$message)
     {
         $main->link_id = $keys[$index];
@@ -4340,10 +4380,30 @@ class ItemController extends Controller
 
         $relip_project = GlobalController::calc_relip_project($relit_id, $project);
 
+        // При корректировке
         // Если данные изменились - выполнить проверку. оператор '??' нужны
-        if (!($item->name_lang_0 ?? '' == $request->name_lang_0 ?? '')) {
+        $data_change = false;
+//      if (!($item->name_lang_0 ?? '' == $request->name_lang_0 ?? '')) {
+        if ($item->base->type_is_boolean()) {
+            $data_change = $item->name_lang_0 != isset($request->name_lang_0) ? "1" : "0";
+        } else {
+            $data_change = $item->name_lang_0 != $request->name_lang_0;
+            if ($item->base->type_is_string() & $item->base->is_one_value_lst_str_txt == false) {
+                $i = 0;
+                foreach (config('app.locales') as $lang_key => $lang_value) {
+                    // начиная со второго(индекс==1) элемента массива языков учитывать
+                    if ($i > 0) {
+                        // Используется | - ИЛИ
+                        $data_change = $data_change | $item['name_lang_' . $lang_key] != $request['name_lang_' . $lang_key];
+                    }
+                    $i = $i + 1;
+                }
+            }
+        }
+        if ($data_change) {
             $request->validate($this->name_lang_rules($request));
         }
+
         if (!($item->code == $request->code)) {
             $request->validate($this->code_rules($request, $relip_project->id, $item->base_id));
         }
@@ -4913,6 +4973,18 @@ class ItemController extends Controller
                 }
             }
         }
+
+        // При корректировке
+        // Если данные изменились
+        if ($data_change == true) {
+            // Проверка на уникальность базовых типов Дата, Число, Строка, Логический
+            $message = self::verify_item_unique($item);
+            if ($message != '') {
+                $array_mess['name_lang_0'] = $message;
+                $errors = true;
+            }
+        }
+
         if ($errors) {
             // повторный вызов формы
             return redirect()->back()
