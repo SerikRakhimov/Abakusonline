@@ -7353,6 +7353,9 @@ class ItemController extends Controller
                 $links = $links->where('id', '!=', $nolink->id);
             }
         }
+
+        $links = $links->where('parent_is_seqnum',false);
+
         // Проверка на "$base_link_right['is_list_link_enable']"
         foreach ($links as $link) {
             //$base_link_right = GlobalController::base_link_right($link, $role, $relit_id, true, $relit_id);
