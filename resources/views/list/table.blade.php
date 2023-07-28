@@ -97,8 +97,8 @@ $num_cols = GlobalController::get_number_of_columns_info();
                             </a>
                         </div>
                         {{--                        @endif--}}
-                        {{--                        <h6 class="card-title text-center pt-2">--}}
-                        <div class="card-title text-left pt-2 pl-3 pr-3">
+                        {{--                        <div class="card-title text-left pt-2 pl-3 pr-3">--}}
+                        <div class="card-title text-center pt-2 pl-3 pr-3">
                             <h6>
                                 {{--                            <a--}}
                                 {{--                                href="{{route('item.ext_show', ['item'=>$item, 'project'=>$project, 'role'=>$role, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id,--}}
@@ -637,7 +637,7 @@ $num_cols = GlobalController::get_number_of_columns_info();
                         @if($item_find)
                             <?php
                             // Проверка $item_find
-                                $item_find = GlobalController::items_check_right($item_find, $role, $relit_id);
+                            $item_find = GlobalController::items_check_right($item_find, $role, $relit_id);
                             ?>
                             @if($item_find)
                                 @if($link->parent_base->type_is_image())
