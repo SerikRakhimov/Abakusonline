@@ -130,7 +130,7 @@ class ItemController extends Controller
         $name = BaseController::field_name();
         // Только в функции browser() используется 'Показывать записи с признаком "В истории" при просмотре списков выбора',
         // в других функциях выборки таблиц данных подразумевается 'Показывать записи с признаком "В истории" при просмотре списков'
-        $items = self::get_items_main($base, $project, $role, $relit_id, $base_right['is_brow_hist_records_enable'], $link, $item_id)['items_no_get'];
+        $items = self::get_items_main($base, $project, $role, $relit_id, $base_right['is_brow_hist_records_enable'], $link, $item_id, false)['items_no_get'];
         if ($order_by == null) {
             $order_by = "name";
         }
@@ -7353,8 +7353,8 @@ class ItemController extends Controller
                 $links = $links->where('id', '!=', $nolink->id);
             }
         }
-
-        $links = $links->where('parent_is_seqnum',false);
+        // Порядковые номера в списке не выводятся
+        $links = $links->where('parent_is_seqnum', false);
 
         // Проверка на "$base_link_right['is_list_link_enable']"
         foreach ($links as $link) {
@@ -7592,7 +7592,7 @@ class ItemController extends Controller
     }
 
 // Выборка данных в виде списка
-    static function get_items_main(Base $base, Project $project, Role $role, $relit_id, $enable_hist_records = true, Link $link = null, $item_id = null)
+    static function get_items_main(Base $base, Project $project, Role $role, $relit_id, $enable_hist_records = true, Link $link = null, $item_id = null, $default_order_by = true)
     {
         // Фильтр данных
         $is_filter = false;
@@ -7725,10 +7725,12 @@ class ItemController extends Controller
                 }
                 // Сортировка не нужна, т.к. мешает сортировке по коду/наименованию в $this->browser()
                 // По умолчанию, сортировка по наименованию
-                //$index = array_search(App::getLocale(), config('app.locales'));
-                //if ($index !== false) {   // '!==' использовать, '!=' не использовать
-                //    $items = $items->orderBy('name_lang_' . $index);
-                //}
+                if ($default_order_by == true) {
+                    $index = array_search(App::getLocale(), config('app.locales'));
+                    if ($index !== false) {   // '!==' использовать, '!=' не использовать
+                        $items = $items->orderBy('name_lang_' . $index);
+                    }
+                }
             }///////////////////////\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\//////////////////////////////
         }
         return ['items_no_get' => $items,
