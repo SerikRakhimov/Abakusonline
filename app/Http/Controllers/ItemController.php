@@ -1069,18 +1069,12 @@ class ItemController extends Controller
     function next_all_links_mains_calc(Project $project, Item $item, Role $role, $relit_id, $view_link, $view_ret_id, $tree_array, $base_right, $called_from_button)
     {
         // Блок расчета данных по $item($item->base, $item->template)
-        // Условия одинаковые в item_index() и next_all_links_mains_calc()
-        // 'where('parent_is_parent_related', false)'
-        // 'where('parent_is_base_link', false)'
-//        $links = $base->parent_links
-//            ->where('parent_is_parent_related', false)
-//            ->where('parent_is_base_link', false);
-        // Список доступных связей $base->parent_links
-        // Условия одинаковые 'where('parent_is_base_link', false)'
+        // Список доступных связей
         $base = $item->base;
         $links = $base->parent_links
             ->where('parent_is_parent_related', false)
             ->where('parent_is_base_link', false)
+            ->where('parent_is_output_calculated_table_field', false)
             ->sortBy('child_base_number');
         $next_all_links = array();
         $next_all_links_ids = array();
@@ -7725,6 +7719,7 @@ class ItemController extends Controller
                 }
                 // Сортировка не нужна, т.к. мешает сортировке по коду/наименованию в $this->browser()
                 // По умолчанию, сортировка по наименованию
+                // Нужно учесть для дат, сортировка не совсем корректная: 07.07.2023 08.07.2022 08.07.2023
                 if ($default_order_by == true) {
                     $index = array_search(App::getLocale(), config('app.locales'));
                     if ($index !== false) {   // '!==' использовать, '!=' не использовать
