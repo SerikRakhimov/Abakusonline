@@ -419,7 +419,7 @@ return [
     'parent_is_delete_child_base_record_with_zero_value' => 'Delete Child_Base record when equal to zero (Child_Base-calculated, for numeric/boolean fields)',
     'parent_is_enabled_boolean_value' => 'Enabled when viewed from the Boolean field value',
     'parent_enabled_boolean_value_link_id' => 'Dependent field Boolean',
-    'is_equality_of_templates_rule' => "Templates don't have to be equal to each other",
+    'is_equality_not_equal' => "Templates are not equal to each other",
     'no_projects_found_with_this_template' => 'No projects found with this template',
     'check_project_properties_projects_parents_are_not_set' => 'Check project properties: projects - Parents are not set',
     'projects_children_are_not_set' => 'projects - Children are not set',
@@ -474,4 +474,6 @@ return [
     'no_external_role_check_mark' => 'No external role check mark',
     'is_default_view_cards' => 'By default, view Cards',
     'record_already_exists' => 'A record with this value already exists in the database',
+    'is_use_current_project' => 'Use current project',
+    'parent_is_sorting' => 'Used in sorting',
     ];

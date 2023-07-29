@@ -116,6 +116,21 @@ class TemplateController extends Controller
 
         $this->set($request, $template);
 
+        // Создание админской записи в roles
+        $role = new Role();
+        $role->template_id = $template->id;
+        $role->serial_number = 1;
+        $role->is_author = true;
+        // Присваиваем наименования
+        $lang_save = App::getLocale();
+        $i = 0;
+        foreach (config('app.locales') as $lang_value) {
+            App::setLocale($lang_value);
+            $role['name_lang_' . $i] = trans('main.author');
+            $i = $i + 1;
+        }
+        App::setLocale($lang_save);
+        $role->save();
 
         //https://laravel.demiart.ru/laravel-sessions/
         if ($request->session()->has('templates_previous_url')) {
@@ -129,7 +144,7 @@ class TemplateController extends Controller
     {
         if (!
         Auth::user()->isAdmin()) {
-            return redirect()->route('project.all_index');
+            return redirect()->route('project . all_index');
         }
 
         if ($template->account != $request->account) {
@@ -199,7 +214,7 @@ class TemplateController extends Controller
     {
         if (!
         Auth::user()->isAdmin()) {
-            return redirect()->route('project.all_index');
+            return redirect()->route('project . all_index');
         }
         return view('template/edit', ['template' => $template]);
     }
@@ -208,7 +223,7 @@ class TemplateController extends Controller
     {
         if (!
         Auth::user()->isAdmin()) {
-            return redirect()->route('project.all_index');
+            return redirect()->route('project . all_index');
         }
         return view('template/show', ['type_form' => 'delete_question', 'template' => $template]);
     }
@@ -217,7 +232,7 @@ class TemplateController extends Controller
     {
         if (!
         Auth::user()->isAdmin()) {
-            return redirect()->route('project.all_index');
+            return redirect()->route('project . all_index');
         }
 
         $template->delete();

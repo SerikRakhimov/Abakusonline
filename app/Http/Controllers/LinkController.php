@@ -139,6 +139,7 @@ class LinkController extends Controller
         $link->parent_is_enter_refer = isset($request->parent_is_enter_refer) ? true : false;
         $link->parent_is_calcname = isset($request->parent_is_calcname) ? true : false;
         $link->parent_is_unique = isset($request->parent_is_unique) ? true : false;
+        $link->parent_is_sorting = isset($request->parent_is_sorting) ? true : false;
         $link->parent_is_parallel = isset($request->parent_is_parallel) ? true : false;
         $link->parent_calcname_prefix_lang_0 = isset($request->parent_calcname_prefix_lang_0) ? $request->parent_calcname_prefix_lang_0 : "";
         $link->parent_calcname_prefix_lang_1 = isset($request->parent_calcname_prefix_lang_1) ? $request->parent_calcname_prefix_lang_1 : "";
@@ -451,6 +452,7 @@ class LinkController extends Controller
         $link->parent_is_enter_refer = isset($request->parent_is_enter_refer) ? true : false;
         $link->parent_is_calcname = isset($request->parent_is_calcname) ? true : false;
         $link->parent_is_unique = isset($request->parent_is_unique) ? true : false;
+        $link->parent_is_sorting = isset($request->parent_is_sorting) ? true : false;
         $link->parent_is_parallel = isset($request->parent_is_parallel) ? true : false;
         $link->parent_calcname_prefix_lang_0 = isset($request->parent_calcname_prefix_lang_0) ? $request->parent_calcname_prefix_lang_0 : "";
         $link->parent_calcname_prefix_lang_1 = isset($request->parent_calcname_prefix_lang_1) ? $request->parent_calcname_prefix_lang_1 : "";

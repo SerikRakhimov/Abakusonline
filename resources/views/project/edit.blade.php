@@ -214,22 +214,27 @@
                                 name="{{$child_relit->id}}"
                                 id="{{$child_relit->id}}"
                                 class="@error('{{$child_relit->id}}') is-invalid @enderror">
-                            @if($child_relit->parent_is_required == false)
-                                <option value="0">{{GlobalController::option_empty()}}</option>
-                            @endif
-                            <?php
-                            $isset_projects = isset($child_relits_info['array_projects'][$child_relit->parent_template_id]);
-                            ?>
-                            @if($isset_projects)
-                                @foreach($child_relits_info['array_projects'][$child_relit->parent_template_id] as $proj_obj)
-                                    <option value="{{$proj_obj->id}}"
-                                            @if($update)
-                                            @if (((old($child_relit->id)) ?? (($child_relits_info['array_calc'][$child_relit->id] != null) ? $child_relits_info['array_calc'][$child_relit->id] : 0)) == $proj_obj->id)
-                                            selected
-                                        @endif
-                                        @endif
-                                    >{{$proj_obj->name()}}</option>
-                                @endforeach
+                            @if($child_relit->parent_is_use_current_project == true)
+{{--                                "-1" используется в project.edit.php ProjectController:set()--}}
+                                <option value="-1" readonly="">- {{trans('main.is_use_current_project')}} -</option>
+                            @else
+                                @if($child_relit->parent_is_required == false)
+                                    <option value="0">{{GlobalController::option_empty()}}</option>
+                                @endif
+                                <?php
+                                $isset_projects = isset($child_relits_info['array_projects'][$child_relit->parent_template_id]);
+                                ?>
+                                @if($isset_projects)
+                                    @foreach($child_relits_info['array_projects'][$child_relit->parent_template_id] as $proj_obj)
+                                        <option value="{{$proj_obj->id}}"
+                                                @if($update)
+                                                @if (((old($child_relit->id)) ?? (($child_relits_info['array_calc'][$child_relit->id] != null) ? $child_relits_info['array_calc'][$child_relit->id] : 0)) == $proj_obj->id)
+                                                selected
+                                            @endif
+                                            @endif
+                                        >{{$proj_obj->name()}}</option>
+                                    @endforeach
+                                @endif
                             @endif
                         </select>
                         @error('{{$child_relit->id}}')

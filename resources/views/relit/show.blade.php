@@ -20,6 +20,7 @@
         <p>{{trans('main.parent')}}_{{trans('main.title')}} ({{trans('main.' . $value)}}): <b>{{$relit['parent_title_lang_' . $key]}}</b></p>
     @endforeach
     <p>{{trans('main.parent')}}_{{trans('main.is_required')}}: <b>{{GlobalController::name_is_boolean($relit->parent_is_required)}}</b></p>
+    <p>{{trans('main.parent')}}_{{trans('main.is_use_current_project')}}: <b>{{GlobalController::name_is_boolean($relit->parent_is_use_current_project)}}</b></p>
 
     @if ($type_form == 'show')
         <p>

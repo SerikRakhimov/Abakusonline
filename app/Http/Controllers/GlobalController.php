@@ -901,6 +901,7 @@ class GlobalController extends Controller
                 $links = Link::select(DB::Raw('links.*'))
                     ->join('bases as pb', 'links.parent_base_id', '=', 'pb.id')
                     ->where('links.child_base_id', '=', $base->id)
+                    ->where('links.parent_is_sorting', true)
                     ->where('links.parent_is_base_link', false)
                     ->where('pb.type_is_image', false)
                     ->where('pb.type_is_document', false)

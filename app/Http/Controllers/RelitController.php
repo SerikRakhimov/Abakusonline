@@ -126,9 +126,10 @@ class RelitController extends Controller
 
     function check(Request $request, &$array_mess)
     {
-//        if ($request->child_template_id == $request->parent_template_id) {
-//            $array_mess['parent_template_id'] = trans('main.is_equality_of_templates_rule') . '!';
-//        }
+        if ($request->child_template_id != $request->parent_template_id
+            & $request->parent_is_use_current_project == true) {
+            $array_mess['parent_is_use_current_project'] = trans('main.is_equality_not_equal') . '!';
+        }
     }
 
     function set(Request $request, Relit &$relit)
@@ -141,6 +142,7 @@ class RelitController extends Controller
         $relit->parent_title_lang_2 = isset($request->parent_title_lang_2) ? $request->parent_title_lang_2 : "";
         $relit->parent_title_lang_3 = isset($request->parent_title_lang_3) ? $request->parent_title_lang_3 : "";
         $relit->parent_is_required = isset($request->parent_is_required) ? true : false;
+        $relit->parent_is_use_current_project = isset($request->parent_is_use_current_project) ? true : false;
 
         $relit->save();
     }

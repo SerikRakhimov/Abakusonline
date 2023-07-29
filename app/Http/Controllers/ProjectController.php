@@ -1003,9 +1003,9 @@ class ProjectController extends Controller
 
         $this->set($request, $project);
 
-        // Создать запись в основе/таблице accesses
-        $role = Role::where('template_id', $project->template_id)->where('is_author', true)->first();
-        if ($role) {
+        // Создание записи в основе/таблице accesses
+        $roles = Role::where('template_id', $project->template_id)->where('is_author', true)->get();
+        foreach ($roles as $role) {
             $access = new Access();
             $access->project_id = $project->id;
             $access->user_id = $project->user_id;
@@ -1065,6 +1065,7 @@ class ProjectController extends Controller
 
         $project->fill($data);
 
+        // В set() присваиваются введенные $relips
         $this->set($request, $project);
 
         if ($request->session()->has('projects_previous_url')) {
@@ -1163,8 +1164,12 @@ class ProjectController extends Controller
                             $relip->relit_id = $relit->id;
                             $relip->child_project_id = $project->id;
                         }
-                        // Заполняется введенный проект
-                        $relip->parent_project_id = $request[$relit->id];
+                        //                        "-1" используется в project.edit.php ProjectController:set()
+                        if ($request[$relit->id] == -1) {
+                            $relip->parent_project_id = $project->id;
+                        } else {
+                            $relip->parent_project_id = $request[$relit->id];
+                        }
                         $relip->save();
                     }
                 }

@@ -33,6 +33,7 @@
             <th class="text-left">{{trans('main.parent')}}_{{trans('main.template')}}</th>
             <th class="text-left">{{trans('main.parent')}}_{{trans('main.title')}}</th>
             <th class="text-left">{{trans('main.parent')}}_{{trans('main.is_required')}}</th>
+            <th class="text-left">{{trans('main.parent')}}_{{trans('main.is_use_current_project')}}</th>
         </tr>
         </thead>
         <tbody>
@@ -71,6 +72,11 @@
                 <td class="text-left">
                     <a href="{{route('relit.show',$relit)}}" title="{{trans('main.show')}}">
                         {{GlobalController::name_is_boolean($relit->parent_is_required)}}
+                    </a>
+                </td>
+                <td class="text-left">
+                    <a href="{{route('relit.show',$relit)}}" title="{{trans('main.show')}}">
+                        {{GlobalController::name_is_boolean($relit->parent_is_use_current_project)}}
                     </a>
                 </td>
             </tr>

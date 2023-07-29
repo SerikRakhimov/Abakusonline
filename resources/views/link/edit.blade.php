@@ -403,6 +403,20 @@
             </div>
         </div>
 
+        <div class="form-group" id="parent_is_sorting_form_group">
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" name="parent_is_sorting"
+                       id="parent_is_sorting"
+                       {{--            true - значение по умолчанию--}}
+                       @if ((old('parent_is_sorting') ?? ($link->parent_is_sorting ?? true)) ==  true)
+                       checked
+                    @endif
+                >
+                <label class="form-check-label"
+                       for="parent_is_sorting">{{trans('main.parent_is_sorting')}}</label>
+            </div>
+        </div>
+
         <div class="form-group" id="parent_is_parallel_form_group">
             <div class="form-check form-check-inline">
                 <input class="form-check-input" type="checkbox" name="parent_is_parallel"

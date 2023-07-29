@@ -419,7 +419,7 @@ return [
     'parent_is_delete_child_base_record_with_zero_value' => 'Удалить запись Ребенок_Основа при равенству нулю (Ребенок_Основа-вычисляемое, для числовых/логических полей)',
     'parent_is_enabled_boolean_value' => 'Доступно при просмотре от значения поля Логический',
     'parent_enabled_boolean_value_link_id' => 'Зависимое поле Логический',
-    'is_equality_of_templates_rule' => 'Шаблоны не должны быть равны друг другу',
+    'is_equality_not_equal' => 'Шаблоны не равны друг другу',
     'no_projects_found_with_this_template' => 'Не найдено проектов с таким шаблоном',
     'check_project_properties_projects_parents_are_not_set' => 'Проверьте свойства проекта: не установлены "проекты - Родители"',
     'projects_children_are_not_set' => 'Не установлены "проекты - Дети"',
@@ -474,4 +474,6 @@ return [
     'no_external_role_check_mark' => 'Нет отметки "Внешняя роль"',
     'is_default_view_cards' => 'По умолчанию вид просмотра Карты',
     'record_already_exists' => 'Запись с таким значением уже есть в базе данных',
+    'is_use_current_project' => 'Использовать текущий проект',
+    'parent_is_sorting' => 'Используется в сортировке',
     ];

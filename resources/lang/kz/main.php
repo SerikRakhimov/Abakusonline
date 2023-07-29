@@ -419,7 +419,7 @@ return [
     'parent_is_delete_child_base_record_with_zero_value' => 'Жазуды жою Бала_нөлге тең болған кезде негіз (Бала_есептелетін негіз, сандық/логикалық өрістер үшін)',
     'parent_is_enabled_boolean_value' => 'Логикалық өріс мәнінен қараған кезде қолжетімді',
     'parent_enabled_boolean_value_link_id' => 'Тәуелді өріс логикалық',
-    'is_equality_of_templates_rule' => 'Үлгілердің бір-біріне тең болуы міндетті емес',
+    'is_equality_not_equal' => 'Үлгілер бір-біріне тең емес',
     'no_projects_found_with_this_template' => 'Бұл үлгімен ешбір жоба табылмады',
     'check_project_properties_projects_parents_are_not_set' => 'Жобаның сипаттарын тексеріңіз: «Жобалар - Ата-аналар» орнатылмаған',
     'projects_children_are_not_set' => '«Жобалар - Балалар» орнатылмаған',
@@ -474,4 +474,6 @@ return [
     'no_external_role_check_mark' => 'Сыртқы рөл белгісі жоқ',
     'is_default_view_cards' => 'Кәртішкелерді әдепкі қарап шығу',
     'record_already_exists' => 'Осы мәнді жазба дерекқорда бұрыннан бар',
+    'is_use_current_project' => 'Ағымдағы жобаны пайдалану',
+    'parent_is_sorting' => 'Сұрыптауда пайдаланылады',
     ];

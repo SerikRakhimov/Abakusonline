@@ -120,6 +120,31 @@
             </div>
         </div>
 
+        <div class="form-group row" id="parent_is_use_current_project_form_group">
+            <div class="col-sm-3 text-right">
+                <label class="form-label"
+                       for="parent_is_use_current_project">{{trans('main.parent')}}_{{trans('main.is_use_current_project')}}</label>
+            </div>
+            <div class="col-sm-7">
+                <input class="@error('parent_is_use_current_project') is-invalid @enderror"
+                       type="checkbox"
+                       name="parent_is_use_current_project"
+                       placeholder=""
+                       {{--                       "$relit->parent_is_use_current_project ?? false" - "false" значение по умолчанию--}}
+                       @if ((old('parent_is_use_current_project') ?? ($relit->parent_is_use_current_project ?? false)) ==  true)
+                       checked
+                    @endif
+                >
+                @error('parent_is_use_current_project')
+                <div class="invalid-feedback">
+                    {{$message}}
+                </div>
+                @enderror
+            </div>
+            <div class="col-sm-2">
+            </div>
+        </div>
+
         <br>
         <div class="container-fluid">
             <div class="row text-center">
