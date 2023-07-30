@@ -20,9 +20,14 @@ $is_align_top = isset($align_top);
     @endif
 @else
     {{--    Использовать именно так, как в строках ниже--}}
+{{--    @if($is_align_top)--}}
+{{--        class="text-left align-top"--}}
+{{--    @else--}}
+{{--        class="text-left"--}}
+{{--    @endif--}}
     @if($is_align_top)
-        class="text-left align-top"
+        class="text-center align-top"
     @else
-        class="text-left"
+        class="text-center"
     @endif
 @endif
