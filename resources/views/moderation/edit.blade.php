@@ -43,9 +43,13 @@
                     @foreach ($statuses as $key=>$value)
                         <option value="{{$key}}"
                                 @if ($update)
+                                @if($key == 0)
+                                    readonly
+                                @else
                                 {{--            "(int) 0" нужно--}}
                                 @if ((old('name_lang_1') ?? ($key ?? (int) 0)) ==  $item->name_lang_1)
                                 selected
+                            @endif
                             @endif
                             @endif
                         >{{$value}}</option>
