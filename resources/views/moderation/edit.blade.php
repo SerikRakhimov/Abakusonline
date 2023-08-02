@@ -44,7 +44,7 @@
                         <option value="{{$key}}"
                                 @if ($update)
                                 @if($key == 0)
-                                    readonly
+                                    disabled
                                 @else
                                 {{--            "(int) 0" нужно--}}
                                 @if ((old('name_lang_1') ?? ($key ?? (int) 0)) ==  $item->name_lang_1)
