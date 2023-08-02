@@ -43,6 +43,7 @@
                     @foreach ($statuses as $key=>$value)
                         <option value="{{$key}}"
                                 @if ($update)
+{{--Используется проверка на 0 - без модерации в moderation.edit.php, Item::get_img_statuses()--}}
                                 @if($key == 0)
                                     disabled
                                 @else

@@ -414,6 +414,7 @@ class Item extends Model
 
     static function get_img_statuses()
     {
+//      Используется проверка на 0 - без модерации в moderation.edit.php, Item::get_img_statuses()
         return array(
             "0" => trans('main.without_moderation'),
             "1" => trans('main.moderated'),
