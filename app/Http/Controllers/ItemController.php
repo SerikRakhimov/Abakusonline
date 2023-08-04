@@ -3345,6 +3345,7 @@ class ItemController extends Controller
                         // false - без реверса
                         // "$this->save_info_sets()" выполнять перед проверкой на удаление
                         // $this->save_info_sets($item_seek, false);
+                         $this->save_info_sets($item_seek, false, $urepl);
 
                         // Если links->"Удалить запись с нулевым значением при обновлении" == true и значение равно нулю,
                         // то удалить запись
@@ -7349,7 +7350,7 @@ class ItemController extends Controller
             }
         }
         // Порядковые номера в списке не выводятся
-        $links = $links->where('parent_is_seqnum', false);
+        //$links = $links->where('parent_is_seqnum', false);
 
         // Проверка на "$base_link_right['is_list_link_enable']"
         foreach ($links as $link) {

@@ -529,6 +529,11 @@ class GlobalController extends Controller
             $is_list_link_enable = false;
         }
 
+        // Порядковые номера в списке не выводятся
+        if ($link->parent_is_seqnum== true) {
+            $is_list_link_enable = false;
+        }
+
         // Блок проверки по rolis, используя переменные $role, $relit_id и $link
         $roli = Roli::where('role_id', $role->id)->where('relit_id', $base_link_rel_id)->where('link_id', $link->id)->first();
         $is_roli_list_link_enable = false;
