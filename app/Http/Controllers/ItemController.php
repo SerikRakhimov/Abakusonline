@@ -7350,7 +7350,7 @@ class ItemController extends Controller
             }
         }
         // Порядковые номера в списке не выводятся
-        //$links = $links->where('parent_is_seqnum', false);
+        $links = $links->where('parent_is_seqnum', false);
 
         // Проверка на "$base_link_right['is_list_link_enable']"
         foreach ($links as $link) {
