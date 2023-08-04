@@ -3075,8 +3075,8 @@ class ItemController extends Controller
                 // Группировка данных
                 $set_is_group = $set_base_to->where('is_group', true);
 
-                //$items = Item::where('base_id', $to_key)->where('project_id', $item->project_id);
-                $items = Item::where('base_id', $to_key);
+                // Использовать именно так "Item::where('base_id', $to_key)->where('project_id', $item->project_id)"
+                $items = Item::where('base_id', $to_key)->where('project_id', $item->project_id);
 
                 $error = true;
                 $found = false;
@@ -7161,6 +7161,7 @@ class ItemController extends Controller
     {
         $items = Item::where('base_id', $base->id)->where('project_id', $project->id)->get();
         // Т.е. 'child_base_id' = 'parent_base_id'
+        // parent_is_base_link
         $links = Link::where('child_base_id', $base->id)->where('parent_base_id', $base->id)->get();
         $i = 0;
         foreach ($items as $item) {
