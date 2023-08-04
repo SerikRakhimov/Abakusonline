@@ -7277,7 +7277,7 @@ class ItemController extends Controller
                 $join->on('links.id', '=', 'links_ids.link_id')
                     ->where(function ($query) {
                         $query->where('parent_is_parent_related', '=', false)
-                            ->Where('parent_is_output_calculated_table_field', '=', false);
+                            ->where('parent_is_output_calculated_table_field', '=', false);
                     });
             });
 //          $links = $base->child_links->(where('parent_is_parent_related', '=', true)
@@ -7350,7 +7350,6 @@ class ItemController extends Controller
             }
         }
         // Порядковые номера в списке не выводятся
-
         $links = $links->where('parent_is_seqnum', false);
 
         // Проверка на "$base_link_right['is_list_link_enable']"
