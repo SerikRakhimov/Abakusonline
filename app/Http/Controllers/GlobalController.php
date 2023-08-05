@@ -529,10 +529,17 @@ class GlobalController extends Controller
             $is_list_link_enable = false;
         }
 
-        // Порядковые номера в списке не выводятся, не использовать
-//        if ($link->parent_is_seqnum== true) {
-//            $is_list_link_enable = false;
-//        }
+        // По полю с признаком Порядковый номер сортировка по умолчанию проходит всегда ("$is_list_link_seqnum_enable = true;")
+        // Чтобы убрать сортировку по Порядковому номеру нужно присвоить links.parent_is_sorting = false
+        // Вывод в списке порядковых номеров по умолчанию не проходит ("$is_list_link_enable = false;")
+        // Можно регулировать вывод в списке настройкой в rolis
+        // Это присваивание "$is_list_link_seqnum_enable = $is_list_link_enable;" выполнять после всех проверок
+        // Это нужное присваивание, не удалять
+        $is_list_link_seqnum_enable = $is_list_link_enable;
+        if ($link->parent_is_seqnum == true) {
+            $is_list_link_enable = false;
+            $is_list_link_seqnum_enable = true;
+        }
 
         // Блок проверки по rolis, используя переменные $role, $relit_id и $link
         $roli = Roli::where('role_id', $role->id)->where('relit_id', $base_link_rel_id)->where('link_id', $link->id)->first();
@@ -584,6 +591,7 @@ class GlobalController extends Controller
             'is_edit_base_update' => $is_edit_base_update,
             'is_list_base_enable' => $is_list_base_enable,
             'is_list_link_enable' => $is_list_link_enable,
+            'is_list_link_seqnum_enable' => $is_list_link_seqnum_enable,
             'is_body_link_enable' => $is_body_link_enable,
             'is_show_base_enable' => $is_show_base_enable,
             'is_show_link_enable' => $is_show_link_enable,
@@ -643,7 +651,8 @@ class GlobalController extends Controller
 //                $query->whereDate('name_lang_0', '>','2020-02-09');});
 //        });
 
-//    В функциях items_right() и items_check_right() похожие алгоритмы
+//  Похожие строки items_right() и its_page()
+//  В функциях items_right() и items_check_right() похожие алгоритмы
 //  items_right() - полная основная функция
 //  items_check_right() - проверка по одному $item, с учетом всех доступов и разрешений
     static function items_right(Base $base, Project $project, Role $role, $relit_id,
@@ -922,8 +931,14 @@ class GlobalController extends Controller
                     $str = "";
                     foreach ($links as $link) {
                         $base_link_right = self::base_link_right($link, $role, $relit_id);
-                        // Если 'Показывать Связь в списке' = true
-                        if ($base_link_right['is_list_link_enable'] == true) {
+                        // Если 'Показывать Связь в списке' = true (с учетом порядкового номера)
+                        // if ($base_link_right['is_list_link_enable'] == true) {
+                        // Похожие строки items_right() и its_page()
+                        // По полю с признаком Порядковый номер сортировка по умолчанию проходит всегда
+                        // Чтобы убрать сортировку по Порядковому номеру нужно присвоить links.parent_is_sorting = false
+                        // Вывод в списке порядковых номеров по умолчанию не проходит
+                        // Можно регулировать вывод в списке настройкой в rolis
+                        if ($base_link_right['is_list_link_seqnum_enable'] == true) {
                             $item_find = GlobalController::view_info($item->id, $link->id);
                             if ($item_find) {
                                 // Формирование вычисляемой строки для сортировки
@@ -970,7 +985,6 @@ class GlobalController extends Controller
                 $ids = $collection->keys()->toArray();
                 $items = Item::whereIn('id', $ids)
                     ->orderBy(\DB::raw("FIELD(id, " . implode(',', $ids) . ")"));
-
                 //}
             }
             //}
@@ -1245,10 +1259,9 @@ class GlobalController extends Controller
         });
     }
 
-    static function its_page(Role $role, $relit_id, $links, $items_paginate)
+    // Похожие строки items_right() и its_page()
+       static function its_page(Role $role, $relit_id, $links, $items_paginate)
     {
-        // Похожие строки items_right() и its_page
-        // ---------------------------------------
         // '$its_page = $items_paginate;' использовать
         $its_page = $items_paginate;
         if ($links) {
@@ -1266,8 +1279,14 @@ class GlobalController extends Controller
                     $str = "";
                     foreach ($links as $link) {
                         $base_link_right = self::base_link_right($link, $role, $relit_id);
-                        // Если 'Показывать Связь в списке' = true
-                        if ($base_link_right['is_list_link_enable'] == true) {
+                        // Если 'Показывать Связь в списке' = true (с учетом порядкового номера)
+                        // if ($base_link_right['is_list_link_enable'] == true) {
+                        // Похожие строки items_right() и its_page()
+                        // По полю с признаком Порядковый номер сортировка по умолчанию проходит всегда
+                        // Чтобы убрать сортировку по Порядковому номеру нужно присвоить links.parent_is_sorting = false
+                        // Вывод в списке порядковых номеров по умолчанию не проходит
+                        // Можно регулировать вывод в списке настройкой в rolis
+                        if ($base_link_right['is_list_link_seqnum_enable'] == true) {
                             $item_find = GlobalController::view_info($value['id'], $link->id);
                             if ($item_find) {
                                 // Формирование вычисляемой строки для сортировки
