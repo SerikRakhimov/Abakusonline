@@ -33,6 +33,7 @@
         @endif
     @endauth
     <h3 class="ml-5">{{trans('main.mainmenu')}}</h3>
+    <table class="table">
     @foreach($array_relips as $relit_id=>$array_relip)
         {{--        <hr>--}}
         <?php
@@ -60,13 +61,19 @@
         {{--            @endif--}}
         {{--        @endif--}}
         @if($calc_relip_info['proj_relit_total'] != '')
-            <div class="row ml-5">
-                <div class="col-12 text-left">
-                    @include('layouts.project.show_relip_info',['calc_relip_info'=>$calc_relip_info])
-                </div>
-            </div>
+                {{--                    <div class="row ml-5">--}}
+                {{--                        <div class="col-12 text-left">--}}
+{{--                @include('layouts.project.show_relip_info',['calc_relip_info'=>$calc_relip_info])--}}
+                {{--                        </div>--}}
+                {{--                    </div>--}}
+            <tr>
+                <td colspan="2" class="pl-5">
+                    <br>
+                            @include('layouts.project.show_relip_info',['calc_relip_info'=>$calc_relip_info])
+                </td>
+            </tr>
         @endif
-        <table class="table">
+{{--        <table class="table">--}}
             @foreach($base_ids as $base_id)
                 <?php
                 $base = Base::findOrFail($base_id);
@@ -120,8 +127,9 @@
                     </td>
                 </tr>
             @endforeach
-        </table>
+{{--        </table>--}}
     @endforeach
+    </table>
 
     {{--    <h3 class="text-center">Справочники</h3><br>--}}
 
