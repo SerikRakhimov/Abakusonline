@@ -5261,8 +5261,15 @@ class ItemController extends Controller
 
         //  Похожий текст в функциях ext_store(), ext_update(), ext_delete(), ext_return();
         //  По алгоритму передается $base_index_page, $body_link_page, $body_all_page - сохраненные номера страниц;
+        $parent_item_find = true;
+        if ($parent_item){
+            // За время корректировки/удаления $parent_item может быть удален из базы данных.
+            // Например, при установке признака 'Разрешить корректировку поля при связи parlink (при корректировке записи)' в rolis
+            // и например, поле $parent_item логического типа
+            $parent_item_find = Item::find($parent_item->id);
+        }
         $str_link = '';
-        if ($base_index_page > 0) {
+        if ($base_index_page > 0 | !$parent_item_find) {
             // Использовать "project' => $project"
             // Используется "'relit_id'=> $relit_id"
             return redirect()->route('item.base_index', ['base' => $item->base, 'project' => $project, 'role' => $role,
