@@ -1269,8 +1269,6 @@ class ProjectController extends Controller
             }
         }
 
-        // Нужна эта команда "Item::where('project_id', $project->id)->delete();"
-        Item::where('project_id', $project->id)->delete();
         $project->delete();
 
         if ($request->session()->has('projects_previous_url')) {
