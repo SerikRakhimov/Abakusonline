@@ -2836,6 +2836,18 @@ class ItemController extends Controller
 
         //  Похожий текст в функциях ext_store(), ext_update(), ext_delete(), ext_return();
         //  По алгоритму передается $base_index_page, $body_link_page, $body_all_page - сохраненные номера страниц;
+        $parent_find_item = true;
+        if ($parent_item){
+            // За время добавления(маловероятно, т.к. есть связи между основами)/корректировки/удаления
+            // $parent_item может быть удален из базы данных.
+            // Например, при установке признака 'Разрешить корректировку поля при связи parlink (при корректировке записи)' в rolis
+            // и например, поле $parent_item логического типа
+            $parent_find_item = Item::find($parent_item->id);
+        }
+        if (!$parent_find_item) {
+            // Вызов главного меню
+            return redirect()->route('project.start', ['project' => $project, 'role' => $role]);
+        }
         $str_link = '';
         if ($base_index_page > 0) {
             // Использовать "project' => $project"
@@ -5261,14 +5273,15 @@ class ItemController extends Controller
 
         //  Похожий текст в функциях ext_store(), ext_update(), ext_delete(), ext_return();
         //  По алгоритму передается $base_index_page, $body_link_page, $body_all_page - сохраненные номера страниц;
-        $parent_item_find = true;
+        $parent_find_item = true;
         if ($parent_item){
-            // За время корректировки/удаления $parent_item может быть удален из базы данных.
+            // За время добавления(маловероятно, т.к. есть связи между основами)/корректировки/удаления
+            // $parent_item может быть удален из базы данных.
             // Например, при установке признака 'Разрешить корректировку поля при связи parlink (при корректировке записи)' в rolis
             // и например, поле $parent_item логического типа
-            $parent_item_find = Item::find($parent_item->id);
+            $parent_find_item = Item::find($parent_item->id);
         }
-        if (!$parent_item_find) {
+        if (!$parent_find_item) {
             // Вызов главного меню
             return redirect()->route('project.start', ['project' => $project, 'role' => $role]);
         }
@@ -5697,6 +5710,18 @@ class ItemController extends Controller
         } else {
             //  Похожий текст в функциях ext_store(), ext_update(), ext_delete(), ext_return();
             //  По алгоритму передается $base_index_page, $body_link_page, $body_all_page - сохраненные номера страниц;
+            $parent_find_item = true;
+            if ($parent_item){
+                // За время добавления(маловероятно, т.к. есть связи между основами)/корректировки/удаления
+                // $parent_item может быть удален из базы данных.
+                // Например, при установке признака 'Разрешить корректировку поля при связи parlink (при корректировке записи)' в rolis
+                // и например, поле $parent_item логического типа
+                $parent_find_item = Item::find($parent_item->id);
+            }
+            if (!$parent_find_item) {
+                // Вызов главного меню
+                return redirect()->route('project.start', ['project' => $project, 'role' => $role]);
+            }
             $str_link = '';
             if ($base_index_page > 0) {
                 // Только при удалении эти строки
@@ -5844,6 +5869,18 @@ class ItemController extends Controller
 //        } else {
         //  Похожий текст в функциях ext_store(), ext_update(), ext_delete(), ext_return();
         //  По алгоритму передается $base_index_page, $body_link_page, $body_all_page - сохраненные номера страниц;
+        $parent_find_item = true;
+        if ($parent_item){
+            // За время добавления(маловероятно, т.к. есть связи между основами)/корректировки/удаления
+            // $parent_item может быть удален из базы данных.
+            // Например, при установке признака 'Разрешить корректировку поля при связи parlink (при корректировке записи)' в rolis
+            // и например, поле $parent_item логического типа
+            $parent_find_item = Item::find($parent_item->id);
+        }
+        if (!$parent_find_item) {
+            // Вызов главного меню
+            return redirect()->route('project.start', ['project' => $project, 'role' => $role]);
+        }
         $str_link = '';
         if ($base_index_page > 0) {
             // Только при удалении эти строки
