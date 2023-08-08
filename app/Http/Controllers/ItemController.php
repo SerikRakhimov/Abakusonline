@@ -2943,7 +2943,8 @@ class ItemController extends Controller
         $base = $item->base;
         $result_dop = "";
         if ($base->type_is_number() | $base->type_is_string() | $base->type_is_date() | $base->type_is_boolean()) {
-            $items = Item::where('base_id', '=', $base->id)
+            $items = Item::where('project_id', '=', $item->project_id)
+                ->where('base_id', '=', $base->id)
                 ->where('name_lang_0', '=', $item->name_lang_0);
             if ($base->type_is_string() & $base->is_one_value_lst_str_txt == false) {
                 $i = 0;
