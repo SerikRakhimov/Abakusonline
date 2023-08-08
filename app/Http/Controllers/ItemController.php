@@ -5268,8 +5268,12 @@ class ItemController extends Controller
             // и например, поле $parent_item логического типа
             $parent_item_find = Item::find($parent_item->id);
         }
+        if (!$parent_item_find) {
+            // Вызов главного меню
+            return redirect()->route('project.start', ['project' => $project, 'role' => $role]);
+        }
         $str_link = '';
-        if ($base_index_page > 0 | !$parent_item_find) {
+        if ($base_index_page > 0) {
             // Использовать "project' => $project"
             // Используется "'relit_id'=> $relit_id"
             return redirect()->route('item.base_index', ['base' => $item->base, 'project' => $project, 'role' => $role,
