@@ -3975,6 +3975,7 @@ class ItemController extends Controller
             return;
         }
         $relip_project_id = $relip_project->id;
+        $relip_project_user_id = $relip_project->user_id;
 
         // тип корректировки поля - список
         if ($link->parent_base->type_is_list()) {
@@ -4044,8 +4045,10 @@ class ItemController extends Controller
 
             $item_find->project_id = $relip_project_id;
             // при создании записи "$item->created_user_id" заполняется
-            $item_find->created_user_id = Auth::user()->id;
-            $item_find->updated_user_id = Auth::user()->id;
+//          $item_find->created_user_id = Auth::user()->id;
+//          $item_find->updated_user_id = Auth::user()->id;
+            $item_find->created_user_id = $relip_project_user_id;
+            $item_find->updated_user_id = $relip_project_user_id;
             $item_find->save();
             $main->parent_item_id = $item_find->id;
             // заменяем значение в массиве ссылкой на $item вместо значения
@@ -4117,8 +4120,11 @@ class ItemController extends Controller
                 }
                 $item_find->project_id = $relip_project_id;
                 // при создании записи "$item->created_user_id" заполняется
-                $item_find->created_user_id = Auth::user()->id;
-                $item_find->updated_user_id = Auth::user()->id;
+//              $item_find->created_user_id = Auth::user()->id;
+//              $item_find->updated_user_id = Auth::user()->id;
+                $item_find->created_user_id = $relip_project_user_id;
+                $item_find->updated_user_id = $relip_project_user_id;
+
                 $item_find->save();
             }
             $main->parent_item_id = $item_find->id;
@@ -4156,13 +4162,15 @@ class ItemController extends Controller
                 // создание новой записи в items
                 $item_find = new Item();
                 // при создании записи "$item->created_user_id" заполняется
-                $item_find->created_user_id = Auth::user()->id;
+//              $item_find->created_user_id = Auth::user()->id;
+                $item_find->created_user_id = $relip_project_user_id;
             }
             $item_find->base_id = $link->parent_base_id;
             // Похожая строка вверху и внизу
             $item_find->code = uniqid($item_find->base_id . '_', true);
             $item_find->project_id = $relip_project_id;
-            $item_find->updated_user_id = Auth::user()->id;
+//          $item_find->updated_user_id = Auth::user()->id;
+            $item_find->updated_user_id = $relip_project_user_id;
 
             // Нужно чтобы знать $item_find->id в команде "$text->item_id = $item_find->id;"
             $item_find->save();
@@ -4235,8 +4243,10 @@ class ItemController extends Controller
                 }
                 $item_find->project_id = $relip_project_id;
                 // при создании записи "$item->created_user_id" заполняется
-                $item_find->created_user_id = Auth::user()->id;
-                $item_find->updated_user_id = Auth::user()->id;
+//              $item_find->created_user_id = Auth::user()->id;
+//              $item_find->updated_user_id = Auth::user()->id;
+                $item_find->created_user_id = $relip_project_user_id;
+                $item_find->updated_user_id = $relip_project_user_id;
                 $item_find->save();
             }
             $main->parent_item_id = $item_find->id;
