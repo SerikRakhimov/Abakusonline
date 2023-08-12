@@ -2386,12 +2386,14 @@ class ItemController extends Controller
                     if ($link->parent_seqnum_link_id != 0) {
                         $lnk = Link::find($link->parent_seqnum_link_id);
                         if ($lnk) {
-                            if (isset($inputs[$link->parent_seqnum_link_id])) {
-                                $pr_item = Item::find($inputs[$link->parent_seqnum_link_id]);
-                                // Нужно проверять "if ($pr_item)",
-                                // т.к. вызов calculate_new_seqnum($project, $link, null, null) - расчет кода для всей основы(таблицы)
-                                if ($pr_item) {
-                                    $inputs[$key] = $this->calculate_new_seqnum($project, $link, $pr_item, $lnk);
+                            if ($lnk->parent_base->type_is_list()) {
+                                if (isset($inputs[$link->parent_seqnum_link_id])) {
+                                    $pr_item = Item::find($inputs[$link->parent_seqnum_link_id]);
+                                    // Нужно проверять "if ($pr_item)",
+                                    // т.к. вызов calculate_new_seqnum($project, $link, null, null) - расчет кода для всей основы(таблицы)
+                                    if ($pr_item) {
+                                        $inputs[$key] = $this->calculate_new_seqnum($project, $link, $pr_item, $lnk);
+                                    }
                                 }
                             }
                         }
