@@ -2805,7 +2805,8 @@ class ItemController extends Controller
                 // В ext_store() вызывается один раз, т.к. запись создается
                 // При reverse = false передаем null
                 // параметр $urepl = true - с заменой
-                $this->save_sets($item, $keys, $values, $valits, false, true);
+                //$this->save_sets($item, $keys, $values, $valits, false, true);
+                $this->save_info_sets($item, false, true);
 
                 $item->save();
 
@@ -2837,7 +2838,7 @@ class ItemController extends Controller
         //  Похожий текст в функциях ext_store(), ext_update(), ext_delete(), ext_return();
         //  По алгоритму передается $base_index_page, $body_link_page, $body_all_page - сохраненные номера страниц;
         $parent_find_item = true;
-        if ($parent_item){
+        if ($parent_item) {
             // За время добавления(маловероятно, т.к. есть связи между основами)/корректировки/удаления
             // $parent_item может быть удален из базы данных.
             // Например, при установке признака 'Разрешить корректировку поля при связи parlink (при корректировке записи)' в rolis
@@ -2968,6 +2969,15 @@ class ItemController extends Controller
     }
 
 // save_info_sets() выполняет все присваивания для $item с отниманием/прибавлением значений
+// Расчитывает массивы $keys_reverse, $values_reverse, $valits_reverse, $reverse
+// сначала по всем $itpv->base->child_links()->get(),
+// потом по фактическому заполнению $itpv->child_mains()->get()
+// Это сделано для того, чтобы правильно вычислялись first()/last() для изображений и документов
+// Есть особенность ввода форм (ext_edit.php):
+// если файл изображения/документа не выбран, или есть предыдущее значение файл изображения/документа,
+// то тогда $request/$mains (при обработке формы и присваиваний) нет признака ввода файла изображения/документа,
+// что давало неправильные результаты при расчете first()/last() для изображений и документов.
+// Нужно выполнять присваивания по всем $links
 // $reverse = true - отнимать, false - прибавлять
 // $urepl = true используется при добавлении/корректировке записи, = false при удалении записи; проверяется при Заменить(->is_upd_replace = true)
 //private
@@ -2978,8 +2988,17 @@ class ItemController extends Controller
             return;
         }
         $itpv = Item::findOrFail($item->id);
-        $mains = $itpv->child_mains()->get();
+
         $inputs_reverse = array();
+
+        $links = $itpv->base->child_links()->get();
+        foreach ($links as $key => $link) {
+            // "-1" - такое значение, чтобы не находилось Item::find() с таким значением
+            $inputs_reverse[$link->id] = -1;
+        }
+
+        $mains = $itpv->child_mains()->get();
+        //$inputs_reverse = array();
         foreach ($mains as $key => $main) {
             $inputs_reverse[$main->link_id] = $main->parent_item_id;
         }
@@ -2997,10 +3016,21 @@ class ItemController extends Controller
 
         $invals = array();
         foreach ($inputs_reverse as $key => $value) {
-            $item_work = Item::findOrFail($value);
-            $var = $item_work->numval();
-            if ($var['result'] == true) {
-                $invals[$key] = $var['value'];
+//            $item_work = Item::findOrFail($value);
+//            $var = $item_work->numval();
+//            if ($var['result'] == true) {
+//                $invals[$key] = $var['value'];
+//            } else {
+//                $invals[$key] = $inputs_reverse[$key];
+//            }
+            $item_work = Item::find($value);
+            if ($item_work) {
+                $var = $item_work->numval();
+                if ($var['result'] == true) {
+                    $invals[$key] = $var['value'];
+                } else {
+                    $invals[$key] = $inputs_reverse[$key];
+                }
             } else {
                 $invals[$key] = $inputs_reverse[$key];
             }
@@ -3018,14 +3048,20 @@ class ItemController extends Controller
     private
     function is_save_sets(Item $item)
     {
+//        $set_main = Set::select(DB::Raw('sets.*, lt.child_base_id as to_child_base_id, lt.parent_base_id as to_parent_base_id'))
+//            ->join('links as lf', 'sets.link_from_id', '=', 'lf.id')
+//            ->join('links as lt', 'sets.link_to_id', '=', 'lt.id')
+//            ->where('lf.child_base_id', '=', $item->base_id)
+//            ->where('sets.is_savesets_enabled', '=', true)
+//            ->orderBy('sets.serial_number')
+//            ->orderBy('sets.link_from_id')
+//            ->orderBy('sets.link_to_id')->get();
         $set_main = Set::select(DB::Raw('sets.*, lt.child_base_id as to_child_base_id, lt.parent_base_id as to_parent_base_id'))
             ->join('links as lf', 'sets.link_from_id', '=', 'lf.id')
             ->join('links as lt', 'sets.link_to_id', '=', 'lt.id')
             ->where('lf.child_base_id', '=', $item->base_id)
             ->where('sets.is_savesets_enabled', '=', true)
-            ->orderBy('sets.serial_number')
-            ->orderBy('sets.link_from_id')
-            ->orderBy('sets.link_to_id')->get();
+            ->get();
         $result = null;
         // Эта проверка нужна
         if ($set_main) {
@@ -3062,6 +3098,7 @@ class ItemController extends Controller
             ->where('sets.is_savesets_enabled', '=', true)
             ->where('sets.is_calcsort', '=', false)
             ->orderBy('sets.serial_number')
+            ->orderBy('sets.line_number')
             ->orderBy('sets.link_from_id')
             ->orderBy('sets.link_to_id')->get();
 
@@ -3106,6 +3143,7 @@ class ItemController extends Controller
 
                     } else {
                         //$item_seek = GlobalController::view_info($item, $value['link_from_id']);
+                        //Находится $nk - индекс/порядковый номер
                         $nk = -1;
                         foreach ($keys as $k => $v) {
                             if ($v == $value['link_from_id']) {
@@ -3120,22 +3158,48 @@ class ItemController extends Controller
                                 //$nv = $values[$nk];
                                 // Получить item->id
                                 $nv = $valits[$nk];
-                                //$items = $items->whereHas('child_mains', function ($query) use ($nt, $nv) {
-                                //    $query->where('link_id', $nt)->where('parent_item_id', $nv);
-                                //});
-                                $items = $items->where('project_id', $relip_project->id)
-                                    ->whereHas('child_mains', function ($query) use ($nt, $nv) {
-                                        $query->where('link_id', $nt)->where('parent_item_id', $nv);
-                                    });
-                                // Поиск по item
-                                // похожие строки чуть ниже
-                                $item_seek = $items->first();
-                                $error = false;
-                                if (!$item_seek) {
+//                                //$items = $items->whereHas('child_mains', function ($query) use ($nt, $nv) {
+//                                //    $query->where('link_id', $nt)->where('parent_item_id', $nv);
+//                                //});
+//                                $items = $items->where('project_id', $relip_project->id)
+//                                    ->whereHas('child_mains', function ($query) use ($nt, $nv) {
+//                                        $query->where('link_id', $nt)->where('parent_item_id', $nv);
+//                                    });
+//                                // Поиск по item
+//                                // похожие строки чуть ниже
+//                                $item_seek = $items->first();
+//                                $error = false;
+//                                if (!$item_seek) {
+//                                    $found = false;
+//                                    break;
+//                                } else {
+//                                    $found = true;
+//                                }
+                                $nv_find = Item::find($nv);
+                                if ($nv_find) {
+                                    //$items = $items->whereHas('child_mains', function ($query) use ($nt, $nv) {
+                                    //    $query->where('link_id', $nt)->where('parent_item_id', $nv);
+                                    //});
+                                    $items = $items->where('project_id', $relip_project->id)
+                                        ->whereHas('child_mains', function ($query) use ($nt, $nv) {
+                                            $query->where('link_id', $nt)->where('parent_item_id', $nv);
+                                        });
+                                    // Поиск по item
+                                    // похожие строки чуть ниже
+                                    $item_seek = $items->first();
+                                    // Нужно "$error = false;"
+                                    $error = false;
+                                    if (!$item_seek) {
+                                        $found = false;
+                                        break;
+                                    } else {
+                                        $found = true;
+                                    }
+                                } else {
+                                    // Нужно "$error = false;"
+                                    $error = false;
                                     $found = false;
                                     break;
-                                } else {
-                                    $found = true;
                                 }
                             }
                         }
@@ -3162,6 +3226,7 @@ class ItemController extends Controller
                         $relip_project = null;
                         foreach ($set_base_to as $key => $value) {
                             $relip_project = GlobalController::calc_relip_project($value->relit_to_id, $item->project);
+                            //Находится $nk - индекс/порядковый номер
                             $nk = -1;
                             foreach ($keys as $k => $v) {
                                 if ($v == $value['link_from_id']) {
@@ -3193,6 +3258,9 @@ class ItemController extends Controller
                             $item_seek->name_lang_3 = "";
                             $item_seek->created_user_id = Auth::user()->id;
                             $item_seek->updated_user_id = Auth::user()->id;
+//                          $item_seek->created_user_id = $relip_project->user_id;
+//                          $item_seek->updated_user_id = $relip_project->user_id;
+
                             // Нужно, чтобы id было
                             $item_seek->save();
                         }
@@ -3212,6 +3280,7 @@ class ItemController extends Controller
                         // Фильтры 111 - похожие строки выше
                         foreach ($set_base_to as $key => $value) {
                             $relip_project = GlobalController::calc_relip_project($value->relit_to_id, $item->project);
+                            //Находится $nk - индекс/порядковый номер
                             $nk = -1;
                             foreach ($keys as $k => $v) {
                                 if ($v == $value['link_from_id']) {
@@ -3358,7 +3427,7 @@ class ItemController extends Controller
                         // false - без реверса
                         // "$this->save_info_sets()" выполнять перед проверкой на удаление
                         // $this->save_info_sets($item_seek, false);
-                         $this->save_info_sets($item_seek, false, $urepl);
+                        $this->save_info_sets($item_seek, false, $urepl);
 
                         // Если links->"Удалить запись с нулевым значением при обновлении" == true и значение равно нулю,
                         // то удалить запись
@@ -3483,8 +3552,14 @@ class ItemController extends Controller
                 }
                 $item_find->project_id = $project_id;
                 // при создании записи "$item->created_user_id" заполняется
-                $item_find->created_user_id = Auth::user()->id;
-                $item_find->updated_user_id = Auth::user()->id;
+                $project = Project::find($project_id);
+                if ($project) {
+                    $item_find->created_user_id = $project->user_id;
+                    $item_find->updated_user_id = $project->user_id;
+                } else {
+                    $item_find->created_user_id = Auth::user()->id;
+                    $item_find->updated_user_id = Auth::user()->id;
+                }
                 $item_find->save();
             }
         }
@@ -3974,6 +4049,9 @@ class ItemController extends Controller
             $message = "'" . trans('main.check_project_properties_projects_parents_are_not_set') . '!' . "'";
             return;
         }
+        // $relip_project->user_id нужен чтобы в проектах типа "Основные основы Abakusonline"
+        // автоматически созданные основы (с простыми типами Дата, Логический, Число, Строка, Текст, Изображение, Документ)
+        // сохранялись с пользователем - автором проекта, куда идет добавление
         $relip_project_id = $relip_project->id;
         $relip_project_user_id = $relip_project->user_id;
 
@@ -5233,7 +5311,8 @@ class ItemController extends Controller
                 // ext_update()
                 // При reverse = false передаем null
                 // true - с заменой
-                $this->save_sets($item, $keys, $values, $valits, false, true);
+                //$this->save_sets($item, $keys, $values, $valits, false, true);
+                $this->save_info_sets($item, false, true);
 
                 $item->save();
 
@@ -5285,7 +5364,7 @@ class ItemController extends Controller
         //  Похожий текст в функциях ext_store(), ext_update(), ext_delete(), ext_return();
         //  По алгоритму передается $base_index_page, $body_link_page, $body_all_page - сохраненные номера страниц;
         $parent_find_item = true;
-        if ($parent_item){
+        if ($parent_item) {
             // За время добавления(маловероятно, т.к. есть связи между основами)/корректировки/удаления
             // $parent_item может быть удален из базы данных.
             // Например, при установке признака 'Разрешить корректировку поля при связи parlink (при корректировке записи)' в rolis
@@ -5722,7 +5801,7 @@ class ItemController extends Controller
             //  Похожий текст в функциях ext_store(), ext_update(), ext_delete(), ext_return();
             //  По алгоритму передается $base_index_page, $body_link_page, $body_all_page - сохраненные номера страниц;
             $parent_find_item = true;
-            if ($parent_item){
+            if ($parent_item) {
                 // За время добавления(маловероятно, т.к. есть связи между основами)/корректировки/удаления
                 // $parent_item может быть удален из базы данных.
                 // Например, при установке признака 'Разрешить корректировку поля при связи parlink (при корректировке записи)' в rolis
@@ -5881,7 +5960,7 @@ class ItemController extends Controller
         //  Похожий текст в функциях ext_store(), ext_update(), ext_delete(), ext_return();
         //  По алгоритму передается $base_index_page, $body_link_page, $body_all_page - сохраненные номера страниц;
         $parent_find_item = true;
-        if ($parent_item){
+        if ($parent_item) {
             // За время добавления(маловероятно, т.к. есть связи между основами)/корректировки/удаления
             // $parent_item может быть удален из базы данных.
             // Например, при установке признака 'Разрешить корректировку поля при связи parlink (при корректировке записи)' в rolis
@@ -6929,6 +7008,7 @@ class ItemController extends Controller
                     $dop_name_3 = "";
                     if ($item->base_id == $item_result->base_id) {
 
+                        // Не удалять
 //                        if ($level == 1) {
 
                         // всего два запуска этой функции (основной и этот), только для однородных значений (например: ФизЛицо имеет поле Мать(ФизЛицо), Отец(ФизЛицо))
