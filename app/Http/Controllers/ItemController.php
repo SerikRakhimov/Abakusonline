@@ -2386,7 +2386,7 @@ class ItemController extends Controller
                     if ($link->parent_seqnum_link_id != 0) {
                         $lnk = Link::find($link->parent_seqnum_link_id);
                         if ($lnk) {
-                            if($lnk->parent_base->type_is_list()) {
+                            if ($lnk->parent_base->type_is_list()) {
                                 if (isset($inputs[$link->parent_seqnum_link_id])) {
                                     $pr_item = Item::find($inputs[$link->parent_seqnum_link_id]);
                                     // Нужно проверять "if ($pr_item)",
@@ -2995,8 +2995,13 @@ class ItemController extends Controller
 
         $links = $itpv->base->child_links()->get();
         foreach ($links as $key => $link) {
-            // "-1" - такое значение, чтобы не находилось Item::find() с таким значением
-            $inputs_reverse[$link->id] = -1;
+            // 'Ссылка на основу'
+            if ($link->parent_is_base_link == true) {
+                $inputs_reverse[$link->id] = $item->id;
+            } else {
+                // "-1" - такое значение, чтобы не находилось Item::find() с таким значением
+                $inputs_reverse[$link->id] = -1;
+            }
         }
 
         $mains = $itpv->child_mains()->get();
