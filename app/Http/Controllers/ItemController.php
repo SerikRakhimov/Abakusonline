@@ -2996,13 +2996,11 @@ class ItemController extends Controller
         $links = $itpv->base->child_links()->get();
         foreach ($links as $key => $link) {
             // см.комментарий выше
-            if ($link->parent_base->type_is_image() | $link->parent_base->type_is_document()
-                | $link->parent_is_base_link == true) {
+            if ($link->parent_base->type_is_image() | $link->parent_base->type_is_document()) {
                 // "-1" - такое значение, чтобы не находилось Item::find() с таким значением
                 $inputs_reverse[$link->id] = -1;
-                if($link->parent_is_base_link == true){
-
-                }
+            } elseif ($link->parent_is_base_link == true) {
+                $inputs_reverse[$link->id] = $item->id;
             }
         }
 
