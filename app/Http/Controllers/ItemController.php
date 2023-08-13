@@ -2982,7 +2982,7 @@ class ItemController extends Controller
 // Нужно выполнять присваивания по всем $links
 // $reverse = true - отнимать, false - прибавлять
 // $urepl = true используется при добавлении/корректировке записи, = false при удалении записи; проверяется при Заменить(->is_upd_replace = true)
-//private
+// private
     function save_info_sets(Item $item, bool $reverse, bool $urepl)
     {
         $is_save_sets = self::is_save_sets($item);
@@ -2995,6 +2995,7 @@ class ItemController extends Controller
 
         $links = $itpv->base->child_links()->get();
         foreach ($links as $key => $link) {
+            // см.комментарий выше
             if ($link->parent_base->type_is_image() | $link->parent_base->type_is_document()) {
                 // "-1" - такое значение, чтобы не находилось Item::find() с таким значением
                 $inputs_reverse[$link->id] = -1;
@@ -3897,7 +3898,19 @@ class ItemController extends Controller
 
                 }
                 if ($result_item) {
-                    $result = $result_item->name(false, true, true);
+                    //$result = $result_item->name(false, true, true);
+                    if ($result_item->base->type_is_image() || $result_item->base->type_is_document()) {
+                        if ($result_item->base->type_is_image()) {
+                            //$result_item_name = "<img src='" . Storage::url($result_item->filename()) . "' height='250' alt='' title='" . $result_item->title_img() . "'>";
+                            $result = GlobalController::view_img($result_item, "medium", false, false, false, $result_item->title_img());
+                        } else {
+                            $result = GlobalController::view_doc($result_item, GlobalController::usercode_calc());
+                        }
+                    } elseif ($result_item->base->type_is_text()) {
+                        $result = GlobalController::it_txnm_n2b($result_item);
+                    } else {
+                        $result = $result_item->name(false, true, true);
+                    }
                 }
             }
         }
