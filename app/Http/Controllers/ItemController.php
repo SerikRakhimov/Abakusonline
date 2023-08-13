@@ -3003,6 +3003,9 @@ class ItemController extends Controller
 //            } elseif ($link->parent_is_base_link == true) {
 //                $inputs_reverse[$link->id] = $item->id;
 //            }
+            if ($link->parent_is_base_link == true) {
+                $inputs_reverse[$link->id] = $item->id;
+            }
         }
 
         $mains = $itpv->child_mains()->get();
