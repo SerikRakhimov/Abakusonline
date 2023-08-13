@@ -3187,7 +3187,7 @@ class ItemController extends Controller
 //                                    $found = true;
 //                                }
                                 $nv_find = Item::find($nv);
-                                if ($nv_find) {
+//                                if ($nv_find) {
                                     //$items = $items->whereHas('child_mains', function ($query) use ($nt, $nv) {
                                     //    $query->where('link_id', $nt)->where('parent_item_id', $nv);
                                     //});
@@ -3206,12 +3206,12 @@ class ItemController extends Controller
                                     } else {
                                         $found = true;
                                     }
-                                } else {
-                                    // Нужно "$error = false;"
-                                    $error = false;
-                                    $found = false;
-                                    break;
-                                }
+//                                } else {
+//                                    // Нужно "$error = false;"
+//                                    $error = false;
+//                                    $found = false;
+//                                    break;
+//                                }
                             }
                         }
                     }
