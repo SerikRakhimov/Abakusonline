@@ -2996,9 +2996,13 @@ class ItemController extends Controller
         $links = $itpv->base->child_links()->get();
         foreach ($links as $key => $link) {
             // см.комментарий выше
-            if ($link->parent_base->type_is_image() | $link->parent_base->type_is_document()) {
+            if ($link->parent_base->type_is_image() | $link->parent_base->type_is_document()
+                | $link->parent_is_base_link == true) {
                 // "-1" - такое значение, чтобы не находилось Item::find() с таким значением
                 $inputs_reverse[$link->id] = -1;
+                if($link->parent_is_base_link == true){
+
+                }
             }
         }
 
@@ -3897,6 +3901,8 @@ class ItemController extends Controller
 //                  $result_item = self::output_calculated_table_dop($base, $link, $set, $project, $items);
 
                 }
+                // Похожие строки в self::get_parent_item_from_calc_child_item()
+                // и в self::get_parent_item_from_output_calculated_table()
                 if ($result_item) {
                     //$result = $result_item->name(false, true, true);
                     if ($result_item->base->type_is_image() || $result_item->base->type_is_document()) {
@@ -6601,6 +6607,8 @@ class ItemController extends Controller
                             break;
                         }
                     }
+                    // Похожие строки в self::get_parent_item_from_calc_child_item()
+                    // и в self::get_parent_item_from_output_calculated_table()
                     if (!$error && $item) {
                         $result_item = $item;
                         $result_item_id = $item->id;
