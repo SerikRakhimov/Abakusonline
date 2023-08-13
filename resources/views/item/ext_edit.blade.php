@@ -2034,12 +2034,14 @@
             }
             @endforeach
 
-            on_parent_refer();
+            //on_parent_refer();
 
             {{-- массив функций нужен, что при window.onload запустить обработчики всех полей--}}
                 @foreach($functions as $value)
                 {{$value}}();
             @endforeach
+
+            on_parent_refer();
 
             {{-- Не нужно вызывать функцию on_numcalc_all(),--}}
             {{-- это связано с разрешенной корректировкой вычисляемых полей ($link->parent_is_nc_viewonly=true)--}}
