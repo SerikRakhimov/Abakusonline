@@ -3186,7 +3186,7 @@ class ItemController extends Controller
 //                                } else {
 //                                    $found = true;
 //                                }
-                                $nv_find = Item::find($nv);
+                                //$nv_find = Item::find($nv);
 //                                if ($nv_find) {
                                     //$items = $items->whereHas('child_mains', function ($query) use ($nt, $nv) {
                                     //    $query->where('link_id', $nt)->where('parent_item_id', $nv);
