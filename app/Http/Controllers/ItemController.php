@@ -3759,16 +3759,35 @@ class ItemController extends Controller
     {
         $result = null;
         // "->where('bs.type_is_list', '=', true)" нужно, т.к. запрос функции идет с ext_edit.php
+        // Эта проверка убрано с запроса,
+        // нужно самостоятельно проверять тип поля в зависимости от
+        // "поле используется для фильтрации в ext_edit.php" да или нет
+        // a) Если поле просто выводится, то оно может любого типа (type_is_list(), type_is_number(), type_is_string(), type_is_date(), type_is_boolean())
+        // b) Если поле используется для фильтрации в ext_edit.php, то оно может только типа type_is_list(),
+        // т.к. при выборе значений из списка item->id элементов списка известны и передаются дальше в форме для фильтрации
+        // а если вводятся числа/даты/строки/логические поля, их item->id определится только после сохранения всей формы,
+        // и не может быть передан дальше в форме для фильтрации по причине неизвестности значения item->id
         //->where('sets.is_savesets_enabled', '=', true)
         $set = Set::find($link->parent_output_calculated_table_set_id);
         if ($set) {
+//            $result = Set::select(DB::Raw('sets.*'))
+//                ->join('links as lf', 'sets.link_from_id', '=', 'lf.id')
+//                ->join('links as lt', 'sets.link_to_id', '=', 'lt.id')
+//                ->join('bases as bs', 'lf.parent_base_id', '=', 'bs.id')
+//                ->where('lf.child_base_id', '=', $base->id)
+//                ->where('is_group', true)
+//                ->where('bs.type_is_list', '=', true)
+//                ->where('sets.serial_number', '=', $set->serial_number)
+//                ->orderBy('sets.serial_number')
+//                ->orderBy('sets.link_from_id')
+//                ->orderBy('sets.link_to_id')->get();
+
             $result = Set::select(DB::Raw('sets.*'))
                 ->join('links as lf', 'sets.link_from_id', '=', 'lf.id')
                 ->join('links as lt', 'sets.link_to_id', '=', 'lt.id')
                 ->join('bases as bs', 'lf.parent_base_id', '=', 'bs.id')
                 ->where('lf.child_base_id', '=', $base->id)
                 ->where('is_group', true)
-                ->where('bs.type_is_list', '=', true)
                 ->where('sets.serial_number', '=', $set->serial_number)
                 ->orderBy('sets.serial_number')
                 ->orderBy('sets.link_from_id')
