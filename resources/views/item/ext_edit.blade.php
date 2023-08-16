@@ -2034,8 +2034,8 @@
             }
             @endforeach
 
-            // Здесь не использовать
-            //on_parent_refer();
+            // Здесь не использовать - ?
+            on_parent_refer();
 
             {{-- массив функций нужен, что при window.onload запустить обработчики всех полей--}}
                 @foreach($functions as $value)
