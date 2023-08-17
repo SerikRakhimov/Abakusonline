@@ -3813,7 +3813,8 @@ class ItemController extends Controller
                 ->where('lf.child_base_id', '=', $base->id)
                 ->where('is_group', true)
                 ->where('sets.serial_number', '=', $set->serial_number)
-                ->where('bs.type_is_list', '=', false);
+                ->where('bs.type_is_list', '=', false)
+                ->get();
 
             $result = (count($sets) == 0);
 
