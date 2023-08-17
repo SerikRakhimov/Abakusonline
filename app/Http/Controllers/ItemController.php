@@ -3810,6 +3810,15 @@ class ItemController extends Controller
                 ->orderBy('sets.link_from_id')
                 ->orderBy('sets.link_to_id')->get();
 
+            // Нужно (инверсия результата при $type_no_is_list_enable == true)
+            if ($type_no_is_list_enable == true) {
+                if ($result){
+                    $result = false;
+                }else{
+                    $result = true;
+                }
+            }
+
         }
         return $result;
     }
