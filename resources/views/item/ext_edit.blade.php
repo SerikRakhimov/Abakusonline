@@ -1377,6 +1377,7 @@
                 //if ($sets_group) {
                 if ($sets_edit_group == true) {
                     $link_calculated_table = true;
+                    $sets_group = ItemController::get_sets_group($base, $link)
                 }
                 $prefix = '5_';
             }
