@@ -472,22 +472,30 @@
                 </div>
                 {{--                            проверка для вывода полей вычисляемой таблицы--}}
             @elseif($link->parent_is_output_calculated_table_field == true)
-                <div class="form-group row"
-                >
-                    <div class="col-sm-3 text-right">
-                        <label for="calc{{$key}}" class="form-label">
-                            @include('layouts.item.ext_edit.parent_label',
-                                ['result_parent_label'=>$result_parent_label, 'key'=>$key, 'par_link'=>$par_link])
-                        </label>
-                    </div>
-                    <div class="col-sm-7">
+                <?php
+                // Проверка, если ли не type_is_list()
+                // 'ItemController::get_sets_group($base, $link, true)' с параметром true
+                $sets_edit_group = ItemController::get_sets_group($base, $link, true);
+                // Проверка нужна
+                ?>
+                @if($sets_edit_group)
+                    <div class="form-group row"
+                    >
+                        <div class="col-sm-3 text-right">
+                            <label for="calc{{$key}}" class="form-label">
+                                @include('layouts.item.ext_edit.parent_label',
+                                    ['result_parent_label'=>$result_parent_label, 'key'=>$key, 'par_link'=>$par_link])
+                            </label>
+                        </div>
+                        <div class="col-sm-7">
                                     <span class="form-label text-related"
                                           name="calc{{$key}}"
                                           id="link{{$key}}"></span>
+                        </div>
+                        <div class="col-sm-2">
+                        </div>
                     </div>
-                    <div class="col-sm-2">
-                    </div>
-                </div>
+                @endif
             @else
                 @if($link->parent_base->is_code_needed==true && $link->parent_is_enter_refer==true)
                     <div class="form-group row">
@@ -1364,7 +1372,9 @@
             }
             // Выводить поле вычисляемой таблицы
             if ($link->parent_is_output_calculated_table_field == true) {
-                $sets_group = ItemController::get_sets_group($base, $link);
+                // Проверка, если ли не type_is_list()
+                // 'ItemController::get_sets_group($base, $link, true)' с параметром true
+                $sets_group = ItemController::get_sets_group($base, $link, true);
                 // Проверка нужна
                 if ($sets_group) {
                     $link_calculated_table = true;
@@ -2034,8 +2044,8 @@
             }
             @endforeach
 
-            // Здесь не использовать - ?
-            on_parent_refer();
+            // Здесь не использовать
+            //on_parent_refer();
 
             {{-- массив функций нужен, что при window.onload запустить обработчики всех полей--}}
                 @foreach($functions as $value)

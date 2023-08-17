@@ -3188,24 +3188,24 @@ class ItemController extends Controller
 //                                }
                                 //$nv_find = Item::find($nv);
 //                                if ($nv_find) {
-                                    //$items = $items->whereHas('child_mains', function ($query) use ($nt, $nv) {
-                                    //    $query->where('link_id', $nt)->where('parent_item_id', $nv);
-                                    //});
-                                    $items = $items->where('project_id', $relip_project->id)
-                                        ->whereHas('child_mains', function ($query) use ($nt, $nv) {
-                                            $query->where('link_id', $nt)->where('parent_item_id', $nv);
-                                        });
-                                    // Поиск по item
-                                    // похожие строки чуть ниже
-                                    $item_seek = $items->first();
-                                    // Нужно "$error = false;"
-                                    $error = false;
-                                    if (!$item_seek) {
-                                        $found = false;
-                                        break;
-                                    } else {
-                                        $found = true;
-                                    }
+                                //$items = $items->whereHas('child_mains', function ($query) use ($nt, $nv) {
+                                //    $query->where('link_id', $nt)->where('parent_item_id', $nv);
+                                //});
+                                $items = $items->where('project_id', $relip_project->id)
+                                    ->whereHas('child_mains', function ($query) use ($nt, $nv) {
+                                        $query->where('link_id', $nt)->where('parent_item_id', $nv);
+                                    });
+                                // Поиск по item
+                                // похожие строки чуть ниже
+                                $item_seek = $items->first();
+                                // Нужно "$error = false;"
+                                $error = false;
+                                if (!$item_seek) {
+                                    $found = false;
+                                    break;
+                                } else {
+                                    $found = true;
+                                }
 //                                } else {
 //                                    // Нужно "$error = false;"
 //                                    $error = false;
@@ -3755,7 +3755,7 @@ class ItemController extends Controller
     }
 
 // "->where('bs.type_is_list', '=', true)" нужно, т.к. запрос функции идет с ext_edit.php
-    static function get_sets_group(Base $base, Link $link)
+    static function get_sets_group(Base $base, Link $link, $type_no_is_list_enable = false)
     {
         $result = null;
         // "->where('bs.type_is_list', '=', true)" нужно, т.к. запрос функции идет с ext_edit.php
@@ -3782,16 +3782,34 @@ class ItemController extends Controller
 //                ->orderBy('sets.link_from_id')
 //                ->orderBy('sets.link_to_id')->get();
 
+//            $result = Set::select(DB::Raw('sets.*'))
+//                ->join('links as lf', 'sets.link_from_id', '=', 'lf.id')
+//                ->join('links as lt', 'sets.link_to_id', '=', 'lt.id')
+//                ->join('bases as bs', 'lf.parent_base_id', '=', 'bs.id')
+//                ->where('lf.child_base_id', '=', $base->id)
+//                ->where('is_group', true)
+//                ->where('sets.serial_number', '=', $set->serial_number)
+//                ->orderBy('sets.serial_number')
+//                ->orderBy('sets.link_from_id')
+//                ->orderBy('sets.link_to_id')->get();
+
             $result = Set::select(DB::Raw('sets.*'))
                 ->join('links as lf', 'sets.link_from_id', '=', 'lf.id')
                 ->join('links as lt', 'sets.link_to_id', '=', 'lt.id')
                 ->join('bases as bs', 'lf.parent_base_id', '=', 'bs.id')
                 ->where('lf.child_base_id', '=', $base->id)
                 ->where('is_group', true)
-                ->where('sets.serial_number', '=', $set->serial_number)
-                ->orderBy('sets.serial_number')
+                ->where('sets.serial_number', '=', $set->serial_number);
+
+            // Выбрать данные с 'bs.type_is_list != true'
+            if ($type_no_is_list_enable == true) {
+                $result = $result->where('bs.type_is_list', '!=', true);
+            }
+
+            $result = $result->orderBy('sets.serial_number')
                 ->orderBy('sets.link_from_id')
                 ->orderBy('sets.link_to_id')->get();
+
         }
         return $result;
     }
