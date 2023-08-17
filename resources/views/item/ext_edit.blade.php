@@ -473,12 +473,11 @@
                 {{--                            проверка для вывода полей вычисляемой таблицы--}}
             @elseif($link->parent_is_output_calculated_table_field == true)
                 <?php
-                // Проверка, если ли не type_is_list()
-                // 'ItemController::get_sets_group($base, $link, true)' с параметром true
-                $sets_edit_group = ItemController::get_sets_group($base, $link, true);
+                // Проверка, если ли только type_is_list()
+                $sets_edit_group = ItemController::get_sets_list_group(($base, $link);
                 // Проверка нужна
                 ?>
-                @if(empty($sets_edit_group))
+                @if($sets_edit_group == true)
                     <div class="form-group row"
                     >
                         <div class="col-sm-3 text-right">
@@ -1372,12 +1371,11 @@
             }
             // Выводить поле вычисляемой таблицы
             if ($link->parent_is_output_calculated_table_field == true) {
-                // Проверка, если ли не type_is_list()
-                // 'ItemController::get_sets_group($base, $link, true)' с параметром true
-                $sets_group = ItemController::get_sets_group($base, $link, true);
+                // Проверка, если ли только type_is_list()
+                $sets_edit_group = ItemController::get_sets_list_group($base, $link);
                 // Проверка нужна
                 //if ($sets_group) {
-                if (empty($sets_edit_group)) {
+                if ($sets_edit_group == true) {
                     $link_calculated_table = true;
                 }
                 $prefix = '5_';

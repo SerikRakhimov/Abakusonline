@@ -3087,10 +3087,11 @@ class ItemController extends Controller
     }
 
 //    Эти функции похожи:
-//save_sets()
-//get_item_from_parent_output_calculated_table()
-//get_sets_group()
-//get_parent_item_from_output_calculated_table()
+// save_sets()
+// get_item_from_parent_output_calculated_table()
+// get_sets_group()
+// get_sets_list_group()
+// get_parent_item_from_output_calculated_table()
 // Обрабатывает присваивания
 // $valits_previous - предыщения значения $valits при $reverse = true и обновлении данных = замена
     private
@@ -3754,7 +3755,8 @@ class ItemController extends Controller
         }
     }
 
-// "->where('bs.type_is_list', '=', true)" нужно, т.к. запрос функции идет с ext_edit.php
+    // Функции get_sets_group() и get_sets_list_group() похожи
+    // "->where('bs.type_is_list', '=', true)" нужно, т.к. запрос функции идет с ext_edit.php
     static function get_sets_group(Base $base, Link $link, $type_no_is_list_enable = false)
     {
         $result = null;
@@ -3782,17 +3784,6 @@ class ItemController extends Controller
 //                ->orderBy('sets.link_from_id')
 //                ->orderBy('sets.link_to_id')->get();
 
-//            $result = Set::select(DB::Raw('sets.*'))
-//                ->join('links as lf', 'sets.link_from_id', '=', 'lf.id')
-//                ->join('links as lt', 'sets.link_to_id', '=', 'lt.id')
-//                ->join('bases as bs', 'lf.parent_base_id', '=', 'bs.id')
-//                ->where('lf.child_base_id', '=', $base->id)
-//                ->where('is_group', true)
-//                ->where('sets.serial_number', '=', $set->serial_number)
-//                ->orderBy('sets.serial_number')
-//                ->orderBy('sets.link_from_id')
-//                ->orderBy('sets.link_to_id')->get();
-
             $result = Set::select(DB::Raw('sets.*'))
                 ->join('links as lf', 'sets.link_from_id', '=', 'lf.id')
                 ->join('links as lt', 'sets.link_to_id', '=', 'lt.id')
@@ -3801,14 +3792,31 @@ class ItemController extends Controller
                 ->where('is_group', true)
                 ->where('sets.serial_number', '=', $set->serial_number);
 
-            // Выбрать данные с 'bs.type_is_list != true'
-            if ($type_no_is_list_enable == true) {
-                $result = $result->where('bs.type_is_list', '!=', true);
-            }
-
             $result = $result->orderBy('sets.serial_number')
                 ->orderBy('sets.link_from_id')
                 ->orderBy('sets.link_to_id')->get();
+        }
+
+        return $result;
+    }
+
+    // Функция "Если в присваиваниях группировки "только type_is_list()"
+    static function get_sets_list_group(Base $base, Link $link)
+    {
+        $result = false;
+        $set = Set::find($link->parent_output_calculated_table_set_id);
+        if ($set) {
+            $sets = Set::select(DB::Raw('sets.*'))
+                ->join('links as lf', 'sets.link_from_id', '=', 'lf.id')
+                ->join('links as lt', 'sets.link_to_id', '=', 'lt.id')
+                ->join('bases as bs', 'lf.parent_base_id', '=', 'bs.id')
+                ->where('lf.child_base_id', '=', $base->id)
+                ->where('is_group', true)
+                ->where('sets.serial_number', '=', $set->serial_number)
+                ->where('bs.type_is_list', '=', false);
+
+            $result = (count($sets) == 0);
+
         }
 
         return $result;
