@@ -1650,7 +1650,6 @@
             @endif
         @endif
 
-
         {{--        Проверка на вычисляемые поля--}}
         @if($link_parent)
             <script>
@@ -1662,8 +1661,9 @@
                 {{--                var parent_related_id{{$prefix}}{{$link->id}} = document.getElementById('related_id{{$link->id}}');--}}
                 var parent_related_id{{$prefix}}{{$link->id}} = document.getElementById('{{$link->id}}');
                 <?php
-                $functs_parent_refer[count($functs_parent_refer)] = "link_id_change_" . $prefix . $link->id;
-                //           $functions[count($functions)] = "link_id_change_" . $prefix . $link->id;
+                // Не нужно использовать
+                // $functs_parent_refer[count($functs_parent_refer)] = "link_id_change_" . $prefix . $link->id;
+                // $functions[count($functions)] = "link_id_change_" . $prefix . $link->id;
                 ?>
                 function link_id_change_{{$prefix}}{{$link->id}}() {
                     if (child_base_id{{$prefix}}{{$link->id}}.value == 0) {
@@ -1725,8 +1725,9 @@
                 var parent_related_id{{$prefix}}{{$link->id}} = document.getElementById('{{$link->id}}');
 
                 <?php
-                //~~~$functions[count($functions)] = "link_id_changeOption_" . $prefix . $link->id;
-                $functs_parent_refer[count($functs_parent_refer)] = "link_id_changeOption_" . $prefix . $link->id;
+                // Не нужно использовать
+                // $functions[count($functions)] = "link_id_changeOption_" . $prefix . $link->id;
+                // $functs_parent_refer[count($functs_parent_refer)] = "link_id_changeOption_" . $prefix . $link->id;
                 ?>
                 function link_id_changeOption_{{$prefix}}{{$link->id}}() {
                     {{--parent_base_id{{$prefix}}{{$link->id}}.innerHTML = "";--}}
@@ -1802,7 +1803,7 @@
 
                 <?php
                 $functs_parent_refer[count($functs_parent_refer)] = "link_id_changeOption_" . $prefix . $link->id;
-                //~~~$functions[count($functions)] = "link_id_changeOption_" . $prefix . $link->id;
+                //$functions[count($functions)] = "link_id_changeOption_" . $prefix . $link->id;
                 ?>
                 function link_id_changeOption_{{$prefix}}{{$link->id}}() {
                     {{--if (child_base_id{{$prefix}}{{$link->id}}.options[child_base_id{{$prefix}}{{$link->id}}.selectedIndex].value == 0) {--}}
