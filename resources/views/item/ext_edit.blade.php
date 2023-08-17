@@ -478,7 +478,7 @@
                 $sets_edit_group = ItemController::get_sets_group($base, $link, true);
                 // Проверка нужна
                 ?>
-                @if($sets_edit_group)
+                @if(empty($sets_edit_group))
                     <div class="form-group row"
                     >
                         <div class="col-sm-3 text-right">
@@ -1376,7 +1376,8 @@
                 // 'ItemController::get_sets_group($base, $link, true)' с параметром true
                 $sets_group = ItemController::get_sets_group($base, $link, true);
                 // Проверка нужна
-                if ($sets_group) {
+                //if ($sets_group) {
+                if (empty($sets_edit_group)) {
                     $link_calculated_table = true;
                 }
                 $prefix = '5_';
