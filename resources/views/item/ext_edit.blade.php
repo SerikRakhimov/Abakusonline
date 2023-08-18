@@ -2011,13 +2011,13 @@
 
         function on_parent_refer() {
             @foreach($functs_parent_refer as $value)
-                {{$value}}();
-            @endforeach
-        }
+            {{--{{$value}}();--}}
+        @endforeach
+    }
 
-        function on_submit() {
-            @foreach($array_disabled as $key=>$value)
-            {{--parent_base_id_work = document.getElementById('link{{$key}}').disabled = false;--}}
+    function on_submit() {
+        @foreach($array_disabled as $key=>$value)
+        {{--parent_base_id_work = document.getElementById('link{{$key}}').disabled = false;--}}
             document.getElementById('link{{$key}}').disabled = false;
             @endforeach
         }
@@ -2082,13 +2082,13 @@
 
             {{-- массив функций нужен, что при window.onload запустить обработчики всех полей--}}
                 @foreach($functions as $value)
-                //{{$value}}();
-            @endforeach
-            @foreach($functs_change as $key=>$value)
-            document.getElementById('{{$key}}').dispatchEvent(new Event('change'));
-            @endforeach
+            {{-- {{$value}}();--}}
+        @endforeach
+        @foreach($functs_change as $key=>$value)
+        document.getElementById('{{$key}}').dispatchEvent(new Event('change'));
+        @endforeach
 
-            {{-- Использовать после цикла по массиву функций:--}}
+        {{-- Использовать после цикла по массиву функций:--}}
             {{-- Сначала должны посчитаться значения parent_is_child_related=true ('Автоматически фильтровать поля ввода'),--}}
             {{-- затем вывод значений из справочников, в т.ч. из уже отфильтрованных--}}
             {{-- on_parent_refer();--}}
