@@ -2080,8 +2080,8 @@
                 @foreach($functions as $value)
                 {{$value}}();
             @endforeach
-            @foreach($functs_change as $value)
-            //{{$value}}();
+            @foreach($functs_change as $key=>$value)
+            //{{$key}}();
             @endforeach
 
             // Использовать после цикла по массиву функций:
