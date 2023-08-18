@@ -1577,9 +1577,11 @@
 
                                     {{--Команда "on_parent_refer();" нужна, для вызова функция обновления данных с зависимых таблиц--}}
                                     {{--Функция code_input_{{$prefix}}{{$link->id}}(first) выполняется не сразу--}}
-                                    {{--Не использовать проверку if (first == false) {--}}
-                                    {{--if (first == false) {--}}
-                                    on_parent_refer();
+                                    {{--Не использовать проверку if (first == false) --}}
+                                    {{--if (first == false) --}}
+
+                                    {{--*** on_parent_refer(); ***--}}
+
                                     {{--}--}}
                                     {{--on_numcalc_viewonly(); --}}
 
@@ -1638,9 +1640,11 @@
                         );
                         {{--Команда "on_parent_refer();" нужна, для вызова функция обновления данных с зависимых таблиц--}}
                         {{--Функция code_input_{{$prefix}}{{$link->id}}(first) выполняется не сразу--}}
-                        {{--Не использовать проверку if (first == false) {--}}
-                        {{--if (first == false) {--}}
-                        on_parent_refer();
+                        {{--Не использовать проверку if (first == false) --}}
+                        {{--if (first == false) --}}
+
+                        {{--*** on_parent_refer(); ***--}}
+
                         {{--}--}}
                         {{--on_numcalc_viewonly(); --}}
 
@@ -2057,7 +2061,7 @@
     </script>
     <script>
         window.onload = function () {
-            //Этот блок перед вызовом on_parent_refer()
+            {{-- Этот блок перед вызовом on_parent_refer()--}}
             ds = true;
             @foreach($array_disabled as $key=>$value)
                 ds = true;
@@ -2073,8 +2077,8 @@
             }
             @endforeach
 
-            // Здесь не использовать
-            //on_parent_refer();
+            {{-- Здесь не использовать--}}
+            {{-- on_parent_refer();--}}
 
             {{-- массив функций нужен, что при window.onload запустить обработчики всех полей--}}
                 @foreach($functions as $value)
@@ -2084,18 +2088,20 @@
             document.getElementById('{{$key}}').dispatchEvent(new Event('change'));
             @endforeach
 
-            // Использовать после цикла по массиву функций:
-            // Сначала должны посчитаться значения parent_is_child_related=true ('Автоматически фильтровать поля ввода'),
-            // затем вывод значений из справочников, в т.ч. из уже отфильтрованных
-            //on_parent_refer();
+            {{-- Использовать после цикла по массиву функций:--}}
+            {{-- Сначала должны посчитаться значения parent_is_child_related=true ('Автоматически фильтровать поля ввода'),--}}
+            {{-- затем вывод значений из справочников, в т.ч. из уже отфильтрованных--}}
+            {{-- on_parent_refer();--}}
 
+            {{-- Не удалять--}}
             {{-- Не нужно вызывать функцию on_numcalc_all(),--}}
             {{-- это связано с разрешенной корректировкой вычисляемых полей ($link->parent_is_nc_viewonly=true)--}}
-            @if(!$update)
-            on_numcalc_all();
-            @else
-            on_numcalc_viewonly();
-            @endif
+{{--            @if(!$update)--}}
+{{--            on_numcalc_all();--}}
+{{--            @else--}}
+{{--            on_numcalc_viewonly();--}}
+{{--            @endif--}}
+
         };
 
         {{--https://ru.stackoverflow.com/questions/1114823/%D0%9A%D0%B0%D0%BA-%D1%81%D0%B4%D0%B5%D0%BB%D0%B0%D1%82%D1%8C-%D1%82%D0%B0%D0%BA-%D1%87%D1%82%D0%BE%D0%B1%D1%8B-%D0%BF%D1%80%D0%B8-%D0%BD%D0%B0%D0%B6%D0%B0%D1%82%D0%B8%D0%B8-%D0%BD%D0%B0-%D0%BA%D0%BD%D0%BE%D0%BF%D0%BA%D1%83-%D0%BF%D1%80%D0%BE%D0%B8%D0%B3%D1%80%D1%8B%D0%B2%D0%B0%D0%BB%D1%81%D1%8F-%D0%B7%D0%B2%D1%83%D0%BA--}}
