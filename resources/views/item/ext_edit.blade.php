@@ -2078,10 +2078,10 @@
 
             {{-- массив функций нужен, что при window.onload запустить обработчики всех полей--}}
                 @foreach($functions as $value)
-                {{$value}}();
+                //{{$value}}();
             @endforeach
             @foreach($functs_change as $key=>$value)
-            //{{$key}}();
+            document.getElementById('{{$key}}').dispatchEvent(new Event('change'));
             @endforeach
 
             // Использовать после цикла по массиву функций:
