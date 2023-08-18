@@ -1308,8 +1308,9 @@
                 }
 
                 code_{{$prefix}}{{$link->id}}.addEventListener("change", code_change_{{$prefix}}{{$link->id}});
-                $functs_change['code{{$link->id}}'] = 1;
-
+                <?php
+                $functs_change['code' . $link->id] = 1;
+                ?>
                 @endif
 
             </script>
@@ -1483,7 +1484,9 @@
                 {{--document.getElementById('code{{$link->id}}').addEventListener("change", link_id_changeOption_{{$prefix}}{{$link->id}});--}}
                 @else
                 document.getElementById('link{{$link->id}}').addEventListener("change", link_id_changeOption_{{$prefix}}{{$link->id}});
-                $functs_change['link{{$link->id}}'] = 1;
+                <?php
+                $functs_change['link' . $link->id] = 1;
+                ?>
                 @endif
 
             </script>
@@ -1588,7 +1591,9 @@
                                 }
                             }
                             code_{{$prefix}}{{$link->id}}.addEventListener("change", code_input_{{$prefix}}{{$link->id}});
-                            $functs_change['code{{$link->id}}'] = 1;
+                    <?php
+                    $functs_change['code' . $link->id] = 1;
+                    ?>
 
                     {{--code_{{$prefix}}{{$link->id}}.addEventListener("change", link_id_changeOption_6_{{$link->id}});--}}
 
@@ -1650,7 +1655,9 @@
                     {{--code_{{$prefix}}{{$link->id}}.addEventListener("input", code_input_{{$prefix}}{{$link->id}});--}}
 
                     code_{{$prefix}}{{$link->id}}.addEventListener("change", code_input_{{$prefix}}{{$link->id}});
-                    $functs_change['code{{$link->id}}'] = 1;
+                    <?php
+                    $functs_change['code' . $link->id] = 1;
+                    ?>
 
                 </script>
             @endif
@@ -1786,7 +1793,9 @@
                 }
 
                 child_base_id{{$prefix}}{{$link->id}}.addEventListener("change", link_id_changeOption_{{$prefix}}{{$link->id}});
-                $functs_change['link{{$const_link_id_start}}'] = 1;
+                <?php
+                $functs_change['link' . $const_link_id_start] = 1;
+                ?>
 
                 @endif
             </script>
@@ -1842,10 +1851,14 @@
                 @foreach($sets_group as $to_key => $to_value)
                 @if($to_value->link_from->parent_base->is_code_needed==true && $to_value->link_from->parent_is_enter_refer==true)
                 code_child_base_id{{$prefix}}{{$link->id}}_{{$to_value->id}}.addEventListener("change", link_id_changeOption_{{$prefix}}{{$link->id}});
-                $functs_change['code{{$to_value->link_from_id}}'] = 1;
+                <?php
+                $functs_change['code' . $to_value->link_from_id] = 1;
+                ?>
                 @else
                 child_base_id{{$prefix}}{{$link->id}}_{{$to_value->id}}.addEventListener("change", link_id_changeOption_{{$prefix}}{{$link->id}});
-                $functs_change['link{{$to_value->link_from_id}}'] = 1;
+                <?php
+                $functs_change['link' . $to_value->link_from_id] = 1;
+                ?>
                 @endif
                 @endforeach
 
@@ -1972,7 +1985,9 @@
         }
 
         code_el.addEventListener("change", code_change);
+        <?php
         $functs_change['code'] = 1;
+        ?>
         @endif
 
         {{-- var child_base_id_work = 0;--}}
@@ -2033,7 +2048,9 @@
         {{--            @if($link->parent_is_nc_parameter == true)--}}
         var numrecalc_{{$prefix}}{{$link->id}} = document.getElementById('link{{$link->id}}');
         numrecalc_{{$prefix}}{{$link->id}}.addEventListener("change", on_numcalc_viewonly);
-        $functs_change['link{{$link->id}}'] = 1;
+        <?php
+        $functs_change['link' . $link->id] = 1;
+        ?>
         @endif
 
         @endforeach
@@ -2063,8 +2080,8 @@
                 @foreach($functions as $value)
                 {{$value}}();
             @endforeach
-                @foreach($functs_change as $value)
-                //{{$value}}();
+            @foreach($functs_change as $value)
+            //{{$value}}();
             @endforeach
 
             // Использовать после цикла по массиву функций:
