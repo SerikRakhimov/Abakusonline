@@ -2012,12 +2012,12 @@
         function on_parent_refer() {
             @foreach($functs_parent_refer as $value)
             {{--{{$value}}();--}}
-        @endforeach
-    }
+            @endforeach
+        }
 
-    function on_submit() {
-        @foreach($array_disabled as $key=>$value)
-        {{--parent_base_id_work = document.getElementById('link{{$key}}').disabled = false;--}}
+        function on_submit() {
+            @foreach($array_disabled as $key=>$value)
+            {{--parent_base_id_work = document.getElementById('link{{$key}}').disabled = false;--}}
             document.getElementById('link{{$key}}').disabled = false;
             @endforeach
         }
@@ -2062,7 +2062,7 @@
     <script>
         window.onload = function () {
             {{-- Этот блок перед вызовом on_parent_refer()--}}
-            ds = true;
+                ds = true;
             @foreach($array_disabled as $key=>$value)
                 ds = true;
             @if($par_link)
@@ -2081,14 +2081,14 @@
             {{-- on_parent_refer();--}}
 
             {{-- массив функций нужен, что при window.onload запустить обработчики всех полей--}}
-                @foreach($functions as $value)
+            @foreach($functions as $value)
             {{-- {{$value}}();--}}
-        @endforeach
-        @foreach($functs_change as $key=>$value)
-        document.getElementById('{{$key}}').dispatchEvent(new Event('change'));
-        @endforeach
+            @endforeach
+            @foreach($functs_change as $key=>$value)
+            document.getElementById('{{$key}}').dispatchEvent(new Event('change'));
+            @endforeach
 
-        {{-- Использовать после цикла по массиву функций:--}}
+            {{-- Использовать после цикла по массиву функций:--}}
             {{-- Сначала должны посчитаться значения parent_is_child_related=true ('Автоматически фильтровать поля ввода'),--}}
             {{-- затем вывод значений из справочников, в т.ч. из уже отфильтрованных--}}
             {{-- on_parent_refer();--}}
@@ -2096,11 +2096,11 @@
             {{-- Не удалять--}}
             {{-- Не нужно вызывать функцию on_numcalc_all(),--}}
             {{-- это связано с разрешенной корректировкой вычисляемых полей ($link->parent_is_nc_viewonly=true)--}}
-{{--            @if(!$update)--}}
-{{--            on_numcalc_all();--}}
-{{--            @else--}}
-{{--            on_numcalc_viewonly();--}}
-{{--            @endif--}}
+            {{--            @if(!$update)--}}
+            {{--            on_numcalc_all();--}}
+            {{--            @else--}}
+            {{--            on_numcalc_viewonly();--}}
+            {{--            @endif--}}
 
         };
 
