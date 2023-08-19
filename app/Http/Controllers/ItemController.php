@@ -3790,9 +3790,8 @@ class ItemController extends Controller
                 ->join('bases as bs', 'lf.parent_base_id', '=', 'bs.id')
                 ->where('lf.child_base_id', '=', $base->id)
                 ->where('is_group', true)
-                ->where('sets.serial_number', '=', $set->serial_number);
-
-            $result = $result->orderBy('sets.serial_number')
+                ->where('sets.serial_number', '=', $set->serial_number)
+                ->orderBy('sets.serial_number')
                 ->orderBy('sets.link_from_id')
                 ->orderBy('sets.link_to_id')->get();
         }
