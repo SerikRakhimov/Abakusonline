@@ -3935,6 +3935,8 @@ class ItemController extends Controller
                             $item_seek = Item::find($items_id_group[$i]);
                         }
                         if ($item_seek == null) {
+                            // Нужно
+                            $result_item = null;
                             break;
                         }
                         $items = $items->whereHas('child_mains', function ($query) use ($to_value, $item_seek) {
@@ -3944,8 +3946,10 @@ class ItemController extends Controller
 
                     }
 
-                    $result_item = self::output_calculated_table_dop($base, $link, $set, $item_seek0->project, $items);
+                    if (!$result_item) {
+                        $result_item = self::output_calculated_table_dop($base, $link, $set, $item_seek0->project, $items);
 //                  $result_item = self::output_calculated_table_dop($base, $link, $set, $project, $items);
+                    }
 
                 }
                 // Похожие строки в self::get_parent_item_from_calc_child_item()
