@@ -3934,7 +3934,8 @@ class ItemController extends Controller
                         if (isset($items_id_group[$i])) {
                             $item_seek = Item::find($items_id_group[$i]);
                         }
-                        if ($item_seek == null) {
+                        //if ($item_seek == null) {
+                        if (!$item_seek) {
                             // Нужно
                             $result_item = null;
                             break;
