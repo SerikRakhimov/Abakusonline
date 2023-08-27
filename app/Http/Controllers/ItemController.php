@@ -3858,6 +3858,7 @@ class ItemController extends Controller
 // Выводит поле вычисляемой таблицы
     static function get_item_from_parent_output_calculated_table(Item $item_main, Link $link)
     {
+        $result = trans('main.no_information') . '!';
         $result_item = null;
         $set = Set::find($link->parent_output_calculated_table_set_id);
         if ($set) {
@@ -3867,6 +3868,7 @@ class ItemController extends Controller
             $items = Item::where('base_id', $calc_table_base_id)->where('project_id', $item_main->project_id);
 
             $sets_group = self::get_sets_group($item_main->base, $link);
+            $result_item = true;
             if ($sets_group) {
                 // Фильтрация/поиск
                 // Цикл по записям, в каждой итерации цикла свой to_child_base_id в переменной $to_key
@@ -3876,15 +3878,37 @@ class ItemController extends Controller
                         $items = $items->whereHas('child_mains', function ($query) use ($to_value, $item_seek) {
                             $query->where('link_id', $to_value->link_to_id)->where('parent_item_id', $item_seek->id);
                         });
+                    }else {
+                        $result_item = false;
+                        break;
                     }
                 }
             }
 
-            $result_item = self::output_calculated_table_dop($item_main->base, $link, $set, $item_main->project, $items);
+            if ($result_item) {
+                $result_item = self::output_calculated_table_dop($item_main->base, $link, $set, $item_main->project, $items);
+                // Похожие строки в self::get_parent_item_from_calc_child_item()
+                // и в self::get_parent_item_from_output_calculated_table()
+                if ($result_item) {
+                    //$result = $result_item->name(false, true, true);
+                    if ($result_item->base->type_is_image() || $result_item->base->type_is_document()) {
+                        if ($result_item->base->type_is_image()) {
+                            //$result_item_name = "<img src='" . Storage::url($result_item->filename()) . "' height='250' alt='' title='" . $result_item->title_img() . "'>";
+                            $result = GlobalController::view_img($result_item, "medium", false, false, false, $result_item->title_img());
+                        } else {
+                            $result = GlobalController::view_doc($result_item, GlobalController::usercode_calc());
+                        }
+                    } elseif ($result_item->base->type_is_text()) {
+                        $result = GlobalController::it_txnm_n2b($result_item);
+                    } else {
+                        $result = $result_item->name(false, true, true);
+                    }
+                }
 
+            }
         }
 
-        return $result_item;
+        return $result;
     }
 
 // Вызывается из ext_edit.php
@@ -3913,6 +3937,7 @@ class ItemController extends Controller
         //  '&& $items_id_group' не нужно, т.к. группировки может не быть
         if ($base && $link) {
             //$result_item = null;
+            // true использовать
             $result_item = true;
             $set = Set::find($link->parent_output_calculated_table_set_id);
             $sets_group = self::get_sets_group($base, $link);
@@ -3935,9 +3960,8 @@ class ItemController extends Controller
                         if (isset($items_id_group[$i])) {
                             $item_seek = Item::find($items_id_group[$i]);
                         }
-                        //if ($item_seek == null) {
                         if (!$item_seek) {
-                            // Нужно
+                            // Нужно, разницы нет null или false присвоить
                             //$result_item = null;
                             $result_item = false;
                             break;
