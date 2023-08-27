@@ -3951,15 +3951,12 @@ class ItemController extends Controller
                             $query->where('link_id', $to_value->link_to_id)->where('parent_item_id', $item_seek->id);
                         });
                         $i = $i + 1;
-
                     }
-
                     //if (!$result_item) {
                     if ($result_item) {
                         $result_item = self::output_calculated_table_dop($base, $link, $set, $item_seek0->project, $items);
 //                  $result_item = self::output_calculated_table_dop($base, $link, $set, $project, $items);
                     }
-
                 }
                 // Похожие строки в self::get_parent_item_from_calc_child_item()
                 // и в self::get_parent_item_from_output_calculated_table()
