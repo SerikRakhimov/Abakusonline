@@ -3938,8 +3938,8 @@ class ItemController extends Controller
                         //if ($item_seek == null) {
                         if (!$item_seek) {
                             // Нужно
-                            $result_item = null;
-                            //$result_item = false;
+                            //$result_item = null;
+                            $result_item = false;
                             break;
                         }
                         $items = $items->whereHas('child_mains', function ($query) use ($to_value, $item_seek) {
