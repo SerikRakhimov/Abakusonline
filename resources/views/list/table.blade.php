@@ -31,9 +31,9 @@ $image_label = "";
 if ($view_link) {
     $image_label = $view_link->child_label();
 } else {
-    if ($link_image) {
+    //if ($link_image) {
         $image_label = $link_image->parent_label();
-    }
+    //}
 }
 ?>
 {{--<table class="table table-sm table-bordered table-hover">--}}
@@ -60,7 +60,7 @@ if ($view_link) {
                     {{--                <p class="card-header text-center text-label">{{$item->base->name()}}: {{$item->id}}--}}
                     <small class="card-header text-center text-title">
                         {{--                    {{$item->base->name()}} {{$item->id}}--}}
-                        {{}} {{$item->id}}
+                        {{$image_label}}
                         @if($base->is_code_needed == true)
                             {{--                        <a href="{{route('item.ext_show', ['item'=>$item, 'project'=>$project, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id,--}}
                             {{--                                    'heading' => $heading,'base_index_page'=>$base_index_page, 'body_link_page'=>$body_link_page,'body_all_page'=>$body_all_page,--}}
