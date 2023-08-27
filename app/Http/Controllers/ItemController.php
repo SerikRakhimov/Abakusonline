@@ -3876,6 +3876,7 @@ class ItemController extends Controller
                         $items = $items->whereHas('child_mains', function ($query) use ($to_value, $item_seek) {
                             $query->where('link_id', $to_value->link_to_id)->where('parent_item_id', $item_seek->id);
                         });
+                        // все присваивания по группе должны быть учтены, их может быть один и выше
                     } else {
                         $r_info = false;
                         break;
@@ -3939,6 +3940,7 @@ class ItemController extends Controller
                         if (isset($items_id_group[$i])) {
                             $item_seek = Item::find($items_id_group[$i]);
                         }
+                        // все присваивания по группе должны быть учтены, их может быть один и выше
                         if (!$item_seek) {
                             // Нужно, разницы нет null или false присвоить
                             //$result_item = null;
