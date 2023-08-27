@@ -27,6 +27,14 @@ $tile_view = $base->tile_view($base_right);
 // $link_image используется не только при выводе Карт, но и при выводе таблицы(см.ниже)
 $link_image = $tile_view['link'];
 $num_cols = GlobalController::get_number_of_columns_info();
+$image_label = "";
+if ($view_link) {
+    $image_label = $view_link->child_label();
+} else {
+    if ($link_image) {
+        $image_label = $link_image->parent_label();
+    }
+}
 ?>
 {{--<table class="table table-sm table-bordered table-hover">--}}
 {{--<table class="table table-sm table-borderless table-hover">--}}
@@ -51,8 +59,8 @@ $num_cols = GlobalController::get_number_of_columns_info();
                 <div class="card shadow m-2">
                     {{--                <p class="card-header text-center text-label">{{$item->base->name()}}: {{$item->id}}--}}
                     <small class="card-header text-center text-title">
-{{--                    {{$item->base->name()}} {{$item->id}}--}}
-                        {{$link_image->child_label()}} {{$item->id}}
+                        {{--                    {{$item->base->name()}} {{$item->id}}--}}
+                        {{}} {{$item->id}}
                         @if($base->is_code_needed == true)
                             {{--                        <a href="{{route('item.ext_show', ['item'=>$item, 'project'=>$project, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id,--}}
                             {{--                                    'heading' => $heading,'base_index_page'=>$base_index_page, 'body_link_page'=>$body_link_page,'body_all_page'=>$body_all_page,--}}
