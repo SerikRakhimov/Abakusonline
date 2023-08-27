@@ -50,7 +50,9 @@ $num_cols = GlobalController::get_number_of_columns_info();
                 {{--                    <div class="card card-inverse text-center" style="background-color: rgba(222,255,162,0.23); border-color: #3548ee;">--}}
                 <div class="card shadow m-2">
                     {{--                <p class="card-header text-center text-label">{{$item->base->name()}}: {{$item->id}}--}}
-                    <small class="card-header text-center text-title">{{$item->base->name()}} {{$item->id}}
+                    <small class="card-header text-center text-title">
+{{--                    {{$item->base->name()}} {{$item->id}}--}}
+                        {{$link_image->child_base->name()}} {{$item->id}}
                         @if($base->is_code_needed == true)
                             {{--                        <a href="{{route('item.ext_show', ['item'=>$item, 'project'=>$project, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id,--}}
                             {{--                                    'heading' => $heading,'base_index_page'=>$base_index_page, 'body_link_page'=>$body_link_page,'body_all_page'=>$body_all_page,--}}
