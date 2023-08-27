@@ -3892,10 +3892,10 @@ class ItemController extends Controller
     {
         $params = $request->query();
         $result = trans('main.no_information') . '!';
-        $project = null;
-        if (array_key_exists('project_id', $params)) {
-            $project = Project::find($params['project_id']);
-        }
+//      $project = null;
+//      if (array_key_exists('project_id', $params)) {
+//          $project = Project::find($params['project_id']);
+//      }
         $base = null;
         if (array_key_exists('base_id', $params)) {
             $base = Base::find($params['base_id']);
@@ -3912,7 +3912,8 @@ class ItemController extends Controller
         }
         //  '&& $items_id_group' не нужно, т.к. группировки может не быть
         if ($base && $link) {
-            $result_item = null;
+            //$result_item = null;
+            $result_item = true;
             $set = Set::find($link->parent_output_calculated_table_set_id);
             $sets_group = self::get_sets_group($base, $link);
             if ($sets_group) {
@@ -3938,6 +3939,7 @@ class ItemController extends Controller
                         if (!$item_seek) {
                             // Нужно
                             $result_item = null;
+                            //$result_item = false;
                             break;
                         }
                         $items = $items->whereHas('child_mains', function ($query) use ($to_value, $item_seek) {
