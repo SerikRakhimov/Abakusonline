@@ -309,6 +309,7 @@ return [
     'the_same_values_are_not_valid' => 'The same values are not valid',
     'child_bases_should_not_be_the_same' => 'Child bases should not be the same',
     'parent_bases_must_be_the_same' => 'Parent bases must be the same',
+    'parent_host_types_must_be_the_same' => 'Parent host types must be the same',
     'parent_bases_must_be_number' => 'Parent bases must be Number/Boolean',
     'childrens_bases_must_be_with_the_characteristic_calculated_name' => 'Children\'s Bases must be with the characteristic "Calculated name"',
     'childrens_base_must_be_with_the_characteristic_is_calculated' => 'Children\'s Base must be with the characteristic "Calculated"',

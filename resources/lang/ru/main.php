@@ -309,6 +309,7 @@ return [
     'the_same_values_are_not_valid' => 'Одинаковые значения недопустимы',
     'child_bases_should_not_be_the_same' => 'Детские основы не должны быть одинаковыми',
     'parent_bases_must_be_the_same' => 'Родительские основы должны быть одинаковыми',
+    'parent_host_types_must_be_the_same' => 'Типы родительских основ должны быть одинаковыми',
     'parent_bases_must_be_number' => 'Родительские основы должны быть Число/Логический',
     'childrens_bases_must_be_with_the_characteristic_calculated_name' => 'Детские Основы должны быть с признаком "Вычисляемое наименование"',
     'childrens_base_must_be_with_the_characteristic_is_calculated' => 'Детская Основа должна быть с признаком "Вычисляемое"',
