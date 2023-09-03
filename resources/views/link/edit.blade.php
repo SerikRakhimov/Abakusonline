@@ -1172,7 +1172,6 @@
             axios.get('/link/get_parent_output_calculated_table_set_id/'
                 + child_base_id.options[child_base_id.selectedIndex].value
             ).then(function (res) {
-                //alert(child_base_id.options[child_base_id.selectedIndex].value);
                 // если запуск функции не при загрузке страницы
                 if (first != true) {
                     // сохранить текущие значения
