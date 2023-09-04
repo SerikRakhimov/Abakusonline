@@ -126,8 +126,6 @@
     </div>
     </p>
     <?php
-    $tile_view = $base->tile_view($base_right);
-    $link_image = $tile_view['link'];
     //$i = $items->firstItem() - 1;
     $i = 0;
     ?>

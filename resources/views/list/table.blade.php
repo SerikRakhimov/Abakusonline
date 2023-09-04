@@ -23,8 +23,7 @@ if ($base_index == true) {
 //    $i_par_link = GlobalController::par_link_const_textnull();
     $i_par_link = $view_link;
 }
-//$tile_view = $base->tile_view($role, $relit_id, $base_right);
-$tile_view = $base->tile_view($base_right);
+$tile_view = $base->tile_view($role, $relit_id, $base_right);
 // $link_image используется не только при выводе Карт, но и при выводе таблицы(см.ниже)
 $link_image = $tile_view['link'];
 $num_cols = GlobalController::get_number_of_columns_info();
