@@ -306,18 +306,21 @@ class Base extends Model
 //    }
 
 // Возвращает истину, если вид отображения информации - плитка, и если есть основное изображение в links
-    function tile_view($base_right)
+    function tile_view($role, $relid_id, $base_right)
     {
         $result = false;
         $link = null;
-        // Только чтение данных(без создания, корректировки и удаления)
-        // Проверка должна быть одинакова "$base_right['is_list_base_read'] == true" ItemController::item_index() и Base::tile_view()
-        if ($base_right['is_list_base_read'] == true) {
-            $links = $this->child_links();
-            $link = $links->where('parent_is_primary_image', true)->first();
-            if ($link) {
-                if ($link->parent_base->type_is_image()) {
-                    $result = true;
+        // Для роли Автор и текущего (не взаимосвязанного шаблона) просмотр в виде стандартной таблицы
+        if (!($role->is_author() & $relid_id == 0)) {
+            // Только чтение данных(без создания, корректировки и удаления)
+            // Проверка должна быть одинакова "$base_right['is_list_base_read'] == true" ItemController::item_index() и Base::tile_view()
+            if ($base_right['is_list_base_read'] == true) {
+                $links = $this->child_links();
+                $link = $links->where('parent_is_primary_image', true)->first();
+                if ($link) {
+                    if ($link->parent_base->type_is_image()) {
+                        $result = true;
+                    }
                 }
             }
         }
