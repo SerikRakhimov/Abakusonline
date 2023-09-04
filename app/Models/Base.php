@@ -306,7 +306,7 @@ class Base extends Model
 //    }
 
 // Возвращает истину, если вид отображения информации - плитка, и если есть основное изображение в links
-    function tile_view($role, $relid_id, $base_right)
+    function tile_view(Role $role, $relid_id, $base_right)
     {
         $result = false;
         $link = null;
