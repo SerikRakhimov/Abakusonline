@@ -520,13 +520,14 @@ class ItemController extends Controller
 
         // "Шапка" документа
         // Используется фильтр на равенство одному $item->id (для вывода таблицы из одной строки)
-        if (empty($tree_array)) {
-            $items_right = GlobalController::items_right($item->base, $item->project, $role, $relit_id, null, null, null, null, $item->id);
-        } else {
-            //$items_right = GlobalController::items_right($item->base, $item->project, $role, $relit_id, $tree_array_last_item_id, $tree_array_last_link_id, $project, $view_ret_id, $item->id);
-            // $relit_id нужно передавать, предпоследний параметр, нужно так, чтобы правильно данные выбирались
-            $items_right = GlobalController::items_right($item->base, $item->project, $role, $relit_id, $tree_array_last_item_id, $tree_array_last_link_id, $project, $relit_id, $item->id);
-        }
+        $items_right = GlobalController::items_right($item->base, $item->project, $role, $relit_id, null, null, null, null, $item->id);
+//        if (empty($tree_array)) {
+//            $items_right = GlobalController::items_right($item->base, $item->project, $role, $relit_id, null, null, null, null, $item->id);
+//        } else {
+//            //$items_right = GlobalController::items_right($item->base, $item->project, $role, $relit_id, $tree_array_last_item_id, $tree_array_last_link_id, $project, $view_ret_id, $item->id);
+//            // $relit_id нужно передавать, предпоследний параметр, нужно так, чтобы правильно данные выбирались
+//            $items_right = GlobalController::items_right($item->base, $item->project, $role, $relit_id, $tree_array_last_item_id, $tree_array_last_link_id, $project, $relit_id, $item->id);
+//        }
         if (count($items_right['items']->get()) != 1) {
             return view('message', ['message' => trans('main.no_access') . ' (count($items_right[items]->get()) != 1)']);
         }
