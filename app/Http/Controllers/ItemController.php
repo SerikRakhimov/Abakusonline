@@ -510,7 +510,8 @@ class ItemController extends Controller
         $tree_array_last_item_id = null;
         $tree_array_last_string_previous = self::string_null();
         $count_tree_array = count($tree_array);
-        if ($count_tree_array > 0) {
+        // "$count_tree_array > 0 & !$item_change" используется
+        if ($count_tree_array > 0 & !$item_change) {
             // ' - 1' т.к. нумерация массива $tree_array с нуля начинается
             $tree_array_last_link_id = $tree_array[$count_tree_array - 1]['link_id'];
             $tree_array_last_item_id = $tree_array[$count_tree_array - 1]['item_id'];
@@ -2808,6 +2809,7 @@ class ItemController extends Controller
                 // При reverse = false передаем null
                 // параметр $urepl = true - с заменой
                 //$this->save_sets($item, $keys, $values, $valits, false, true);
+
                 $this->save_info_sets($item, false, true);
 
                 $item->save();
