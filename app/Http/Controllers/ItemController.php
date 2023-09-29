@@ -7549,18 +7549,15 @@ class ItemController extends Controller
 //                $links = $links->where('id', '!=', $value['link_id']);
 //            }
 //        }
+
         // Не удалять
         // Исключить link->parent_base_id из переданного массива $tree_array
-//        if (count($tree_array) > 0) {
-//            foreach ($tree_array as $value) {
-//                $links = $links->where('parent_base_id', '!=', $value['base_id']);
-//            }
-//        }
         if (count($tree_array) > 0) {
             foreach ($tree_array as $value) {
-                $links = $links->where('id', '!=', $value['link_id']);
+                $links = $links->where('parent_base_id', '!=', $value['base_id']);
             }
         }
+
         if ($nolink != null) {
             // При параллельной связи $nolink ($nolink->parent_is_parallel == true)
             // другие паралельные связи не доступны при отображении списка в Пространство-тело таблицы
