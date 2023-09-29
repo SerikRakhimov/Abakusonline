@@ -2974,7 +2974,8 @@ class GlobalController extends Controller
     {
         $result = $emoji;
         if ($result != "") {
-            $result = ' (' . $result . ')';
+            //$result = ' (' . $result . ')';
+            $result = ' ' . $result;
         }
         return $result;
     }

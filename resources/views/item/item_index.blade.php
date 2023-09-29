@@ -574,7 +574,7 @@
                             //$base_link_right = GlobalController::base_right($value->child_base, $role, $view_ret_id);
                             // Не нужно (т.е. высвечивается связь, $relit_id вычисляется отдельно и после(вывода на экран кнопок связей))
                             //$child_labels = $value->child_labels($base_link_right);
-                            $child_labels = $value->child_labels();
+                            $child_labels = $value->child_labels($emoji_enable);
                             ?>
                             <div class="btn-group btn-group-sm" role="group" aria-label="Links">
                                 <button type="button" class="btn btn-icon"
@@ -704,7 +704,7 @@
                                    title="{{$view_link->child_base->names($base_body_right) . $message_ln_info}}">
                                     @endif
                                     {{--                                    {{$view_link->child_labels($base_body_right)}}:--}}
-                                    {{$view_link->child_labels($base_body_right, $emoji_enable)}}
+                                    {{$view_link->child_labels($emoji_enable, $base_body_right)}}
                                     @if($base_body_right['is_bsmn_base_enable'] == true)
                                 </a>
                             @endif
