@@ -2,6 +2,7 @@
 
 @section('content')
     <?php
+    use App\Models\Base;
     use App\Models\Relit;
     use App\Models\Relip;
     use App\Models\Project;
