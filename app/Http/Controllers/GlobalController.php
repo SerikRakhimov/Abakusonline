@@ -1260,7 +1260,7 @@ class GlobalController extends Controller
     }
 
     // Похожие строки items_right() и its_page()
-       static function its_page(Role $role, $relit_id, $links, $items_paginate)
+    static function its_page(Role $role, $relit_id, $links, $items_paginate)
     {
         // '$its_page = $items_paginate;' использовать
         $its_page = $items_paginate;
@@ -2984,7 +2984,10 @@ class GlobalController extends Controller
     static function name_and_emoji($name, Base $base, $space_number_insert = false)
     {
         $result = $name;
-        $sem = $base->em_str();
+        $sem = "";
+        if ($base) {
+            $sem = $base->em_str();
+        }
         // В основном, для денежных величин (цена, сумма)
         // справа присоединяется символ валюты
         if ($base->type_is_number()) {
@@ -3002,7 +3005,10 @@ class GlobalController extends Controller
     static function name_and_first_emoji($name, Base $base)
     {
         $result = $name;
-        $sem = $base->em_str();
+        $sem = "";
+        if ($base) {
+            $sem = $base->em_str();
+        }
 //        if (!$base->type_is_number()) {
         $result = $sem . ' ' . $result;
 //        } else {
@@ -3014,7 +3020,10 @@ class GlobalController extends Controller
     static function name_and_end_emoji($name, Base $base)
     {
         $result = $name;
-        $sem = $base->em_str();
+        $sem = "";
+        if ($base) {
+            $sem = $base->em_str();
+        }
 //        if (!$base->type_is_number()) {
 //        $result = $sem . $result;
 //        } else {
