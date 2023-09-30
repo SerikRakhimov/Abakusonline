@@ -298,7 +298,7 @@ return [
     'ua_minuscount' => 'Subtract Count',
     'ua_plussum' => 'Add Sum',
     'ua_minussum' => 'Subtract Sum',
-    'ua_replace' => 'Replace (do not use); it is recommended to use Calculation First ()',
+    'ua_replace' => 'Replace (do not use) _ it is recommended to use Calculation First ()',
     'ua_cl_gr_first' => 'Calculation First()',
     'ua_cl_gr_last' => 'Calculation Last()',
     'ua_cl_fn_avg' => 'Calculation Avg() _ except assignments',
