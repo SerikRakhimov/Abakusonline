@@ -1,7 +1,7 @@
 <?php
+use App\Models\Base;
 use App\Models\Link;
 use \App\Http\Controllers\GlobalController;
-$emoji_enable = true;
 $link_id_array = $links_info['link_id_array'];
 $link_base_relit_id_array = $links_info['link_base_relit_id_array'];
 $link_base_right_array = $links_info['link_base_right_array'];
@@ -403,12 +403,12 @@ if ($view_link) {
                                         {{--                                                </a>--}}
                                         <a href="{{route('item.base_index',['base'=>$link->parent_base_id, 'project'=>$project, 'role'=>$role, 'relit_id' => $link->parent_relit_id])}}"
                                            title="{{$link->parent_base->names()}}">
-                                            {{--                                                    {{GlobalController::calc_title_name($matrix[$x][$y]["view_name"], $heading, $heading)}}--}}
-                                            {{GlobalController::calc_title_name($matrix[$x][$y]["view_name"])}}
+                                            {{--                                            {{GlobalController::calc_title_name($matrix[$x][$y]["view_name"])}}--}}
+                                            {{GlobalController::calc_title_name(GlobalController::name_and_end_emoji($matrix[$x][$y]["view_name"], $link->parent_base), false, $heading)}}
                                         </a>
                                     @else
-                                        {{--                                                {{GlobalController::calc_title_name($matrix[$x][$y]["view_name"], $heading, $heading)}}--}}
-                                        {{GlobalController::calc_title_name($matrix[$x][$y]["view_name"],false, $heading)}}
+                                        {{--                                        {{GlobalController::calc_title_name($matrix[$x][$y]["view_name"],false, $heading)}}--}}
+                                        {{GlobalController::calc_title_name(GlobalController::name_and_end_emoji($matrix[$x][$y]["view_name"], $link->parent_base), false, $heading)}}
                                     @endif
                                     @if($heading)
                                 </small>
@@ -525,7 +525,8 @@ if ($view_link) {
                                 {{--                            'string_item_ids_current'=>$string_item_ids_next,--}}
                                 {{--                            'string_all_codes_current'=>$string_all_codes_next,--}}
                                 {{--                                    @endif--}}
-                                {{GlobalController::date_and_emoji($item->created_date(), $heading & $emoji_enable)}}
+                                {{--                                {{GlobalController::date_and_emoji($item->created_date(), $heading & $emoji_enable)}}--}}
+                                {{GlobalController::date_and_emoji($item->created_date(), false)}}
                                 {{--                                    @if($base_index || $item_body_base)--}}
                             </a>
                             {{--                            @endif--}}
@@ -790,9 +791,11 @@ if ($view_link) {
                                             @endif
                                             {{--                                        @if($heading & $link->parent_base->type_is_text() & $base_link_right['is_list_base_read'] == true)--}}
                                             @if($link->parent_base->type_is_text() & $base_link_right['is_list_base_read'] == true)
-                                                @include('layouts.item.empty_name', ['name'=>GlobalController::it_txnm_n2b($item_find,$heading & $emoji_enable)])
+                                                {{--                                                @include('layouts.item.empty_name', ['name'=>GlobalController::it_txnm_n2b($item_find,$heading & $emoji_enable)])--}}
+                                                @include('layouts.item.empty_name', ['name'=>GlobalController::it_txnm_n2b($item_find, false)])
                                             @else
-                                                @include('layouts.item.empty_name', ['name'=>$item_find->name(false,false,false,$heading & $emoji_enable)])
+                                                {{--                                                @include('layouts.item.empty_name', ['name'=>$item_find->name(false,false,false,$heading & $emoji_enable)])--}}
+                                                @include('layouts.item.empty_name', ['name'=>$item_find->name(false, false, false, false)])
                                             @endif
                                             @if($heading)
                                                 {{--                                                </mark>--}}
