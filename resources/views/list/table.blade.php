@@ -8,6 +8,7 @@ $link_base_right_array = $links_info['link_base_right_array'];
 $matrix = $links_info['matrix'];
 $rows = $links_info['rows'];
 $cols = $links_info['cols'];
+$emoji_enable = true;
 $i = 0;
 if ($item_heading_base == true) {
     $i = 0;
@@ -351,10 +352,10 @@ if ($view_link) {
                             {{--                        @endif--}}
                             @if($view_link)
                                 {{--                            {{$view_link->child_label(!$heading & $emoji_enable)}}--}}
-                                {{$view_link->child_label()}}
+                                {{$view_link->child_label($emoji_enable)}}
                             @else
                                 {{--                            {{$base->name(!$heading & $emoji_enable)}}--}}
-                                {{$base->name()}}
+                                {{$base->name($emoji_enable)}}
                             @endif
                         </th>
         @endif
