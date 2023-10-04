@@ -329,8 +329,7 @@ label {
 }
 
 .text-label {
-    /*color: #833029;*/
-    color: rgba(209, 211, 253, 0.5);
+    color: #833029;
 }
 
 .text-related {
