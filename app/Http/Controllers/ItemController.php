@@ -7534,14 +7534,14 @@ class ItemController extends Controller
 //        }
 
         // Исключить links из переданного массива $child_mains_link_is_calcname
-        if ($child_mains_link_is_calcname) {
-//            Нужно 'foreach($child_mains_link_is_calcname as $calcname_mains)'
-            foreach ($child_mains_link_is_calcname as $calcname_mains) {
-                foreach ($calcname_mains as $calcname_main) {
-                    $links = $links->where('id', '!=', $calcname_main->link_id);
-                }
-            }
-        }
+//        if ($child_mains_link_is_calcname) {
+////            Нужно 'foreach($child_mains_link_is_calcname as $calcname_mains)'
+//            foreach ($child_mains_link_is_calcname as $calcname_mains) {
+//                foreach ($calcname_mains as $calcname_main) {
+//                    $links = $links->where('id', '!=', $calcname_main->link_id);
+//                }
+//            }
+//        }
 
         // Исключить links из переданного массива $tree_array
         if (count($tree_array) > 0) {
