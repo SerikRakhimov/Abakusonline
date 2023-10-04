@@ -452,12 +452,13 @@
                                           'prev_body_all_page'=>$body_all_page
                                                                       ])}}"'
                                     title="{{$relip_select_body_project->name() . ' ('.mb_strtolower(trans('main.relip')).')'}}">
-                                <i>
+                                <i><small>
                                     {{$relip_select_body_project->name()}}
                                     @if($relit)
                                         - <span
                                             class="text-project">{{mb_strtolower($relit->title())}}</span>
                                     @endif
+                                    </small>
                                 </i>
                                 {{--                                    - {{$relit_key_id}}- {{$relip_select_body_project->id}}--}}
                                 @if(isset($view_ret_id))
@@ -600,7 +601,8 @@
                                         {{--                                                                                  @endif--}}
                                         {{--                                        @endif--}}
                                     >
-                                    {{$child_labels}}</span>
+                                        <small>
+                                    {{$child_labels}}</small></span>
                                     @if(isset($view_link))
                                         @if($value->id == $view_link->id)
                                             {{--                                            Этот символ используется в двух местах--}}
