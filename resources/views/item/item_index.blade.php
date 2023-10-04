@@ -19,18 +19,18 @@
     //        }
     $relip_project = GlobalController::calc_relip_project($relit_id, $project);
     $relip_body_project = GlobalController::calc_relip_project($view_ret_id, $project);
-//    $relip_name_project = '';
-//    $relip_body_name_project = '';
-//    if ($relip_project) {
-//        if ($relit_id != 0) {
-//            $relip_name_project = $relip_project->name();
-//        }
-//    }
-//    if ($relip_body_project) {
-//        if ($relip_body_project->id != $project->id) {
-//            $relip_body_name_project = $relip_body_project->name();
-//        }
-//    }
+    //    $relip_name_project = '';
+    //    $relip_body_name_project = '';
+    //    if ($relip_project) {
+    //        if ($relit_id != 0) {
+    //            $relip_name_project = $relip_project->name();
+    //        }
+    //    }
+    //    if ($relip_body_project) {
+    //        if ($relip_body_project->id != $project->id) {
+    //            $relip_body_name_project = $relip_body_project->name();
+    //        }
+    //    }
 
     $calc_relip_info = GlobalController::calc_relip_info($project, $role, $relip_project, $relit_id);
     $calc_body_relip_info = GlobalController::calc_relip_info($project, $role, $relip_body_project, $view_ret_id);
@@ -71,7 +71,7 @@
                             'project'=>$project, 'role'=>$role, 'relit_id'=>$value['relit_id']])}}"
                            title="{{$value['base_names']}}">
                             @endif
-{{--                            {{GlobalController::calc_title_name($value['title_name'], true, true)}}--}}
+                            {{--                            {{GlobalController::calc_title_name($value['title_name'], true, true)}}--}}
                             {{GlobalController::calc_title_name(GlobalController::name_and_end_emoji($value['title_name'], Base::find($value['base_id'])), true, true)}}
                             @if($value['is_bsmn_base_enable'] == true)
                         </a>
@@ -122,7 +122,7 @@
             {{-- @if(GlobalController::is_base_calcnm_correct_check($item->base, $base_right))--}}
             {{--                @if(GlobalController::is_base_calcname_check($item->base, $base_right) || $item->base->is_calcnm_correct_lst == true)--}}
             @if(GlobalController::is_base_calcname_check($item->base, $base_right))
-                <div class="col-8 text-left">
+                <div class="col-12 text-left">
                     {{--                    <big>--}}
                     {{--                    <h6>--}}
                     @if($base_right['is_bsmn_base_enable'] == true)
@@ -185,7 +185,7 @@
                     @include('layouts.project.show_relip_info',['calc_relip_info'=>$calc_relip_info])
                 </div>
             @else
-                <div class="col-8 text-left">
+                <div class="col-12 text-left">
                     <big><big>
                             {{--                                <h6>--}}
                             @if($base_right['is_bsmn_base_enable'] == true)
@@ -251,21 +251,25 @@
                     @endif
                 </div>
             @endif
-            <div class="col-2 text-center">
-                @if(($prev_item) ||($next_item))
-                    <ul class="pagination">
-                        {{--        <li class="page-item"><a class="page-link"--}}
-                        {{--                                 @if($prev_item)--}}
-                        {{--                                 href="{{route('item.item_index', ['project'=>$project, 'item'=>$prev_item, 'role'=>$role,--}}
-                        {{--                                'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id, 'par_link'=>$view_link])}}"--}}
-                        {{--                                 title="{{$prev_item->cdnm()}}"--}}
-                        {{--                                 @else--}}
-                        {{--                                 style="cursor:default" href="#" title="{{trans('main.none')}}"--}}
-                        {{--                @endif--}}
-                        {{--            ><</a></li>--}}
-                        @if($prev_item)
-                            <li class="page-item">
-                                <a class="page-link" href="{{route('item.item_index', ['project'=>$project, 'item'=>$prev_item, 'role'=>$role,
+        </div>
+        @if((($prev_item) ||($next_item)) & ($base_right['is_list_base_create'] == true))
+            <br>
+            <div class="row">
+                <div class="col-6 text-center">
+                    @if(($prev_item) ||($next_item))
+                        <ul class="pagination">
+                            {{--        <li class="page-item"><a class="page-link"--}}
+                            {{--                                 @if($prev_item)--}}
+                            {{--                                 href="{{route('item.item_index', ['project'=>$project, 'item'=>$prev_item, 'role'=>$role,--}}
+                            {{--                                'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id, 'par_link'=>$view_link])}}"--}}
+                            {{--                                 title="{{$prev_item->cdnm()}}"--}}
+                            {{--                                 @else--}}
+                            {{--                                 style="cursor:default" href="#" title="{{trans('main.none')}}"--}}
+                            {{--                @endif--}}
+                            {{--            ><</a></li>--}}
+                            @if($prev_item)
+                                <li class="page-item">
+                                    <a class="page-link" href="{{route('item.item_index', ['project'=>$project, 'item'=>$prev_item, 'role'=>$role,
                                 'usercode' =>GlobalController::usercode_calc(),
                                         'relit_id'=>$relit_id,
                                         'called_from_button'=>1,
@@ -276,24 +280,24 @@
                                         'prev_body_all_page'=>$body_all_page,
                                         'view_ret_id' => $view_ret_id
                                          ])}}"
-                                   title="{{$prev_item->cdnm()}}"><</a>
-                                {{--                                'string_link_ids_current'=>$string_link_ids_current,--}}
-                                {{--                                'string_item_ids_current'=>$string_item_ids_current,--}}
-                                {{--                                'string_all_codes_current'=>$string_all_codes_current,--}}
-                            </li>
-                        @endif
-                        {{--        <li class="page-item"><a class="page-link"--}}
-                        {{--                                 @if($next_item)--}}
-                        {{--                                 href="{{route('item.item_index', ['project'=>$project, 'item'=>$next_item, 'role'=>$role,--}}
-                        {{--                                'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id, 'par_link'=>$view_link])}}"--}}
-                        {{--                                 title="{{$next_item->cdnm()}}"--}}
-                        {{--                                 @else--}}
-                        {{--                                 style="cursor:default" href="#" title="{{trans('main.none')}}"--}}
-                        {{--                @endif--}}
-                        {{--            >></a></li>--}}
-                        @if($next_item)
-                            <li class="page-item">
-                                <a class="page-link" href="{{route('item.item_index', ['project'=>$project, 'item'=>$next_item, 'role'=>$role,
+                                       title="{{$prev_item->cdnm()}}"><</a>
+                                    {{--                                'string_link_ids_current'=>$string_link_ids_current,--}}
+                                    {{--                                'string_item_ids_current'=>$string_item_ids_current,--}}
+                                    {{--                                'string_all_codes_current'=>$string_all_codes_current,--}}
+                                </li>
+                            @endif
+                            {{--        <li class="page-item"><a class="page-link"--}}
+                            {{--                                 @if($next_item)--}}
+                            {{--                                 href="{{route('item.item_index', ['project'=>$project, 'item'=>$next_item, 'role'=>$role,--}}
+                            {{--                                'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id, 'par_link'=>$view_link])}}"--}}
+                            {{--                                 title="{{$next_item->cdnm()}}"--}}
+                            {{--                                 @else--}}
+                            {{--                                 style="cursor:default" href="#" title="{{trans('main.none')}}"--}}
+                            {{--                @endif--}}
+                            {{--            >></a></li>--}}
+                            @if($next_item)
+                                <li class="page-item">
+                                    <a class="page-link" href="{{route('item.item_index', ['project'=>$project, 'item'=>$next_item, 'role'=>$role,
                                 'usercode' =>GlobalController::usercode_calc(),
                                         'relit_id'=>$relit_id,
                                         'called_from_button'=>1,
@@ -304,33 +308,33 @@
                                         'prev_body_all_page'=>$body_all_page,
                                         'view_ret_id' => $view_ret_id
                                         ])}}"
-                                   title="{{$next_item->cdnm()}}">></a>
-                                {{--                                'string_link_ids_current'=>$string_link_ids_current,--}}
-                                {{--                                'string_item_ids_current'=>$string_item_ids_current,--}}
-                                {{--                                'string_all_codes_current'=>$string_all_codes_current,--}}
-                            </li>
-                        @endif
-                    </ul>
-                @endif
-            </div>
-            <div class="col-2 text-right">
-            @if ($base_right['is_list_base_create'] == true)
-                @if($message_bs_validate == "")
-                    <!--                        --><?php
-                        //                        $heading = 1;
-                        //                        $relit_id_par = null;
-                        //                        $parent_ret_id_par = null;
-                        //                        if ($heading == 1) {
-                        //                            $relit_id_par = $relit_id;
-                        //                            $parent_ret_id_par = $view_ret_id;
-                        //                        } else {
-                        //                            $relit_id_par = $view_ret_id;
-                        //                            $parent_ret_id_par = $relit_id;
-                        //                        }
-                        //                        ?>
-                        <button type="button" class="btn btn-dreamer btn-sm"
-                                title="{{trans('main.add') . " '". $item->base->name() . "' " . $message_bs_info}}"
-                                onclick="document.location='{{route('item.ext_create', ['base'=>$item->base,
+                                       title="{{$next_item->cdnm()}}">></a>
+                                    {{--                                'string_link_ids_current'=>$string_link_ids_current,--}}
+                                    {{--                                'string_item_ids_current'=>$string_item_ids_current,--}}
+                                    {{--                                'string_all_codes_current'=>$string_all_codes_current,--}}
+                                </li>
+                            @endif
+                        </ul>
+                    @endif
+                </div>
+                <div class="col-6 text-right">
+                @if ($base_right['is_list_base_create'] == true)
+                    @if($message_bs_validate == "")
+                        <!--                        --><?php
+                            //                        $heading = 1;
+                            //                        $relit_id_par = null;
+                            //                        $parent_ret_id_par = null;
+                            //                        if ($heading == 1) {
+                            //                            $relit_id_par = $relit_id;
+                            //                            $parent_ret_id_par = $view_ret_id;
+                            //                        } else {
+                            //                            $relit_id_par = $view_ret_id;
+                            //                            $parent_ret_id_par = $relit_id;
+                            //                        }
+                            //                        ?>
+                            <button type="button" class="btn btn-dreamer btn-sm"
+                                    title="{{trans('main.add') . " '". $item->base->name() . "' " . $message_bs_info}}"
+                                    onclick="document.location='{{route('item.ext_create', ['base'=>$item->base,
                                              'project'=>$project, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(),
                                              'relit_id' => $relit_heading_id,
                                              'string_current'=>$string_current,
@@ -340,107 +344,108 @@
                                              'par_link'=>$tree_array_last_link_id, 'parent_item'=>$tree_array_last_item_id,
                                              'parent_ret_id' => $view_ret_heading_id
                                              ])}}'">
-                            {{--                                             'string_link_ids_current'=>$string_link_ids_current,--}}
-                            {{--                                             'string_item_ids_current'=>$string_item_ids_current,--}}
-                            {{--                                             'string_all_codes_current'=>$string_all_codes_current,--}}
-                            <i class="fas fa-plus d-inline"></i>&nbsp;{{trans('main.add')}}
-                        </button>
+                                {{--                                             'string_link_ids_current'=>$string_link_ids_current,--}}
+                                {{--                                             'string_item_ids_current'=>$string_item_ids_current,--}}
+                                {{--                                             'string_all_codes_current'=>$string_all_codes_current,--}}
+                                <i class="fas fa-plus d-inline"></i>&nbsp;{{trans('main.add')}}
+                            </button>
+                        @endif
                     @endif
+                </div>
                 @endif
+                {{--            <div class="col-1 text-center">--}}
+                {{--                <a href="{{route('item.ext_show', ['item'=>$item, 'role'=>$role])}}"--}}
+                {{--                   title="{{trans('main.view')}}{{$item->base->is_code_needed?" (".trans('main.code')." = ".$item->code.")":""}}">--}}
+                {{--                    <img src="{{Storage::url('view_record.png')}}" width="15" height="15"--}}
+                {{--                         alt="{{trans('main.view')}}">--}}
+                {{--                </a>--}}
+                {{--            </div>--}}
+                {{--            <div class="col-1 text-center">--}}
+                {{--                <a href="{{route('item.ext_edit', ['item'=>$item, 'role'=>$role])}}" title="{{trans('main.edit')}}">--}}
+                {{--                    <img src="{{Storage::url('edit_record.png')}}" width="15" height="15"--}}
+                {{--                         alt="{{trans('main.edit')}}">--}}
+                {{--                </a>--}}
+                {{--            </div>--}}
+                {{--            <div class="col-1 text-center">--}}
+                {{--                <a href="{{route('item.ext_delete_question', ['item' => $item, 'role'=>$role, 'heading'=> true])}}"--}}
+                {{--                   title="{{trans('main.delete')}}">--}}
+                {{--                    <img src="{{Storage::url('delete_record.png')}}" width="15" height="15"--}}
+                {{--                         alt="{{trans('main.delete')}}">--}}
+                {{--                </a>--}}
+                {{--            </div>--}}
             </div>
-            {{--            <div class="col-1 text-center">--}}
-            {{--                <a href="{{route('item.ext_show', ['item'=>$item, 'role'=>$role])}}"--}}
-            {{--                   title="{{trans('main.view')}}{{$item->base->is_code_needed?" (".trans('main.code')." = ".$item->code.")":""}}">--}}
-            {{--                    <img src="{{Storage::url('view_record.png')}}" width="15" height="15"--}}
-            {{--                         alt="{{trans('main.view')}}">--}}
-            {{--                </a>--}}
-            {{--            </div>--}}
-            {{--            <div class="col-1 text-center">--}}
-            {{--                <a href="{{route('item.ext_edit', ['item'=>$item, 'role'=>$role])}}" title="{{trans('main.edit')}}">--}}
-            {{--                    <img src="{{Storage::url('edit_record.png')}}" width="15" height="15"--}}
-            {{--                         alt="{{trans('main.edit')}}">--}}
-            {{--                </a>--}}
-            {{--            </div>--}}
-            {{--            <div class="col-1 text-center">--}}
-            {{--                <a href="{{route('item.ext_delete_question', ['item' => $item, 'role'=>$role, 'heading'=> true])}}"--}}
-            {{--                   title="{{trans('main.delete')}}">--}}
-            {{--                    <img src="{{Storage::url('delete_record.png')}}" width="15" height="15"--}}
-            {{--                         alt="{{trans('main.delete')}}">--}}
-            {{--                </a>--}}
-            {{--            </div>--}}
-        </div>
-        <?php
-        // Проверка должна быть одинакова "$base_right['is_list_base_read'] == true" ItemController::item_index() и Base::tile_view()
-        if ($base_right['is_list_base_read'] == true) {
-            $item_image = GlobalController::item_image($item);
-            $link_image = $item_image['link'];
-        }
-        ?>
-        {{--        Показывать основное изображение при "$base_right['is_list_base_read'] == true"--}}
-        @if(isset($item_image['item']))
-            @if($item_image['item'])
-                {{--            В table.php идет проверка на $link_image (вычисляется вначале table.php командой "$link_image = $tile_view['link'];")--}}
-                <center>
-                    @include('view.img',['item'=>$item_image['item'], 'size'=>"smed", 'width'=>"20%", 'border'=>true, 'filenametrue'=>false, 'link'=>true, 'img_fluid'=>true, 'card_img_top'=>false, 'title'=>$link_image->parent_label()])
-                </center>
+            <?php
+            // Проверка должна быть одинакова "$base_right['is_list_base_read'] == true" ItemController::item_index() и Base::tile_view()
+            if ($base_right['is_list_base_read'] == true) {
+                $item_image = GlobalController::item_image($item);
+                $link_image = $item_image['link'];
+            }
+            ?>
+            {{--        Показывать основное изображение при "$base_right['is_list_base_read'] == true"--}}
+            @if(isset($item_image['item']))
+                @if($item_image['item'])
+                    {{--            В table.php идет проверка на $link_image (вычисляется вначале table.php командой "$link_image = $tile_view['link'];")--}}
+                    <center>
+                        @include('view.img',['item'=>$item_image['item'], 'size'=>"smed", 'width'=>"20%", 'border'=>true, 'filenametrue'=>false, 'link'=>true, 'img_fluid'=>true, 'card_img_top'=>false, 'title'=>$link_image->parent_label()])
+                    </center>
+                @endif
             @endif
-        @endif
-        {{--    @if((count($child_links) != 0) && ($base_right['is_show_head_attr_enable'] == true))--}}
-        @if(count($child_links) != 0)
-            <br>
-            {{--        Выводится одна запись в шапке(все родительские links - столбы)--}}
-            {{--        Используется "'heading'=>intval(true)"--}}
-            {{--        Используется "'items'=>$items->get()"; два раза, т.к. в заголовке выводится только одна строка, ее на страницы не надо разбивать/сортировать--}}
-            {{--        Параметры 'relit_id' и 'view_ret_id' передаются в зависимости от значения $heading--}}
-            @include('list.table',['base'=>$item->base, 'project'=>$project, 'role'=>$role,
-                    'links_info'=>$child_links_info,
-                    'items'=>$items->get(),
-                    'its_page'=>$items->get(),
-                    'base_right'=>$base_right, 'relit_id'=>$relit_heading_id,
-                    'heading'=>intval(true),
-                    'base_index_page'=>$base_index_page, 'body_link_page'=>$body_link_page,'body_all_page'=>$body_all_page,
-                    'view_link'=>$view_link,
-                    'view_ret_id'=>$view_ret_heading_id,
-                     'parent_item'=>$item, 'is_table_body'=>false,
-                        'base_index'=>false, 'item_heading_base'=>true, 'item_body_base'=>false,
-                        'string_link_ids_current' => $string_link_ids_current,
-                        'string_item_ids_current' => $string_item_ids_current,
-                        'string_relit_ids_current' => $string_relit_ids_current,
-                        'string_all_codes_current' => $string_all_codes_current,
-                        'string_current' => $string_current,
-                        'string_link_ids_next'=>GlobalController::set_str_const_null(''),
-                        'string_item_ids_next'=>GlobalController::set_str_const_null(''),
-                        'string_relit_ids_next'=>GlobalController::set_str_const_null(''),
-                        'string_all_codes_next'=>GlobalController::set_str_const_null(''),
-                        'string_next' => $string_next
-            ])
-        @endif
-        {{-- Связи--}}
-        {{-- Взаимосвязанные шаблоны--}}
-        {{-- "count($array_relips) > 1" - т.е. есть взаимосвязанные шаблоны--}}
-        @if(count($array_relips) > 1)
-            <div class="row">
-                <div class="col-12 text-center mt-1">
-                    @foreach($array_relips as $relit_key_id=>$array_relip_id)
-                        <?php
-                        $relit = null;
-                        if ($relit_key_id == 0) {
+            {{--    @if((count($child_links) != 0) && ($base_right['is_show_head_attr_enable'] == true))--}}
+            @if(count($child_links) != 0)
+                <br>
+                {{--        Выводится одна запись в шапке(все родительские links - столбы)--}}
+                {{--        Используется "'heading'=>intval(true)"--}}
+                {{--        Используется "'items'=>$items->get()"; два раза, т.к. в заголовке выводится только одна строка, ее на страницы не надо разбивать/сортировать--}}
+                {{--        Параметры 'relit_id' и 'view_ret_id' передаются в зависимости от значения $heading--}}
+                @include('list.table',['base'=>$item->base, 'project'=>$project, 'role'=>$role,
+                        'links_info'=>$child_links_info,
+                        'items'=>$items->get(),
+                        'its_page'=>$items->get(),
+                        'base_right'=>$base_right, 'relit_id'=>$relit_heading_id,
+                        'heading'=>intval(true),
+                        'base_index_page'=>$base_index_page, 'body_link_page'=>$body_link_page,'body_all_page'=>$body_all_page,
+                        'view_link'=>$view_link,
+                        'view_ret_id'=>$view_ret_heading_id,
+                         'parent_item'=>$item, 'is_table_body'=>false,
+                            'base_index'=>false, 'item_heading_base'=>true, 'item_body_base'=>false,
+                            'string_link_ids_current' => $string_link_ids_current,
+                            'string_item_ids_current' => $string_item_ids_current,
+                            'string_relit_ids_current' => $string_relit_ids_current,
+                            'string_all_codes_current' => $string_all_codes_current,
+                            'string_current' => $string_current,
+                            'string_link_ids_next'=>GlobalController::set_str_const_null(''),
+                            'string_item_ids_next'=>GlobalController::set_str_const_null(''),
+                            'string_relit_ids_next'=>GlobalController::set_str_const_null(''),
+                            'string_all_codes_next'=>GlobalController::set_str_const_null(''),
+                            'string_next' => $string_next
+                ])
+            @endif
+            {{-- Связи--}}
+            {{-- Взаимосвязанные шаблоны--}}
+            {{-- "count($array_relips) > 1" - т.е. есть взаимосвязанные шаблоны--}}
+            @if(count($array_relips) > 1)
+                <div class="row">
+                    <div class="col-12 text-center mt-1">
+                        @foreach($array_relips as $relit_key_id=>$array_relip_id)
+                            <?php
                             $relit = null;
-                        } else {
-                            $relit = Relit::findOrFail($relit_key_id);
-                        }
-                        // Находим родительский проект
-                        $relip_select_body_project = Project::findOrFail($array_relip_id);
-                        if ($view_link) {
-                            $view_value_link = $view_link->id;
-                        } else {
-                            $view_value_link = GlobalController::const_null();
-                        }
-                        ?>
-                        <div class="btn-group btn-group-sm" role="group" aria-label="Relips">
-                            <button type="button" class="btn btn-icon"
-                                    {{--                                'called_from_button'=>1 - вызов из кнопки--}}
-                                    onclick='document.location="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,
+                            if ($relit_key_id == 0) {
+                                $relit = null;
+                            } else {
+                                $relit = Relit::findOrFail($relit_key_id);
+                            }
+                            // Находим родительский проект
+                            $relip_select_body_project = Project::findOrFail($array_relip_id);
+                            if ($view_link) {
+                                $view_value_link = $view_link->id;
+                            } else {
+                                $view_value_link = GlobalController::const_null();
+                            }
+                            ?>
+                            <div class="btn-group btn-group-sm" role="group" aria-label="Relips">
+                                <button type="button" class="btn btn-icon"
+                                        {{--                                'called_from_button'=>1 - вызов из кнопки--}}
+                                        onclick='document.location="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,
                                           'usercode' =>GlobalController::usercode_calc(),
                                           'relit_id'=>$relit_id,
                                           'called_from_button'=>1,
@@ -451,104 +456,104 @@
                                           'prev_body_link_page'=>$body_link_page,
                                           'prev_body_all_page'=>$body_all_page
                                                                       ])}}"'
-                                    title="{{$relip_select_body_project->name() . ' ('.mb_strtolower(trans('main.relip')).')'}}">
-                                <i>
-                                    {{$relip_select_body_project->name()}}
-                                    @if($relit)
-                                        - <span
-                                            class="text-project">{{mb_strtolower($relit->title())}}</span>
+                                        title="{{$relip_select_body_project->name() . ' ('.mb_strtolower(trans('main.relip')).')'}}">
+                                    <i>
+                                        {{$relip_select_body_project->name()}}
+                                        @if($relit)
+                                            - <span
+                                                class="text-project">{{mb_strtolower($relit->title())}}</span>
+                                        @endif
+                                    </i>
+                                    {{--                                    - {{$relit_key_id}}- {{$relip_select_body_project->id}}--}}
+                                    @if(isset($view_ret_id))
+                                        @if($relit_key_id == $view_ret_id)
+                                            {{-- Этот символ используется в двух местах--}}
+                                            &#10003;
+                                        @endif
                                     @endif
-                                </i>
-                                {{--                                    - {{$relit_key_id}}- {{$relip_select_body_project->id}}--}}
-                                @if(isset($view_ret_id))
-                                    @if($relit_key_id == $view_ret_id)
-                                        {{-- Этот символ используется в двух местах--}}
-                                        &#10003;
-                                    @endif
-                                @endif
-                            </button>
-                        </div>
-                    @endforeach
+                                </button>
+                            </div>
+                        @endforeach
+                    </div>
                 </div>
-            </div>
-        @endif
-        {{-- Нужно '@if(count($next_all_links)>0)'--}}
-        @if(count($next_all_links)>0)
-            {{-- Для команды '@if(!($view_link && count($next_all_links) == 1))', чтобы исключить вариант count($next_all_links) == 0--}}
-            {{--                Не высвечивать кнопку "Связи", если одна связь и $next_all_is_enable=false--}}
-            {{--                    @if(($next_all_is_enable) || (count($next_all_links)>1))--}}
-            {{--                Не высвечивать кнопку "Связи", если одна связь и $view_link!=false--}}
-            {{-- Похожая проверка по смыслу 'count($next_all_links) == 1' в ItemController::item_index() и item_index.php--}}
-            @if(!($view_link && count($next_all_links) == 1))
-                <div class="row">
-                    <div class="col-12 text-center">
-                        {{--                        <div class="dropdown">--}}
-                        {{--                            <button type="button" class="btn btn-dreamer dropdown-toggle" data-toggle="dropdown"--}}
-                        {{--                                    title="{{trans('main.link')}}">--}}
-                        {{--                                <i class="fas fa-link d-inline"></i>--}}
-                        {{--                                {{trans('main.link')}}--}}
-                        {{--                            </button>--}}
+            @endif
+            {{-- Нужно '@if(count($next_all_links)>0)'--}}
+            @if(count($next_all_links)>0)
+                {{-- Для команды '@if(!($view_link && count($next_all_links) == 1))', чтобы исключить вариант count($next_all_links) == 0--}}
+                {{--                Не высвечивать кнопку "Связи", если одна связь и $next_all_is_enable=false--}}
+                {{--                    @if(($next_all_is_enable) || (count($next_all_links)>1))--}}
+                {{--                Не высвечивать кнопку "Связи", если одна связь и $view_link!=false--}}
+                {{-- Похожая проверка по смыслу 'count($next_all_links) == 1' в ItemController::item_index() и item_index.php--}}
+                @if(!($view_link && count($next_all_links) == 1))
+                    <div class="row">
+                        <div class="col-12 text-center">
+                            {{--                        <div class="dropdown">--}}
+                            {{--                            <button type="button" class="btn btn-dreamer dropdown-toggle" data-toggle="dropdown"--}}
+                            {{--                                    title="{{trans('main.link')}}">--}}
+                            {{--                                <i class="fas fa-link d-inline"></i>--}}
+                            {{--                                {{trans('main.link')}}--}}
+                            {{--                            </button>--}}
 
 
-                        {{--                            <div class="dropdown-menu">--}}
-                        {{--                                --}}{{-- Если во всех $links не выводятся вычисляемые наименования, то выводится вариант 'all'--}}
-                        {{--                                @if($next_all_is_enable)--}}
-                        {{--                                    <a class="dropdown-item" href="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,--}}
-                        {{--                                  'usercode' =>GlobalController::usercode_calc(),--}}
-                        {{--                                  'relit_id'=>$relit_id,--}}
-                        {{--                                  'view_link'=>GlobalController::par_link_const_textnull(),--}}
-                        {{--                                  'view_ret_id'=>$view_ret_id,--}}
-                        {{--                                  'string_current'=>$string_current,--}}
-                        {{--                                  'prev_base_index_page'=>$base_index_page,--}}
-                        {{--                                  'prev_body_link_page'=>$body_link_page,--}}
-                        {{--                                  'prev_body_all_page'=>$body_all_page--}}
-                        {{--                                  ])}}"--}}
-                        {{--                                       title="{{$item->name()}}">--}}
-                        {{--                                        --}}{{--                                        'string_link_ids_current'=>$string_link_ids_current,--}}
-                        {{--                                        --}}{{--                                        'string_item_ids_current'=>$string_item_ids_current,--}}
-                        {{--                                        --}}{{--                                        'string_all_codes_current'=>$string_all_codes_current,--}}
-                        {{--                                        {{GlobalController::option_all()}}--}}
-                        {{--                                        @if($view_link == null)--}}
-                        {{--                                            --}}{{--                                        Этот символ используется в двух местах--}}
-                        {{--                                            &#10003;--}}
-                        {{--                                        @endif--}}
-                        {{--                                    </a>--}}
-                        {{--                                @endif--}}
-                        {{--                                @foreach($next_all_links as $key=>$value)--}}
-                        {{--                                    <a class="dropdown-item" href="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,--}}
-                        {{--                                          'usercode' =>GlobalController::usercode_calc(),--}}
-                        {{--                                          'relit_id'=>$relit_id,--}}
-                        {{--                                          'view_link'=>$value->id,--}}
-                        {{--                                          'view_ret_id'=>$view_ret_id,--}}
-                        {{--                                          'string_current'=>$string_current,--}}
-                        {{--                                          'prev_base_index_page'=>$base_index_page,--}}
-                        {{--                                          'prev_body_link_page'=>$body_link_page,--}}
-                        {{--                                          'prev_body_all_page'=>$body_all_page--}}
-                        {{--                                          ])}}"--}}
-                        {{--                                       title="{{$value->child_labels()}}">--}}
-                        {{--                                        --}}{{--                                        'string_link_ids_current'=>$string_link_ids_current,--}}
-                        {{--                                        --}}{{--                                        'string_item_ids_current'=>$string_item_ids_current,--}}
-                        {{--                                        --}}{{--                                        'string_all_codes_current'=>$string_all_codes_current,--}}
-                        {{--                                        {{$value->child_labels()}}--}}
-                        {{--                                        @if(isset($view_link))--}}
-                        {{--                                            @if($value->id == $view_link->id)--}}
-                        {{--                                                --}}{{--                                        Этот символ используется в двух местах--}}
-                        {{--                                                &#10003;--}}
-                        {{--                                            @endif--}}
-                        {{--                                        @endif--}}
-                        {{--                                        @if(isset($array["\x00*\x00items"][$value->id]))--}}
-                        {{--                                            *--}}
-                        {{--                                        @endif--}}
-                        {{--                                    </a>--}}
-                        {{--                                @endforeach--}}
-                        {{--                            </div>--}}
-                        {{--                        </div>--}}
-                        {{--                            Вывод "Все связи"--}}
-                        @if($next_all_is_enable)
-                            <div class="btn-group btn-group-sm" role="group" aria-label="Link">
-                                <button type="button" class="btn btn-icon"
-                                        {{--                                'called_from_button'=>1 - вызов из кнопки--}}
-                                        onclick='document.location="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,
+                            {{--                            <div class="dropdown-menu">--}}
+                            {{--                                --}}{{-- Если во всех $links не выводятся вычисляемые наименования, то выводится вариант 'all'--}}
+                            {{--                                @if($next_all_is_enable)--}}
+                            {{--                                    <a class="dropdown-item" href="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,--}}
+                            {{--                                  'usercode' =>GlobalController::usercode_calc(),--}}
+                            {{--                                  'relit_id'=>$relit_id,--}}
+                            {{--                                  'view_link'=>GlobalController::par_link_const_textnull(),--}}
+                            {{--                                  'view_ret_id'=>$view_ret_id,--}}
+                            {{--                                  'string_current'=>$string_current,--}}
+                            {{--                                  'prev_base_index_page'=>$base_index_page,--}}
+                            {{--                                  'prev_body_link_page'=>$body_link_page,--}}
+                            {{--                                  'prev_body_all_page'=>$body_all_page--}}
+                            {{--                                  ])}}"--}}
+                            {{--                                       title="{{$item->name()}}">--}}
+                            {{--                                        --}}{{--                                        'string_link_ids_current'=>$string_link_ids_current,--}}
+                            {{--                                        --}}{{--                                        'string_item_ids_current'=>$string_item_ids_current,--}}
+                            {{--                                        --}}{{--                                        'string_all_codes_current'=>$string_all_codes_current,--}}
+                            {{--                                        {{GlobalController::option_all()}}--}}
+                            {{--                                        @if($view_link == null)--}}
+                            {{--                                            --}}{{--                                        Этот символ используется в двух местах--}}
+                            {{--                                            &#10003;--}}
+                            {{--                                        @endif--}}
+                            {{--                                    </a>--}}
+                            {{--                                @endif--}}
+                            {{--                                @foreach($next_all_links as $key=>$value)--}}
+                            {{--                                    <a class="dropdown-item" href="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,--}}
+                            {{--                                          'usercode' =>GlobalController::usercode_calc(),--}}
+                            {{--                                          'relit_id'=>$relit_id,--}}
+                            {{--                                          'view_link'=>$value->id,--}}
+                            {{--                                          'view_ret_id'=>$view_ret_id,--}}
+                            {{--                                          'string_current'=>$string_current,--}}
+                            {{--                                          'prev_base_index_page'=>$base_index_page,--}}
+                            {{--                                          'prev_body_link_page'=>$body_link_page,--}}
+                            {{--                                          'prev_body_all_page'=>$body_all_page--}}
+                            {{--                                          ])}}"--}}
+                            {{--                                       title="{{$value->child_labels()}}">--}}
+                            {{--                                        --}}{{--                                        'string_link_ids_current'=>$string_link_ids_current,--}}
+                            {{--                                        --}}{{--                                        'string_item_ids_current'=>$string_item_ids_current,--}}
+                            {{--                                        --}}{{--                                        'string_all_codes_current'=>$string_all_codes_current,--}}
+                            {{--                                        {{$value->child_labels()}}--}}
+                            {{--                                        @if(isset($view_link))--}}
+                            {{--                                            @if($value->id == $view_link->id)--}}
+                            {{--                                                --}}{{--                                        Этот символ используется в двух местах--}}
+                            {{--                                                &#10003;--}}
+                            {{--                                            @endif--}}
+                            {{--                                        @endif--}}
+                            {{--                                        @if(isset($array["\x00*\x00items"][$value->id]))--}}
+                            {{--                                            *--}}
+                            {{--                                        @endif--}}
+                            {{--                                    </a>--}}
+                            {{--                                @endforeach--}}
+                            {{--                            </div>--}}
+                            {{--                        </div>--}}
+                            {{--                            Вывод "Все связи"--}}
+                            @if($next_all_is_enable)
+                                <div class="btn-group btn-group-sm" role="group" aria-label="Link">
+                                    <button type="button" class="btn btn-icon"
+                                            {{--                                'called_from_button'=>1 - вызов из кнопки--}}
+                                            onclick='document.location="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,
                                                                           'usercode' =>GlobalController::usercode_calc(),
                                                                           'relit_id'=>$relit_id,
                                                                           'called_from_button'=>1,
@@ -559,29 +564,29 @@
                                                                           'prev_body_link_page'=>$body_link_page,
                                                                           'prev_body_all_page'=>$body_all_page
                                                                       ])}}"'
-                                        title="{{GlobalController::option_all_links()}}">
+                                            title="{{GlobalController::option_all_links()}}">
                                     <span class="text-label">
                                     {{GlobalController::option_all_links()}}
                                     </span>
-                                    @if($view_link == null)
-                                        {{--                                                                                                                    Этот символ используется в двух местах--}}
-                                        &#10003;
-                                    @endif
-                                </button>
-                            </div>
-                        @endif
-                        @foreach($next_all_links as $key=>$value)
-                            <?php
-                            // $view_ret_id нужно передавать в параметрах
-                            //$base_link_right = GlobalController::base_right($value->child_base, $role, $view_ret_id);
-                            // Не нужно (т.е. высвечивается связь, $relit_id вычисляется отдельно и после(вывода на экран кнопок связей))
-                            //$child_labels = $value->child_labels($base_link_right);
-                            $child_labels = $value->child_labels($emoji_enable);
-                            ?>
-                            <div class="btn-group btn-group-sm" role="group" aria-label="Links">
-                                <button type="button" class="btn btn-icon"
-                                        {{--                                'called_from_button'=>1 - вызов из кнопки--}}
-                                        onclick='document.location="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,
+                                        @if($view_link == null)
+                                            {{--                                                                                                                    Этот символ используется в двух местах--}}
+                                            &#10003;
+                                        @endif
+                                    </button>
+                                </div>
+                            @endif
+                            @foreach($next_all_links as $key=>$value)
+                                <?php
+                                // $view_ret_id нужно передавать в параметрах
+                                //$base_link_right = GlobalController::base_right($value->child_base, $role, $view_ret_id);
+                                // Не нужно (т.е. высвечивается связь, $relit_id вычисляется отдельно и после(вывода на экран кнопок связей))
+                                //$child_labels = $value->child_labels($base_link_right);
+                                $child_labels = $value->child_labels($emoji_enable);
+                                ?>
+                                <div class="btn-group btn-group-sm" role="group" aria-label="Links">
+                                    <button type="button" class="btn btn-icon"
+                                            {{--                                'called_from_button'=>1 - вызов из кнопки--}}
+                                            onclick='document.location="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,
                                                                       'usercode' =>GlobalController::usercode_calc(),
                                                                       'relit_id'=>$relit_id,
                                                                       'called_from_button'=>1,
@@ -592,7 +597,7 @@
                                                                       'prev_body_link_page'=>$body_link_page,
                                                                       'prev_body_all_page'=>$body_all_page
                                                                       ])}}"'
-                                        title="{{$child_labels . ' ('.mb_strtolower(trans('main.link')).')'}}">
+                                            title="{{$child_labels . ' ('.mb_strtolower(trans('main.link')).')'}}">
                                     <span class="text-label"
 {{--                                          @if(isset($view_link))--}}
                                         {{--                                          @if($value->id == $view_link->id)--}}
@@ -601,22 +606,22 @@
                                         {{--                                        @endif--}}
                                     >
                                     {{$child_labels}}</span>
-                                    @if(isset($view_link))
-                                        @if($value->id == $view_link->id)
-                                            {{--                                            Этот символ используется в двух местах--}}
-                                            &#10003;
+                                        @if(isset($view_link))
+                                            @if($value->id == $view_link->id)
+                                                {{--                                            Этот символ используется в двух местах--}}
+                                                &#10003;
+                                            @endif
                                         @endif
-                                    @endif
-                                    @if(isset($array["\x00*\x00items"][$value->id]))
-                                        *
-                                    @endif
-                                </button>
-                            </div>
-                        @endforeach
+                                        @if(isset($array["\x00*\x00items"][$value->id]))
+                                            *
+                                        @endif
+                                    </button>
+                                </div>
+                            @endforeach
+                        </div>
                     </div>
-                </div>
+                @endif
             @endif
-        @endif
     </div>
     {{--    <hr align="center" width="100%" size="2" color="#ff0000"/>--}}
     {{--        &#8595;	&#8195; &#8595;	&#8195; &#8595;	&#8195; &#8595;	&#8195; &#8595;	&#8195; &#8595;	&#8195; &#8595;	&#8195; &#8595;	&#8195; &#8595;	&#8195; &#8595;	&#8195; &#8595;	&#8195;--}}
