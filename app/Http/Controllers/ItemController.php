@@ -7543,12 +7543,12 @@ class ItemController extends Controller
             }
         }
 
-//        // Исключить links из переданного массива $tree_array
-//        if (count($tree_array) > 0) {
-//            foreach ($tree_array as $value) {
-//                $links = $links->where('id', '!=', $value['link_id']);
-//            }
-//        }
+        // Исключить links из переданного массива $tree_array
+        if (count($tree_array) > 0) {
+            foreach ($tree_array as $value) {
+                $links = $links->where('id', '!=', $value['link_id']);
+            }
+        }
 
         // Не удалять
         // Исключить link->parent_base_id из переданного массива $tree_array
