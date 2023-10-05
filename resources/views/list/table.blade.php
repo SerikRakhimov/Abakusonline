@@ -405,10 +405,12 @@ if ($view_link) {
                                            title="{{$link->parent_base->names()}}">
                                             {{--                                            {{GlobalController::calc_title_name($matrix[$x][$y]["view_name"])}}--}}
                                             {{GlobalController::calc_title_name(GlobalController::name_and_end_emoji($matrix[$x][$y]["view_name"], $link->parent_base), false, $heading)}}
+                                            -{{$link->parent_base_id}}-{{$link->parent_base->name()}}
                                         </a>
                                     @else
                                         {{--                                        {{GlobalController::calc_title_name($matrix[$x][$y]["view_name"],false, $heading)}}--}}
                                         {{GlobalController::calc_title_name(GlobalController::name_and_end_emoji($matrix[$x][$y]["view_name"], $link->parent_base), false, $heading)}}
+                                        -{{$link->parent_base_id}}-{{$link->parent_base->name()}}
                                     @endif
                                     @if($heading)
                                 </small>
