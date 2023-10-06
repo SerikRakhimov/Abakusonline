@@ -1675,9 +1675,11 @@ class ItemController extends Controller
                 $array_disabled[$par_link->id] = $parent_item->id;
             }
             // вычисление зависимых значений по фильтрируемым полям
+            // чтобы были с признаком disabled поля при создании записи
             self::par_link_calc_in_array_disabled($plan_child_links, $parent_item, $array_disabled, $par_link);
         }
 
+        // При создании записи
         if ($create) {
             // если переданы $par_link и $parent_item
             foreach ($array_disabled as $key => $value) {
@@ -1750,6 +1752,8 @@ class ItemController extends Controller
 
 // Рекурсивная функция
 // Вычисление зависимых значений по фильтрируемым полям
+// Например, есть фильтр на форме Поставщик - Номер заказа,
+// parlink, например, поле Номер заказа, тогда поле Поставщик тоже будет с признаком disabled в форме
     private
     function par_link_calc_in_array_disabled($plan_child_links, $parent_item, &$array_disabled, Link $p_link)
     {

@@ -394,7 +394,7 @@
                     $items_default = false;
                 }
             }
-            $items = [];
+            $its_no_get = [];
             if ($items_default == true && $link->parent_base->type_is_list()) {
                 //$result = ItemController::get_items_main($link_parent_base, $project, $role, $link->parent_relit_id, $link);
                 //$result = ItemController::get_items_main($link_parent_base, $project, $role, $relit_id,
@@ -402,7 +402,7 @@
                 // Так правильно "$base_link_right['is_brow_hist_records_enable']", а не "$base_link_right['is_list_hist_records_enable']"
                 $result = ItemController::get_items_main($link_parent_base, $project, $role, $relit_id,
                     $base_link_right['is_brow_hist_records_enable'], $link);
-                $items = $result['items_no_get']->get();
+                $its_no_get = $result['items_no_get'];
             }
             $code_find = null;
             if ($value != null) {
@@ -531,6 +531,7 @@
                                    {{--                                @endif--}}
                                    @if ($key == $par_link->id)
                                    {{-- '(!$update)' - только при добавлении записи--}}
+                                   {{-- "((!$update) | ($base_link_right['is_edit_parlink_enable'] == false)" - используется в связке--}}
                                    @if ((!$update) | ($base_link_right['is_edit_parlink_enable'] == false))
                                    disabled
                                 @endif
@@ -579,6 +580,7 @@
                                     {{--                                @endif--}}
                                     @if ($key == $par_link->id)
                                     {{-- '(!$update)' - только при добавлении записи--}}
+                                    {{-- "((!$update) | ($base_link_right['is_edit_parlink_enable'] == false)" - используется в связке--}}
                                     @if ((!$update) | ($base_link_right['is_edit_parlink_enable'] == false))
                                     disabled
                                 @endif
@@ -645,6 +647,7 @@
                                    {{--                                   @endif--}}
                                    @if ($key == $par_link->id)
                                    {{-- '(!$update)' - только при добавлении записи--}}
+                                   {{-- "((!$update) | ($base_link_right['is_edit_parlink_enable'] == false)" - используется в связке--}}
                                    @if ((!$update) | ($base_link_right['is_edit_parlink_enable'] == false))
                                    disabled
                                    @endif
@@ -733,6 +736,7 @@
                                    {{--                                @endif--}}
                                    @if ($key == $par_link->id)
                                    {{-- '(!$update)' - только при добавлении записи--}}
+                                   {{-- "((!$update) | ($base_link_right['is_edit_parlink_enable'] == false)" - используется в связке--}}
                                    @if ((!$update) | ($base_link_right['is_edit_parlink_enable'] == false))
                                    disabled
                                 @endif
@@ -798,6 +802,7 @@
                                    {{--                                   @endif--}}
                                    @if ($key == $par_link->id)
                                    {{-- '(!$update)' - только при добавлении записи--}}
+                                   {{-- "((!$update) | ($base_link_right['is_edit_parlink_enable'] == false)" - используется в связке--}}
                                    @if ((!$update) | ($base_link_right['is_edit_parlink_enable'] == false))
                                    disabled
                                    @endif
@@ -856,6 +861,7 @@
                               {{--                        @endif--}}
                               @if ($key == $par_link->id)
                               {{-- '(!$update)' - только при добавлении записи--}}
+                              {{-- "((!$update) | ($base_link_right['is_edit_parlink_enable'] == false)" - используется в связке--}}
                               @if ((!$update) | ($base_link_right['is_edit_parlink_enable'] == false))
                               disabled
                         @endif
@@ -957,6 +963,7 @@
                               {{--                        @endif--}}
                               @if ($key == $par_link->id)
                               {{-- '(!$update)' - только при добавлении записи--}}
+                              {{-- "((!$update) | ($base_link_right['is_edit_parlink_enable'] == false)" - используется в связке--}}
                               @if ((!$update) | ($base_link_right['is_edit_parlink_enable'] == false))
                               disabled
                         @endif
@@ -1031,7 +1038,16 @@
                 @elseif($link->parent_base->type_is_list())
                     <?php
                     $hidden_list = false;
+                    // "if ($par_link && ($value != null))" - неправильно, т.к. при if ($par_link) выполняются два действия
                     if ($par_link) {
+                        // Оставить в списке только одно значение ">where('id', $value)" при $par_link == true,
+                        // $value равно parent_item->id,
+                        // это поле($par_link) в форме с признаком disabled, как правило
+                        if ($value != null) {
+                            if ($key == $par_link->id) {
+                                $its_no_get = $its_no_get->where('id', $value);
+                            }
+                        }
                         //                                   При параллельной связи $par_link
                         //                                    другие паралельные связи не доступны при добавлении/корректировке записи
                         //                            при способе ввода Пространство (если передано $par_link)
@@ -1043,6 +1059,7 @@
                     if ($link->parent_is_tree_value == true) {
                         $item_tree = ItemController::get_tree_item($role, $link, $string_current);
                     }
+                    $its_list = $its_no_get->get();
                     ?>
                     <div class="form-group row">
                         <div class="col-sm-3 text-right">
@@ -1087,6 +1104,7 @@
                                     {{--                                    @endif--}}
                                     @if ($key == $par_link->id)
                                     {{-- '(!$update)' - только при добавлении записи--}}
+                                    {{-- "((!$update) | ($base_link_right['is_edit_parlink_enable'] == false)" - используется в связке--}}
                                     @if ((!$update) | ($base_link_right['is_edit_parlink_enable'] == false))
                                     disabled
                                     @endif
@@ -1113,7 +1131,7 @@
                                     >{{$item_tree->name()}}
                                     </option>
                                 @else
-                                    @if ((count($items) == 0)))
+                                    @if ((count($its_list) == 0)))
                                     {{--                                    @if(!$link->parent_base->is_required_lst_num_str_txt_img_doc)--}}
                                     @if($base_link_right['is_base_required'] == false)
                                         <option value='0'>{{GlobalController::option_empty()}}</option>
@@ -1127,7 +1145,7 @@
                                         @if($base_link_right['is_base_required'] == false)
                                             <option value='0'>{{GlobalController::option_empty()}}</option>
                                         @endif
-                                        @foreach ($items as $item_work)
+                                        @foreach ($its_list as $item_work)
                                             <option value="{{$item_work->id}}"
                                                     @if (((old($key)) ?? (($value != null) ? $value : 0)) == $item_work->id)
                                                     selected
