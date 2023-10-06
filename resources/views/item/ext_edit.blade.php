@@ -394,7 +394,8 @@
                     $items_default = false;
                 }
             }
-            $its_no_get = [];
+            // Пустой список
+            $its_no_get = Item::where('id', null);
             if ($items_default == true && $link->parent_base->type_is_list()) {
                 //$result = ItemController::get_items_main($link_parent_base, $project, $role, $link->parent_relit_id, $link);
                 //$result = ItemController::get_items_main($link_parent_base, $project, $role, $relit_id,
