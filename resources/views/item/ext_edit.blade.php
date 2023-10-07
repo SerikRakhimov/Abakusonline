@@ -1039,19 +1039,23 @@
                 @elseif($link->parent_base->type_is_list())
                     <?php
                     $hidden_list = false;
+                    $ing_filter = false;
                     // "if ($par_link && ($value != null))" - неправильно, т.к. при if ($par_link) выполняются два действия
                     if ($par_link) {
+                        // 1-ое действие
                         // Оставить в списке только одно значение ">where('id', $value)" при $par_link == true,
                         // $value равно parent_item->id,
                         // это поле($par_link) в форме с признаком disabled, как правило
                         if ($value != null) {
                             if ($key == $par_link->id) {
+                                $ing_filter = true;
                                 $its_no_get = $its_no_get->where('id', $value);
                             }
                         }
-                        //                                   При параллельной связи $par_link
-                        //                                    другие паралельные связи не доступны при добавлении/корректировке записи
-                        //                            при способе ввода Пространство (если передано $par_link)
+                        // 2-ое действие
+                        // При параллельной связи $par_link
+                        // другие паралельные связи не доступны при добавлении/корректировке записи
+                        // при способе ввода Пространство (если передано $par_link)
                         if ($par_link->parent_is_parallel == true && $link->parent_is_parallel == true) {
                             $hidden_list = true;
                         }
@@ -1132,19 +1136,21 @@
                                     >{{$item_tree->name()}}
                                     </option>
                                 @else
-                                    @if ((count($its_list) == 0)))
-                                    {{--                                    @if(!$link->parent_base->is_required_lst_num_str_txt_img_doc)--}}
-                                    @if($base_link_right['is_base_required'] == false)
-                                        <option value='0'>{{GlobalController::option_empty()}}</option>
-                                    @else
-                                        <option value='0'>{{trans('main.no_information_on')}}
-                                            "{{$result_parent_label}}"!
-                                        </option>
-                                    @endif
-                                    @else
-                                        {{--                                        @if(!$link->parent_base->is_required_lst_num_str_txt_img_doc)--}}
+                                    @if ((count($its_list) == 0))
+                                        {{--                                    @if(!$link->parent_base->is_required_lst_num_str_txt_img_doc)--}}
                                         @if($base_link_right['is_base_required'] == false)
                                             <option value='0'>{{GlobalController::option_empty()}}</option>
+                                        @else
+                                            <option value='0'>{{trans('main.no_information_on')}}
+                                                "{{$result_parent_label}}"!
+                                            </option>
+                                        @endif
+                                    @else
+                                        {{-- Чтобы не выводить лишний раз ненужное --}}
+                                        @if($ing_filter == false)
+                                            @if($base_link_right['is_base_required'] == false)
+                                                <option value='0'>{{GlobalController::option_empty()}}</option>
+                                            @endif
                                         @endif
                                         @foreach ($its_list as $item_work)
                                             <option value="{{$item_work->id}}"
@@ -1475,7 +1481,11 @@
                         @else
                         + '/' + parent_base_id{{$prefix}}{{$link->id}}.options[parent_base_id{{$prefix}}{{$link->id}}.selectedIndex].value
                         @endif
-                       ).then(function (res) {
+                        {{--                    @if($par_link & $parent_item) - так не использовать (дает ошибку) --}}
+                        @if($par_link && $parent_item)
+                        + '/' + {{$par_link->id}} + '/' + {{$parent_item->id}}
+                            @endif
+                           ).then(function (res) {
                                 child_base_id{{$prefix}}{{$link->id}}.innerHTML = res.data['result_items_name_options'];
                                 for (let i = 0; i < child_base_id{{$prefix}}{{$link->id}}.length; i++) {
                                     if (child_base_id{{$prefix}}{{$link->id}}[i].value ==

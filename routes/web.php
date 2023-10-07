@@ -908,7 +908,7 @@ Route::get('/item/get_items_main/{base}/{project}/{role}/{relit_id}/{enable_hist
     ->name('item.get_items_main')
     ->middleware('auth');
 
-Route::get('/item/get_items_main_options/{base}/{project}/{role}/{relit_id}/{link?}/{item_id?}', [ItemController::class, 'get_items_main_options'])
+Route::get('/item/get_items_main_options/{base}/{project}/{role}/{relit_id}/{link?}/{item_id?}/{par_link_id?}/{parent_item_id?}', [ItemController::class, 'get_items_main_options'])
     ->name('item.get_items_main_options')
     ->middleware('auth');
 

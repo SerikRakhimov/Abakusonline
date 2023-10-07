@@ -7959,13 +7959,32 @@ class ItemController extends Controller
     }
 
 // Выборка данных в виде списка
-    static function get_items_main_options(Base $base, Project $project, Role $role, $relit_id, Link $link = null, $item_id = null)
+    static function get_items_main_options(Base $base, Project $project, Role $role, $relit_id, Link $link = null, $item_id = null, $par_link_id = null, $parent_item_id = null)
     {
         $base_right = GlobalController::base_right($base, $role, $relit_id);
         $base_link_right = null;
         //$items_main = self::get_items_main($base, $project, $role, $relit_id, $base_right['is_list_hist_records_enable'], $link, $item);
         $items_main = self::get_items_main($base, $project, $role, $relit_id, $base_right['is_brow_hist_records_enable'], $link, $item_id);
         $items_no_get = $items_main['items_no_get'];
+
+        $ing_filter = false;
+        if ($items_no_get) {
+            if ($link) {
+                if ($par_link_id & $parent_item_id) {
+                    $par_link = Link::find($par_link_id);
+                    $parent_item = Item::find($parent_item_id);
+//                  "if ($par_link & $parent_item)" - не использовать(дает ошибку)
+                    if ($par_link && $parent_item) {
+                        if ($link->id == $par_link->id) {
+                            $ing_filter = true;
+                            // 'items.id' использовать
+                            $items_no_get = $items_no_get->where('items.id', $parent_item_id);
+                        }
+                    }
+                }
+            }
+        }
+
         // '->get()' нужно
         $result_items = $items_no_get->get();
 
@@ -7977,10 +7996,13 @@ class ItemController extends Controller
         }
         $result_items_name_options = "";
         if (count($result_items) > 0) {
+//          Чтобы не выводить лишний раз ненужное
+            if ($ing_filter == false) {
 //            if (!$base->is_required_lst_num_str_txt_img_doc) {
-            //          'Обязательно к заполнению (для списков, при условии $base->is_required_lst_num_str_txt_img_doc = false
-            if (!$is_base_required) {
-                $result_items_name_options = "<option value='0'>" . GlobalController::option_empty() . "</option>";
+                //          'Обязательно к заполнению (для списков, при условии $base->is_required_lst_num_str_txt_img_doc = false
+                if (!$is_base_required) {
+                    $result_items_name_options = "<option value='0'>" . GlobalController::option_empty() . "</option>";
+                }
             }
             foreach ($result_items as $it) {
                 $result_items_name_options = $result_items_name_options . "<option value='" . $it->id . "'>" . $it->name() . "</option>";
@@ -7994,7 +8016,6 @@ class ItemController extends Controller
                 $result_items_name_options = "<option value='0'>" . trans('main.no_information') . "!</option>";
             }
         }
-
         return ['items_no_get' => $items_no_get,
             'result_parent_label' => $items_main['result_parent_label'],
             'result_parent_base_name' => $items_main['result_parent_base_name'],
