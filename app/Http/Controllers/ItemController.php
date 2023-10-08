@@ -7998,9 +7998,9 @@ class ItemController extends Controller
         if (count($result_items) > 0) {
 //          Чтобы не выводить лишний раз ненужное
             if ($ing_filter == false) {
-//            if (!$base->is_required_lst_num_str_txt_img_doc) {
-                //          'Обязательно к заполнению (для списков, при условии $base->is_required_lst_num_str_txt_img_doc = false
-                if (!$is_base_required) {
+                if (!$base->is_required_lst_num_str_txt_img_doc) {
+                    //          'Обязательно к заполнению (для списков, при условии $base->is_required_lst_num_str_txt_img_doc = false
+                    //if (!$is_base_required) {
                     $result_items_name_options = "<option value='0'>" . GlobalController::option_empty() . "</option>";
                 }
             }
@@ -8008,9 +8008,9 @@ class ItemController extends Controller
                 $result_items_name_options = $result_items_name_options . "<option value='" . $it->id . "'>" . $it->name() . "</option>";
             }
         } else {
-//            if (!$base->is_required_lst_num_str_txt_img_doc) {
-            //          'Обязательно к заполнению (для списков, при условии $base->is_required_lst_num_str_txt_img_doc = false
-            if (!$is_base_required) {
+            if (!$base->is_required_lst_num_str_txt_img_doc) {
+                //          'Обязательно к заполнению (для списков, при условии $base->is_required_lst_num_str_txt_img_doc = false
+                //if (!$is_base_required) {
                 $result_items_name_options = "<option value='0'>" . GlobalController::option_empty() . "</option>";
             } else {
                 $result_items_name_options = "<option value='0'>" . trans('main.no_information') . "!</option>";
