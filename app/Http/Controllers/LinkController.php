@@ -161,6 +161,8 @@ class LinkController extends Controller
         $link->parent_is_twt_link = isset($request->parent_is_twt_link) ? true : false;
         $link->parent_is_tst_link = isset($request->parent_is_tst_link) ? true : false;
         $link->parent_is_cus_link = isset($request->parent_is_cus_link) ? true : false;
+        $link->parent_is_checking_history = isset($request->parent_is_checking_history) ? true : false;
+        $link->parent_is_checking_empty = isset($request->parent_is_checking_empty) ? true : false;
         $link->parent_is_setup_project_logo_img = isset($request->parent_is_setup_project_logo_img) ? true : false;
         $link->parent_is_setup_project_external_description_txt = isset($request->parent_is_setup_project_external_description_txt) ? true : false;
         $link->parent_is_setup_project_internal_description_txt = isset($request->parent_is_setup_project_internal_description_txt) ? true : false;
@@ -381,6 +383,12 @@ class LinkController extends Controller
             $link->parent_enabled_boolean_value_link_id = 0;
         }
 
+//        if ($link->parent_is_checking_empty == true) {
+//            if ($link->parent_is_parent_related == false) {
+//                $link->parent_is_checking_empty = false;
+//            }
+//        }
+
         // При древовидной структуре должно быть "$link->parent_base_id = $link->child_base_id"
         if ($link->parent_is_twt_link) {
             $link->parent_base_id = $link->child_base_id;
@@ -474,6 +482,8 @@ class LinkController extends Controller
         $link->parent_is_twt_link = isset($request->parent_is_twt_link) ? true : false;
         $link->parent_is_tst_link = isset($request->parent_is_tst_link) ? true : false;
         $link->parent_is_cus_link = isset($request->parent_is_cus_link) ? true : false;
+        $link->parent_is_checking_history = isset($request->parent_is_checking_history) ? true : false;
+        $link->parent_is_checking_empty = isset($request->parent_is_checking_empty) ? true : false;
         $link->parent_is_setup_project_logo_img = isset($request->parent_is_setup_project_logo_img) ? true : false;
         $link->parent_is_setup_project_external_description_txt = isset($request->parent_is_setup_project_external_description_txt) ? true : false;
         $link->parent_is_setup_project_internal_description_txt = isset($request->parent_is_setup_project_internal_description_txt) ? true : false;
@@ -698,6 +708,12 @@ class LinkController extends Controller
         } else {
             $link->parent_enabled_boolean_value_link_id = 0;
         }
+
+//        if ($link->parent_is_checking_empty == true) {
+//            if ($link->parent_is_parent_related == false) {
+//                $link->parent_is_checking_empty = false;
+//            }
+//        }
 
         // Не использовать эти команды при корректировке,
         // чтобы при случайном нажатии отметки не испортить $link->parent_base_id

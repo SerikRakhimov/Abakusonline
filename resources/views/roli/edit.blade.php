@@ -328,6 +328,56 @@
             </div>
         </div>
 
+        <div class="form-group row" id="is_parent_checking_history_form_group">
+            <div class="col-sm-3 text-right">
+                <label class="form-label"
+                       for="is_parent_checking_history">{{trans('main.is_parent_checking_history')}}</label>
+            </div>
+            <div class="col-sm-7">
+                <input class="@error('is_parent_checking_history') is-invalid @enderror"
+                       type="checkbox"
+                       name="is_parent_checking_history"
+                       placeholder=""
+                       {{--                       "$roli->is_parent_checking_history ?? false" - "false" значение по умолчанию--}}
+                       @if ((old('is_parent_checking_history') ?? ($roli->is_parent_checking_history ?? true)) ==  true)
+                       checked
+                    @endif
+                >
+                @error('is_parent_checking_history')
+                <div class="invalid-feedback">
+                    {{$message}}
+                </div>
+                @enderror
+            </div>
+            <div class="col-sm-2">
+            </div>
+        </div>
+
+        <div class="form-group row" id="is_parent_checking_empty_form_group">
+            <div class="col-sm-3 text-right">
+                <label class="form-label"
+                       for="is_parent_checking_empty">{{trans('main.is_parent_checking_empty')}}</label>
+            </div>
+            <div class="col-sm-7">
+                <input class="@error('is_parent_checking_empty') is-invalid @enderror"
+                       type="checkbox"
+                       name="is_parent_checking_empty"
+                       placeholder=""
+                       {{--                       "$roli->is_parent_checking_empty ?? false" - "false" значение по умолчанию--}}
+                       @if ((old('is_parent_checking_empty') ?? ($roli->is_parent_checking_empty ?? true)) ==  true)
+                       checked
+                    @endif
+                >
+                @error('is_parent_checking_empty')
+                <div class="invalid-feedback">
+                    {{$message}}
+                </div>
+                @enderror
+            </div>
+            <div class="col-sm-2">
+            </div>
+        </div>
+
         <div class="form-group row" id="is_parent_full_sort_asc_form_group">
             <div class="col-sm-3 text-right">
                 <label class="form-label"

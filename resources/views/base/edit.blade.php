@@ -58,12 +58,14 @@
                            class="form-control @error('name_lang_' . $key) is-invalid @enderror"
                            placeholder=""
                            value="{{ old('name_lang_' . $key) ?? ($base['name_lang_' . $key] ?? '') }}">
+                    @error('name_lang_' . $key)
+                    <div class="text-danger">
+                        {{$message}}
+                    </div>
+                    @enderror
                 </div>
-                @error('name_lang_' . $key)
-                <div class="text-danger">
-                    {{$message}}
+                <div class="col-sm-2">
                 </div>
-                @enderror
             @endforeach
         </div>
 
@@ -108,12 +110,14 @@
                            class="form-control @error('desc_lang_' . $key) is-invalid @enderror"
                            placeholder=""
                            value="{{ old('desc_lang_' . $key) ?? ($base['desc_lang_' . $key] ?? '') }}">
+                    @error('desc_lang_' . $key)
+                    <div class="text-danger">
+                        {{$message}}
+                    </div>
+                    @enderror
                 </div>
-                @error('desc_lang_' . $key)
-                <div class="text-danger">
-                    {{$message}}
+                <div class="col-sm-2">
                 </div>
-                @enderror
             @endforeach
         </div>
 
@@ -734,7 +738,7 @@
                        name="is_default_view_cards"
                        id="linkis_default_view_cards"
                        placeholder=""
-{{--                       Значение по умолчанию false--}}
+                       {{--                       Значение по умолчанию false--}}
                        @if ((old('is_default_view_cards') ?? ($base->is_default_view_cards ?? false)) ==  true)
                        checked
                     @endif
@@ -850,7 +854,7 @@
             </div>
         </div>
 
-{{--        'По умолчанию, tst структура (main->parent_item = null, для base_index.php, item_index($link))'--}}
+        {{--        'По умолчанию, tst структура (main->parent_item = null, для base_index.php, item_index($link))'--}}
         <div class="form-group row" id="is_default_tst_lst_form_group">
             <div class="col-sm-3 text-right">
                 <label class="form-label"
@@ -874,6 +878,54 @@
             </div>
             <div class="col-sm-2">
             </div>
+        </div>
+
+        <div class="form-group row" id="entry_minutes_form_group">
+            <div class="col-sm-3 text-right">
+                <label for="entry_minutes">{{trans('main.entry_minutes')}}<span
+                        class="text-danger">*</span></label>
+            </div>
+            <div class="col-sm-2">
+                <input type="number"
+                       name="entry_minutes"
+                       id="entry_minutes"
+                       class="form-control @error('entry_minutes') is-invalid @enderror"
+                       placeholder=""
+                       value="{{ old('entry_minutes') ?? ($base['entry_minutes'] ?? '0') }}">
+                @error('entry_minutes')
+                <div class="text-danger">
+                    {{$message}}
+                </div>
+                @enderror
+            </div>
+            <div class="col-sm-7">
+            </div>
+        </div>
+
+        {{--    ch_min_desc    --}}
+        <div class="form-group row" id="ch_min_desc_form_group">
+            @foreach (config('app.locales') as $key=>$value)
+                <div class="col-sm-3 text-right">
+                    <label for="ch_min_desc_{{$key}}" class="col-form-label">{{trans('main.ch_min_desc')}}
+                        ({{trans('main.' . $value)}})<span
+                            class="text-danger">*</span></label>
+                </div>
+                <div class="col-sm-7">
+                    <input type="text"
+                           name="ch_min_desc_{{$key}}"
+                           id="ch_min_desc_{{$key}}"
+                           class="form-control @error('ch_min_desc_' . $key) is-invalid @enderror"
+                           placeholder=""
+                           value="{{ old('ch_min_desc_' . $key) ?? ($base['ch_min_desc_' . $key] ?? '') }}">
+                </div>
+                @error('ch_min_desc_' . $key)
+                <div class="text-danger">
+                    {{$message}}
+                </div>
+                @enderror
+                <div class="col-sm-2">
+                </div>
+            @endforeach
         </div>
 
         <div class="form-group row" id="sepa_calcname_form_group">
@@ -917,9 +969,9 @@
                 <div class="invalid-feedback">
                     {{$message}}
                 </div>
+                <div class="col-sm-2">
+                </div>
                 @enderror
-            </div>
-            <div class="col-sm-2">
             </div>
         </div>
 
@@ -1021,6 +1073,8 @@
         var is_byuser = document.getElementById('is_default_list_base_byuser_form_group');
         var is_heading = document.getElementById('is_default_heading_form_group');
         var is_cards = document.getElementById('is_default_view_cards_form_group');
+        var ent_min = document.getElementById('entry_minutes_form_group');
+        var ch_min_ds = document.getElementById('ch_min_desc_form_group');
         var is_required_lst_num_str_txt_img_doc = document.getElementById('is_required_lst_num_str_txt_img_doc_form_group');
         var is_tomoderate_img = document.getElementById('is_to_moderate_image_form_group');
         var maxfilesize_img_doc = document.getElementById('maxfilesize_img_doc_form_group');
@@ -1081,6 +1135,8 @@
             val_is_byuser = "hidden";
             val_is_heading = "hidden";
             val_is_cards = "hidden";
+            val_e_min = "hidden";
+            val_c_min_desc = true;
             val_digits_num = "hidden";
             val_required_num_str = "hidden";
             val_tomoderate_img = "hidden";
@@ -1117,6 +1173,8 @@
                     val_is_byuser = "visible";
                     val_is_heading = "visible";
                     val_is_cards = "visible";
+                    val_e_min = "visible";
+                    val_c_min_desc = false;
                     val_required_num_str = "visible";
                     val_onevalue_str = "visible";
                     val_calcname_lst = "visible";
@@ -1180,6 +1238,9 @@
             is_byuser.style.visibility = val_is_byuser;
             is_heading.style.visibility = val_is_heading;
             is_cards.style.visibility = val_is_cards;
+            ent_min.style.visibility = val_e_min;
+            // Свойство ".visibility" недоступно для ch_min_ds
+            ch_min_ds.hidden = val_c_min_desc;
             digits_num.style.visibility = val_digits_num;
             is_required_lst_num_str_txt_img_doc.style.visibility = val_required_num_str;
             is_tomoderate_img.style.visibility = val_tomoderate_img;

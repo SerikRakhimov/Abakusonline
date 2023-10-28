@@ -131,6 +131,16 @@ class Base extends Model
         return $result;
     }
 
+    function ch_min_desc()
+    {
+        $result = "";  // нужно, не удалять
+        $index = array_search(App::getLocale(), config('app.locales'));
+        if ($index !== false) {   // '!==' использовать, '!=' не использовать
+            $result = $this['ch_min_desc_' . $index];
+        }
+        return $result;
+    }
+
 // Используется "desc" c "type"
     function desc_type()
     {

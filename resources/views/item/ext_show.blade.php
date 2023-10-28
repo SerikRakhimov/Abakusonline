@@ -43,6 +43,10 @@
         @if($base_right['is_show_hist_attr_enable'] == true)
             @include('layouts.item.show_history',['item'=>$item])
         @endif
+        @if($is_limit_minutes['is_view_minutes'] == true)
+            <span class="badge badge-pill badge-related"
+                  title="{{trans('main.title_min')}}">{{GlobalController::remaining_minutes($item)}}</span>
+        @endif
     </h4>
     <br>
     <?php
@@ -285,7 +289,6 @@
         echo $result;
         ?>
     @endif
-
     @if($role->is_author())
         <hr>
         <i>
@@ -334,30 +337,31 @@
                     {{$item->button_title()}}
                 </button>
             @endif
-            @if($item->is_history() == false)
-                {{--Похожая проверка в ItemController::ext_edit() и ext_show.php--}}
-                @if($base_right['is_list_base_update'] == true)
-                    {{-- Используется "'relit_id'=>$relit_par_id, 'parent_ret_id' => $parent_ret_par_id"--}}
-                    {{--                <button type="button" class="btn btn-dreamer mb-1 mb-sm-0"--}}
-                    {{--                        onclick='document.location="{{route('item.ext_edit',--}}
-                    {{--            ['item'=>$item,'project'=>$project, 'role'=>$role,--}}
-                    {{--            'usercode' =>GlobalController::usercode_calc(),--}}
-                    {{--            'relit_id'=>GlobalController::set_relit_id($relit_par_id),--}}
-                    {{--            'string_link_ids_current' => $string_link_ids_current,--}}
-                    {{--            'string_item_ids_current' => $string_item_ids_current,--}}
-                    {{--            'string_all_codes_current' => $string_all_codes_current,--}}
-                    {{--            'heading' => $heading,--}}
-                    {{--            'base_index_page' => $base_index_page, 'body_link_page' => $body_link_page, 'body_all_page' => $body_all_page,--}}
-                    {{--            'parent_ret_id' => GlobalController::set_relit_id($parent_ret_par_id),--}}
-                    {{--            'view_link' => $view_link,--}}
-                    {{--            'par_link' => $par_link,--}}
-                    {{--            'parent_item' => $parent_item])}}"'--}}
-                    {{--                        title="{{trans('main.edit')}}">--}}
-                    {{--                'string_link_ids_current' => $string_link_ids_current,--}}
-                    {{--                'string_item_ids_current' => $string_item_ids_current,--}}
-                    {{--                'string_all_codes_current' => $string_all_codes_current,--}}
-                    <button type="button" class="btn btn-dreamer mb-1 mb-sm-0"
-                            onclick='document.location="{{route('item.ext_edit',
+            @if($is_limit_minutes['is_entry_minutes'] == true & $is_checking_history['result_entry_history'] == true & $is_checking_empty['result_entry_empty'] == true)
+                @if($item->is_history() == false)
+                    {{--Похожая проверка в ItemController::ext_edit() и ext_show.php--}}
+                    @if($base_right['is_list_base_update'] == true)
+                        {{-- Используется "'relit_id'=>$relit_par_id, 'parent_ret_id' => $parent_ret_par_id"--}}
+                        {{--                <button type="button" class="btn btn-dreamer mb-1 mb-sm-0"--}}
+                        {{--                        onclick='document.location="{{route('item.ext_edit',--}}
+                        {{--            ['item'=>$item,'project'=>$project, 'role'=>$role,--}}
+                        {{--            'usercode' =>GlobalController::usercode_calc(),--}}
+                        {{--            'relit_id'=>GlobalController::set_relit_id($relit_par_id),--}}
+                        {{--            'string_link_ids_current' => $string_link_ids_current,--}}
+                        {{--            'string_item_ids_current' => $string_item_ids_current,--}}
+                        {{--            'string_all_codes_current' => $string_all_codes_current,--}}
+                        {{--            'heading' => $heading,--}}
+                        {{--            'base_index_page' => $base_index_page, 'body_link_page' => $body_link_page, 'body_all_page' => $body_all_page,--}}
+                        {{--            'parent_ret_id' => GlobalController::set_relit_id($parent_ret_par_id),--}}
+                        {{--            'view_link' => $view_link,--}}
+                        {{--            'par_link' => $par_link,--}}
+                        {{--            'parent_item' => $parent_item])}}"'--}}
+                        {{--                        title="{{trans('main.edit')}}">--}}
+                        {{--                'string_link_ids_current' => $string_link_ids_current,--}}
+                        {{--                'string_item_ids_current' => $string_item_ids_current,--}}
+                        {{--                'string_all_codes_current' => $string_all_codes_current,--}}
+                        <button type="button" class="btn btn-dreamer mb-1 mb-sm-0"
+                                onclick='document.location="{{route('item.ext_edit',
             ['item'=>$item,'project'=>$project, 'role'=>$role,
             'usercode' =>GlobalController::usercode_calc(),
             'relit_id'=>$relit_id,
@@ -368,12 +372,15 @@
             'view_link' => $view_link,
             'par_link' => $par_link,
             'parent_item' => $parent_item])}}"'
-                            title="{{trans('main.edit')}}">
-                        <i class="fas fa-edit"></i>
-                        {{trans('main.edit')}}
-                    </button>
+                                title="{{trans('main.edit')}}">
+                            <i class="fas fa-edit"></i>
+                            {{trans('main.edit')}}
+                        </button>
+                    @endif
                 @endif
             @endif
+            {{--            В ItemController::is_delete() есть необходимые проверки--}}
+            {{--            @if($is_limit_minutes['is_entry_minutes'] == true & $is_checking_history['result_entry_history'] == true& $is_checking_empty['result_entry_empty'] == true)--}}
             @if($item->is_history() == false)
                 {{--            В ItemController::is_delete() есть необходимые проверки на права по удалению записи--}}
                 @if($is_delete['result'] == true)
@@ -410,6 +417,7 @@
                     </button>
                 @endif
             @endif
+            {{--            @endif--}}
             {{--                            С base_index.blade.php--}}
             {{--                                            Не удалять: нужно для просмотра Пространства--}}
             {{--                                                                                        проверка, если link - вычисляемое поле--}}

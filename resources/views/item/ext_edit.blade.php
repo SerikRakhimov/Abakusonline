@@ -36,6 +36,15 @@
             {{trans('main.edit_record')}}
         @endif
         <span class="text-label">-</span> <span class="text-title">{{$base->info()}}</span>
+        @if($is_view_minutes == true)
+            <span class="badge badge-pill badge-related" title="{{trans('main.title_min')}}">
+                    @if (!$update)
+                    {{GlobalController::base_minutes($base)}}
+                @else
+                    {{GlobalController::remaining_minutes($item)}}
+                @endif
+                </span>
+        @endif
     </h4>
     <br>
     {{--    https://qastack.ru/programming/1191113/how-to-ensure-a-select-form-field-is-submitted-when-it-is-disabled--}}

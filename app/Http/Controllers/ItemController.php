@@ -545,7 +545,6 @@ class ItemController extends Controller
 
         // Используется $project, $view_ret_id, false
         $next_all_links_mains_calc = self::next_all_links_mains_calc($project, $item, $role, $relit_id, $view_link, $view_ret_id, $tree_array, $base_right, $called_from_button);
-
         $next_all_links = $next_all_links_mains_calc['next_all_links'];
         $next_all_mains = $next_all_links_mains_calc['next_all_mains'];
         $next_all_is_create = $next_all_links_mains_calc['next_all_is_create'];
@@ -1184,12 +1183,24 @@ class ItemController extends Controller
 //                        $base_link_right = GlobalController::base_link_right($link, $role, $relit_id, true, $key);
                         // "GlobalController::base_link_right($link, $role,$key,true)" - true обязательно нужно
                         $base_link_right = GlobalController::base_link_right($link, $role, $key, true);
+
+                        // Проверка 'Доступность ввода данных на основе проверки истории (links)'
+                        // Используется "GlobalController::is_checking_add_history()"
+                        $is_checking_add_history = GlobalController::is_checking_add_history($role, $relit_id, $view_link, $item);
+
+                        // Проверка 'Доступность ввода данных на основе проверки заполненности данных (links)'
+                        // Используется "GlobalController::is_checking_add_empty()"
+                        $is_checking_add_empty = GlobalController::is_checking_add_empty($role, $relit_id, $view_link, $item);
+
                         // Использовать две этих проверки
                         if (!(($base_link_right['is_body_link_enable'] == true) && ($base_link_right['is_list_base_calc'] == true))) {
                             unset($array_link_relips[$key]);
                         } else {
                             // 'is_edit_link_update' - 'Корректировка Связи в форме'
-                            $next_create = $base_link_right['is_list_base_create'] == true && $base_link_right['is_edit_link_update'] == true;
+                            $next_create = $base_link_right['is_list_base_create'] == true
+                                && $base_link_right['is_edit_link_update'] == true
+                                && $is_checking_add_history['result_entry_history'] == true
+                                && $is_checking_add_empty['result_entry_empty'] == true;
                             if (!(self::item_link_parent_mains_exists($item, $link) || $next_create)) {
                                 unset($array_link_relips[$key]);
                             } else {
@@ -1818,8 +1829,8 @@ class ItemController extends Controller
 //            return view('message', ['message' => trans('main.info_user_changed')]);
 //        }
 
-        $base_right = self::base_relit_right($item->base, $role, $heading, $base_index_page, $relit_id, $parent_ret_id);
-
+        //$base_right = self::base_relit_right($item->base, $role, $heading, $base_index_page, $relit_id, $parent_ret_id);
+        $base_right = GlobalController::base_right($item->base, $role, $relit_id);
         if ($base_right['is_list_base_calc'] == false) {
             return view('message', ['message' => trans('main.no_access')]);
         }
@@ -1830,6 +1841,10 @@ class ItemController extends Controller
         if (!$item_ch) {
             return view('message', ['message' => trans('main.access_restricted')]);
         }
+
+        $is_limit_minutes = GlobalController::is_limit_minutes($base_right, $item);
+        $is_checking_history = GlobalController::is_checking_history($item, $role, $relit_id);
+        $is_checking_empty = GlobalController::is_checking_empty($item, $role, $relit_id);
 
         $string_unzip_current_next = self::string_unzip_current_next($string_current);
         $string_link_ids_current = $string_unzip_current_next['string_link_ids'];
@@ -1861,6 +1876,9 @@ class ItemController extends Controller
             'relit_id' => $relit_id,
             'base_right' => $base_right,
             'array_calc' => $this->get_array_calc_edit($item)['array_calc'],
+            'is_limit_minutes' => $is_limit_minutes,
+            'is_checking_history' => $is_checking_history,
+            'is_checking_empty' => $is_checking_empty,
             'string_link_ids_current' => $string_link_ids_current,
             'string_item_ids_current' => $string_item_ids_current,
             'string_relit_ids_current' => $string_relit_ids_current,
@@ -1902,11 +1920,30 @@ class ItemController extends Controller
 //            return view('message', ['message' => trans('main.info_user_changed')]);
 //        }
 
-        $base_right = self::base_relit_right($base, $role, $heading, $base_index_page, $relit_id, $parent_ret_id);
+//      $base_right = self::base_relit_right($base, $role, $heading, $base_index_page, $relit_id, $parent_ret_id);
+        $base_right = GlobalController::base_right($base, $role, $relit_id);
 
 //      Похожая проверка в ItemController::ext_create() и base_index.php
         if ($base_right['is_list_base_create'] == false) {
             return view('message', ['message' => trans('main.no_access')]);
+        }
+
+        // Проверка: выводить минуты при 'Ограничение в минутах для корректировки/удаления данных'
+        // Используется "GlobalController::is_limit_add_record_minutes()"
+        $is_view_minutes = GlobalController::is_limit_add_record_minutes($base_right);
+
+        // Проверка 'Доступность ввода данных на основе проверки истории (links)'
+        // Используется "GlobalController::is_checking_add_history()"
+        $is_checking_add_history = GlobalController::is_checking_add_history($role, $relit_id, $par_link, $parent_item);
+        if ($is_checking_add_history['result_entry_history'] == false) {
+            return view('message', ['message' => $is_checking_add_history['result_message_history']]);
+        }
+
+        // Проверка 'Доступность ввода данных на основе проверки заполненности данных (links)'
+        // Используется "GlobalController::is_checking_add_empty()"
+        $is_checking_add_empty = GlobalController::is_checking_add_empty($role, $relit_id, $par_link, $parent_item);
+        if ($is_checking_add_empty['result_entry_empty'] == false) {
+            return view('message', ['message' => $is_checking_add_empty['result_message_empty']]);
         }
 
         $string_unzip_current_next = self::string_unzip_current_next($string_current);
@@ -1944,6 +1981,7 @@ class ItemController extends Controller
                 $string_all_codes_current),
             'array_calc' => $array_calc,
             'array_disabled' => $array_disabled,
+            'is_view_minutes' => $is_view_minutes,
             'base_index_page' => $base_index_page, 'body_link_page' => $body_link_page, 'body_all_page' => $body_all_page,
             'parent_ret_id' => $parent_ret_id,
             'view_link' => GlobalController::set_par_view_link_null($view_link),
@@ -2611,7 +2649,7 @@ class ItemController extends Controller
 
         try {
             // начало транзакции
-            DB::transaction(function ($r) use ($relip_project, $item, $it_texts, $keys, $values, $strings_inputs) {
+            DB::transaction(function ($r) use ($relip_project, $item, $role, $relit_id, $it_texts, $keys, $values, $strings_inputs) {
                 // При добавлении записи
                 // Эта команда "$item->save();" нужна, чтобы при сохранении записи стало известно значение $item->id.
                 // оно нужно в функции save_main() (для команды "$main->child_item_id = $item->id;");
@@ -2801,6 +2839,19 @@ class ItemController extends Controller
                     if (count($items_unique_select) != 0) {
                         throw new Exception(trans('main.value_uniqueness_violation') . ' (' . $items_unique_bases . ')!');
                     }
+                }
+
+                // Ипользовать GlobalController::is_checking_history()
+                // Проверка 'Доступность ввода данных на основе проверки истории (links)'
+                $is_checking_history = GlobalController::is_checking_history($item, $role, $relit_id);
+                if ($is_checking_history['result_entry_history'] == false) {
+                    throw new Exception($is_checking_history['result_message_history']);
+                }
+
+                // Проверка 'Доступность ввода данных на основе проверки заполненности данных (links)'
+                $is_checking_empty = GlobalController::is_checking_empty($item, $role, $relit_id);
+                if ($is_checking_empty['result_entry_empty'] == false) {
+                    throw new Exception($is_checking_empty['result_message_empty']);
                 }
 
                 $rs = $this->calc_value_func($item);
@@ -4609,6 +4660,11 @@ class ItemController extends Controller
 
         $base_right = GlobalController::base_right($item->base, $role, $relit_id);
 
+        $is_limit_minutes = GlobalController::is_limit_minutes($base_right, $item);
+        if ($is_limit_minutes['is_entry_minutes'] == false) {
+            return view('message', ['message' => trans('main.no_access') . ' (' . trans('main.title_min') . ')']);
+        }
+
         // Проверка на обязательность ввода
         //if ($item->base->is_required_lst_num_str_txt_img_doc == true && $item->base->is_calcname_lst == false) {
         //          'Обязательно к заполнению (для списков, при условии $base->is_required_lst_num_str_txt_img_doc = false
@@ -5194,7 +5250,7 @@ class ItemController extends Controller
             // начало транзакции
             // $array_plan передается при корректировке
             // $del_links ипользуется при корректировке item (функция ext_update()), при добавлении не используется (функция ext_store())
-            DB::transaction(function ($r) use ($relip_project, $item, $it_texts, $keys, $values, $strings_inputs, $del_links) {
+            DB::transaction(function ($r) use ($relip_project, $item, $role, $relit_id, $it_texts, $keys, $values, $strings_inputs, $del_links) {
 
                 //$item->save();
 
@@ -5387,6 +5443,19 @@ class ItemController extends Controller
                         throw new Exception(trans('main.value_uniqueness_violation') . ' (' . $items_unique_bases . ')!');
                     }
                 }
+
+                // Проверка 'Доступность ввода данных на основе проверки истории (links)'
+                $is_checking_history = GlobalController::is_checking_history($item, $role, $relit_id);
+                if ($is_checking_history['result_entry_history'] == false) {
+                    throw new Exception($is_checking_history['result_message_history']);
+                }
+
+                // Проверка 'Доступность ввода данных на основе проверки заполненности данных (links)'
+                $is_checking_empty = GlobalController::is_checking_empty($item, $role, $relit_id);
+                if ($is_checking_empty['result_entry_empty'] == false) {
+                    throw new Exception($is_checking_empty['result_message_empty']);
+                }
+
                 // Расчет вычисляемого наименования
                 $rs = $this->calc_value_func($item);
                 if ($rs != null) {
@@ -5649,11 +5718,27 @@ class ItemController extends Controller
             return view('message', ['message' => trans('main.access_restricted')]);
         }
 
-        $base_right = self::base_relit_right($item->base, $role, $heading, $base_index_page, $relit_id, $parent_ret_id);
+//      $base_right = self::base_relit_right($item->base, $role, $heading, $base_index_page, $relit_id, $parent_ret_id);
+        $base_right = GlobalController::base_right($item->base, $role, $relit_id);
 
 //      Похожая проверка в ItemController::ext_edit() и ext_show.php
         if ($base_right['is_list_base_update'] == false) {
             return view('message', ['message' => trans('main.no_access')]);
+        }
+
+        $is_limit_minutes = GlobalController::is_limit_minutes($base_right, $item);
+        if ($is_limit_minutes['is_entry_minutes'] == false) {
+            return view('message', ['message' => trans('main.no_access') . ' (' . trans('main.title_min') . ')']);
+        }
+
+        $is_checking_history = GlobalController::is_checking_history($item, $role, $relit_id);
+        if ($is_checking_history['result_entry_history'] == false) {
+            return view('message', ['message' => $is_checking_history['result_message_history']]);
+        }
+
+        $is_checking_empty = GlobalController::is_checking_empty($item, $role, $relit_id);
+        if ($is_checking_empty['result_entry_empty'] == false) {
+            return view('message', ['message' => $is_checking_empty['result_message_empty']]);
         }
 
         $string_unzip_current_next = self::string_unzip_current_next($string_current);
@@ -5677,6 +5762,7 @@ class ItemController extends Controller
             'relit_id' => $relit_id,
             'array_calc' => $array_calc,
             'array_disabled' => $array_disabled,
+            'is_view_minutes' => $is_limit_minutes['is_view_minutes'],
 //          'string_link_ids_current' => $string_link_ids_current, 'string_item_ids_current' => $string_item_ids_current, 'string_all_codes_current' => $string_all_codes_current,
             'string_current' => $string_current,
             'heading' => $heading,
@@ -5721,6 +5807,7 @@ class ItemController extends Controller
 //        if (GlobalController::check_project_user($project, $role) == false) {
 //            return view('message', ['message' => trans('main.info_user_changed')]);
 //        }
+
         $string_unzip_current_next = self::string_unzip_current_next($string_current);
         $string_link_ids_current = $string_unzip_current_next['string_link_ids'];
         $string_item_ids_current = $string_unzip_current_next['string_item_ids'];
@@ -5728,13 +5815,32 @@ class ItemController extends Controller
         $string_vwret_ids_current = $string_unzip_current_next['string_vwret_ids'];
         $string_all_codes_current = $string_unzip_current_next['string_all_codes'];
 
-        $base_right = self::base_relit_right($item->base, $role, $heading, $base_index_page, $relit_id, $parent_ret_id);
+//      $base_right = self::base_relit_right($item->base, $role, $heading, $base_index_page, $relit_id, $parent_ret_id);
+        $base_right = GlobalController::base_right($item->base, $role, $relit_id);
+
+        $is_limit_minutes = GlobalController::is_limit_minutes($base_right, $item);
+        if ($is_limit_minutes['is_entry_minutes'] == false) {
+            return view('message', ['message' => trans('main.no_access') . ' (' . trans('main.title_min') . ')']);
+        }
+
+        $is_checking_history = GlobalController::is_checking_history($item, $role, $relit_id);
+        if ($is_checking_history['result_entry_history'] == false) {
+            return view('message', ['message' => $is_checking_history['result_message_history']]);
+        }
+
+        $is_checking_empty = GlobalController::is_checking_empty($item, $role, $relit_id);
+        if ($is_checking_empty['result_entry_empty'] == false) {
+            return view('message', ['message' => $is_checking_empty['result_message_empty']]);
+        }
 
         return view('item/ext_show', ['type_form' => 'delete_question', 'item' => $item, 'role' => $role,
             'project' => $project,
             'relit_id' => $relit_id,
             'base_right' => $base_right,
             'array_calc' => $this->get_array_calc_edit($item)['array_calc'],
+            'is_limit_minutes' => $is_limit_minutes,
+            'is_checking_history' => $is_checking_history,
+            'is_checking_empty' => $is_checking_empty,
             // 'string_link_ids_current' => $string_link_ids_current, 'string_item_ids_current' => $string_item_ids_current, 'string_all_codes_current' => $string_all_codes_current,
             'string_current' => $string_current,
             'heading' => $heading,
@@ -5796,7 +5902,8 @@ class ItemController extends Controller
 
         $relip_project = GlobalController::calc_relip_project($relit_id, $project);
         $array_items_ids = array();
-        $is_delete = self::is_delete($item, $role, $heading, $base_index_page, $relit_id, $parent_ret_id);
+//      $is_delete = self::is_delete($item, $role, $heading, $base_index_page, $relit_id, $parent_ret_id);
+        $is_delete = self::is_delete($item, $role, $relit_id);
 
         if ($is_delete['result'] == true) {
 
@@ -5876,6 +5983,10 @@ class ItemController extends Controller
                         return trans('error_sending_email') . ": " . $exc->getMessage();
                     }
                 }
+            }
+        } else {
+            if ($is_delete['is_limit_minutes']['is_entry_minutes'] == false) {
+                return view('message', ['message' => trans('main.no_access') . ' (' . trans('main.title_min') . ')']);
             }
         }
 
@@ -5972,29 +6083,37 @@ class ItemController extends Controller
 
     }
 
-    static function is_delete(Item $item, Role $role, $heading, $base_index_page, $relit_id, $parent_ret_id)
+//    static function is_delete(Item $item, Role $role, $heading, $base_index_page, $relit_id, $parent_ret_id)
+    static function is_delete(Item $item, Role $role, $relit_id)
     {
         // Нужно присваивания
         $result = false;
         $is_list_base_used_delete = false;
         //$base_right = self::base_relit_right($item->base, $role, $heading, $base_index_page, $relit_id, $parent_ret_id);
         $base_right = GlobalController::base_right($item->base, $role, $relit_id);
-        if ($base_right['is_list_base_delete'] == true) {
-            if ($base_right['is_list_base_used_delete'] == true) {
-                $result = true;
-                $array_items_ids = array();
-                // Проверка на существование хотя бы одного элемента в массиве
-                self::calc_items_ids_for_delete($item, $array_items_ids, true);
-                // Используется "count($array_items_ids) > 0"
-                if (count($array_items_ids) > 0) {
-                    $is_list_base_used_delete = true;
+        $is_limit_minutes = GlobalController::is_limit_minutes($base_right, $item);
+        $is_checking_history = GlobalController::is_checking_history($item, $role, $relit_id);
+        $is_checking_empty = GlobalController::is_checking_empty($item, $role, $relit_id);
+        if ($is_limit_minutes['is_entry_minutes'] == true
+            & $is_checking_history['result_entry_history'] == true
+            & $is_checking_empty['result_entry_empty'] == true) {
+            if ($base_right['is_list_base_delete'] == true) {
+                if ($base_right['is_list_base_used_delete'] == true) {
+                    $result = true;
+                    $array_items_ids = array();
+                    // Проверка на существование хотя бы одного элемента в массиве
+                    self::calc_items_ids_for_delete($item, $array_items_ids, true);
+                    // Используется "count($array_items_ids) > 0"
+                    if (count($array_items_ids) > 0) {
+                        $is_list_base_used_delete = true;
+                    }
+                } else {
+                    // Отрицание "!" используется
+                    $result = !self::main_exists($item);
                 }
-            } else {
-                // Отрицание "!" используется
-                $result = !self::main_exists($item);
             }
         }
-        return ['result' => $result, 'is_list_base_used_delete' => $is_list_base_used_delete];
+        return ['result' => $result, 'is_list_base_used_delete' => $is_list_base_used_delete, 'is_limit_minutes' => $is_limit_minutes];
     }
 
     // Рекурсивная функция
@@ -7582,7 +7701,6 @@ class ItemController extends Controller
 //            $calc_link_relit_id = GlobalController::calc_link_relit_id($link, $role, $relit_id);
 //            $base_link_right = GlobalController::base_link_right($link, $role, $calc_link_relit_id);
             $base_link_right = GlobalController::base_link_right($link, $role, $relit_id);
-
             if ($base_link_right['is_list_link_enable'] == true) {
                 $base_right = GlobalController::base_right($link->child_base, $role, $relit_id);
                 if (GlobalController::is_base_calcname_check($link->child_base, $base_right) == true) {

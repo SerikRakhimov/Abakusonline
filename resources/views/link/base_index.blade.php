@@ -64,6 +64,8 @@
             <th class="text-left">{{trans('main.parent_is_calcname')}}</th>
             <th class="text-left">{{trans('main.parent_is_left_calcname')}}</th>
             <th class="text-left">{{trans('main.parent_is_small_calcname')}}</th>
+            <th class="text-left">{{trans('main.parent_is_checking_history')}}</th>
+            <th class="text-left">{{trans('main.parent_is_checking_empty')}}</th>
             <th class="text-left">{{trans('main.parent_calcname_prefix')}}</th>
             <th class="text-center">Id</th>
             <th class="text-center"></th>
@@ -245,6 +247,16 @@
                 <td class="text-left">
                     <a href="{{route('link.show',$link)}}">
                         {{$link->parent_is_small_calcname}}
+                    </a>
+                </td>
+                <td class="text-left">
+                    <a href="{{route('link.show',$link)}}">
+                        {{$link->parent_is_checking_history}}
+                    </a>
+                </td>
+                <td class="text-left">
+                    <a href="{{route('link.show',$link)}}">
+                        {{$link->parent_is_checking_empty}}
                     </a>
                 </td>
                 <td class="text-left">

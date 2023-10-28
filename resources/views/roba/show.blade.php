@@ -67,6 +67,7 @@
     <p>{{trans('main.is_twt_enable')}}: <b>{{GlobalController::name_is_boolean($roba->is_twt_enable)}}</b></p>
     <p>{{trans('main.is_tst_enable')}}: <b>{{GlobalController::name_is_boolean($roba->is_tst_enable)}}</b></p>
     <p>{{trans('main.is_cus_enable')}}: <b>{{GlobalController::name_is_boolean($roba->is_cus_enable)}}</b></p>
+    <p>{{trans('main.is_minutes_entry')}}: <b>{{GlobalController::name_is_boolean($roba->is_minutes_entry)}}</b></p>
     <p>{{trans('main.is_show_hist_attr_enable')}}: <b>{{GlobalController::name_is_boolean($roba->is_show_hist_attr_enable)}}</b></p>
     <p>{{trans('main.is_edit_hist_attr_enable')}}: <b>{{GlobalController::name_is_boolean($roba->is_edit_hist_attr_enable)}}</b></p>
     <p>{{trans('main.is_list_hist_attr_enable')}}: <b>{{GlobalController::name_is_boolean($roba->is_list_hist_attr_enable)}}</b></p>

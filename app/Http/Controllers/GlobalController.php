@@ -114,6 +114,7 @@ class GlobalController extends Controller
         $is_tst_enable = $base->is_default_tst_lst;
         $is_cus_enable = false;
         $is_edit_parlink_enable = false;
+        $is_entry_limit_minutes = $base->entry_minutes > 0;
         $is_show_hist_attr_enable = false;
         $is_edit_hist_attr_enable = false;
         $is_list_hist_attr_enable = false;
@@ -267,6 +268,7 @@ class GlobalController extends Controller
             $is_roba_tst_enable = $roba->is_tst_enable;
             $is_roba_cus_enable = $roba->is_cus_enable;
             $is_roba_edit_parlink_enable = $roba->is_edit_parlink_enable;
+            $is_roba_minutes_entry = $roba->is_minutes_entry;
             $is_roba_show_hist_attr_enable = $roba->is_show_hist_attr_enable;
             $is_roba_edit_hist_attr_enable = $roba->is_edit_hist_attr_enable;
             $is_roba_list_hist_attr_enable = $roba->is_list_hist_attr_enable;
@@ -337,6 +339,17 @@ class GlobalController extends Controller
             $is_tst_enable = $is_roba_tst_enable;
             $is_cus_enable = $is_roba_cus_enable;
             $is_edit_parlink_enable = $is_roba_edit_parlink_enable;
+            if ($is_roba_minutes_entry == false) {
+                // Если "$is_roba_minutes_entry == false" ("галочка" в robas не проставлена),
+                // тогда, в любом случае, $is_entry_limit_minutes = false (вне зависимости условия "$base->entry_minutes > 0")
+                $is_entry_limit_minutes = $is_roba_minutes_entry;
+            }
+            // Не удалять строки
+//            else{
+//            Если это условие "$base->entry_minutes > 0" выполняется, тогда  $is_entry_limit_minutes = true
+//            Если это условие "$base->entry_minutes > 0" не выполняется, тогда  $is_entry_limit_minutes = false
+//                $is_entry_limit_minutes = $base->entry_minutes > 0;
+//            }
             $is_show_hist_attr_enable = $is_roba_show_hist_attr_enable;
             $is_edit_hist_attr_enable = $is_roba_edit_hist_attr_enable;
             $is_list_hist_attr_enable = $is_roba_list_hist_attr_enable;
@@ -396,6 +409,7 @@ class GlobalController extends Controller
             'is_tst_enable' => $is_tst_enable,
             'is_cus_enable' => $is_cus_enable,
             'is_edit_parlink_enable' => $is_edit_parlink_enable,
+            'is_entry_limit_minutes' => $is_entry_limit_minutes,
             'is_show_hist_attr_enable' => $is_show_hist_attr_enable,
             'is_edit_hist_attr_enable' => $is_edit_hist_attr_enable,
             'is_list_hist_attr_enable' => $is_list_hist_attr_enable,
@@ -467,6 +481,8 @@ class GlobalController extends Controller
         $is_tst_enable = $base_child_right['is_tst_enable'];
         $is_cus_enable = $base_child_right['is_cus_enable'];
         $is_edit_parlink_enable = $base_right['is_edit_parlink_enable'];
+        $is_checking_history = $link->parent_is_checking_history;
+        $is_checking_empty = $link->parent_is_checking_empty;
         $is_show_hist_attr_enable = $base_right['is_show_hist_attr_enable'];
         $is_edit_hist_attr_enable = $base_right['is_edit_hist_attr_enable'];
         $is_list_hist_attr_enable = $base_right['is_list_hist_attr_enable'];
@@ -554,6 +570,8 @@ class GlobalController extends Controller
             $is_edit_link_read = $roli->is_edit_link_read;
             $is_edit_link_update = $roli->is_edit_link_update;
             $is_edit_parlink_enable = $roli->is_edit_parlink_enable;
+            $is_checking_history = $roli->is_parent_checking_history;
+            $is_checking_empty = $roli->is_parent_checking_empty;
             //$is_hier_base_enable = $roli->is_hier_base_enable;
             $is_hier_link_enable = $roli->is_hier_link_enable;
 //          'Обязательно к заполнению (для списков, при условии $base->is_required_lst_num_str_txt_img_doc = false
@@ -605,6 +623,8 @@ class GlobalController extends Controller
             'is_tst_enable' => $is_tst_enable,
             'is_cus_enable' => $is_cus_enable,
             'is_edit_parlink_enable' => $is_edit_parlink_enable,
+            'is_checking_history' => $is_checking_history,
+            'is_checking_empty' => $is_checking_empty,
             'is_show_hist_attr_enable' => $is_show_hist_attr_enable,
             'is_edit_hist_attr_enable' => $is_edit_hist_attr_enable,
             'is_list_hist_attr_enable' => $is_list_hist_attr_enable,
@@ -3151,6 +3171,224 @@ class GlobalController extends Controller
             }
         }
         return ['proj_name' => $proj_name, 'relit_title' => $relit_title, 'proj_relit_total' => $proj_name . $relit_title];
+    }
+
+    static function const_base_min(Base $base)
+    {
+        // Результат в int нужно, используется при выводе текста и вычисления разности минут
+        $result = $base->entry_minutes;
+        if ($result < 0) {
+            $result = 0;
+        }
+        return $result;
+    }
+
+    static function calc_minutes(Item $item)
+    {
+        // https://www.techiedelight.com/ru/get-time-difference-in-minutes-php/
+        // установка часового пояса нужно для проверки времени
+        date_default_timezone_set('Asia/Almaty');
+        $start = Now();
+        $end = $item->created_at;
+        $interval = $start->diff($end);
+        $result = ($interval->days * 24 * 60) + ($interval->h * 60) + $interval->i;
+        return $result;
+    }
+
+    // $base->entry_minutes
+    static function base_minutes(Base $base)
+    {
+        $minutes = self::const_base_min($base);
+        $result = $minutes . ' ' . trans('main.info_min');
+        $ch_min_desc = $base->ch_min_desc();
+        if ($ch_min_desc != 0) {
+            $result = $result . ' (' . $ch_min_desc . ')';
+        }
+        return $result;
+    }
+
+    // Остаток минут
+    static function remaining_minutes(Item $item)
+    {
+        $minutes = self::const_base_min($item->base) - self::calc_minutes($item);
+        $result = $minutes . ' ' . trans('main.info_min');
+        return $result;
+    }
+
+    // При добавлении записи, вызывается из ext_create()
+    static function is_limit_add_record_minutes($base_right)
+    {
+        return $base_right['is_entry_limit_minutes'];
+    }
+
+    static function is_limit_minutes($base_right, Item $item)
+    {
+        // Можно выполнять корректировку и удаление данных - да/нет
+        // 'true' по умолчанию
+        $result_entry_minutes = true;
+        // Выводить количество минут - да/нет
+        // 'false' по умолчанию
+        $result_view_minutes = false;
+        if ($base_right['is_entry_limit_minutes'] == true) {
+            $minutes = self::calc_minutes($item);
+            $result_entry_minutes = $minutes < self::const_base_min($item->base);
+            $result_view_minutes = $result_entry_minutes;
+        }
+        return ['is_entry_minutes' => $result_entry_minutes, 'is_view_minutes' => $result_view_minutes];
+    }
+
+    // Алгоритмы функций is_checking_add_history() и is_checking_history() похожи между собой
+    // При добавлении записи
+    static function is_checking_add_history(Role $role, $relit_id, Link $par_link = null, Item $parent_item = null)
+    {
+        // Можно выполнять корректировку и удаление данных - да/нет
+        // true по умолчанию
+        $result_entry_history = true;
+        $result_message_history = "";
+        if ($par_link) {
+            if ($parent_item) {
+                $base_link_right = GlobalController::base_link_right($par_link, $role, $relit_id);
+                if ($base_link_right['is_checking_history'] == true) {
+                    $checking_func_history = self::checking_func_history($parent_item);
+                    $result_entry_history = $checking_func_history['result_entry_history'];
+                    $result_message_history = $checking_func_history['result_message_history'];
+                }
+            }
+        }
+        return ['result_entry_history' => $result_entry_history, 'result_message_history' => $result_message_history];
+    }
+
+    static function is_checking_history(Item $main_item, Role $role, $relit_id)
+    {
+        // Можно выполнять корректировку и удаление данных - да/нет
+        // true по умолчанию
+        $result_entry_history = true;
+        $result_message_history = "";
+        $base = $main_item->base;
+        // 'get()' нужно
+        $links = Link::where('child_base_id', '=', $base->id)
+            ->get();
+        foreach ($links as $link) {
+            $base_link_right = GlobalController::base_link_right($link, $role, $relit_id);
+            if ($base_link_right['is_checking_history'] == true) {
+                $item = GlobalController::view_info($main_item->id, $link->id);
+                // 'if ($item)' - эта проверка нужна
+                if ($item) {
+                    $checking_func_history = self::checking_func_history($item);
+                    $result_entry_history = $checking_func_history['result_entry_history'];
+                    $result_message_history = $checking_func_history['result_message_history'];
+                    if ($result_entry_history == false) {
+                        break;
+                    }
+                }
+            }
+        }
+        return ['result_entry_history' => $result_entry_history, 'result_message_history' => $result_message_history];
+    }
+
+    private function checking_func_history(Item $item)
+    {
+        $result_entry_history = true;
+        $result_message_history = "";
+//        if ($item) {
+        if ($item->is_history()) {
+            $result_entry_history = false;
+            $result_message_history = mb_strtolower(trans('main.cannot_save_record')
+                . ' ("' . $item->base->name() . ': ' . $item->name() . '" - '
+                . trans('main.is_history') . ')');
+        }
+//        }
+        return ['result_entry_history' => $result_entry_history, 'result_message_history' => $result_message_history];
+    }
+
+    // Алгоритмы функций is_checking_add_empty() и is_checking_empty() похожи между собой
+    // При добавлении записи
+    static function is_checking_add_empty(Role $role, $relit_id, Link $par_link = null, Item $parent_item = null)
+    {
+        // Эта функция проверяет на !$parent_item по сути, можно оставить эту функцию и проверку
+        // Можно выполнять корректировку и удаление данных - да/нет
+        // true по умолчанию
+        $result_entry_empty = true;
+        $result_message_empty = "";
+        // Как правило if ($par_link) и ($parent_item)
+        // плюс проверка на !$item всгда будет false
+        if ($par_link) {
+            // Эта проверка не нужна
+            //if ($parent_item) {
+            $base_link_right = GlobalController::base_link_right($par_link, $role, $relit_id);
+            if ($base_link_right['is_checking_empty'] == true) {
+                $checking_func_empty = self::checking_func_empty($par_link->parent_base, $parent_item);
+                $result_entry_empty = $checking_func_empty['result_entry_empty'];
+                $result_message_empty = $checking_func_empty['result_message_empty'];
+            }
+            //}
+        }
+        return ['result_entry_empty' => $result_entry_empty, 'result_message_empty' => $result_message_empty];
+    }
+
+    static function is_checking_empty(Item $main_item, Role $role, $relit_id)
+    {
+        // Можно выполнять корректировку и удаление данных - да/нет
+        // true по умолчанию
+        $result_entry_empty = true;
+        $result_message_empty = "";
+        $base = $main_item->base;
+        // 'get()' нужно
+        $links = Link::where('child_base_id', '=', $base->id)
+            ->get();
+        foreach ($links as $link) {
+            $base_link_right = GlobalController::base_link_right($link, $role, $relit_id);
+            if ($base_link_right['is_checking_empty'] == true) {
+                $item = GlobalController::view_info($main_item->id, $link->id);
+                // 'if ($item)' - эта проверка не нужна
+                //if ($item) {
+                $checking_func_empty = self::checking_func_empty($link->parent_base, $item);
+                $result_entry_empty = $checking_func_empty['result_entry_empty'];
+                $result_message_empty = $checking_func_empty['result_message_empty'];
+                if ($result_entry_empty == false) {
+                    break;
+                }
+                //}
+            }
+        }
+        return ['result_entry_empty' => $result_entry_empty, 'result_message_empty' => $result_message_empty];
+    }
+
+    // 'Base $base, $item' - передаются два параметра
+    // 'checking_func_empty($item)' используется, чтобы можно передавать $item со значением null
+    private function checking_func_empty(Base $base, $item)
+    {
+        $result_entry_empty = true;
+        $result_message_empty = "";
+
+        if ($item) {
+            // Для типа полей Логический
+            // Эта проверка нужна
+            if ($item->base->type_is_boolean()) {
+                $value = $item->boolval()['value'];
+                if ($value) {
+                    // Если no checked
+                    if ($value == false) {
+                        $result_entry_empty = false;
+                    }
+                } // т.е. (!$value)
+                else {
+                    $result_entry_empty = false;
+                }
+            }
+        } // т.е. (!$item)
+        else {
+            $result_entry_empty = false;
+        }
+
+        if ($result_entry_empty == false) {
+            $result_message_empty = mb_strtolower(trans('main.cannot_save_record')
+                . ' ("' . $base->name() . '" - '
+                . trans('main.is_empty') . ')');
+        }
+
+        return ['result_entry_empty' => $result_entry_empty, 'result_message_empty' => $result_message_empty];
+
     }
 
 //    function get_display()

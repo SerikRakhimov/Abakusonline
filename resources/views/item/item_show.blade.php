@@ -5,7 +5,6 @@
     <?php
     use App\Http\Controllers\ItemController;
     ?>
-
     <h3 class="display-5">
         @if ($type_form == 'show')
             {{trans('main.viewing_record')}}

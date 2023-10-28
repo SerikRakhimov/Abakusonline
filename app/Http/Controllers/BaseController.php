@@ -118,6 +118,12 @@ class BaseController extends Controller
         $base->desc_lang_1 = isset($request->desc_lang_1) ? $request->desc_lang_1 : "";
         $base->desc_lang_2 = isset($request->desc_lang_2) ? $request->desc_lang_2 : "";
         $base->desc_lang_3 = isset($request->desc_lang_3) ? $request->desc_lang_3 : "";
+
+        $base->ch_min_desc_0 = isset($request->ch_min_desc_0) ? $request->ch_min_desc_0 : "";
+        $base->ch_min_desc_1 = isset($request->ch_min_desc_1) ? $request->ch_min_desc_1 : "";
+        $base->ch_min_desc_2 = isset($request->ch_min_desc_2) ? $request->ch_min_desc_2 : "";
+        $base->ch_min_desc_3 = isset($request->ch_min_desc_3) ? $request->ch_min_desc_3 : "";
+
         if ($base->desc_lang_0 == "") {
             $base->desc_lang_0 = $base->name_lang_0;
         }
@@ -174,6 +180,7 @@ class BaseController extends Controller
         $base->length_txt = $request->length_txt >= 0 ? $request->length_txt : 0;
 
         $base->serial_number = $request->serial_number;
+        $base->entry_minutes = $request->entry_minutes >= 0 ? $request->entry_minutes : 0;
 
         // Похожие строки в BaseController.php (functions: store(), edit())
         // и в Base.php (functions: get_types(), type(), type_name())
@@ -229,6 +236,11 @@ class BaseController extends Controller
                 $base->is_default_list_base_byuser = 0;
                 $base->is_default_heading = 0;
                 $base->is_default_view_cards = 0;
+                $base->entry_minutes = 0;
+                $base->ch_min_desc_0 = "";
+                $base->ch_min_desc_1 = "";
+                $base->ch_min_desc_2 = "";
+                $base->ch_min_desc_3 = "";
                 break;
             // Строка
             case 2:
@@ -264,6 +276,11 @@ class BaseController extends Controller
                 $base->is_default_list_base_byuser = 0;
                 $base->is_default_heading = 0;
                 $base->is_default_view_cards = 0;
+                $base->entry_minutes = 0;
+                $base->ch_min_desc_0 = "";
+                $base->ch_min_desc_1 = "";
+                $base->ch_min_desc_2 = "";
+                $base->ch_min_desc_3 = "";
                 break;
             // Дата
             case 3:
@@ -301,6 +318,11 @@ class BaseController extends Controller
                 $base->is_default_list_base_byuser = 0;
                 $base->is_default_heading = 0;
                 $base->is_default_view_cards = 0;
+                $base->entry_minutes = 0;
+                $base->ch_min_desc_0 = "";
+                $base->ch_min_desc_1 = "";
+                $base->ch_min_desc_2 = "";
+                $base->ch_min_desc_3 = "";
                 break;
             // Логический
             case 4:
@@ -338,6 +360,11 @@ class BaseController extends Controller
                 $base->is_default_list_base_byuser = 0;
                 $base->is_default_heading = 0;
                 $base->is_default_view_cards = 0;
+                $base->entry_minutes = 0;
+                $base->ch_min_desc_0 = "";
+                $base->ch_min_desc_1 = "";
+                $base->ch_min_desc_2 = "";
+                $base->ch_min_desc_3 = "";
                 break;
             // Текст
             case 5:
@@ -372,6 +399,11 @@ class BaseController extends Controller
                 $base->is_default_list_base_byuser = 0;
                 $base->is_default_heading = 0;
                 $base->is_default_view_cards = 0;
+                $base->entry_minutes = 0;
+                $base->ch_min_desc_0 = "";
+                $base->ch_min_desc_1 = "";
+                $base->ch_min_desc_2 = "";
+                $base->ch_min_desc_3 = "";
                 break;
             // Изображение
             case 6:
@@ -406,6 +438,11 @@ class BaseController extends Controller
                 $base->is_default_list_base_byuser = 0;
                 $base->is_default_heading = 0;
                 $base->is_default_view_cards = 0;
+                $base->entry_minutes = 0;
+                $base->ch_min_desc_0 = "";
+                $base->ch_min_desc_1 = "";
+                $base->ch_min_desc_2 = "";
+                $base->ch_min_desc_3 = "";
                 break;
             // Документ
             case 7:
@@ -441,6 +478,11 @@ class BaseController extends Controller
                 $base->is_default_list_base_byuser = 0;
                 $base->is_default_heading = 0;
                 $base->is_default_view_cards = 0;
+                $base->entry_minutes = 0;
+                $base->ch_min_desc_0 = "";
+                $base->ch_min_desc_1 = "";
+                $base->ch_min_desc_2 = "";
+                $base->ch_min_desc_3 = "";
                 break;
         }
         if ($base->is_code_needed == "0") {
@@ -523,6 +565,12 @@ class BaseController extends Controller
         $base->desc_lang_1 = isset($request->desc_lang_1) ? $request->desc_lang_1 : "";
         $base->desc_lang_2 = isset($request->desc_lang_2) ? $request->desc_lang_2 : "";
         $base->desc_lang_3 = isset($request->desc_lang_3) ? $request->desc_lang_3 : "";
+
+        $base->ch_min_desc_0 = isset($request->ch_min_desc_0) ? $request->ch_min_desc_0 : "";
+        $base->ch_min_desc_1 = isset($request->ch_min_desc_1) ? $request->ch_min_desc_1 : "";
+        $base->ch_min_desc_2 = isset($request->ch_min_desc_2) ? $request->ch_min_desc_2 : "";
+        $base->ch_min_desc_3 = isset($request->ch_min_desc_3) ? $request->ch_min_desc_3 : "";
+
         if ($base->desc_lang_0 == "") {
             $base->desc_lang_0 = $base->name_lang_0;
         }
@@ -580,6 +628,7 @@ class BaseController extends Controller
         $base->length_txt = $request->length_txt >= 0 ? $request->length_txt : 0;
 
         $base->serial_number = $request->serial_number;
+        $base->entry_minutes = $request->entry_minutes >= 0 ? $request->entry_minutes : 0;
 
         // Похожие строки в BaseController.php (functions: store(), edit())
         // и в Base.php (functions: get_types(), type(), type_name())
@@ -631,6 +680,15 @@ class BaseController extends Controller
                 $base->is_calculated_lst = "0";
                 $base->is_setup_lst = "0";
                 $base->length_txt = 0;
+                $base->is_default_list_base_user_id = 0;
+                $base->is_default_list_base_byuser = 0;
+                $base->is_default_heading = 0;
+                $base->is_default_view_cards = 0;
+                $base->entry_minutes = 0;
+                $base->ch_min_desc_0 = "";
+                $base->ch_min_desc_1 = "";
+                $base->ch_min_desc_2 = "";
+                $base->ch_min_desc_3 = "";
                 break;
             // Строка
             case 2:
@@ -662,6 +720,15 @@ class BaseController extends Controller
                 $base->is_calculated_lst = "0";
                 $base->is_setup_lst = "0";
                 $base->length_txt = 0;
+                $base->is_default_list_base_user_id = 0;
+                $base->is_default_list_base_byuser = 0;
+                $base->is_default_heading = 0;
+                $base->is_default_view_cards = 0;
+                $base->entry_minutes = 0;
+                $base->ch_min_desc_0 = "";
+                $base->ch_min_desc_1 = "";
+                $base->ch_min_desc_2 = "";
+                $base->ch_min_desc_3 = "";
                 break;
             // Дата
             case 3:
@@ -695,6 +762,15 @@ class BaseController extends Controller
                 $base->is_calculated_lst = "0";
                 $base->is_setup_lst = "0";
                 $base->length_txt = 0;
+                $base->is_default_list_base_user_id = 0;
+                $base->is_default_list_base_byuser = 0;
+                $base->is_default_heading = 0;
+                $base->is_default_view_cards = 0;
+                $base->entry_minutes = 0;
+                $base->ch_min_desc_0 = "";
+                $base->ch_min_desc_1 = "";
+                $base->ch_min_desc_2 = "";
+                $base->ch_min_desc_3 = "";
                 break;
             // Логический
             case 4:
@@ -728,6 +804,15 @@ class BaseController extends Controller
                 $base->is_calculated_lst = "0";
                 $base->is_setup_lst = "0";
                 $base->length_txt = 0;
+                $base->is_default_list_base_user_id = 0;
+                $base->is_default_list_base_byuser = 0;
+                $base->is_default_heading = 0;
+                $base->is_default_view_cards = 0;
+                $base->entry_minutes = 0;
+                $base->ch_min_desc_0 = "";
+                $base->ch_min_desc_1 = "";
+                $base->ch_min_desc_2 = "";
+                $base->ch_min_desc_3 = "";
                 break;
             // Текст
             case 5:
@@ -758,6 +843,15 @@ class BaseController extends Controller
                 $base->maxcount_user_id_lst = 0;
                 $base->is_calculated_lst = "0";
                 $base->is_setup_lst = "0";
+                $base->is_default_list_base_user_id = 0;
+                $base->is_default_list_base_byuser = 0;
+                $base->is_default_heading = 0;
+                $base->is_default_view_cards = 0;
+                $base->entry_minutes = 0;
+                $base->ch_min_desc_0 = "";
+                $base->ch_min_desc_1 = "";
+                $base->ch_min_desc_2 = "";
+                $base->ch_min_desc_3 = "";
                 break;
             // Изображение
             case 6:
@@ -788,6 +882,15 @@ class BaseController extends Controller
                 $base->is_calculated_lst = "0";
                 $base->is_setup_lst = "0";
                 $base->length_txt = 0;
+                $base->is_default_list_base_user_id = 0;
+                $base->is_default_list_base_byuser = 0;
+                $base->is_default_heading = 0;
+                $base->is_default_view_cards = 0;
+                $base->entry_minutes = 0;
+                $base->ch_min_desc_0 = "";
+                $base->ch_min_desc_1 = "";
+                $base->ch_min_desc_2 = "";
+                $base->ch_min_desc_3 = "";
                 break;
             // Документ
             case 7:
@@ -819,6 +922,15 @@ class BaseController extends Controller
                 $base->is_calculated_lst = "0";
                 $base->is_setup_lst = "0";
                 $base->length_txt = 0;
+                $base->is_default_list_base_user_id = 0;
+                $base->is_default_list_base_byuser = 0;
+                $base->is_default_heading = 0;
+                $base->is_default_view_cards = 0;
+                $base->entry_minutes = 0;
+                $base->ch_min_desc_0 = "";
+                $base->ch_min_desc_1 = "";
+                $base->ch_min_desc_2 = "";
+                $base->ch_min_desc_3 = "";
                 break;
         }
 

@@ -44,6 +44,8 @@
     <p>{{trans('main.is_hier_link_enable')}}: <b>{{GlobalController::name_is_boolean($roli->is_hier_link_enable)}}</b></p>
     <p>{{trans('main.is_edit_parlink_enable')}}: <b>{{GlobalController::name_is_boolean($roli->is_edit_parlink_enable)}}</b></p>
     <p>{{trans('main.is_base_required')}}: <b>{{GlobalController::name_is_boolean($roli->is_base_required)}}</b></p>
+    <p>{{trans('main.is_parent_checking_history')}}: <b>{{GlobalController::name_is_boolean($roli->is_parent_checking_history)}}</b></p>
+    <p>{{trans('main.is_parent_checking_empty')}}: <b>{{GlobalController::name_is_boolean($roli->is_parent_checking_empty)}}</b></p>
     <p>{{trans('main.is_parent_full_sort_asc')}}: <b>{{GlobalController::name_is_boolean($roli->is_parent_full_sort_asc)}}</b></p>
     <p>{{trans('main.is_parent_page_sort_asc')}}: <b>{{GlobalController::name_is_boolean($roli->is_parent_page_sort_asc)}}</b></p>
     @if ($type_form == 'show')

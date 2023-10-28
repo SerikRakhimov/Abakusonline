@@ -894,6 +894,31 @@
             </div>
         </div>
 
+        <div class="form-group row" id="is_minutes_entry_form_group">
+            <div class="col-sm-3 text-right">
+                <label class="form-label"
+                       for="is_minutes_entry">{{trans('main.is_minutes_entry')}}</label>
+            </div>
+            <div class="col-sm-7">
+                <input class="@error('is_minutes_entry') is-invalid @enderror"
+                       type="checkbox"
+                       name="is_minutes_entry"
+                       placeholder=""
+                       {{--                       "$roba->is_minutes_entry ?? false" - "false" значение по умолчанию--}}
+                       @if ((old('is_minutes_entry') ?? ($roba->is_minutes_entry ?? false)) ==  true)
+                       checked
+                    @endif
+                >
+                @error('is_minutes_entry')
+                <div class="invalid-feedback">
+                    {{$message}}
+                </div>
+                @enderror
+            </div>
+            <div class="col-sm-2">
+            </div>
+        </div>
+
         <div class="form-group row" id="is_show_hist_attr_enable_form_group">
             <div class="col-sm-3 text-right">
                 <label class="form-label"

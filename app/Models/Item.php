@@ -450,7 +450,7 @@ class Item extends Model
         return ['result' => $result, 'value' => $value, 'int_vl' => $int_vl];
     }
 
-// Для типа полей Число
+// Для типа полей Логический
     function boolval()
     {
         $value = null;

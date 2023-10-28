@@ -61,6 +61,8 @@
     <p>{{trans('main.is_calcnm_correct_lst')}}: <b>{{GlobalController::name_is_boolean($base->is_calcnm_correct_lst)}}</b></p>
     <p>{{trans('main.is_default_twt_lst')}}: <b>{{GlobalController::name_is_boolean($base->is_default_twt_lst)}}</b></p>
     <p>{{trans('main.is_default_tst_lst')}}: <b>{{GlobalController::name_is_boolean($base->is_default_tst_lst)}}</b></p>
+    <p>{{trans('main.entry_minutes')}}: <b>{{$base->entry_minutes}}</b></p>
+    <p>{{trans('main.ch_min_desc')}}: <b>{{$base->ch_min_desc()}}</b></p>
     <p>{{trans('main.sepa_calcname')}}: <b>{{$base->sepa_calcname}}</b></p>
     <p>{{trans('main.is_same_small_calcname')}}: <b>{{GlobalController::name_is_boolean($base->is_same_small_calcname)}}</b></p>
     <p>{{trans('main.sepa_same_left_calcname')}}: <b>{{$base->sepa_same_left_calcname}}</b></p>

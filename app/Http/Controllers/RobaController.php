@@ -251,6 +251,7 @@ class RobaController extends Controller
         $roba->is_base_required = isset($request->is_base_required) ? true : false;
         $roba->is_twt_enable = isset($request->is_twt_enable) ? true : false;
         $roba->is_tst_enable = isset($request->is_tst_enable) ? true : false;
+        $roba->is_minutes_entry = isset($request->is_minutes_entry) ? true : false;
         $roba->is_cus_enable = isset($request->is_cus_enable) ? true : false;
         $roba->is_edit_parlink_enable = isset($request->is_edit_parlink_enable) ? true : false;
         $roba->is_show_hist_attr_enable = isset($request->is_show_hist_attr_enable) ? true : false;

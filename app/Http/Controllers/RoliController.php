@@ -187,6 +187,8 @@ class RoliController extends Controller
         $roli->is_edit_parlink_enable = isset($request->is_edit_parlink_enable) ? true : false;
         $roli->is_hier_link_enable = isset($request->is_hier_link_enable) ? true : false;
         $roli->is_base_required = isset($request->is_base_required) ? true : false;
+        $roli->is_parent_checking_history = isset($request->is_parent_checking_history) ? true : false;
+        $roli->is_parent_checking_empty = isset($request->is_parent_checking_empty) ? true : false;
         $roli->is_parent_full_sort_asc = isset($request->is_parent_full_sort_asc) ? true : false;
         $roli->is_parent_page_sort_asc = isset($request->is_parent_page_sort_asc) ? true : false;
         $roli->save();

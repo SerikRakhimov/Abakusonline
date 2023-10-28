@@ -666,6 +666,34 @@
             </div>
         </div>
 
+        <div class="form-group" id="parent_is_checking_history_form_group">
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" name="parent_is_checking_history"
+                       id="parent_is_checking_history"
+                       {{--            "false" - значение по умолчанию --}}
+                       @if ((old('parent_is_checking_history') ?? ($link->parent_is_checking_history ?? false)) ==  true)
+                       checked
+                    @endif
+                >
+                <label class="form-check-label"
+                       for="parent_is_checking_history">{{trans('main.parent_is_checking_history')}}</label>
+            </div>
+        </div>
+
+        <div class="form-group" id="parent_is_checking_empty_form_group">
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" name="parent_is_checking_empty"
+                       id="parent_is_checking_empty"
+                       {{--            "false" - значение по умолчанию --}}
+                       @if ((old('parent_is_checking_empty') ?? ($link->parent_is_checking_empty ?? false)) ==  true)
+                       checked
+                    @endif
+                >
+                <label class="form-check-label"
+                       for="parent_is_checking_empty">{{trans('main.parent_is_checking_empty')}}</label>
+            </div>
+        </div>
+
         <div class="form-group" id="parent_is_setup_project_logo_img_form_group">
             <div class="form-check form-check-inline">
                 <input class="form-check-input" type="checkbox" name="parent_is_setup_project_logo_img"
