@@ -1427,11 +1427,13 @@
         // Используется ниже
         $prefix_prev = $prefix;
         ?>
+        <i>{{$link->id}}</i>
         {{--        Проверка на фильтруемые поля--}}
         @if($link_start_child && $link_result_child)
             {{--            @if($link_enter_refer)--}}
             {{--                <script>--}}
             {{--                </script>--}}
+            <b>{{$link->id}}</b>
             <script>
                 {{--                @if(($link_start_child->parent_is_base_link == true) || ($link_start_child->parent_base->is_code_needed==true && $link_start_child->parent_is_enter_refer==true))--}}
                 @if($link_start_child->parent_base->is_code_needed==true && $link_start_child->parent_is_enter_refer==true)
