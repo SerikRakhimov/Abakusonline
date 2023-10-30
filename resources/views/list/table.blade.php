@@ -220,7 +220,7 @@ if ($view_link) {
                                     'string_current' => $string_current,
                                     ])}}"
                                title="{{trans('main.viewing_record')}}">
-                                <span class="badge-pill badge-related">{{$i}}</span>
+                                <small class="badge-pill badge-related">{{$i}}</small>
                             </a>
                         </td>
                         @if($item_find)
@@ -454,7 +454,7 @@ if ($view_link) {
                             {{--                        'string_link_ids_current' => $string_link_ids_current,--}}
                             {{--                        'string_item_ids_current' => $string_item_ids_current,--}}
                             {{--                        'string_all_codes_current'=> $string_all_codes_current--}}
-                            <span class="badge-pill badge-related">{{$i}}</span>
+                            <small class="badge-pill badge-related">{{$i}}</small>
                         </a>
                     </td>
                 @endif
