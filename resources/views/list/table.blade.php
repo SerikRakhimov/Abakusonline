@@ -156,7 +156,7 @@ if ($view_link) {
                                     'string_current' => $string_current,
                                     ])}}"
                                    title="{{trans('main.viewing_record')}}">
-                                    <span class="badge-pill badge-secondary">
+                                    <span class="badge-pill badge-related">
                                         {{$i+1}}
                                     </span>
                                 </a>
