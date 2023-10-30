@@ -52,12 +52,10 @@ if ($view_link) {
                 <?php
                 //$i = $i + 1;
                 $item_find = GlobalController::view_info($item->id, $link_image->id, $role, $relit_id, true);
-
                 $s_title = $v_label . ", id =" . $item->id;
                 if ($base->is_code_needed == true) {
                     $s_title = $s_title . ", " . trans('main.code') . " =" . $item->code;
                 }
-
                 ?>
                 {{--                <div class="card text-center">--}}
                 {{--                    <div class="card card-inverse text-center" style="background-color: rgba(222,255,162,0.23); border-color: #3548ee;">--}}
@@ -150,14 +148,17 @@ if ($view_link) {
                     <div class="card-footer">
                         {{--                    <div style="width:100%;padding-left: 100px">--}}
                         <div style="float:left;width:50%;">
-                            <small class="text-title">
+                            {{--                            <small class="text-title">--}}
+                            <small>
                                 <a href="{{route('item.ext_show', ['item'=>$item, 'project'=>$project, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id,
                                     'heading' => $heading,'base_index_page'=>$base_index_page, 'body_link_page'=>$body_link_page,'body_all_page'=>$body_all_page,
                                     'par_link'=>null, 'parent_item'=>null,
                                     'string_current' => $string_current,
                                     ])}}"
                                    title="{{trans('main.viewing_record')}}">
-                                    {{$i+1}}
+                                    <span class="badge-pill badge-related">
+                                        {{$i+1}}
+                                    </span>
                                 </a>
                             </small>
                         </div>
@@ -219,7 +220,7 @@ if ($view_link) {
                                     'string_current' => $string_current,
                                     ])}}"
                                title="{{trans('main.viewing_record')}}">
-                                <span class="badge badge-related">{{$i}}</span>
+                                <span class="badge-pill badge-related">{{$i}}</span>
                             </a>
                         </td>
                         @if($item_find)
@@ -453,7 +454,7 @@ if ($view_link) {
                             {{--                        'string_link_ids_current' => $string_link_ids_current,--}}
                             {{--                        'string_item_ids_current' => $string_item_ids_current,--}}
                             {{--                        'string_all_codes_current'=> $string_all_codes_current--}}
-                            <span class="badge badge-related">{{$i}}</span>
+                            <span class="badge-pill badge-related">{{$i}}</span>
                         </a>
                     </td>
                 @endif
