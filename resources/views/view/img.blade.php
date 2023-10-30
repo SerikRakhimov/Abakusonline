@@ -43,7 +43,8 @@ if ($item) {
         <a href="{{Storage::url($url_filename)}}">
             @endif
             <img src="{{Storage::url($url_filename)}}"
-                 style="object-fit:cover;
+                 {{--                 style="object-fit:cover;--}}
+                 style="object-fit:scale-down;
                  @if(isset($border))
                  @if($border==true)
                      border: solid #bfc7f6;
@@ -51,8 +52,8 @@ if ($item) {
                  @endif
                      "
                  @if($card_img_top)
-                 class="card-img-top" style="object-fit:contain"
-                 {{--                 class="card-img-top"--}}
+                 {{--                 class="card-img-top" style="object-fit:contain"--}}
+                 class="card-img-top"
                  @endif
                  @if($size == 'avatar')
                  class="circle"
