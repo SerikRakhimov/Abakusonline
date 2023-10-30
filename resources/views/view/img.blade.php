@@ -51,8 +51,9 @@ if ($item) {
                  @endif
                      "
                  @if($card_img_top)
+                 class="card-img-top" style="object-fit:scale-down"
                  {{--                                    class="card-img-top" style="object-fit:contain"--}}
-                 class="card-img-top"
+                 {{--                 class="card-img-top"--}}
                  @endif
                  @if($size == 'avatar')
                  class="circle"
