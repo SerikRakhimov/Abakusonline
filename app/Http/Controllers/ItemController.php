@@ -6708,7 +6708,11 @@ class ItemController extends Controller
         $result_item_name = null;
         $result_item_name_options = null;
         // проверка, если link - вычисляемое поле
+//        if($link_result->id == 339){
+//            dd($link_result);
+//        }
         if ($link_result->parent_is_parent_related == true) {
+
             // Не использовать - не работает при сложных связях: Например: Товар-ЕдиницаИзмерения-Цвет
             // ----------------------------------------
             // Вставка нового алгоритма

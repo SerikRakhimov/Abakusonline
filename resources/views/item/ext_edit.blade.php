@@ -1388,7 +1388,7 @@
             }
             // эта проверка не нужна
             //if (!array_key_exists($key, $array_disabled)) {
-            //          Проверка на фильтрируемые поля
+            //          Проверка на фильтрируемые поля ('parent_is_child_related')
             if ($link->parent_is_child_related == true) {
                 $lres = LinkController::get_link_ids_from_calc_link($link);
                 $const_link_id_start = $lres['const_link_id_start'];
@@ -1399,7 +1399,7 @@
                 $prefix = '3_';
             }
             //}
-            //          Проверка на вычисляемые поля
+            //          Проверка на вычисляемые поля ('Автоматически заполнять из родительского поля ввода')
             if ($link->parent_is_parent_related == true) {
                 $lres = LinkController::get_link_ids_from_calc_link($link);
                 $const_link_id_start = $lres['const_link_id_start'];
@@ -1709,7 +1709,9 @@
         {{--        Проверка на вычисляемые поля--}}
         @if($link_parent)
             <script>
-                @if($const_link_start->parent_base->is_code_needed==true && $const_link_start->parent_is_enter_refer==true)
+                {{-- Выводить связанное поле = false--}}
+{{--                @if($const_link_start->parent_is_output_calculated_table_field == false)--}}
+                @if($const_link_start->parent_base->is_code_needed==true && $const_link_start->parent_is_enter_refer == true)
 
                 var child_base_id{{$prefix}}{{$link->id}} = document.getElementById('{{$const_link_id_start}}');
                 var child_code_id{{$prefix}}{{$link->id}} = document.getElementById('code{{$const_link_id_start}}');
@@ -1770,8 +1772,8 @@
                     {{--on_numcalc_viewonly();--}}
                 }
 
-                {{--Эта команда не нужна --}}
-                {{--child_code_id{{$prefix}}{{$link->id}}.addEventListener("change", link_id_change_{{$prefix}}{{$link->id}}); --}}
+                {{--Эта команда не нужна/нужна --}}
+                child_code_id{{$prefix}}{{$link->id}}.addEventListener("change", link_id_change_{{$prefix}}{{$link->id}});
 
                 @elseif($const_link_start->parent_base->type_is_list())
                 var child_base_id{{$prefix}}{{$link->id}} = document.getElementById('link{{$const_link_id_start}}');
@@ -1840,6 +1842,7 @@
                 $functs_change['link' . $const_link_id_start] = 1;
                 ?>
 
+{{--                @endif--}}
                 @endif
             </script>
         @endif
