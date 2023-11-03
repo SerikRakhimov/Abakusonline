@@ -2119,7 +2119,8 @@ class GlobalController extends Controller
                     if ($link_related_start && $link_related_result) {
                         // Выводить поле вычисляемой таблицы
                         if ($link_related_start->parent_is_output_calculated_table_field == true) {
-                            $item_find = ItemController::get_item_from_parent_output_calculated_table($item_find, $link_related_start);
+                            //$item_find = ItemController::get_item_from_parent_output_calculated_table($item_find, $link_related_start);
+                            $item_find = self::view_info($item_find, $link_related_start);
                         }
                         $item = ItemController::get_parent_item_from_calc_child_item($item_find, $link_find, true, $role, $relit_id)['result_item'];
                     }
