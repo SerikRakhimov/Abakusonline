@@ -495,6 +495,9 @@
                                 @include('layouts.item.ext_edit.parent_label',
                                     ['result_parent_label'=>$result_parent_label, 'key'=>$key, 'par_link'=>$par_link])
                             </label>
+                            {{--                            Выводить скрытое поле - id найденного значения, для 'Выводить поле вычисляемой таблицы'--}}
+                            <span hidden
+                                  id='{{$key}}'></span>
                         </div>
                         <div class="col-sm-7">
                                     <span class="form-label text-related"
@@ -1284,10 +1287,18 @@
     $functs_numcalc_all = array();
     $functs_numcalc_viewonly = array();
     $functs_change = array();
+
     // В этом массиве хранятся функции, которые выводят наименования вычисляемых полей
     // ($link->parent_is_parent_related == true)
     // в зависимости от поля, где вводится код какого-то справочника
     $functs_parent_refer = array();
+
+    // В этом массиве хранятся функции, которые выводят наименования вычисляемых полей
+    // ($link->parent_is_parent_related == true)
+    // в зависимости от значения id поля 'Выводить поле вычисляемой таблицы'
+    // ($link->parent_is_output_calculated_table_field == true)
+    $functs_related_calculated = array();
+
     ?>
     {{--<script>--}}
     {{--    window.onload = function () {--}}
@@ -1706,11 +1717,9 @@
             @endif
         @endif
 
-        {{--        Проверка на вычисляемые поля--}}
+        {{--Проверка на вычисляемые поля ('Автоматически заполнять из родительского поля ввода')--}}
         @if($link_parent)
             <script>
-                {{-- Выводить связанное поле = false--}}
-{{--                @if($const_link_start->parent_is_output_calculated_table_field == false)--}}
                 @if($const_link_start->parent_base->is_code_needed==true && $const_link_start->parent_is_enter_refer == true)
 
                 var child_base_id{{$prefix}}{{$link->id}} = document.getElementById('{{$const_link_id_start}}');
@@ -1776,6 +1785,16 @@
                 child_code_id{{$prefix}}{{$link->id}}.addEventListener("change", link_id_change_{{$prefix}}{{$link->id}});
 
                 @elseif($const_link_start->parent_base->type_is_list())
+                <?php
+                // Проверка на вычисляемые поля ('Автоматически заполнять из родительского поля ввода')
+                $link_related_start = Link::find($link->parent_parent_related_start_link_id);
+                $link_related_calculated = false;
+                if ($link_related_start) {
+                    // Проверка на 'Выводить поле вычисляемой таблицы'
+                    $link_related_calculated = $link_related_start->parent_is_output_calculated_table_field;
+                }
+                ?>
+
                 var child_base_id{{$prefix}}{{$link->id}} = document.getElementById('link{{$const_link_id_start}}');
                 var parent_base_id{{$prefix}}{{$link->id}} = document.getElementById('link{{$link->id}}');
                 {{-- "related_id" используется несколько раз по тексту --}}
@@ -1837,12 +1856,20 @@
                     {{--@endif--}}
                 }
 
+                @if($link_related_calculated)
+                <?php
+                $functs_related_calculated[count($functs_related_calculated)] = "link_id_changeOption_" . $prefix . $link->id;
+                ?>
+
+                @else
                 child_base_id{{$prefix}}{{$link->id}}.addEventListener("change", link_id_changeOption_{{$prefix}}{{$link->id}});
+
                 <?php
                 $functs_change['link' . $const_link_id_start] = 1;
                 ?>
 
-{{--                @endif--}}
+                @endif
+
                 @endif
             </script>
         @endif
@@ -1864,7 +1891,7 @@
                 var parent_base_id{{$prefix}}{{$link->id}} = document.getElementById('link{{$link->id}}');
 
                 <?php
-                $functs_parent_refer[count($functs_parent_refer)] = "link_id_changeOption_" . $prefix . $link->id;
+                //$functs_parent_refer[count($functs_parent_refer)] = "link_id_changeOption_" . $prefix . $link->id;
                 //$functions[count($functions)] = "link_id_changeOption_" . $prefix . $link->id;
                 ?>
                 function link_id_changeOption_{{$prefix}}{{$link->id}}() {
@@ -1889,6 +1916,8 @@
                         @endforeach
                         ).then(function (res) {
                                 parent_base_id{{$prefix}}{{$link->id}}.innerHTML = res.data;
+                                {{-- Вызов функции on_related_calculated()--}}
+                                on_related_calculated();
                             }
                         );
                     // }
@@ -2051,11 +2080,17 @@
             @endforeach
         }
 
-        function on_parent_refer() {
-            @foreach($functs_parent_refer as $value)
-            {{--{{$value}}();--}}
+        function on_related_calculated() {
+            @foreach($functs_related_calculated as $value)
+                {{$value}}();
             @endforeach
         }
+
+        {{--function on_parent_refer() {--}}
+        {{--    @foreach($functs_parent_refer as $value)--}}
+        {{--    --}}{{--{{$value}}();--}}
+        {{--    @endforeach--}}
+        {{--}--}}
 
         function on_submit() {
             @foreach($array_disabled as $key=>$value)
