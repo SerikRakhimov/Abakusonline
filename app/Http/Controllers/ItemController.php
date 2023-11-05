@@ -3953,7 +3953,9 @@ class ItemController extends Controller
     static function get_parent_item_from_output_calculated_table(Request $request)
     {
         $params = $request->query();
-        $result = trans('main.no_information') . '!';
+        // '=0' использовать, в ext_edit.php проверка на равенство нулю
+        $result_id = 0;
+        $result_inner = trans('main.no_information') . '!';
 //      $project = null;
 //      if (array_key_exists('project_id', $params)) {
 //          $project = Project::find($params['project_id']);
@@ -4019,23 +4021,24 @@ class ItemController extends Controller
                 // Похожие строки в self::get_parent_item_from_calc_child_item()
                 // и в self::get_parent_item_from_output_calculated_table()
                 if ($result_item) {
-                    //$result = $result_item->name(false, true, true);
+                    $result_id = $result_item->id;
+                    //$result_inner = $result_item->name(false, true, true);
                     if ($result_item->base->type_is_image() || $result_item->base->type_is_document()) {
                         if ($result_item->base->type_is_image()) {
                             //$result_item_name = "<img src='" . Storage::url($result_item->filename()) . "' height='250' alt='' title='" . $result_item->title_img() . "'>";
-                            $result = GlobalController::view_img($result_item, "medium", false, false, false, $result_item->title_img());
+                            $result_inner = GlobalController::view_img($result_item, "medium", false, false, false, $result_item->title_img());
                         } else {
-                            $result = GlobalController::view_doc($result_item, GlobalController::usercode_calc());
+                            $result_inner = GlobalController::view_doc($result_item, GlobalController::usercode_calc());
                         }
                     } elseif ($result_item->base->type_is_text()) {
-                        $result = GlobalController::it_txnm_n2b($result_item);
+                        $result_inner = GlobalController::it_txnm_n2b($result_item);
                     } else {
-                        $result = $result_item->name(false, true, true);
+                        $result_inner = $result_item->name(false, true, true);
                     }
                 }
             }
         }
-        return $result;
+        return ['id' => $result_id, 'inner' => $result_inner];
     }
 
 // Функции output_calculated_table_dop() и output_calculated_table_firstlast() похожи

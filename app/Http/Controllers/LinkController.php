@@ -847,8 +847,13 @@ class LinkController extends Controller
                 // есть ли отношения child-parent
                 if (!$link->parent_base->child_links->IsEmpty()) {
                     $result_parent_parent_related_start_link_id_options = $result_parent_parent_related_start_link_id_options
-                        . "<option value='" . $link->id . "'>" . $link->parent_label() . "</option>";
-
+                        . "<option value='" . $link->id . "'>" . $link->parent_label();
+                    if ($link->parent_is_output_calculated_table_field) {
+                        $result_parent_parent_related_start_link_id_options = $result_parent_parent_related_start_link_id_options
+                            . " (" . trans('main.parent_is_output_calculated_table_field') . ")";
+                    }
+                    $result_parent_parent_related_start_link_id_options = $result_parent_parent_related_start_link_id_options
+                        . "</option>";
 //                    $sets = Set::where('link_from_id', '=', $link->id)
 //                        ->where('is_group', true)
 //                        ->orderBy('sets.serial_number')->get();

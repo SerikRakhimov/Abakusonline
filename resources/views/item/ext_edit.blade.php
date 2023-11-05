@@ -529,7 +529,6 @@
                                    placeholder=""
                                    {{--                                       value="{{old('code{{$key}}') ?? ($item->code ?? ($base->is_code_number == true?($update ?"0":$code_new):""))}}"--}}
                                    value="{{old('code'.$key) ?? $code_find??''}}"
-
                                    {{--                                   value="{{(old('code'.$key)) ?? (($value != null) ? Item::find($value)->code: '0')}}"--}}
                                    {{--                                       {{$link->parent_base->is_code_number == true?" step = 0":""}}--}}
                                    {{--                                       @if($link->parent_base->is_code_number == true  && $link->parent_base->is_limit_sign_code == true)--}}
@@ -1293,12 +1292,6 @@
     // в зависимости от поля, где вводится код какого-то справочника
     $functs_parent_refer = array();
 
-    // В этом массиве хранятся функции, которые выводят наименования вычисляемых полей
-    // ($link->parent_is_parent_related == true)
-    // в зависимости от значения id поля 'Выводить поле вычисляемой таблицы'
-    // ($link->parent_is_output_calculated_table_field == true)
-    $functs_related_calculated = array();
-
     ?>
     {{--<script>--}}
     {{--    window.onload = function () {--}}
@@ -1794,8 +1787,11 @@
                     $link_related_calculated = $link_related_start->parent_is_output_calculated_table_field;
                 }
                 ?>
-
+                @if($link_related_calculated)
+                var child_base_id{{$prefix}}{{$link->id}} = document.getElementById('{{$const_link_id_start}}');
+                @else
                 var child_base_id{{$prefix}}{{$link->id}} = document.getElementById('link{{$const_link_id_start}}');
+                @endif
                 var parent_base_id{{$prefix}}{{$link->id}} = document.getElementById('link{{$link->id}}');
                 {{-- "related_id" используется несколько раз по тексту --}}
                 {{--                var parent_related_id{{$prefix}}{{$link->id}} = document.getElementById('related_id{{$link->id}}');--}}
@@ -1807,63 +1803,64 @@
                 // $functs_parent_refer[count($functs_parent_refer)] = "link_id_changeOption_" . $prefix . $link->id;
                 ?>
                 function link_id_changeOption_{{$prefix}}{{$link->id}}() {
-                    {{--parent_base_id{{$prefix}}{{$link->id}}.innerHTML = "";--}}
-                    if (child_base_id{{$prefix}}{{$link->id}}.options[child_base_id{{$prefix}}{{$link->id}}.selectedIndex].value == 0) {
-                        parent_base_id{{$prefix}}{{$link->id}}.innerHTML = "{{trans('main.no_information') . '!'}}";
-                        parent_related_id{{$prefix}}{{$link->id}}.innerHTML = "0";
-                        {{--                                @if(!$update & $link->parent_is_nc_parameter == true)--}}
-                        {{--Не использовать проверку if (first == false) {--}}
-                        {{--if (first == false) {--}}
-                        @if($link->parent_is_nc_parameter == true)
-                        on_numcalc_viewonly();
-                        <?php
-                        // Отключено
-                        //echo StepController::steps_javascript_code($link, 'link_id_changeOption');
-                        ?>
-                        @endif
-                        {{--}--}}
-                    } else {
-                        axios.get('/item/get_parent_item_from_calc_child_item/'
-                            + child_base_id{{$prefix}}{{$link->id}}.options[child_base_id{{$prefix}}{{$link->id}}.selectedIndex].value
-                            + '/{{$link->id}}'
-                            + '/0'
-                        ).then(function (res) {
-                                parent_base_id{{$prefix}}{{$link->id}}.innerHTML = res.data['result_item_name'];
-                                {{-- "related_id" используется несколько раз по тексту --}}
-                                    parent_related_id{{$prefix}}{{$link->id}}.innerHTML = res.data['result_item_id'];
-                                {{--                                @if(!$update & $link->parent_is_nc_parameter == true)--}}
-                                {{--Не использовать проверку if (first == false) {--}}
-                                {{--if (first == false)--}}
-                                @if($link->parent_is_nc_parameter == true)
-                                on_numcalc_viewonly();
-                                <?php
-                                // Отключено
-                                //echo StepController::steps_javascript_code($link, 'link_id_changeOption');
-                                ?>
+                    @if($link_related_calculated)
+                    if (child_base_id{{$prefix}}{{$link->id}}.innerHTML == 0) {
+                        @else
+                        if (child_base_id{{$prefix}}{{$link->id}}.options[child_base_id{{$prefix}}{{$link->id}}.selectedIndex].value == 0) {
+                            @endif
+                                parent_base_id{{$prefix}}{{$link->id}}.innerHTML = "{{trans('main.no_information') . '!'}}";
+                            parent_related_id{{$prefix}}{{$link->id}}.innerHTML = "0";
+                            {{--                                @if(!$update & $link->parent_is_nc_parameter == true)--}}
+                            {{--Не использовать проверку if (first == false) {--}}
+                            {{--if (first == false) {--}}
+                            @if($link->parent_is_nc_parameter == true)
+                            on_numcalc_viewonly();
+                            <?php
+                            // Отключено
+                            //echo StepController::steps_javascript_code($link, 'link_id_changeOption');
+                            ?>
+                            @endif
+                            {{--}--}}
+                        } else {
+                            axios.get('/item/get_parent_item_from_calc_child_item/'
+                                @if($link_related_calculated)
+                                + child_base_id{{$prefix}}{{$link->id}}.innerHTML
+                                @else
+                                + child_base_id{{$prefix}}{{$link->id}}.options[child_base_id{{$prefix}}{{$link->id}}.selectedIndex].value
                                 @endif
-                                {{--}--}}
-                            }
-                        );
+                                + '/{{$link->id}}'
+                                + '/0'
+                            ).then(function (res) {
+                                    parent_base_id{{$prefix}}{{$link->id}}.innerHTML = res.data['result_item_name'];
+                                    {{-- "related_id" используется несколько раз по тексту --}}
+                                        parent_related_id{{$prefix}}{{$link->id}}.innerHTML = res.data['result_item_id'];
+                                    {{--                                @if(!$update & $link->parent_is_nc_parameter == true)--}}
+                                    {{--Не использовать проверку if (first == false) {--}}
+                                    {{--if (first == false)--}}
+                                    @if($link->parent_is_nc_parameter == true)
+                                    on_numcalc_viewonly();
+                                    <?php
+                                    // Отключено
+                                    //echo StepController::steps_javascript_code($link, 'link_id_changeOption');
+                                    ?>
+                                    @endif
+                                    {{--}--}}
+                                }
+                            );
+                        }
+                        {{--Так не работает--}}
+                        {{--on_numcalc_viewonly();--}}
+
+                        {{--Не использовать, работает неправильно--}}
+                        {{--@if($link->parent_is_nc_parameter == true)--}}
+                        {{--<?php--}}
+                        {{--echo StepController::steps_javascript_code($link, 'link_id_changeOption');--}}
+                        {{--?>--}}
+                        {{--@endif--}}
                     }
-                    {{--Так не работает--}}
-                    {{--on_numcalc_viewonly();--}}
-
-                    {{--Не использовать, работает неправильно--}}
-                    {{--@if($link->parent_is_nc_parameter == true)--}}
-                    {{--<?php--}}
-                    {{--echo StepController::steps_javascript_code($link, 'link_id_changeOption');--}}
-                    {{--?>--}}
-                    {{--@endif--}}
-                }
-
-                @if($link_related_calculated)
-                <?php
-                $functs_related_calculated[count($functs_related_calculated)] = "link_id_changeOption_" . $prefix . $link->id;
-                ?>
-
-                @else
-                child_base_id{{$prefix}}{{$link->id}}.addEventListener("change", link_id_changeOption_{{$prefix}}{{$link->id}});
-
+                    {{--'@if(!$link_related_calculated)' используется--}}
+                    @if(!$link_related_calculated)
+                    child_base_id{{$prefix}}{{$link->id}}.addEventListener("change", link_id_changeOption_{{$prefix}}{{$link->id}});
                 <?php
                 $functs_change['link' . $const_link_id_start] = 1;
                 ?>
@@ -1888,7 +1885,8 @@
                 @endif
                 @endforeach
 
-                var parent_base_id{{$prefix}}{{$link->id}} = document.getElementById('link{{$link->id}}');
+                var output_calc_id{{$prefix}}{{$link->id}} = document.getElementById('{{$link->id}}');
+                var output_calc_inner{{$prefix}}{{$link->id}} = document.getElementById('link{{$link->id}}');
 
                 <?php
                 //$functs_parent_refer[count($functs_parent_refer)] = "link_id_changeOption_" . $prefix . $link->id;
@@ -1915,9 +1913,18 @@
                         @endif
                         @endforeach
                         ).then(function (res) {
-                                parent_base_id{{$prefix}}{{$link->id}}.innerHTML = res.data;
-                                {{-- Вызов функции on_related_calculated()--}}
-                                on_related_calculated();
+                                output_calc_id{{$prefix}}{{$link->id}}.innerHTML = res.data['id'];
+                                output_calc_inner{{$prefix}}{{$link->id}}.innerHTML = res.data['inner'];
+
+                                <?php
+                                    $links_related_start = GlobalController::links_related_start($base, $link)
+                                    ?>
+                                    {{-- https://ru.stackoverflow.com/questions/240856/%D0%9A%D0%B0%D0%BA-%D0%BC%D0%BE%D0%B6%D0%BD%D0%BE-%D0%BF%D1%80%D0%BE%D0%B2%D0%B5%D1%80%D0%B8%D1%82%D1%8C-%D1%81%D1%83%D1%89%D0%B5%D1%81%D1%82%D0%B2%D1%83%D0%B5%D1%82-%D0%BB%D0%B8-%D1%84%D1%83%D0%BD%D0%BA%D1%86%D0%B8%D1%8F-%D0%B2-js--}}
+                                    @foreach($links_related_start as $rel_st_value)
+                                if (typeof (link_id_changeOption_7_{{$rel_st_value->id}}) === "function") {
+                                    link_id_changeOption_7_{{$rel_st_value->id}}();
+                                }
+                                @endforeach
                             }
                         );
                     // }
@@ -2076,12 +2083,6 @@
 
         function on_numcalc_all() {
             @foreach($functs_numcalc_all as $value)
-                {{$value}}();
-            @endforeach
-        }
-
-        function on_related_calculated() {
-            @foreach($functs_related_calculated as $value)
                 {{$value}}();
             @endforeach
         }

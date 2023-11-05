@@ -3409,6 +3409,20 @@ class GlobalController extends Controller
 
     }
 
+    static function links_related_start(Base $base, Link $link)
+    {
+        $links = null;
+        if ($link->parent_is_output_calculated_table_field) {
+            // 'get()' нужно
+            $links = Link::where('child_base_id', '=', $base->id)
+                ->where('parent_is_parent_related', '=', true)
+                ->where('parent_parent_related_start_link_id', '=', $link->id)
+                ->get();
+        }
+        return $links;
+    }
+
+
 //    function get_display()
 //    {
 //        return config('app.display');
