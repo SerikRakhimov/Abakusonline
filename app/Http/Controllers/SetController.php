@@ -123,7 +123,13 @@ class SetController extends Controller
             return redirect()->route('project.all_index');
         }
 
-        if (!(($set->link_from_id == $request->link_from_id) && ($set->link_to_id == $request->link_to_id))) {
+//        if (!(($set->link_from_id == $request->link_from_id) && ($set->link_to_id == $request->link_to_id))) {
+//            $request->validate($this->rules($request));
+//        }
+        if (!(($set->template_id == $request->template_id)
+            && ($set->serial_number == $request->serial_number)
+            && ($set->line_number == $request->line_number)
+        )) {
             $request->validate($this->rules($request));
         }
 

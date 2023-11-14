@@ -15,7 +15,8 @@ class UpdateSetsTableLineNumber extends Migration
     {
         Schema::table('sets', function (Blueprint $table) {
             $table->integer('line_number')->default(0);
-            $table->unique(['serial_number', 'line_number', 'link_from_id', 'link_to_id']);
+            //$table->unique(['serial_number', 'line_number', 'link_from_id', 'link_to_id']);
+            $table->unique(['template_id', 'serial_number', 'line_number']);
         });
     }
 
