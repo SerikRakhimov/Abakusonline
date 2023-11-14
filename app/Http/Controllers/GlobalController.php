@@ -2136,9 +2136,6 @@ class GlobalController extends Controller
                     // Выводить поле вычисляемой таблицы
                 } elseif ($link_find->parent_is_output_calculated_table_field == true) {
                     $item = ItemController::get_item_from_parent_output_calculated_table($item_find, $link_find);
-                    if ($link_id == 344) {
-                        //dd($item);
-                    }
                     // Иначе - обычный вывод поля по $child_item_id, $link_id
                 } else {
                     $item = self::get_parent_item_from_main($child_item_id, $link_id);
@@ -2298,6 +2295,37 @@ class GlobalController extends Controller
         }
         return $array_relits;
     }
+
+    // Поиск связанного проекта по sets.serial_number и текущему проекту
+    static function calc_sn_relip_project(Project $project, int $serial_number)
+    {
+        // Нужно, не удалять
+        // По умолчанию, возвращается текущий проект
+        $result = $project;
+
+        // '->where('sets.is_savesets_enabled', '=', true)' - этот фильтр не нужен
+        // Выбирается первая запись по фильтрованному и отсортированному списку
+        // '->where('sets.is_calcsort', '=', false)' - этот фильтр нужен
+        $set_first = Set::where('sets.template_id', '=', $project->template_id)
+            ->where('sets.serial_number', '=', $serial_number)
+            ->where('sets.is_calcsort', '=', false)
+            ->orderBy('sets.serial_number')
+            ->orderBy('sets.line_number')
+            ->first();
+
+        if ($set_first) {
+            if ($set_first->relit_to_id == 0) {
+                // Возвращается текущий проект
+                $result = $project;
+            } else {
+                // Поиск связанного проекта
+                $result = self::calc_relip_project($set_first->relit_to_id, $project);
+            }
+        }
+
+        return $result;
+    }
+
 
     static function get_project_bases(Project $current_project, Role $role,
                                               $check_main_menu = true,

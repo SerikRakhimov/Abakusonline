@@ -450,7 +450,7 @@ if ($view_link) {
     'parent_ret_id'=>$view_ret_id,
     'string_current' => $string_current,
     ])}}"
-                           title="{{trans('main.viewing_record')}}">
+                           title="{{trans('main.viewing_record') . ' (id = ' . $item->id . ')'}}">
                             {{--                        'string_link_ids_current' => $string_link_ids_current,--}}
                             {{--                        'string_item_ids_current' => $string_item_ids_current,--}}
                             {{--                        'string_all_codes_current'=> $string_all_codes_current--}}

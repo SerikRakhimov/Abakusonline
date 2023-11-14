@@ -3161,6 +3161,8 @@ class ItemController extends Controller
 //            ->orderBy('sets.link_from_id')
 //            ->orderBy('sets.link_to_id')->get();
         $kf = $reverse == true ? -1 : 1;
+        // В этом запросе по сути выбираются данные по текущему шаблону ($item->project->template_id),
+        // т.к. в lf.child_base_id (sets.link_from_id) вводятся данные по текущему шаблону при вводе присваиваний
         $set_main = Set::select(DB::Raw('sets.*, lt.child_base_id as to_child_base_id, lt.parent_base_id as to_parent_base_id'))
             ->join('links as lf', 'sets.link_from_id', '=', 'lf.id')
             ->join('links as lt', 'sets.link_to_id', '=', 'lt.id')
@@ -3170,14 +3172,15 @@ class ItemController extends Controller
             ->orderBy('sets.serial_number')
             ->orderBy('sets.line_number')
             ->orderBy('sets.link_from_id')
-            ->orderBy('sets.link_to_id')->get();
+            ->orderBy('sets.link_to_id')
+            ->get();
 
         // Группировка $set_main по serial_number, индексы массива - serial_number
         $set_group_by_serial_number = $set_main->groupBy('serial_number')->
         sortBy('serial_number');
 
         //$table2 = Set::select(DB::Raw('$table1.*'))->get();
-        // Цикл по записям, в каждой итерации цикла свой порядковый номер $sn_key
+        // Цикл по записям, в каждой итерации цикла свой порядковый номер $sn_key, $sn_value не используется в функции
         foreach ($set_group_by_serial_number as $sn_key => $sn_value) {
             // Группировка $set_main по to_child_base_id, индексы массива - to_child_base_id
             //             + нужный фильтр "where('serial_number', '=', $sn_key)"
@@ -3195,8 +3198,12 @@ class ItemController extends Controller
                 // Группировка данных
                 $set_is_group = $set_base_to->where('is_group', true);
 
+                $relip_project = GlobalController::calc_sn_relip_project($item->project, $sn_key);
+
                 // Использовать именно так "Item::where('base_id', $to_key)->where('project_id', $item->project_id)"
-                $items = Item::where('base_id', $to_key)->where('project_id', $item->project_id);
+                //$items = Item::where('base_id', $to_key)->where('project_id', $item->project_id);
+                // Правильный вариант
+                $items = Item::where('base_id', $to_key)->where('project_id', $relip_project->id);
 
                 $error = true;
                 $found = false;
@@ -3205,9 +3212,9 @@ class ItemController extends Controller
                 // Поиск $item_seek в цикле
                 // Цикл по группировке данных
                 foreach ($set_is_group as $key => $value) {
-                    $relip_project = GlobalController::calc_relip_project($value->relit_to_id, $item->project);
+                    //$relip_project = GlobalController::calc_relip_project($value->relit_to_id, $item->project);
 
-//                   проверка, если link - вычисляемое поле
+//                   проверка, если link - вычисляемое поле ('Автоматически заполнять из родительского поля ввода')
                     //if ($link->parent_is_parent_related == true || $link->parent_is_numcalc == true)
                     if ($value->link_from->parent_is_parent_related == true) {
 
@@ -3221,10 +3228,10 @@ class ItemController extends Controller
                                 break;
                             }
                         }
-                        if ($nk != -1) {
-                            $set_to = $set_is_group->where('link_from_id', $value['link_from_id'])->first();
-                            if ($set_to) {
-                                $nt = $set_to->link_to_id;
+                        $set_to = $set_is_group->where('link_from_id', $value['link_from_id'])->first();
+                        if ($set_to) {
+                            $nt = $set_to->link_to_id;
+                            if ($nk != -1) {
                                 //$nv = $values[$nk];
                                 // Получить item->id
                                 $nv = $valits[$nk];
@@ -3250,47 +3257,65 @@ class ItemController extends Controller
                                 //$items = $items->whereHas('child_mains', function ($query) use ($nt, $nv) {
                                 //    $query->where('link_id', $nt)->where('parent_item_id', $nv);
                                 //});
-                                $items = $items->where('project_id', $relip_project->id)
-                                    ->whereHas('child_mains', function ($query) use ($nt, $nv) {
-                                        $query->where('link_id', $nt)->where('parent_item_id', $nv);
-                                    });
-                                // Поиск по item
-                                // похожие строки чуть ниже
-                                $item_seek = $items->first();
-                                // Нужно "$error = false;"
-                                $error = false;
-                                if (!$item_seek) {
-                                    $found = false;
-                                    break;
-                                } else {
-                                    $found = true;
+                                $items = $items->whereHas('child_mains', function ($query) use ($nt, $nv) {
+                                    $query->where('link_id', $nt)->where('parent_item_id', $nv);
+                                });
+                                if (1 == 2) {
+                                    // Поиск по item
+                                    // Похожие строки чуть ниже
+                                    $item_seek = $items->first();
+                                    // Нужно "$error = false;"
+                                    $error = false;
+                                    if (!$item_seek) {
+                                        $found = false;
+                                        break;
+                                    } else {
+                                        $found = true;
+                                    }
                                 }
 //                                } else {
 //                                    // Нужно "$error = false;"
 //                                    $error = false;
 //                                    $found = false;
 //                                    break;
-//                                }
+                            } else {
+                                // Эта команда нужна, не удалять
+                                $items = $items->whereDoesntHave('child_mains', function ($query) use ($nt) {
+                                    $query->where('link_id', $nt);
+                                });
                             }
+// Эта проверка сделана, чтобы зря не проходить весь цикл ('foreach ($set_is_group as $key => $value)') до конца
+                            $item_first_verify = $items->first();
+                            if (!$item_first_verify) {
+                                break;
+                            }
+
                         }
                     }
                 }
-                // Если нет группировки
-                if (count($set_is_group) == 0) {
-                    // похожие строки чуть выше
-                    $item_seek = $items->first();
-                    $error = false;
-                    if (!$item_seek) {
-                        $found = false;
-                    } else {
-                        $found = true;
-                    }
-                }
-                if (!$error) {
-                    $create_item_seek = false;
 
-                    if (!$found) {
-                        $create_item_seek = true;
+                // Если нет группировки
+                //               if (count($set_is_group) == 0) {
+                // Если все поля группировки равны null
+//                if ($error & !$found) {
+//                if (($error & !$found) | (count($set_is_group) == 0)) {
+                // Похожие строки чуть выше
+                // Выполняется для случаев (count($set_is_group) > 0) и (count($set_is_group) == 0)
+                $item_seek = $items->first();
+                $error = false;
+                if (!$item_seek) {
+                    $found = false;
+                } else {
+                    $found = true;
+                }
+//                }
+
+                //if (!$error) {
+                $create_item_seek = false;
+
+                if (!$found) {
+                    $create_item_seek = true;
+                    if (1 == 2) {
                         // Эта проверка сделана, чтобы зря не создавать $item_seek
                         // Фильтры 111 - похожие строки ниже
                         $relip_project = null;
@@ -3304,125 +3329,129 @@ class ItemController extends Controller
                                     break;
                                 }
                             }
-                            if ($nk == -1) {
-                                // $item_seek не создано
-                                // Выход из цикла
-                                $create_item_seek = false;
-                                break;
-                            }
+                            // Проверка не нужна
+//                            if ($nk == -1) {
+//                                // $item_seek не создано
+//                                // Выход из цикла
+//                                $create_item_seek = false;
+//                                break;
+//                            }
                         }
-                        if ($create_item_seek == true) {
-                            // создать новую запись
-                            $item_seek = new Item();
-                            $item_seek->base_id = $to_key;
-                            if ($relip_project) {
-                                $item_seek->project_id = $relip_project->id;
-                            } else {
-                                // Нужно
-                                dd(trans('main.parent_project_not_found' . '!'));
-                            }
-                            $item_seek->code = uniqid($item_seek->id . '_', true);
-                            $item_seek->name_lang_0 = "";
-                            $item_seek->name_lang_1 = "";
-                            $item_seek->name_lang_2 = "";
-                            $item_seek->name_lang_3 = "";
-                            $item_seek->created_user_id = Auth::user()->id;
-                            $item_seek->updated_user_id = Auth::user()->id;
+                    }
+
+                    $relip_project = null;
+                    $set_base_first_to = $set_base_to->first();
+                    if ($set_base_first_to) {
+                        $relip_project = GlobalController::calc_relip_project($set_base_first_to->relit_to_id, $item->project);
+                    }
+                    if ($create_item_seek == true) {
+                        // создать новую запись
+                        $item_seek = new Item();
+                        $item_seek->base_id = $to_key;
+                        if ($relip_project) {
+                            $item_seek->project_id = $relip_project->id;
+                        } else {
+                            // Нужно
+                            dd(trans('main.parent_project_not_found' . '!'));
+                        }
+                        $item_seek->code = uniqid($item_seek->id . '_', true);
+                        $item_seek->name_lang_0 = "";
+                        $item_seek->name_lang_1 = "";
+                        $item_seek->name_lang_2 = "";
+                        $item_seek->name_lang_3 = "";
+                        $item_seek->created_user_id = Auth::user()->id;
+                        $item_seek->updated_user_id = Auth::user()->id;
 //                          $item_seek->created_user_id = $relip_project->user_id;
 //                          $item_seek->updated_user_id = $relip_project->user_id;
 
-                            // Нужно, чтобы id было
-                            $item_seek->save();
-                        }
-                    } else {
-                        // "$create_item_seek = true;" нужно
-                        $create_item_seek = true;
-                        // true - с реверсом
-                        $this->save_info_sets($item_seek, true, $urepl);
+                        // Нужно, чтобы id было
+                        $item_seek->save();
                     }
-                    // Если нужно создавать $item
-                    // Если $item_seek создано
-                    if ($create_item_seek == true) {
-                        //$items = $items->get();
-                        $error = true;
-                        $found = false;
-
-                        // Фильтры 111 - похожие строки выше
-                        foreach ($set_base_to as $key => $value) {
-                            $relip_project = GlobalController::calc_relip_project($value->relit_to_id, $item->project);
-                            //Находится $nk - индекс/порядковый номер
-                            $nk = -1;
-                            foreach ($keys as $k => $v) {
-                                if ($v == $value['link_from_id']) {
-                                    $nk = $k;
-                                    break;
-                                }
+                } else {
+                    // "$create_item_seek = true;" нужно
+                    $create_item_seek = true;
+                    // true - с реверсом
+                    $this->save_info_sets($item_seek, true, $urepl);
+                }
+                // Если нужно создавать $item
+                // Если $item_seek создано
+                if ($create_item_seek == true) {
+                    // Фильтры 111 - похожие строки выше
+                    foreach ($set_base_to as $key => $value) {
+                        $relip_project = GlobalController::calc_relip_project($value->relit_to_id, $item->project);
+                        //Находится $nk - индекс/порядковый номер
+                        $nk = -1;
+                        foreach ($keys as $k => $v) {
+                            if ($v == $value['link_from_id']) {
+                                $nk = $k;
+                                break;
                             }
-                            if ($nk != -1) {
-                                $nt = $value->link_to_id;
-                                $nlink = Link::find($nt);
-                                if ($nlink) {
-                                    //$nv = $values[$nk];
-                                    $main = Main::where('link_id', $nt)->where('child_item_id', $item_seek->id)->first();
-                                    $error = false;
+                        }
+                        if ($nk != -1) {
+                            $nt = $value->link_to_id;
+                            $nlink = Link::find($nt);
+                            if ($nlink) {
+                                //$nv = $values[$nk];
+                                $main = Main::where('link_id', $nt)->where('child_item_id', $item_seek->id)->first();
+                                //$error = false;
+                                $vl = 0;
+                                if (!$main) {
+                                    $main = new Main();
+                                    // при создании записи "$item->created_user_id" заполняется
+                                    $main->created_user_id = Auth::user()->id;
+
+                                    $main->link_id = $nt;
+                                    $main->child_item_id = $item_seek->id;
                                     $vl = 0;
-                                    if (!$main) {
-                                        $main = new Main();
-                                        // при создании записи "$item->created_user_id" заполняется
-                                        $main->created_user_id = Auth::user()->id;
+                                } else {
+                                    $vl = $main->parent_item->numval()['value'];
+                                }
+                                $main->updated_user_id = Auth::user()->id;
 
-                                        $main->link_id = $nt;
-                                        $main->child_item_id = $item_seek->id;
-                                        $vl = 0;
-                                    } else {
-                                        $vl = $main->parent_item->numval()['value'];
-                                    }
-                                    $main->updated_user_id = Auth::user()->id;
-
-                                    // "$seek_item = false" нужно
-                                    // "$seek_value = 0" нужно
-                                    $seek_item = false;
-                                    $seek_value = 0;
-                                    $delete_main = false;
+                                // "$seek_item = false" нужно
+                                // "$seek_value = 0" нужно
+                                $seek_item = false;
+                                $seek_value = 0;
+                                $delete_main = false;
+                                $ch = 0;
+                                if ($value->link_to->parent_base->type_is_number() && is_numeric($values[$nk])) {
+                                    $ch = $values[$nk];
+                                } else {
                                     $ch = 0;
-                                    if ($value->link_to->parent_base->type_is_number() && is_numeric($values[$nk])) {
-                                        $ch = $values[$nk];
-                                    } else {
-                                        $ch = 0;
-                                    }
-                                    if ($value->is_group == true) {
-                                        $main->parent_item_id = $valits[$nk];
-                                    } elseif ($value->is_update == true) {
-                                        if ($value->is_upd_plussum == true || $value->is_upd_pluscount == true) {
-                                            // Учет Количества
-                                            if ($value->is_upd_pluscount == true) {
-                                                $ch = 1;
-                                            }
-                                            $seek_item = true;
-                                            $seek_value = $vl + $kf * $ch;
+                                }
+                                if ($value->is_group == true) {
+                                    $main->parent_item_id = $valits[$nk];
+                                } elseif ($value->is_update == true) {
+                                    if ($value->is_upd_plussum == true || $value->is_upd_pluscount == true) {
+                                        // Учет Количества
+                                        if ($value->is_upd_pluscount == true) {
+                                            $ch = 1;
+                                        }
+                                        $seek_item = true;
+                                        $seek_value = $vl + $kf * $ch;
 //                                        // Удалить запись с нулевым значением при обновлении
 //                                        if ($value->is_upd_delete_record_with_zero_value == true) {
 //                                            if ($seek_value == 0) {
 //                                                $valnull = true;
 //                                            }
 //                                        }
-                                        } elseif ($value->is_upd_minussum == true || $value->is_upd_minuscount == true) {
-                                            // Учет Количества
-                                            if ($value->is_upd_minuscount == true) {
-                                                $ch = 1;
-                                            }
-                                            $seek_item = true;
-                                            $seek_value = $vl - $kf * $ch;
+                                    } elseif ($value->is_upd_minussum == true || $value->is_upd_minuscount == true) {
+                                        // Учет Количества
+                                        if ($value->is_upd_minuscount == true) {
+                                            $ch = 1;
+                                        }
+                                        $seek_item = true;
+                                        $seek_value = $vl - $kf * $ch;
 //                                        // Удалить запись с нулевым значением при обновлении
 //                                        if ($value->is_upd_delete_record_with_zero_value == true) {
 //                                            if ($seek_value == 0) {
 //                                                $valnull = true;
 //                                            }
 //                                        }
-                                        } elseif ($value->is_upd_replace == true) {
-                                            if ($urepl == true) {
-                                                //if ($reverse == false && $valits[$nk] != 0) {
-                                                $main->parent_item_id = $valits[$nk];
+                                    } elseif ($value->is_upd_replace == true) {
+                                        if ($urepl == true) {
+                                            //if ($reverse == false && $valits[$nk] != 0) {
+                                            $main->parent_item_id = $valits[$nk];
 //                                            // Удалить запись с нулевым значением при обновлении
 //                                            if ($value->is_upd_delete_record_with_zero_value == true) {
 //                                                $item_numval = Item::findOrFail($main->parent_item_id);
@@ -3433,86 +3462,84 @@ class ItemController extends Controller
 //                                                    }
 //                                                }
 //                                            }
-                                            } else {
-                                                $delete_main = true;
-                                                // Используем $valits_previous[$nk]
+                                        } else {
+                                            $delete_main = true;
+                                            // Используем $valits_previous[$nk]
 //                                            $main->parent_item_id = $valits_previous[$nk];
 //                                            // Удалить запись с нулевым значением при обновлении
 //                                            if ($value->is_upd_delete_record_with_zero_value == true) {
 //                                                $valnull = true;
 //                                            }
-                                            }
-                                        }
-                                        // При $reverse == false
-                                        // и при корректировке записи(если подкорректировано поле группировки)
-                                        // и при удалении записи
-                                        // работает некорректно
-                                        // При $reverse == true работает корректно
-                                        elseif ($value->is_upd_cl_gr_first == true || $value->is_upd_cl_gr_last == true) {
-                                            $calc = "";
-
-                                            if ($value->is_upd_cl_gr_first == true) {
-                                                $calc = "first";
-                                            } elseif ($value->is_upd_cl_gr_last == true) {
-                                                $calc = "last";
-                                            }
-                                            // Расчет Первый(), Последний()
-                                            //$item_calc = null;
-                                            $item_calc = self::get_item_from_parent_output_calculated_firstlast_table($item, $value, $calc, $reverse);
-                                            if ($item_calc) {
-                                                $main->parent_item_id = $item_calc->id;
-                                            } else {
-                                                $delete_main = true;
-                                            }
                                         }
                                     }
-                                    if ($delete_main == true) {
-                                        $main->delete();
-                                    } else {
-                                        //  Добавление числа в базу данных
-                                        if ($seek_item == true) {
-                                            $item_find = self::find_save_number($value->link_to->parent_base_id, $relip_project->id, $seek_value);
-                                            $main->parent_item_id = $item_find->id;
-                                        }
-                                        $main->save();
+                                    // При $reverse == false
+                                    // и при корректировке записи(если подкорректировано поле группировки)
+                                    // и при удалении записи
+                                    // работает некорректно
+                                    // При $reverse == true работает корректно
+                                    elseif ($value->is_upd_cl_gr_first == true || $value->is_upd_cl_gr_last == true) {
+                                        $calc = "";
 
+                                        if ($value->is_upd_cl_gr_first == true) {
+                                            $calc = "first";
+                                        } elseif ($value->is_upd_cl_gr_last == true) {
+                                            $calc = "last";
+                                        }
+                                        // Расчет Первый(), Последний()
+                                        //$item_calc = null;
+                                        $item_calc = self::get_item_from_parent_output_calculated_firstlast_table($item, $value, $calc, $reverse);
+                                        if ($item_calc) {
+                                            $main->parent_item_id = $item_calc->id;
+                                        } else {
+                                            $delete_main = true;
+                                        }
                                     }
+                                }
+                                if ($delete_main == true) {
+                                    $main->delete();
+                                } else {
+                                    //  Добавление числа в базу данных
+                                    if ($seek_item == true) {
+                                        $item_find = self::find_save_number($value->link_to->parent_base_id, $relip_project->id, $seek_value);
+                                        $main->parent_item_id = $item_find->id;
+                                    }
+                                    $main->save();
+
                                 }
                             }
                         }
+                    }
+                    $rs = $this->calc_value_func($item_seek);
 
-                        $rs = $this->calc_value_func($item_seek);
+                    if ($rs != null) {
+                        $item_seek->name_lang_0 = $rs['calc_lang_0'];
+                        $item_seek->name_lang_1 = $rs['calc_lang_1'];
+                        $item_seek->name_lang_2 = $rs['calc_lang_2'];
+                        $item_seek->name_lang_3 = $rs['calc_lang_3'];
+                    }
 
-                        if ($rs != null) {
-                            $item_seek->name_lang_0 = $rs['calc_lang_0'];
-                            $item_seek->name_lang_1 = $rs['calc_lang_1'];
-                            $item_seek->name_lang_2 = $rs['calc_lang_2'];
-                            $item_seek->name_lang_3 = $rs['calc_lang_3'];
-                        }
+                    $item_seek->save();
 
-                        $item_seek->save();
-
-                        // Не использовать: возможны ошибки, "лишние" операции
-                        // Вызов обработки присваиваний вложенных
-                        // false - без реверса
-                        // "$this->save_info_sets()" выполнять перед проверкой на удаление
-                        // $this->save_info_sets($item_seek, false);
-                        $this->save_info_sets($item_seek, false, $urepl);
-
-                        // Если links->"Удалить запись с нулевым значением при обновлении" == true и значение равно нулю,
-                        // то удалить запись
-                        $val_item_seek_delete = $this->val_item_seek_delete_func($item_seek, $urepl);
-                        if ($val_item_seek_delete) {
+                    // Не использовать: возможны ошибки, "лишние" операции
+                    // Вызов обработки присваиваний вложенных
+                    // false - без реверса
+                    // "$this->save_info_sets()" выполнять перед проверкой на удаление
+                    // $this->save_info_sets($item_seek, false);
+                    $this->save_info_sets($item_seek, false, $urepl);
+                    // Если links->"Удалить запись с нулевым значением при обновлении" == true и значение равно нулю,
+                    // то удалить запись
+                    $val_item_seek_delete = $this->val_item_seek_delete_func($item_seek, $urepl);
+                    if ($val_item_seek_delete) {
+                        $item_seek->delete();
+                    } else {
+                        // Похожие строки выше
+                        // Если в цикле не создано mains в цикле
+                        if (!$item_seek->child_mains()->exists()) {
                             $item_seek->delete();
-                        } else {
-                            // Похожие строки выше
-                            // Если в цикле не создано mains в цикле
-                            if (!$item_seek->child_mains()->exists()) {
-                                $item_seek->delete();
-                            }
                         }
                     }
                 }
+                //}
             }
         }
     }
@@ -3851,7 +3878,8 @@ class ItemController extends Controller
                 ->where('sets.serial_number', '=', $set->serial_number)
                 ->orderBy('sets.serial_number')
                 ->orderBy('sets.link_from_id')
-                ->orderBy('sets.link_to_id')->get();
+                ->orderBy('sets.link_to_id')
+                ->get();
         }
 
         return $result;
@@ -3918,11 +3946,15 @@ class ItemController extends Controller
     {
         $result_item = null;
         $set = Set::find($link->parent_output_calculated_table_set_id);
-        $r_info = true;
+        //$r_info = true;
         if ($set) {
             // base_id вычисляемой таблицы
             $calc_table_base_id = $set->link_to->child_base_id;
-            $items = Item::where('base_id', $calc_table_base_id)->where('project_id', $item_main->project_id);
+            $relip_project = GlobalController::calc_sn_relip_project($item_main->project, $set->serial_number);
+
+//          $items = Item::where('base_id', $calc_table_base_id)->where('project_id', $item_main->project_id);
+            $items = Item::where('base_id', $calc_table_base_id)->where('project_id', $relip_project->id);
+
             $sets_group = self::get_sets_group($item_main->base, $link);
 
             if ($sets_group) {
@@ -3936,14 +3968,18 @@ class ItemController extends Controller
                         });
                         // все присваивания по группе должны быть учтены, их может быть один и выше
                     } else {
-                        $r_info = false;
-                        break;
+                        // Эта команда нужна, не удалять
+                        $items = $items->whereDoesntHave('child_mains', function ($query) use ($to_value) {
+                                $query->where('link_id', $to_value->link_to_id);
+                            });
+//                        $r_info = false;
+//                        break;
                     }
                 }
             }
-            if ($r_info) {
-                $result_item = self::output_calculated_table_dop($item_main->base, $link, $set, $item_main->project, $items);
-            }
+            //if ($r_info) {
+            $result_item = self::output_calculated_table_dop($item_main->base, $link, $set, $relip_project, $items);
+            //}
         }
 
         return $result_item;
@@ -3956,10 +3992,10 @@ class ItemController extends Controller
         // '=0' использовать, в ext_edit.php проверка на равенство нулю
         $result_id = 0;
         $result_inner = trans('main.no_information') . '!';
-//      $project = null;
-//      if (array_key_exists('project_id', $params)) {
-//          $project = Project::find($params['project_id']);
-//      }
+        $project = null;
+        if (array_key_exists('project_id', $params)) {
+            $project = Project::find($params['project_id']);
+        }
         $base = null;
         if (array_key_exists('base_id', $params)) {
             $base = Base::find($params['base_id']);
@@ -3975,7 +4011,8 @@ class ItemController extends Controller
             }
         }
         //  '&& $items_id_group' не нужно, т.к. группировки может не быть
-        if ($base && $link) {
+        //'if ($project & $base & $link)' - такой вариант не работает правильно
+        if ($project && $base && $link) {
             //$result_item = null;
             // true использовать
             $result_item = true;
@@ -3984,40 +4021,52 @@ class ItemController extends Controller
             if ($sets_group) {
                 // base_id вычисляемой таблицы
                 $calc_table_base_id = $set->link_to->child_base_id;
-                $item_seek0 = null;
-                if (isset($items_id_group[0])) {
-                    $item_seek0 = Item::find($items_id_group[0]);
-                }
-                if ($item_seek0) {
-                    $items = Item::where('base_id', $calc_table_base_id)->where('project_id', $item_seek0->project_id);
+                $relip_project = GlobalController::calc_sn_relip_project($project, $set->serial_number);
+
+//                $item_seek0 = null;
+//                if (isset($items_id_group[0])) {
+//                    $item_seek0 = Item::find($items_id_group[0]);
+//                }
+                //               if ($item_seek0) {
+                $items = Item::where('base_id', $calc_table_base_id)->where('project_id', $relip_project->id);
 //                  $items = Item::where('base_id', $calc_table_base_id)->where('project_id', $project->id);
 
-                    $i = 0;
-                    // Фильтрация/поиск
-                    // Цикл по записям, в каждой итерации цикла свой to_child_base_id в переменной $to_key
-                    foreach ($sets_group as $to_key => $to_value) {
-                        $item_seek = null;
-                        if (isset($items_id_group[$i])) {
-                            $item_seek = Item::find($items_id_group[$i]);
-                        }
+                $i = 0;
+                // Фильтрация/поиск
+                // Цикл по записям, в каждой итерации цикла свой to_child_base_id в переменной $to_key
+                foreach ($sets_group as $to_key => $to_value) {
+                    $item_seek = null;
+//                        if (isset($items_id_group[$i])) {
+//                            $item_seek = Item::find($items_id_group[$i]);
+//                        }
+                    if (isset($items_id_group[$i])) {
+                        $item_seek = Item::find($items_id_group[$i]);
                         // все присваивания по группе должны быть учтены, их может быть один и выше
-                        if (!$item_seek) {
-                            // Нужно, разницы нет null или false присвоить
-                            //$result_item = null;
-                            $result_item = false;
-                            break;
+//                        if (!$item_seek) {
+//                            // Нужно, разницы нет null или false присвоить
+//                            //$result_item = null;
+//                            $result_item = false;
+//                            break;
+//                        }
+                        if ($item_seek) {
+                            $items = $items->whereHas('child_mains', function ($query) use ($to_value, $item_seek) {
+                                $query->where('link_id', $to_value->link_to_id)->where('parent_item_id', $item_seek->id);
+                            });
+                        } else {
+                            // Эта команда нужна, не удалять
+                            $items = $items->whereDoesntHave('child_mains', function ($query) use ($to_value) {
+                                $query->where('link_id', $to_value->link_to_id);
+                            });
                         }
-                        $items = $items->whereHas('child_mains', function ($query) use ($to_value, $item_seek) {
-                            $query->where('link_id', $to_value->link_to_id)->where('parent_item_id', $item_seek->id);
-                        });
-                        $i = $i + 1;
                     }
-                    //if (!$result_item) {
-                    if ($result_item) {
-                        $result_item = self::output_calculated_table_dop($base, $link, $set, $item_seek0->project, $items);
-//                  $result_item = self::output_calculated_table_dop($base, $link, $set, $project, $items);
-                    }
+                    $i = $i + 1;
                 }
+                //if (!$result_item) {
+                if ($result_item) {
+                    $result_item = self::output_calculated_table_dop($base, $link, $set, $relip_project, $items);
+//                  $result_item = self::output_calculated_table_dop($base, $link, $set, $project, $items);
+                }
+                //               }
                 // Похожие строки в self::get_parent_item_from_calc_child_item()
                 // и в self::get_parent_item_from_output_calculated_table()
                 if ($result_item) {
