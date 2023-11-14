@@ -1160,11 +1160,8 @@
                                         {{-- Чтобы не выводить лишний раз ненужное --}}
                                         @if($ing_filter == false)
                                             @if(!$link->parent_base->is_required_lst_num_str_txt_img_doc)
-                                                {{-- Нужная проверка, не удалять --}}
-                                                @if(count($its_list) ==0)
                                                     {{--                                            @if($base_link_right['is_base_required'] == false)--}}
                                                     <option value='0'>{{GlobalController::option_empty()}}</option>
-                                                @endif
                                             @endif
                                         @endif
                                         @foreach ($its_list as $item_work)
