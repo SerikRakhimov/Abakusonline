@@ -11,6 +11,10 @@
     use \App\Http\Controllers\ItemController;
     use \App\Http\Controllers\LinkController;
     use \App\Http\Controllers\StepController;
+
+    // установка часового пояса нужно для сохранения времени
+    date_default_timezone_set('Asia/Almaty');
+
     $update = isset($item);
     $base_right = GlobalController::base_right($base, $role, $relit_id);
     $relip_project = GlobalController::calc_relip_project($relit_id, $project);

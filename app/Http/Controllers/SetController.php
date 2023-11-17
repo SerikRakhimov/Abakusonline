@@ -10,6 +10,7 @@ use App\Models\Set;
 use App\Models\Template;
 use App\Models\Relit;
 use App\Rules\IsUniqueSet;
+use App\Rules\IsUniqueTemplateSerialNumberLinksSet;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -20,8 +21,7 @@ class SetController extends Controller
     {
         return [
             'serial_number' => ['required', new IsUniqueSet($request)],
-            'link_from_id' => ['required', new IsUniqueSet($request)],
-            'link_to_id' => ['required', new IsUniqueSet($request)],
+            'line_number' => ['required', new IsUniqueSet($request)],
         ];
     }
 
@@ -126,10 +126,11 @@ class SetController extends Controller
 //        if (!(($set->link_from_id == $request->link_from_id) && ($set->link_to_id == $request->link_to_id))) {
 //            $request->validate($this->rules($request));
 //        }
-        if (!(($set->template_id == $request->template_id)
-            && ($set->serial_number == $request->serial_number)
-            && ($set->line_number == $request->line_number)
-        )) {
+        if (
+            !(($set->template_id == $request->template_id)
+                && ($set->serial_number == $request->serial_number)
+                && ($set->line_number == $request->line_number))
+        ) {
             $request->validate($this->rules($request));
         }
 

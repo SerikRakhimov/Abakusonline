@@ -49,10 +49,12 @@ class IsUniqueSet implements Rule
 //            ': ' . trans('main.serial_number') .
 //            ', ' . trans('main.line_number') .
 //            ', ' . trans('main.link_from') .
-//            ',  ' . trans('main.link_to') . '.';
+//            ',  ' . trans('main.link_to') .
+//            '.';
         return trans('main.uniqueness_of_fields_violated') .
-            ': ' . trans('main.serial_number') .
-            ', ' . trans('main.template') .
-            ', ' . trans('main.line_number') . '.';
+            ': ' . trans('main.template') .
+            ', ' . trans('main.serial_number') .
+            ', ' . trans('main.line_number')
+            . '.';
     }
 }
