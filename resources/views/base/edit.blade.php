@@ -249,6 +249,33 @@
             </div>
         </div>
 
+        {{--        'Показывать "пусто" в списке'--}}
+        <div class="form-group row" id="is_view_empty_lst_form_group">
+            <div class="col-sm-3 text-right">
+                <label class="form-label"
+                       for="is_view_empty_lst">{{trans('main.is_view_empty_lst')}}</label>
+            </div>
+            <div class="col-sm-7">
+                <input class="@error('is_view_empty_lst') is-invalid @enderror"
+                       type="checkbox"
+                       name="is_view_empty_lst"
+                       id="linkis_view_empty_lst"
+                       placeholder=""
+                       {{--                       Значение по умолчанию false--}}
+                       @if ((old('is_view_empty_lst') ?? ($base->is_view_empty_lst ?? false)) ==  true)
+                       checked
+                    @endif
+                >
+                @error('is_view_empty_lst')
+                <div class="invalid-feedback">
+                    {{$message}}
+                </div>
+                @enderror
+            </div>
+            <div class="col-sm-2">
+            </div>
+        </div>
+
         <div class="form-group row" id="maxcount_lst_form_group">
             <div class="col-sm-3 text-right">
                 <label for="maxcount_lst">{{trans('main.maxcount_lst')}}<span
@@ -1076,6 +1103,7 @@
         var ent_min = document.getElementById('entry_minutes_form_group');
         var ch_min_ds = document.getElementById('ch_min_desc_form_group');
         var is_required_lst_num_str_txt_img_doc = document.getElementById('is_required_lst_num_str_txt_img_doc_form_group');
+        var is_vw_emp_lst = document.getElementById('is_view_empty_lst_form_group');
         var is_tomoderate_img = document.getElementById('is_to_moderate_image_form_group');
         var maxfilesize_img_doc = document.getElementById('maxfilesize_img_doc_form_group');
         var maxfilesize_title_img_doc = document.getElementById('maxfilesize_title_img_doc_form_group');
@@ -1139,6 +1167,7 @@
             val_c_min_desc = true;
             val_digits_num = "hidden";
             val_required_num_str = "hidden";
+            val_vw_emp_lst = "hidden";
             val_tomoderate_img = "hidden";
             val_maxfilesize_img_doc = "hidden";
             val_maxfilesize_title_img_doc = "hidden";
@@ -1176,6 +1205,7 @@
                     val_e_min = "visible";
                     val_c_min_desc = false;
                     val_required_num_str = "visible";
+                    val_vw_emp_lst = "visible";
                     val_onevalue_str = "visible";
                     val_calcname_lst = "visible";
                     val_calcnm_correct_lst = "visible";
@@ -1243,6 +1273,7 @@
             ch_min_ds.hidden = val_c_min_desc;
             digits_num.style.visibility = val_digits_num;
             is_required_lst_num_str_txt_img_doc.style.visibility = val_required_num_str;
+            is_vw_emp_lst.style.visibility = val_vw_emp_lst;
             is_tomoderate_img.style.visibility = val_tomoderate_img;
             maxfilesize_img_doc.style.visibility = val_maxfilesize_img_doc;
             maxfilesize_title_img_doc.style.visibility = val_maxfilesize_title_img_doc;

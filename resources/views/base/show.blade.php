@@ -37,6 +37,7 @@
     <p>{{trans('main.is_calculated_lst')}}: <b>{{GlobalController::name_is_boolean($base->is_calculated_lst)}}</b></p>
     <p>{{trans('main.is_setup_lst')}}: <b>{{GlobalController::name_is_boolean($base->is_setup_lst)}}</b></p>
     <p>{{trans('main.is_required_lst_num_str_txt_img_doc')}}: <b>{{GlobalController::name_is_boolean($base->is_required_lst_num_str_txt_img_doc)}}</b></p>
+    <p>{{trans('main.is_view_empty_lst')}}: <b>{{GlobalController::name_is_boolean($base->is_view_empty_lst)}}</b></p>
     <p>{{trans('main.maxcount_lst')}}: <b>{{$base->maxcount_lst}}</b></p>
     <p>{{trans('main.is_del_maxcnt_lst')}}: <b>{{GlobalController::name_is_boolean($base->is_del_maxcnt_lst)}}</b></p>
     <p>{{trans('main.maxcount_user_id_lst')}}: <b>{{$base->maxcount_user_id_lst}}</b></p>

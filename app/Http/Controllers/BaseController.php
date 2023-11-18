@@ -603,6 +603,7 @@ class BaseController extends Controller
         $base->is_default_heading = isset($request->is_default_heading) ? "1" : "0";
         $base->is_default_view_cards = isset($request->is_default_view_cards) ? "1" : "0";
         $base->is_required_lst_num_str_txt_img_doc = isset($request->is_required_lst_num_str_txt_img_doc) ? "1" : "0";
+        $base->is_view_empty_lst = isset($request->is_view_empty_lst) ? "1" : "0";
         $base->is_to_moderate_image = isset($request->is_to_moderate_image) ? "1" : "0";
         $base->is_one_value_lst_str_txt = isset($request->is_one_value_lst_str_txt) ? "1" : "0";
         $base->is_calcname_lst = isset($request->is_calcname_lst) ? "1" : "0";
@@ -660,6 +661,7 @@ class BaseController extends Controller
                 $base->type_is_text = false;
                 $base->type_is_image = false;
                 $base->type_is_document = false;
+                $base->is_view_empty_lst ="0";
                 $base->is_code_needed = "0";
                 $base->is_one_value_lst_str_txt = "0";
                 $base->is_calcname_lst = "0";
@@ -700,6 +702,7 @@ class BaseController extends Controller
                 $base->type_is_text = false;
                 $base->type_is_image = false;
                 $base->type_is_document = false;
+                $base->is_view_empty_lst ="0";
                 $base->is_code_needed = "0";
                 $base->digits_num = 0;
                 $base->is_calcname_lst = "0";
@@ -740,6 +743,7 @@ class BaseController extends Controller
                 $base->type_is_text = false;
                 $base->type_is_image = false;
                 $base->type_is_document = false;
+                $base->is_view_empty_lst ="0";
                 $base->is_code_needed = "0";
                 $base->digits_num = 0;
                 $base->is_required_lst_num_str_txt_img_doc = "0";
@@ -782,6 +786,7 @@ class BaseController extends Controller
                 $base->type_is_text = false;
                 $base->type_is_image = false;
                 $base->type_is_document = false;
+                $base->is_view_empty_lst ="0";
                 $base->is_code_needed = "0";
                 $base->digits_num = 0;
                 $base->is_required_lst_num_str_txt_img_doc = "0";
@@ -824,6 +829,7 @@ class BaseController extends Controller
                 $base->type_is_text = true;
                 $base->type_is_image = false;
                 $base->type_is_document = false;
+                $base->is_view_empty_lst ="0";
                 $base->is_code_needed = "0";
                 $base->digits_num = 0;
                 $base->is_calcname_lst = "0";
@@ -864,6 +870,7 @@ class BaseController extends Controller
                 $base->type_is_text = false;
                 $base->type_is_image = true;
                 $base->type_is_document = false;
+                $base->is_view_empty_lst ="0";
                 $base->is_code_needed = "0";
                 $base->digits_num = 0;
                 $base->is_one_value_lst_str_txt = "0";
@@ -903,6 +910,7 @@ class BaseController extends Controller
                 $base->type_is_text = false;
                 $base->type_is_image = false;
                 $base->type_is_document = true;
+                $base->is_view_empty_lst ="0";
                 $base->is_code_needed = "0";
                 $base->digits_num = 0;
                 $base->is_one_value_lst_str_txt = "0";
@@ -971,6 +979,10 @@ class BaseController extends Controller
         };
         if ($base->maxcount_lst == 0) {
             $base->is_del_maxcnt_lst = "0";
+        };
+        // Нужно
+        if ($base->is_required_lst_num_str_txt_img_doc == "1") {
+            $base->is_view_empty_lst = "0";
         };
 
         $base->save();

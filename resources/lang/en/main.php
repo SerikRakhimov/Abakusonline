@@ -488,4 +488,5 @@ return [
     'title_min' => 'Limit in minutes for updating/deleting data',
     'is_empty' => 'Empty',
     'cannot_save_record' => 'Cannot save record',
+    'is_view_empty_lst' => 'Show "empty" in the list',
     ];

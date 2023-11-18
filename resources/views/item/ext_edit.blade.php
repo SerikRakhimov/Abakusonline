@@ -12,6 +12,7 @@
     use \App\Http\Controllers\LinkController;
     use \App\Http\Controllers\StepController;
 
+    // Нужно для функции date('Y-m-d')
     // установка часового пояса нужно для сохранения времени
     date_default_timezone_set('Asia/Almaty');
 
@@ -1152,8 +1153,9 @@
                                     </option>
                                 @else
                                     @if ((count($its_list) == 0))
-                                        @if(!$link->parent_base->is_required_lst_num_str_txt_img_doc)
-                                            {{--                                        @if($base_link_right['is_base_required'] == false)--}}
+                                        @if($link->parent_base->is_view_empty_lst)
+                                            {{--                                            @if(!$link->parent_base->is_required_lst_num_str_txt_img_doc)--}}
+                                            {{--                                            @if($base_link_right['is_base_required'] == false)--}}
                                             <option value='0'>{{GlobalController::option_empty()}}</option>
                                         @else
                                             <option value='0'>{{trans('main.no_information_on')}}
@@ -1163,9 +1165,10 @@
                                     @else
                                         {{-- Чтобы не выводить лишний раз ненужное --}}
                                         @if($ing_filter == false)
-                                            @if(!$link->parent_base->is_required_lst_num_str_txt_img_doc)
-                                                    {{--                                            @if($base_link_right['is_base_required'] == false)--}}
-                                                    <option value='0'>{{GlobalController::option_empty()}}</option>
+                                            @if($link->parent_base->is_view_empty_lst)
+                                                {{--                                            @if(!$link->parent_base->is_required_lst_num_str_txt_img_doc)--}}
+                                                {{--                                            @if($base_link_right['is_base_required'] == false)--}}
+                                                <option value='0'>{{GlobalController::option_empty()}}</option>
                                             @endif
                                         @endif
                                         @foreach ($its_list as $item_work)

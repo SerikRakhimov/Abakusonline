@@ -3970,8 +3970,8 @@ class ItemController extends Controller
                     } else {
                         // Эта команда нужна, не удалять
                         $items = $items->whereDoesntHave('child_mains', function ($query) use ($to_value) {
-                                $query->where('link_id', $to_value->link_to_id);
-                            });
+                            $query->where('link_id', $to_value->link_to_id);
+                        });
 //                        $r_info = false;
 //                        break;
                     }
@@ -8172,7 +8172,8 @@ class ItemController extends Controller
         if (count($result_items) > 0) {
 //          Чтобы не выводить лишний раз ненужное
             if ($ing_filter == false) {
-                if (!$base->is_required_lst_num_str_txt_img_doc) {
+                if ($base->is_view_empty_lst) {
+                    //          if (!$base->is_required_lst_num_str_txt_img_doc) {
                     //          'Обязательно к заполнению (для списков, при условии $base->is_required_lst_num_str_txt_img_doc = false
                     //if (!$is_base_required) {
                     $result_items_name_options = "<option value='0'>" . GlobalController::option_empty() . "</option>";
@@ -8182,7 +8183,8 @@ class ItemController extends Controller
                 $result_items_name_options = $result_items_name_options . "<option value='" . $it->id . "'>" . $it->name() . "</option>";
             }
         } else {
-            if (!$base->is_required_lst_num_str_txt_img_doc) {
+            if ($base->is_view_empty_lst) {
+                //          if (!$base->is_required_lst_num_str_txt_img_doc) {
                 //          'Обязательно к заполнению (для списков, при условии $base->is_required_lst_num_str_txt_img_doc = false
                 //if (!$is_base_required) {
                 $result_items_name_options = "<option value='0'>" . GlobalController::option_empty() . "</option>";
