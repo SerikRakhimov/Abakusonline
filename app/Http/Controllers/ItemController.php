@@ -6697,6 +6697,7 @@ class ItemController extends Controller
 //            'result_items_name_options' => $result_items_name_options];
 //    }
 
+// Проверки на $link->parent_is_output_calculated_table_field в ItemController::get_parent_item_from_child_item() и в BaseController::get_array_bases_tree_start()
     static function get_parent_item_from_child_item(Item $item_start, Link $link_result)
     {
         $result_item = null;

@@ -1127,10 +1127,13 @@ class BaseController extends Controller
         return $result;
     }
 
+    // Проверки на $link->parent_is_output_calculated_table_field в ItemController::get_parent_item_from_child_item() и в BaseController::get_array_bases_tree_start()
     static function get_array_bases_tree_start(&$list, &$result_index, &$result_keys, &$result_values, $id, $path_previous)
     {
         $result = '<ul type="circle">';
-        // расчетные поля не включаются в список
+        // 'Автоматически заполнять из родительского поля ввода' не включаются в список
+        // 'Выводить поле вычисляемой таблицы' не включаются в список
+        // '->get()' нужно
         $links = Link::where('child_base_id', $id)
             ->where('parent_is_parent_related', false)
             ->where('parent_is_output_calculated_table_field', false)
