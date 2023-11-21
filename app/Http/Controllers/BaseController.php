@@ -1134,7 +1134,8 @@ class BaseController extends Controller
         // ->where('parent_is_output_calculated_table_field', false)
         $links = Link::where('child_base_id', $id)
             ->where('parent_is_parent_related', false)
-            ->orderBy('parent_base_number');
+            ->orderBy('parent_base_number')
+            ->get();
         // эти строки нужны
         if (count($links) == 0) {
             return;
@@ -1154,7 +1155,7 @@ class BaseController extends Controller
             $result_index = $result_index + 1;
             // чтобы не было бесконечного цикла
             if ($link->parent_base_id != $id) {
-                    self::get_array_bases_tree_start($list, $result_index, $result_keys, $result_values, $link->parent_base_id, $path);
+                self::get_array_bases_tree_start($list, $result_index, $result_keys, $result_values, $link->parent_base_id, $path);
             };
         }
         return;
