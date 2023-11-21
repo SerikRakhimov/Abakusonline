@@ -661,7 +661,7 @@ class BaseController extends Controller
                 $base->type_is_text = false;
                 $base->type_is_image = false;
                 $base->type_is_document = false;
-                $base->is_view_empty_lst ="0";
+                $base->is_view_empty_lst = "0";
                 $base->is_code_needed = "0";
                 $base->is_one_value_lst_str_txt = "0";
                 $base->is_calcname_lst = "0";
@@ -702,7 +702,7 @@ class BaseController extends Controller
                 $base->type_is_text = false;
                 $base->type_is_image = false;
                 $base->type_is_document = false;
-                $base->is_view_empty_lst ="0";
+                $base->is_view_empty_lst = "0";
                 $base->is_code_needed = "0";
                 $base->digits_num = 0;
                 $base->is_calcname_lst = "0";
@@ -743,7 +743,7 @@ class BaseController extends Controller
                 $base->type_is_text = false;
                 $base->type_is_image = false;
                 $base->type_is_document = false;
-                $base->is_view_empty_lst ="0";
+                $base->is_view_empty_lst = "0";
                 $base->is_code_needed = "0";
                 $base->digits_num = 0;
                 $base->is_required_lst_num_str_txt_img_doc = "0";
@@ -786,7 +786,7 @@ class BaseController extends Controller
                 $base->type_is_text = false;
                 $base->type_is_image = false;
                 $base->type_is_document = false;
-                $base->is_view_empty_lst ="0";
+                $base->is_view_empty_lst = "0";
                 $base->is_code_needed = "0";
                 $base->digits_num = 0;
                 $base->is_required_lst_num_str_txt_img_doc = "0";
@@ -829,7 +829,7 @@ class BaseController extends Controller
                 $base->type_is_text = true;
                 $base->type_is_image = false;
                 $base->type_is_document = false;
-                $base->is_view_empty_lst ="0";
+                $base->is_view_empty_lst = "0";
                 $base->is_code_needed = "0";
                 $base->digits_num = 0;
                 $base->is_calcname_lst = "0";
@@ -870,7 +870,7 @@ class BaseController extends Controller
                 $base->type_is_text = false;
                 $base->type_is_image = true;
                 $base->type_is_document = false;
-                $base->is_view_empty_lst ="0";
+                $base->is_view_empty_lst = "0";
                 $base->is_code_needed = "0";
                 $base->digits_num = 0;
                 $base->is_one_value_lst_str_txt = "0";
@@ -910,7 +910,7 @@ class BaseController extends Controller
                 $base->type_is_text = false;
                 $base->type_is_image = false;
                 $base->type_is_document = true;
-                $base->is_view_empty_lst ="0";
+                $base->is_view_empty_lst = "0";
                 $base->is_code_needed = "0";
                 $base->digits_num = 0;
                 $base->is_one_value_lst_str_txt = "0";
@@ -1131,9 +1131,9 @@ class BaseController extends Controller
     {
         $result = '<ul type="circle">';
         // расчетные поля не включаются в список
+        // ->where('parent_is_output_calculated_table_field', false)
         $links = Link::where('child_base_id', $id)
             ->where('parent_is_parent_related', false)
-            ->where('parent_is_output_calculated_table_field', false)
             ->orderBy('parent_base_number');
         // эти строки нужны
         if (count($links) == 0) {
@@ -1154,7 +1154,9 @@ class BaseController extends Controller
             $result_index = $result_index + 1;
             // чтобы не было бесконечного цикла
             if ($link->parent_base_id != $id) {
-                self::get_array_bases_tree_start($list, $result_index, $result_keys, $result_values, $link->parent_base_id, $path);
+                if ($link->parent_is_output_calculated_table_field == true) {
+                    self::get_array_bases_tree_start($list, $result_index, $result_keys, $result_values, $link->parent_base_id, $path);
+                }
             };
         }
         return;
