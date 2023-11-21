@@ -832,11 +832,12 @@ class LinkController extends Controller
 //            $links = Link::all()->where('child_base_id', $base->id)->sortBy('parent_base_number');
             // Кроме связанных полей
             // и вывода полей вычисляемой таблицы
-            // ->where('parent_is_output_calculated_table_field', false)
-            $links = Link::all()
-                ->where('child_base_id', $base->id)
+            // '->where('parent_is_output_calculated_table_field', false)' не нужно
+            // '->get()' нужно
+            $links = Link::where('child_base_id', $base->id)
                 ->where('parent_is_parent_related', false)
-                ->sortBy('parent_base_number');
+                ->orderBy('parent_base_number')
+            ->get();
             // при корректировке записи текущую запись не отображать в списке
             if ($link_current) {
                 $links = $links->where('id', '!=', $link_current->id);
