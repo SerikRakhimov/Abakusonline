@@ -6721,10 +6721,15 @@ class ItemController extends Controller
                     break;
                 }
                 $link_work = $link;
-                // первый элемент списка mains по выбранному child_base_id и link_id
-                // $item используется в цикле
-                $main = Main::select(['id', 'child_item_id', 'parent_item_id', 'link_id'])
-                    ->where('child_item_id', $item->id)->where('link_id', $link->id)->get()->first();
+                // 'Выводить поле вычисляемой таблицы'
+                if ($link->parent_is_output_calculated_table_field == true) {
+                    $main = null;
+                } else {
+                    // первый элемент списка mains по выбранному child_base_id и link_id
+                    // $item используется в цикле
+                    $main = Main::select(['id', 'child_item_id', 'parent_item_id', 'link_id'])
+                        ->where('child_item_id', $item->id)->where('link_id', $link->id)->get()->first();
+                }
                 if (!$main) {
                     $error = true;
                     break;
