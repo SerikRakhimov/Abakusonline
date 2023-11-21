@@ -1131,7 +1131,10 @@ class BaseController extends Controller
     {
         $result = '<ul type="circle">';
         // расчетные поля не включаются в список
-        $links = Link::all()->where('child_base_id', $id)->where('parent_is_parent_related', false)->sortBy('parent_base_number');
+        $links = Link::where('child_base_id', $id)
+            ->where('parent_is_parent_related', false)
+            ->where('parent_is_output_calculated_table_field', false)
+            ->orderBy('parent_base_number');
         // эти строки нужны
         if (count($links) == 0) {
             return;
