@@ -1154,9 +1154,7 @@ class BaseController extends Controller
             $result_index = $result_index + 1;
             // чтобы не было бесконечного цикла
             if ($link->parent_base_id != $id) {
-                if ($link->parent_is_output_calculated_table_field == true) {
                     self::get_array_bases_tree_start($list, $result_index, $result_keys, $result_values, $link->parent_base_id, $path);
-                }
             };
         }
         return;
