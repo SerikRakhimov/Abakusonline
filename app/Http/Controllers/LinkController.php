@@ -340,6 +340,13 @@ class LinkController extends Controller
         if ($link->parent_base->type_is_number == false && $link->parent_base->type_is_boolean == false) {
             $link->parent_num_bool_default_value = "";
         }
+
+        // Если Ребенок_Основа - вычисляемое,
+        // то 'Ссылка на основу (кроме вычисляемых основ - Ребенок_Основа)' присвоить false
+        if ($link->child_base->is_calculated_lst == true) {
+            $link->parent_is_base_link = false;
+        }
+
         if ($link->parent_is_numcalc == false) {
             $link->parent_is_nc_screencalc = 0;
         }
@@ -661,6 +668,13 @@ class LinkController extends Controller
         if ($link->parent_base->type_is_number == false && $link->parent_base->type_is_boolean == false) {
             $link->parent_num_bool_default_value = "";
         }
+
+        // Если Ребенок_Основа - вычисляемое,
+        // то 'Ссылка на основу (кроме вычисляемых основ - Ребенок_Основа)' присвоить false
+        if ($link->child_base->is_calculated_lst == true) {
+            $link->parent_is_base_link = false;
+        }
+
         if ($link->parent_is_numcalc == false) {
             $link->parent_is_nc_screencalc = 0;
         }

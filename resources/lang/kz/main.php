@@ -415,7 +415,7 @@ return [
     'parent_is_use_selection_calculated_table_link_id_1' => 'Таңдау тізімінде есептелетін кестенің байланысты екі өрісін пайдалану',
     'parent_selection_calculated_table_link_id_0' => 'Есептелетін кестенің қосымша байланған өрісі_0',
     'parent_selection_calculated_table_link_id_1' => 'Есептелетін кестенің қосымша байланған өрісі_1',
-    'parent_is_base_link' => 'Негізге сілтеме',
+    'parent_is_base_link' => 'Негізге сілтеме (есептелетін негіздерден басқа - Бала_Негізі)',
     'code_not_found' => 'Код табылмады',
     'parent_is_delete_child_base_record_with_zero_value' => 'Жазуды жою Бала_нөлге тең болған кезде негіз (Бала_есептелетін негіз, сандық/логикалық өрістер үшін)',
     'parent_is_enabled_boolean_value' => 'Логикалық өріс мәнінен қараған кезде қолжетімді',

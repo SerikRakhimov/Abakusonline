@@ -109,26 +109,30 @@
     <div class="container-fluid">
         <div class="row">
             <?php
-            if ($view_link) {
+            //            if ($view_link) {
+            //                // true - с эмодзи
+            //                $title = $view_link->parent_label($emoji_enable);
+            //            } else {
+            //                $title = $item->base->name($emoji_enable);
+            //            }
+            if (($view_link) && ($item->id == $it_local->id)) {
                 // true - с эмодзи
                 $title = $view_link->parent_label($emoji_enable);
             } else {
-                $title = $item->base->name($emoji_enable);
+                $title = $it_local->base->name($emoji_enable);
             }
             ?>
             {{--                    Выводить вычисляемое наименование--}}
             {{-- Одинаковые проверки должны быть в ItemController::item_index() и в item_index.php--}}
             {{-- здесь равно true--}}
-            {{-- @if(GlobalController::is_base_calcnm_correct_check($item->base, $base_right))--}}
-            {{--                @if(GlobalController::is_base_calcname_check($item->base, $base_right) || $item->base->is_calcnm_correct_lst == true)--}}
-            @if(GlobalController::is_base_calcname_check($item->base, $base_right))
+            @if(GlobalController::is_base_calcname_check($it_local->base))
                 <div class="col-12 text-left">
                     {{--                    <big>--}}
                     {{--                    <h6>--}}
                     @if($base_right['is_bsmn_base_enable'] == true)
-                        <a href="{{route('item.base_index', ['base'=>$item->base,
+                        <a href="{{route('item.base_index', ['base'=>$it_local->base,
                             'project'=>$project, 'role'=>$role, 'relit_id'=>$relit_id])}}"
-                           title="{{$item->base->names($base_right) . $message_bs_info}}">
+                           title="{{$it_local->base->names($base_right) . $message_bs_info}}">
                             @endif
                             {{$title}}
                             <br>
@@ -140,7 +144,7 @@
                         {{-- Одинаковые строки рядом (route('item.ext_show'))--}}
                         @if ($base_right['is_list_base_calc'] == true)
                             {{--              Использовать "'heading' => intval(true)", проверяется в окончании функции ItemController:ext_delete()--}}
-                            <a href="{{route('item.ext_show', ['item'=>$item, 'project'=>$project, 'role'=>$role,
+                            <a href="{{route('item.ext_show', ['item'=>$it_local, 'project'=>$project, 'role'=>$role,
                                             'usercode' =>GlobalController::usercode_calc(),
                                             'relit_id'=>$relit_id,
                                             'string_current' => $string_current,
@@ -149,36 +153,27 @@
             'view_link'=> GlobalController::set_par_view_link_null($view_link),
             'par_link'=>$tree_array_last_link_id, 'parent_item'=>$tree_array_last_item_id,
             'parent_ret_id' => $view_ret_id])}}"
-                               title="{{trans('main.viewing_record')}}:{{$item->name(false, false, false, false)}}"
+                               title="{{trans('main.viewing_record')}}:{{$it_local->name(false, false, false, false)}}"
                             >
-                                {{--                                            'string_link_ids_current' => $string_link_ids_current,--}}
-                                {{--                                            'string_item_ids_current' => $string_item_ids_current,--}}
-                                {{--                                            'string_relit_ids_current' => $string_relit_ids_current,--}}
-                                {{--                                            'string_all_codes_current'=>$string_all_codes_current,--}}
-                                {{--                                        <mark class="text-project">--}}
-                                {{--                                        @include('layouts.item.empty_name', ['name'=>$item->nmbr()])--}}
-                                {{--                                        emoji не показывать    --}}
                                 @if($base_right['is_list_base_read'] == true)
-                                    @include('layouts.item.empty_name', ['name'=>$item->nmbr(true, false, false, false)])
+                                    @include('layouts.item.empty_name', ['name'=>$it_local->nmbr(true, false, false, false)])
                                 @else
-                                    @include('layouts.item.empty_name', ['name'=>$item->name(false, false, false, false)])
+                                    @include('layouts.item.empty_name', ['name'=>$it_local->name(false, false, false, false)])
                                 @endif
-                                {{--                                        </mark>--}}
                             </a>
                         @else
-                            {{--                                {{$item->name()}}--}}
                             <?php
                             //                                    emoji не показывать
-                            echo $item->nmbr(false, false, false, false);
+                            echo $it_local->nmbr(false, false, false, false);
                             ?>
                         @endif
                     </big>
-                    @if($item->base->is_code_needed == true)
-                        {{trans('main.code')}}: <strong>{{$item->code}}</strong>
+                    @if($it_local->base->is_code_needed == true)
+                        {{trans('main.code')}}: <strong>{{$it_local->code}}</strong>
                     @endif
                     {{--                                <div class="col-4 text-left">--}}
-                    {{--                                    @if($item->base->is_code_needed == true)--}}
-                    {{--                                        {{trans('main.code')}}: <strong>{{$item->code}}</strong>--}}
+                    {{--                                    @if($it_local->base->is_code_needed == true)--}}
+                    {{--                                        {{trans('main.code')}}: <strong>{{$it_local->code}}</strong>--}}
                     {{--                                    @endif--}}
                     {{--                                </div>--}}
                     {{--                    </h6>--}}
@@ -189,9 +184,9 @@
                     <big><big>
                             {{--                                <h6>--}}
                             @if($base_right['is_bsmn_base_enable'] == true)
-                                <a href="{{route('item.base_index', ['base'=>$item->base,
+                                <a href="{{route('item.base_index', ['base'=>$it_local->base,
                             'project'=>$project, 'role'=>$role, 'relit_id'=>$relit_id])}}"
-                                   title="{{$item->base->names($base_right) . $message_bs_info}}">
+                                   title="{{$it_local->base->names($base_right) . $message_bs_info}}">
                                     @endif
                                     {{$title}}:
                                     @if ($base_right['is_bsmn_base_enable'] == true)
@@ -203,7 +198,7 @@
                     {{-- Одинаковые строки рядом (route('item.ext_show'))--}}
                     @if ($base_right['is_list_base_calc'] == true)
                         {{--              Использовать "'heading' => intval(true)", проверяется в окончании функции ItemController:ext_delete()--}}
-                        <a href="{{route('item.ext_show', ['item'=>$item, 'project'=>$project, 'role'=>$role,
+                        <a href="{{route('item.ext_show', ['item'=>$it_local, 'project'=>$project, 'role'=>$role,
                                             'usercode' =>GlobalController::usercode_calc(),
                                             'relit_id'=>$relit_id,
             'string_current' => $string_current,
@@ -212,14 +207,14 @@
             'view_link'=> GlobalController::set_par_view_link_null($view_link),
             'par_link'=>$tree_array_last_link_id, 'parent_item'=>$tree_array_last_item_id,
             'parent_ret_id' => $relit_id])}}"
-                           title="{{trans('main.viewing_record')}}: {{$item->cdnm()}}">
+                           title="{{trans('main.viewing_record')}}: {{$it_local->cdnm()}}">
                             {{--                            'string_link_ids_current' => $string_link_ids_current,--}}
                             {{--                            'string_item_ids_current' => $string_item_ids_current,--}}
                             {{--                            'string_relit_ids_current' => $string_relit_ids_current,--}}
                             {{--                            'string_all_codes_current'=>$string_all_codes_current,--}}
                             @endif
-                            @if($item->base->is_code_needed == true)
-                                {{trans('main.code')}}: <strong>{{$item->code}}</strong>
+                            @if($it_local->base->is_code_needed == true)
+                                {{trans('main.code')}}: <strong>{{$it_local->code}}</strong>
                                 <br>
                             @endif
                             {{--                    Нужно '@foreach($child_mains_link_is_calcname as $calcname_mains)'--}}
@@ -445,7 +440,7 @@
                         <div class="btn-group btn-group-sm" role="group" aria-label="Relips">
                             <button type="button" class="btn btn-icon"
                                     {{--                                'called_from_button'=>1 - вызов из кнопки--}}
-                                    onclick='document.location="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,
+                                    onclick='document.location="{{route('item.item_index', ['project'=>$project, 'item'=>$it_local, 'role'=>$role,
                                           'usercode' =>GlobalController::usercode_calc(),
                                           'relit_id'=>$relit_id,
                                           'called_from_button'=>1,
@@ -553,7 +548,7 @@
                             <div class="btn-group btn-group-sm" role="group" aria-label="Link">
                                 <button type="button" class="btn btn-icon"
                                         {{--                                'called_from_button'=>1 - вызов из кнопки--}}
-                                        onclick='document.location="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,
+                                        onclick='document.location="{{route('item.item_index', ['project'=>$project, 'item'=>$it_local, 'role'=>$role,
                                                                           'usercode' =>GlobalController::usercode_calc(),
                                                                           'relit_id'=>$relit_id,
                                                                           'called_from_button'=>1,
@@ -586,7 +581,7 @@
                             <div class="btn-group btn-group-sm" role="group" aria-label="Links">
                                 <button type="button" class="btn btn-icon"
                                         {{--                                'called_from_button'=>1 - вызов из кнопки--}}
-                                        onclick='document.location="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,
+                                        onclick='document.location="{{route('item.item_index', ['project'=>$project, 'item'=>$it_local, 'role'=>$role,
                                                                       'usercode' =>GlobalController::usercode_calc(),
                                                                       'relit_id'=>$relit_id,
                                                                       'called_from_button'=>1,

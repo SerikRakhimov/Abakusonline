@@ -343,7 +343,7 @@ if ($view_link) {
                     {{--                Если тип-вычисляемое наименование и Показывать Основу с вычисляемым наименованием--}}
                     {{--                или если тип-не вычисляемое наименование--}}
                     {{--            похожая проверка в ext_show.blade.php--}}
-                    @if(GlobalController::is_base_calcname_check($base, $base_right))
+                    @if(GlobalController::is_base_calcname_check($base))
                         <th rowspan="{{$rows + 1}}" @include('layouts.class_from_base',['base'=>$base, 'align_top'=>true])>
                             {{--                        @if($view_link)--}}
                             {{--                            {{$view_link->child_label()}}--}}
@@ -536,7 +536,7 @@ if ($view_link) {
                         {{--                Если тип-вычисляемое наименование и Показывать Основу с вычисляемым наименованием--}}
                         {{--                или если тип-не вычисляемое наименование--}}
                         {{--                похожая проверка в list\table.php, ItemController::item_index() и ext_show.php--}}
-                        @if(GlobalController::is_base_calcname_check($base, $base_right))
+                        @if(GlobalController::is_base_calcname_check($base))
                             <td @include('layouts.class_from_base',['base'=>$base])>
                                 @if($base->type_is_image)
                                     @include('view.img',['item'=>$item, 'size'=>"small", 'border'=>true, 'filenametrue'=>false, 'link'=>true, 'img_fluid'=>false, 'card_img_top'=>false, 'title'=>""])

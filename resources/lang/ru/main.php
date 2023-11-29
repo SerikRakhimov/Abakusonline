@@ -415,7 +415,7 @@ return [
     'parent_is_use_selection_calculated_table_link_id_1' => 'В списке выбора использовать два дополнительных связанных поля вычисляемой таблицы',
     'parent_selection_calculated_table_link_id_0' => 'Дополнительное связанное поле вычисляемой таблицы_0',
     'parent_selection_calculated_table_link_id_1' => 'Дополнительное связанное поле вычисляемой таблицы_1',
-    'parent_is_base_link' => 'Ссылка на основу',
+    'parent_is_base_link' => 'Ссылка на основу (кроме вычисляемых основ - Ребенок_Основа)',
     'code_not_found' => 'Код не найден',
     'parent_is_delete_child_base_record_with_zero_value' => 'Удалить запись Ребенок_Основа при равенству нулю (Ребенок_Основа-вычисляемое, для числовых/логических полей)',
     'parent_is_enabled_boolean_value' => 'Доступно при просмотре от значения поля Логический',

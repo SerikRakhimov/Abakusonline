@@ -84,7 +84,7 @@
         {{--                Если тип-вычисляемое наименование и Показывать Основу с вычисляемым наименованием--}}
         {{--                или если тип-не вычисляемое наименование--}}
         {{--            похожая проверка в base_index.blade.php--}}
-        @if(GlobalController::is_base_calcname_check($base, $base_right))
+        @if(GlobalController::is_base_calcname_check($base))
             {{--                                            $numcat = true - вывод числовых полей с разрядом тысячи/миллионы/миллиарды--}}
             {{--                                <li>--}}
             <div class="text-label">

@@ -418,12 +418,19 @@ class ItemController extends Controller
                 $string_all_codes_current);
         }
 
-        // Если есть признак where('parent_is_tree_top', true)
+        // Если переход на другой link, то тогда $it_local не равен $item, $vw_link_local не равен $view_link
+        // $it_local, $vw_link_local - переданные в функцию значения
+        // $item, $view_link - рассчитанные с учетом признака 'parent_is_tree_top'
+        $it_local = $item;
+        //$vw_link_local = $view_link;
+// Если есть признак where('parent_is_tree_top', true)
+// 'Переходить на эту связь при вызове item_index.php с основной основой'
 // Меняется только $item при вызове из base_index.php    ($view_link == null)
 // Было:  https://www.abakusonline.com/item/item_index/42/9220/34/18/0/text_base_null/null;null;null;null/1/0/0/0
 // Стало: https://www.abakusonline.com/item/item_index/42/9822/34/18/0/text_base_null/null;null;null;null/1/0/0/0
 // $item_tree_top становится верхним в иерархии на экране, Связь автоматические подбирает $view_link и $view_ret_id
         $item_change = false;
+        $it_lc_base_id = null;
         $link_tree_top = $item->base->child_links->where('parent_is_tree_top', true)->first();
         if ($link_tree_top) {
             $item_tree_top = GlobalController::view_info($item->id, $link_tree_top->id);
@@ -449,15 +456,18 @@ class ItemController extends Controller
                             $relit_id = $relit_tree_top_id;
                             //$view_link = $link_tree_top->id;
                             // Эти переменные должны посчитаться далее по алгоритмам
-                            $view_link = null;
+                            // '$view_link = null;' не нужно, чтобы в item_index.php правильно отображался текущий $it_local с переданным $view_link
+                            //$view_link = null;
                             $view_ret_id = null;
                             $item_change = true;
+                            // Нужно для функции links_info()
+                            $it_lc_base_id = $it_local->base_id;
                         }
                     }
                 }
             }
         }
-
+//dd($it_lc_base_id);
         if (1 == 2) {
             // Используется 'is_list_base_calc' в ext_show.php и ItemController::item_index()
             // Нужно, после вызова calc_tree_array()
@@ -469,13 +479,21 @@ class ItemController extends Controller
                 }
             }
         }
+
         // Нужно
+        // Два блока с одинаковым алгоритмом
         if ($view_link == null || $view_link == GlobalController::par_link_const_textnull() || $view_link == GlobalController::par_link_const_text_base_null()) {
             // Нужно '$view_link = null;'
             $view_link = null;
         } else {
             $view_link = Link::find($view_link);
         }
+//        if ($vw_link_local == null || $vw_link_local == GlobalController::par_link_const_textnull() || $vw_link_local == GlobalController::par_link_const_text_base_null()) {
+//            // Нужно '$vw_link_local  = null;'
+//            $vw_link_local = null;
+//        } else {
+//            $vw_link_local = Link::find($vw_link_local);
+//        }
 
         // Нужно
         $view_ret_id = GlobalController::set_relit_id($view_ret_id);
@@ -490,19 +508,20 @@ class ItemController extends Controller
         $relip_project = GlobalController::calc_relip_project($relit_id, $project);
 
         $child_links = $item->base->child_links->sortBy('parent_base_number');
-        $child_mains_link_is_calcname = self::mains_link_is_calcname($item, $role, $relit_id, $tree_array);
+//      $child_mains_link_is_calcname = self::mains_link_is_calcname($item, $role, $relit_id, $tree_array);
+        $child_mains_link_is_calcname = self::mains_link_is_calcname($it_local, $role, $relit_id, $tree_array);
 
         $para_child_mains_link_is_calcname = null;
         // Одинаковые проверки должны быть в ItemController::item_index() и в item_index.php
         // здесь равно false
         // Исключить link_id из $child_mains_link_is_calcname в итоговом результате функции links_info()
-        // if (GlobalController::is_base_calcnm_correct_check($item->base, $base_right) == false) {
-        if (GlobalController::is_base_calcname_check($item->base, $base_right) == false) {
+        // if (GlobalController::is_base_calcname_check($item->base) == false) {
+        if (GlobalController::is_base_calcname_check($it_local->base) == false) {
             $para_child_mains_link_is_calcname = $child_mains_link_is_calcname;
         }
         // Нужно передать в функцию links_info() $item
         $child_links_info = self::links_info($item->base, $role, $relit_id,
-            $item, null, true, $tree_array, $para_child_mains_link_is_calcname);
+            $item, null, null, true, $tree_array, $para_child_mains_link_is_calcname);
 
         // Похожие строки в ItemController::item_index() и ItemController::ext_update()
         // Используется последний элемент массива $tree_array
@@ -582,18 +601,19 @@ class ItemController extends Controller
             $base_body_right = GlobalController::base_link_right($current_link, $role, $view_ret_id, true);
             // Исключить переданный $nolink - $current_link
 //          $child_body_links_info = self::links_info($current_link->child_base, $role, $view_ret_id, null, $current_link);
-            $child_body_links_info = self::links_info($current_link->child_base, $role, $view_ret_id, null, $current_link, false, $tree_array);
+            $child_body_links_info = self::links_info($current_link->child_base, $role, $view_ret_id, null,
+                $current_link, $it_lc_base_id, false, $tree_array, $para_child_mains_link_is_calcname);
             if (count($child_body_links_info['link_id_array']) == 0) {
 //                Если тип-вычисляемое наименование и Показывать Основу с вычисляемым наименованием
 //                           или если тип-не вычисляемое наименование
 //                           похожая проверка в list\table.php, ItemController::item_index() и ext_show.php
-                // = false
-                if (GlobalController::is_base_calcname_check($current_link->child_base, $base_body_right) == false) {
+                // '== false' используется
+                if (GlobalController::is_base_calcname_check($current_link->child_base) == false) {
                     // Не исключать переданный $nolink - null
                     // В таблице 'item_body_base' должно быть как минимум два столбца: номер строки с вызовом 'item.show'
                     // и вычисляемое наименование, код, связи для вызова 'item.item_index'.
                     // Проверка выше для этого нужна, чтобы как минимум один столбец был для вызова 'item.item_index'.
-                    $child_body_links_info = self::links_info($current_link->child_base, $role, $view_ret_id, null, null);
+                    $child_body_links_info = self::links_info($current_link->child_base, $role, $view_ret_id, null, null,null);
                 }
             }
             $relip_body_project = GlobalController::calc_relip_project($view_ret_id, $project);
@@ -707,13 +727,17 @@ class ItemController extends Controller
                 $message_bs_calc = ItemController::message_bs_calc($relip_project, $item->base);
                 $message_bs_info = $message_bs_calc['message_bs_info'];
                 $message_bs_validate = $message_bs_calc['message_bs_validate'];
-                return view('item/item_index', ['project' => $project, 'item' => $item, 'role' => $role,
+                return view('item/item_index', ['project' => $project,
+                    'item' => $item,
+                    'role' => $role,
                     'relit_id' => $relit_id,
                     'view_link' => GlobalController::set_par_view_link_null($view_link),
                     'view_ret_id' => $view_ret_id,
                     'array_relips' => $array_relips,
                     'base_right' => $base_right,
                     'items' => $items,
+                    'it_local' => $it_local,
+//                  'vw_link_local' => $vw_link_local,
                     'prev_item' => $prev_item,
                     'next_item' => $next_item,
                     'child_links' => $child_links,
@@ -1094,9 +1118,8 @@ class ItemController extends Controller
         foreach ($links as $link) {
             //$array_link_relips = [];
             // Выводить вычисляемое наименование
-            // Использовать 'is_base_calcnm_correct_check()' (а не is_base_calcname_check())
             // Использовать '$link->child_base'
-            $is_calcname = GlobalController::is_base_calcnm_correct_check($link->child_base);
+            $is_calcname = GlobalController::is_base_calcname_check($link->child_base);
 //            // Текущий проект
 //            $array_link_relips[0] = $project->id;
 //            // relips текущего проекта $parent->id
@@ -3051,10 +3074,10 @@ class ItemController extends Controller
 
         $inputs_reverse = array();
 
-        $links = $itpv->base->child_links()->get();
-        foreach ($links as $key => $link) {
-            //$inputs_reverse[$link->id] = -1;
-            // см.комментарий выше
+//        $links = $itpv->base->child_links()->get();
+//        foreach ($links as $key => $link) {
+        //$inputs_reverse[$link->id] = -1;
+        // см.комментарий выше
 //            if ($link->parent_base->type_is_image() | $link->parent_base->type_is_document()) {
 //                // "-1" - такое значение, чтобы не находилось Item::find() с таким значением
 //                $inputs_reverse[$link->id] = -1;
@@ -3064,7 +3087,7 @@ class ItemController extends Controller
 //            if ($link->parent_is_base_link == true) {
 //                $inputs_reverse[$link->id] = $item->id;
 //            }
-        }
+//        }
 
         $mains = $itpv->child_mains()->get();
         //$inputs_reverse = array();
@@ -3178,7 +3201,6 @@ class ItemController extends Controller
         // Группировка $set_main по serial_number, индексы массива - serial_number
         $set_group_by_serial_number = $set_main->groupBy('serial_number')->
         sortBy('serial_number');
-
         //$table2 = Set::select(DB::Raw('$table1.*'))->get();
         // Цикл по записям, в каждой итерации цикла свой порядковый номер $sn_key, $sn_value не используется в функции
         foreach ($set_group_by_serial_number as $sn_key => $sn_value) {
@@ -6766,9 +6788,6 @@ class ItemController extends Controller
         $result_item_name = null;
         $result_item_name_options = null;
         // проверка, если link - вычисляемое поле
-//        if($link_result->id == 339){
-//            dd($link_result);
-//        }
         if ($link_result->parent_is_parent_related == true) {
 
             // Не использовать - не работает при сложных связях: Например: Товар-ЕдиницаИзмерения-Цвет
@@ -7662,7 +7681,7 @@ class ItemController extends Controller
             . mb_strtolower(trans('main.must_less_equal')) . ' (' . $mx . ' ' . mb_strtolower(trans('main.byte')) . ') !';
     }
 
-    static function links_info(Base $base, Role $role, $relit_id, Item $item = null, Link $nolink = null,
+    static function links_info(Base $base, Role $role, $relit_id, Item $item = null, Link $nolink = null, $it_lc_base_id = null,
                                     $item_heading_base = false, $tree_array = [], $child_mains_link_is_calcname = null)
     {
         $base_right = GlobalController::base_right($base, $role, $relit_id);
@@ -7719,14 +7738,16 @@ class ItemController extends Controller
 //        }
 
         // Исключить links из переданного массива $child_mains_link_is_calcname
-//        if ($child_mains_link_is_calcname) {
-////            Нужно 'foreach($child_mains_link_is_calcname as $calcname_mains)'
-//            foreach ($child_mains_link_is_calcname as $calcname_mains) {
-//                foreach ($calcname_mains as $calcname_main) {
-//                    $links = $links->where('id', '!=', $calcname_main->link_id);
-//                }
-//            }
-//        }
+        // Проверка 'where('parent_base_id', '!=', $calcname_main->link->parent_base_id)'
+        if ($child_mains_link_is_calcname) {
+//            Нужно 'foreach($child_mains_link_is_calcname as $calcname_mains)'
+            foreach ($child_mains_link_is_calcname as $calcname_mains) {
+                foreach ($calcname_mains as $calcname_main) {
+                    //$links = $links->where('id', '!=', $calcname_main->link_id);
+                    $links = $links->where('parent_base_id', '!=', $calcname_main->link->parent_base_id);
+                }
+            }
+        }
 
         // Исключить links из переданного массива $tree_array
         if (count($tree_array) > 0) {
@@ -7756,6 +7777,11 @@ class ItemController extends Controller
             }
         }
 
+        // Исключить link->parent_base_id, равный переданному $it_lc_base_id
+        if($it_lc_base_id) {
+            $links = $links->where('parent_base_id', '!=', $it_lc_base_id);
+        }
+
         // Проверка на "$base_link_right['is_list_link_enable']"
         foreach ($links as $link) {
             //$base_link_right = GlobalController::base_link_right($link, $role, $relit_id, true, $relit_id);
@@ -7765,7 +7791,7 @@ class ItemController extends Controller
             $base_link_right = GlobalController::base_link_right($link, $role, $relit_id);
             if ($base_link_right['is_list_link_enable'] == true) {
                 $base_right = GlobalController::base_right($link->child_base, $role, $relit_id);
-                if (GlobalController::is_base_calcname_check($link->child_base, $base_right) == true) {
+                if (GlobalController::is_base_calcname_check($link->child_base) == true) {
                     // Исключить links с признаком 'Для вычисляемого наименования'
                     if ($link->parent_is_calcname == true) {
                         $links = $links->where('id', '!=', $link->id);
@@ -7953,7 +7979,7 @@ class ItemController extends Controller
         $mains = Main::where('child_item_id', '=', $item->id);
         //        Если не тип-вычисляемое наименование и Показывать Основу с вычисляемым наименованием
         //        или если тип-не вычисляемое наименование
-        if (!GlobalController::is_base_calcname_check($base, $base_right)) {
+        if (!GlobalController::is_base_calcname_check($base)) {
             // Оставить links с признаком 'Для вычисляемого наименования'
             $mains = $mains->whereHas('link', function ($query) {
                 $query->where('parent_is_calcname', true);
