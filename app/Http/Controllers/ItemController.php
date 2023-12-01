@@ -418,11 +418,10 @@ class ItemController extends Controller
                 $string_all_codes_current);
         }
 
-        // Если переход на другой link, то тогда $it_local не равен $item, $vw_link_local не равен $view_link
-        // $it_local, $vw_link_local - переданные в функцию значения
+        // Если переход на другой link, то тогда $it_local не равен $item
+        // $it_local - переданные в функцию значение
         // $item, $view_link - рассчитанные с учетом признака 'parent_is_tree_top'
         $it_local = $item;
-        //$vw_link_local = $view_link;
 // Если есть признак where('parent_is_tree_top', true)
 // 'Переходить на эту связь при вызове item_index.php с основной основой'
 // Меняется только $item при вызове из base_index.php    ($view_link == null)
@@ -467,7 +466,7 @@ class ItemController extends Controller
                 }
             }
         }
-//dd($it_lc_base_id);
+
         if (1 == 2) {
             // Используется 'is_list_base_calc' в ext_show.php и ItemController::item_index()
             // Нужно, после вызова calc_tree_array()
@@ -488,12 +487,6 @@ class ItemController extends Controller
         } else {
             $view_link = Link::find($view_link);
         }
-//        if ($vw_link_local == null || $vw_link_local == GlobalController::par_link_const_textnull() || $vw_link_local == GlobalController::par_link_const_text_base_null()) {
-//            // Нужно '$vw_link_local  = null;'
-//            $vw_link_local = null;
-//        } else {
-//            $vw_link_local = Link::find($vw_link_local);
-//        }
 
         // Нужно
         $view_ret_id = GlobalController::set_relit_id($view_ret_id);
@@ -737,7 +730,6 @@ class ItemController extends Controller
                     'base_right' => $base_right,
                     'items' => $items,
                     'it_local' => $it_local,
-//                  'vw_link_local' => $vw_link_local,
                     'prev_item' => $prev_item,
                     'next_item' => $next_item,
                     'child_links' => $child_links,
