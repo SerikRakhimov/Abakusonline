@@ -28,7 +28,7 @@ class StepController extends Controller
                             if ($ln_first->parent_is_nc_viewonly == true) {
                                 // Префикс "5_" д.б. одинаков в StepController::steps_javascript_code() и в item\ext_edit.php
                                 //$result = $result . "\nbutton_nc_click_5_" . $step->first . '();';
-                            $result = $result . "\nbutton_nc_click_5_" . $step->first . "();";
+                                $result = $result . "\nbutton_nc_click_5_" . $step->first . "();";
                             }
                         }
                         break;
@@ -38,6 +38,11 @@ class StepController extends Controller
                         break;
                     // x - значение параметра
                     case "Z":
+                        // Не удалять комментарий (для информации):
+                        // См. условие '@if($link->parent_is_parent_related == true & $link->parent_base->type_is_list())'
+                        // в ext_edit.php и StepController::steps_javascript_code()
+                        // "innerHTML" - id параметра
+                        // "value" - введенное числовое значение (число, сумма)
                         $result = $result . "\ny = x;";
                         if ($link->parent_base->type_is_number()) {
 //                            $result = $result . "\n alert(Number(nc_parameter_4_315.innerHTML));x = Number(nc_parameter_4_" . $step->first

@@ -18,6 +18,7 @@ class ItemObserver
     //public function created(Item $item)
     public function created($item)
     {
+        //dd(100);
         //
     }
 
@@ -32,21 +33,23 @@ class ItemObserver
 //        //
 //    }
 
-//    public function updated($item)
-//    {
+    public function updated($item)
+    {
+        //dd(300);
 //        //
 //        if ($item->base->is_code_needed == false) {
 //            $item->code = uniqid($item->base_id . '_1111___', true);
 //        }
-//    }
+    }
 //
-//    public function updating($item)
-//    {
+    public function updating($item)
+    {
+        //dd(200);
 //        //
 //        if ($item->base->is_code_needed == false) {
 //            $item->code = uniqid($item->base_id . '_2222___', true);
 //        }
-//    }
+    }
 
     /**
      * Handle the item "deleted" event.

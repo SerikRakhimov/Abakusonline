@@ -1960,6 +1960,9 @@
         {{--        Расчитывать значение числового поля--}}
         @if($link->parent_is_nc_parameter==true)
             <script>
+                {{--Не удалять комментарий (для информации):--}}
+                {{--См. условие '@if($link->parent_is_parent_related == true & $link->parent_base->type_is_list())'--}}
+                {{--в ext_edit.php и StepController::steps_javascript_code()--}}
                 @if($link->parent_is_parent_related == true & $link->parent_base->type_is_list())
                 {{-- "related_id" используется несколько раз по тексту --}}
                 {{--var nc_parameter_{{$prefix}}{{$link->id}} = document.getElementById('related_id{{$link->id}}');--}}
