@@ -606,7 +606,7 @@ class ItemController extends Controller
                     // В таблице 'item_body_base' должно быть как минимум два столбца: номер строки с вызовом 'item.show'
                     // и вычисляемое наименование, код, связи для вызова 'item.item_index'.
                     // Проверка выше для этого нужна, чтобы как минимум один столбец был для вызова 'item.item_index'.
-                    $child_body_links_info = self::links_info($current_link->child_base, $role, $view_ret_id, null, null,null);
+                    $child_body_links_info = self::links_info($current_link->child_base, $role, $view_ret_id, null, null, null);
                 }
             }
             $relip_body_project = GlobalController::calc_relip_project($view_ret_id, $project);
@@ -2307,6 +2307,7 @@ class ItemController extends Controller
                         // для последующих языков $input_name = $key . '_' . $lang_key($link->id . '_' . $lang_key);
                         // это же правило используется в ext_edit.blade.php
                         //$string_names[] = $link->id . ($lang_key == 0) ? '' : '_' . $lang_key;  // так не работает, дает '' в результате
+//                      $string_names[] = $link->id . '_' . $lang_key;  // такой вариант работает
                         $string_names[] = ($lang_key == 0) ? $link->id : $link->id . '_' . $lang_key;  // такой вариант работает
                     }
                     $i = $i + 1;
@@ -4947,6 +4948,7 @@ class ItemController extends Controller
                         // для последующих языков $input_name = $key . '_' . $lang_key($link->id . '_' . $lang_key);
                         // это же правило используется в ext_edit.blade.php
                         //$string_names[] = $link->id . ($lang_key == 0) ? '' : '_' . $lang_key;  // так не работает, дает '' в результате
+//                      $string_names[] = $link->id . '_' . $lang_key;  // такой вариант работает
                         $string_names[] = ($lang_key == 0) ? $link->id : $link->id . '_' . $lang_key;  // такой вариант работает
                     }
                     $i = $i + 1;
@@ -7770,7 +7772,7 @@ class ItemController extends Controller
         }
 
         // Исключить link->parent_base_id, равный переданному $it_lc_base_id
-        if($it_lc_base_id) {
+        if ($it_lc_base_id) {
             $links = $links->where('parent_base_id', '!=', $it_lc_base_id);
         }
 

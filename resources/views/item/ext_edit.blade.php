@@ -868,7 +868,7 @@
                     </div>
                     {{--                                если тип корректировки поля - строка--}}
                 @elseif($link->parent_base->type_is_string())
-                    <fieldset id="link{{$key}}"
+                    <fieldset id="link{{$key}}_fs"
                               @if($base_link_right['is_edit_link_read'] == true)
                               disabled
                               @else
@@ -893,6 +893,7 @@
                                 // для последующих языков $input_name = $key . '_' . $lang_key;
                                 // это же правило используется в ItemController.php
                                 // $input_name = $key . ($lang_key == 0) ? '' : '_' . $lang_key;  // так не работает, дает '' в результате
+                                //$input_name = $key . '_' . $lang_key;  // такой вариант работает
                                 $input_name = ($lang_key == 0) ? $key : $key . '_' . $lang_key;  // такой вариант работает
                                 ?>
                                 @if(($link->parent_base->is_one_value_lst_str_txt == true && $lang_key == 0)
@@ -970,7 +971,7 @@
 
                     {{--                                если тип корректировки поля - текст--}}
                 @elseif($link->parent_base->type_is_text())
-                    <fieldset id="link{{$key}}"
+                    <fieldset id="link{{$key}}_fs"
                               @if($base_link_right['is_edit_link_read'] == true)
                               disabled
                               @else
@@ -995,6 +996,7 @@
                                 // для последующих языков $input_name = $key . '_' . $lang_key;
                                 // это же правило используется в ItemController.php
                                 // $input_name = $key . ($lang_key == 0) ? '' : '_' . $lang_key;  // так не работает, дает '' в результате
+                                // $input_name = $key . '_' . $lang_key;  // такой вариант работает
                                 $input_name = ($lang_key == 0) ? $key : $key . '_' . $lang_key;  // такой вариант работает
                                 ?>
                                 @if(($link->parent_base->is_one_value_lst_str_txt == true && $lang_key == 0)
@@ -1432,7 +1434,6 @@
             }
         }
         ?>
-
         <?php
         $prefix = '6_';
         // Используется ниже
@@ -1974,7 +1975,6 @@
         @endif
 
     @endforeach
-
     <script>
         @foreach($array_calc as $key=>$value)
         <?php
@@ -2002,6 +2002,7 @@
         var name_{{$prefix}}{{$link->id}} = document.getElementById('name{{$link->id}}');
         @endif
 
+
         function button_nc_click_{{$prefix}}{{$link->id}}() {
             var x, y, result, error_message;
             x = 0;
@@ -2011,13 +2012,37 @@
             error_message = "";
             error_nodata = "Нет данных";
             error_div0 = "Деление на 0";
-            {{StepController::steps_javascript_code($link, 'button_nc')}}
+            <?php
+                echo StepController::steps_javascript_code($link, 'button_nc');
+                ?>
+                {{-- {{StepController::steps_javascript_code($link, 'button_nc')}};--}}
                 @if($link->parent_base->type_is_number())
                 {{--numcalc_{{$prefix}}{{$link->id}}.value = x;--}}
                 v.value = x;
-            @elseif ($link->parent_base->type_is_boolean())
+
+            @elseif ($link->parent_base->type_is_string())
+
+                v.value = x;
+
+            @if ($link->parent_base->is_one_value_lst_str_txt == false)
+            <?php
+            $i = 0;
+            ?>
+            @foreach (config('app.locales') as $lang_key => $lang_value)
+            {{--Начиная со второго(индекс==1) элемента массива языков сохранять--}}
+            @if ($i > 0)
+            document.getElementById('link{{$link->id}}_{{$lang_key}}').value = x;
+            @endif
+            <?php
+                $i = $i + 1;
+                ?>
+                @endforeach
+                @endif
+
+                @elseif ($link->parent_base->type_is_boolean())
                 {{--numcalc_{{$prefix}}{{$link->id}}.checked = (x != 0);--}}
-                v.checked = (x != 0);
+                v.checked
+                = (x != 0);
             @elseif ($link->parent_base->type_is_list())
             if (isNaN(x)) {
                 x = 0;
@@ -2038,7 +2063,6 @@
             @endif
             {{-- Нужно для обновления информации--}}
             {{--numcalc_{{$prefix}}{{$link->id}}.dispatchEvent(new Event('change'));--}}
-
             v.dispatchEvent(new Event('change'));
 
         }
@@ -2103,10 +2127,37 @@
         {{--    @endforeach--}}
         {{--}--}}
 
+        {{-- Два похожих блока команд в функциях on_submit() и window.onload по обработке строковых полей--}}
         function on_submit() {
             @foreach($array_disabled as $key=>$value)
-            {{--parent_base_id_work = document.getElementById('link{{$key}}').disabled = false;--}}
+
+            <?php
+            $link = Link::find($key);
+            ?>
+
+            @if($link)
+            {{--Две похожие команды в этой функции--}}
             document.getElementById('link{{$key}}').disabled = false;
+
+            @if($link->parent_base->type_is_string())
+            @if ($link->parent_base->is_one_value_lst_str_txt == false)
+            <?php
+            $i = 0;
+            ?>
+            @foreach (config('app.locales') as $lang_key => $lang_value)
+            {{--Начиная со второго(индекс==1) элемента массива языков сохранять--}}
+            @if ($i > 0)
+            {{--Две похожие команды в этой функции--}}
+            document.getElementById('link{{$link->id}}_{{$lang_key}}').disabled = false;
+            @endif
+            <?php
+            $i = $i + 1;
+            ?>
+            @endforeach
+            @endif
+            @endif
+
+            @endif
             @endforeach
         }
 
@@ -2133,11 +2184,11 @@
         $prefix = '6_';
         ?>
         {{-- Настройка автоматического перерасчета при выполнении условий--}}
+        {{--        @if($link->parent_is_nc_parameter == true && $link->parent_is_numcalc == false--}}
+        {{--                && $link->parent_is_nc_viewonly == false && $link->parent_is_parent_related == false--}}
+        {{--                && !$link->parent_base->type_is_list())--}}
         @if($link->parent_is_nc_parameter == true && $link->parent_is_numcalc == false
-                && $link->parent_is_nc_viewonly == false && $link->parent_is_parent_related == false
-                && !$link->parent_base->type_is_list())
-        {{--            @if($link->parent_is_nc_parameter == true && $link->parent_is_nc_viewonly == false)--}}
-        {{--            @if($link->parent_is_nc_parameter == true)--}}
+            && $link->parent_is_nc_viewonly == false && $link->parent_is_parent_related == false)
         var numrecalc_{{$prefix}}{{$link->id}} = document.getElementById('link{{$link->id}}');
         numrecalc_{{$prefix}}{{$link->id}}.addEventListener("change", on_numcalc_viewonly);
         <?php
@@ -2148,10 +2199,17 @@
         @endforeach
     </script>
     <script>
+        {{-- Два похожих блока команд в функциях on_submit() и window.onload по обработке строковых полей--}}
         window.onload = function () {
             {{-- Этот блок перед вызовом on_parent_refer()--}}
+
                 ds = true;
             @foreach($array_disabled as $key=>$value)
+                <?php
+                $link = Link::find($key);
+                ?>
+
+                @if($link)
                 ds = true;
             @if($par_link)
                 {{-- Проверки на ((!$update) | ($base_link_right['is_edit_parlink_enable'] == false)) проводятся по тексту выше, здесь не нужные--}}
@@ -2161,8 +2219,29 @@
             @endif
                 @endif
             if (ds == true) {
+                {{--Две похожие команды в этой функции--}}
                 document.getElementById('link{{$key}}').disabled = true;
+
+                @if($link->parent_base->type_is_string())
+                @if ($link->parent_base->is_one_value_lst_str_txt == false)
+                <?php
+                $i = 0;
+                ?>
+                @foreach (config('app.locales') as $lang_key => $lang_value)
+                {{--Начиная со второго(индекс==1) элемента массива языков сохранять--}}
+                @if ($i > 0)
+                {{--Две похожие команды в этой функции--}}
+                document.getElementById('link{{$link->id}}_{{$lang_key}}').disabled = true;
+                @endif
+                <?php
+                $i = $i + 1;
+                ?>
+                @endforeach
+                @endif
+                @endif
             }
+
+            @endif
             @endforeach
 
             {{-- Здесь не использовать--}}

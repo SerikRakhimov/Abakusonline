@@ -49,6 +49,9 @@ class StepController extends Controller
 //                            . "." . $step->second == "V" ? "innerHTML" : "value" . ");";
                             $result = $result . "\n x = Number(nc_parameter_4_" . $step->first
                                 . "." . ($step->second == "I" ? "innerHTML" : "value") . ");";
+                        } elseif ($link->parent_base->type_is_string()) {
+                            $result = $result . "\n x = nc_parameter_4_" . $step->first
+                                . "." . ($step->second == "I" ? "innerHTML" : "value") . ";";
                         } elseif ($link->parent_base->type_is_boolean()) {
                             $result = $result . "\n if(nc_parameter_4_" . $step->first . ".checked) {x = 1;}
                                 else {x = 0;}";
@@ -62,13 +65,13 @@ class StepController extends Controller
                         // Математические операции над x и y
                         switch ($step->first) {
                             case "+":
-                                $result = $result . "\n x = x + y; y = 0;";
+                                $result = $result . "\n x = y + x; y = 0;";
                                 break;
                             case "-":
                                 $result = $result . "\n x = y - x; y = 0;";
                                 break;
                             case "*":
-                                $result = $result . "\n x = x * y; y = 0;";
+                                $result = $result . "\n x = y * x; y = 0;";
                                 break;
                             case "/":
                                 $result = $result . "\n if (x == 0) {
@@ -76,10 +79,16 @@ class StepController extends Controller
                                     }else
                                     {x = y / x; y = 0;}";
                                 break;
-
                         }
                         break;
-                    // Округление числа
+                    case "S":
+                        // Математические операции над x и y
+                        switch ($step->first) {
+                            case ".":
+                                $result = $result . "\n x = y + '" . $step->second . "' + x; y = '';";
+                                break;
+                        }
+                        break;
                     case "R":
                         // Округление числа по правилам математики
                         $round_type = "0";

@@ -179,7 +179,7 @@ return [
     'parent_is_left_calcname' => 'Computed name on the left (otherwise on the right)',
     'parent_calcname_prefix' => 'Computed name prefix',
     'parent_is_enter_refer' => 'Enter as a reference',
-    'parent_is_numcalc' => 'Calculate value for numeric field, logical field, list',
+    'parent_is_numcalc' => 'Calculate value for numeric field, string, logical field, list',
     'parent_is_nc_screencalc' => 'Screen computing',
     'parent_is_nc_viewonly' => 'Calculated value only view',
     'parent_is_nc_parameter' => 'Parameter for calculated fields',

@@ -331,6 +331,7 @@ class LinkController extends Controller
 //        }
 //        if ($link->parent_base->type_is_number == false && $link->parent_base->type_is_boolean == false) {
         if ($link->parent_base->type_is_number == false
+            && $link->parent_base->type_is_string == false
             && $link->parent_base->type_is_boolean == false
             && $link->parent_base->type_is_list == false) {
             $link->parent_is_numcalc = 0;
@@ -659,6 +660,7 @@ class LinkController extends Controller
 //        }
 //        if ($link->parent_base->type_is_number == false && $link->parent_base->type_is_boolean == false) {
         if ($link->parent_base->type_is_number == false
+            && $link->parent_base->type_is_string == false
             && $link->parent_base->type_is_boolean == false
             && $link->parent_base->type_is_list == false) {
             $link->parent_is_numcalc = 0;
