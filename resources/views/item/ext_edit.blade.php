@@ -2005,6 +2005,9 @@
 
         function button_nc_click_{{$prefix}}{{$link->id}}() {
             var x, y, result, error_message;
+{{--            @if($link->parent_base->type_is_number())--}}
+{{--            alert('{{$link->parent_base->type_is_number()}}');--}}
+{{--            @endif--}}
             x = 0;
             y = 0;
             z = 0;
@@ -2190,7 +2193,9 @@
         @if($link->parent_is_nc_parameter == true && $link->parent_is_numcalc == false
             && $link->parent_is_nc_viewonly == false && $link->parent_is_parent_related == false)
         var numrecalc_{{$prefix}}{{$link->id}} = document.getElementById('link{{$link->id}}');
+
         numrecalc_{{$prefix}}{{$link->id}}.addEventListener("change", on_numcalc_viewonly);
+
         <?php
         $functs_change['link' . $link->id] = 1;
         ?>
