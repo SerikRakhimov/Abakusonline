@@ -82,10 +82,10 @@ class StepController extends Controller
                         }
                         break;
                     case "S":
-                        // Математические операции над x и y
+                        // Строковые операции над x и y
                         switch ($step->first) {
                             case ".":
-                                $result = $result . "\n x = y + '" . $step->second . "' + x; y = '';";
+                                $result = $result . "\n x = y + '" . trim($step->second) . "' + x; y = '';";
                                 break;
                         }
                         break;

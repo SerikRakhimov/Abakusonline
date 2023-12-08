@@ -20,7 +20,11 @@
     $base_right = GlobalController::base_right($base, $role, $relit_id);
     $relip_project = GlobalController::calc_relip_project($relit_id, $project);
     // У $base есть ли считаемые поля (да/нет)
-    $allcalc_button = $base->child_links->where('parent_is_numcalc', true)->first();
+    // $allcalc_button = $base->child_links->where('parent_is_numcalc', true)->first();
+    $allcalc_button = $base->child_links->where('parent_is_numcalc', true)
+        ->where('parent_is_nc_screencalc', true)
+        ->where('parent_is_nc_viewonly', false)
+        ->first();
     $emoji_enable = true;
     ?>
     {{--    <script>--}}
@@ -117,17 +121,17 @@
         {{--        onsubmit="playSound('sound');"--}}
         {{--        @endif--}}
         name="form">
-
         @csrf
 
         @if ($update)
             @method('PUT')
         @endif
+
         {{--        <input type="hidden" name="base_id" value="{{$base->id}}">--}}
         @if ($update)
             <div class="form-group row">
                 <div class="col-sm-3 text-right">
-                    <label>{{\App\Http\Controllers\GlobalController::id_and_brackets_emoji('Id', $emoji_enable)}}
+                    <label>{{GlobalController::id_and_brackets_emoji('Id', $emoji_enable)}}
                     </label>
                 </div>
                 <div class="col-sm-9">
@@ -381,7 +385,6 @@
             <?php
             // Вывести с эмодзи
             $result_parent_label = $link->parent_label(true);
-            //dd($result_parent_label);
             $link_parent_base = $link->parent_base;
             //                Загружаются данные для списков выбора
             //$result = ItemController::get_items_ext_edit_for_link($link, $project, $role, $relit_id);
@@ -699,7 +702,7 @@
                         {{-- @if($link->parent_is_numcalc == true)--}}
                         @if($base_link_right['is_edit_link_read'] == false)
                             {{--                            @if($link->parent_is_numcalc == true)--}}
-                            {{-- Похожие по смыслу проверки "$link->parent_is_nc_viewonly==false" в этом файле пять раз--}}
+                            {{-- Похожие по смыслу проверки "$link->parent_is_nc_viewonly==false" в этом файле семь раз--}}
                             @if($link->parent_is_numcalc==true && $link->parent_is_nc_viewonly==false)
                                 <div class="col-sm-1">
                                     {{--                                    Не удалять--}}
@@ -707,7 +710,7 @@
                                     {{--                                           name="button_nc{{$key}}"--}}
                                     {{--                                           id="button_nc{{$key}}"--}}
                                     {{--                                    >--}}
-                                    <button type="button" title="{{trans('main.calculate')}}"
+                                    <button type="button" title="{{trans('main.calculate')}} {{$result_parent_label}}"
                                             name="button_nc{{$key}}"
                                             id="button_nc{{$key}}"
                                             class="text-label">
@@ -845,10 +848,10 @@
                             @enderror
                         </div>
                         @if($base_link_right['is_edit_link_read'] == false)
-                            {{-- Похожие по смыслу проверки "$link->parent_is_nc_viewonly==false" в этом файле пять раз--}}
+                            {{-- Похожие по смыслу проверки "$link->parent_is_nc_viewonly==false" в этом файле семь раз--}}
                             @if($link->parent_is_numcalc==true && $link->parent_is_nc_viewonly==false)
                                 <div class="col-sm-1">
-                                    <button type="button" title="{{trans('main.calculate')}}"
+                                    <button type="button" title="{{trans('main.calculate')}} {{$result_parent_label}}"
                                             name="button_nc{{$key}}"
                                             id="button_nc{{$key}}"
                                             class="text-label">
@@ -960,10 +963,30 @@
                                         {{--                                                                 session('errors') передается командой в контроллере "return redirect()->back()->withInput()->withErrors(...)"--}}
                                         {{--                                                                {{session('errors')!=null ? session('errors')->first($input_name): ''}}--}}
                                         {{--                                                            </div>--}}
-
                                     </div>
-                                    <div class="col-sm-2">
-                                    </div>
+                                    {{--Нужно @if($lang_key == 0)--}}
+                                    @if($lang_key == 0)
+                                        {{-- Похожие по смыслу проверки "$link->parent_is_nc_viewonly==false" в этом файле семь раз--}}
+                                        @if($link->parent_is_numcalc==true && $link->parent_is_nc_viewonly==false)
+                                            <div class="col-sm-1">
+                                                <button type="button"
+                                                        title="{{trans('main.calculate')}} {{$result_parent_label}}"
+                                                        name="button_nc{{$key}}"
+                                                        id="button_nc{{$key}}"
+                                                        class="text-label">
+                                                    <i class="fas fa-calculator d-inline"></i>
+                                                </button>
+                                            </div>
+                                            <div class="col-sm-1">
+                                    <span class="form-label text-danger"
+                                      name="name{{$key}}"
+                                      id="name{{$key}}"></span>
+                                            </div>
+                                        @else
+                                            <div class="col-sm-2">
+                                            </div>
+                                        @endif
+                                    @endif
                                 @endif
                             @endforeach
                         </div>
@@ -1199,36 +1222,34 @@
                             {{--                                                                                            {{session('errors')!=null ? session('errors')->first($key): ''}}--}}
                             {{--                                                                                        </div>--}}
                         </div>
-                        @if(1==1)
-                            {{--                        <div class="col-sm-2">--}}
-                            {{--                        </div>--}}
-                            {{-- Похожие проверка вверху--}}
-                            @if($base_link_right['is_edit_link_read'] == false)
-                                {{--                            @if($link->parent_is_numcalc == true)--}}
-                                {{-- Похожие по смыслу проверки "$link->parent_is_nc_viewonly==false" в этом файле пять раз--}}
-                                @if($link->parent_is_numcalc==true && $link->parent_is_nc_viewonly==false)
-                                    <div class="col-sm-1">
-                                        {{--                                    Не удалять--}}
-                                        {{--                                    <input type="button" value="..." title="{{trans('main.calculate')}}"--}}
-                                        {{--                                           name="button_nc{{$key}}"--}}
-                                        {{--                                           id="button_nc{{$key}}"--}}
-                                        {{--                                    >--}}
-                                        <button type="button" title="{{trans('main.calculate')}}"
-                                                name="button_nc{{$key}}"
-                                                id="button_nc{{$key}}"
-                                                class="text-label">
-                                            <i class="fas fa-calculator d-inline"></i>
-                                        </button>
-                                    </div>
-                                    <div class="col-sm-1">
+                        {{--                        <div class="col-sm-2">--}}
+                        {{--                        </div>--}}
+                        {{-- Похожие проверка вверху--}}
+                        @if($base_link_right['is_edit_link_read'] == false)
+                            {{--                            @if($link->parent_is_numcalc == true)--}}
+                            {{-- Похожие по смыслу проверки "$link->parent_is_nc_viewonly==false" в этом файле семь раз--}}
+                            @if($link->parent_is_numcalc==true && $link->parent_is_nc_viewonly==false)
+                                <div class="col-sm-1">
+                                    {{--                                    Не удалять--}}
+                                    {{--                                    <input type="button" value="..." title="{{trans('main.calculate')}}"--}}
+                                    {{--                                           name="button_nc{{$key}}"--}}
+                                    {{--                                           id="button_nc{{$key}}"--}}
+                                    {{--                                    >--}}
+                                    <button type="button" title="{{trans('main.calculate')}} {{$result_parent_label}}"
+                                            name="button_nc{{$key}}"
+                                            id="button_nc{{$key}}"
+                                            class="text-label">
+                                        <i class="fas fa-calculator d-inline"></i>
+                                    </button>
+                                </div>
+                                <div class="col-sm-1">
                                 <span class="form-label text-danger"
                                       name="name{{$key}}"
                                       id="name{{$key}}"></span>
-                                    </div>
-                                @else
-                                    <div class="col-sm-2">
-                                    </div>
-                                @endif
+                                </div>
+                            @else
+                                <div class="col-sm-2">
+                                </div>
                             @endif
                         @endif
                     </div>
@@ -1995,20 +2016,20 @@
         {{--    Не срабатывает--}}
         {{--var numcalc_{{$prefix}}{{$link->id}} = document.getElementById('link{{$link->id}}');--}}
 
-        {{-- Похожие по смыслу проверки "$link->parent_is_nc_viewonly==false" в этом файле пять раз--}}
+        {{-- Похожие по смыслу проверки "$link->parent_is_nc_viewonly==false" в этом файле семь раз--}}
+        {{-- Проверка '@if($link->parent_is_numcalc==true' выше--}}
         {{--        @if($link->parent_is_numcalc==true && $link->parent_is_nc_viewonly==false)--}}
         @if($link->parent_is_nc_viewonly == false)
         var button_nc_{{$prefix}}{{$link->id}} = document.getElementById('button_nc{{$link->id}}');
         var name_{{$prefix}}{{$link->id}} = document.getElementById('name{{$link->id}}');
         @endif
 
-
         function button_nc_click_{{$prefix}}{{$link->id}}() {
             var x, y, result, error_message;
-{{--            @if($link->parent_base->type_is_number())--}}
-{{--            alert('{{$link->parent_base->type_is_number()}}');--}}
-{{--            @endif--}}
-            x = 0;
+            {{--            @if($link->parent_base->type_is_number())--}}
+                {{--            alert('{{$link->parent_base->type_is_number()}}');--}}
+                {{--            @endif--}}
+                x = 0;
             y = 0;
             z = 0;
             v = document.getElementById('link{{$link->id}}');
@@ -2057,20 +2078,25 @@
                 {{--    }--}}
                 {{--}--}}
                 {{--numcalc_{{$prefix}}{{$link->id}}.value = x;--}}
+
                 v.value = x;
+
             @endif
-                {{-- Похожие по смыслу проверки "$link->parent_is_nc_viewonly==false" в этом файле пять раз--}}
+                {{-- Проверка '@if($link->parent_is_numcalc==true' выше--}}
+                {{-- Похожие по смыслу проверки "$link->parent_is_nc_viewonly==false" в этом файле семь раз--}}
                 {{--            @if($link->parent_is_numcalc==true && $link->parent_is_nc_viewonly==false)--}}
                 @if($link->parent_is_nc_viewonly == false)
                 name_{{$prefix}}{{$link->id}}.innerHTML = error_message;
             @endif
             {{-- Нужно для обновления информации--}}
             {{--numcalc_{{$prefix}}{{$link->id}}.dispatchEvent(new Event('change'));--}}
+
             v.dispatchEvent(new Event('change'));
 
         }
 
-        {{-- Похожие по смыслу проверки "$link->parent_is_nc_viewonly==false" в этом файле пять раз--}}
+        {{-- Проверка '@if($link->parent_is_numcalc==true' выше--}}
+        {{-- Похожие по смыслу проверки "$link->parent_is_nc_viewonly==false" в этом файле семь раз--}}
         @if($link->parent_is_nc_viewonly == false)
         button_nc_{{$prefix}}{{$link->id}}.addEventListener("click", button_nc_click_{{$prefix}}{{$link->id}});
         @endif
@@ -2205,12 +2231,12 @@
     </script>
     <script>
         {{-- Два похожих блока команд в функциях on_submit() и window.onload по обработке строковых полей--}}
-        window.onload = function () {
+            window.onload = function () {
             {{-- Этот блок перед вызовом on_parent_refer()--}}
 
                 ds = true;
             @foreach($array_disabled as $key=>$value)
-                <?php
+            <?php
                 $link = Link::find($key);
                 ?>
 
@@ -2289,5 +2315,4 @@
         {{--    } --}}
         {{--} --}}
     </script>
-
 @endsection
