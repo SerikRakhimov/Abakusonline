@@ -18,8 +18,11 @@ class ItemObserver
     //public function created(Item $item)
     public function created($item)
     {
-        //dd(100);
-        //
+        if($item->base_id != 195 && $item->base_id != 193) {
+            //dd($item->base);
+        //dd('100 - '.$item->base_id. ' - '.$item->base->name());
+            //
+        }
     }
 
     /**
@@ -35,7 +38,11 @@ class ItemObserver
 
     public function updated($item)
     {
-        //dd(300);
+        //if($item->base_id != 195 && $item->base_id != 193) {
+            //dd($item->base);
+            //dd('300 - '.$item->base_id. ' - '.$item->base->name());
+            //
+        //}
 //        //
 //        if ($item->base->is_code_needed == false) {
 //            $item->code = uniqid($item->base_id . '_1111___', true);
@@ -44,7 +51,11 @@ class ItemObserver
 //
     public function updating($item)
     {
-        //dd(200);
+        //if($item->base_id != 195 && $item->base_id != 193) {
+            //dd($item->base);
+            //dd('200 - '.$item->base_id. ' - '.$item->base->name());
+            //
+        //}
 //        //
 //        if ($item->base->is_code_needed == false) {
 //            $item->code = uniqid($item->base_id . '_2222___', true);

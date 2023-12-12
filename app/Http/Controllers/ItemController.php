@@ -5539,6 +5539,7 @@ class ItemController extends Controller
                 $this->save_info_sets($item, false, true);
 
                 $item->save();
+                GlobalController::item_calc_main($item);
 
                 // Нужно
                 // Только для ext_update()
@@ -6014,7 +6015,7 @@ class ItemController extends Controller
 
                     // начало транзакции
                     DB::transaction(function ($r) use ($item, $array_items_ids) {
-                        // Нужно
+                        // Нужно, для вызова ItemObserver::deleting($item)
                         self::func_delete($item);
 
                         // Удаление подчиненных связанных записей
@@ -6029,7 +6030,8 @@ class ItemController extends Controller
 
             } else {
 
-                $item->delete();
+//                $item->delete();
+                $item->delete($item);
 
             }
 

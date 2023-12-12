@@ -3442,6 +3442,71 @@ class GlobalController extends Controller
         return $links;
     }
 
+    static function item_calc_main(Item $item)
+    {
+        // '->get()' нужно
+        $links = Link::where('child_base_id', $item->base_id)
+            ->where('parent_is_numcalc', true)
+            ->where('parent_is_nc_screencalc', false)
+            ->get();
+        foreach ($links as $link) {
+            $val_calc = trim(self::item_calc_proc($item, $link));
+            if ($link->parent_base->type_is_string()) {
+                // поиск в таблице items значение с таким же названием и base_id
+                $item_find = Item::where('base_id', $link->parent_base_id)
+                    ->where('project_id', $item->project_id)
+                    ->where('name_lang_0', $val_calc)
+                    ->first();
+
+                // если не найдено
+                if (!$item_find) {
+                    // создание новой записи в items
+                    $item_find = new Item();
+                    $item_find->base_id = $link->parent_base_id;
+                    // Похожие строки вверху
+                    $item_find->code = uniqid($item_find->base_id . '_', true);
+                    // присваивание полям наименование строкового значение числа
+                    foreach (config('app.locales') as $key => $value) {
+                        $item_find['name_lang_' . $key] = $val_calc;
+                    }
+                    // Исправить
+                    $item_find_project = self::calc_relip_project($link->parent_relit_id, $item->project);
+                    $item_find->project_id = $item_find_project->id;
+                    // при создании записи "$item->created_user_id" заполняется
+                    $project_user_id = $item_find_project->user_id;
+                    $item_find->created_user_id = $project_user_id;
+                    $item_find->updated_user_id = $project_user_id;
+                    $item_find->save();
+                }
+
+                // '->get()' нужно
+                $main = Main::where('child_item_id', $item->id)
+                    ->where('link_id', $link->id)
+                    ->first();
+                if (!$main) {
+                    $main = new Main();
+                    $main->child_item_id = $item->id;
+                    $main->link_id = $link->id;
+                    // при создании записи "$item->created_user_id" заполняется
+                    $main->created_user_id = Auth::user()->id;
+                }
+                $main->parent_item_id = $item_find->id;
+                $main->updated_user_id = Auth::user()->id;
+                $main->save();
+                //dd($main);
+            }
+
+        }
+
+    }
+
+    static function item_calc_proc(Item $item, Link $link)
+    {
+        $result = null;
+        $result = 'aaa - ' . $item->id;
+        return $result;
+    }
+
 
 //    function get_display()
 //    {
