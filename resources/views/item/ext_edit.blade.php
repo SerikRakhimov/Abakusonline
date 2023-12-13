@@ -2036,9 +2036,11 @@
             error_message = "";
             error_nodata = "Нет данных";
             error_div0 = "Деление на 0";
+
             <?php
                 echo StepController::steps_javascript_code($link, 'button_nc');
                 ?>
+
                 {{-- {{StepController::steps_javascript_code($link, 'button_nc')}};--}}
                 @if($link->parent_base->type_is_number())
                 {{--numcalc_{{$prefix}}{{$link->id}}.value = x;--}}

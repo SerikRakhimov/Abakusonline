@@ -3450,7 +3450,9 @@ class GlobalController extends Controller
             ->where('parent_is_nc_screencalc', false)
             ->get();
         foreach ($links as $link) {
-            $val_calc = trim(self::item_calc_proc($item, $link));
+
+            $val_calc = trim(StepController::steps_calc_code($item, $link,'button_nc'));
+
             if ($link->parent_base->type_is_string()) {
                 // поиск в таблице items значение с таким же названием и base_id
                 $item_find = Item::where('base_id', $link->parent_base_id)
@@ -3469,7 +3471,7 @@ class GlobalController extends Controller
                     foreach (config('app.locales') as $key => $value) {
                         $item_find['name_lang_' . $key] = $val_calc;
                     }
-                    // Исправить
+                    // Поиск relip - проекта
                     $item_find_project = self::calc_relip_project($link->parent_relit_id, $item->project);
                     $item_find->project_id = $item_find_project->id;
                     // при создании записи "$item->created_user_id" заполняется
@@ -3499,14 +3501,6 @@ class GlobalController extends Controller
         }
 
     }
-
-    static function item_calc_proc(Item $item, Link $link)
-    {
-        $result = null;
-        $result = 'aaa - ' . $item->id;
-        return $result;
-    }
-
 
 //    function get_display()
 //    {

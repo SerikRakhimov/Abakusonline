@@ -3534,6 +3534,7 @@ class ItemController extends Controller
                     }
 
                     $item_seek->save();
+                    GlobalController::item_calc_main($item_seek);
 
                     // Не использовать: возможны ошибки, "лишние" операции
                     // Вызов обработки присваиваний вложенных
