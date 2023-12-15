@@ -2066,9 +2066,8 @@
                 @endif
 
                 @elseif ($link->parent_base->type_is_boolean())
-                {{--numcalc_{{$prefix}}{{$link->id}}.checked = (x != 0);--}}
-                v.checked
-                = (x != 0);
+                {{--v.checked = (x != 0);--}}
+                v.checked = (x == 1);
             @elseif ($link->parent_base->type_is_list())
             if (isNaN(x)) {
                 x = 0;
@@ -2286,7 +2285,7 @@
             {{--    {{$value}}();--}}
             {{-- @endforeach--}}
             @foreach($functs_change as $key=>$value)
-                document.getElementById('{{$key}}').dispatchEvent(new Event('change'));
+            document.getElementById('{{$key}}').dispatchEvent(new Event('change'));
             @endforeach
             {{-- Нужно--}}
             on_numcalc_viewonly();

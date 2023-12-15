@@ -3437,6 +3437,7 @@ class GlobalController extends Controller
             $links = Link::where('child_base_id', '=', $base->id)
                 ->where('parent_is_parent_related', '=', true)
                 ->where('parent_parent_related_start_link_id', '=', $link->id)
+                ->orderBy('parent_base_number')
                 ->get();
         }
         return $links;
@@ -3449,11 +3450,13 @@ class GlobalController extends Controller
             ->where('parent_is_numcalc', true)
             ->where('parent_is_nc_screencalc', false)
             ->get();
+
         foreach ($links as $link) {
 
-            $val_calc = trim(StepController::steps_calc_code($item, $link,'button_nc'));
+            $val_calc = trim(StepController::steps_calc_code($item, $link, 'button_nc'));
+            $item_find = null;
 
-            if ($link->parent_base->type_is_string()) {
+            if ($link->parent_base->type_is_number() | $link->parent_base->type_is_boolean()) {
                 // поиск в таблице items значение с таким же названием и base_id
                 $item_find = Item::where('base_id', $link->parent_base_id)
                     ->where('project_id', $item->project_id)
@@ -3480,7 +3483,35 @@ class GlobalController extends Controller
                     $item_find->updated_user_id = $project_user_id;
                     $item_find->save();
                 }
+            } elseif ($link->parent_base->type_is_string()) {
+                // поиск в таблице items значение с таким же названием и base_id
+                $item_find = Item::where('base_id', $link->parent_base_id)
+                    ->where('project_id', $item->project_id)
+                    ->where('name_lang_0', $val_calc)
+                    ->first();
 
+                // если не найдено
+                if (!$item_find) {
+                    // создание новой записи в items
+                    $item_find = new Item();
+                    $item_find->base_id = $link->parent_base_id;
+                    // Похожие строки вверху
+                    $item_find->code = uniqid($item_find->base_id . '_', true);
+                    // присваивание полям наименование строкового значение числа
+                    foreach (config('app.locales') as $key => $value) {
+                        $item_find['name_lang_' . $key] = $val_calc;
+                    }
+                    // Поиск relip - проекта
+                    $item_find_project = self::calc_relip_project($link->parent_relit_id, $item->project);
+                    $item_find->project_id = $item_find_project->id;
+                    // при создании записи "$item->created_user_id" заполняется
+                    $project_user_id = $item_find_project->user_id;
+                    $item_find->created_user_id = $project_user_id;
+                    $item_find->updated_user_id = $project_user_id;
+                    $item_find->save();
+                }
+            }
+            if ($item_find) {
                 // '->get()' нужно
                 $main = Main::where('child_item_id', $item->id)
                     ->where('link_id', $link->id)
@@ -3495,7 +3526,6 @@ class GlobalController extends Controller
                 $main->parent_item_id = $item_find->id;
                 $main->updated_user_id = Auth::user()->id;
                 $main->save();
-                //dd($main);
             }
 
         }

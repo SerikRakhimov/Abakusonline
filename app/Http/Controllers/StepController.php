@@ -36,7 +36,7 @@ class StepController extends Controller
                             break;
                         // x = число-константа
                         case "N":
-                            $result = $result . "\ny = x;\n x =" . $step->first . ";";
+                            $result = $result . "\ny = x;\n x = " . $step->first . ";";
                             break;
                         // x - значение параметра
                         case "Z":
@@ -67,19 +67,19 @@ class StepController extends Controller
                             // Математические операции над x и y
                             switch ($step->first) {
                                 case "+":
-                                    $result = $result . "\n x = y + x; y = 0;";
+                                    $result = $result . "\n x = y + x;\n y = 0;";
                                     break;
                                 case "-":
-                                    $result = $result . "\n x = y - x; y = 0;";
+                                    $result = $result . "\n x = y - x;\n y = 0;";
                                     break;
                                 case "*":
-                                    $result = $result . "\n x = y * x; y = 0;";
+                                    $result = $result . "\n x = y * x;\n y = 0;";
                                     break;
                                 case "/":
                                     $result = $result . "\n if (x == 0) {
-                                        x = 0;  y = 0; error_message = error_div0;
+                                        x = 0;\n y = 0; error_message = error_div0;
                                     }else
-                                    {x = y / x; y = 0;}";
+                                    {x = y / x;\n y = 0;}";
                                     break;
                             }
                             break;
@@ -118,7 +118,7 @@ class StepController extends Controller
 
     static function steps_calc_code(Item $item, Link $link, $block)
     {
-        $x = "155";
+        $x = "";
         $y = "";
         $z = "";
         if ($link->parent_is_numcalc == true && $link->parent_is_nc_screencalc == false) {
@@ -182,22 +182,29 @@ class StepController extends Controller
                         // Математические операции над x и y
                         switch ($step->first) {
                             case "+":
-                                $result = $result . "\n x = y + x; y = 0;";
+                                $x = $y + $x;
+                                $y = 0;
                                 break;
                             case "-":
-
-                                $result = $result . "\n x = y - x; y = 0;";
+                                $x = $y - $x;
+                                $y = 0;
                                 break;
                             case "*":
                                 $x = $y * $x;
                                 $y = 0;
                                 break;
                             case "/":
-                                $result = $result . "\n if (x == 0) {
-                                        x = 0;  y = 0; error_message = error_div0;
-                                    }else
-                                    {x = y / x; y = 0;}";
+                                if ($x == 0) {
+                                    $x = 0;
+                                } else {
+                                    $x = $y / $x;
+                                }
+                                $y = 0;
                                 break;
+//                                $result = $result . "\n if (x == 0) {
+//                                        x = 0;  y = 0; error_message = error_div0;
+//                                    }else
+//                                    {x = y / x; y = 0;}";
                         }
                         break;
                     case "S":
@@ -219,7 +226,7 @@ class StepController extends Controller
                         } elseif ($step->second == "1") {
                             $round_type = "1";
                         }
-                        $result = $result . "\n x = round(x, " . $step->first . ", " . $round_type . ");";
+                        $x = self::my_round($x, $step->first, $round_type);
                         break;
                     // Сдвиг по стеку
                     case "U":
@@ -234,7 +241,30 @@ class StepController extends Controller
 //                $result = $result + 'error_message = error_nodata;';
 //            }
         }
+        if ($link->parent_base->type_is_boolean()) {
+            if ($x != 1) {
+                $x = 0;
+            }
+        }
         return $x;
+    }
+
+    function my_round($a, $b, $c)
+    {
+        $r = 0;
+        $p = pow(10, $b);
+        switch ($c) {
+            case 0:
+                $r = round($a * $p) / $p;
+                break;
+            case -1:
+                $r = floor($a * $p) / $p;
+                break;
+            case 1:
+                $r = ceil($a * $p) / $p;
+                break;
+        }
+        return $r;
     }
 
     function run_steps(Link $link)

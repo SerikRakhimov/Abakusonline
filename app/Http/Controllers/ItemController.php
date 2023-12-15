@@ -418,10 +418,20 @@ class ItemController extends Controller
                 $string_all_codes_current);
         }
 
+        // Нужно
+        // Два блока с одинаковым алгоритмом
+        if ($view_link == null || $view_link == GlobalController::par_link_const_textnull() || $view_link == GlobalController::par_link_const_text_base_null()) {
+            // Нужно '$view_link = null;'
+            $view_link = null;
+        } else {
+            $view_link = Link::find($view_link);
+        }
+
         // Если переход на другой link, то тогда $it_local не равен $item
         // $it_local - переданные в функцию значение
         // $item, $view_link - рассчитанные с учетом признака 'parent_is_tree_top'
         $it_local = $item;
+        $vl_local = $view_link;
 // Если есть признак where('parent_is_tree_top', true)
 // 'Переходить на эту связь при вызове item_index.php с основной основой'
 // Меняется только $item при вызове из base_index.php    ($view_link == null)
@@ -480,15 +490,6 @@ class ItemController extends Controller
         }
 
         // Нужно
-        // Два блока с одинаковым алгоритмом
-        if ($view_link == null || $view_link == GlobalController::par_link_const_textnull() || $view_link == GlobalController::par_link_const_text_base_null()) {
-            // Нужно '$view_link = null;'
-            $view_link = null;
-        } else {
-            $view_link = Link::find($view_link);
-        }
-
-        // Нужно
         $view_ret_id = GlobalController::set_relit_id($view_ret_id);
 
         // Нужно
@@ -515,7 +516,6 @@ class ItemController extends Controller
         // Нужно передать в функцию links_info() $item
         $child_links_info = self::links_info($item->base, $role, $relit_id,
             $item, null, null, true, $tree_array, $para_child_mains_link_is_calcname);
-
         // Похожие строки в ItemController::item_index() и ItemController::ext_update()
         // Используется последний элемент массива $tree_array
         $tree_array_last_link_id = null;
@@ -620,7 +620,8 @@ class ItemController extends Controller
             // $item, $current_link присоединяются к списку $tree_array
             // Нужно '$current_link' передавать
 
-            $string_current_next_ids = self::calc_string_current_next_ids($tree_array, $item, $current_link, $relit_id, $view_ret_id, GlobalController::const_allfalse());
+//          $string_current_next_ids = self::calc_string_current_next_ids($tree_array, $item, $current_link, $relit_id, $view_ret_id, GlobalController::const_allfalse());
+            $string_current_next_ids = self::calc_string_current_next_ids($tree_array, $it_local, $current_link, $relit_id, $view_ret_id, GlobalController::const_allfalse());
             $string_link_ids_current = $string_current_next_ids['string_current_link_ids'];
             $string_item_ids_current = $string_current_next_ids['string_current_item_ids'];
             $string_relit_ids_current = $string_current_next_ids['string_current_relit_ids'];
@@ -868,12 +869,15 @@ class ItemController extends Controller
                                         $result[$i]['link_id'] = $link_id;
                                         $result[$i]['string_link_ids'] = $str;
                                         $link = link::find($link_id);
-                                        if ($link) {
-                                            $result[$i]['title_name'] = $link->parent_label();
-                                        } else {
-                                            $result[$i]['title_name'] = "";
-                                        }
+
+//                                        if ($link) {
+//                                            $result[$i]['title_name'] = $link->parent_label();
+//                                        } else {
+//                                            $result[$i]['title_name'] = "";
+//                                        }
+
                                         $i = $i + 1;
+
                                     }
                                     // Заполнение массива по $relit_id должно быть перед заполнением массива по $item_id
                                     $i = 0;
@@ -908,7 +912,9 @@ class ItemController extends Controller
                                         // Эти массивы используются в item_index.php при выводе $tree_array
                                         $result[$i]['base_id'] = $item->base_id;
                                         $result[$i]['base_names'] = $item->base->names($base_right);
-                                        //$result[$i]['title_name'] = $item->base->name();
+
+                                        $result[$i]['title_name'] = $item->base->name();
+
                                         $result[$i]['item_name'] = $item->name();
                                         // Для вызова 'item.base_index' нужно
                                         $result[$i]['is_bsmn_base_enable'] = $base_right['is_bsmn_base_enable'];
@@ -4512,7 +4518,10 @@ class ItemController extends Controller
 //            }
 
             // поиск в таблице items значение с таким же названием и base_id
-            $item_find = Item::where('base_id', $link->parent_base_id)->where('project_id', $relip_project_id)->where('name_lang_0', $values[$index])->first();
+            $item_find = Item::where('base_id', $link->parent_base_id)
+                ->where('project_id', $relip_project_id)
+                ->where('name_lang_0', $values[$index])
+                ->first();
 
             // если не найдено
             if (!$item_find) {
