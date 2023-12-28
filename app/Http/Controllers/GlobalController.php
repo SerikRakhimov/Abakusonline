@@ -3449,6 +3449,7 @@ class GlobalController extends Controller
         $links = Link::where('child_base_id', $item->base_id)
             ->where('parent_is_numcalc', true)
             ->where('parent_is_nc_screencalc', false)
+            ->orderBy('parent_base_number')
             ->get();
 
         foreach ($links as $link) {

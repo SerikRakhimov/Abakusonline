@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 
 class StepController extends Controller
 {
+    // Экранное вычисление
     static function steps_javascript_code(Link $link, $block)
     {
         $result = "";
@@ -101,7 +102,7 @@ class StepController extends Controller
                             } elseif ($step->second == "1") {
                                 $round_type = "1";
                             }
-                            $result = $result . "\n x = round(x, " . $step->first . ", " . $round_type . ");";
+                            $result = $result . "\n x = my_rnd(x, " . $step->first . ", " . $round_type . ");";
                             break;
                         // Сдвиг по стеку
                         case "U":
@@ -116,6 +117,7 @@ class StepController extends Controller
         return $result;
     }
 
+    // Неэкранное вычисление
     static function steps_calc_code(Item $item, Link $link, $block)
     {
         $x = "";
@@ -226,7 +228,7 @@ class StepController extends Controller
                         } elseif ($step->second == "1") {
                             $round_type = "1";
                         }
-                        $x = self::my_round($x, $step->first, $round_type);
+                        $x = self::my_rnd($x, $step->first, $round_type);
                         break;
                     // Сдвиг по стеку
                     case "U":
@@ -249,7 +251,7 @@ class StepController extends Controller
         return $x;
     }
 
-    function my_round($a, $b, $c)
+    function my_rnd($a, $b, $c)
     {
         $r = 0;
         $p = pow(10, $b);

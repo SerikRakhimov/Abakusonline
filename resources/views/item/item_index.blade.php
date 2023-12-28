@@ -121,6 +121,7 @@
             } else {
                 $title = $it_local->base->name($emoji_enable);
             }
+            $title = mb_strtolower($title);
             ?>
             {{--                    Выводить вычисляемое наименование--}}
             {{-- Одинаковые проверки должны быть в ItemController::item_index() и в item_index.php--}}
@@ -134,13 +135,14 @@
                             'project'=>$project, 'role'=>$role, 'relit_id'=>$relit_id])}}"
                            title="{{$it_local->base->names($base_right) . $message_bs_info}}">
                             @endif
-                            {{$title}}
-                            <br>
+                            {{$title}}:
+{{--                            <br>--}}
                             @if ($base_right['is_bsmn_base_enable'] == true)
                         </a>
                     @endif
                     {{--                        <big/>--}}
                     <big>
+                        <b>
                         {{-- Одинаковые строки рядом (route('item.ext_show'))--}}
                         @if ($base_right['is_list_base_calc'] == true)
                             {{--              Использовать "'heading' => intval(true)", проверяется в окончании функции ItemController:ext_delete()--}}
@@ -167,6 +169,7 @@
                             echo $it_local->nmbr(false, false, false, false);
                             ?>
                         @endif
+                        </b>
                     </big>
                     @if($it_local->base->is_code_needed == true)
                         {{trans('main.code')}}: <strong>{{$it_local->code}}</strong>

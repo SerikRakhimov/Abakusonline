@@ -133,150 +133,316 @@
     {{--        <li class="list-group-item pb-0 pl-0">--}}
     {{--    </li>--}}
     {{--                </ul>--}}
-    <small class="text-label"><small>
-            Id
-        </small></small>
-    <div class="text-project">
-        {{--                <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role, 'relit_id'=>$relit_id,--}}
-        {{--                        'usercode' =>GlobalController::usercode_calc()])}}"--}}
-        {{--                   title="">--}}
-        {{GlobalController::id_and_emoji($item->id, $emoji_enable)}}
-        {{--                </a>--}}
-    </div>
-    @if($base->is_code_needed == true)
-        <hr class="hr_ext_show">
+    @if(1==2)
         <small class="text-label"><small>
-                {{trans('main.code')}}
+                Id
             </small></small>
         <div class="text-project">
-            {{--                        <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,--}}
-            {{--                                'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id])}}"--}}
-            {{--                           title="">--}}
-            {{$item->code}}
-            {{--                        </a>--}}
+            {{--                <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role, 'relit_id'=>$relit_id,--}}
+            {{--                        'usercode' =>GlobalController::usercode_calc()])}}"--}}
+            {{--                   title="">--}}
+            {{GlobalController::id_and_emoji($item->id, $emoji_enable)}}
+            {{--                </a>--}}
         </div>
-    @endif
-    {{--        <p class="text-label">--}}
-    @if($base_right['is_list_base_sort_creation_date_desc'] == true)
-        <hr class="hr_ext_show">
-        <small class="text-label"><small>
-                {{trans('main.date')}}
-            </small></small>
-        <div class="text-project">
-            {{GlobalController::date_and_emoji($item->created_date(), $emoji_enable)}}
-        </div>
-    @endif
-    {{--    @foreach($array_plan as $key=>$value)--}}
-    {{--        <?php--}}
-    {{--        $result = ItemController::get_items_for_link(Link::find($key));--}}
-    {{--        $items = $result['result_parent_base_items'];--}}
-    {{--        $item_work = Item::find($value);--}}
-    {{--        ?>--}}
-    {{--        --}}{{--    проверка нужна; для правильного вывода '$item_work->name()'--}}
-    {{--        @if($item_work)--}}
-    {{--            --}}{{--            <p>{{$result['result_parent_label']}} ({{$result['result_parent_base_name']}}):--}}
-    {{--            <p>{{$result['result_parent_label']}}:--}}
-    {{--                <span class="text-related">{{$item_work->name()}}</span></p>--}}
-    {{--        @endif--}}
-    {{--    @endforeach--}}
-
-    {{--        Вывод связей--}}
-    @foreach($array_calc as $key=>$value)
-        <?php
-        $link = Link::find($key);
-        // Нужны все параметры GlobalController::view_info($item->id, $link->id, $role, $relit_id, false)
-        $item_find = GlobalController::view_info($item->id, $key, $role, $relit_id, false);
-        ?>
-        {{--    Основное изображение второй раз не выводится--}}
-        @if($link_image)
-            @if($link->id == $link_image->id)
-                @continue
-            @endif
+        @if($base->is_code_needed == true)
+            <hr class="hr_ext_show">
+            <small class="text-label"><small>
+                    {{trans('main.code')}}
+                </small></small>
+            <div class="text-project">
+                {{--                        <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,--}}
+                {{--                                'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id])}}"--}}
+                {{--                           title="">--}}
+                {{$item->code}}
+                {{--                        </a>--}}
+            </div>
         @endif
-        @if($link && $item_find)
+        {{--        <p class="text-label">--}}
+        @if($base_right['is_list_base_sort_creation_date_desc'] == true)
+            <hr class="hr_ext_show">
+            <small class="text-label"><small>
+                    {{trans('main.date')}}
+                </small></small>
+            <div class="text-project">
+                {{GlobalController::date_and_emoji($item->created_date(), $emoji_enable)}}
+            </div>
+        @endif
+        {{--    @foreach($array_plan as $key=>$value)--}}
+        {{--        <?php--}}
+        {{--        $result = ItemController::get_items_for_link(Link::find($key));--}}
+        {{--        $items = $result['result_parent_base_items'];--}}
+        {{--        $item_work = Item::find($value);--}}
+        {{--        ?>--}}
+        {{--        --}}{{--    проверка нужна; для правильного вывода '$item_work->name()'--}}
+        {{--        @if($item_work)--}}
+        {{--            --}}{{--            <p>{{$result['result_parent_label']}} ({{$result['result_parent_base_name']}}):--}}
+        {{--            <p>{{$result['result_parent_label']}}:--}}
+        {{--                <span class="text-related">{{$item_work->name()}}</span></p>--}}
+        {{--        @endif--}}
+        {{--    @endforeach--}}
+
+        {{--        Вывод связей--}}
+        @foreach($array_calc as $key=>$value)
             <?php
-            //            $base_link_right = null;
-            //            if ($heading == 1 || $base_index_page > 0) {
-            // Вычисляет $relit_id
-            //            $calc_link_relit_id = GlobalController::calc_link_relit_id($link, $role, $relit_id);
-            //            $base_link_right = GlobalController::base_link_right($link, $role, $calc_link_relit_id);
-            $base_link_right = GlobalController::base_link_right($link, $role, $relit_id);
-            $result_par_link = \App\Http\Controllers\GlobalController::link_par_link($link, $par_link);
-            //            } else {
-            //                $base_link_right = GlobalController::base_link_right($link, $role, $link->parent_relit_id);
-            //            }
-            // Проверка $item_find
-            // Использовать так "GlobalController::items_check_right($item_find, $role, $relit_id, true)"
-            $item_find = GlobalController::items_check_right($item_find, $role, $relit_id, true);
+            $link = Link::find($key);
+            // Нужны все параметры GlobalController::view_info($item->id, $link->id, $role, $relit_id, false)
+            $item_find = GlobalController::view_info($item->id, $key, $role, $relit_id, false);
             ?>
-            @if($base_link_right['is_show_link_enable'] == true)
-                <hr class="hr_ext_show">
-                <small class="text-title">
-                    <small>
-                        {{--                        @if($base_link_right['is_bsmn_base_enable'] == true && $base_link_right['is_list_base_calc'] == true)--}}
-                        @if($base_link_right['is_bsmn_base_enable'] == true)
-                            <a href="{{route('item.base_index',['base'=>$link->parent_base_id, 'project'=>$project, 'role'=>$role, 'relit_id'=>$link->parent_relit_id])}}"
-                               title="{{$link->parent_base->names($base_link_right)}}">
+            {{--    Основное изображение второй раз не выводится--}}
+            @if($link_image)
+                @if($link->id == $link_image->id)
+                    @continue
+                @endif
+            @endif
+            @if($link && $item_find)
+                <?php
+                //            $base_link_right = null;
+                //            if ($heading == 1 || $base_index_page > 0) {
+                // Вычисляет $relit_id
+                //            $calc_link_relit_id = GlobalController::calc_link_relit_id($link, $role, $relit_id);
+                //            $base_link_right = GlobalController::base_link_right($link, $role, $calc_link_relit_id);
+                $base_link_right = GlobalController::base_link_right($link, $role, $relit_id);
+                $result_par_link = \App\Http\Controllers\GlobalController::link_par_link($link, $par_link);
+                //            } else {
+                //                $base_link_right = GlobalController::base_link_right($link, $role, $link->parent_relit_id);
+                //            }
+                // Проверка $item_find
+                // Использовать так "GlobalController::items_check_right($item_find, $role, $relit_id, true)"
+                $item_find = GlobalController::items_check_right($item_find, $role, $relit_id, true);
+                ?>
+                @if($base_link_right['is_show_link_enable'] == true)
+                    <hr class="hr_ext_show">
+                    <small class="text-title">
+                        <small>
+                            {{--                        @if($base_link_right['is_bsmn_base_enable'] == true && $base_link_right['is_list_base_calc'] == true)--}}
+                            @if($base_link_right['is_bsmn_base_enable'] == true)
+                                <a href="{{route('item.base_index',['base'=>$link->parent_base_id, 'project'=>$project, 'role'=>$role, 'relit_id'=>$link->parent_relit_id])}}"
+                                   title="{{$link->parent_base->names($base_link_right)}}">
+                                    @include('layouts.item.ext_show.parent_label', ['link'=>$link, 'par_link'=>$par_link])
+                                </a>
+                            @else
                                 @include('layouts.item.ext_show.parent_label', ['link'=>$link, 'par_link'=>$par_link])
-                            </a>
-                        @else
-                            @include('layouts.item.ext_show.parent_label', ['link'=>$link, 'par_link'=>$par_link])
-                        @endif
-                    </small></small>
-                @if($item_find)
-                    <div class="text-project">
-                        @if($link->parent_base->type_is_text())
-                            {{--                            <span class="text-related">--}}
-                            {{--                                <b>--}}
-                            <?php
-                            echo GlobalController::it_txnm_n2b($item_find, $emoji_enable);
-                            ?>
-                            {{--                        </span>--}}
-                            {{--                                </b>--}}
-                        @elseif($link->parent_base->type_is_image())
-                            @include('view.img',['item'=>$item_find, 'size'=>"medium", 'border'=>true, 'filenametrue'=>false, 'link'=>true, 'img_fluid'=>false, 'card_img_top'=>false, 'title'=>""])
-                            {{--                            <a href="{{Storage::url($item_find->filename())}}">--}}
-                            {{--                                <img src="{{Storage::url($item_find->filename())}}" height="250"--}}
-                            {{--                                     alt="" title="{{$item_find->title_img()}}">--}}
-                            {{--                            </a>--}}
-                        @elseif($link->parent_base->type_is_document())
-                            {{--                            <b>--}}
-                            @include('view.doc',['item'=>$item_find, 'usercode'=>GlobalController::usercode_calc()])
-                            {{--                            <a href="{{Storage::url($item_find->filename())}}" target="_blank">--}}
-                            {{--                                Открыть документ--}}
-                            {{--                            </a>--}}
-                            {{--                            </b>--}}
-                        @else
-                            {{--                                            $numcat = true - вывод числовых полей с разрядом тысячи/миллионы/миллиарды--}}
-                            {{--                            <span class="text-related">--}}
-                            {{--                            <b>--}}
-                            {{--  Используется 'is_list_base_calc' в ext_show.php и ItemController::item_index()  --}}
-                            {{--                        @if($base_link_right['is_list_base_calc'] == true && $base_link_right['is_bsmn_base_enable'] == true)--}}
-                            {{--                    Если $par_link == $link, то не показывать ссылку--}}
-                            @if($result_par_link ==false & $base_link_right['is_list_base_calc'] == true)
-                                <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item_find, 'role'=>$role,
+                            @endif
+                        </small></small>
+                    @if($item_find)
+                        <div class="text-project">
+                            @if($link->parent_base->type_is_text())
+                                {{--                            <span class="text-related">--}}
+                                {{--                                <b>--}}
+                                <?php
+                                echo GlobalController::it_txnm_n2b($item_find, $emoji_enable);
+                                ?>
+                                {{--                        </span>--}}
+                                {{--                                </b>--}}
+                            @elseif($link->parent_base->type_is_image())
+                                @include('view.img',['item'=>$item_find, 'size'=>"medium", 'border'=>true, 'filenametrue'=>false, 'link'=>true, 'img_fluid'=>false, 'card_img_top'=>false, 'title'=>""])
+                                {{--                            <a href="{{Storage::url($item_find->filename())}}">--}}
+                                {{--                                <img src="{{Storage::url($item_find->filename())}}" height="250"--}}
+                                {{--                                     alt="" title="{{$item_find->title_img()}}">--}}
+                                {{--                            </a>--}}
+                            @elseif($link->parent_base->type_is_document())
+                                {{--                            <b>--}}
+                                @include('view.doc',['item'=>$item_find, 'usercode'=>GlobalController::usercode_calc()])
+                                {{--                            <a href="{{Storage::url($item_find->filename())}}" target="_blank">--}}
+                                {{--                                Открыть документ--}}
+                                {{--                            </a>--}}
+                                {{--                            </b>--}}
+                            @else
+                                {{--                                            $numcat = true - вывод числовых полей с разрядом тысячи/миллионы/миллиарды--}}
+                                {{--                            <span class="text-related">--}}
+                                {{--                            <b>--}}
+                                {{--  Используется 'is_list_base_calc' в ext_show.php и ItemController::item_index()  --}}
+                                {{--                        @if($base_link_right['is_list_base_calc'] == true && $base_link_right['is_bsmn_base_enable'] == true)--}}
+                                {{--                    Если $par_link == $link, то не показывать ссылку--}}
+                                @if($result_par_link ==false & $base_link_right['is_list_base_calc'] == true)
+                                    <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item_find, 'role'=>$role,
                                                                 'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$link->parent_relit_id,
                                                                 'called_from_button'=>0,
                                                                 'view_link'=>\App\Http\Controllers\GlobalController::const_null()])}}"
-                                   title="">
+                                       title="">
+                                        {{$item_find->name(false, true, true, $emoji_enable)}}
+                                    </a>
+                                @else
                                     {{$item_find->name(false, true, true, $emoji_enable)}}
-                                </a>
-                            @else
-                                {{$item_find->name(false, true, true, $emoji_enable)}}
+                                @endif
+                                {{--                            </b>--}}
+                                {{--                            </span>--}}
                             @endif
-                            {{--                            </b>--}}
-                            {{--                            </span>--}}
-                        @endif
-                    </div>
-                @else
-                    <div class="text-danger">
-                        {{GlobalController::access_restricted()}}
-                    </div>
+                        </div>
+                    @else
+                        <div class="text-danger">
+                            {{GlobalController::access_restricted()}}
+                        </div>
+                    @endif
+                    {{--                    <br>--}}
                 @endif
-                {{--                    <br>--}}
             @endif
+        @endforeach
+    @endif
+    <table class="table table-sm table-hover">
+        {{--        <thead>--}}
+        {{--        <th>Показатель</th>--}}
+        {{--        <th>Значение</th>--}}
+        {{--        </thead>--}}
+        <tbody>
+        <tr>
+            <td style="width: 30%">
+                <div class="text-label">
+                    Id
+                </div>
+            </td>
+            <td>
+                {{--                <b>--}}
+                <div class="text-project">
+                    {{--                <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role, 'relit_id'=>$relit_id,--}}
+                    {{--                        'usercode' =>GlobalController::usercode_calc()])}}"--}}
+                    {{--                   title="">--}}
+                    {{GlobalController::id_and_emoji($item->id, $emoji_enable)}}
+                    {{--                </a>--}}
+                </div>
+                {{--                </b>--}}
+            </td>
+        </tr>
+        @if($base->is_code_needed == true)
+            <tr>
+                <td style="width: 30%">
+                    <div class="text-label">
+                        {{trans('main.code')}}
+                    </div>
+                </td>
+                <td>
+                    <b>
+                        <div class="text-project">
+                            {{--                        <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,--}}
+                            {{--                                'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id])}}"--}}
+                            {{--                           title="">--}}
+                            {{$item->code}}
+                            {{--                        </a>--}}
+                        </div>
+                    </b>
+                </td>
+            </tr>
         @endif
-    @endforeach
+        @if($base_right['is_list_base_sort_creation_date_desc'] == true)
+            <tr>
+                <td style="width: 30%">
+                    <div class="text-label">
+                        {{trans('main.date')}}
+                    </div>
+                </td>
+                <td>
+                    <b>
+                        <div class="text-project">
+                            {{GlobalController::date_and_emoji($item->created_date(), $emoji_enable)}}
+                        </div>
+                    </b>
+                </td>
+            </tr>
+        @endif
+        {{--        Вывод связей--}}
+        @foreach($array_calc as $key=>$value)
+            <?php
+            $link = Link::find($key);
+            // Нужны все параметры GlobalController::view_info($item->id, $link->id, $role, $relit_id, false)
+            $item_find = GlobalController::view_info($item->id, $key, $role, $relit_id, false);
+            ?>
+            {{--    Основное изображение второй раз не выводится--}}
+            @if($link_image)
+                @if($link->id == $link_image->id)
+                    @continue
+                @endif
+            @endif
+            @if($link && $item_find)
+                <?php
+                //            $base_link_right = null;
+                //            if ($heading == 1 || $base_index_page > 0) {
+                // Вычисляет $relit_id
+                //            $calc_link_relit_id = GlobalController::calc_link_relit_id($link, $role, $relit_id);
+                //            $base_link_right = GlobalController::base_link_right($link, $role, $calc_link_relit_id);
+                $base_link_right = GlobalController::base_link_right($link, $role, $relit_id);
+                $result_par_link = \App\Http\Controllers\GlobalController::link_par_link($link, $par_link);
+                //            } else {
+                //                $base_link_right = GlobalController::base_link_right($link, $role, $link->parent_relit_id);
+                //            }
+                // Проверка $item_find
+                // Использовать так "GlobalController::items_check_right($item_find, $role, $relit_id, true)"
+                $item_find = GlobalController::items_check_right($item_find, $role, $relit_id, true);
+                ?>
+                @if($base_link_right['is_show_link_enable'] == true)
+                    <tr>
+                        <td style="width: 30%">
+                            <div class="text-label">
+                                {{--                        @if($base_link_right['is_bsmn_base_enable'] == true && $base_link_right['is_list_base_calc'] == true)--}}
+                                @if($base_link_right['is_bsmn_base_enable'] == true)
+                                    <a href="{{route('item.base_index',['base'=>$link->parent_base_id, 'project'=>$project, 'role'=>$role, 'relit_id'=>$link->parent_relit_id])}}"
+                                       title="{{$link->parent_base->names($base_link_right)}}">
+                                        @include('layouts.item.ext_show.parent_label', ['link'=>$link, 'par_link'=>$par_link])
+                                    </a>
+                                @else
+                                    @include('layouts.item.ext_show.parent_label', ['link'=>$link, 'par_link'=>$par_link])
+                                @endif
+                            </div>
+                        </td>
+                        <td>
+                            <b>
+                                @if($item_find)
+                                    <div class="text-project">
+                                        @if($link->parent_base->type_is_text())
+                                            {{--                            <span class="text-related">--}}
+                                            {{--                                <b>--}}
+                                            <?php
+                                            echo GlobalController::it_txnm_n2b($item_find, $emoji_enable);
+                                            ?>
+                                            {{--                        </span>--}}
+                                            {{--                                </b>--}}
+                                        @elseif($link->parent_base->type_is_image())
+                                            @include('view.img',['item'=>$item_find, 'size'=>"medium", 'border'=>true, 'filenametrue'=>false, 'link'=>true, 'img_fluid'=>false, 'card_img_top'=>false, 'title'=>""])
+                                            {{--                            <a href="{{Storage::url($item_find->filename())}}">--}}
+                                            {{--                                <img src="{{Storage::url($item_find->filename())}}" height="250"--}}
+                                            {{--                                     alt="" title="{{$item_find->title_img()}}">--}}
+                                            {{--                            </a>--}}
+                                        @elseif($link->parent_base->type_is_document())
+                                            {{--                            <b>--}}
+                                            @include('view.doc',['item'=>$item_find, 'usercode'=>GlobalController::usercode_calc()])
+                                            {{--                            <a href="{{Storage::url($item_find->filename())}}" target="_blank">--}}
+                                            {{--                                Открыть документ--}}
+                                            {{--                            </a>--}}
+                                            {{--                            </b>--}}
+                                        @else
+                                            {{--                                            $numcat = true - вывод числовых полей с разрядом тысячи/миллионы/миллиарды--}}
+                                            {{--                            <span class="text-related">--}}
+                                            {{--                            <b>--}}
+                                            {{--  Используется 'is_list_base_calc' в ext_show.php и ItemController::item_index()  --}}
+                                            {{--                        @if($base_link_right['is_list_base_calc'] == true && $base_link_right['is_bsmn_base_enable'] == true)--}}
+                                            {{--                    Если $par_link == $link, то не показывать ссылку--}}
+                                            @if($result_par_link ==false & $base_link_right['is_list_base_calc'] == true)
+                                                <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item_find, 'role'=>$role,
+                                                                'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$link->parent_relit_id,
+                                                                'called_from_button'=>0,
+                                                                'view_link'=>\App\Http\Controllers\GlobalController::const_null()])}}"
+                                                   title="">
+                                                    {{$item_find->name(false, true, true, $emoji_enable)}}
+                                                </a>
+                                            @else
+                                                {{$item_find->name(false, true, true, $emoji_enable)}}
+                                            @endif
+                                            {{--                            </b>--}}
+                                            {{--                            </span>--}}
+                                        @endif
+                                    </div>
+                                @else
+                                    <div class="text-danger">
+                                        {{GlobalController::access_restricted()}}
+                                    </div>
+                                @endif
+                            </b>
+                        </td>
+                    </tr>
+                @endif
+            @endif
+        @endforeach
+        </tbody>
+    </table>
     {{--                    </p>--}}
 
     @if($base_right['is_hier_base_enable'] == true)

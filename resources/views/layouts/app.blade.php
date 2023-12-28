@@ -353,7 +353,29 @@ height: 100%;
         {{--                <div class="mx-auto" style="width: 1200px;">--}}
         @yield('content')
         {{--                </div>--}}
+        <hr>
+        <center>
+            <?php
+            $nom_pict = mt_rand(1, 3);
+            $img_name = "";
+            switch ($nom_pict) {
+                case 1:
+                    $img_name = "new_year1.jpg";
+                    break;
+                case 2:
+                    $img_name = "new_year2.jpg";
+                    break;
+                case 3:
+                    $img_name = "new_year3.png";
+                    break;
+            }
+            ?>
+            @if($img_name != "")
+                <img src="{{Storage::url($img_name)}} " width="75%">
+            @endif
+        </center>
         @guest
+            <hr>
             {{--            Похожие строки layouts\app.blade.php и message.blade.php--}}
             {{--            <div class="alert alert-danger alert-dismissible fade show" role="alert">--}}
             <div class="alert alert-dismissible fade show" role="alert">

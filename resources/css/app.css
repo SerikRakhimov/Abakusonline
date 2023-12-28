@@ -329,7 +329,8 @@ label {
 }
 
 .text-label {
-    color: #833029;
+    /*color: #833029;*/
+    color: #1c5145;
 }
 
 .text-related {

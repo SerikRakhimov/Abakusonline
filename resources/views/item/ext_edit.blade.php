@@ -2191,7 +2191,7 @@
             @endforeach
         }
 
-        function round(a, b, c) {
+        function my_rnd(a, b, c) {
             r = 0;
             p = Math.pow(10, b);
             switch (c) {

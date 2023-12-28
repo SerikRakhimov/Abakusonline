@@ -86,9 +86,9 @@
                     @if ($base->is_calcname_lst == true)
                         <div class="col-12 text-right">
                             <a href="{{route('item.calculate_names', ['base'=>$base, 'project'=>$relip_project])}}"
-                               title="{{trans('main.calculate_names')}}">
+                               title="{{trans('main.calculate')}}">
                                 <img src="{{Storage::url('calculate_names.png')}}" width="15" height="15"
-                                     alt="{{trans('main.calculate_names')}}">
+                                     alt="{{trans('main.calculate')}}">
                             </a>
                         </div>
                     @endif

@@ -7434,6 +7434,7 @@ class ItemController extends Controller
             $item->name_lang_2 = $rs['calc_lang_2'];
             $item->name_lang_3 = $rs['calc_lang_3'];
             $item->save();
+            GlobalController::item_calc_main($item);
         }
         return redirect()->back();
     }

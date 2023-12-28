@@ -309,8 +309,7 @@ if ($view_link) {
         @endforeach
     @endif
 @else
-    <table class="
-    table table-sm table-hover
+    <table class="table table-sm table-hover
         @if($heading)
         table-borderless
         @endif
