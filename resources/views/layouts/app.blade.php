@@ -356,7 +356,7 @@ height: 100%;
         <hr>
         <center>
             <?php
-            $nom_pict = mt_rand(1, 3);
+            $nom_pict = mt_rand(1, 4);
             $img_name = "";
             switch ($nom_pict) {
                 case 1:
@@ -367,6 +367,9 @@ height: 100%;
                     break;
                 case 3:
                     $img_name = "new_year3.png";
+                    break;
+                case 4:
+                    $img_name = "new_year4.jpg";
                     break;
             }
             ?>

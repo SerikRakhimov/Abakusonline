@@ -2891,6 +2891,7 @@ class ItemController extends Controller
                 $this->save_info_sets($item, false, true);
 
                 $item->save();
+                GlobalController::item_calc_main($item);
 
             }, 3);  // Повторить три раза, прежде чем признать неудачу
             // окончание транзакции
