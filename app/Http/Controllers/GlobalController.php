@@ -1574,7 +1574,7 @@ class GlobalController extends Controller
 // Нужно для правильного отображения чисел
 // $numcat = true/false - вывод числовых полей с разрядом тысячи/миллионы/миллиарды
 // $rightnull = true/false - у вещественных чисел убрать правые нули после запятой
-    static function restore_number_from_item(Base $base, $str, $numcat = false, $rightnull = true)
+    static function restore_number_from_item(Base $base, $str, $numcat = false, $rightnull = true, $unitmeas = false)
     {
         // Максимальное количество разрядов для числа
         $result = "";
@@ -1614,6 +1614,9 @@ class GlobalController extends Controller
                 if ($rightnull == true) {
                     $result = rtrim(rtrim($result, '0'), '.');
                 }
+            }
+            if($unitmeas) {
+                $result = $result . $base->unit_meas_desc(true);
             }
         }
         return $result;

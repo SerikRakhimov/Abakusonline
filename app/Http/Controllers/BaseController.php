@@ -119,6 +119,11 @@ class BaseController extends Controller
         $base->desc_lang_2 = isset($request->desc_lang_2) ? $request->desc_lang_2 : "";
         $base->desc_lang_3 = isset($request->desc_lang_3) ? $request->desc_lang_3 : "";
 
+        $base->unit_meas_desc_0 = isset($request->unit_meas_desc_0) ? $request->unit_meas_desc_0 : "";
+        $base->unit_meas_desc_1 = isset($request->unit_meas_desc_1) ? $request->unit_meas_desc_1 : "";
+        $base->unit_meas_desc_2 = isset($request->unit_meas_desc_2) ? $request->unit_meas_desc_2 : "";
+        $base->unit_meas_desc_3 = isset($request->unit_meas_desc_3) ? $request->unit_meas_desc_3 : "";
+
         $base->ch_min_desc_0 = isset($request->ch_min_desc_0) ? $request->ch_min_desc_0 : "";
         $base->ch_min_desc_1 = isset($request->ch_min_desc_1) ? $request->ch_min_desc_1 : "";
         $base->ch_min_desc_2 = isset($request->ch_min_desc_2) ? $request->ch_min_desc_2 : "";
@@ -201,6 +206,10 @@ class BaseController extends Controller
                 $base->maxfilesize_img_doc = 0;
                 $base->maxfilesize_title_img_doc = "";
                 $base->length_txt = 0;
+                $base->unit_meas_desc_0 = "";
+                $base->unit_meas_desc_1 = "";
+                $base->unit_meas_desc_2 = "";
+                $base->unit_meas_desc_3 = "";
                 break;
             // Число
             case 1:
@@ -281,6 +290,10 @@ class BaseController extends Controller
                 $base->ch_min_desc_1 = "";
                 $base->ch_min_desc_2 = "";
                 $base->ch_min_desc_3 = "";
+                $base->unit_meas_desc_0 = "";
+                $base->unit_meas_desc_1 = "";
+                $base->unit_meas_desc_2 = "";
+                $base->unit_meas_desc_3 = "";
                 break;
             // Дата
             case 3:
@@ -323,6 +336,10 @@ class BaseController extends Controller
                 $base->ch_min_desc_1 = "";
                 $base->ch_min_desc_2 = "";
                 $base->ch_min_desc_3 = "";
+                $base->unit_meas_desc_0 = "";
+                $base->unit_meas_desc_1 = "";
+                $base->unit_meas_desc_2 = "";
+                $base->unit_meas_desc_3 = "";
                 break;
             // Логический
             case 4:
@@ -365,6 +382,10 @@ class BaseController extends Controller
                 $base->ch_min_desc_1 = "";
                 $base->ch_min_desc_2 = "";
                 $base->ch_min_desc_3 = "";
+                $base->unit_meas_desc_0 = "";
+                $base->unit_meas_desc_1 = "";
+                $base->unit_meas_desc_2 = "";
+                $base->unit_meas_desc_3 = "";
                 break;
             // Текст
             case 5:
@@ -404,6 +425,10 @@ class BaseController extends Controller
                 $base->ch_min_desc_1 = "";
                 $base->ch_min_desc_2 = "";
                 $base->ch_min_desc_3 = "";
+                $base->unit_meas_desc_0 = "";
+                $base->unit_meas_desc_1 = "";
+                $base->unit_meas_desc_2 = "";
+                $base->unit_meas_desc_3 = "";
                 break;
             // Изображение
             case 6:
@@ -443,6 +468,10 @@ class BaseController extends Controller
                 $base->ch_min_desc_1 = "";
                 $base->ch_min_desc_2 = "";
                 $base->ch_min_desc_3 = "";
+                $base->unit_meas_desc_0 = "";
+                $base->unit_meas_desc_1 = "";
+                $base->unit_meas_desc_2 = "";
+                $base->unit_meas_desc_3 = "";
                 break;
             // Документ
             case 7:
@@ -483,6 +512,10 @@ class BaseController extends Controller
                 $base->ch_min_desc_1 = "";
                 $base->ch_min_desc_2 = "";
                 $base->ch_min_desc_3 = "";
+                $base->unit_meas_desc_0 = "";
+                $base->unit_meas_desc_1 = "";
+                $base->unit_meas_desc_2 = "";
+                $base->unit_meas_desc_3 = "";
                 break;
         }
         if ($base->is_code_needed == "0") {
@@ -565,6 +598,11 @@ class BaseController extends Controller
         $base->desc_lang_1 = isset($request->desc_lang_1) ? $request->desc_lang_1 : "";
         $base->desc_lang_2 = isset($request->desc_lang_2) ? $request->desc_lang_2 : "";
         $base->desc_lang_3 = isset($request->desc_lang_3) ? $request->desc_lang_3 : "";
+
+        $base->unit_meas_desc_0 = isset($request->unit_meas_desc_0) ? $request->unit_meas_desc_0 : "";
+        $base->unit_meas_desc_1 = isset($request->unit_meas_desc_1) ? $request->unit_meas_desc_1 : "";
+        $base->unit_meas_desc_2 = isset($request->unit_meas_desc_2) ? $request->unit_meas_desc_2 : "";
+        $base->unit_meas_desc_3 = isset($request->unit_meas_desc_3) ? $request->unit_meas_desc_3 : "";
 
         $base->ch_min_desc_0 = isset($request->ch_min_desc_0) ? $request->ch_min_desc_0 : "";
         $base->ch_min_desc_1 = isset($request->ch_min_desc_1) ? $request->ch_min_desc_1 : "";
@@ -650,6 +688,10 @@ class BaseController extends Controller
                 $base->maxfilesize_img_doc = 0;
                 $base->maxfilesize_title_img_doc = "";
                 $base->length_txt = 0;
+                $base->unit_meas_desc_0 = "";
+                $base->unit_meas_desc_1 = "";
+                $base->unit_meas_desc_2 = "";
+                $base->unit_meas_desc_3 = "";
                 break;
             // Число
             case 1:
@@ -732,6 +774,10 @@ class BaseController extends Controller
                 $base->ch_min_desc_1 = "";
                 $base->ch_min_desc_2 = "";
                 $base->ch_min_desc_3 = "";
+                $base->unit_meas_desc_0 = "";
+                $base->unit_meas_desc_1 = "";
+                $base->unit_meas_desc_2 = "";
+                $base->unit_meas_desc_3 = "";
                 break;
             // Дата
             case 3:
@@ -775,6 +821,10 @@ class BaseController extends Controller
                 $base->ch_min_desc_1 = "";
                 $base->ch_min_desc_2 = "";
                 $base->ch_min_desc_3 = "";
+                $base->unit_meas_desc_0 = "";
+                $base->unit_meas_desc_1 = "";
+                $base->unit_meas_desc_2 = "";
+                $base->unit_meas_desc_3 = "";
                 break;
             // Логический
             case 4:
@@ -818,6 +868,10 @@ class BaseController extends Controller
                 $base->ch_min_desc_1 = "";
                 $base->ch_min_desc_2 = "";
                 $base->ch_min_desc_3 = "";
+                $base->unit_meas_desc_0 = "";
+                $base->unit_meas_desc_1 = "";
+                $base->unit_meas_desc_2 = "";
+                $base->unit_meas_desc_3 = "";
                 break;
             // Текст
             case 5:
@@ -858,6 +912,10 @@ class BaseController extends Controller
                 $base->ch_min_desc_1 = "";
                 $base->ch_min_desc_2 = "";
                 $base->ch_min_desc_3 = "";
+                $base->unit_meas_desc_0 = "";
+                $base->unit_meas_desc_1 = "";
+                $base->unit_meas_desc_2 = "";
+                $base->unit_meas_desc_3 = "";
                 break;
             // Изображение
             case 6:
@@ -898,6 +956,10 @@ class BaseController extends Controller
                 $base->ch_min_desc_1 = "";
                 $base->ch_min_desc_2 = "";
                 $base->ch_min_desc_3 = "";
+                $base->unit_meas_desc_0 = "";
+                $base->unit_meas_desc_1 = "";
+                $base->unit_meas_desc_2 = "";
+                $base->unit_meas_desc_3 = "";
                 break;
             // Документ
             case 7:
@@ -939,6 +1001,10 @@ class BaseController extends Controller
                 $base->ch_min_desc_1 = "";
                 $base->ch_min_desc_2 = "";
                 $base->ch_min_desc_3 = "";
+                $base->unit_meas_desc_0 = "";
+                $base->unit_meas_desc_1 = "";
+                $base->unit_meas_desc_2 = "";
+                $base->unit_meas_desc_3 = "";
                 break;
         }
 

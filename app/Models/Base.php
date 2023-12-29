@@ -141,6 +141,19 @@ class Base extends Model
         return $result;
     }
 
+    function unit_meas_desc($space = false)
+    {
+        $result = "";  // нужно, не удалять
+        $index = array_search(App::getLocale(), config('app.locales'));
+        if ($index !== false) {   // '!==' использовать, '!=' не использовать
+            $result = $this['unit_meas_desc_' . $index];
+            if ($result != "" & $space) {
+                $result = " " . $result;
+            }
+        }
+        return $result;
+    }
+
 // Используется "desc" c "type"
     function desc_type()
     {

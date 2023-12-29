@@ -698,6 +698,9 @@
                             {{--                                {{session('errors')!=null ? session('errors')->first($key): ''}}--}}
                             {{--                            </div>--}}
                         </div>
+                        <div class="col-sm-1">
+                            {{$link->parent_base->unit_meas_desc()}}
+                        </div>
                         {{-- Похожие проверка внизу--}}
                         {{-- @if($base_link_right['is_edit_link_read'] == false)--}}
                         {{-- @if($link->parent_is_numcalc == true)--}}
@@ -718,13 +721,13 @@
                                         <i class="fas fa-calculator d-inline"></i>
                                     </button>
                                 </div>
-                                <div class="col-sm-6">
+                                <div class="col-sm-5">
                                 <span class="form-label text-danger"
                                       name="name{{$key}}"
                                       id="name{{$key}}"></span>
                                 </div>
                             @else
-                                <div class="col-sm-7">
+                                <div class="col-sm-6">
                                 </div>
                             @endif
                         @endif

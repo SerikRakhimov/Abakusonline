@@ -117,7 +117,7 @@ class Item extends Model
 //                    $result = date_create($this->name_lang_0)->Format('Y.m.d');
 
             } elseif ($base->type_is_number()) {
-                $result = GlobalController::restore_number_from_item($base, $this->name_lang_0, $numcat, $rightnull);
+                $result = GlobalController::restore_number_from_item($base, $this->name_lang_0, $numcat, $rightnull, true);
 
             } elseif ($base->type_is_boolean()) {
                 //    Похожие строки в Base.php
@@ -237,7 +237,7 @@ class Item extends Model
                         //$name = date_create($name)->Format('Y.m.d');
 
                     } elseif ($base->type_is_number()) {
-                        $name = GlobalController::restore_number_from_item($base, $name);
+                        $name = GlobalController::restore_number_from_item($base, $name,false,true, true);
 
                     } elseif ($base->type_is_boolean()) {
                         //    Похожие строки в Base.php

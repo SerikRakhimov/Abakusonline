@@ -929,6 +929,32 @@
             </div>
         </div>
 
+        {{--    unit_meas_desc    --}}
+        <div class="form-group row" id="unit_meas_desc_form_group">
+            @foreach (config('app.locales') as $key=>$value)
+                <div class="col-sm-3 text-right">
+                    <label for="unit_meas_desc_{{$key}}" class="col-form-label">{{trans('main.unit_meas_desc')}}
+                        ({{trans('main.' . $value)}})<span
+                            class="text-danger">*</span></label>
+                </div>
+                <div class="col-sm-7">
+                    <input type="text"
+                           name="unit_meas_desc_{{$key}}"
+                           id="unit_meas_desc_{{$key}}"
+                           class="form-control @error('unit_meas_desc_' . $key) is-invalid @enderror"
+                           placeholder=""
+                           value="{{ old('unit_meas_desc_' . $key) ?? ($base['unit_meas_desc_' . $key] ?? '') }}">
+                </div>
+                @error('unit_meas_desc_' . $key)
+                <div class="text-danger">
+                    {{$message}}
+                </div>
+                @enderror
+                <div class="col-sm-2">
+                </div>
+            @endforeach
+        </div>
+
         {{--    ch_min_desc    --}}
         <div class="form-group row" id="ch_min_desc_form_group">
             @foreach (config('app.locales') as $key=>$value)
@@ -1101,6 +1127,7 @@
         var is_heading = document.getElementById('is_default_heading_form_group');
         var is_cards = document.getElementById('is_default_view_cards_form_group');
         var ent_min = document.getElementById('entry_minutes_form_group');
+        var un_ms_ds = document.getElementById('unit_meas_desc_form_group');
         var ch_min_ds = document.getElementById('ch_min_desc_form_group');
         var is_required_lst_num_str_txt_img_doc = document.getElementById('is_required_lst_num_str_txt_img_doc_form_group');
         var is_vw_emp_lst = document.getElementById('is_view_empty_lst_form_group');
@@ -1164,6 +1191,7 @@
             val_is_heading = "hidden";
             val_is_cards = "hidden";
             val_e_min = "hidden";
+            val_u_meas_desc = true;
             val_c_min_desc = true;
             val_digits_num = "hidden";
             val_required_num_str = "hidden";
@@ -1220,6 +1248,7 @@
                 case "1":
                     val_digits_num = "visible";
                     val_required_num_str = "visible";
+                    val_u_meas_desc = false;
                     break;
                 // Строка
                 case "2":
@@ -1269,7 +1298,8 @@
             is_heading.style.visibility = val_is_heading;
             is_cards.style.visibility = val_is_cards;
             ent_min.style.visibility = val_e_min;
-            // Свойство ".visibility" недоступно для ch_min_ds
+            // Свойство ".visibility" недоступно для un_ms_ds, ch_min_ds
+            un_ms_ds.hidden = val_u_meas_desc;
             ch_min_ds.hidden = val_c_min_desc;
             digits_num.style.visibility = val_digits_num;
             is_required_lst_num_str_txt_img_doc.style.visibility = val_required_num_str;
