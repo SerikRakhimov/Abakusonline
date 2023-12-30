@@ -309,11 +309,12 @@ if ($view_link) {
         @endforeach
     @endif
 @else
+{{--    style="margin: 0 auto;"--}}
     <table class="table table-sm table-hover
         @if($heading)
         table-borderless
         @endif
-        ">
+        w-auto">
         @if(!$heading)
             <caption>{{trans('main.select_record_for_work')}}</caption>
         @endif
