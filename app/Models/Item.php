@@ -90,7 +90,7 @@ class Item extends Model
     // при $fullname = true результатом строка из двух строк 255 и 255 символов с каждого $item->name()
     // $numcat = true/false - вывод числовых полей с разрядом тысячи/миллионы/миллиарды
     // $rightnull = true/false - у вещественных чисел убрать правые нули после запятой
-    function name_start($fullname = false, $numcat = false, $rightnull = false)
+    function name_start($fullname = false, $numcat = false, $rightnull = false, $unitmeas = false)
     {
         $result = "";  // нужно, не удалять
 
@@ -117,7 +117,7 @@ class Item extends Model
 //                    $result = date_create($this->name_lang_0)->Format('Y.m.d');
 
             } elseif ($base->type_is_number()) {
-                $result = GlobalController::restore_number_from_item($base, $this->name_lang_0, $numcat, $rightnull, true);
+                $result = GlobalController::restore_number_from_item($base, $this->name_lang_0, $numcat, $rightnull, $unitmeas);
 
             } elseif ($base->type_is_boolean()) {
                 //    Похожие строки в Base.php
@@ -168,9 +168,9 @@ class Item extends Model
     // $fullname = true/false - вывод полной строки (более 255 символов)
     // $numcat = true/false - вывод числовых полей с разрядом тысячи/миллионы/миллиарды
     // $rightnull = true/false - у вещественных чисел убрать правые нули после запятой
-    function name($fullname = false, $numcat = false, $rightnull = false, $emoji_enable = false)
+    function name($fullname = false, $numcat = false, $rightnull = false, $emoji_enable = false, $unitmeas = false)
     {
-        $result = self::name_start($fullname, $numcat, $rightnull);
+        $result = self::name_start($fullname, $numcat, $rightnull, $unitmeas);
         $result = str_replace('\~', '', $result);
         // Не нужна эта строка
         // $result = str_replace('\t', '', $result);
@@ -237,6 +237,7 @@ class Item extends Model
                         //$name = date_create($name)->Format('Y.m.d');
 
                     } elseif ($base->type_is_number()) {
+                        // 'Единица измерения (для числовых полей)', параметр $unitmeas = true
                         $name = GlobalController::restore_number_from_item($base, $name,false,true, true);
 
                     } elseif ($base->type_is_boolean()) {

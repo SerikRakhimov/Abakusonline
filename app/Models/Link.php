@@ -77,12 +77,15 @@ class Link extends Model
         return $result;
     }
 
-    function parent_label($emoji_enable = false)
+    function parent_label($emoji_enable = false, $unitmeas = false)
     {
         $result = "";  // нужно, не удалять
         $index = array_search(App::getLocale(), config('app.locales'));
         if ($index !== false) {   // '!==' использовать, '!=' не использовать
             $result = $this['parent_label_lang_' . $index];
+            if ($unitmeas) {
+                $result = $result . $this->parent_base->par_label_unit_meas();
+            }
         }
 //        if ($result == "") {
 //            $result = $this->parent_label_lang_0;

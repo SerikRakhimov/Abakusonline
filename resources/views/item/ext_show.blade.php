@@ -421,10 +421,10 @@
                                                                 'called_from_button'=>0,
                                                                 'view_link'=>\App\Http\Controllers\GlobalController::const_null()])}}"
                                                    title="">
-                                                    {{$item_find->name(false, true, true, $emoji_enable)}}
+                                                    {{$item_find->name(false, true, true, $emoji_enable, true)}}
                                                 </a>
                                             @else
-                                                {{$item_find->name(false, true, true, $emoji_enable)}}
+                                                {{$item_find->name(false, true, true, $emoji_enable, true)}}
                                             @endif
                                             {{--                            </b>--}}
                                             {{--                            </span>--}}

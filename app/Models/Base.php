@@ -131,6 +131,17 @@ class Base extends Model
         return $result;
     }
 
+    function par_label_unit_meas()
+    {
+        // запятая + единица измерения (для числовых полей), если есть
+        $result = "";
+        $desc = $this->unit_meas_desc();
+        if ($desc != "") {
+            $result = ", " . $desc;
+        }
+        return $result;
+    }
+
     function ch_min_desc()
     {
         $result = "";  // нужно, не удалять
