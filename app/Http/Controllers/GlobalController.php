@@ -1607,7 +1607,7 @@ class GlobalController extends Controller
                 $float_value = floatval($str);
                 // $numcat = true/false - вывод числовых полей с разрядом тысячи/миллионы/миллиарды
                 if ($numcat) {
-                    $result = $first_char . number_format($float_value, $digits_num, '.', ' ');
+                  $result = $first_char . number_format($float_value, $digits_num, '.', ' ');
                 } else {
                     $result = $first_char . sprintf("%1." . $digits_num . "f", floatval($float_value));
                 }

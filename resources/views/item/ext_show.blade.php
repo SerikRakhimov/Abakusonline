@@ -421,11 +421,12 @@
                                                                 'called_from_button'=>0,
                                                                 'view_link'=>\App\Http\Controllers\GlobalController::const_null()])}}"
                                                    title="">
-                                                    {{$item_find->name(false, true, true, $emoji_enable, true)}}
+                                                    {{$item_find->name(false, true, true, $emoji_enable, false)}}
                                                 </a>
                                             @else
-                                                {{$item_find->name(false, true, true, $emoji_enable, true)}}
+                                                {{$item_find->name(false, true, true, $emoji_enable, false)}}
                                             @endif
+                                            <small><span class="text-label">{{$item_find->base->par_label_unit_meas()}}</span></small>
                                             {{--                            </b>--}}
                                             {{--                            </span>--}}
                                         @endif

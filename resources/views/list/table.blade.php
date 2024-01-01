@@ -322,29 +322,29 @@ if ($view_link) {
         <tr>
             {{--        Похожие проверки ниже по тексту--}}
             @if(!$heading)
-                <th rowspan="{{$rows + 1}}" style="width: 5%" class="text-center align-top">#</th>
+                <th rowspan="{{$rows + 1 - 1}}" style="width: 5%" class="text-center align-top">#</th>
             @endif
             {{--        'Показывать признак "В истории" при просмотре списков'--}}
             @if($base_right['is_list_hist_attr_enable'] == true)
-                <th rowspan="{{$rows + 1}}" style="width: 5%" class="text-center align-top"
+                <th rowspan="{{$rows + 1 - 1}}" style="width: 5%" class="text-center align-top"
                     title="{{trans('main.history')}}">{{trans('main.small_history')}}</th>
             @endif
             {{--        <th rowspan="{{$rows + 1}}" class="text-center align-top">Id</th>--}}
             {{--        Вывод в $base_index или в $item_body_base--}}
             @if($base_index || $item_body_base)
                 @if($base->is_code_needed == true)
-                    <th class="text-center align-top" rowspan="{{$rows + 1}}" style="width: 5%"
+                    <th class="text-center align-top" rowspan="{{$rows + 1 - 1}}" style="width: 5%"
                         class="text-center align-top">{{trans('main.code')}}</th>
                 @endif
                 @if($base_right['is_list_base_sort_creation_date_desc'] == true)
-                    <th class="text-center align-top" rowspan="{{$rows + 1}}">{{trans('main.date')}}</th>
+                    <th class="text-center align-top" rowspan="{{$rows + 1 - 1}}">{{trans('main.date')}}</th>
                 @endif
                 @if($base_right['is_list_base_enable'] == true)
                     {{--                Если тип-вычисляемое наименование и Показывать Основу с вычисляемым наименованием--}}
                     {{--                или если тип-не вычисляемое наименование--}}
                     {{--            похожая проверка в ext_show.blade.php--}}
                     @if(GlobalController::is_base_calcname_check($base))
-                        <th rowspan="{{$rows + 1}}" @include('layouts.class_from_base',['base'=>$base, 'align_top'=>true])>
+                        <th rowspan="{{$rows + 1 - 1}}" @include('layouts.class_from_base',['base'=>$base, 'align_top'=>true])>
                             {{--                        @if($view_link)--}}
                             {{--                            {{$view_link->child_label()}}--}}
                             {{--                        @else--}}
@@ -410,7 +410,11 @@ if ($view_link) {
                                         {{--                                        {{GlobalController::calc_title_name($matrix[$x][$y]["view_name"],false, $heading)}}--}}
                                         {{GlobalController::calc_title_name(GlobalController::name_and_end_emoji($matrix[$x][$y]["view_name"], $link->parent_base), false, $heading)}}
                                     @endif
-                                    @if($heading)
+{{--                                @if($item_heading_base && $matrix[$x][$y]["work_link"] == true)--}}
+                                    @if($matrix[$x][$y]["work_link"] == true)
+                                    <br><small><span class="text-label">{{$link->parent_base->par_label_unit_meas()}}</span></small>
+                                    @endif
+                                        @if($heading)
                                 </small>
                                 @endif
                                 </th>
@@ -795,7 +799,7 @@ if ($view_link) {
                                                 @include('layouts.item.empty_name', ['name'=>GlobalController::it_txnm_n2b($item_find, false)])
                                             @else
                                                 {{--                                                @include('layouts.item.empty_name', ['name'=>$item_find->name(false,false,false,$heading & $emoji_enable)])--}}
-                                                @include('layouts.item.empty_name', ['name'=>$item_find->name(false, false, false, false)])
+                                                @include('layouts.item.empty_name', ['name'=>$item_find->name(false, false, false, false, false)])
                                             @endif
                                             @if($heading)
                                                 {{--                                                </mark>--}}

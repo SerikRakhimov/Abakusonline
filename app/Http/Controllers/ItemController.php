@@ -7951,7 +7951,7 @@ class ItemController extends Controller
                         if ($matrix[$i][$j]['work_link'] == true) {
                             $link_id = $matrix[$i][$j]['link_id'];
                             $link = Link::findOrFail($link_id);
-                            $matrix[$i][$j]['view_name'] = $link->parent_label(false, true);
+                            $matrix[$i][$j]['view_name'] = $link->parent_label(false, false);
                             // '$matrix[$i][$j]['fin_link']' = true, если есть право показывать ссылку на таблицу с заданным base
                             // Проверка на '$matrix[$i][$j]['fin_link']' используется  в base_index.php
                             $matrix[$i][$j]['fin_link'] = $matrix[$i][$j]['is_list_base_calc'];

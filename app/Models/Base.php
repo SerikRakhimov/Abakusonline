@@ -137,7 +137,7 @@ class Base extends Model
         $result = "";
         $desc = $this->unit_meas_desc();
         if ($desc != "") {
-            $result = ", " . $desc;
+            $result = "(" . $desc . ")";
         }
         return $result;
     }
