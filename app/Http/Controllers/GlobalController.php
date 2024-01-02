@@ -3092,7 +3092,7 @@ class GlobalController extends Controller
 //        $result = $sem . $result;
 //        } else {
 //        $result = $result . ' ' . $sem;
-        $result = $result . $sem;
+          $result = $result . $sem;
 //        }
         return $result;
     }

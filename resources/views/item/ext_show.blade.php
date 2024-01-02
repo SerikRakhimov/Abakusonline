@@ -329,14 +329,13 @@
             <tr>
                 <td style="width: 30%">
                     <div class="text-label">
-{{--                        {{trans('main.date')}}--}}
-                        {{GlobalController::const_date_emoji()}}
+                        {{trans('main.date').GlobalController::const_date_emoji()}}
                     </div>
                 </td>
                 <td>
                     <b>
                         <div class="text-project">
-{{--                        {{GlobalController::date_and_emoji($item->created_date(), $emoji_enable)}}--}}
+                            {{--                        {{GlobalController::date_and_emoji($item->created_date(), $emoji_enable)}}--}}
                             {{$item->created_date()}}
                         </div>
                     </b>
