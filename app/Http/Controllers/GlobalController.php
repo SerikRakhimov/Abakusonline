@@ -1607,7 +1607,8 @@ class GlobalController extends Controller
                 $float_value = floatval($str);
                 // $numcat = true/false - вывод числовых полей с разрядом тысячи/миллионы/миллиарды
                 if ($numcat) {
-                  $result = $first_char . number_format($float_value, $digits_num, '.', ' ');
+//                  $result = $first_char . number_format($float_value, $digits_num, '.', ' ');
+                    $result = $first_char . number_format($float_value, $digits_num, '.', "'");
                 } else {
                     $result = $first_char . sprintf("%1." . $digits_num . "f", floatval($float_value));
                 }
@@ -1615,8 +1616,9 @@ class GlobalController extends Controller
                     $result = rtrim(rtrim($result, '0'), '.');
                 }
             }
-            if($unitmeas) {
-                $result = $result . $base->unit_meas_desc(true);
+            if ($unitmeas) {
+//              $result = $result . $base->unit_meas_desc(true);
+                $result = $result . $base->par_label_unit_meas(true);
             }
         }
         return $result;
@@ -3042,7 +3044,8 @@ class GlobalController extends Controller
     }
 
 //  $space_number_insert - выводить пробел между числом и символом валюты (в основном для этого используется)
-    static function name_and_emoji($name, Base $base, $space_number_insert = false)
+//    static function name_and_emoji($name, Base $base, $space_number_insert = false)
+    static function name_and_emoji($name, Base $base)
     {
         $result = $name;
         $sem = "";
@@ -3051,15 +3054,15 @@ class GlobalController extends Controller
         }
         // В основном, для денежных величин (цена, сумма)
         // справа присоединяется символ валюты
-        if ($base->type_is_number()) {
-            if ($space_number_insert == true) {
-                $result = $result . ' ';
-            }
-            $result = $result . $sem;
-        } else {
+//        if ($base->type_is_number()) {
+//            if ($space_number_insert == true) {
+//                $result = $result . ' ';
+//            }
+//            $result = $result . $sem;
+//        } else {
 //          $result = $sem . ' ' . $result;
-            $result = $sem . $result;
-        }
+        $result = $sem . $result;
+//        }
         return $result;
     }
 
@@ -3088,7 +3091,8 @@ class GlobalController extends Controller
 //        if (!$base->type_is_number()) {
 //        $result = $sem . $result;
 //        } else {
-        $result = $result . ' ' . $sem;
+//        $result = $result . ' ' . $sem;
+        $result = $result . $sem;
 //        }
         return $result;
     }

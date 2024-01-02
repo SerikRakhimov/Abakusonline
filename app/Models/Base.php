@@ -46,7 +46,8 @@ class Base extends Model
 //            $result = $this->name_lang_0;
 //        }
         if ($emoji_enable == true) {
-            $result = GlobalController::name_and_brackets_emoji($result, $this);
+//          $result = GlobalController::name_and_brackets_emoji($result, $this);
+            $result = GlobalController::name_and_end_emoji($result, $this);
         }
         return $result;
     }
@@ -92,7 +93,7 @@ class Base extends Model
             $result = $result . GlobalController::my_info($base_right);
         }
         if ($emoji_enable == true) {
-//            $result = (new GlobalController)->name_and_brackets_emoji($result, $this);
+//          $result = (new GlobalController)->name_and_brackets_emoji($result, $this);
             $result = GlobalController::name_and_end_emoji($result, $this);
         }
         return $result;
@@ -103,7 +104,8 @@ class Base extends Model
         //$result = trans('main.name');
         $result = $this->name();
         if ($emoji_enable == true) {
-            $result = GlobalController::name_and_brackets_emoji($result, $this);
+//          $result = GlobalController::name_and_brackets_emoji($result, $this);
+            $result = GlobalController::name_and_end_emoji($result, $this);
         }
         return $result;
     }
@@ -131,13 +133,16 @@ class Base extends Model
         return $result;
     }
 
-    function par_label_unit_meas()
+    function par_label_unit_meas($spaceleft = false)
     {
         // запятая + единица измерения (для числовых полей), если есть
         $result = "";
         $desc = $this->unit_meas_desc();
         if ($desc != "") {
             $result = "(" . $desc . ")";
+            if ($spaceleft) {
+                $result = " " . $result;
+            }
         }
         return $result;
     }

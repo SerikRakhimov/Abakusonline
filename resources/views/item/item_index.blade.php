@@ -71,9 +71,9 @@
                             'project'=>$project, 'role'=>$role, 'relit_id'=>$value['relit_id']])}}"
                            title="{{$value['base_names']}}">
                             @endif
-                            {{--                            {{GlobalController::calc_title_name($value['title_name'], true, true)}}--}}
-                            {{GlobalController::calc_title_name(GlobalController::name_and_end_emoji($value['title_name'], Base::find($value['base_id'])), true, true)}}
-                            @if($value['is_bsmn_base_enable'] == true)
+{{--                        {{GlobalController::calc_title_name(GlobalController::name_and_end_emoji($value['title_name'], Base::find($value['base_id'])), true, true)}}--}}
+                            {{GlobalController::calc_title_name($value['title_name'], true, true)}}
+                        @if($value['is_bsmn_base_enable'] == true)
                         </a>
                     @endif
                     {{--                    Нужно "'called_from_button' => 1"--}}
@@ -94,7 +94,10 @@
                         {{--                'string_all_codes_current'=>$value['string_prev_all_codes']--}}
                         {{--                {{$value['item_name']}}--}}
                         {{--                {{$value['info_name']}}--}}
-                        <mark class="text-project">{{$value['item_name']}}</mark>
+                        <mark class="text-project">
+{{--                        {{$value['item_name']}}--}}
+                            {{GlobalController::name_and_emoji($value['item_name'], Base::find($value['base_id']))}}
+                        </mark>
                         {{--                <span class="badge badge-related">{{$value['info_name']}}</span>--}}
                         <small><small><small>{{$value['info_name']}}</small></small></small>
                     </a>

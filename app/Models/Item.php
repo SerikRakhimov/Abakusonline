@@ -178,7 +178,8 @@ class Item extends Model
         // Вторым параметром передается $this->base
         if ($emoji_enable == true) {
             // Передается значение $numcat - выводить пробел между числом и символом валюты (в основном для этого используется)
-            $result = GlobalController::name_and_emoji($result, $this->base, $numcat);
+//          $result = GlobalController::name_and_emoji($result, $this->base, $numcat);
+            $result = GlobalController::name_and_emoji($result, $this->base);
         }
         return $result;
     }
@@ -205,7 +206,8 @@ class Item extends Model
         // Не нужна эта строка
         // $result = str_replace('\t', '&emsp;&emsp;', $result);
         if ($emoji_enable == true) {
-            $result = GlobalController::name_and_first_emoji($result, $this->base, $numcat);
+//          $result = GlobalController::name_and_first_emoji($result, $this->base, $numcat);
+            $result = GlobalController::name_and_emoji($result, $this->base, $numcat);
         }
         return $result;
     }
@@ -238,7 +240,7 @@ class Item extends Model
 
                     } elseif ($base->type_is_number()) {
                         // 'Единица измерения (для числовых полей)', параметр $unitmeas = true
-                        $name = GlobalController::restore_number_from_item($base, $name,false,true, true);
+                        $name = GlobalController::restore_number_from_item($base, $name, false, true, true);
 
                     } elseif ($base->type_is_boolean()) {
                         //    Похожие строки в Base.php

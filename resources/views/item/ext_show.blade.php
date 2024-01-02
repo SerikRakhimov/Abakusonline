@@ -288,7 +288,8 @@
         <tr>
             <td style="width: 30%">
                 <div class="text-label">
-                    Id
+                    {{--                    Id--}}
+                    {{GlobalController::const_id_emoji()}}
                 </div>
             </td>
             <td>
@@ -297,7 +298,8 @@
                     {{--                <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role, 'relit_id'=>$relit_id,--}}
                     {{--                        'usercode' =>GlobalController::usercode_calc()])}}"--}}
                     {{--                   title="">--}}
-                    {{GlobalController::id_and_emoji($item->id, $emoji_enable)}}
+                    {{--                    {{GlobalController::id_and_emoji($item->id, $emoji_enable)}}--}}
+                    {{$item->id}}
                     {{--                </a>--}}
                 </div>
                 {{--                </b>--}}
@@ -327,13 +329,15 @@
             <tr>
                 <td style="width: 30%">
                     <div class="text-label">
-                        {{trans('main.date')}}
+{{--                        {{trans('main.date')}}--}}
+                        {{GlobalController::const_date_emoji()}}
                     </div>
                 </td>
                 <td>
                     <b>
                         <div class="text-project">
-                            {{GlobalController::date_and_emoji($item->created_date(), $emoji_enable)}}
+{{--                        {{GlobalController::date_and_emoji($item->created_date(), $emoji_enable)}}--}}
+                            {{$item->created_date()}}
                         </div>
                     </b>
                 </td>
@@ -421,12 +425,15 @@
                                                                 'called_from_button'=>0,
                                                                 'view_link'=>\App\Http\Controllers\GlobalController::const_null()])}}"
                                                    title="">
-                                                    {{$item_find->name(false, true, true, $emoji_enable, false)}}
+                                                    {{--                                                {{$item_find->name(false, true, true, $emoji_enable, false)}}--}}
+                                                    {{$item_find->name(false, true, true, false, false)}}
                                                 </a>
                                             @else
-                                                {{$item_find->name(false, true, true, $emoji_enable, false)}}
+                                                {{--                                            {{$item_find->name(false, true, true, $emoji_enable, false)}}--}}
+                                                {{$item_find->name(false, true, true, false, false)}}
                                             @endif
-                                            <small><span class="text-label">{{$item_find->base->par_label_unit_meas()}}</span></small>
+                                            <small><span
+                                                    class="text-label">{{$item_find->base->par_label_unit_meas()}}</span></small>
                                             {{--                            </b>--}}
                                             {{--                            </span>--}}
                                         @endif

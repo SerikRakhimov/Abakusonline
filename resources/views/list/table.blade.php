@@ -352,10 +352,12 @@ if ($view_link) {
                             {{--                        @endif--}}
                             @if($view_link)
                                 {{--                            {{$view_link->child_label(!$heading & $emoji_enable)}}--}}
-                                {{$view_link->child_label($emoji_enable)}}
+{{--                                {{$view_link->child_label($emoji_enable)}}--}}
+                                {{$view_link->child_label(false)}}
                             @else
                                 {{--                            {{$base->name(!$heading & $emoji_enable)}}--}}
-                                {{$base->name($emoji_enable)}}
+{{--                                {{$base->name($emoji_enable)}}--}}
+                                {{$base->name(false)}}
                             @endif
                         </th>
         @endif
