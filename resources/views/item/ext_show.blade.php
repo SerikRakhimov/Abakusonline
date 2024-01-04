@@ -280,7 +280,8 @@
         @endforeach
     @endif
     <?php
-    $percent_first = 1;
+        $percent_first = 1;
+        $percent_second = 30;
     ?>
     <table class="table table-sm table-hover">
         {{--        <thead>--}}
@@ -290,8 +291,9 @@
         <tbody>
         <tr>
             <td style="width: {{$percent_first}}%">
+                {{GlobalController::const_id_emoji()}}
             </td>
-            <td style="width: 30%">
+            <td style="width: {{$percent_second}}%">
                 <div class="text-label">
                     Id
                     {{--                    {{GlobalController::const_id_emoji()}}--}}
@@ -313,9 +315,9 @@
         @if($base->is_code_needed == true)
             <tr>
                 <td style="width: {{$percent_first}}%">
-                    {{GlobalController::const_input_numbers()}}
+               {{GlobalController::const_input_numbers()}}
                 </td>
-                <td style="width: 30%">
+                <td style="width: {{$percent_second}}%">
                     <div class="text-label">
                         {{trans('main.code')}}
                     </div>
@@ -338,7 +340,7 @@
                 <td style="width: {{$percent_first}}%">
                     {{GlobalController::const_date_emoji()}}
                 </td>
-                <td style="width: 30%">
+                <td style="width: {{$percent_second}}%">
                     <div class="text-label">
                         {{trans('main.date')}}
                     </div>
@@ -387,7 +389,7 @@
                         <td style="width: {{$percent_first}}%">
                             {{$link->parent_base->em_str()}}
                         </td>
-                        <td style="width: 30%">
+                        <td style="width: {{$percent_second}}%">
                             <div class="text-label">
                                 {{--                        @if($base_link_right['is_bsmn_base_enable'] == true && $base_link_right['is_list_base_calc'] == true)--}}
                                 @if($base_link_right['is_bsmn_base_enable'] == true)
