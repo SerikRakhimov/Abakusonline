@@ -279,6 +279,9 @@
             @endif
         @endforeach
     @endif
+    <?php
+    $percent_first = 1;
+    ?>
     <table class="table table-sm table-hover">
         {{--        <thead>--}}
         {{--        <th>Показатель</th>--}}
@@ -286,10 +289,12 @@
         {{--        </thead>--}}
         <tbody>
         <tr>
+            <td style="width: {{$percent_first}}%">
+            </td>
             <td style="width: 30%">
                 <div class="text-label">
-                    {{--                    Id--}}
-                    {{GlobalController::const_id_emoji()}}
+                    Id
+                    {{--                    {{GlobalController::const_id_emoji()}}--}}
                 </div>
             </td>
             <td>
@@ -307,6 +312,9 @@
         </tr>
         @if($base->is_code_needed == true)
             <tr>
+                <td style="width: {{$percent_first}}%">
+                    {{GlobalController::const_input_numbers()}}
+                </td>
                 <td style="width: 30%">
                     <div class="text-label">
                         {{trans('main.code')}}
@@ -327,9 +335,12 @@
         @endif
         @if($base_right['is_list_base_sort_creation_date_desc'] == true)
             <tr>
+                <td style="width: {{$percent_first}}%">
+                    {{GlobalController::const_date_emoji()}}
+                </td>
                 <td style="width: 30%">
                     <div class="text-label">
-                        {{trans('main.date').GlobalController::const_date_emoji()}}
+                        {{trans('main.date')}}
                     </div>
                 </td>
                 <td>
@@ -373,6 +384,9 @@
                 ?>
                 @if($base_link_right['is_show_link_enable'] == true)
                     <tr>
+                        <td style="width: {{$percent_first}}%">
+                            {{$link->parent_base->em_str()}}
+                        </td>
                         <td style="width: 30%">
                             <div class="text-label">
                                 {{--                        @if($base_link_right['is_bsmn_base_enable'] == true && $base_link_right['is_list_base_calc'] == true)--}}

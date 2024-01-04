@@ -77,7 +77,7 @@ class Link extends Model
         return $result;
     }
 
-    function parent_label($emoji_enable = false, $unitmeas = false)
+    function parent_label($emoji_enable = false, $unitmeas = false, $first_emoji = false)
     {
         $result = "";  // нужно, не удалять
         $index = array_search(App::getLocale(), config('app.locales'));
@@ -92,7 +92,13 @@ class Link extends Model
 //        }
         if ($emoji_enable) {
 //          $result = GlobalController::name_and_brackets_emoji($result, $this->parent_base);
-            $result = GlobalController::name_and_end_emoji($result, $this->parent_base);
+//            $result = GlobalController::name_and_end_emoji($result, $this->parent_base);
+            if($first_emoji){
+                $result = GlobalController::name_and_first_emoji($result, $this->parent_base);
+            }
+            else{
+                $result = GlobalController::name_and_end_emoji($result, $this->parent_base);
+            }
         }
         return $result;
     }

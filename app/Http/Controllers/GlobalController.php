@@ -3154,6 +3154,11 @@ class GlobalController extends Controller
         return $result;
     }
 
+    static function const_input_numbers()
+    {
+        return '🔢';
+    }
+
     static function item_image($item)
     {
         $result = null;

@@ -359,6 +359,7 @@ if ($view_link) {
 {{--                                {{$base->name($emoji_enable)}}--}}
                                 {{$base->name(false)}}
                             @endif
+                            <br><small><span class="text-label">{{$base->par_label_unit_meas()}}</span></small>
                         </th>
         @endif
         @endif
