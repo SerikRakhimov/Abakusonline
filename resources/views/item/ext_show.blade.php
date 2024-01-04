@@ -291,7 +291,7 @@
         <tbody>
         <tr>
             <td style="width: {{$percent_first}}%">
-                {{GlobalController::const_id_emoji()}}
+{{--                {{GlobalController::const_id_emoji()}}--}}
             </td>
             <td style="width: {{$percent_second}}%">
                 <div class="text-label">
@@ -315,7 +315,7 @@
         @if($base->is_code_needed == true)
             <tr>
                 <td style="width: {{$percent_first}}%">
-               {{GlobalController::const_input_numbers()}}
+{{--               {{GlobalController::const_input_numbers()}}--}}
                 </td>
                 <td style="width: {{$percent_second}}%">
                     <div class="text-label">
@@ -338,7 +338,7 @@
         @if($base_right['is_list_base_sort_creation_date_desc'] == true)
             <tr>
                 <td style="width: {{$percent_first}}%">
-                    {{GlobalController::const_date_emoji()}}
+{{--                    {{GlobalController::const_date_emoji()}}--}}
                 </td>
                 <td style="width: {{$percent_second}}%">
                     <div class="text-label">
