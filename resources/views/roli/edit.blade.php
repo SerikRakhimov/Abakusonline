@@ -339,7 +339,7 @@
                        name="is_parent_checking_history"
                        placeholder=""
                        {{--                       "$roli->is_parent_checking_history ?? false" - "false" значение по умолчанию--}}
-                       @if ((old('is_parent_checking_history') ?? ($roli->is_parent_checking_history ?? true)) ==  true)
+                       @if ((old('is_parent_checking_history') ?? ($roli->is_parent_checking_history ?? false)) ==  true)
                        checked
                     @endif
                 >
@@ -364,7 +364,7 @@
                        name="is_parent_checking_empty"
                        placeholder=""
                        {{--                       "$roli->is_parent_checking_empty ?? false" - "false" значение по умолчанию--}}
-                       @if ((old('is_parent_checking_empty') ?? ($roli->is_parent_checking_empty ?? true)) ==  true)
+                       @if ((old('is_parent_checking_empty') ?? ($roli->is_parent_checking_empty ?? false)) ==  true)
                        checked
                     @endif
                 >

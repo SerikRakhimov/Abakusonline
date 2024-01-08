@@ -41,27 +41,30 @@ class StepController extends Controller
                             break;
                         // x - значение параметра
                         case "Z":
-                            // Не удалять комментарий (для информации):
-                            // См. условие '@if($link->parent_is_parent_related == true & $link->parent_base->type_is_list())'
-                            // в ext_edit.php и StepController::steps_javascript_code()
-                            // "innerHTML" - id параметра
-                            // "value" - введенное числовое значение (число, сумма)
-                            $result = $result . "\ny = x;";
-                            if ($link->parent_base->type_is_number()) {
+                            $ln_first = Link::find($step->first);
+                            if ($ln_first) {
+                                // Не удалять комментарий (для информации):
+                                // См. условие '@if($link->parent_is_parent_related == true & $link->parent_base->type_is_list())'
+                                // в ext_edit.php и StepController::steps_javascript_code()
+                                // "innerHTML" - id параметра
+                                // "value" - введенное числовое значение (число, сумма)
+                                $result = $result . "\ny = x;";
+                                if ($ln_first->parent_base->type_is_number()) {
 //                            $result = $result . "\n alert(Number(nc_parameter_4_315.innerHTML));x = Number(nc_parameter_4_" . $step->first
 //                            . "." . $step->second == "V" ? "innerHTML" : "value" . ");";
-                                $result = $result . "\n x = Number(nc_parameter_4_" . $step->first
-                                    . "." . ($step->second == "I" ? "innerHTML" : "value") . ");";
-                            } elseif ($link->parent_base->type_is_string()) {
-                                $result = $result . "\n x = nc_parameter_4_" . $step->first
-                                    . "." . ($step->second == "I" ? "innerHTML" : "value") . ";";
-                            } elseif ($link->parent_base->type_is_boolean()) {
-                                $result = $result . "\n if(nc_parameter_4_" . $step->first . ".checked) {x = 1;}
+                                    $result = $result . "\n x = Number(nc_parameter_4_" . $step->first
+                                        . "." . ($step->second == "I" ? "innerHTML" : "value") . ");";
+                                } elseif ($ln_first->parent_base->type_is_string()) {
+                                    $result = $result . "\n x = nc_parameter_4_" . $step->first
+                                        . "." . ($step->second == "I" ? "innerHTML" : "value") . ";";
+                                } elseif ($ln_first->parent_base->type_is_boolean()) {
+                                    $result = $result . "\n if(nc_parameter_4_" . $step->first . ".checked) {x = 1;}
                                 else {x = 0;}";
 //                                $result = $result . "\n x = 0;";
-                            } elseif ($link->parent_base->type_is_list()) {
-                                $result = $result . "\n x = Number(nc_parameter_4_" . $step->first
-                                    . "." . ($step->second == "I" ? "innerHTML" : "value") . ");";
+                                } elseif ($ln_first->parent_base->type_is_list()) {
+                                    $result = $result . "\n x = Number(nc_parameter_4_" . $step->first
+                                        . "." . ($step->second == "I" ? "innerHTML" : "value") . ");";
+                                }
                             }
                             break;
                         case "M":
@@ -104,8 +107,8 @@ class StepController extends Controller
                             }
                             $result = $result . "\n x = my_rnd(x, " . $step->first . ", " . $round_type . ");";
                             break;
-                        // Сдвиг по стеку
                         case "U":
+                            // Сдвиг по стеку
                             $result = $result . "\nz = y;\ny = x;\nx = z;\nz = 0;";
                             break;
                     }
@@ -143,11 +146,24 @@ class StepController extends Controller
                         $y = $x;
                         if ($link_first) {
                             if ($item_link) {
-                                // Для списков результатом является $item_link->id
-                                if ($link_first->parent_base->type_is_list()) {
-                                    $x = $item_link->id;
-                                } else {
+//                                $result = $item->name_lang_0 == "1" ? html_entity_decode('  &#9745;')
+//                                    : ($item->name_lang_0 == "0" ? html_entity_decode('&#10065;') : trans('main.empty'));
+//                            } elseif ($link->parent_base->type_is_boolean()) {
+//                                $result = $result . "\n if(nc_parameter_4_" . $step->first . ".checked) {x = 1;}
+//                                else {x = 0;}";
+////                                $result = $result . "\n x = 0;";
+                                if ($link_first->parent_base->type_is_boolean()) {
+                                    $x = $item->name_lang_0 == "1" ? 1 : 0;
+                                }elseif ($link_first->parent_base->type_is_number()){
                                     $x = $item_link->name();
+                                } else {
+//                                    // Для списков результатом является $item_link->id
+//                                    if ($link_first->parent_base->type_is_list()) {
+//                                        $x = $item_link->id;
+//                                    } else {
+//                                        $x = $item_link->name();
+//                                    }
+//                                    $x = ($step->second == "I" ? $item_link->name() : $item_link->id);
                                 }
                             } else {
                                 $x = "";
@@ -228,10 +244,37 @@ class StepController extends Controller
                         } elseif ($step->second == "1") {
                             $round_type = "1";
                         }
-                        $x = self::my_rnd($x, $step->first, $round_type);
+                        $x = self::lc_rnd($x, $step->first, $round_type);
                         break;
-                    // Сдвиг по стеку
+                    case "I":
+                        if ($step->first == 0 | $step->first == "") {
+                            $x = 0;
+                        } else {
+                            // Для числового поля - число-нижняя граница
+                            $x = intval($x / $step->first) * $step->first;
+                            // Для строкового поля - интервал дат.
+                            if ($link->parent_base->type_is_string()) {
+//                            $x = "[" . $x . " - " . ($x + $step->first) . ")";
+                                // $step->first - база (например, 5)
+                                // Число дробное или нет
+                                $a0 = strpos($step->first, ".");
+                                // Не найдено "."
+                                if ($a0 == false) {
+                                    $a1 = 0;
+                                } else {
+                                    // Сначала вычисляется дробное число,
+                                    // Затем считается количество цифр в дробной части
+                                    // "-1" нужно
+                                    $a1 = strlen(substr($step->first, $a0)) - 1;
+                                }
+                                $a2 = pow(10, ($a1 + 1));
+//                          Например 5 - 9.9
+                                $x = $x . " - " . (($x + $step->first) - 1 / $a2);
+                            }
+                        }
+                        break;
                     case "U":
+                        // Сдвиг по стеку
                         $z = $y;
                         $y = $x;
                         $x = $z;
@@ -251,7 +294,7 @@ class StepController extends Controller
         return $x;
     }
 
-    function my_rnd($a, $b, $c)
+    function lc_rnd($a, $b, $c)
     {
         $r = 0;
         $p = pow(10, $b);
