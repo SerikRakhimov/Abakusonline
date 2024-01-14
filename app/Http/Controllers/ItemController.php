@@ -7471,14 +7471,15 @@ class ItemController extends Controller
 
         $rs = false;
         foreach ($work_items as $work_item) {
-//            $rs = $this->calc_value_func($work_item);
-//            $work_item->name_lang_0 = $rs['calc_lang_0'];
-//            $work_item->name_lang_1 = $rs['calc_lang_1'];
-//            $work_item->name_lang_2 = $rs['calc_lang_2'];
-//            $work_item->name_lang_3 = $rs['calc_lang_3'];
-//            $work_item->save();
+            $rs = $this->calc_value_func($work_item);
+            $work_item->name_lang_0 = $rs['calc_lang_0'];
+            $work_item->name_lang_1 = $rs['calc_lang_1'];
+            $work_item->name_lang_2 = $rs['calc_lang_2'];
+            $work_item->name_lang_3 = $rs['calc_lang_3'];
+//          $work_item->save();
             // Рекурсивный вызов для изменения вычисляемого наименования во вложенных записях, нужно
             $this->calc_item_names_start($list, $work_item);
+            $work_item->save();
         }
     }
 
