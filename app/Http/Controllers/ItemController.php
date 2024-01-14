@@ -7450,13 +7450,6 @@ class ItemController extends Controller
 
     function calc_item_names_start(&$list, Item $item)
     {
-        // эти строки нужны
-        // Чтобы не было зацикливания, не считался повторно уже посчитанный $base
-        if (in_array($item->base_id, $list)) {
-            return;
-        }
-        $list[] = $item->base_id;
-
         //->join('items', 'mains.child_item_id', '=', 'items.id')
         //->where('items.base_id', '!=', $item->base_id)
         $items_ids = Main::select(DB::Raw('mains.child_item_id as id'))
@@ -7472,6 +7465,12 @@ class ItemController extends Controller
 
         $rs = false;
         foreach ($work_items as $work_item) {
+            // эти строки нужны
+            // Чтобы не было зацикливания, не считался повторно уже посчитанный $base
+            if (in_array($work_item->base_id, $list)) {
+                continue;
+            }
+            $list[] = $work_item->base_id;
             $rs = $this->calc_value_func($work_item);
             $work_item->name_lang_0 = $rs['calc_lang_0'];
             $work_item->name_lang_1 = $rs['calc_lang_1'];
