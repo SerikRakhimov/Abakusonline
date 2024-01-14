@@ -7450,6 +7450,12 @@ class ItemController extends Controller
 
     function calc_item_names_start(&$list, Item $item)
     {
+        // эти строки нужны
+        // Чтобы не было зацикливания, не считался повторно уже посчитанный $base
+        if (in_array($item->base_id, $list)) {
+            $list[] = $item->base_id;
+            return;
+        }
         //->join('items', 'mains.child_item_id', '=', 'items.id')
         //->where('items.base_id', '!=', $item->base_id)
         $items_ids = Main::select(DB::Raw('mains.child_item_id as id'))
@@ -7465,20 +7471,14 @@ class ItemController extends Controller
 
         $rs = false;
         foreach ($work_items as $work_item) {
-            // эти строки нужны
-            // Чтобы не было зацикливания, не считался повторно уже посчитанный $base
-            if (in_array($work_item->base_id, $list)) {
-                $list[] = $work_item->base_id;
-            } else {
-                $rs = $this->calc_value_func($work_item);
-                $work_item->name_lang_0 = $rs['calc_lang_0'];
-                $work_item->name_lang_1 = $rs['calc_lang_1'];
-                $work_item->name_lang_2 = $rs['calc_lang_2'];
-                $work_item->name_lang_3 = $rs['calc_lang_3'];
-                $work_item->save();
-                // Рекурсивный вызов для изменения вычисляемого наименования во вложенных записях, нужно
-                $this->calc_item_names_start($list, $work_item);
-            }
+            $rs = $this->calc_value_func($work_item);
+            $work_item->name_lang_0 = $rs['calc_lang_0'];
+            $work_item->name_lang_1 = $rs['calc_lang_1'];
+            $work_item->name_lang_2 = $rs['calc_lang_2'];
+            $work_item->name_lang_3 = $rs['calc_lang_3'];
+            // Рекурсивный вызов для изменения вычисляемого наименования во вложенных записях, нужно
+            $this->calc_item_names_start($list, $work_item);
+            $work_item->save();
         }
     }
 
