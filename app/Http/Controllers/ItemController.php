@@ -7455,6 +7455,8 @@ class ItemController extends Controller
         if (in_array($item->base_id, $list)) {
             return;
         }
+        $list[] = $item->base_id;
+
         //->join('items', 'mains.child_item_id', '=', 'items.id')
         //->where('items.base_id', '!=', $item->base_id)
         $items_ids = Main::select(DB::Raw('mains.child_item_id as id'))
@@ -7478,10 +7480,6 @@ class ItemController extends Controller
             $work_item->save();
             // Рекурсивный вызов для изменения вычисляемого наименования во вложенных записях, нужно
             $this->calc_item_names_start($list, $work_item);
-            if (!in_array($work_item->base_id, $list)) {
-                $list[] = $work_item->base_id;
-                return;
-            }
         }
     }
 
