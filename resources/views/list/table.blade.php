@@ -344,7 +344,7 @@ if ($view_link) {
                     {{--                или если тип-не вычисляемое наименование--}}
                     {{--            похожая проверка в ext_show.blade.php--}}
                     @if(GlobalController::is_base_calcname_check($base))
-                        <th rowspan="{{$rows + 1 - 1}}" @include('layouts.class_from_base',['base'=>$base, 'align_top'=>true])>
+                        <th rowspan="{{$rows + 1 - 1}}" style="width: 50%" @include('layouts.class_from_base',['base'=>$base, 'align_top'=>true])>
                             {{--                        @if($view_link)--}}
                             {{--                            {{$view_link->child_label()}}--}}
                             {{--                        @else--}}
