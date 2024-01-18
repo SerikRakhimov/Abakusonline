@@ -758,6 +758,7 @@ class GlobalController extends Controller
             // При вызове этой функции items_right() из base_index.php параметры '($mains_item_id, $mains_link_id, $parent_proj и $current_item_id)' не передаются
             // Использовать так:
             // Нужно 'if (!$current_item_id) '
+
             if (!$current_item_id) {
                 if ($base_right['is_twt_enable'] == true) {
                     // Если выборка идет из таблицы mains, значит mains.parent_item_id есть и заполнено

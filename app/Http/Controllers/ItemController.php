@@ -1086,7 +1086,7 @@ class ItemController extends Controller
     function item_link_parent_mains_exists(Item $item, Link $link)
     {
         // Проверка "Существуют ли записи по связи"
-        return $item->parent_mains()->where('mains.link_id', $link->id)->exists();;
+        return $item->parent_mains()->where('mains.link_id', $link->id)->exists();
     }
 
     function next_all_links_mains_calc(Project $project, Item $item, Role $role, $relit_id, $view_link, $view_ret_id, $tree_array, $base_right, $called_from_button)
@@ -2455,11 +2455,10 @@ class ItemController extends Controller
                             if ($lnk->parent_base->type_is_list()) {
                                 if (isset($inputs[$link->parent_seqnum_link_id])) {
                                     $pr_item = Item::find($inputs[$link->parent_seqnum_link_id]);
-                                    // Нужно проверять "if ($pr_item)",
-                                    // т.к. вызов calculate_new_seqnum($project, $link, null, null) - расчет кода для всей основы(таблицы)
-                                    if ($pr_item) {
-                                        $inputs[$key] = $this->calculate_new_seqnum($project, $link, $pr_item, $lnk);
-                                    }
+                                    // Проверка "if ($pr_item)" не нужна
+//                                  if ($pr_item) {
+                                    $inputs[$key] = $this->calculate_new_seqnum($project, $link, $pr_item, $lnk);
+//                                  }
                                 }
                             }
                         }
@@ -7447,7 +7446,6 @@ class ItemController extends Controller
         $this->calc_item_names_start($list, $item);
     }
 
-
     function calc_item_names_start(&$list, Item $item)
     {
         // эти строки нужны
@@ -7527,7 +7525,10 @@ class ItemController extends Controller
         // при добавлении записи в base_table.php - значение 0, значение не вычисляется
         if ($link->parent_base->type_is_number == true
             & $link->parent_is_seqnum == true) {
+
+            // 1-ая ветка: parent_seqnum_link_id != 0 и передано $parent_item, $par_ln
             if ($parent_item) {
+                // Блок похожих строк в этой функции
                 if ($par_ln) {
                     if ($link->parent_seqnum_link_id != 0) {
                         if ($link->parent_seqnum_link_id == $par_ln->id) {
@@ -7555,7 +7556,33 @@ class ItemController extends Controller
                     }
                 }
             } else {
-                if ($link->parent_seqnum_link_id == 0) {
+
+                // 2-ая ветка: parent_seqnum_link_id != 0 и при $parent_item = null, $par_ln = null
+                if ($link->parent_seqnum_link_id != 0) {
+                    // Блок похожих строк в этой функции
+                    $items = Item::where('base_id', '=', $link->child_base_id)
+                        ->where('project_id', '=', $project->id)
+                        ->whereDoesntHave('child_mains', function ($query) use ($link) {
+                            $query->where('link_id', $link->parent_seqnum_link_id);
+                        })->get();
+                    // Блок похожих строк в этой функции
+                    foreach ($items as $item) {
+                        $item_find = GlobalController::view_info($item->id, $link->id);
+                        if ($item_find) {
+                            $numval = $item_find->numval();
+                            if ($numval['result'] == true) {
+                                // $numval['int_vl'] - целая часть числа
+                                $value = $numval['int_vl'];
+                                if ($value > $result) {
+                                    $result = $value;
+                                }
+                            }
+                        }
+                    }
+                    $result = $result + 1;
+
+                    // 3-я ветка: parent_seqnum_link_id == 0 и  и при $parent_item = null, $par_ln = null
+                } elseif ($link->parent_seqnum_link_id == 0) {
                     // "->get()" нужно
                     $mains = Main::select(['mains.*'])
                         ->join('items', 'mains.child_item_id', '=', 'items.id')
