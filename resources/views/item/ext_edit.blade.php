@@ -1702,15 +1702,13 @@
                     ?>
 
                     {{--async - await нужно, https://tproger.ru/translations/understanding-async-await-in-javascript/--}}
-                    //111
-                    function code_input_{{$prefix}}{{$link->id}}() {
+                    async function code_input_{{$prefix}}{{$link->id}}() {
 alert('1');
                     {{--alert('1: '+'/item/item_from_base_code/'--}}
                     {{--    + '{{$link->parent_base_id}}'--}}
                     {{--    + '/' + '{{$relip_link_project->id}}'--}}
                     {{--    + '/' + code_{{$prefix}}{{$link->id}}.value);--}}
-                        //111
-                         axios.get('/item/item_from_base_code/'
+                        await axios.get('/item/item_from_base_code/'
                             + '{{$link->parent_base_id}}'
                             + '/' + '{{$relip_link_project->id}}'
                             + '/' + code_{{$prefix}}{{$link->id}}.value
@@ -1768,7 +1766,7 @@ alert('1');
                 // $functs_parent_refer[] = "link_id_change_" . $prefix . $link->id;
                 // $functions[] = "link_id_change_" . $prefix . $link->id;
                 ?>
-                function link_id_change_{{$prefix}}{{$link->id}}() {
+                async function link_id_change_{{$prefix}}{{$link->id}}() {
                 alert("2: "+child_base_id{{$prefix}}{{$link->id}}.value);
                     {{--alert("2: "+child_code_id{{$prefix}}{{$link->id}}.value);--}}
 
@@ -1786,7 +1784,7 @@ alert('1');
                         @endif
                         {{--}--}}
                     } else {
-                    axios.get('/item/get_parent_item_from_calc_child_item/'
+                    await axios.get('/item/get_parent_item_from_calc_child_item/'
                             + child_base_id{{$prefix}}{{$link->id}}.value
                             + '/{{$link->id}}'
                             + '/0'
