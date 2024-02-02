@@ -1708,7 +1708,7 @@
                         + '{{$link->parent_base_id}}'
                         + '/' + '{{$relip_link_project->id}}'
                         + '/' + code_{{$prefix}}{{$link->id}}.value);
-                        await axios.get('/item/item_from_base_code/'
+                        axios.get('/item/item_from_base_code/'
                             + '{{$link->parent_base_id}}'
                             + '/' + '{{$relip_link_project->id}}'
                             + '/' + code_{{$prefix}}{{$link->id}}.value
