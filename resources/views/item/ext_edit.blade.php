@@ -1703,23 +1703,14 @@
 
                     {{--async - await нужно, https://tproger.ru/translations/understanding-async-await-in-javascript/--}}
                     async function code_input_{{$prefix}}{{$link->id}}() {
-// alert('1');
-                    {{--alert('1: '+'/item/item_from_base_code/'--}}
-                    {{--    + '{{$link->parent_base_id}}'--}}
-                    {{--    + '/' + '{{$relip_link_project->id}}'--}}
-                    {{--    + '/' + code_{{$prefix}}{{$link->id}}.value);--}}
                         await axios.get('/item/item_from_base_code/'
                             + '{{$link->parent_base_id}}'
                             + '/' + '{{$relip_link_project->id}}'
                             + '/' + code_{{$prefix}}{{$link->id}}.value
                         ).then(function (res) {
-                            //alert('1/2: ');
                                 {{--code_{{$prefix}}{{$link->id}}.innerHTML = res.data['item_code'];--}}
                                 name_{{$prefix}}{{$link->id}}.innerHTML = res.data['item_name'];
                                 key_{{$prefix}}{{$link->id}}.value = res.data['item_id'];
-                                // alert('1.2: '+res.data['item_id']);
-                            {{--alert('1.2: '+key_{{$prefix}}{{$link->id}}.value);--}}
-                            // link_id_change_7_18();
                             }
                         );
                         {{--Команда "on_parent_refer();" нужна, для вызова функция обновления данных с зависимых таблиц--}}
@@ -1727,6 +1718,7 @@
                         {{--Не использовать проверку if (first == false) --}}
                         {{--if (first == false) --}}
 
+                        // Нужно использовать, см.примечание к on_parent_refer() ниже
                         on_parent_refer();
 
                         {{--}--}}
@@ -1762,14 +1754,11 @@
                 {{--                var parent_related_id{{$prefix}}{{$link->id}} = document.getElementById('related_id{{$link->id}}');--}}
                 var parent_related_id{{$prefix}}{{$link->id}} = document.getElementById('{{$link->id}}');
                 <?php
-                // Не нужно использовать
+                // Нужно использовать, см.примечание к on_parent_refer() ниже
                 $functs_parent_refer[] = "link_id_change_" . $prefix . $link->id;
                 // $functions[] = "link_id_change_" . $prefix . $link->id;
                 ?>
                 function link_id_change_{{$prefix}}{{$link->id}}() {
-                {{--alert("2: "+child_base_id{{$prefix}}{{$link->id}}.value);--}}
-                    {{--alert("2: "+child_code_id{{$prefix}}{{$link->id}}.value);--}}
-
                     if (child_base_id{{$prefix}}{{$link->id}}.value == 0) {
                         parent_base_id{{$prefix}}{{$link->id}}.innerHTML = "{{trans('main.no_information') . '!'}}";
                         parent_related_id{{$prefix}}{{$link->id}}.innerHTML = "0";
@@ -2200,6 +2189,7 @@
             @endforeach
         }
 
+        // Нужно для случая, когда меняется значение в вводимом коде, без этого не обновляются parent-поля
         function on_parent_refer() {
             @foreach($functs_parent_refer as $value)
             {{$value}}();
