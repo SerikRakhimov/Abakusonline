@@ -1702,13 +1702,15 @@
                     ?>
 
                     {{--async - await нужно, https://tproger.ru/translations/understanding-async-await-in-javascript/--}}
-                    async function code_input_{{$prefix}}{{$link->id}}() {
+                    //111
+                    function code_input_{{$prefix}}{{$link->id}}() {
 alert('1');
                     {{--alert('1: '+'/item/item_from_base_code/'--}}
                     {{--    + '{{$link->parent_base_id}}'--}}
                     {{--    + '/' + '{{$relip_link_project->id}}'--}}
                     {{--    + '/' + code_{{$prefix}}{{$link->id}}.value);--}}
-                        await axios.get('/item/item_from_base_code/'
+                        //111
+                         axios.get('/item/item_from_base_code/'
                             + '{{$link->parent_base_id}}'
                             + '/' + '{{$relip_link_project->id}}'
                             + '/' + code_{{$prefix}}{{$link->id}}.value
