@@ -7716,7 +7716,8 @@ class ItemController extends Controller
     {
         $item_id = 0;
         $item_name = trans('main.no_information') . '!';
-        $item = Item::where('project_id', $project->id)->where('base_id', $base->id)->where('code', $code)->get()->first();
+//      $item = Item::where('project_id', $project->id)->where('base_id', $base->id)->where('code', $code)->get()->first();
+        $item = Item::where('project_id', $project->id)->where('base_id', $base->id)->where('code', $code)->first();
         if ($item != null) {
             $item_id = $item->id;
             $item_name = $item->name();
