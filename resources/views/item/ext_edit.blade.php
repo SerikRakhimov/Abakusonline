@@ -1713,7 +1713,7 @@
                             + '/' + '{{$relip_link_project->id}}'
                             + '/' + code_{{$prefix}}{{$link->id}}.value
                         ).then(function (res) {
-                                code_{{$prefix}}{{$link->id}}.innerHTML = res.data['item_code'];
+                                {{--code_{{$prefix}}{{$link->id}}.innerHTML = res.data['item_code'];--}}
                                 name_{{$prefix}}{{$link->id}}.innerHTML = res.data['item_name'];
                                 key_{{$prefix}}{{$link->id}}.value = res.data['item_id'];
                                 alert(key_{{$prefix}}{{$link->id}}.value);
