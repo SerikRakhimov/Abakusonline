@@ -1703,7 +1703,7 @@
 
                     {{--async - await нужно, https://tproger.ru/translations/understanding-async-await-in-javascript/--}}
                     async function code_input_{{$prefix}}{{$link->id}}() {
-alert('1');
+// alert('1');
                     {{--alert('1: '+'/item/item_from_base_code/'--}}
                     {{--    + '{{$link->parent_base_id}}'--}}
                     {{--    + '/' + '{{$relip_link_project->id}}'--}}
@@ -1718,7 +1718,7 @@ alert('1');
                                 name_{{$prefix}}{{$link->id}}.innerHTML = res.data['item_name'];
                                 key_{{$prefix}}{{$link->id}}.value = res.data['item_id'];
                                 // alert('1.2: '+res.data['item_id']);
-                            alert('1.2: '+key_{{$prefix}}{{$link->id}}.value);
+                            {{--alert('1.2: '+key_{{$prefix}}{{$link->id}}.value);--}}
                             // link_id_change_7_18();
                             }
                         );
@@ -1766,8 +1766,8 @@ alert('1');
                 // $functs_parent_refer[] = "link_id_change_" . $prefix . $link->id;
                 // $functions[] = "link_id_change_" . $prefix . $link->id;
                 ?>
-                async function link_id_change_{{$prefix}}{{$link->id}}() {
-                alert("2: "+child_base_id{{$prefix}}{{$link->id}}.value);
+                function link_id_change_{{$prefix}}{{$link->id}}() {
+                {{--alert("2: "+child_base_id{{$prefix}}{{$link->id}}.value);--}}
                     {{--alert("2: "+child_code_id{{$prefix}}{{$link->id}}.value);--}}
 
                     if (child_base_id{{$prefix}}{{$link->id}}.value == 0) {
@@ -1784,7 +1784,7 @@ alert('1');
                         @endif
                         {{--}--}}
                     } else {
-                    await axios.get('/item/get_parent_item_from_calc_child_item/'
+                    axios.get('/item/get_parent_item_from_calc_child_item/'
                             + child_base_id{{$prefix}}{{$link->id}}.value
                             + '/{{$link->id}}'
                             + '/0'
