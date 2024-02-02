@@ -1362,31 +1362,29 @@
         ?>
         {{--        Вводить как справочник--}}
         @if($link->parent_base->is_code_needed == true && $link->parent_is_enter_refer == true)
-            <script>
-                var code_{{$prefix}}{{$link->id}} = document.getElementById('code{{$link->id}}');
+            @if($link->parent_base->is_code_number == true && $link->parent_base->is_limit_sign_code == true && $link->parent_base->is_code_zeros == true  && $link->parent_base->significance_code > 0)
+                <script>
+                    var code_{{$prefix}}{{$link->id}} = document.getElementById('code{{$link->id}}');
+                    <?php
+                    $functions[] = "code_change_" . $prefix . $link->id;
+                    ?>
+                    function code_change_{{$prefix}}{{$link->id}}() {
+                        numStr = code_{{$prefix}}{{$link->id}}.value;
+                        numDigits = {{$link->parent_base->significance_code}};
+                        code_{{$prefix}}{{$link->id}}.value = numDigits >= numStr.length ? Array.apply(null, {length: numDigits - numStr.length + 1}).join("0") + numStr : numStr.substring(0, numDigits);
+                        {{-- http://javascript.ru/forum/events/76761-programmno-vyzvat-sobytie-change.html#post503465--}}
+                        {{-- вызываем состояние "элемент изменился", в связи с этим запустятся функции - обработчики "change"--}}
+                        {{--code_{{$prefix}}{{$link->id}}.dispatchEvent(new Event('input'));--}}
+                        {{--alert('code_change_ code_{{$prefix}}{{$link->id}}.value = ' + code_{{$prefix}}{{$link->id}}.value);--}}
 
-                @if($link->parent_base->is_code_number == true && $link->parent_base->is_limit_sign_code == true && $link->parent_base->is_code_zeros == true  && $link->parent_base->significance_code > 0)
-                <?php
-                $functions[] = "code_change_" . $prefix . $link->id;
-                ?>
-                function code_change_{{$prefix}}{{$link->id}}() {
-                    numStr = code_{{$prefix}}{{$link->id}}.value;
-                    numDigits = {{$link->parent_base->significance_code}};
-                    code_{{$prefix}}{{$link->id}}.value = numDigits >= numStr.length ? Array.apply(null, {length: numDigits - numStr.length + 1}).join("0") + numStr : numStr.substring(0, numDigits);
-                    {{-- http://javascript.ru/forum/events/76761-programmno-vyzvat-sobytie-change.html#post503465--}}
-                    {{-- вызываем состояние "элемент изменился", в связи с этим запустятся функции - обработчики "change"--}}
-                    {{--code_{{$prefix}}{{$link->id}}.dispatchEvent(new Event('input'));--}}
-                    {{--alert('code_change_ code_{{$prefix}}{{$link->id}}.value = ' + code_{{$prefix}}{{$link->id}}.value);--}}
+                    }
 
-                }
-
-                code_{{$prefix}}{{$link->id}}.addEventListener("change", code_change_{{$prefix}}{{$link->id}});
-                <?php
-                $functs_change['code' . $link->id] = 1;
-                ?>
-                @endif
-
-            </script>
+                    code_{{$prefix}}{{$link->id}}.addEventListener("change", code_change_{{$prefix}}{{$link->id}});
+                    <?php
+                    $functs_change['code' . $link->id] = 1;
+                    ?>
+                </script>
+            @endif
         @endif
 
         <?php
@@ -1705,6 +1703,8 @@
 
                     {{--async - await нужно, https://tproger.ru/translations/understanding-async-await-in-javascript/--}}
                     async function code_input_{{$prefix}}{{$link->id}}() {
+
+                    alert('code: ' + code_{{$prefix}}{{$link->id}}.value);
                         await axios.get('/item/item_from_base_code/'
                             + '{{$link->parent_base_id}}'
                             + '/' + '{{$relip_link_project->id}}'
@@ -1990,7 +1990,7 @@
                 {{--Не удалять комментарий (для информации):--}}
                 {{--См. условие '@if($link->parent_is_parent_related == true & $link->parent_base->type_is_list())'--}}
                 {{--в ext_edit.php и StepController::steps_javascript_code()--}}
-{{--            @if($link->parent_is_parent_related == true & $link->parent_base->type_is_list())--}}
+                {{--            @if($link->parent_is_parent_related == true & $link->parent_base->type_is_list())--}}
                 @if($link->parent_is_parent_related == true & ($link->parent_base->type_is_list() | $link->parent_base->type_is_string() | $link->parent_base->type_is_number() | $link->parent_base->type_is_boolean()))
                 {{-- "related_id" используется несколько раз по тексту --}}
                 {{--var nc_parameter_{{$prefix}}{{$link->id}} = document.getElementById('related_id{{$link->id}}');--}}
