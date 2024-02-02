@@ -194,6 +194,8 @@ class StepController extends Controller
                         case
                         "M":
                             // Математические операции над x и y
+                            // Нужно
+                            $result = $result . "\n x = Number(x);\n y = Number(y);";
                             switch ($step->first) {
                                 case "+":
                                     $result = $result . "\n x = y + x;\n y = 0;";
@@ -235,6 +237,8 @@ class StepController extends Controller
                             break;
                         case "R":
                             // Округление числа по правилам математики
+                            // Нужно
+                            $result = $result . "\n x = Number(x);";
                             $round_type = "0";
                             // Округление числа в меньшую сторону
                             if ($step->second == "-1") {
@@ -309,7 +313,7 @@ class StepController extends Controller
                                                     $x = ($step->second == "I" ? $item_link->id : $item_link->name());
                                                 }
                                             } elseif ($link_first->parent_base->type_is_number()) {
-                                                $x = ($step->second == "I" ? $item_link->id : $item_link->name());
+                                                $x = $step->second == "I" ? $item_link->id : $item_link->name();
                                             } elseif ($link_first->parent_base->type_is_string()) {
                                                 $x = ($step->second == "I" ? $item_link->id : $item_link->name());
                                             } elseif ($link_first->parent_base->type_is_list()) {
@@ -334,6 +338,9 @@ class StepController extends Controller
                                 case
                                 "M":
                                     // Математические операции над x и y
+                                    // Нужно
+                                    $x = floatval($x);
+                                    $y = floatval($y);
                                     switch ($step->first) {
                                         case "+":
                                             $x = $y + $x;
@@ -368,6 +375,8 @@ class StepController extends Controller
                                     break;
                                 case "R":
                                     // Округление числа по правилам математики
+                                    // Нужно
+                                    $x = floatval($x);
                                     $round_type = "0";
                                     // Округление числа в меньшую сторону
                                     if ($step->second == "-1") {
@@ -382,8 +391,10 @@ class StepController extends Controller
                                     if ($step->first == 0 | $step->first == "") {
                                         $x = 0;
                                     } else {
+                                        $x = floatval($x);
+                                        $sf = floatval($step->first);
                                         // Для числового поля - число-нижняя граница
-                                        $x = intval($x / $step->first) * $step->first;
+                                        $x = intval($x / $sf) * $sf;
                                         // Для строкового поля - интервал дат.
                                         if ($link->parent_base->type_is_string()) {
                                             // $step->first - база (например, 5)
@@ -399,8 +410,8 @@ class StepController extends Controller
                                                 $a1 = strlen(substr($step->first, $a0)) - 1;
                                             }
                                             $a2 = pow(10, ($a1 + 1));
-//                          Например 5 - 9.9
-                                            $x = $x . " - " . (($x + $step->first) - 1 / $a2);
+                                            // Например 5 - 9.9
+                                            $x = $x . " - " . (($x + $sf) - 1 / $a2);
                                         }
                                     }
                                     break;
