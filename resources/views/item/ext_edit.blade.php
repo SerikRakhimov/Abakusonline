@@ -1730,7 +1730,7 @@
 
                         {{-- http://javascript.ru/forum/events/76761-programmno-vyzvat-sobytie-change.html#post503465--}}
                         {{-- вызываем состояние "элемент изменился", в связи с этим запустятся функции - обработчики "change"--}}
-                        {{--document.getElementById('code{{$link->id}}').dispatchEvent(new Event('change'));--}}
+                        document.getElementById('code{{$link->id}}').dispatchEvent(new Event('change'));
                     }
 
                     {{--code_{{$prefix}}{{$link->id}}.addEventListener("input", code_input_{{$prefix}}{{$link->id}});--}}
