@@ -1717,6 +1717,7 @@
                                 name_{{$prefix}}{{$link->id}}.innerHTML = res.data['item_name'];
                                 key_{{$prefix}}{{$link->id}}.value = res.data['item_id'];
                                 alert('1.2: '+key_{{$prefix}}{{$link->id}}.value);
+                            link_id_change_7_18();
                             }
                         );
                         {{--Команда "on_parent_refer();" нужна, для вызова функция обновления данных с зависимых таблиц--}}
