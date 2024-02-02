@@ -1727,7 +1727,7 @@
                         {{--Не использовать проверку if (first == false) --}}
                         {{--if (first == false) --}}
 
-                        {{--*** on_parent_refer(); ***--}}
+                        on_parent_refer();
 
                         {{--}--}}
                         {{--on_numcalc_viewonly(); --}}
@@ -1763,7 +1763,7 @@
                 var parent_related_id{{$prefix}}{{$link->id}} = document.getElementById('{{$link->id}}');
                 <?php
                 // Не нужно использовать
-                // $functs_parent_refer[] = "link_id_change_" . $prefix . $link->id;
+                $functs_parent_refer[] = "link_id_change_" . $prefix . $link->id;
                 // $functions[] = "link_id_change_" . $prefix . $link->id;
                 ?>
                 function link_id_change_{{$prefix}}{{$link->id}}() {
@@ -2200,11 +2200,11 @@
             @endforeach
         }
 
-        {{--function on_parent_refer() {--}}
-        {{--    @foreach($functs_parent_refer as $value)--}}
-        {{--    --}}{{--{{$value}}();--}}
-        {{--    @endforeach--}}
-        {{--}--}}
+        function on_parent_refer() {
+            @foreach($functs_parent_refer as $value)
+            {{$value}}();
+            @endforeach
+        }
 
         {{-- Два похожих блока команд в функциях on_submit() и window.onload по обработке строковых полей--}}
         function on_submit() {
