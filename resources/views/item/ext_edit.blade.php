@@ -1713,11 +1713,11 @@ alert('1');
                             + '/' + '{{$relip_link_project->id}}'
                             + '/' + code_{{$prefix}}{{$link->id}}.value
                         ).then(function (res) {
-                            alert('1/2: ');
+                            //alert('1/2: ');
                                 {{--code_{{$prefix}}{{$link->id}}.innerHTML = res.data['item_code'];--}}
                                 {{--name_{{$prefix}}{{$link->id}}.innerHTML = res.data['item_name'];--}}
                                 {{--key_{{$prefix}}{{$link->id}}.value = res.data['item_id'];--}}
-                                // alert('1.2: '+key_{{$prefix}}{{$link->id}}.value);
+                                alert('1.2: '+res.data['item_id']);
                             // link_id_change_7_18();
                             }
                         );
