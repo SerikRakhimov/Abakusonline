@@ -1702,23 +1702,21 @@
                     ?>
 
                     {{--async - await нужно, https://tproger.ru/translations/understanding-async-await-in-javascript/--}}
-                    //111
-                    function code_input_{{$prefix}}{{$link->id}}() {
-
-                    alert('1: '+'/item/item_from_base_code/'
-                        + '{{$link->parent_base_id}}'
-                        + '/' + '{{$relip_link_project->id}}'
-                        + '/' + code_{{$prefix}}{{$link->id}}.value);
-                    //111
-                        axios.get('/item/item_from_base_code/'
+                    async function code_input_{{$prefix}}{{$link->id}}() {
+alert('1');
+                    {{--alert('1: '+'/item/item_from_base_code/'--}}
+                    {{--    + '{{$link->parent_base_id}}'--}}
+                    {{--    + '/' + '{{$relip_link_project->id}}'--}}
+                    {{--    + '/' + code_{{$prefix}}{{$link->id}}.value);--}}
+                        await axios.get('/item/item_from_base_code/'
                             + '{{$link->parent_base_id}}'
                             + '/' + '{{$relip_link_project->id}}'
                             + '/' + code_{{$prefix}}{{$link->id}}.value
                         ).then(function (res) {
-                            alert('1/2: '+res.data['item_id']);
+                            alert('1/2: ');
                                 {{--code_{{$prefix}}{{$link->id}}.innerHTML = res.data['item_code'];--}}
-                                name_{{$prefix}}{{$link->id}}.innerHTML = res.data['item_name'];
-                                key_{{$prefix}}{{$link->id}}.value = res.data['item_id'];
+                                {{--name_{{$prefix}}{{$link->id}}.innerHTML = res.data['item_name'];--}}
+                                {{--key_{{$prefix}}{{$link->id}}.value = res.data['item_id'];--}}
                                 // alert('1.2: '+key_{{$prefix}}{{$link->id}}.value);
                             // link_id_change_7_18();
                             }
@@ -1769,7 +1767,7 @@
                 ?>
                 function link_id_change_{{$prefix}}{{$link->id}}() {
                 {{--alert(child_base_id{{$prefix}}{{$link->id}}.value);--}}
-                    alert("2: "+child_code_id{{$prefix}}{{$link->id}}.value);
+                {{--    alert("2: "+child_code_id{{$prefix}}{{$link->id}}.value);--}}
 
                     if (child_base_id{{$prefix}}{{$link->id}}.value == 0) {
                         parent_base_id{{$prefix}}{{$link->id}}.innerHTML = "{{trans('main.no_information') . '!'}}";
