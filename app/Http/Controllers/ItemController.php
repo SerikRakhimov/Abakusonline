@@ -4368,6 +4368,7 @@ class ItemController extends Controller
                     return;
                 }
             }
+            // Поиск строки
             // Похожие строки в ItemController::save_main() и в UserController::save_to_project_users()
             // Поиск в таблице items значение с таким же названием и base_id
             // По одному ($link->parent_base->is_one_value_lst_str_txt == true)

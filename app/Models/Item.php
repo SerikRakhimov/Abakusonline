@@ -108,6 +108,7 @@ class Item extends Model
             if ($base->type_is_date()) {
                 // "$this->name_lang_0 ??..." нужно, в случае если в $this->name_lang_0 хранится не дата
 //               $result = $this->name_lang_0 ? date_create($this->name_lang_0)->Format(trans('main.format_date')):'';
+                //$timestamp- дата создания записи
                 if (($timestamp = date_create($this->name_lang_0)) === false) {
                     $result = $this->name_lang_0;
                 } else {
@@ -122,8 +123,8 @@ class Item extends Model
             } elseif ($base->type_is_boolean()) {
                 //    Похожие строки в Base.php
                 // #65794 - ранее был пустой квадратик
-                $result = $this->name_lang_0 == "1" ? html_entity_decode('  &#9745;')
-                    : ($this->name_lang_0 == "0" ? html_entity_decode('&#10065;') : trans('main.empty'));
+                $result = $this->name_lang_0 == "1" ? GlobalController::is_boolean_true()
+                    : ($this->name_lang_0 == "0" ? GlobalController::is_boolean_false() : trans('main.empty'));
                 // Не использовать
 //                $result = $this->name_lang_0 == "1" ? "1-".trans('main.true')
 //                    : ($this->name_lang_0 == "0" ? "0-".trans('main.false') : trans('main.empty'));

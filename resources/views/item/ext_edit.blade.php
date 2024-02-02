@@ -1585,6 +1585,7 @@
                     {{--                    @if(($link_refer_main->parent_is_base_link == true) || ($link_refer_main->parent_base->is_code_needed==true && $link_refer_main->parent_is_enter_refer==true))--}}
                     @if($link_refer_main->parent_base->is_code_needed==true && $link_refer_main->parent_is_enter_refer==true)
                     var parent_base_id{{$prefix}}{{$link->id}} = document.getElementById('{{$link_refer_main->id}}');
+
                     @else
                     var parent_base_id{{$prefix}}{{$link->id}} = document.getElementById('link{{$link_refer_main->id}}');
 
@@ -1989,13 +1990,29 @@
                 {{--Не удалять комментарий (для информации):--}}
                 {{--См. условие '@if($link->parent_is_parent_related == true & $link->parent_base->type_is_list())'--}}
                 {{--в ext_edit.php и StepController::steps_javascript_code()--}}
-                @if($link->parent_is_parent_related == true & $link->parent_base->type_is_list())
+{{--            @if($link->parent_is_parent_related == true & $link->parent_base->type_is_list())--}}
+                @if($link->parent_is_parent_related == true & ($link->parent_base->type_is_list() | $link->parent_base->type_is_string() | $link->parent_base->type_is_number() | $link->parent_base->type_is_boolean()))
                 {{-- "related_id" используется несколько раз по тексту --}}
                 {{--var nc_parameter_{{$prefix}}{{$link->id}} = document.getElementById('related_id{{$link->id}}');--}}
-                var nc_parameter_{{$prefix}}{{$link->id}} = document.getElementById('{{$link->id}}');
-                @else
-                var nc_parameter_{{$prefix}}{{$link->id}} = document.getElementById('link{{$link->id}}');
+                var nc_param_id_{{$prefix}}{{$link->id}} = document.getElementById('{{$link->id}}');
                 @endif
+                {{--                @else--}}
+                var nc_parameter_{{$prefix}}{{$link->id}} = document.getElementById('link{{$link->id}}');
+                @if ($link->parent_base->type_is_string() & $link->parent_base->is_one_value_lst_str_txt == false)
+                <?php
+                $i = 0;
+                ?>
+                @foreach (config('app.locales') as $lang_key => $lang_value)
+                {{-- Начиная со второго(индекс==1) элемента массива языков сохранять--}}
+                @if ($i > 0)
+                var nc_parameter_{{$prefix}}{{$link->id}}_{{$lang_key}} = document.getElementById('link{{$link->id}}_{{$lang_key}}');
+                @endif
+                <?php
+                $i = $i + 1;
+                ?>
+                @endforeach
+                @endif
+                {{--                @endif--}}
             </script>
         @endif
 
@@ -2036,7 +2053,26 @@
             y = 0;
             z = 0;
             v = document.getElementById('link{{$link->id}}');
-            error_message = "";
+
+            @if ($link->parent_base->type_is_string() & $link->parent_base->is_one_value_lst_str_txt == false)
+            <?php
+            $i = 0;
+            ?>
+            @foreach (config('app.locales') as $lang_key => $lang_value)
+            {{-- Начиная со второго(индекс==1) элемента массива языков сохранять--}}
+            @if ($i > 0)
+            var x_{{$lang_key}} = 0;
+            var y_{{$lang_key}} = 0;
+            var z_{{$lang_key}} = 0;
+            v_{{$lang_key}} = document.getElementById('link{{$link->id}}_{{$lang_key}}');
+            @endif
+            <?php
+                $i = $i + 1;
+                ?>
+                @endforeach
+                @endif
+
+                error_message = "";
             error_nodata = "Нет данных";
             error_div0 = "Деление на 0";
 
@@ -2055,12 +2091,12 @@
 
             @if ($link->parent_base->is_one_value_lst_str_txt == false)
             <?php
-            $i = 0;
-            ?>
-            @foreach (config('app.locales') as $lang_key => $lang_value)
-            {{--Начиная со второго(индекс==1) элемента массива языков сохранять--}}
-            @if ($i > 0)
-            document.getElementById('link{{$link->id}}_{{$lang_key}}').value = x;
+                $i = 0;
+                ?>
+                @foreach (config('app.locales') as $lang_key => $lang_value)
+                {{--Начиная со второго(индекс==1) элемента массива языков сохранять--}}
+                @if ($i > 0)
+                v_{{$lang_key}}.value = x_{{$lang_key}};
             @endif
             <?php
                 $i = $i + 1;
@@ -2222,9 +2258,30 @@
         {{--                && !$link->parent_base->type_is_list())--}}
         @if($link->parent_is_nc_parameter == true && $link->parent_is_numcalc == false
             && $link->parent_is_nc_viewonly == false && $link->parent_is_parent_related == false)
-        var numrecalc_{{$prefix}}{{$link->id}} = document.getElementById('link{{$link->id}}');
 
+        var numrecalc_{{$prefix}}{{$link->id}} = document.getElementById('link{{$link->id}}');
         numrecalc_{{$prefix}}{{$link->id}}.addEventListener("change", on_numcalc_viewonly);
+
+        @if ($link->parent_base->type_is_string() & $link->parent_base->is_one_value_lst_str_txt == false)
+        <?php
+        $i = 0;
+        ?>
+        @foreach (config('app.locales') as $lang_key => $lang_value)
+        {{-- Начиная со второго(индекс==1) элемента массива языков сохранять--}}
+        @if ($i > 0)
+
+        var numrecalc_{{$prefix}}{{$link->id}}_{{$lang_key}} = document.getElementById('link{{$link->id}}_{{$lang_key}}');
+        numrecalc_{{$prefix}}{{$link->id}}_{{$lang_key}}.addEventListener("change", on_numcalc_viewonly);
+
+        @endif
+        <?php
+        $i = $i + 1;
+        ?>
+        @endforeach
+        @endif
+
+
+
 
         {{--<?php--}}
         {{--Не нужно, вместо этого запускается on_numcalc_viewonly() в window.onload--}}
