@@ -7789,15 +7789,15 @@ class ItemController extends Controller
 
         // Исключить links из переданного массива $child_mains_link_is_calcname
         // Проверка 'where('parent_base_id', '!=', $calcname_main->link->parent_base_id)'
-        if ($child_mains_link_is_calcname) {
-//            Нужно 'foreach($child_mains_link_is_calcname as $calcname_mains)'
-            foreach ($child_mains_link_is_calcname as $calcname_mains) {
-                foreach ($calcname_mains as $calcname_main) {
-                    //$links = $links->where('id', '!=', $calcname_main->link_id);
-                    //$links = $links->where('parent_base_id', '!=', $calcname_main->link->parent_base_id);
-                }
-            }
-        }
+//        if ($child_mains_link_is_calcname) {
+////            Нужно 'foreach($child_mains_link_is_calcname as $calcname_mains)'
+//            foreach ($child_mains_link_is_calcname as $calcname_mains) {
+//                foreach ($calcname_mains as $calcname_main) {
+//                    $links = $links->where('id', '!=', $calcname_main->link_id);
+//                    //$links = $links->where('parent_base_id', '!=', $calcname_main->link->parent_base_id);
+//                }
+//            }
+//        }
 
         // Исключить links из переданного массива $tree_array
         if (count($tree_array) > 0) {
