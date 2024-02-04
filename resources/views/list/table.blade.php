@@ -77,36 +77,6 @@ if ($view_link) {
                     <div class="card-body p-2">
                         {{--                        <div class="card-title text-center">Card title</div>--}}
                         {{--                        <div class="card-subtitle m-2 text-center text-muted">Card subtitle</div>--}}
-                        {{--                        @if($item_find)--}}
-                        {{--                            <div class="card-block text-center">--}}
-                        <div class="text-center">
-                            {{-- https://askdev.ru/q/kak-vyzvat-funkciyu-javascript-iz-tega-href-v-html-276225/--}}
-                            {{--                            <a href="{{route('item.ext_show', ['item'=>$item, 'project'=>$project, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id,--}}
-                            {{--                                    'heading' => $heading,'base_index_page'=>$base_index_page, 'body_link_page'=>$body_link_page,'body_all_page'=>$body_all_page,--}}
-                            {{--                                    'par_link'=>null, 'parent_item'=>null,--}}
-                            {{--                                    'string_current' => $string_current,--}}
-                            {{--                                    ])}}"--}}
-                            {{--                               title="{{$item->name()}}">--}}
-                            <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,
-        'usercode' =>GlobalController::usercode_calc(),
-        'relit_id'=>$relit_id,
-        'called_from_button'=>0,
-        'view_link'=>$i_par_link,
-        'view_ret_id'=>$view_ret_id,
-        'string_current'=>$string_next,
-        'prev_base_index_page'=>$base_index_page,
-        'prev_body_link_page'=>$body_link_page,
-        'prev_body_all_page'=>$body_all_page,
-        ])}}"
-                               class="card-link" title="{{$item->name()}}">
-                                {{--                                'string_all_codes_current' => $string_all_codes_current,--}}
-                                {{--                                'string_link_ids_current' => $string_link_ids_current,--}}
-                                {{--                                'string_item_ids_current' => $string_item_ids_current,--}}
-{{--                                @include('view.img',['item'=>$item_find, 'noimg_def'=>false, 'size'=>"medium", 'filenametrue'=>false, 'link'=>false, 'img_fluid'=>true, 'card_img_top'=>true, 'title'=>$item->name()])--}}
-                                @include('view.img',['item'=>$item_find, 'noimg_def'=>false, 'filenametrue'=>false, 'link'=>false, 'img_fluid'=>true, 'card_img_top'=>true, 'title'=>$item->name()])
-                            </a>
-                        </div>
-                        {{--                        @endif--}}
                         {{--                        <div class="card-title text-left pt-2 pl-3 pr-3">--}}
                         <div class="card-title text-center pt-2 pl-3 pr-3">
                             <h6>
@@ -139,6 +109,36 @@ if ($view_link) {
                                 </a>
                             </h6>
                         </div>
+                        {{--                        @if($item_find)--}}
+                        {{--                            <div class="card-block text-center">--}}
+                        <div class="text-center">
+                            {{-- https://askdev.ru/q/kak-vyzvat-funkciyu-javascript-iz-tega-href-v-html-276225/--}}
+                            {{--                            <a href="{{route('item.ext_show', ['item'=>$item, 'project'=>$project, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id,--}}
+                            {{--                                    'heading' => $heading,'base_index_page'=>$base_index_page, 'body_link_page'=>$body_link_page,'body_all_page'=>$body_all_page,--}}
+                            {{--                                    'par_link'=>null, 'parent_item'=>null,--}}
+                            {{--                                    'string_current' => $string_current,--}}
+                            {{--                                    ])}}"--}}
+                            {{--                               title="{{$item->name()}}">--}}
+                            <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,
+        'usercode' =>GlobalController::usercode_calc(),
+        'relit_id'=>$relit_id,
+        'called_from_button'=>0,
+        'view_link'=>$i_par_link,
+        'view_ret_id'=>$view_ret_id,
+        'string_current'=>$string_next,
+        'prev_base_index_page'=>$base_index_page,
+        'prev_body_link_page'=>$body_link_page,
+        'prev_body_all_page'=>$body_all_page,
+        ])}}"
+                               class="card-link" title="{{$item->name()}}">
+                                {{--                                'string_all_codes_current' => $string_all_codes_current,--}}
+                                {{--                                'string_link_ids_current' => $string_link_ids_current,--}}
+                                {{--                                'string_item_ids_current' => $string_item_ids_current,--}}
+                                {{--                                @include('view.img',['item'=>$item_find, 'noimg_def'=>false, 'size'=>"medium", 'filenametrue'=>false, 'link'=>false, 'img_fluid'=>true, 'card_img_top'=>true, 'title'=>$item->name()])--}}
+                                @include('view.img',['item'=>$item_find, 'noimg_def'=>false, 'filenametrue'=>false, 'link'=>false, 'img_fluid'=>true, 'card_img_top'=>true, 'title'=>$item->name()])
+                            </a>
+                        </div>
+                        {{--                        @endif--}}
                     </div>
                     {{--                    </div>--}}
                     {{--                <div class="card-footer">--}}
