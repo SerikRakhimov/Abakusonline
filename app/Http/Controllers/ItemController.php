@@ -7793,7 +7793,7 @@ class ItemController extends Controller
 //            Нужно 'foreach($child_mains_link_is_calcname as $calcname_mains)'
             foreach ($child_mains_link_is_calcname as $calcname_mains) {
                 foreach ($calcname_mains as $calcname_main) {
-                    $links = $links->where('id', '!=', $calcname_main->link_id);
+                    //$links = $links->where('id', '!=', $calcname_main->link_id);
                     //$links = $links->where('parent_base_id', '!=', $calcname_main->link->parent_base_id);
                 }
             }
