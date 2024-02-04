@@ -1752,8 +1752,12 @@ class GlobalController extends Controller
     static function types_img_height($size)
     {
         $result = '';
-        if ($size == "small") {
+        if ($size == "avatar") {
+            $result = '"30"';
+        } elseif ($size == "small") {
             $result = '"50"';
+        } elseif ($size == "smed") {
+            $result = '"125"';
         } elseif ($size == "medium") {
             $result = '"250"';
         } elseif ($size == "big") {
@@ -3480,7 +3484,7 @@ class GlobalController extends Controller
 
 //          $val_calc = trim(StepController::steps_calc_code($item, $link, 'button_nc'));
             $val_calc = StepController::steps_calc_code($item, $link, 'button_nc');
-             if (count($val_calc) != 0) {
+            if (count($val_calc) != 0) {
                 $item_find = null;
 
                 if ($link->parent_base->type_is_number() | $link->parent_base->type_is_boolean()) {

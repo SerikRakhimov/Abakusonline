@@ -74,7 +74,7 @@ if ($view_link) {
                         {{$v_label}}
                     </small>
                     {{--                    <div class="card-body d-flex align-items-center">--}}
-                    <div class="card-body p-0">
+                    <div class="card-body p-2">
                         {{--                        <div class="card-title text-center">Card title</div>--}}
                         {{--                        <div class="card-subtitle m-2 text-center text-muted">Card subtitle</div>--}}
                         {{--                        @if($item_find)--}}
@@ -102,7 +102,8 @@ if ($view_link) {
                                 {{--                                'string_all_codes_current' => $string_all_codes_current,--}}
                                 {{--                                'string_link_ids_current' => $string_link_ids_current,--}}
                                 {{--                                'string_item_ids_current' => $string_item_ids_current,--}}
-                                @include('view.img',['item'=>$item_find, 'noimg_def'=>false, 'size'=>"medium", 'filenametrue'=>false, 'link'=>false, 'img_fluid'=>true, 'card_img_top'=>true, 'title'=>$item->name()])
+{{--                                @include('view.img',['item'=>$item_find, 'noimg_def'=>false, 'size'=>"medium", 'filenametrue'=>false, 'link'=>false, 'img_fluid'=>true, 'card_img_top'=>true, 'title'=>$item->name()])--}}
+                                @include('view.img',['item'=>$item_find, 'noimg_def'=>false, 'filenametrue'=>false, 'link'=>false, 'img_fluid'=>true, 'card_img_top'=>true, 'title'=>$item->name()])
                             </a>
                         </div>
                         {{--                        @endif--}}
