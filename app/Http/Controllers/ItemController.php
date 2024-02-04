@@ -514,6 +514,7 @@ class ItemController extends Controller
             $para_child_mains_link_is_calcname = $child_mains_link_is_calcname;
         }
         // Нужно передать в функцию links_info() $item
+        // '$para_child_mains_link_is_calcname' передается в $child_links_info
         $child_links_info = self::links_info($item->base, $role, $relit_id,
             $item, null, null, true, $tree_array, $para_child_mains_link_is_calcname);
         // Похожие строки в ItemController::item_index() и ItemController::ext_update()
@@ -594,8 +595,11 @@ class ItemController extends Controller
             $base_body_right = GlobalController::base_link_right($current_link, $role, $view_ret_id, true);
             // Исключить переданный $nolink - $current_link
 //          $child_body_links_info = self::links_info($current_link->child_base, $role, $view_ret_id, null, $current_link);
+//            $child_body_links_info = self::links_info($current_link->child_base, $role, $view_ret_id, null,
+//                $current_link, $it_lc_base_id, false, $tree_array, $para_child_mains_link_is_calcname);
+            // '$para_child_mains_link_is_calcname' не передается в $child_BODY_links_info
             $child_body_links_info = self::links_info($current_link->child_base, $role, $view_ret_id, null,
-                $current_link, $it_lc_base_id, false, $tree_array, $para_child_mains_link_is_calcname);
+                $current_link, $it_lc_base_id, false, $tree_array);
             if (count($child_body_links_info['link_id_array']) == 0) {
 //                Если тип-вычисляемое наименование и Показывать Основу с вычисляемым наименованием
 //                           или если тип-не вычисляемое наименование
@@ -7789,15 +7793,15 @@ class ItemController extends Controller
 
         // Исключить links из переданного массива $child_mains_link_is_calcname
         // Проверка 'where('parent_base_id', '!=', $calcname_main->link->parent_base_id)'
-//        if ($child_mains_link_is_calcname) {
-////            Нужно 'foreach($child_mains_link_is_calcname as $calcname_mains)'
-//            foreach ($child_mains_link_is_calcname as $calcname_mains) {
-//                foreach ($calcname_mains as $calcname_main) {
-//                    $links = $links->where('id', '!=', $calcname_main->link_id);
-//                    //$links = $links->where('parent_base_id', '!=', $calcname_main->link->parent_base_id);
-//                }
-//            }
-//        }
+        if ($child_mains_link_is_calcname) {
+//            Нужно 'foreach($child_mains_link_is_calcname as $calcname_mains)'
+            foreach ($child_mains_link_is_calcname as $calcname_mains) {
+                foreach ($calcname_mains as $calcname_main) {
+                    $links = $links->where('id', '!=', $calcname_main->link_id);
+                    //$links = $links->where('parent_base_id', '!=', $calcname_main->link->parent_base_id);
+                }
+            }
+        }
 
         // Исключить links из переданного массива $tree_array
         if (count($tree_array) > 0) {
