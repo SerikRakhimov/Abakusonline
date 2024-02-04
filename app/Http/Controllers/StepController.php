@@ -41,7 +41,7 @@ class StepController extends Controller
                             break;
                         // x = число-константа
                         case "N":
-                            $result = $result . "\ny = x;\n x = " . $step->first . ";";
+                            $result = $result . "\ny = x;\n x = '" . $step->first . "';";
                             break;
                         // x - значение параметра
                         case "Z":

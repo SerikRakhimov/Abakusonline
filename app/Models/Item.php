@@ -247,9 +247,12 @@ class Item extends Model
                         //    Похожие строки в Base.php
 //                    $name = $name == "1" ? html_entity_decode('	&#9745;')
 //                        : ($name == "0" ? html_entity_decode('&#10065;') : trans('main.empty'));
+//                        // Нужно для правильной сортировки по полю $item->name_lang_x
+//                        $name = $name == "1" ? trans('main.yes')
+//                            : ($name == "0" ? trans('main.no') : trans('main.empty'));
                         // Нужно для правильной сортировки по полю $item->name_lang_x
-                        $name = $name == "1" ? trans('main.yes')
-                            : ($name == "0" ? trans('main.no') : trans('main.empty'));
+                        $name = $name == "1" ? GlobalController::is_boolean_true()
+                            : ($name == "0" ? GlobalController::is_boolean_false() : trans('main.empty'));
                         //
 
                     } elseif ($base->type_is_text()) {
