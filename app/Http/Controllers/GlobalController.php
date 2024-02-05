@@ -1629,7 +1629,7 @@ class GlobalController extends Controller
                 }
             }
             if ($unitmeas) {
-              $result = $result . $base->unit_meas_desc(true);
+              $result = $result . $base->unit_meas_desc(false);
 //            $result = $result . $base->par_label_unit_meas(true);
             }
         }
