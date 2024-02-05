@@ -1246,12 +1246,13 @@
                     break;
                 // Число
                 case "1":
+                    val_u_meas_desc = false;
                     val_digits_num = "visible";
                     val_required_num_str = "visible";
-                    val_u_meas_desc = false;
                     break;
                 // Строка
                 case "2":
+                    val_u_meas_desc = false;
                     val_required_num_str = "visible";
                     val_onevalue_str = "visible";
                     break;

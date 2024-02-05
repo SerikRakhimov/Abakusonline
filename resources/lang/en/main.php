@@ -489,5 +489,5 @@ return [
     'is_empty' => 'Empty',
     'cannot_save_record' => 'Cannot save record',
     'is_view_empty_lst' => 'Show "empty" in the list',
-    'unit_meas_desc' => 'Unit of measure (for numeric fields)',
+    'unit_meas_desc' => 'Unit of measure (for numerical and string fields)',
     ];

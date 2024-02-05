@@ -1585,7 +1585,7 @@ class GlobalController extends Controller
 // Нужно для правильного отображения чисел
 // $numcat = true/false - вывод числовых полей с разрядом тысячи/миллионы/миллиарды
 // $rightnull = true/false - у вещественных чисел убрать правые нули после запятой
-// $unitmeas = true/false - запятая + единица измерения (для числовых полей), если есть
+// $unitmeas = true/false - запятая + 'единица измерения (для числовых и строковых полей)', если есть
     static function restore_number_from_item(Base $base, $str, $numcat = false, $rightnull = true, $unitmeas = false)
     {
         // Максимальное количество разрядов для числа
@@ -1629,8 +1629,8 @@ class GlobalController extends Controller
                 }
             }
             if ($unitmeas) {
-//              $result = $result . $base->unit_meas_desc(true);
-                $result = $result . $base->par_label_unit_meas(true);
+              $result = $result . $base->unit_meas_desc(true);
+//            $result = $result . $base->par_label_unit_meas(true);
             }
         }
         return $result;

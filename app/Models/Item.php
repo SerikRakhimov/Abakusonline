@@ -240,7 +240,7 @@ class Item extends Model
                         //$name = date_create($name)->Format('Y.m.d');
 
                     } elseif ($base->type_is_number()) {
-                        // 'Единица измерения (для числовых полей)', параметр $unitmeas = true
+                        // 'Единица измерения (для числовых и строковых полей)', параметр $unitmeas = true
                         $name = GlobalController::restore_number_from_item($base, $name, false, true, true);
 
                     } elseif ($base->type_is_boolean()) {
@@ -254,6 +254,9 @@ class Item extends Model
                         $name = $name == "1" ? GlobalController::is_boolean_true()
                             : ($name == "0" ? GlobalController::is_boolean_false() : trans('main.empty'));
                         //
+                    } elseif ($base->type_is_string()) {
+                        // $name + 'Единица измерения (для числовых и строковых полей)'
+                        $name = $name . $base->par_label_unit_meas(true);
 
                     } elseif ($base->type_is_text()) {
                         // Полное текстовое наименование(более 255 символов), с разметкой

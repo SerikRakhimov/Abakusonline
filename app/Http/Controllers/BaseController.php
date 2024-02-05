@@ -290,10 +290,6 @@ class BaseController extends Controller
                 $base->ch_min_desc_1 = "";
                 $base->ch_min_desc_2 = "";
                 $base->ch_min_desc_3 = "";
-                $base->unit_meas_desc_0 = "";
-                $base->unit_meas_desc_1 = "";
-                $base->unit_meas_desc_2 = "";
-                $base->unit_meas_desc_3 = "";
                 break;
             // Дата
             case 3:
@@ -774,10 +770,6 @@ class BaseController extends Controller
                 $base->ch_min_desc_1 = "";
                 $base->ch_min_desc_2 = "";
                 $base->ch_min_desc_3 = "";
-                $base->unit_meas_desc_0 = "";
-                $base->unit_meas_desc_1 = "";
-                $base->unit_meas_desc_2 = "";
-                $base->unit_meas_desc_3 = "";
                 break;
             // Дата
             case 3:
