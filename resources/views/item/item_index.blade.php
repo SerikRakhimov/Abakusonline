@@ -71,9 +71,9 @@
                             'project'=>$project, 'role'=>$role, 'relit_id'=>$value['relit_id']])}}"
                            title="{{$value['base_names']}}">
                             @endif
-{{--                        {{GlobalController::calc_title_name(GlobalController::name_and_end_emoji($value['title_name'], Base::find($value['base_id'])), true, true)}}--}}
+                            {{--                        {{GlobalController::calc_title_name(GlobalController::name_and_end_emoji($value['title_name'], Base::find($value['base_id'])), true, true)}}--}}
                             {{GlobalController::calc_title_name($value['title_name'], true, true)}}
-                        @if($value['is_bsmn_base_enable'] == true)
+                            @if($value['is_bsmn_base_enable'] == true)
                         </a>
                     @endif
                     {{--                    Нужно "'called_from_button' => 1"--}}
@@ -95,7 +95,7 @@
                         {{--                {{$value['item_name']}}--}}
                         {{--                {{$value['info_name']}}--}}
                         <mark class="text-project">
-{{--                        {{$value['item_name']}}--}}
+                            {{--                        {{$value['item_name']}}--}}
                             {{GlobalController::name_and_emoji($value['item_name'], Base::find($value['base_id']))}}
                         </mark>
                         {{--                <span class="badge badge-related">{{$value['info_name']}}</span>--}}
@@ -139,17 +139,17 @@
                            title="{{$it_local->base->names($base_right) . $message_bs_info}}">
                             @endif
                             {{$title}}:
-{{--                            <br>--}}
+                            {{--                            <br>--}}
                             @if ($base_right['is_bsmn_base_enable'] == true)
                         </a>
                     @endif
                     {{--                        <big/>--}}
                     <big>
                         <b>
-                        {{-- Одинаковые строки рядом (route('item.ext_show'))--}}
-                        @if ($base_right['is_list_base_calc'] == true)
-                            {{--              Использовать "'heading' => intval(true)", проверяется в окончании функции ItemController:ext_delete()--}}
-                            <a href="{{route('item.ext_show', ['item'=>$it_local, 'project'=>$project, 'role'=>$role,
+                            {{-- Одинаковые строки рядом (route('item.ext_show'))--}}
+                            @if ($base_right['is_list_base_calc'] == true)
+                                {{--              Использовать "'heading' => intval(true)", проверяется в окончании функции ItemController:ext_delete()--}}
+                                <a href="{{route('item.ext_show', ['item'=>$it_local, 'project'=>$project, 'role'=>$role,
                                             'usercode' =>GlobalController::usercode_calc(),
                                             'relit_id'=>$relit_id,
                                             'string_current' => $string_current,
@@ -158,20 +158,20 @@
             'view_link'=> GlobalController::set_par_view_link_null($view_link),
             'par_link'=>$tree_array_last_link_id, 'parent_item'=>$tree_array_last_item_id,
             'parent_ret_id' => $view_ret_id])}}"
-                               title="{{trans('main.viewing_record')}}:{{$it_local->name(false, false, false, false)}}"
-                            >
-                                @if($base_right['is_list_base_read'] == true)
-                                    @include('layouts.item.empty_name', ['name'=>$it_local->nmbr(true, false, false, false)])
-                                @else
-                                    @include('layouts.item.empty_name', ['name'=>$it_local->name(false, false, false, false)])
-                                @endif
-                            </a>
-                        @else
-                            <?php
-                            //                                    emoji не показывать
-                            echo $it_local->nmbr(false, false, false, false);
-                            ?>
-                        @endif
+                                   title="{{trans('main.viewing_record')}}:{{$it_local->name(false, false, false, false)}}"
+                                >
+                                    @if($base_right['is_list_base_read'] == true)
+                                        @include('layouts.item.empty_name', ['name'=>$it_local->nmbr(true, false, false, false)])
+                                    @else
+                                        @include('layouts.item.empty_name', ['name'=>$it_local->name(false, false, false, false)])
+                                    @endif
+                                </a>
+                            @else
+                                <?php
+                                //                                    emoji не показывать
+                                echo $it_local->nmbr(false, false, false, false);
+                                ?>
+                            @endif
                         </b>
                     </big>
                     @if($it_local->base->is_code_needed == true)
@@ -234,8 +234,9 @@
                                     @foreach($calcname_mains as $calcname_main)
                                         {{--                                                    <h6>--}}
                                         <big>
-                                            {{GlobalController::calc_title_name($calcname_main->link->parent_label(),true, true)}}
-                                            <strong>{{$calcname_main->parent_item->name()}}</strong>
+                                            {{GlobalController::calc_title_name($calcname_main->link->parent_label(),true,true)}}
+                                            {{-- Выводить 'Единица измерения (для числовых и строковых полей)'--}}
+                                            <strong>{{$calcname_main->parent_item->name(false,false,false,false,true)}}</strong>
                                         </big>
                                         <br>
                                         @if($calcname_main->parent_item->base->is_code_needed == true)
@@ -386,9 +387,9 @@
         @if(isset($item_image['item']))
             @if($item_image['item'])
                 {{--            В table.php идет проверка на $link_image (вычисляется вначале table.php командой "$link_image = $tile_view['link'];")--}}
-{{--                <center>--}}
-                    @include('view.img',['item'=>$item_image['item'], 'size'=>"smed", 'width'=>"20%", 'border'=>true, 'filenametrue'=>false, 'link'=>true, 'img_fluid'=>true, 'card_img_top'=>false, 'title'=>$link_image->parent_label()])
-{{--                </center>--}}
+                {{--                <center>--}}
+                @include('view.img',['item'=>$item_image['item'], 'size'=>"smed", 'width'=>"20%", 'border'=>true, 'filenametrue'=>false, 'link'=>true, 'img_fluid'=>true, 'card_img_top'=>false, 'title'=>$link_image->parent_label()])
+                {{--                </center>--}}
             @endif
         @endif
         {{--    @if((count($child_links) != 0) && ($base_right['is_show_head_attr_enable'] == true))--}}
