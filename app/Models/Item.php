@@ -254,6 +254,7 @@ class Item extends Model
                         $name = $name == "1" ? GlobalController::is_boolean_true()
                             : ($name == "0" ? GlobalController::is_boolean_false() : trans('main.empty'));
                         //
+
                     } elseif ($base->type_is_string()) {
                         // $name + 'Единица измерения (для числовых и строковых полей)'
                         $name = $name . $base->par_label_unit_meas(true);
