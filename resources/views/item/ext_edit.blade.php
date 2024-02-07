@@ -1355,6 +1355,13 @@
         $base_link_right = GlobalController::base_link_right($link, $role, $relit_id);
         ?>
         @if($base_link_right['is_edit_link_enable'] == false)
+            <?php
+            // Удаление из массива $array_disabled,
+            // Нужно, чтобы не было ошибок в команде JavaScript "document.getElementById('link{{$key}}').disabled = false;"
+            if (array_key_exists($key, $array_disabled)) {
+                unset($array_disabled[$key]);
+            }
+            ?>
             @continue
         @endif
         <?php
@@ -1709,7 +1716,7 @@
                             + '/' + code_{{$prefix}}{{$link->id}}.value
                         ).then(function (res) {
                                 {{--code_{{$prefix}}{{$link->id}}.innerHTML = res.data['item_code'];--}}
-                                name_{{$prefix}}{{$link->id}}.innerHTML = res.data['item_name'];
+                                    name_{{$prefix}}{{$link->id}}.innerHTML = res.data['item_name'];
                                 key_{{$prefix}}{{$link->id}}.value = res.data['item_id'];
                             }
                         );
@@ -1773,7 +1780,7 @@
                         @endif
                         {{--}--}}
                     } else {
-                    axios.get('/item/get_parent_item_from_calc_child_item/'
+                        axios.get('/item/get_parent_item_from_calc_child_item/'
                             + child_base_id{{$prefix}}{{$link->id}}.value
                             + '/{{$link->id}}'
                             + '/0'
@@ -2192,7 +2199,7 @@
         // Нужно для случая, когда меняется значение в вводимом коде, без этого не обновляются parent-поля
         function on_parent_refer() {
             @foreach($functs_parent_refer as $value)
-            {{$value}}();
+                {{$value}}();
             @endforeach
         }
 
@@ -2225,7 +2232,6 @@
             @endforeach
             @endif
             @endif
-
             @endif
             @endforeach
         }
@@ -2332,9 +2338,8 @@
                 @endforeach
                 @endif
                 @endif
+                @endif
             }
-
-            @endif
             @endforeach
 
             {{-- Здесь не использовать--}}
