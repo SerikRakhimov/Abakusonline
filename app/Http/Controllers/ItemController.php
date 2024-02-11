@@ -446,6 +446,7 @@ class ItemController extends Controller
             if ($item_tree_top) {
                 //$relit_tree_top_id = $link_tree_top->parent_relit_id;
                 $relit_tree_top_id = GlobalController::get_parent_relit_from_template_id($project->template_id, $item_tree_top->base->template_id);
+                // "$relit_tree_top_id != -1" - не найдено
                 if ($relit_tree_top_id != -1) {
                     $base_tree_top_right = GlobalController::base_right($item_tree_top->base, $role, $relit_tree_top_id);
                     if ($base_tree_top_right['is_view_prev_next'] == false) {
@@ -4039,9 +4040,9 @@ class ItemController extends Controller
         //  '&& $items_id_group' не нужно, т.к. группировки может не быть
         //'if ($project & $base & $link)' - такой вариант не работает правильно
         if ($project && $base && $link) {
-            //$result_item = null;
+            $result_item = null;
             // true использовать
-            $result_item = true;
+            $result_it_bool = true;
             $set = Set::find($link->parent_output_calculated_table_set_id);
             $sets_group = self::get_sets_group($base, $link);
             if ($sets_group) {
@@ -4088,7 +4089,7 @@ class ItemController extends Controller
                     $i = $i + 1;
                 }
                 //if (!$result_item) {
-                if ($result_item) {
+                if ($result_it_bool) {
                     $result_item = self::output_calculated_table_dop($base, $link, $set, $relip_project, $items);
 //                  $result_item = self::output_calculated_table_dop($base, $link, $set, $project, $items);
                 }
