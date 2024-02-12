@@ -3964,16 +3964,17 @@ class ItemController extends Controller
 
 // Функции get_item_from_parent_output_calculated_table() и get_parent_item_from_output_calculated_table() похожи,
 // выполняют одинаковую функцию: Выводят/считают поле из таблицы
-// Первая вызывается из из MainController.php - view_info(), вторая из ext_edit.php,
+// Первая вызывается из из GlobalController.php - view_info(), вторая из ext_edit.php,
 // Первая возвращает $item, вторая $item->name()
 
-// Вызывается из MainController.php - view_info()
+// Вызывается из GlobalController.php - view_info()
 // Выводит поле вычисляемой таблицы
+// В функциях get_parent_item_from_output_calculated_table() и get_item_from_parent_output_calculated_table() похожи алгоритмы
     static function get_item_from_parent_output_calculated_table(Item $item_main, Link $link)
     {
         $result_item = null;
         $set = Set::find($link->parent_output_calculated_table_set_id);
-        //$r_info = true;
+        $r_info = true;
         if ($set) {
             // base_id вычисляемой таблицы
             $calc_table_base_id = $set->link_to->child_base_id;
@@ -3996,23 +3997,24 @@ class ItemController extends Controller
                         // все присваивания по группе должны быть учтены, их может быть один и выше
                     } else {
                         // Эта команда нужна, не удалять
-                        $items = $items->whereDoesntHave('child_mains', function ($query) use ($to_value) {
-                            $query->where('link_id', $to_value->link_to_id);
-                        });
-//                        $r_info = false;
-//                        break;
+//                        $items = $items->whereDoesntHave('child_mains', function ($query) use ($to_value) {
+//                            $query->where('link_id', $to_value->link_to_id);
+//                        });
+                        $r_info = false;
+                        break;
                     }
                 }
             }
-            //if ($r_info) {
-            $result_item = self::output_calculated_table_dop($item_main->base, $link, $set, $relip_project, $items);
-            //}
+            if ($r_info) {
+                $result_item = self::output_calculated_table_dop($item_main->base, $link, $set, $relip_project, $items);
+            }
         }
 
         return $result_item;
     }
 
 // Вызывается из ext_edit.php
+// В функциях get_parent_item_from_output_calculated_table() и get_item_from_parent_output_calculated_table() похожи алгоритмы
     static function get_parent_item_from_output_calculated_table(Request $request)
     {
         $params = $request->query();
