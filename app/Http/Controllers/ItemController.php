@@ -4069,22 +4069,22 @@ class ItemController extends Controller
                     if (isset($items_id_group[$i])) {
                         $item_seek = Item::find($items_id_group[$i]);
                         // все присваивания по группе должны быть учтены, их может быть один и выше
-//                        if (!$item_seek) {
+                        if (!$item_seek) {
 //                            // Нужно, разницы нет null или false присвоить
 //                            //$result_item = null;
-//                            $result_item = false;
-//                            break;
-//                        }
-                        if ($item_seek) {
-                            $items = $items->whereHas('child_mains', function ($query) use ($to_value, $item_seek) {
-                                $query->where('link_id', $to_value->link_to_id)->where('parent_item_id', $item_seek->id);
-                            });
-                        } else {
-                            // Эта команда нужна, не удалять
-                            $items = $items->whereDoesntHave('child_mains', function ($query) use ($to_value) {
-                                $query->where('link_id', $to_value->link_to_id);
-                            });
+                            $result_it_bool = false;
+                            break;
                         }
+//                        if ($item_seek) {
+                        $items = $items->whereHas('child_mains', function ($query) use ($to_value, $item_seek) {
+                            $query->where('link_id', $to_value->link_to_id)->where('parent_item_id', $item_seek->id);
+                        });
+//                        } else {
+//                            // Эта команда нужна, не удалять
+//                            $items = $items->whereDoesntHave('child_mains', function ($query) use ($to_value) {
+//                                $query->where('link_id', $to_value->link_to_id);
+//                            });
+//                        }
                     }
                     $i = $i + 1;
                 }
