@@ -569,7 +569,8 @@ class GlobalController extends Controller
         }
 
         // Блок проверки по rolis, используя переменные $role, $relit_id и $link
-        $roli = Roli::where('role_id', $role->id)->where('relit_id', $base_link_rel_id)->where('link_id', $link->id)->first();
+        //$roli = Roli::where('role_id', $role->id)->where('relit_id', $base_link_rel_id)->where('link_id', $link->id)->first();
+        $roli = Roli::where('role_id', $role->id)->where('relit_id', $relit_id)->where('link_id', $link->id)->first();
         $is_roli_list_link_enable = false;
         $is_roli_body_link_enable = false;
         if ($roli != null) {
@@ -1630,7 +1631,7 @@ class GlobalController extends Controller
                 }
             }
             if ($unitmeas) {
-              $result = $result . $base->unit_meas_desc(false);
+                $result = $result . $base->unit_meas_desc(false);
 //            $result = $result . $base->par_label_unit_meas(true);
             }
         }
