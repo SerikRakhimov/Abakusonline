@@ -587,6 +587,7 @@ class GlobalController extends Controller
             //$is_hier_base_enable = $roli->is_hier_base_enable;
             $is_hier_link_enable = $roli->is_hier_link_enable;
 //          'Обязательно к заполнению (для списков и чисел, при условии $base->is_required_lst_num_str_txt_img_doc = false
+            // Используется логическое ИЛИ: '$base->type_is_list() | $base->type_is_number()'
             if (!$base->is_required_lst_num_str_txt_img_doc & ($base->type_is_list() | $base->type_is_number())) {
                 $is_base_required = $roli->is_base_required;
             }

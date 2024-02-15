@@ -8323,6 +8323,7 @@ class ItemController extends Controller
         $project = null;
         //$items = null;
         // Пустой список items класса Item, как значение по умолчанию
+        // 'where('id', '_')' - это условие, чтобы получить пустой список
         $items = Item::select(DB::Raw('items.*'))
             ->where('id', '_');
 
