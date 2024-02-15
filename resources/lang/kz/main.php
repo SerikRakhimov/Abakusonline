@@ -468,7 +468,7 @@ return [
     'is_cus_enable' => 'Ағымдағы пайдаланушының жазбалары (main->parent_item = ағымдық пайдаланушы, base_index.php үшін, item_index($link))',
     'parent_is_cus_link' => 'Ағымдық пайдаланушы үшін (main->parent_item = ағымдық пайдаланушы, base_index.php үшін, item_index($link))',
     'tree_structure' => 'Ағаш тәрізді құрылым',
-    'is_base_required' =>'Қажет (тізімдер үшін, егер $base->is_required_lst_num_str_txt_img_doc = жалған болса)',
+    'is_base_required' =>'Қажет (тізімдер мен сандар үшін, егер $base->is_required_lst_num_str_txt_img_doc = жалған болса)',
     'is_edit_parlink_enable' => 'Parlink бойынша өрісті реттеуге рұқсат ету (жазбаны реттеуде)',
     'parent_is_seqnum' => 'Реттік нөмірі (сандық өрістер үшін бастапқы мәндерді автоматты есептеу)',
     'parent_seqnum_link_id' => 'Реттік нөмірді есептеуге арналған сілтеме_id (реттік нөмір = белгісімен), 0 - бүкіл база үшін реттік нөмірді есептеу (кесте)',

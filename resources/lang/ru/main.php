@@ -468,7 +468,7 @@ return [
     'is_cus_enable' => 'Записи текущего пользователя (main->parent_item = текущий пользователь, для base_index.php, item_index($link))',
     'parent_is_cus_link' => 'Для текущего пользователя (main->parent_item = текущий пользователь, для base_index.php, item_index($link))',
     'tree_structure' => 'Древовидная структура',
-    'is_base_required' => 'Обязательно к заполнению (для списков, при условии $base->is_required_lst_num_str_txt_img_doc = false)',
+    'is_base_required' => 'Обязательно к заполнению (для списков и чисел, при условии $base->is_required_lst_num_str_txt_img_doc = false)',
     'is_edit_parlink_enable' => 'Разрешить корректировку поля при связи parlink (при корректировке записи)',
     'parent_is_seqnum' => 'Порядковый номер (автоматическое вычисление первоначальных значений, для числовых полей)',
     'parent_seqnum_link_id' => 'Link_id для расчета порядкового номера (при Порядковый номер = отметка), 0 - расчет порядкового номера для всей основы (таблицы)',

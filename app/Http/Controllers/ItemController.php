@@ -2119,7 +2119,7 @@ class ItemController extends Controller
         $base_right = GlobalController::base_right($base, $role, $relit_id);
         // Проверка на обязательность ввода наименования
         //if ($base->is_required_lst_num_str_txt_img_doc == true && $base->is_calcname_lst == false) {
-        //          'Обязательно к заполнению (для списков, при условии $base->is_required_lst_num_str_txt_img_doc = false
+        // 'Обязательно к заполнению'
         if ($base_right['is_base_required'] == true && $base->is_calcname_lst == false) {
             // Тип - список, строка или текст
             if ($base->type_is_list() || $base->type_is_string() || $base->type_is_text()) {
@@ -2549,15 +2549,19 @@ class ItemController extends Controller
                 if ($work_base->type_is_list()) {
                     // так не использовать
                     // Проверка на обязательность ввода
-                    //if ($work_base->is_required_lst_num_str_txt_img_doc == true) {
-                    //          'Обязательно к заполнению (для списков, при условии $base->is_required_lst_num_str_txt_img_doc = false
+                    // if ($work_base->is_required_lst_num_str_txt_img_doc == true) {
+                    // 'Обязательно к заполнению (для списков и чисел, при условии $base->is_required_lst_num_str_txt_img_doc = false
+                    // Похожие условия для списков и чисел при условии '$base->is_required_lst_num_str_txt_img_doc = false' GlobalController.php и ItemController.php
                     if ($base_link_right['is_base_required'] == true) {
                         $control_required = true;
                     }
                 } // Тип - число
                 elseif ($work_base->type_is_number()) {
                     // Проверка на обязательность ввода
-                    if ($work_base->is_required_lst_num_str_txt_img_doc == true) {
+                    // if ($work_base->is_required_lst_num_str_txt_img_doc == true) {
+                    // 'Обязательно к заполнению (для списков и чисел, при условии $base->is_required_lst_num_str_txt_img_doc = false
+                    // Похожие условия для списков и чисел при условии '$base->is_required_lst_num_str_txt_img_doc = false' GlobalController.php и ItemController.php
+                    if ($base_link_right['is_base_required'] == true) {
                         $control_required = true;
                     }
                 } // Тип - строка или текст
@@ -4752,7 +4756,7 @@ class ItemController extends Controller
 
         // Проверка на обязательность ввода
         //if ($item->base->is_required_lst_num_str_txt_img_doc == true && $item->base->is_calcname_lst == false) {
-        //          'Обязательно к заполнению (для списков, при условии $base->is_required_lst_num_str_txt_img_doc = false
+        // 'Обязательно к заполнению'
         if ($base_right['is_base_required'] == true && $item->base->is_calcname_lst == false) {
             // Тип - список, строка или текст
             if ($item->base->type_is_list() || $item->base->type_is_string() || $item->base->type_is_text()) {
@@ -5200,15 +5204,19 @@ class ItemController extends Controller
                 if ($work_base->type_is_list()) {
                     // так не использовать
                     // Проверка на обязательность ввода
-                    //if ($work_base->is_required_lst_num_str_txt_img_doc == true) {
-                    //          'Обязательно к заполнению (для списков, при условии $base->is_required_lst_num_str_txt_img_doc = false
+                    // if ($work_base->is_required_lst_num_str_txt_img_doc == true) {
+                    // 'Обязательно к заполнению (для списков и чисел, при условии $base->is_required_lst_num_str_txt_img_doc = false'
+                    // Похожие условия для списков и чисел при условии '$base->is_required_lst_num_str_txt_img_doc = false' GlobalController.php и ItemController.php
                     if ($base_link_right['is_base_required'] == true) {
                         $control_required = true;
                     }
                 } // Тип - число
                 elseif ($work_base->type_is_number()) {
                     // Проверка на обязательность ввода
-                    if ($work_base->is_required_lst_num_str_txt_img_doc == true) {
+                    // if ($work_base->is_required_lst_num_str_txt_img_doc == true) {
+                    // 'Обязательно к заполнению (для списков и чисел, при условии $base->is_required_lst_num_str_txt_img_doc = false'
+                    // Похожие условия для списков и чисел при условии '$base->is_required_lst_num_str_txt_img_doc = false' GlobalController.php и ItemController.php
+                    if ($base_link_right['is_base_required'] == true) {
                         $control_required = true;
                     }
                 } // Тип - строка или текст
@@ -8262,8 +8270,8 @@ class ItemController extends Controller
 //          Чтобы не выводить лишний раз ненужное
             if ($ing_filter == false) {
                 if ($base->is_view_empty_lst) {
-                    //          if (!$base->is_required_lst_num_str_txt_img_doc) {
-                    //          'Обязательно к заполнению (для списков, при условии $base->is_required_lst_num_str_txt_img_doc = false
+                    // if (!$base->is_required_lst_num_str_txt_img_doc) {
+                    // 'Обязательно к заполнению (для списков и чисел, при условии $base->is_required_lst_num_str_txt_img_doc = false
                     //if (!$is_base_required) {
                     $result_items_name_options = "<option value='0'>" . GlobalController::option_empty() . "</option>";
                 }
@@ -8273,8 +8281,8 @@ class ItemController extends Controller
             }
         } else {
             if ($base->is_view_empty_lst) {
-                //          if (!$base->is_required_lst_num_str_txt_img_doc) {
-                //          'Обязательно к заполнению (для списков, при условии $base->is_required_lst_num_str_txt_img_doc = false
+                // if (!$base->is_required_lst_num_str_txt_img_doc) {
+                // 'Обязательно к заполнению (для списков и чисел, при условии $base->is_required_lst_num_str_txt_img_doc = false
                 //if (!$is_base_required) {
                 $result_items_name_options = "<option value='0'>" . GlobalController::option_empty() . "</option>";
             } else {

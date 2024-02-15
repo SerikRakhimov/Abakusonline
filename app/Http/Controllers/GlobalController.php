@@ -270,7 +270,8 @@ class GlobalController extends Controller
             $is_roba_hier_link_enable = $roba->is_hier_link_enable;
             // '$is_base_required' - значение по умолчанию
             $is_roba_base_required = $is_base_required;
-            //          'Обязательно к заполнению (для списков, при условии $base->is_required_lst_num_str_txt_img_doc = false
+            // 'Обязательно к заполнению (для списков и чисел, при условии $base->is_required_lst_num_str_txt_img_doc = false
+            // Похожие условия для списков и чисел при условии '$base->is_required_lst_num_str_txt_img_doc = false' GlobalController.php и ItemController.php
             if (!$base->is_required_lst_num_str_txt_img_doc & $base->type_is_list()) {
                 $is_roba_base_required = $roba->is_base_required;
             }
@@ -584,8 +585,8 @@ class GlobalController extends Controller
             $is_checking_empty = $roli->is_parent_checking_empty;
             //$is_hier_base_enable = $roli->is_hier_base_enable;
             $is_hier_link_enable = $roli->is_hier_link_enable;
-//          'Обязательно к заполнению (для списков, при условии $base->is_required_lst_num_str_txt_img_doc = false
-            if (!$base->is_required_lst_num_str_txt_img_doc & $base->type_is_list()) {
+//          'Обязательно к заполнению (для списков и чисел, при условии $base->is_required_lst_num_str_txt_img_doc = false
+            if (!$base->is_required_lst_num_str_txt_img_doc & $base->type_is_list() & $base->type_is_number()) {
                 $is_base_required = $roli->is_base_required;
             }
             $is_parent_full_sort_asc = $roli->is_parent_full_sort_asc;

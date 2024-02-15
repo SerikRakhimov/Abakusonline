@@ -704,6 +704,7 @@
                         {{-- Похожие проверка внизу--}}
                         {{-- @if($base_link_right['is_edit_link_read'] == false)--}}
                         {{-- @if($link->parent_is_numcalc == true)--}}
+                        {{-- 'is_edit_link_read' - 'Чтение Связи в форме'--}}
                         @if($base_link_right['is_edit_link_read'] == false)
                             {{--                            @if($link->parent_is_numcalc == true)--}}
                             {{-- Похожие по смыслу проверки "@if($link->parent_is_numcalc==true && $link->parent_is_nc_screencalc==true && $link->parent_is_nc_viewonly==false)" в этом файле восемь раз --}}
@@ -851,6 +852,7 @@
                             </div>
                             @enderror
                         </div>
+                        {{-- 'is_edit_link_read' - 'Чтение Связи в форме'--}}
                         @if($base_link_right['is_edit_link_read'] == false)
                             {{-- Похожие по смыслу проверки "@if($link->parent_is_numcalc==true && $link->parent_is_nc_screencalc==true && $link->parent_is_nc_viewonly==false)" в этом файле восемь раз --}}
                             @if($link->parent_is_numcalc==true && $link->parent_is_nc_screencalc==true && $link->parent_is_nc_viewonly==false)
@@ -1229,6 +1231,7 @@
                         {{--                        <div class="col-sm-2">--}}
                         {{--                        </div>--}}
                         {{-- Похожие проверка вверху--}}
+                        {{-- 'is_edit_link_read' - 'Чтение Связи в форме'--}}
                         @if($base_link_right['is_edit_link_read'] == false)
                             {{--                            @if($link->parent_is_numcalc == true)--}}
                             {{-- Похожие по смыслу проверки "@if($link->parent_is_numcalc==true && $link->parent_is_nc_screencalc==true && $link->parent_is_nc_viewonly==false)" в этом файле восемь раз --}}
@@ -2037,9 +2040,10 @@
         {{-- Похожая проверка вверху--}}
         {{-- Кроме ($link->parent_base->is_code_needed==true && $link->parent_is_enter_refer==true)--}}
         @if(!($link->parent_base->is_code_needed==true && $link->parent_is_enter_refer==true))
-        @if($base_link_right['is_edit_link_read'] == false)
-        @if($link->parent_is_numcalc==true && $link->parent_is_nc_screencalc==true)
-        {{--    Не срабатывает--}}
+        {{-- 'is_edit_link_read' - 'Чтение Связи в форме'--}}
+    @if($base_link_right['is_edit_link_read'] == false)
+    @if($link->parent_is_numcalc==true && $link->parent_is_nc_screencalc==true)
+    {{--    Не срабатывает--}}
         {{--var numcalc_{{$prefix}}{{$link->id}} = document.getElementById('link{{$link->id}}');--}}
 
         {{-- Похожие по смыслу проверки "@if($link->parent_is_numcalc==true && $link->parent_is_nc_screencalc==true && $link->parent_is_nc_viewonly==false)" в этом файле восемь раз --}}
