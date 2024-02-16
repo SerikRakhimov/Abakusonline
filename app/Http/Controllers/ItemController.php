@@ -2891,6 +2891,10 @@ class ItemController extends Controller
                     $item->name_lang_2 = $rs['calc_lang_2'];
                     $item->name_lang_3 = $rs['calc_lang_3'];
                 }
+
+                // Расчет вычисляемых полей (неэкранное вычисление)
+                GlobalController::item_calc_main($item);
+
                 // В ext_store() вызывается один раз, т.к. запись создается
                 // При reverse = false передаем null
                 // параметр $urepl = true - с заменой
@@ -2899,7 +2903,7 @@ class ItemController extends Controller
                 $this->save_info_sets($item, false, true);
 
                 $item->save();
-                GlobalController::item_calc_main($item);
+                // GlobalController::item_calc_main($item);
 
             }, 3);  // Повторить три раза, прежде чем признать неудачу
             // окончание транзакции
@@ -3548,8 +3552,11 @@ class ItemController extends Controller
                         $item_seek->name_lang_3 = $rs['calc_lang_3'];
                     }
 
-                    $item_seek->save();
+                    // Расчет вычисляемых полей (неэкранное вычисление)
                     GlobalController::item_calc_main($item_seek);
+
+                    $item_seek->save();
+                    // GlobalController::item_calc_main($item_seek);
 
                     // Не использовать: возможны ошибки, "лишние" операции
                     // Вызов обработки присваиваний вложенных
@@ -5558,6 +5565,10 @@ class ItemController extends Controller
                     $item->name_lang_2 = $rs['calc_lang_2'];
                     $item->name_lang_3 = $rs['calc_lang_3'];
                 }
+
+                // Расчет вычисляемых полей (неэкранное вычисление)
+                GlobalController::item_calc_main($item);
+
                 // ext_update()
                 // При reverse = false передаем null
                 // true - с заменой
@@ -5565,7 +5576,7 @@ class ItemController extends Controller
                 $this->save_info_sets($item, false, true);
 
                 $item->save();
-                GlobalController::item_calc_main($item);
+                //GlobalController::item_calc_main($item);
 
                 // Нужно
                 // Только для ext_update()
@@ -7450,6 +7461,7 @@ class ItemController extends Controller
             $item->name_lang_2 = $rs['calc_lang_2'];
             $item->name_lang_3 = $rs['calc_lang_3'];
             $item->save();
+            // Расчет вычисляемых полей (неэкранное вычисление)
             GlobalController::item_calc_main($item);
         }
         return redirect()->back();

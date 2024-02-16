@@ -3474,6 +3474,7 @@ class GlobalController extends Controller
         return $links;
     }
 
+    // Расчет вычисляемых полей (неэкранное вычисление)
     static function item_calc_main(Item $item)
     {
         // '->get()' нужно
