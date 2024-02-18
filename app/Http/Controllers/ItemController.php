@@ -2930,8 +2930,7 @@ class ItemController extends Controller
             }
         }
         if ($base_index_page == 0 & $body_link_page == 0 & $body_all_page == 0) {
-            return redirect()->back(-2)
-            ->withInput();
+            return;
         }
 
         //  Похожий текст в функциях ext_store(), ext_update(), ext_delete(), ext_return();
