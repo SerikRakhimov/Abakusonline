@@ -48,7 +48,7 @@ $num_cols = GlobalController::get_number_of_columns_brow();
                                 onclick="document.location='{{route('item.ext_create', ['base'=>$base,
                                              'project'=>$project, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(),
                                              'relit_id' => $relit_id
-                                             ])}}';search_click();">
+                                             ])}}'">
                             {{--                                             'string_link_ids_current'=>$string_link_ids_current,--}}
                             {{--                                             'string_item_ids_current'=>$string_item_ids_current,--}}
                             {{--                                             'string_all_codes_current'=>$string_all_codes_current,--}}
