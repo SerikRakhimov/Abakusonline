@@ -38,7 +38,7 @@ $num_cols = GlobalController::get_number_of_columns_brow();
                     </div>
                     <div class="col-auto">
                         <?php
-                        $message_bs_calc = ItemController::message_bs_calc($relip_project, $item->base);
+                        $message_bs_calc = ItemController::message_bs_calc($project, $item->base);
                         $message_bs_info = $message_bs_calc['message_bs_info'];
                         $message_bs_validate = $message_bs_calc['message_bs_validate'];
                         ?>
