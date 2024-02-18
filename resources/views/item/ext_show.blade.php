@@ -17,6 +17,9 @@
     $emoji_enable = true;
     $link_image = null;
     ?>
+
+    {{Request::server('HTTP_REFERER')}}
+
     @include('layouts.project.show_project_role',['project'=>$project, 'role'=>$role, 'relit_id'=>$relit_id])
     <h4 class="display-5">
         @if ($type_form == 'show')

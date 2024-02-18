@@ -93,7 +93,7 @@
     {{--    'string_link_ids_current' => $string_link_ids_current,--}}
     {{--    'string_item_ids_current' => $string_item_ids_current,--}}
     {{--    'string_all_codes_current'=> $string_all_codes_current,--}}
-{{--    {{Request::server('HTTP_REFERER')}}--}}
+    {{Request::server('HTTP_REFERER')}}
     <form
         action="{{$update ?
         route('item.ext_update', ['item'=>$item, 'project' => $project, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(),
