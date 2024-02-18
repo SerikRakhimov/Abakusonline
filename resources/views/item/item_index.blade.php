@@ -37,7 +37,10 @@
 
     // Нужно
     $view_link = GlobalController::set_un_par_null($view_link);
-    $parent_ret_id = GlobalController::set_un_par_null($parent_ret_id);
+    // 'if (isset($parent_ret_id))' нужно
+    if (isset($parent_ret_id)) {
+        $parent_ret_id = GlobalController::set_un_par_null($parent_ret_id);
+    }
 
     //    $heading = 0;
     //    $relit_par_id = null;
