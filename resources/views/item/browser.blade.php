@@ -43,8 +43,8 @@ $num_cols = GlobalController::get_number_of_columns_brow();
                         $message_bs_validate = $message_bs_calc['message_bs_validate'];
                         ?>
                         <button type="button" class="btn btn-dreamer btn-sm"
-                                title="{{trans('main.add') . " '". $item->base->name() . "' " . $message_bs_info}}"
-                                onclick="document.location='{{route('item.ext_create', ['base'=>$item->base,
+                                title="{{trans('main.add') . " '". $base->name() . "' " . $message_bs_info}}"
+                                onclick="document.location='{{route('item.ext_create', ['base'=>$base,
                                              'project'=>$project, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(),
                                              'relit_id' => $relit_id
                                              ])}}'">
