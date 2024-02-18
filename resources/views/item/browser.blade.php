@@ -36,7 +36,24 @@ $num_cols = GlobalController::get_number_of_columns_brow();
                         <button type="button" class="btn btn-dreamer" type="button" onclick="search_click()">
                             {{trans('main.search')}}</button>
                     </div>
-                </div>
+                    <div class="col-auto">
+                        <?php
+                        $message_bs_calc = ItemController::message_bs_calc($relip_project, $item->base);
+                        $message_bs_info = $message_bs_calc['message_bs_info'];
+                        $message_bs_validate = $message_bs_calc['message_bs_validate'];
+                        ?>
+                        <button type="button" class="btn btn-dreamer btn-sm"
+                                title="{{trans('main.add') . " '". $item->base->name() . "' " . $message_bs_info}}"
+                                onclick="document.location='{{route('item.ext_create', ['base'=>$item->base,
+                                             'project'=>$project, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(),
+                                             'relit_id' => $relit_id
+                                             ])}}'">
+                            {{--                                             'string_link_ids_current'=>$string_link_ids_current,--}}
+                            {{--                                             'string_item_ids_current'=>$string_item_ids_current,--}}
+                            {{--                                             'string_all_codes_current'=>$string_all_codes_current,--}}
+                            <i class="fas fa-plus d-inline"></i>&nbsp;{{trans('main.add')}}
+                        </button>
+                    </div>
             </form>
         </div>
     </div>
