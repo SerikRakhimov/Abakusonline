@@ -36,6 +36,7 @@ $num_cols = GlobalController::get_number_of_columns_brow();
                         <button type="button" class="btn btn-dreamer" type="button" onclick="search_click()">
                             {{trans('main.search')}}</button>
                     </div>
+                    @if ($base_right['is_list_base_create'] == true)
                     <div class="col-auto">
                         <?php
                         $message_bs_calc = ItemController::message_bs_calc($project, $base);
@@ -54,6 +55,7 @@ $num_cols = GlobalController::get_number_of_columns_brow();
                             <i class="fas fa-plus d-inline"></i>&nbsp;{{trans('main.add')}}
                         </button>
                     </div>
+                @endif
             </form>
         </div>
     </div>
