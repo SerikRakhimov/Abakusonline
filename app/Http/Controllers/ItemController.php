@@ -676,7 +676,7 @@ class ItemController extends Controller
         // Не удалять
         // Перенаправление на "route('item.ext_show'" при "count($next_all_links) == 0"
         if (count($next_all_links) == 0) {
-//            "'par_link' => GlobalController::set_par_view_link_null($tree_array_last_link_id)" неправильно
+//            "'par_link' => GlobalController::set_par_null($tree_array_last_link_id)" неправильно
 //            "'par_link' => $tree_array_last_link_id" правильно
             return redirect()->route('item.ext_show', [
                 'item' => $item,
@@ -689,7 +689,7 @@ class ItemController extends Controller
                 'base_index_page' => $prev_base_index_page,
                 'body_link_page' => $prev_body_link_page,
                 'body_all_page' => $prev_body_all_page,
-                'view_link' => GlobalController::set_par_view_link_null($tree_array_last_link_id),
+                'view_link' => GlobalController::set_par_null($tree_array_last_link_id),
                 'parent_item' => $tree_array_last_item_id,
                 'par_link' => $tree_array_last_link_id,
                 'parent_ret_id' => GlobalController::set_relit_id($save_view_ret_id)
@@ -730,7 +730,7 @@ class ItemController extends Controller
                     'item' => $item,
                     'role' => $role,
                     'relit_id' => $relit_id,
-                    'view_link' => GlobalController::set_par_view_link_null($view_link),
+                    'view_link' => GlobalController::set_par_null($view_link),
                     'view_ret_id' => $view_ret_id,
                     'array_relips' => $array_relips,
                     'base_right' => $base_right,
@@ -1918,7 +1918,7 @@ class ItemController extends Controller
                 $string_all_codes_current),
             'heading' => $heading,
             'base_index_page' => $base_index_page, 'body_link_page' => $body_link_page, 'body_all_page' => $body_all_page,
-            'view_link' => GlobalController::set_par_view_link_null($view_link),
+            'view_link' => GlobalController::set_par_null($view_link),
             'par_link' => $par_link, 'parent_item' => $parent_item,
             'parent_ret_id' => $parent_ret_id
         ]);
@@ -2010,7 +2010,7 @@ class ItemController extends Controller
             'is_view_minutes' => $is_view_minutes,
             'base_index_page' => $base_index_page, 'body_link_page' => $body_link_page, 'body_all_page' => $body_all_page,
             'parent_ret_id' => $parent_ret_id,
-            'view_link' => GlobalController::set_par_view_link_null($view_link),
+            'view_link' => GlobalController::set_par_null($view_link),
             'par_link' => $par_link,
             'parent_item' => $parent_item]);
     }

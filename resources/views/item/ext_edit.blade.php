@@ -68,7 +68,7 @@
     {{--         'heading'=>$heading,--}}
     {{--         'base_index_page'=>$base_index_page, 'body_link_page'=>$body_link_page, 'body_all_page'=>$body_all_page,--}}
     {{--         'parent_ret_id' => GlobalController::set_relit_id($parent_ret_id),--}}
-    {{--         'view_link'=>GlobalController::set_par_view_link_null($view_link),--}}
+    {{--         'view_link'=>GlobalController::set_par_null($view_link),--}}
     {{--         'par_link' =>$par_link,--}}
     {{--         'parent_item' => $parent_item]):--}}
     {{--        route('item.ext_store', ['base'=>$base, 'project' => $project, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(),--}}
@@ -79,7 +79,7 @@
     {{--            'heading'=>$heading,--}}
     {{--            'base_index_page'=>$base_index_page, 'body_link_page'=>$body_link_page,'body_all_page'=>$body_all_page,--}}
     {{--            'parent_ret_id' => GlobalController::set_relit_id($parent_ret_id),--}}
-    {{--            'view_link'=>GlobalController::set_par_view_link_null($view_link),--}}
+    {{--            'view_link'=>GlobalController::set_par_null($view_link),--}}
     {{--            'par_link' =>$par_link,--}}
     {{--            'parent_item' => $parent_item])}}"--}}
     {{--        method="POST"--}}
@@ -100,8 +100,8 @@
         'string_current' => $string_current,
         'heading'=>$heading,
         'base_index_page'=>$base_index_page, 'body_link_page'=>$body_link_page, 'body_all_page'=>$body_all_page,
-        'parent_ret_id' => $parent_ret_id,
-        'view_link'=>GlobalController::set_par_view_link_null($view_link),
+        'parent_ret_id' => GlobalController::set_par_null($parent_ret_id),
+        'view_link'=>GlobalController::set_par_null($view_link),
         'par_link' =>$par_link,
         'parent_item' => $parent_item
         ]):
@@ -110,8 +110,8 @@
         'string_current' => $string_current,
         'heading'=>$heading,
         'base_index_page'=>$base_index_page, 'body_link_page'=>$body_link_page,'body_all_page'=>$body_all_page,
-        'parent_ret_id' => $parent_ret_id,
-        'view_link'=>GlobalController::set_par_view_link_null($view_link),
+        'parent_ret_id' => GlobalController::set_par_null($parent_ret_id),
+        'view_link'=>GlobalController::set_par_null($view_link),
         'par_link' =>$par_link,
         'parent_item' => $parent_item])}}"
         method="POST"

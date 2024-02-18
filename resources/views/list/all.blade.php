@@ -49,7 +49,7 @@ $i = $next_all_mains->firstItem() - 1;
                 <a href="{{route('item.ext_show', ['item'=>$main->child_item, 'project'=>$project, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(),
     'relit_id'=>$relit_id,
     'heading'=>$heading, 'base_index_page'=>$base_index_page, 'body_link_page'=>$body_link_page,'body_all_page'=>$body_all_page,
-            'view_link' => GlobalController::set_par_view_link_null($view_link),
+            'view_link' => GlobalController::set_par_null($view_link),
             'par_link'=>$main->link, 'parent_item'=>$item,
         'parent_ret_id' => $view_ret_id,
         'string_current' => $string_current,

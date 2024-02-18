@@ -2961,7 +2961,7 @@ class GlobalController extends Controller
     // (http://abakusonline:8080/item/item_index/33/2789/21/18/0//195/2787) - неправильно
     // http://abakusonline:8080/item/item_index/33/2789/21/18/0/textnull/195/2787 - правильно
 
-    static function set_par_view_link_null($view_link)
+    static function set_par_null($view_link)
     {
         $result = $view_link;
         if ($result == null) {
@@ -2970,7 +2970,7 @@ class GlobalController extends Controller
         return $result;
     }
 
-    static function set_un_par_view_link_null($view_link)
+    static function set_un_par_null($view_link)
     {
         $result = $view_link;
         if ($result == GlobalController::par_link_const_textnull()) {

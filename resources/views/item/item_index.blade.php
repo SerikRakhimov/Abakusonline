@@ -36,7 +36,8 @@
     $calc_body_relip_info = GlobalController::calc_relip_info($project, $role, $relip_body_project, $view_ret_id);
 
     // Нужно
-    $view_link = GlobalController::set_un_par_view_link_null($view_link);
+    $view_link = GlobalController::set_un_par_null($view_link);
+    $parent_ret_id = GlobalController::set_un_par_null($parent_ret_id);
 
     //    $heading = 0;
     //    $relit_par_id = null;
@@ -155,7 +156,7 @@
                                             'string_current' => $string_current,
             'heading' => intval(true),
             'base_index_page' => $base_index_page, 'body_link_page' => $body_link_page, 'body_all_page' => $body_all_page,
-            'view_link'=> GlobalController::set_par_view_link_null($view_link),
+            'view_link'=> GlobalController::set_par_null($view_link),
             'par_link'=>$tree_array_last_link_id, 'parent_item'=>$tree_array_last_item_id,
             'parent_ret_id' => $view_ret_id])}}"
                                    title="{{trans('main.viewing_record')}}:{{$it_local->name(false, false, false, false)}}"
@@ -210,7 +211,7 @@
             'string_current' => $string_current,
             'heading' => intval(true),
             'base_index_page' => $base_index_page, 'body_link_page' => $body_link_page, 'body_all_page' => $body_all_page,
-            'view_link'=> GlobalController::set_par_view_link_null($view_link),
+            'view_link'=> GlobalController::set_par_null($view_link),
             'par_link'=>$tree_array_last_link_id, 'parent_item'=>$tree_array_last_item_id,
             'parent_ret_id' => $relit_id])}}"
                            title="{{trans('main.viewing_record')}}: {{$it_local->cdnm()}}">
@@ -275,7 +276,7 @@
                                 'usercode' =>GlobalController::usercode_calc(),
                                         'relit_id'=>$relit_id,
                                         'called_from_button'=>1,
-                                        'view_link'=>GlobalController::set_par_view_link_null($view_link),
+                                        'view_link'=>GlobalController::set_par_null($view_link),
                                         'string_current'=>$string_current,
                                         'prev_base_index_page'=>$base_index_page,
                                         'prev_body_link_page'=>$body_link_page,
@@ -303,7 +304,7 @@
                                 'usercode' =>GlobalController::usercode_calc(),
                                         'relit_id'=>$relit_id,
                                         'called_from_button'=>1,
-                                        'view_link'=>GlobalController::set_par_view_link_null($view_link),
+                                        'view_link'=>GlobalController::set_par_null($view_link),
                                         'string_current'=>$string_current,
                                         'prev_base_index_page'=>$base_index_page,
                                         'prev_body_link_page'=>$body_link_page,
@@ -342,7 +343,7 @@
                                              'string_current'=>$string_current,
                                              'heading'=>intval(true),
                                              'base_index_page'=>$base_index_page, 'body_link_page'=>$body_link_page,'body_all_page'=>$body_all_page,
-                                             'view_link'=>GlobalController::set_par_view_link_null($view_link),
+                                             'view_link'=>GlobalController::set_par_null($view_link),
                                              'par_link'=>$tree_array_last_link_id, 'parent_item'=>$tree_array_last_item_id,
                                              'parent_ret_id' => $view_ret_heading_id
                                              ])}}'">
