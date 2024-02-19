@@ -2039,7 +2039,6 @@ class ItemController extends Controller
                                $heading = 0, $base_index_page = 0, $body_link_page = 0, $body_all_page = 0,
                                $parent_ret_id = null,
                                $view_link = null,
-                               $save_url = null,
                        Link    $par_link = null, Item $parent_item = null)
     {
 
@@ -2948,11 +2947,11 @@ class ItemController extends Controller
             // Вызов главного меню
             return redirect()->route('project.start', ['project' => $project, 'role' => $role]);
         }
-        if ($save_url) {
-            // Переход по сохраненной ссылке
-            //dd(GlobalController::set_un_url_save($save_url));
-            return redirect(GlobalController::set_un_url_save($save_url));
-        }
+//        if ($save_url) {
+//            // Переход по сохраненной ссылке
+//            //dd(GlobalController::set_un_url_save($save_url));
+//            return redirect(GlobalController::set_un_url_save($save_url));
+//        }
         $str_link = '';
         if ($base_index_page > 0) {
             // Использовать "project' => $project"

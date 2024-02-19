@@ -2983,35 +2983,23 @@ class GlobalController extends Controller
 //    {
 //        $result = $save_url;
 //        if ($result) {
-//            $result = str_replace('\', '*', $result);
+//            $result = str_replace('/', '*', $result);
 //        } else {
 //            $result = GlobalController::par_link_const_textnull();
 //        }
 //        return $result;
 //    }
 //
-
-    static function set_url_save($save_url)
-    {
-        $result = $save_url;
-        if ($result) {
-            $result = str_replace('/', '*', $result);
-        } else {
-            $result = GlobalController::par_link_const_textnull();
-        }
-        return $result;
-    }
-
-    static function set_un_url_save($save_url)
-    {
-        $result = $save_url;
-        if ($result == GlobalController::par_link_const_textnull()) {
-            $result = null;
-        } else {
-            $result = str_replace('*', '/', $result);
-        }
-        return $result;
-    }
+//    static function set_un_url_save($save_url)
+//    {
+//        $result = $save_url;
+//        if ($result == GlobalController::par_link_const_textnull()) {
+//            $result = null;
+//        } else {
+//            $result = str_replace('*', '/', $result);
+//        }
+//        return $result;
+//    }
 
 
     static function set_str_const_null($str)
@@ -3030,9 +3018,11 @@ class GlobalController extends Controller
     {
         //$name = "";  // нужно, не удалять
         $name = "name_lang_0";  // нужно, не удалять
-        $index = array_search(App::getLocale(), config('app . locales'));
-        if ($index !== false) {   // ' !== ' использовать, '!=' не использовать
-            $name = 'name_lang_' . $index;
+        if (config('app . locales')) {
+            $index = array_search(App::getLocale(), config('app . locales'));
+            if ($index !== false) {   // ' !== ' использовать, '!=' не использовать
+                $name = 'name_lang_' . $index;
+            }
         }
         return $name;
     }
