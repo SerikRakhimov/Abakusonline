@@ -2950,7 +2950,7 @@ class ItemController extends Controller
         }
         if ($save_url) {
             // Переход по сохраненной ссылке
-            dd(GlobalController::set_un_url_save($save_url));
+            //dd(GlobalController::set_un_url_save($save_url));
             return redirect(GlobalController::set_un_url_save($save_url));
         }
         $str_link = '';
