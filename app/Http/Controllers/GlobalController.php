@@ -2961,23 +2961,58 @@ class GlobalController extends Controller
     // (http://abakusonline:8080/item/item_index/33/2789/21/18/0//195/2787) - неправильно
     // http://abakusonline:8080/item/item_index/33/2789/21/18/0/textnull/195/2787 - правильно
 
-    static function set_par_null($view_link)
+    static function set_par_null($val)
     {
-        $result = $view_link;
+        $result = $val;
         if ($result == null) {
             $result = GlobalController::par_link_const_textnull();
         }
         return $result;
     }
 
-    static function set_un_par_null($view_link)
+    static function set_un_par_null($val)
     {
-        $result = $view_link;
+        $result = $val;
         if ($result == GlobalController::par_link_const_textnull()) {
             $result = null;
         }
         return $result;
     }
+
+//    static function set_url_save($save_url)
+//    {
+//        $result = $save_url;
+//        if ($result) {
+//            $result = str_replace('\', '*', $result);
+//        } else {
+//            $result = GlobalController::par_link_const_textnull();
+//        }
+//        return $result;
+//    }
+//
+
+    static function set_url_save($save_url)
+    {
+        $result = $save_url;
+        if ($result) {
+            $result = str_replace('/', '*', $result);
+        } else {
+            $result = GlobalController::par_link_const_textnull();
+        }
+        return $result;
+    }
+
+    static function set_un_url_save($save_url)
+    {
+        $result = $save_url;
+        if ($result == GlobalController::par_link_const_textnull()) {
+            $result = null;
+        } else {
+            $result = str_replace('*', '/', $result);
+        }
+        return $result;
+    }
+
 
     static function set_str_const_null($str)
     {
@@ -2995,8 +3030,8 @@ class GlobalController extends Controller
     {
         //$name = "";  // нужно, не удалять
         $name = "name_lang_0";  // нужно, не удалять
-        $index = array_search(App::getLocale(), config('app.locales'));
-        if ($index !== false) {   // '!==' использовать, '!=' не использовать
+        $index = array_search(App::getLocale(), config('app . locales'));
+        if ($index !== false) {   // ' !== ' использовать, '!=' не использовать
             $name = 'name_lang_' . $index;
         }
         return $name;
@@ -3020,18 +3055,18 @@ class GlobalController extends Controller
         $result = '';
         if ($base_right) {
             if ($base_right['is_list_base_user_id'] == true) {
-                $result = $result . ' (' . mb_strtolower(trans('main.current_user')) . ')';
+                $result = $result . ' (' . mb_strtolower(trans('main . current_user')) . ')';
             }
             if ($base_right['is_list_base_byuser'] == true) {
-                $result = $result . ' (' . mb_strtolower(trans('main.my_records')) . ')';
+                $result = $result . ' (' . mb_strtolower(trans('main . my_records')) . ')';
             }
 //          Не нужно
 //          if ($base_right['is_tst_enable'] == true) {
-//              $result = $result . ' (' . mb_strtolower(trans('main.tree_structure')) . ')';
+//              $result = $result . ' (' . mb_strtolower(trans('main . tree_structure')) . ')';
 //          }
             if ($base_right['is_cus_enable'] == true) {
                 //$result = $result . ' (' . GlobalController::glo_user()->get_user_itnm() . ')';
-                $result = $result . ' (' . mb_strtolower(trans('main.filter_by_current_user')) . ')';
+                $result = $result . ' (' . mb_strtolower(trans('main . filter_by_current_user')) . ')';
             }
         }
         return $result;
@@ -3193,11 +3228,11 @@ class GlobalController extends Controller
         $result = '';
         if ($base_right) {
             if ($base_right['is_base_required'] == true) {
-                $result = '*';
+                $result = ' * ';
             }
         } else {
             if ($base->is_required_lst_num_str_txt_img_doc == true) {
-                $result = '*';
+                $result = ' * ';
             }
         }
         return $result;
@@ -3256,7 +3291,7 @@ class GlobalController extends Controller
     {
         // https://www.techiedelight.com/ru/get-time-difference-in-minutes-php/
         // установка часового пояса нужно для проверки времени
-        date_default_timezone_set('Asia/Almaty');
+        date_default_timezone_set('Asia / Almaty');
         $start = Now();
         $end = $item->created_at;
         $interval = $start->diff($end);
@@ -3268,7 +3303,7 @@ class GlobalController extends Controller
     static function base_minutes(Base $base)
     {
         $minutes = self::const_base_min($base);
-        $result = $minutes . ' ' . trans('main.info_min');
+        $result = $minutes . ' ' . trans('main . info_min');
         $ch_min_desc = $base->ch_min_desc();
         if ($ch_min_desc != 0) {
             $result = $result . ' (' . $ch_min_desc . ')';
@@ -3280,7 +3315,7 @@ class GlobalController extends Controller
     static function remaining_minutes(Item $item)
     {
         $minutes = self::const_base_min($item->base) - self::calc_minutes($item);
-        $result = $minutes . ' ' . trans('main.info_min');
+        $result = $minutes . ' ' . trans('main . info_min');
         return $result;
     }
 
@@ -3335,13 +3370,13 @@ class GlobalController extends Controller
         $result_message_history = "";
         $base = $main_item->base;
         // 'get()' нужно
-        $links = Link::where('child_base_id', '=', $base->id)
+        $links = Link::where('child_base_id', ' = ', $base->id)
             ->get();
         foreach ($links as $link) {
             $base_link_right = GlobalController::base_link_right($link, $role, $relit_id);
             if ($base_link_right['is_checking_history'] == true) {
                 $item = GlobalController::view_info($main_item->id, $link->id);
-                // 'if ($item)' - эта проверка нужна
+                // 'if ($item) ' - эта проверка нужна
                 if ($item) {
                     $checking_func_history = self::checking_func_history($item);
                     $result_entry_history = $checking_func_history['result_entry_history'];
@@ -3362,9 +3397,9 @@ class GlobalController extends Controller
 //        if ($item) {
         if ($item->is_history()) {
             $result_entry_history = false;
-            $result_message_history = mb_strtolower(trans('main.cannot_save_record')
+            $result_message_history = mb_strtolower(trans('main . cannot_save_record')
                 . ' ("' . $item->base->name() . ': ' . $item->name() . '" - '
-                . trans('main.is_history') . ')');
+                . trans('main . is_history') . ')');
         }
 //        }
         return ['result_entry_history' => $result_entry_history, 'result_message_history' => $result_message_history];
@@ -3403,13 +3438,13 @@ class GlobalController extends Controller
         $result_message_empty = "";
         $base = $main_item->base;
         // 'get()' нужно
-        $links = Link::where('child_base_id', '=', $base->id)
+        $links = Link::where('child_base_id', ' = ', $base->id)
             ->get();
         foreach ($links as $link) {
             $base_link_right = GlobalController::base_link_right($link, $role, $relit_id);
             if ($base_link_right['is_checking_empty'] == true) {
                 $item = GlobalController::view_info($main_item->id, $link->id);
-                // 'if ($item)' - эта проверка не нужна
+                // 'if ($item) ' - эта проверка не нужна
                 //if ($item) {
                 $checking_func_empty = self::checking_func_empty($link->parent_base, $item);
                 $result_entry_empty = $checking_func_empty['result_entry_empty'];
@@ -3451,9 +3486,9 @@ class GlobalController extends Controller
         }
 
         if ($result_entry_empty == false) {
-            $result_message_empty = mb_strtolower(trans('main.cannot_save_record')
+            $result_message_empty = mb_strtolower(trans('main . cannot_save_record')
                 . ' ("' . $base->name() . '" - '
-                . trans('main.is_empty') . ')');
+                . trans('main . is_empty') . ')');
         }
 
         return ['result_entry_empty' => $result_entry_empty, 'result_message_empty' => $result_message_empty];
@@ -3465,9 +3500,9 @@ class GlobalController extends Controller
         $links = null;
         if ($link->parent_is_output_calculated_table_field) {
             // 'get()' нужно
-            $links = Link::where('child_base_id', '=', $base->id)
-                ->where('parent_is_parent_related', '=', true)
-                ->where('parent_parent_related_start_link_id', '=', $link->id)
+            $links = Link::where('child_base_id', ' = ', $base->id)
+                ->where('parent_is_parent_related', ' = ', true)
+                ->where('parent_parent_related_start_link_id', ' = ', $link->id)
                 ->orderBy('parent_base_number')
                 ->get();
         }
@@ -3506,7 +3541,7 @@ class GlobalController extends Controller
                         // Похожие строки вверху
                         $item_find->code = uniqid($item_find->base_id . '_', true);
                         // присваивание полям наименование строкового значение числа
-                        foreach (config('app.locales') as $key => $value) {
+                        foreach (config('app . locales') as $key => $value) {
                             $item_find['name_lang_' . $key] = $val_calc[$key];
                         }
                         // Поиск relip - проекта
@@ -3533,7 +3568,7 @@ class GlobalController extends Controller
                         // Похожие строки вверху
                         $item_find->code = uniqid($item_find->base_id . '_', true);
                         // присваивание полям наименование строкового значение числа
-                        foreach (config('app.locales') as $key => $value) {
+                        foreach (config('app . locales') as $key => $value) {
                             $item_find['name_lang_' . $key] = $val_calc[$key];
                         }
                         // Поиск relip - проекта
@@ -3571,7 +3606,7 @@ class GlobalController extends Controller
 
 //    function get_display()
 //    {
-//        return config('app.display');
+//        return config('app . display');
 //        //return $this->display;
 //    }
 //
@@ -3583,10 +3618,10 @@ class GlobalController extends Controller
 //    function set_display($display)
 //    {
 //        // Проверка на правильность значения
-//        //$index = array_search($display, config('app.displays'));
-//        //if ($index !== false) {   // '!==' использовать, '!=' не использовать
+//        //$index = array_search($display, config('app . displays'));
+//        //if ($index !== false) {   // ' !== ' использовать, '!=' не использовать
 //            // Сохранение значения
-//            //Config::set('app.display', $display);
+//            //Config::set('app . display', $display);
 //        //}
 //        $this->display = $display;
 //        return redirect()->back();

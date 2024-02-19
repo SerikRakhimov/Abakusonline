@@ -857,7 +857,7 @@ Route::post('/item/store', [ItemController::class, 'store'])
 //Route::post('/item/ext_store/{base}/{project}/{role}/{usercode}/{relit_id}/{string_link_ids_current?}/{string_item_ids_current?}/{string_all_codes_current?}/{heading?}/{base_index_page?}/{body_link_page?}/{body_all_page?}/{parent_ret_id?}/{view_link?}/{par_link?}/{parent_item?}', [ItemController::class, 'ext_store'])
 //    ->name('item.ext_store')
 //    ->middleware('auth');
-Route::post('/item/ext_store/{base}/{project}/{role}/{usercode}/{relit_id}/{string_current?}/{heading?}/{base_index_page?}/{body_link_page?}/{body_all_page?}/{parent_ret_id?}/{view_link?}/{par_link?}/{parent_item?}', [ItemController::class, 'ext_store'])
+Route::post('/item/ext_store/{base}/{project}/{role}/{usercode}/{relit_id}/{string_current?}/{heading?}/{base_index_page?}/{body_link_page?}/{body_all_page?}/{parent_ret_id?}/{view_link?}/{save_url?}/{par_link?}/{parent_item?}', [ItemController::class, 'ext_store'])
     ->name('item.ext_store')
     ->middleware('auth');
 

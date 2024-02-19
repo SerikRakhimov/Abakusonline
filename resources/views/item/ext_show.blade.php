@@ -18,7 +18,7 @@
     $link_image = null;
     ?>
 
-    {{Request::server('HTTP_REFERER')}}
+{{--    {{Request::server('HTTP_REFERER')}}--}}
 
     @include('layouts.project.show_project_role',['project'=>$project, 'role'=>$role, 'relit_id'=>$relit_id])
     <h4 class="display-5">
