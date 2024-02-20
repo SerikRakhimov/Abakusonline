@@ -2039,6 +2039,7 @@ class ItemController extends Controller
                                $heading = 0, $base_index_page = 0, $body_link_page = 0, $body_all_page = 0,
                                $parent_ret_id = null,
                                $view_link = null,
+                               $save_url = null,
                        Link    $par_link = null, Item $parent_item = null)
     {
 
@@ -2057,6 +2058,8 @@ class ItemController extends Controller
 //        }else{
         $request->validate($this->code_rules($request, $relip_project->id, $base->id));
 //        }
+
+        $save_url = GlobalController::set_un_url_save($save_url);
 
         // Проверка на $base->maxcount_lst
         // Проверка осуществляется только при добавлении записи в начале функции и при сохранении записи
@@ -2929,9 +2932,6 @@ class ItemController extends Controller
                 }
             }
         }
-        if ($base_index_page == 0 & $body_link_page == 0 & $body_all_page == 0) {
-            return;
-        }
 
         //  Похожий текст в функциях ext_store(), ext_update(), ext_delete(), ext_return();
         //  По алгоритму передается $base_index_page, $body_link_page, $body_all_page - сохраненные номера страниц;
@@ -2947,11 +2947,14 @@ class ItemController extends Controller
             // Вызов главного меню
             return redirect()->route('project.start', ['project' => $project, 'role' => $role]);
         }
-//        if ($save_url) {
-//            // Переход по сохраненной ссылке
-//            //dd(GlobalController::set_un_url_save($save_url));
-//            return redirect(GlobalController::set_un_url_save($save_url));
-//        }
+        // Если вызов не с заголовка
+        if (!$heading) {
+            if ($save_url) {
+                // Переход по сохраненной ссылке
+                //dd(GlobalController::set_un_url_save($save_url));
+                return redirect($save_url);
+            }
+        }
         $str_link = '';
         if ($base_index_page > 0) {
             // Использовать "project' => $project"

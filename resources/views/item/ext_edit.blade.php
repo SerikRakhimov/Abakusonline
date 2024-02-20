@@ -12,8 +12,7 @@
     use \App\Http\Controllers\LinkController;
     use \App\Http\Controllers\StepController;
 
-    //$save_url = GlobalController::set_url_save(Request::server('HTTP_REFERER'));
-        $save_url = 'null';
+    $save_url = GlobalController::set_url_save(Request::server('HTTP_REFERER'));
 
     // Нужно для функции date('Y-m-d')
     // установка часового пояса нужно для сохранения времени
@@ -116,7 +115,8 @@
         'parent_ret_id' => GlobalController::set_par_null($parent_ret_id),
         'view_link'=>GlobalController::set_par_null($view_link),
         'par_link' =>$par_link,
-        'parent_item' => $parent_item])}}"
+        'parent_item' => $parent_item,
+        'save_url' => $save_url])}}"
         method="POST"
         enctype=multipart/form-data
         {{--        @if($par_link)--}}

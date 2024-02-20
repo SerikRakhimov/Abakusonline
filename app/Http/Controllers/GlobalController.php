@@ -2979,27 +2979,29 @@ class GlobalController extends Controller
         return $result;
     }
 
-//    static function set_url_save($save_url)
-//    {
-//        $result = $save_url;
-//        if ($result) {
-//            $result = str_replace('/', '*', $result);
-//        } else {
-//            $result = GlobalController::par_link_const_textnull();
-//        }
-//        return $result;
-//    }
-//
-//    static function set_un_url_save($save_url)
-//    {
-//        $result = $save_url;
-//        if ($result == GlobalController::par_link_const_textnull()) {
-//            $result = null;
-//        } else {
-//            $result = str_replace('*', '/', $result);
-//        }
-//        return $result;
-//    }
+    static function set_url_save($save_url)
+    {
+        $result = $save_url;
+        if ($result) {
+            $result = str_replace('/', '*', $result);
+            $result = str_replace('?', '~', $result);
+        } else {
+            $result = GlobalController::par_link_const_textnull();
+        }
+        return $result;
+    }
+
+    static function set_un_url_save($save_url)
+    {
+        $result = $save_url;
+        if ($result == GlobalController::par_link_const_textnull()) {
+            $result = null;
+        } else {
+            $result = str_replace('*', '/', $result);
+            $result = str_replace('~', '?', $result);
+        }
+        return $result;
+    }
 
 
     static function set_str_const_null($str)
@@ -3018,11 +3020,9 @@ class GlobalController extends Controller
     {
         //$name = "";  // нужно, не удалять
         $name = "name_lang_0";  // нужно, не удалять
-        if (config('app . locales')) {
-            $index = array_search(App::getLocale(), config('app . locales'));
-            if ($index !== false) {   // ' !== ' использовать, '!=' не использовать
-                $name = 'name_lang_' . $index;
-            }
+        $index = array_search(App::getLocale(), config('app.locales'));
+        if ($index !== false) {   // ' !== ' использовать, '!=' не использовать
+            $name = 'name_lang_' . $index;
         }
         return $name;
     }
@@ -3531,7 +3531,7 @@ class GlobalController extends Controller
                         // Похожие строки вверху
                         $item_find->code = uniqid($item_find->base_id . '_', true);
                         // присваивание полям наименование строкового значение числа
-                        foreach (config('app . locales') as $key => $value) {
+                        foreach (config('app.locales') as $key => $value) {
                             $item_find['name_lang_' . $key] = $val_calc[$key];
                         }
                         // Поиск relip - проекта
@@ -3558,7 +3558,7 @@ class GlobalController extends Controller
                         // Похожие строки вверху
                         $item_find->code = uniqid($item_find->base_id . '_', true);
                         // присваивание полям наименование строкового значение числа
-                        foreach (config('app . locales') as $key => $value) {
+                        foreach (config('app.locales') as $key => $value) {
                             $item_find['name_lang_' . $key] = $val_calc[$key];
                         }
                         // Поиск relip - проекта
