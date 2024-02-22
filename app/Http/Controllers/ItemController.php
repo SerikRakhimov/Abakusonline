@@ -2039,7 +2039,7 @@ class ItemController extends Controller
                                $heading = 0, $base_index_page = 0, $body_link_page = 0, $body_all_page = 0,
                                $parent_ret_id = null,
                                $view_link = null,
-                               $save_url = null,
+                               $saveurl_add = null,
                        Link    $par_link = null, Item $parent_item = null)
     {
 
@@ -2059,7 +2059,8 @@ class ItemController extends Controller
         $request->validate($this->code_rules($request, $relip_project->id, $base->id));
 //        }
 
-        $save_url = GlobalController::set_un_url_save($save_url);
+        // Расшифровка
+        $saveurl_add = GlobalController::set_un_url_save($saveurl_add);
 
         // Проверка на $base->maxcount_lst
         // Проверка осуществляется только при добавлении записи в начале функции и при сохранении записи
@@ -2947,70 +2948,78 @@ class ItemController extends Controller
             // Вызов главного меню
             return redirect()->route('project.start', ['project' => $project, 'role' => $role]);
         }
-        // Если вызов не с заголовка
+        //$str_link = '';
+        $str_link = GlobalController::par_link_const_textnull();
+        // Если вызов не с заголовка формы item_index.php
         if (!$heading) {
-            if ($save_url) {
+            if ($saveurl_add) {
                 // Переход по сохраненной ссылке
-                //dd(GlobalController::set_un_url_save($save_url));
-                return redirect($save_url);
+                return redirect($saveurl_add);
             }
-        }
-        $str_link = '';
-        if ($base_index_page > 0) {
-            // Использовать "project' => $project"
-            // Используется "'relit_id'=> $relit_id"
-            return redirect()->route('item.base_index', ['base' => $item->base, 'project' => $project, 'role' => $role,
-                'relit_id' => $relit_id,
-                'base_index_page' => $base_index_page, 'body_link_page' => $body_link_page, 'body_all_page' => $body_all_page]);
         } else {
-            // Если $heading = true - нажата Добавить из "heading", false - из "body" (только при добавлении записи)
-            $str_link = '';
-            if ($body_all_page > 0) {
-                // Вызываем item_index.php с body - все
-                $str_link = GlobalController::par_link_const_textnull();
-            } else {
-                // Вызываем item_index.php с body - связь $par_link
-                $str_link = $view_link;
-            }
-            if (!$heading && $parent_item) {
-                // Используется "'relit_id'=>$parent_ret_id, 'view_ret_id' => $relit_id'"
-                return redirect()->route('item.item_index', ['project' => $project, 'item' => $parent_item, 'role' => $role,
-                    'usercode' => GlobalController::usercode_calc(),
-                    'relit_id' => $parent_ret_id,
-                    'called_from_button' => 1,
-                    'view_link' => $str_link,
-                    // 'string_link_ids_current' => $string_link_ids_current, 'string_item_ids_current' => $string_item_ids_current, 'string_all_codes_current' => $string_all_codes_current,
-                    'string_current' => $string_current,
-                    'base_index_page' => $base_index_page, 'body_link_page' => $body_link_page, 'body_all_page' => $body_all_page,
-                    'prev_base_index_page' => $base_index_page,
-                    'prev_body_link_page' => $body_link_page,
-                    'prev_body_all_page' => $body_all_page,
-                    'view_ret_id' => $relit_id]);
-            } else {
-                // Используется "'relit_id'=>$parent_ret_id, 'view_ret_id' => $relit_id'"
-//                return redirect()->route('item.item_index', ['project' => $project, 'item' => $item, 'role' => $role,
-//                    'usercode' => GlobalController::usercode_calc(),
-//                    'relit_id' => $parent_ret_id,
-//                    'view_link' => $str_link,
-//                    'string_link_ids_current' => $string_link_ids_current, 'string_item_ids_current' => $string_item_ids_current, 'string_all_codes_current' => $string_all_codes_current,
-//                    'base_index_page' => $base_index_page, 'body_link_page' => $body_link_page, 'body_all_page' => $body_all_page,
-//                    'prev_base_index_page' => $base_index_page,
-//                    'prev_body_link_page' => $body_link_page,
-//                    'prev_body_all_page' => $body_all_page,
-//                    'view_ret_id' => $relit_id]);
-                return redirect()->route('item.item_index', ['project' => $project, 'item' => $item, 'role' => $role,
-                    'usercode' => GlobalController::usercode_calc(),
+            // Используется "'relit_id'=>$relit_id, 'view_ret_id' => $parent_ret_id'"
+            return redirect()->route('item.item_index', ['project' => $project, 'item' => $item, 'role' => $role,
+                'usercode' => GlobalController::usercode_calc(),
+                'relit_id' => $relit_id,
+                'called_from_button' => 1,
+                'view_link' => $str_link,
+                // 'string_link_ids_current' => $string_link_ids_current, 'string_item_ids_current' => $string_item_ids_current, 'string_all_codes_current' => $string_all_codes_current,
+                'string_current' => $string_current,
+                'base_index_page' => $base_index_page, 'body_link_page' => $body_link_page, 'body_all_page' => $body_all_page,
+                'prev_base_index_page' => $base_index_page,
+                'prev_body_link_page' => $body_link_page,
+                'prev_body_all_page' => $body_all_page,
+                'view_ret_id' => $parent_ret_id
+            ]);
+        }
+        // Не удалять
+        if (1 == 1) {
+            if ($base_index_page > 0) {
+                // Использовать "project' => $project"
+                // Используется "'relit_id'=> $relit_id"
+                return redirect()->route('item.base_index', ['base' => $item->base, 'project' => $project, 'role' => $role,
                     'relit_id' => $relit_id,
-                    'called_from_button' => 1,
-                    'view_link' => $str_link,
-                    // 'string_link_ids_current' => $string_link_ids_current, 'string_item_ids_current' => $string_item_ids_current, 'string_all_codes_current' => $string_all_codes_current,
-                    'string_current' => $string_current,
-                    'base_index_page' => $base_index_page, 'body_link_page' => $body_link_page, 'body_all_page' => $body_all_page,
-                    'prev_base_index_page' => $base_index_page,
-                    'prev_body_link_page' => $body_link_page,
-                    'prev_body_all_page' => $body_all_page,
-                    'view_ret_id' => $parent_ret_id
-                ]);
+                    'base_index_page' => $base_index_page, 'body_link_page' => $body_link_page, 'body_all_page' => $body_all_page]);
+            } else {
+                // Если $heading = true - нажата Добавить из "heading", false - из "body" (только при добавлении записи)
+                $str_link = '';
+                if ($body_all_page > 0) {
+                    // Вызываем item_index.php с body - все
+                    $str_link = GlobalController::par_link_const_textnull();
+                } else {
+                    // Вызываем item_index.php с body - связь $par_link
+                    $str_link = $view_link;
+                }
+                if (!$heading && $parent_item) {
+                    // Используется "'relit_id'=>$parent_ret_id, 'view_ret_id' => $relit_id'"
+                    return redirect()->route('item.item_index', ['project' => $project, 'item' => $parent_item, 'role' => $role,
+                        'usercode' => GlobalController::usercode_calc(),
+                        'relit_id' => $parent_ret_id,
+                        'called_from_button' => 1,
+                        'view_link' => $str_link,
+                        // 'string_link_ids_current' => $string_link_ids_current, 'string_item_ids_current' => $string_item_ids_current, 'string_all_codes_current' => $string_all_codes_current,
+                        'string_current' => $string_current,
+                        'base_index_page' => $base_index_page, 'body_link_page' => $body_link_page, 'body_all_page' => $body_all_page,
+                        'prev_base_index_page' => $base_index_page,
+                        'prev_body_link_page' => $body_link_page,
+                        'prev_body_all_page' => $body_all_page,
+                        'view_ret_id' => $relit_id]);
+                } else {
+                    // Используется "'relit_id'=>$relit_id, 'view_ret_id' => $parent_ret_id'"
+                    return redirect()->route('item.item_index', ['project' => $project, 'item' => $item, 'role' => $role,
+                        'usercode' => GlobalController::usercode_calc(),
+                        'relit_id' => $relit_id,
+                        'called_from_button' => 1,
+                        'view_link' => $str_link,
+                        // 'string_link_ids_current' => $string_link_ids_current, 'string_item_ids_current' => $string_item_ids_current, 'string_all_codes_current' => $string_all_codes_current,
+                        'string_current' => $string_current,
+                        'base_index_page' => $base_index_page, 'body_link_page' => $body_link_page, 'body_all_page' => $body_all_page,
+                        'prev_base_index_page' => $base_index_page,
+                        'prev_body_link_page' => $body_link_page,
+                        'prev_body_all_page' => $body_all_page,
+                        'view_ret_id' => $parent_ret_id
+                    ]);
+                }
             }
         }
     }
@@ -4702,6 +4711,7 @@ class ItemController extends Controller
                                 $heading = 0, $base_index_page = 0, $body_link_page = 0, $body_all_page = 0,
                                 $parent_ret_id = null,
                                 $view_link = null,
+                                $saveurl_edit = null,
                         Link    $par_link = null, Item $parent_item = null)
     {
         // установка часового пояса нужно для сохранения времени
@@ -4720,6 +4730,9 @@ class ItemController extends Controller
         //    }
 
         $relip_project = GlobalController::calc_relip_project($relit_id, $project);
+
+        // Расшифровка
+        $saveurl_edit = GlobalController::set_un_url_save($saveurl_edit);
 
         // При корректировке
         // Если данные изменились - выполнить проверку. оператор '??' нужны
@@ -5648,6 +5661,13 @@ class ItemController extends Controller
             // Вызов главного меню
             return redirect()->route('project.start', ['project' => $project, 'role' => $role]);
         }
+        if ($saveurl_edit) {
+            // Переход по сохраненной ссылке
+            return redirect($saveurl_edit);
+        }
+        // При корректировке записи нужно
+        // "Не удалять"
+        //if (1 == 2) {
         $str_link = '';
         if ($base_index_page > 0) {
             // Использовать "project' => $project"
@@ -5759,6 +5779,7 @@ class ItemController extends Controller
                 }
             }
         }
+        //}
     }
 
     private
@@ -5815,6 +5836,7 @@ class ItemController extends Controller
                            $base_index_page = 0, $body_link_page = 0, $body_all_page = 0,
                            $parent_ret_id = null,
                            $view_link = null,
+                           $saveurl_edit = null,
                       Link $par_link = null, Item $parent_item = null)
     {
         if ($item->is_history() == true) {
@@ -5889,6 +5911,7 @@ class ItemController extends Controller
             'base_index_page' => $base_index_page, 'body_link_page' => $body_link_page, 'body_all_page' => $body_all_page,
             'parent_ret_id' => $parent_ret_id,
             'view_link' => $view_link,
+            'saveurl_edit' => $saveurl_edit,
             'par_link' => $par_link,
             'parent_item' => $parent_item]);
     }
@@ -5910,6 +5933,7 @@ class ItemController extends Controller
                                       $base_index_page = 0, $body_link_page = 0, $body_all_page = 0,
                                       $parent_ret_id = null,
                                       $view_link = null,
+                                      $saveurl_del = null,
                                  Link $par_link, Item $parent_item = null)
 
     {
@@ -5949,7 +5973,7 @@ class ItemController extends Controller
         if ($is_checking_empty['result_entry_empty'] == false) {
             return view('message', ['message' => $is_checking_empty['result_message_empty']]);
         }
-
+// Вызов формы с 'type_form' => 'delete_question'
         return view('item/ext_show', ['type_form' => 'delete_question', 'item' => $item, 'role' => $role,
             'project' => $project,
             'relit_id' => $relit_id,
@@ -5966,6 +5990,7 @@ class ItemController extends Controller
             'body_all_page' => $body_all_page,
             'view_link' => $view_link,
             'par_link' => $par_link,
+            'saveurl_question_del' => $saveurl_del,
             'parent_item' => $parent_item,
             'parent_ret_id' => $parent_ret_id]);
 
@@ -5985,6 +6010,7 @@ class ItemController extends Controller
                              $heading = 0, $base_index_page = 0, $body_link_page = 0, $body_all_page = 0,
                              $parent_ret_id = null,
                              $view_link = null,
+                             $saveurl_del = null,
                         Link $par_link, Item $parent_item = null)
     {
         if ($item->is_history() == true) {
@@ -5994,6 +6020,9 @@ class ItemController extends Controller
         if (GlobalController::check_project_item_user($project, $item, $role, $usercode) == false) {
             return view('message', ['message' => trans('main.no_access')]);
         }
+
+        // Расшифровка
+        $saveurl_del = GlobalController::set_un_url_save($saveurl_del);
 
 //        if (GlobalController::check_project_user($project, $role) == false) {
 //            return view('message', ['message' => trans('main.info_user_changed')]);
@@ -6128,54 +6157,61 @@ class ItemController extends Controller
                 // Вызов главного меню
                 return redirect()->route('project.start', ['project' => $project, 'role' => $role]);
             }
-            $str_link = '';
-            if ($base_index_page > 0) {
-                // Только при удалении эти строки
-                if ($base_index_page > 1) {
-                    $base_index_page = $base_index_page - 1;
-                }
-                // Использовать "project' => $project"
-                // Используется "'relit_id'=> $relit_id"
-                return redirect()->route('item.base_index', ['base' => $item->base, 'project' => $project, 'role' => $role,
-                    'relit_id' => $relit_id,
-                    'base_index_page' => $base_index_page, 'body_link_page' => $body_link_page, 'body_all_page' => $body_all_page]);
-            } else {
-                // Если $heading = true - нажата Добавить из "heading", false - из "body" (только при добавлении записи)
-                $str_link = '';
-                if ($body_all_page > 0) {
-                    // Вызываем item_index.php с body - все
-                    $str_link = GlobalController::par_link_const_textnull();
-                    // Только при удалении эти строки
-                    if ($body_all_page > 1) {
-                        $body_all_page = $body_all_page - 1;
-                    }
-                } else {
-                    // Вызываем item_index.php с body - связь $par_link
-                    $str_link = $view_link;
-                    // Только при удалении эти строки
-                    if ($body_link_page > 1) {
-                        $body_link_page = $body_link_page - 1;
-                    }
-                }
-                // Используется "'relit_id'=>$parent_ret_id, 'view_ret_id' => $relit_id'"
-                return redirect()->route('item.item_index', ['project' => $project, 'item' => $parent_item, 'role' => $role,
-                    'usercode' => GlobalController::usercode_calc(),
-                    'relit_id' => $parent_ret_id,
-                    'called_from_button' => 1,
-                    'view_link' => $str_link,
-//                      'string_link_ids_current' => $string_link_ids_current, 'string_item_ids_current' => $string_item_ids_current, 'string_all_codes_current' => $string_all_codes_current,
-                    'string_current' => $string_current,
-                    'base_index_page' => $base_index_page, 'body_link_page' => $body_link_page, 'body_all_page' => $body_all_page,
-                    'prev_base_index_page' => $base_index_page,
-                    'prev_body_link_page' => $body_link_page,
-                    'prev_body_all_page' => $body_all_page,
-                    'view_ret_id' => $relit_id]);
+            if ($saveurl_del) {
+                // Переход по сохраненной ссылке
+                return redirect($saveurl_del);
             }
+            // Не удалять
+            if (1 == 2) {
+                $str_link = '';
+                if ($base_index_page > 0) {
+                    // Только при удалении эти строки
+                    if ($base_index_page > 1) {
+                        $base_index_page = $base_index_page - 1;
+                    }
+                    // Использовать "project' => $project"
+                    // Используется "'relit_id'=> $relit_id"
+                    return redirect()->route('item.base_index', ['base' => $item->base, 'project' => $project, 'role' => $role,
+                        'relit_id' => $relit_id,
+                        'base_index_page' => $base_index_page, 'body_link_page' => $body_link_page, 'body_all_page' => $body_all_page]);
+                } else {
+                    // Если $heading = true - нажата Добавить из "heading", false - из "body" (только при добавлении записи)
+                    $str_link = '';
+                    if ($body_all_page > 0) {
+                        // Вызываем item_index.php с body - все
+                        $str_link = GlobalController::par_link_const_textnull();
+                        // Только при удалении эти строки
+                        if ($body_all_page > 1) {
+                            $body_all_page = $body_all_page - 1;
+                        }
+                    } else {
+                        // Вызываем item_index.php с body - связь $par_link
+                        $str_link = $view_link;
+                        // Только при удалении эти строки
+                        if ($body_link_page > 1) {
+                            $body_link_page = $body_link_page - 1;
+                        }
+                    }
+                    // Используется "'relit_id'=>$parent_ret_id, 'view_ret_id' => $relit_id'"
+                    return redirect()->route('item.item_index', ['project' => $project, 'item' => $parent_item, 'role' => $role,
+                        'usercode' => GlobalController::usercode_calc(),
+                        'relit_id' => $parent_ret_id,
+                        'called_from_button' => 1,
+                        'view_link' => $str_link,
+//                      'string_link_ids_current' => $string_link_ids_current, 'string_item_ids_current' => $string_item_ids_current, 'string_all_codes_current' => $string_all_codes_current,
+                        'string_current' => $string_current,
+                        'base_index_page' => $base_index_page, 'body_link_page' => $body_link_page, 'body_all_page' => $body_all_page,
+                        'prev_base_index_page' => $base_index_page,
+                        'prev_body_link_page' => $body_link_page,
+                        'prev_body_all_page' => $body_all_page,
+                        'view_ret_id' => $relit_id]);
+                }
 //            if (Session::has('base_index_previous_url')) {
 //                return redirect(session('base_index_previous_url'));
 //            } else {
 //                return redirect()->back();
 //            }
+            }
         }
     }
 
@@ -6273,8 +6309,13 @@ class ItemController extends Controller
                              $heading = 0, $base_index_page = 0, $body_link_page = 0, $body_all_page = 0,
                              $parent_ret_id = null,
                              $view_link = null,
+                             $saveurl_ret = null,
                         Link $par_link, Item $parent_item = null)
     {
+
+        // Расшифровка
+        $saveurl_ret = GlobalController::set_un_url_save($saveurl_ret);
+
         // Если запись удаляется при просмотре Пространство с "шапки", то перейти на base_index
 //        if ($heading == true) {
 //            // Используется "'relit_id'=>$parent_ret_id"
@@ -6295,64 +6336,71 @@ class ItemController extends Controller
             // Вызов главного меню
             return redirect()->route('project.start', ['project' => $project, 'role' => $role]);
         }
-        $str_link = '';
-        if ($base_index_page > 0) {
-            // Только при удалении эти строки
+        if ($saveurl_ret) {
+            // Переход по сохраненной ссылке
+            return redirect($saveurl_ret);
+        }
+        // Не удалять
+        if (1 == 2) {
+            $str_link = '';
+            if ($base_index_page > 0) {
+                // Только при удалении эти строки
 //            if ($base_index_page > 1) {
 //                $base_index_page = $base_index_page - 1;
 //            }
-            // Использовать "project' => $project"
-            // Используется "'relit_id'=> $relit_id"
+                // Использовать "project' => $project"
+                // Используется "'relit_id'=> $relit_id"
 //                return $item->base_id . '-' . $project->id . '-' . $role->id . '-' . $relit_id . '-' . $base_index_page . '-' . $body_link_page . '-'
 //                . $body_all_page;
-            return redirect()->route('item.base_index', ['base' => $item->base, 'project' => $project, 'role' => $role,
-                'relit_id' => $relit_id,
-                'base_index_page' => $base_index_page, 'body_link_page' => $body_link_page, 'body_all_page' => $body_all_page]);
-        } else {
-            // Если $heading = true - нажата Добавить из "heading", false - из "body" (только при добавлении записи)
-            $str_link = '';
-            if ($body_all_page > 0) {
-                // Вызываем item_index.php с body - все
-                $str_link = GlobalController::par_link_const_textnull();
-                // Только при удалении эти строки
+                return redirect()->route('item.base_index', ['base' => $item->base, 'project' => $project, 'role' => $role,
+                    'relit_id' => $relit_id,
+                    'base_index_page' => $base_index_page, 'body_link_page' => $body_link_page, 'body_all_page' => $body_all_page]);
+            } else {
+                // Если $heading = true - нажата Добавить из "heading", false - из "body" (только при добавлении записи)
+                $str_link = '';
+                if ($body_all_page > 0) {
+                    // Вызываем item_index.php с body - все
+                    $str_link = GlobalController::par_link_const_textnull();
+                    // Только при удалении эти строки
 //                if ($body_all_page > 1) {
 //                    $body_all_page = $body_all_page - 1;
 //                }
-            } else {
-                // Вызываем item_index.php с body - связь $par_link
-                $str_link = $view_link;
-                // Только при удалении эти строки
+                } else {
+                    // Вызываем item_index.php с body - связь $par_link
+                    $str_link = $view_link;
+                    // Только при удалении эти строки
 //                if ($body_link_page > 1) {
 //                    $body_link_page = $body_link_page - 1;
 //                }
-            }
-            if (!$heading && $parent_item) {
-                // Используется "'relit_id'=>$parent_ret_id, 'view_ret_id' => $relit_id'"
-                return redirect()->route('item.item_index', ['project' => $project, 'item' => $parent_item, 'role' => $role,
-                    'usercode' => GlobalController::usercode_calc(),
-                    'relit_id' => $parent_ret_id,
-                    'called_from_button' => 1,
-                    'view_link' => $str_link,
+                }
+                if (!$heading && $parent_item) {
+                    // Используется "'relit_id'=>$parent_ret_id, 'view_ret_id' => $relit_id'"
+                    return redirect()->route('item.item_index', ['project' => $project, 'item' => $parent_item, 'role' => $role,
+                        'usercode' => GlobalController::usercode_calc(),
+                        'relit_id' => $parent_ret_id,
+                        'called_from_button' => 1,
+                        'view_link' => $str_link,
 //                      'string_link_ids_current' => $string_link_ids_current, 'string_item_ids_current' => $string_item_ids_current, 'string_all_codes_current' => $string_all_codes_current,
-                    'string_current' => $string_current,
-                    'base_index_page' => $base_index_page, 'body_link_page' => $body_link_page, 'body_all_page' => $body_all_page,
-                    'prev_base_index_page' => $base_index_page,
-                    'prev_body_link_page' => $body_link_page,
-                    'prev_body_all_page' => $body_all_page,
-                    'view_ret_id' => $relit_id]);
-            } else {
-                return redirect()->route('item.item_index', ['project' => $project, 'item' => $item, 'role' => $role,
-                    'usercode' => GlobalController::usercode_calc(),
-                    'relit_id' => $relit_id,
-                    'called_from_button' => 1,
-                    'view_link' => $str_link,
-                    // 'string_link_ids_current' => $string_link_ids_current, 'string_item_ids_current' => $string_item_ids_current, 'string_all_codes_current' => $string_all_codes_current,
-                    'string_current' => $string_current,
-                    'base_index_page' => $base_index_page, 'body_link_page' => $body_link_page, 'body_all_page' => $body_all_page,
-                    'prev_base_index_page' => $base_index_page,
-                    'prev_body_link_page' => $body_link_page,
-                    'prev_body_all_page' => $body_all_page,
-                    'view_ret_id' => $parent_ret_id]);
+                        'string_current' => $string_current,
+                        'base_index_page' => $base_index_page, 'body_link_page' => $body_link_page, 'body_all_page' => $body_all_page,
+                        'prev_base_index_page' => $base_index_page,
+                        'prev_body_link_page' => $body_link_page,
+                        'prev_body_all_page' => $body_all_page,
+                        'view_ret_id' => $relit_id]);
+                } else {
+                    return redirect()->route('item.item_index', ['project' => $project, 'item' => $item, 'role' => $role,
+                        'usercode' => GlobalController::usercode_calc(),
+                        'relit_id' => $relit_id,
+                        'called_from_button' => 1,
+                        'view_link' => $str_link,
+                        // 'string_link_ids_current' => $string_link_ids_current, 'string_item_ids_current' => $string_item_ids_current, 'string_all_codes_current' => $string_all_codes_current,
+                        'string_current' => $string_current,
+                        'base_index_page' => $base_index_page, 'body_link_page' => $body_link_page, 'body_all_page' => $body_all_page,
+                        'prev_base_index_page' => $base_index_page,
+                        'prev_body_link_page' => $body_link_page,
+                        'prev_body_all_page' => $body_all_page,
+                        'view_ret_id' => $parent_ret_id]);
+                }
             }
         }
         //}

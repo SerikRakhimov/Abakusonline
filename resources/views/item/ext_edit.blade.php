@@ -12,13 +12,17 @@
     use \App\Http\Controllers\LinkController;
     use \App\Http\Controllers\StepController;
 
-    $save_url = GlobalController::set_url_save(Request::server('HTTP_REFERER'));
-
     // Нужно для функции date('Y-m-d')
     // установка часового пояса нужно для сохранения времени
     date_default_timezone_set('Asia/Almaty');
 
     $update = isset($item);
+    $saveurl_add = null;
+    // При добавлении записи
+    if (!$update) {
+        // Шифровка
+        $saveurl_add = GlobalController::set_url_save(Request::server('HTTP_REFERER'));
+    }
     $base_right = GlobalController::base_right($base, $role, $relit_id);
     $relip_project = GlobalController::calc_relip_project($relit_id, $project);
     // У $base есть ли считаемые поля (да/нет)
@@ -104,6 +108,7 @@
         'base_index_page'=>$base_index_page, 'body_link_page'=>$body_link_page, 'body_all_page'=>$body_all_page,
         'parent_ret_id' => GlobalController::set_par_null($parent_ret_id),
         'view_link'=>GlobalController::set_par_null($view_link),
+        'saveurl_edit' => $saveurl_edit,
         'par_link' =>$par_link,
         'parent_item' => $parent_item
         ]):
@@ -114,9 +119,9 @@
         'base_index_page'=>$base_index_page, 'body_link_page'=>$body_link_page,'body_all_page'=>$body_all_page,
         'parent_ret_id' => GlobalController::set_par_null($parent_ret_id),
         'view_link'=>GlobalController::set_par_null($view_link),
+        'saveurl_add' => $saveurl_add,
         'par_link' =>$par_link,
-        'parent_item' => $parent_item,
-        'save_url' => $save_url])}}"
+        'parent_item' => $parent_item])}}"
         method="POST"
         enctype=multipart/form-data
         {{--        @if($par_link)--}}

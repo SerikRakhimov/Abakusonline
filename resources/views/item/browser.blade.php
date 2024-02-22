@@ -193,7 +193,8 @@ $num_cols = GlobalController::get_number_of_columns_brow();
                 </a></th>
             <th class="text-center {{$order_by != 'code'?'font-italic' : ''}}">
                 <a href="{{route('item.browser',['link_id'=>$link->id, 'project_id'=>$project->id, 'role_id'=>$role->id, 'relit_id'=>$relit_id, 'item_id'=>$item_id, 'order_by'=>'name', 'filter_by'=>$filter_by, 'search'=>$search])}}"
-                   title="{{trans('main.sort_by_name')}}">{{trans('main.name')}}</a></th>
+                   title="{{trans('main.sort_by_name')}}">{{trans('main.name')}}
+                </a></th>
             </tr>
             </thead>
             <tbody>

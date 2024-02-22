@@ -845,7 +845,7 @@ Route::get('/item/edit/{item}', [ItemController::class, 'edit'])
 //Route::get('/item/ext_edit/{item}/{project}/{role}/{usercode}/{relit_id}/{string_link_ids_current?}/{string_item_ids_current?}/{string_all_codes_current?}/{heading?}/{base_index_page?}/{body_link_page?}/{body_all_page?}/{parent_ret_id?}/{view_link?}/{par_link?}/{parent_item?}', [ItemController::class, 'ext_edit'])
 //    ->name('item.ext_edit')
 //    ->middleware('auth');
-Route::get('/item/ext_edit/{item}/{project}/{role}/{usercode}/{relit_id}/{string_current?}/{heading?}/{base_index_page?}/{body_link_page?}/{body_all_page?}/{parent_ret_id?}/{view_link?}/{par_link?}/{parent_item?}', [ItemController::class, 'ext_edit'])
+Route::get('/item/ext_edit/{item}/{project}/{role}/{usercode}/{relit_id}/{string_current?}/{heading?}/{base_index_page?}/{body_link_page?}/{body_all_page?}/{parent_ret_id?}/{view_link?}/{saveurl_edit?}/{par_link?}/{parent_item?}', [ItemController::class, 'ext_edit'])
     ->name('item.ext_edit')
     ->middleware('auth');
 
@@ -857,7 +857,7 @@ Route::post('/item/store', [ItemController::class, 'store'])
 //Route::post('/item/ext_store/{base}/{project}/{role}/{usercode}/{relit_id}/{string_link_ids_current?}/{string_item_ids_current?}/{string_all_codes_current?}/{heading?}/{base_index_page?}/{body_link_page?}/{body_all_page?}/{parent_ret_id?}/{view_link?}/{par_link?}/{parent_item?}', [ItemController::class, 'ext_store'])
 //    ->name('item.ext_store')
 //    ->middleware('auth');
-Route::post('/item/ext_store/{base}/{project}/{role}/{usercode}/{relit_id}/{string_current?}/{heading?}/{base_index_page?}/{body_link_page?}/{body_all_page?}/{parent_ret_id?}/{view_link?}/{save_url?}/{par_link?}/{parent_item?}', [ItemController::class, 'ext_store'])
+Route::post('/item/ext_store/{base}/{project}/{role}/{usercode}/{relit_id}/{string_current?}/{heading?}/{base_index_page?}/{body_link_page?}/{body_all_page?}/{parent_ret_id?}/{view_link?}/{saveurl_add?}/{par_link?}/{parent_item?}', [ItemController::class, 'ext_store'])
     ->name('item.ext_store')
     ->middleware('auth');
 
@@ -868,7 +868,7 @@ Route::put('/item/edit/{item}', [ItemController::class, 'update'])
 //Route::put('/item/ext_edit/{item}/{project}/{role}/{usercode}/{relit_id}/{string_link_ids_current?}/{string_item_ids_current?}/{string_all_codes_current?}/{heading?}/{base_index_page?}/{body_link_page?}/{body_all_page?}/{parent_ret_id?}/{view_link?}/{par_link?}/{parent_item?}', [ItemController::class, 'ext_update'])
 //    ->name('item.ext_update')
 //    ->middleware('auth');
-Route::put('/item/ext_edit/{item}/{project}/{role}/{usercode}/{relit_id}/{string_current?}/{heading?}/{base_index_page?}/{body_link_page?}/{body_all_page?}/{parent_ret_id?}/{view_link?}/{par_link?}/{parent_item?}', [ItemController::class, 'ext_update'])
+Route::put('/item/ext_edit/{item}/{project}/{role}/{usercode}/{relit_id}/{string_current?}/{heading?}/{base_index_page?}/{body_link_page?}/{body_all_page?}/{parent_ret_id?}/{view_link?}/{saveurl_edit?}/{par_link?}/{parent_item?}', [ItemController::class, 'ext_update'])
     ->name('item.ext_update')
     ->middleware('auth');
 
@@ -881,16 +881,16 @@ Route::get('/item/delete_question/{item}', [ItemController::class, 'delete_quest
 //Route::get('/item/ext_delete_question/{item}/{project}/{role}/{usercode}/{relit_id}/{string_link_ids_current?}/{string_item_ids_current?}/{string_all_codes_current?}/{heading?}/{base_index_page?}/{body_link_page?}/{body_all_page?}/{parent_ret_id?}/{view_link?}/{par_link?}/{parent_item?}', [ItemController::class, 'ext_delete_question'])
 //    ->name('item.ext_delete_question')
 //    ->middleware('auth');
-Route::get('/item/ext_delete_question/{item}/{project}/{role}/{usercode}/{relit_id}/{string_current?}/{heading?}/{base_index_page?}/{body_link_page?}/{body_all_page?}/{parent_ret_id?}/{view_link?}/{par_link?}/{parent_item?}', [ItemController::class, 'ext_delete_question'])
+Route::get('/item/ext_delete_question/{item}/{project}/{role}/{usercode}/{relit_id}/{string_current?}/{heading?}/{base_index_page?}/{body_link_page?}/{body_all_page?}/{parent_ret_id?}/{view_link?}/{saveurl_del?}/{par_link?}/{parent_item?}', [ItemController::class, 'ext_delete_question'])
     ->name('item.ext_delete_question')
     ->middleware('auth');
 
 //  Нужно '/{par_link?}', при просмотре ext_show.php подчеркивается главная связь (из item_index.php)
 //  Нужно '/{parent_item?}', в ней передается $item_id главной записи item_index (при удалении записи с body)
-//Route::delete('/item/ext_delete/{item}/{project}/{role}/{usercode}/{relit_id}/{string_link_ids_current?}/{string_item_ids_current?}/{string_all_codes_current?}/{heading?}/{base_index_page?}/{body_link_page?}/{body_all_page?}/{parent_ret_id?}/{view_link?}/{par_link?}/{parent_item?}', [ItemController::class, 'ext_delete'])
+//Route::delete('/item/ext_delete/{item}/{project}/{role}/{usercode}/{relit_id}/{string_link_ids_current?}/{string_item_ids_current?}/{string_all_codes_current?}/{heading?}/{base_index_page?}/{body_link_page?}/{body_all_page?}/{parent_ret_id?}/{view_link?}/{saveurl_del?}/{par_link?}/{parent_item?}', [ItemController::class, 'ext_delete'])
 //    ->name('item.ext_delete')
 //    ->middleware('auth');
-Route::delete('/item/ext_delete/{item}/{project}/{role}/{usercode}/{relit_id}/{string_current?}/{heading?}/{base_index_page?}/{body_link_page?}/{body_all_page?}/{parent_ret_id?}/{view_link?}/{par_link?}/{parent_item?}', [ItemController::class, 'ext_delete'])
+Route::delete('/item/ext_delete/{item}/{project}/{role}/{usercode}/{relit_id}/{string_current?}/{heading?}/{base_index_page?}/{body_link_page?}/{body_all_page?}/{parent_ret_id?}/{view_link?}/{saveurl_del?}/{par_link?}/{parent_item?}', [ItemController::class, 'ext_delete'])
     ->name('item.ext_delete')
     ->middleware('auth');
 
@@ -898,7 +898,7 @@ Route::delete('/item/ext_delete/{item}/{project}/{role}/{usercode}/{relit_id}/{s
 //Route::get('/item/ext_return/{item}/{project}/{role}/{usercode}/{relit_id}/{string_current?}/{heading?}/{base_index_page?}/{body_link_page?}/{body_all_page?}/{parent_ret_id?}/{view_link?}/{par_link?}/{parent_item?}', [ItemController::class, 'ext_return'])
 //    ->name('item.ext_return')
 //    ->middleware('auth');
-Route::get('/item/ext_return/{item}/{project}/{role}/{usercode}/{relit_id}/{string_current?}/{heading?}/{base_index_page?}/{body_link_page?}/{body_all_page?}/{parent_ret_id?}/{view_link?}/{par_link?}/{parent_item?}', [ItemController::class, 'ext_return'])
+Route::get('/item/ext_return/{item}/{project}/{role}/{usercode}/{relit_id}/{string_current?}/{heading?}/{base_index_page?}/{body_link_page?}/{body_all_page?}/{parent_ret_id?}/{view_link?}/{saveurl_ret?}/{par_link?}/{parent_item?}', [ItemController::class, 'ext_return'])
     ->name('item.ext_return');
 
 Route::post('/store_link_change', [ItemController::class, 'store_link_change'])

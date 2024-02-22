@@ -2979,6 +2979,7 @@ class GlobalController extends Controller
         return $result;
     }
 
+    // Шифровка, обе функции похожи
     static function set_url_save($save_url)
     {
         $result = $save_url;
@@ -2991,14 +2992,17 @@ class GlobalController extends Controller
         return $result;
     }
 
+    // Расшифровка, обе функции похожи
     static function set_un_url_save($save_url)
     {
         $result = $save_url;
         if ($result == GlobalController::par_link_const_textnull()) {
             $result = null;
         } else {
-            $result = str_replace('*', '/', $result);
-            $result = str_replace('~', '?', $result);
+            if ($result) {
+                $result = str_replace('*', '/', $result);
+                $result = str_replace('~', '?', $result);
+            }
         }
         return $result;
     }

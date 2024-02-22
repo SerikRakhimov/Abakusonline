@@ -16,10 +16,18 @@
     // Показывать emoji - да/нет
     $emoji_enable = true;
     $link_image = null;
+    // Не использовать
+    //$saveurl_show_edit = null;
+    //$saveurl_show_del = null;
+    //$saveurl_show_ret = null;
+    // Шифровка
+    if ($type_form == 'show') {
+        // Предыдущая страница при просмотре записи
+        $saveurl_show_edit = GlobalController::set_url_save(Request::server('HTTP_REFERER'));
+        $saveurl_show_del = $saveurl_show_edit;
+        $saveurl_show_ret = $saveurl_show_edit;
+    }
     ?>
-
-{{--    {{Request::server('HTTP_REFERER')}}--}}
-
     @include('layouts.project.show_project_role',['project'=>$project, 'role'=>$role, 'relit_id'=>$relit_id])
     <h4 class="display-5">
         @if ($type_form == 'show')
@@ -283,8 +291,8 @@
         @endforeach
     @endif
     <?php
-        $percent_first = 1;
-        $percent_second = 30;
+    $percent_first = 1;
+    $percent_second = 30;
     ?>
     <table class="table table-sm table-hover">
         {{--        <thead>--}}
@@ -294,7 +302,7 @@
         <tbody>
         <tr>
             <td style="width: {{$percent_first}}%">
-{{--                {{GlobalController::const_id_emoji()}}--}}
+                {{--                {{GlobalController::const_id_emoji()}}--}}
             </td>
             <td style="width: {{$percent_second}}%">
                 <div class="text-label">
@@ -318,7 +326,7 @@
         @if($base->is_code_needed == true)
             <tr>
                 <td style="width: {{$percent_first}}%">
-{{--               {{GlobalController::const_input_numbers()}}--}}
+                    {{--               {{GlobalController::const_input_numbers()}}--}}
                 </td>
                 <td style="width: {{$percent_second}}%">
                     <div class="text-label">
@@ -341,7 +349,7 @@
         @if($base_right['is_list_base_sort_creation_date_desc'] == true)
             <tr>
                 <td style="width: {{$percent_first}}%">
-{{--                    {{GlobalController::const_date_emoji()}}--}}
+                    {{--                    {{GlobalController::const_date_emoji()}}--}}
                 </td>
                 <td style="width: {{$percent_second}}%">
                     <div class="text-label">
@@ -552,6 +560,12 @@
                         {{--                'string_link_ids_current' => $string_link_ids_current,--}}
                         {{--                'string_item_ids_current' => $string_item_ids_current,--}}
                         {{--                'string_all_codes_current' => $string_all_codes_current,--}}
+
+                        {{-- При просмотре кода формы в браузере возможно неправильно показывать 'saveurl_edit'=>$saveurl_show_edit как textnull,
+                         это, возможно, связано что вычисляется Request::server('HTTP_REFERER')
+                                  $saveurl_show_edit = GlobalController::set_url_save(Request::server('HTTP_REFERER'));
+                                  На самом деле, все передается как надо в route('item.ext_edit')
+                                  --}}
                         <button type="button" class="btn btn-dreamer mb-1 mb-sm-0"
                                 onclick='document.location="{{route('item.ext_edit',
             ['item'=>$item,'project'=>$project, 'role'=>$role,
@@ -562,6 +576,7 @@
             'base_index_page' => $base_index_page, 'body_link_page' => $body_link_page, 'body_all_page' => $body_all_page,
             'parent_ret_id' => $parent_ret_id,
             'view_link' => $view_link,
+            'saveurl_edit'=>$saveurl_show_edit,
             'par_link' => $par_link,
             'parent_item' => $parent_item])}}"'
                                 title="{{trans('main.edit')}}">
@@ -601,6 +616,7 @@
             'base_index_page' => $base_index_page, 'body_link_page' => $body_link_page, 'body_all_page' => $body_all_page,
             'parent_ret_id' => $parent_ret_id,
             'view_link' => $view_link,
+            'saveurl_del'=>$saveurl_show_del,
             'par_link' => $par_link,
             'parent_item' => $parent_item])}}"'
                             title="{{trans('main.delete')}}">
@@ -643,12 +659,6 @@
             {{--                                            <i class="fas fa-atlas"></i>--}}
             {{--                                            {{trans('main.space')}}--}}
             {{--                                        </button>--}}
-            {{--            <button type="button" class="btn btn-dreamer mb-1 mb-sm-0"--}}
-            {{--                    title="{{trans('main.return')}}" @include('layouts.item.base_index.previous_url')>--}}
-            {{--                <i class="fas fa-arrow-left"></i>--}}
-            {{--                {{trans('main.return')}}--}}
-            {{--            </button>--}}
-            {{--            @include('layouts.item.base_index.previous_url')--}}
             {{--            Похожие строки вверху/внизу--}}
             {{--            <button type="button" class="btn btn-dreamer"--}}
             {{--                    onclick='document.location="{{route('item.ext_return',['item'=>$item,'project'=>$project, 'role'=>$role,--}}
@@ -664,20 +674,29 @@
             {{--                <i class="fas fa-arrow-left"></i>--}}
             {{--                {{trans('main.return')}}--}}
             {{--            </button>--}}
-            <button type="button" class="btn btn-dreamer"
-                    onclick='document.location="{{route('item.ext_return',['item'=>$item,'project'=>$project, 'role'=>$role,
-            'usercode' =>GlobalController::usercode_calc(),
-            'string_current' => $string_current,
-            'heading' => $heading,
-            'relit_id'=>$relit_id,
-            'base_index_page' => $base_index_page, 'body_link_page' => $body_link_page, 'body_all_page' => $body_all_page,
-            'parent_ret_id' => GlobalController::set_rev_relit_id($parent_ret_id),
-            'view_link' => $view_link,
-            'par_link' => $par_link, 'parent_item' => $parent_item])}}"'
-                    title="{{trans('main.return')}}"
+
+{{--            <button type="button" class="btn btn-dreamer"--}}
+{{--                    onclick='document.location="{{route('item.ext_return',['item'=>$item,'project'=>$project, 'role'=>$role,--}}
+{{--            'usercode' =>GlobalController::usercode_calc(),--}}
+{{--            'string_current' => $string_current,--}}
+{{--            'heading' => $heading,--}}
+{{--            'relit_id'=>$relit_id,--}}
+{{--            'base_index_page' => $base_index_page, 'body_link_page' => $body_link_page, 'body_all_page' => $body_all_page,--}}
+{{--            'parent_ret_id' => GlobalController::set_rev_relit_id($parent_ret_id),--}}
+{{--            'view_link' => $view_link,--}}
+{{--            'saveurl_ret' => $saveurl_show_ret,--}}
+{{--            'par_link' => $par_link, 'parent_item' => $parent_item])}}"'--}}
+{{--                    title="{{trans('main.return')}}"--}}
+{{--            >--}}
+{{--                <i class="fas fa-arrow-left"></i>--}}
+{{--                {{trans('main.return')}}--}}
+{{--            </button>--}}
+
+            <button type="button" class="btn btn-dreamer" title="{{trans('main.cancel')}}"
+                @include('layouts.item.base_index.previous_url')
             >
-                <i class="fas fa-arrow-left"></i>
-                {{trans('main.return')}}
+                <i class="fas fa-arrow-left d-inline"></i>
+                {{trans('main.cancel')}}
             </button>
             {{--            <button type="button" class="btn btn-dreamer"--}}
             {{--                    title="{{trans('main.return')}}" onclick="javascript:history.back();">--}}
@@ -703,6 +722,9 @@
         {{--        'string_link_ids_current' => $string_link_ids_current,--}}
         {{--        'string_item_ids_current' => $string_item_ids_current,--}}
         {{--        'string_all_codes_current' => $string_all_codes_current,--}}
+
+
+        {{-- Переменная $saveurl_question_del передается в ItemController::ext_delete_question() при вызове  с 'type_form' => 'delete_question'--}}
         <form action="{{route('item.ext_delete',['item'=>$item,'project'=>$project, 'role'=>$role,
             'usercode' =>GlobalController::usercode_calc(),
             'string_current' => $string_current,
@@ -711,6 +733,7 @@
             'base_index_page' => $base_index_page, 'body_link_page' => $body_link_page, 'body_all_page' => $body_all_page,
             'parent_ret_id' => $parent_ret_id,
             'view_link' => $view_link,
+            'saveurl_del' =>$saveurl_question_del,
             'par_link' => $par_link, 'parent_item' => $parent_item])}}"
               method="POST"
               id='delete-form'>
@@ -723,26 +746,29 @@
                         {{trans('main.delete')}}
                     </button>
                 @endif
+                {{--            Похожие строки вверху/внизу--}}
+                {{--                --}}{{-- Переменная $saveurl_question_ret присваивается выше при вызове формы 'type_form' => 'delete_question'--}}
                 {{--                <button type="button" class="btn btn-dreamer"--}}
-                {{--                        title="{{trans('main.return')}}" @include('layouts.item.base_index.previous_url')>--}}
+                {{--                        onclick='document.location="{{route('item.ext_return',['item'=>$item,'project'=>$project, 'role'=>$role,--}}
+                {{--            'usercode' =>GlobalController::usercode_calc(),--}}
+                {{--            'string_current' => $string_current,--}}
+                {{--            'heading' => $heading,--}}
+                {{--            'relit_id'=>$relit_id,--}}
+                {{--            'base_index_page' => $base_index_page, 'body_link_page' => $body_link_page, 'body_all_page' => $body_all_page,--}}
+                {{--            'parent_ret_id' => GlobalController::set_rev_relit_id($parent_ret_id),--}}
+                {{--            'view_link' => $view_link,--}}
+                {{--            'saveurl_ret' => $saveurl_question_ret,--}}
+                {{--            'par_link' => $par_link, 'parent_item' => $parent_item])}}"'--}}
+                {{--                        title="{{trans('main.return')}}"--}}
+                {{--                >--}}
                 {{--                    <i class="fas fa-arrow-left"></i>--}}
                 {{--                    {{trans('main.return')}}--}}
                 {{--                </button>--}}
-                {{--            Похожие строки вверху/внизу--}}
-                <button type="button" class="btn btn-dreamer"
-                        onclick='document.location="{{route('item.ext_return',['item'=>$item,'project'=>$project, 'role'=>$role,
-            'usercode' =>GlobalController::usercode_calc(),
-            'string_current' => $string_current,
-            'heading' => $heading,
-            'relit_id'=>$relit_id,
-            'base_index_page' => $base_index_page, 'body_link_page' => $body_link_page, 'body_all_page' => $body_all_page,
-            'parent_ret_id' => GlobalController::set_rev_relit_id($parent_ret_id),
-            'view_link' => $view_link,
-            'par_link' => $par_link, 'parent_item' => $parent_item])}}"'
-                        title="{{trans('main.return')}}"
+                <button type="button" class="btn btn-dreamer" title="{{trans('main.cancel')}}"
+                    @include('layouts.item.base_index.previous_url')
                 >
-                    <i class="fas fa-arrow-left"></i>
-                    {{trans('main.return')}}
+                    <i class="fas fa-arrow-left d-inline"></i>
+                    {{trans('main.cancel')}}
                 </button>
                 {{--                <button type="button" class="btn btn-dreamer"--}}
                 {{--                        title="{{trans('main.return')}}"--}}
