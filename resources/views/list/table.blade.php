@@ -309,7 +309,7 @@ if ($view_link) {
         @endforeach
     @endif
 @else
-{{--    style="margin: 0 auto;"--}}
+    {{--    style="margin: 0 auto;"--}}
     <table class="table table-sm table-hover
         @if($heading)
         table-borderless
@@ -352,11 +352,11 @@ if ($view_link) {
                             {{--                        @endif--}}
                             @if($view_link)
                                 {{--                            {{$view_link->child_label(!$heading & $emoji_enable)}}--}}
-{{--                                {{$view_link->child_label($emoji_enable)}}--}}
+                                {{--                                {{$view_link->child_label($emoji_enable)}}--}}
                                 {{$view_link->child_label(false)}}
                             @else
                                 {{--                            {{$base->name(!$heading & $emoji_enable)}}--}}
-{{--                                {{$base->name($emoji_enable)}}--}}
+                                {{--                                {{$base->name($emoji_enable)}}--}}
                                 {{$base->name(false)}}
                             @endif
                             <br><small><span class="text-label">{{$base->par_label_unit_meas()}}</span></small>
@@ -413,11 +413,12 @@ if ($view_link) {
                                         {{--                                        {{GlobalController::calc_title_name($matrix[$x][$y]["view_name"],false, $heading)}}--}}
                                         {{GlobalController::calc_title_name(GlobalController::name_and_end_emoji($matrix[$x][$y]["view_name"], $link->parent_base), false, $heading)}}
                                     @endif
-{{--                                @if($item_heading_base && $matrix[$x][$y]["work_link"] == true)--}}
+                                    {{--                                @if($item_heading_base && $matrix[$x][$y]["work_link"] == true)--}}
                                     @if($matrix[$x][$y]["work_link"] == true)
-                                    <br><small><span class="text-label">{{$link->parent_base->par_label_unit_meas()}}</span></small>
+                                        <br><small><span
+                                                class="text-label">{{$link->parent_base->par_label_unit_meas()}}</span></small>
                                     @endif
-                                        @if($heading)
+                                    @if($heading)
                                 </small>
                                 @endif
                                 </th>
@@ -546,7 +547,8 @@ if ($view_link) {
                         @if(GlobalController::is_base_calcname_check($base))
                             <td @include('layouts.class_from_base',['base'=>$base])>
                                 @if($base->type_is_image)
-                                    @include('view.img',['item'=>$item, 'size'=>"avatar", 'border'=>true, 'filenametrue'=>false, 'link'=>true, 'img_fluid'=>false, 'card_img_top'=>false, 'title'=>""])
+                                    {{--                                @include('view.img',['item'=>$item, 'size'=>"small", 'border'=>true, 'filenametrue'=>false, 'link'=>true, 'img_fluid'=>false, 'card_img_top'=>false, 'title'=>""])--}}
+                                    @include('view.img',['item'=>$item, 'size'=>"small", 'border'=>false, 'filenametrue'=>false, 'link'=>true, 'img_fluid'=>false, 'card_img_top'=>false, 'title'=>""])
                                 @elseif($base->type_is_document)
                                     @include('view.doc',['item'=>$item, 'usercode'=>GlobalController::usercode_calc()])
                                 @else
@@ -661,7 +663,8 @@ if ($view_link) {
                             ?>
                             @if($item_find)
                                 @if($link->parent_base->type_is_image())
-                                    @include('view.img',['item'=>$item_find, 'size'=>"avatar", 'border'=>true, 'filenametrue'=>false, 'link'=>true, 'img_fluid'=>false, 'card_img_top'=>false, 'title'=>""])
+{{--                                @include('view.img',['item'=>$item_find, 'size'=>"small", 'border'=>true, 'filenametrue'=>false, 'link'=>true, 'img_fluid'=>false, 'card_img_top'=>false, 'title'=>""])--}}
+                                    @include('view.img',['item'=>$item_find, 'size'=>"small", 'border'=>false, 'filenametrue'=>false, 'link'=>true, 'img_fluid'=>false, 'card_img_top'=>false, 'title'=>""])
                                 @elseif($link->parent_base->type_is_document())
                                     @include('view.doc',['item'=>$item_find, 'usercode'=>GlobalController::usercode_calc()])
                                 @else

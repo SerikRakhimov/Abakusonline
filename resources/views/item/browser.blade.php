@@ -203,7 +203,8 @@ $num_cols = GlobalController::get_number_of_columns_brow();
                 </a></th>
             @if($link_image)
                 <th class="text-center" title="{{trans('main.image')}}">
-                    📷
+                    {{--                    📷--}}
+                    {{trans('main.image')}}
                 </th>
                 @endif
                 </tr>
@@ -231,7 +232,7 @@ $num_cols = GlobalController::get_number_of_columns_brow();
                         <td class="text-center" style="cursor:pointer"
                             onclick="SelectFile('{{$it->id}}', '{{$it->code}}', '{{$it->name()}}')">
                             @if($item_find)
-                                @include('view.img',['item'=>$item_find, 'size'=>"avatar", 'filenametrue'=>false, 'link'=>false, 'img_fluid'=>false, 'card_img_top'=>false, 'title'=>$it->name()])
+                                @include('view.img',['item'=>$item_find, 'size'=>"small", 'filenametrue'=>false, 'link'=>false, 'img_fluid'=>false, 'card_img_top'=>false, 'title'=>$it->name()])
                             @endif
                         </td>
                     @endif
