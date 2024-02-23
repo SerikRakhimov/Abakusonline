@@ -3550,7 +3550,7 @@ class ItemController extends Controller
                                             $delete_main = true;
                                         }
                                     }
-                                    // Именно здесь: elseif ($value->is_group == true)
+                                    // Именно здесь: в блоке "elseif ($value->is_group == true)"
                                     $del_item_seek_nogroup = $del_item_seek_nogroup & $delete_main;
                                 }
                                 if ($delete_main == true) {

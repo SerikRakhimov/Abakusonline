@@ -647,7 +647,7 @@
                                 <span
                                     class="text-danger">{{GlobalController::label_is_required($link->parent_base)}}</span></label>
                         </div>
-                        <div class="col-sm-2">
+                        <div class="col-sm-3">
                             <input type="number"
                                    name="{{$key}}"
                                    id="link{{$key}}"
@@ -730,13 +730,13 @@
                                         <i class="fas fa-calculator d-inline"></i>
                                     </button>
                                 </div>
-                                <div class="col-sm-5">
+                                <div class="col-sm-4">
                                 <span class="form-label text-danger"
                                       name="name{{$key}}"
                                       id="name{{$key}}"></span>
                                 </div>
                             @else
-                                <div class="col-sm-6">
+                                <div class="col-sm-5">
                                 </div>
                             @endif
                         @endif
