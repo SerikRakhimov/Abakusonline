@@ -37,24 +37,24 @@ $num_cols = GlobalController::get_number_of_columns_brow();
                             {{trans('main.search')}}</button>
                     </div>
                     @if ($base_right['is_list_base_create'] == true)
-                    <div class="col-auto">
-                        <?php
-                        $message_bs_calc = ItemController::message_bs_calc($project, $base);
-                        $message_bs_info = $message_bs_calc['message_bs_info'];
-                        $message_bs_validate = $message_bs_calc['message_bs_validate'];
-                        ?>
-                        <button type="button" class="btn btn-dreamer btn-sm"
-                                title="{{trans('main.add') . " '". $base->name() . "' " . $message_bs_info}}"
-                                onclick="document.location='{{route('item.ext_create', ['base'=>$base,
+                        <div class="col-auto">
+                            <?php
+                            $message_bs_calc = ItemController::message_bs_calc($project, $base);
+                            $message_bs_info = $message_bs_calc['message_bs_info'];
+                            $message_bs_validate = $message_bs_calc['message_bs_validate'];
+                            ?>
+                            <button type="button" class="btn btn-dreamer btn-sm"
+                                    title="{{trans('main.add') . " '". $base->name() . "' " . $message_bs_info}}"
+                                    onclick="document.location='{{route('item.ext_create', ['base'=>$base,
                                              'project'=>$project, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(),
                                              'relit_id' => $relit_id
                                              ])}}'">
-                            {{--                                             'string_link_ids_current'=>$string_link_ids_current,--}}
-                            {{--                                             'string_item_ids_current'=>$string_item_ids_current,--}}
-                            {{--                                             'string_all_codes_current'=>$string_all_codes_current,--}}
-                            <i class="fas fa-plus d-inline"></i>&nbsp;{{trans('main.add')}}
-                        </button>
-                    </div>
+                                {{--                                             'string_link_ids_current'=>$string_link_ids_current,--}}
+                                {{--                                             'string_item_ids_current'=>$string_item_ids_current,--}}
+                                {{--                                             'string_all_codes_current'=>$string_all_codes_current,--}}
+                                <i class="fas fa-plus d-inline"></i>&nbsp;{{trans('main.add')}}
+                            </button>
+                        </div>
                 @endif
             </form>
         </div>
@@ -74,6 +74,9 @@ $num_cols = GlobalController::get_number_of_columns_brow();
 @if(count($items) !=0)
     <?php
     $tile_view = $base->tile_view($role, $relit_id, $base_right);
+    // $link_image вычисляется из tile_view() с учетом правил:
+    // if (!($role->is_author() & $relit_id == 0)) {
+    // if ($base_right['is_list_base_read'] == true) {
     $link_image = $tile_view['link'];
     $i = 0;
     ?>
@@ -176,6 +179,9 @@ $num_cols = GlobalController::get_number_of_columns_brow();
             </div>
         </div>
     @else
+        <?php
+        $link_image = $base->get_link_primary_image();
+        ?>
         <table class="table table-sm table-hover">
             <caption>{{trans('main.select_record_for_work')}}</caption>
             <thead>
@@ -195,10 +201,18 @@ $num_cols = GlobalController::get_number_of_columns_brow();
                 <a href="{{route('item.browser',['link_id'=>$link->id, 'project_id'=>$project->id, 'role_id'=>$role->id, 'relit_id'=>$relit_id, 'item_id'=>$item_id, 'order_by'=>'name', 'filter_by'=>$filter_by, 'search'=>$search])}}"
                    title="{{trans('main.sort_by_name')}}">{{trans('main.name')}}
                 </a></th>
-            </tr>
+            @if($link_image)
+                <th class="text-center">
+                    📷
+                </th>
+                @endif
+                </tr>
             </thead>
             <tbody>
             @foreach($items as $it)
+                <?php
+                $item_find = GlobalController::view_info($it->id, $link_image->id);
+                ?>
                 <tr>
                     {{--        'Показывать признак "В истории" при просмотре списков выбора'--}}
                     @if($base_right['is_brow_hist_attr_enable'] == true)
@@ -211,6 +225,14 @@ $num_cols = GlobalController::get_number_of_columns_brow();
                     <td class="text-left" style="cursor:pointer"
                         onclick="SelectFile('{{$it->id}}', '{{$it->code}}', '{{$it->name()}}')">{{$it->name()}}
                     </td>
+                    @if($link_image)
+                        @if($item_find)
+                            <td class="text-left" style="cursor:pointer"
+                                onclick="SelectFile('{{$it->id}}', '{{$it->code}}', '{{$it->name()}}')">
+                                @include('view.img',['item'=>$item_find, 'size'=>"avatar", 'filenametrue'=>false, 'link'=>false, 'img_fluid'=>true, 'card_img_top'=>true, 'title'=>$it->name()])
+                            </td>
+                        @endif
+                    @endif
                 </tr>
             @endforeach
             </tbody>

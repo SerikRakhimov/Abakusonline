@@ -19,13 +19,11 @@
     // Не использовать
     //$saveurl_show_edit = null;
     //$saveurl_show_del = null;
-    //$saveurl_show_ret = null;
     // Шифровка
     if ($type_form == 'show') {
         // Предыдущая страница при просмотре записи
         $saveurl_show_edit = GlobalController::set_url_save(Request::server('HTTP_REFERER'));
         $saveurl_show_del = $saveurl_show_edit;
-        $saveurl_show_ret = $saveurl_show_edit;
     }
     ?>
     @include('layouts.project.show_project_role',['project'=>$project, 'role'=>$role, 'relit_id'=>$relit_id])
