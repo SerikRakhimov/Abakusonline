@@ -210,9 +210,11 @@ $num_cols = GlobalController::get_number_of_columns_brow();
             </thead>
             <tbody>
             @foreach($items as $it)
-                <?php
-                $item_find = GlobalController::view_info($it->id, $link_image->id);
-                ?>
+                @if($link_image)
+                    <?php
+                    $item_find = GlobalController::view_info($it->id, $link_image->id);
+                    ?>
+                @endif
                 <tr>
                     {{--        'Показывать признак "В истории" при просмотре списков выбора'--}}
                     @if($base_right['is_brow_hist_attr_enable'] == true)
