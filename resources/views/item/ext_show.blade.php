@@ -113,8 +113,9 @@
                     $link_image = $item_image['link'];
                     ?>
                     @if($item_image['item'])
-                        @include('view.img',['item'=>$item_image['item'], 'size'=>"medium", 'width'=>"30%", 'border'=>true, 'filenametrue'=>false, 'link'=>true, 'img_fluid'=>true, 'card_img_top'=>false, 'title'=>$link_image->parent_label()])
-                        <br><br>
+                    {{-- @include('view.img',['item'=>$item_image['item'], 'size'=>"medium", 'width'=>"30%", 'border'=>true, 'filenametrue'=>false, 'link'=>true, 'img_fluid'=>true, 'card_img_top'=>false, 'title'=>$link_image->parent_label()])--}}
+                    @include('view.img',['item'=>$item_image['item'], 'size'=>"medium", 'width'=>"30%", 'border'=>false, 'filenametrue'=>false, 'link'=>true, 'img_fluid'=>true, 'card_img_top'=>false, 'title'=>$link_image->parent_label()])
+                            <br><br>
                     @endif
                     <big><big>
                             <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,
