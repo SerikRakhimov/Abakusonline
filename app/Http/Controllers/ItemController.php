@@ -3430,6 +3430,8 @@ class ItemController extends Controller
                 // Если нужно создавать $item
                 // Если $item_seek создано
                 if ($create_item_seek == true) {
+                    // "$del_item_seek_nogroup = true" используется
+                    $del_item_seek_nogroup = true;
                     // Фильтры 111 - похожие строки выше
                     foreach ($set_base_to as $key => $value) {
                         $relip_project = GlobalController::calc_relip_project($value->relit_to_id, $item->project);
@@ -3464,6 +3466,7 @@ class ItemController extends Controller
 
                                 // "$seek_item = false" нужно
                                 // "$seek_value = 0" нужно
+                                // "$delete_main = false" нужно
                                 $seek_item = false;
                                 $seek_value = 0;
                                 $delete_main = false;
@@ -3533,7 +3536,6 @@ class ItemController extends Controller
                                     // При $reverse == true работает корректно
                                     elseif ($value->is_upd_cl_gr_first == true || $value->is_upd_cl_gr_last == true) {
                                         $calc = "";
-
                                         if ($value->is_upd_cl_gr_first == true) {
                                             $calc = "first";
                                         } elseif ($value->is_upd_cl_gr_last == true) {
@@ -3548,6 +3550,8 @@ class ItemController extends Controller
                                             $delete_main = true;
                                         }
                                     }
+                                    // Именно здесь: elseif ($value->is_group == true)
+                                    $del_item_seek_nogroup = $del_item_seek_nogroup & $delete_main;
                                 }
                                 if ($delete_main == true) {
                                     $main->delete();
@@ -3587,7 +3591,8 @@ class ItemController extends Controller
                     // Если links->"Удалить запись с нулевым значением при обновлении" == true и значение равно нулю,
                     // то удалить запись
                     $val_item_seek_delete = $this->val_item_seek_delete_func($item_seek, $urepl);
-                    if ($val_item_seek_delete) {
+                    if ($del_item_seek_nogroup | $val_item_seek_delete) {
+//                    if ($val_item_seek_delete) {
                         $item_seek->delete();
                     } else {
                         // Похожие строки выше
