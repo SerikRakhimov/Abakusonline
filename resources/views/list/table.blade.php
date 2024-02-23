@@ -546,7 +546,7 @@ if ($view_link) {
                         @if(GlobalController::is_base_calcname_check($base))
                             <td @include('layouts.class_from_base',['base'=>$base])>
                                 @if($base->type_is_image)
-                                    @include('view.img',['item'=>$item, 'size'=>"small", 'border'=>true, 'filenametrue'=>false, 'link'=>true, 'img_fluid'=>false, 'card_img_top'=>false, 'title'=>""])
+                                    @include('view.img',['item'=>$item, 'size'=>"avatar", 'border'=>true, 'filenametrue'=>false, 'link'=>true, 'img_fluid'=>false, 'card_img_top'=>false, 'title'=>""])
                                 @elseif($base->type_is_document)
                                     @include('view.doc',['item'=>$item, 'usercode'=>GlobalController::usercode_calc()])
                                 @else
@@ -661,7 +661,7 @@ if ($view_link) {
                             ?>
                             @if($item_find)
                                 @if($link->parent_base->type_is_image())
-                                    @include('view.img',['item'=>$item_find, 'size'=>"small", 'border'=>true, 'filenametrue'=>false, 'link'=>true, 'img_fluid'=>false, 'card_img_top'=>false, 'title'=>""])
+                                    @include('view.img',['item'=>$item_find, 'size'=>"avatar", 'border'=>true, 'filenametrue'=>false, 'link'=>true, 'img_fluid'=>false, 'card_img_top'=>false, 'title'=>""])
                                 @elseif($link->parent_base->type_is_document())
                                     @include('view.doc',['item'=>$item_find, 'usercode'=>GlobalController::usercode_calc()])
                                 @else
