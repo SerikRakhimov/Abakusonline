@@ -229,7 +229,7 @@ $num_cols = GlobalController::get_number_of_columns_brow();
                     </td>
                     @if($link_image)
                         @if($item_find)
-                            <td class="text-left" style="cursor:pointer"
+                            <td class="text-center" style="cursor:pointer"
                                 onclick="SelectFile('{{$it->id}}', '{{$it->code}}', '{{$it->name()}}')">
                                 @include('view.img',['item'=>$item_find, 'size'=>"avatar", 'filenametrue'=>false, 'link'=>false, 'img_fluid'=>false, 'card_img_top'=>false, 'title'=>$it->name()])
                             </td>
