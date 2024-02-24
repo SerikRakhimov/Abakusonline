@@ -12,7 +12,8 @@
     $base = $item->base;
     //$base_right = GlobalController::base_right($base, $role, $relit_id);
     $relip_project = GlobalController::calc_relip_project($relit_id, $project);
-    $is_delete = ItemController::is_delete($item, $role, $heading, $base_index_page, $relit_id, $parent_ret_id);
+    //$is_delete = ItemController::is_delete($item, $role, $heading, $base_index_page, $relit_id, $parent_ret_id);
+    $is_delete = ItemController::is_delete($item, $role, $relit_id);
     // Показывать emoji - да/нет
     $emoji_enable = true;
     $link_image = null;
