@@ -237,11 +237,11 @@
                                 @else
                                     @foreach($calcname_mains as $calcname_main)
                                         {{--                                                    <h6>--}}
-                                        <big>
+{{--                                        <big>--}}
                                             {{GlobalController::calc_title_name($calcname_main->link->parent_label(true),true,true)}}
                                             {{-- Выводить с 'Единица измерения (для числовых и строковых полей)'--}}
                                             <strong>{{$calcname_main->parent_item->name(false,false,false,false,true)}}</strong>
-                                        </big>
+{{--                                        </big>--}}
                                         <br>
                                         @if($calcname_main->parent_item->base->is_code_needed == true)
                                             {{trans('main.code')}}:
