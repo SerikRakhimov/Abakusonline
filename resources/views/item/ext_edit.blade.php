@@ -190,7 +190,7 @@
                             <span
                                 class="text-danger">{{GlobalController::label_is_required($base)}}</span></label>
                     </div>
-                    <div class="col-sm-2">
+                    <div class="col-sm-3">
                         <input type="number"
                                name="name_lang_0"
                                id="name_lang_0" ;
@@ -206,7 +206,7 @@
                         </div>
                         @enderror
                     </div>
-                    <div class="col-sm-7">
+                    <div class="col-sm-6">
                     </div>
                 </div>
                 {{--                            если тип корректировки поля - дата--}}
@@ -1883,7 +1883,8 @@
                                 + '/0'
                             ).then(function (res) {
                                     parent_base_id{{$prefix}}{{$link->id}}.innerHTML = res.data['result_item_name'];
-                                    {{-- "related_id" используется несколько раз по тексту --}}
+                                    {{--alert(parent_base_id{{$prefix}}{{$link->id}}.innerHTML);--}}
+                                        {{-- "related_id" используется несколько раз по тексту --}}
                                         parent_related_id{{$prefix}}{{$link->id}}.innerHTML = res.data['result_item_id'];
                                     {{--                                @if(!$update & $link->parent_is_nc_parameter == true)--}}
                                     {{--Не использовать проверку if (first == false) {--}}
@@ -1909,14 +1910,15 @@
                         {{--?>--}}
                         {{--@endif--}}
                     }
-                    {{--'@if(!$link_related_calculated)' используется--}}
-                    @if(!$link_related_calculated)
-                    child_base_id{{$prefix}}{{$link->id}}.addEventListener("change", link_id_changeOption_{{$prefix}}{{$link->id}});
+                {{--'@if(!$link_related_calculated)' используется--}}
+                {{--                    @if(!$link_related_calculated)--}}
+                {{--child_base_id{{$prefix}}{{$link->id}}.addEventListener("change", link_id_changeOption_{{$prefix}}{{$link->id}});--}}
                 <?php
-                $functs_change['link' . $const_link_id_start] = 1;
+                //                $functs_change['link' . $const_link_id_start] = 1;
+                $functs_change[$const_link_id_start] = 1;
                 ?>
 
-                @endif
+                {{--                @endif--}}
 
                 @endif
             </script>
@@ -1966,7 +1968,6 @@
                         ).then(function (res) {
                                 output_calc_id{{$prefix}}{{$link->id}}.innerHTML = res.data['id'];
                                 output_calc_inner{{$prefix}}{{$link->id}}.innerHTML = res.data['inner'];
-
                                 <?php
                                     $links_related_start = GlobalController::links_related_start($base, $link)
                                     ?>
@@ -1978,7 +1979,6 @@
                                 @endforeach
                             }
                         );
-                    // }
                 }
 
                 @foreach($sets_group as $to_key => $to_value)
@@ -2366,7 +2366,6 @@
             @endforeach
             {{-- Нужно--}}
             on_numcalc_viewonly();
-
             {{-- Использовать после цикла по массиву функций:--}}
             {{-- Сначала должны посчитаться значения parent_is_child_related=true ('Автоматически фильтровать поля ввода'),--}}
             {{-- затем вывод значений из справочников, в т.ч. из уже отфильтрованных--}}
