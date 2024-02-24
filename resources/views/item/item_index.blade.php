@@ -238,8 +238,8 @@
                                     @foreach($calcname_mains as $calcname_main)
                                         {{--                                                    <h6>--}}
                                         <big>
-                                            {{GlobalController::calc_title_name($calcname_main->link->parent_label(),true,true)}}
-                                            {{-- Выводить 'Единица измерения (для числовых и строковых полей)'--}}
+                                            {{GlobalController::calc_title_name($calcname_main->link->parent_label(true),true,true)}}
+                                            {{-- Выводить с 'Единица измерения (для числовых и строковых полей)'--}}
                                             <strong>{{$calcname_main->parent_item->name(false,false,false,false,true)}}</strong>
                                         </big>
                                         <br>
