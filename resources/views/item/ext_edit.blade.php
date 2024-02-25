@@ -1910,14 +1910,14 @@
                         {{--?>--}}
                         {{--@endif--}}
                     }
-                {{--'@if(!$link_related_calculated)' используется--}}
-                {{--                    @if(!$link_related_calculated)--}}
+                    {{--'@if(!$link_related_calculated)' используется--}}
+                    {{--                    @if(!$link_related_calculated)--}}
 
-                child_base_id{{$prefix}}{{$link->id}}.addEventListener("change", link_id_changeOption_{{$prefix}}{{$link->id}});
+                    child_base_id{{$prefix}}{{$link->id}}.addEventListener("change", link_id_changeOption_{{$prefix}}{{$link->id}});
 
                 <?php
-                //                $functs_change['link' . $const_link_id_start] = 1;
-                $functs_change[$const_link_id_start] = 1;
+                $functs_change['link' . $const_link_id_start] = 1;
+                //$functs_change[$const_link_id_start] = 1;
                 ?>
 
                 {{--                @endif--}}
@@ -2314,6 +2314,7 @@
     <script>
         {{-- Два похожих блока команд в функциях on_submit() и window.onload по обработке строковых полей--}}
             window.onload = function () {
+
             {{-- Этот блок перед вызовом on_parent_refer()--}}
 
                 ds = true;
@@ -2355,7 +2356,6 @@
                 @endif
             }
             @endforeach
-
             {{-- Здесь не использовать--}}
             {{-- on_parent_refer();--}}
 
