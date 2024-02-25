@@ -3431,7 +3431,8 @@ class ItemController extends Controller
                 // Если $item_seek создано
                 if ($create_item_seek == true) {
                     // "$del_item_seek_nogroup = true" используется
-                    $del_item_seek_nogroup = true;
+                    // $del_item_seek_nogroup = true;
+                    $del_item_seek_nogroup = count($set_base_to) > 0;
                     // Фильтры 111 - похожие строки выше
                     foreach ($set_base_to as $key => $value) {
                         $relip_project = GlobalController::calc_relip_project($value->relit_to_id, $item->project);
