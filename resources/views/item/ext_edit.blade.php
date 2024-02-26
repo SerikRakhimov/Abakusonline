@@ -1726,9 +1726,6 @@
                             + '/' + '{{$relip_link_project->id}}'
                             + '/' + code_{{$prefix}}{{$link->id}}.value
                         ).then(function (res) {
-
-                        alert(code_{{$prefix}}{{$link->id}}.value);
-
                                 {{--code_{{$prefix}}{{$link->id}}.innerHTML = res.data['item_code'];--}}
                                     name_{{$prefix}}{{$link->id}}.innerHTML = res.data['item_name'];
                                 key_{{$prefix}}{{$link->id}}.value = res.data['item_id'];
@@ -1954,6 +1951,7 @@
                     {{--if (child_base_id{{$prefix}}{{$link->id}}.options[child_base_id{{$prefix}}{{$link->id}}.selectedIndex].value == 0) {--}}
                     {{--    parent_base_id{{$prefix}}{{$link->id}}.innerHTML = "{{trans('main.no_information') . '!'}}";--}}
                     {{--} else {--}}
+                    function code_input_7_1237();
                     axios.get('/item/get_parent_item_from_output_calculated_table?'
                         + 'project_id={{$project->id}}'
                         + '&base_id={{$base->id}}'
