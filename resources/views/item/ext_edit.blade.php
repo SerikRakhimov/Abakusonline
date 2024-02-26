@@ -1951,7 +1951,7 @@
                     {{--if (child_base_id{{$prefix}}{{$link->id}}.options[child_base_id{{$prefix}}{{$link->id}}.selectedIndex].value == 0) {--}}
                     {{--    parent_base_id{{$prefix}}{{$link->id}}.innerHTML = "{{trans('main.no_information') . '!'}}";--}}
                     {{--} else {--}}
-                    code_input_7_1237();
+                    alert(code_child_base_id{{$prefix}}{{$link->id}}_{{$to_value->id}});
                     axios.get('/item/get_parent_item_from_output_calculated_table?'
                         + 'project_id={{$project->id}}'
                         + '&base_id={{$base->id}}'
