@@ -1950,15 +1950,15 @@
                 //$functions[] = "link_id_changeOption_" . $prefix . $link->id;
                 ?>
                 function link_id_changeOption_{{$prefix}}{{$link->id}}() {
-@if(1==2)
+@if(1==1)
                     alert('300: {{$link->id}} = '
                         @foreach($sets_group as $to_key => $to_value)
                         @if(($to_value->link_from->parent_is_base_link == true) || ($to_value->link_from->parent_base->is_code_needed==true && $to_value->link_from->parent_is_enter_refer==true))
                         {{--+ '/' + child_base_id{{$prefix}}{{$link->id}}_{{$to_value->id}}.value--}}
-                        + '&items_id_group[]=' + child_base_id{{$prefix}}{{$link->id}}_{{$to_value->id}}.value
+                        + ', i=' + child_base_id{{$prefix}}{{$link->id}}_{{$to_value->id}}.value
                         @else
                         {{--+ '/' + child_base_id{{$prefix}}{{$link->id}}_{{$to_value->id}}.options[child_base_id{{$prefix}}{{$link->id}}_{{$to_value->id}}.selectedIndex].value--}}
-                        + '&items_id_group[]=' + child_base_id{{$prefix}}{{$link->id}}_{{$to_value->id}}.options[child_base_id{{$prefix}}{{$link->id}}_{{$to_value->id}}.selectedIndex].value
+                        + ', i=' + child_base_id{{$prefix}}{{$link->id}}_{{$to_value->id}}.options[child_base_id{{$prefix}}{{$link->id}}_{{$to_value->id}}.selectedIndex].value
                     @endif
                     @endforeach
 );
