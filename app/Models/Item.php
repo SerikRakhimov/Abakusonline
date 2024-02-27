@@ -90,6 +90,7 @@ class Item extends Model
     // при $fullname = true результатом строка из двух строк 255 и 255 символов с каждого $item->name()
     // $numcat = true/false - вывод числовых полей с разрядом тысячи/миллионы/миллиарды
     // $rightnull = true/false - у вещественных чисел убрать правые нули после запятой
+    // $unitmeas = true/false - у числовых и строковых полей выводить единицу измерения из $base->'unit_meas_desc_x
     function name_start($fullname = false, $numcat = false, $rightnull = false, $unitmeas = false)
     {
         $result = "";  // нужно, не удалять
@@ -169,6 +170,8 @@ class Item extends Model
     // $fullname = true/false - вывод полной строки (более 255 символов)
     // $numcat = true/false - вывод числовых полей с разрядом тысячи/миллионы/миллиарды
     // $rightnull = true/false - у вещественных чисел убрать правые нули после запятой
+    // $emoji_enable = true/false - вывод изображений - эмодзи
+    // $unitmeas = true/false - у числовых и строковых полей выводить единицу измерения из $base->'unit_meas_desc_x
     function name($fullname = false, $numcat = false, $rightnull = false, $emoji_enable = false, $unitmeas = false)
     {
         $result = self::name_start($fullname, $numcat, $rightnull, $unitmeas);

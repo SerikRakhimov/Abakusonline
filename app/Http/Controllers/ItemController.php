@@ -3941,6 +3941,7 @@ class ItemController extends Controller
                 ->where('is_group', true)
                 ->where('sets.serial_number', '=', $set->serial_number)
                 ->orderBy('sets.serial_number')
+                ->orderBy('sets.line_number')
                 ->orderBy('sets.link_from_id')
                 ->orderBy('sets.link_to_id')
                 ->get();
@@ -6986,6 +6987,7 @@ class ItemController extends Controller
                             $result_item_name = GlobalController::it_txnm_n2b($item);
                         } else {
                             // $numcat = false - не выводить числовых поля с разрядом тысячи/миллионы/миллиарды
+                            // $result_item_name = $item->name(false, false, false, false, true);
                             $result_item_name = $item->name();
                         }
                         $result_item_name_options = "<option value='" . $item->id . "'>" . $item->name() . "</option>";

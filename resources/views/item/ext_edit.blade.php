@@ -1713,12 +1713,12 @@
 
                     {{--Событие на кнопку "..."--}}
                     child_base_id{{$prefix}}{{$link->id}}.addEventListener("click", link_id_changeOption_{{$prefix}}{{$link->id}});
-
                     <?php
                     $functions[] = "code_input_" . $prefix . $link->id;
                     //$functs_parent_refer[] = "code_input_" . $prefix . $link->id;
                     ?>
-
+                    //alert('200: '+code_7_494.value);
+                    @if(1==1)
                     {{--async - await нужно, https://tproger.ru/translations/understanding-async-await-in-javascript/--}}
                     async function code_input_{{$prefix}}{{$link->id}}() {
                         await axios.get('/item/item_from_base_code/'
@@ -1750,7 +1750,8 @@
                         {{--document.getElementById('code{{$link->id}}').dispatchEvent(new Event('change'));--}}
                     }
 
-                    {{--code_{{$prefix}}{{$link->id}}.addEventListener("input", code_input_{{$prefix}}{{$link->id}});--}}
+                    @endif
+                    {{--                    code_{{$prefix}}{{$link->id}}.addEventListener("input", code_input_{{$prefix}}{{$link->id}});--}}
 
                     code_{{$prefix}}{{$link->id}}.addEventListener("change", code_input_{{$prefix}}{{$link->id}});
                     <?php
@@ -1914,6 +1915,7 @@
                     {{--                    @if(!$link_related_calculated)--}}
                     // Нужно
                     child_base_id{{$prefix}}{{$link->id}}.addEventListener("change", link_id_changeOption_{{$prefix}}{{$link->id}});
+
                 // Нужно
                 <?php
                 $functs_change['link' . $const_link_id_start] = 1;
@@ -1997,6 +1999,10 @@
                 @endif
                 @endforeach
 
+                <?php
+                // Нужно
+                $functs_parent_refer[] = "link_id_changeOption_" . $prefix . $link->id;
+                    ?>
             </script>
         @endif
 
