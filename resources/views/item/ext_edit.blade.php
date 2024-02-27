@@ -1950,7 +1950,7 @@
                 //$functions[] = "link_id_changeOption_" . $prefix . $link->id;
                 ?>
                 function link_id_changeOption_{{$prefix}}{{$link->id}}() {
-
+@if(1==2)
                     alert('300: {{$link->id}} = '
                         @foreach($sets_group as $to_key => $to_value)
                         @if(($to_value->link_from->parent_is_base_link == true) || ($to_value->link_from->parent_base->is_code_needed==true && $to_value->link_from->parent_is_enter_refer==true))
@@ -1962,6 +1962,7 @@
                     @endif
                     @endforeach
 );
+                    @endif
 
                     {{--if (child_base_id{{$prefix}}{{$link->id}}.options[child_base_id{{$prefix}}{{$link->id}}.selectedIndex].value == 0) {--}}
                     {{--    parent_base_id{{$prefix}}{{$link->id}}.innerHTML = "{{trans('main.no_information') . '!'}}";--}}
@@ -2386,7 +2387,7 @@
             {{-- Сначала должны посчитаться значения parent_is_child_related=true ('Автоматически фильтровать поля ввода'),--}}
             {{-- затем вывод значений из справочников, в т.ч. из уже отфильтрованных--}}
 
-            on_parent_refer();
+            {{-- on_parent_refer();--}}
 
             {{-- Не удалять--}}
             {{-- Не нужно вызывать функцию on_numcalc_noviewonly(),--}}
