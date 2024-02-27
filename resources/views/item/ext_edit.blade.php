@@ -1737,6 +1737,7 @@
                         {{--if (first == false) --}}
 
                         // Нужно использовать, см.примечание к on_parent_refer() ниже
+                        // Нужно, например, для правильного отображения данных при добавлении/корректировке записей в шаблоне "Интернет - магазин"
                         on_parent_refer();
 
                         {{--}--}}
@@ -1950,20 +1951,6 @@
                 //$functions[] = "link_id_changeOption_" . $prefix . $link->id;
                 ?>
                 function link_id_changeOption_{{$prefix}}{{$link->id}}() {
-@if(1==2)
-                    alert('300: {{$link->id}} = '
-                        @foreach($sets_group as $to_key => $to_value)
-                        @if(($to_value->link_from->parent_is_base_link == true) || ($to_value->link_from->parent_base->is_code_needed==true && $to_value->link_from->parent_is_enter_refer==true))
-                        {{--+ '/' + child_base_id{{$prefix}}{{$link->id}}_{{$to_value->id}}.value--}}
-                        + ', i=' + child_base_id{{$prefix}}{{$link->id}}_{{$to_value->id}}.value
-                        @else
-                        {{--+ '/' + child_base_id{{$prefix}}{{$link->id}}_{{$to_value->id}}.options[child_base_id{{$prefix}}{{$link->id}}_{{$to_value->id}}.selectedIndex].value--}}
-                        + ', i=' + child_base_id{{$prefix}}{{$link->id}}_{{$to_value->id}}.options[child_base_id{{$prefix}}{{$link->id}}_{{$to_value->id}}.selectedIndex].value
-                    @endif
-                    @endforeach
-);
-                    @endif
-
                     {{--if (child_base_id{{$prefix}}{{$link->id}}.options[child_base_id{{$prefix}}{{$link->id}}.selectedIndex].value == 0) {--}}
                     {{--    parent_base_id{{$prefix}}{{$link->id}}.innerHTML = "{{trans('main.no_information') . '!'}}";--}}
                     {{--} else {--}}
@@ -2379,18 +2366,22 @@
             {{--    {{$value}}();--}}
             {{-- @endforeach--}}
 
-            @foreach($functs_change as $key=>$value)
-            document.getElementById('{{$key}}').dispatchEvent(new Event('change'));
-            @endforeach
+            {{-- Этот блок нужно выполнить два раза,--}}
+            {{-- т.к. все взаимосвязано и порядок вызова этих функций разный:--}}
+            {{-- функции про зависимые поля, вычисляемые поля, вывод полей из вычисляемых основ--}}
+            {{-- Нужно, например, для правильного отображения данных при добавлении/корректировке записей в шаблоне "Интернет - магазин"--}}
+            {{-- Блок 1 --}}
+        @foreach($functs_change as $key=>$value)
+        document.getElementById('{{$key}}').dispatchEvent(new Event('change'));
+        @endforeach
 
-            {{-- Нужно--}}
+        {{-- Нужно--}}
             on_numcalc_viewonly();
 
-            @if(1==1)
+            {{-- Блок 2 --}}
             @foreach($functs_change as $key=>$value)
             document.getElementById('{{$key}}').dispatchEvent(new Event('change'));
             @endforeach
-            @endif
 
             {{-- Использовать после цикла по массиву функций:--}}
             {{-- Сначала должны посчитаться значения parent_is_child_related=true ('Автоматически фильтровать поля ввода'),--}}
