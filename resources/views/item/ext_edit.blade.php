@@ -2386,7 +2386,7 @@
             {{-- Нужно--}}
             on_numcalc_viewonly();
 
-            @if(1==2)
+            @if(1==1)
             @foreach($functs_change as $key=>$value)
             document.getElementById('{{$key}}').dispatchEvent(new Event('change'));
             @endforeach
