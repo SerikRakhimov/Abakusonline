@@ -2378,11 +2378,18 @@
             {{-- @foreach($functions as $value)--}}
             {{--    {{$value}}();--}}
             {{-- @endforeach--}}
+
             @foreach($functs_change as $key=>$value)
             document.getElementById('{{$key}}').dispatchEvent(new Event('change'));
             @endforeach
+
             {{-- Нужно--}}
             on_numcalc_viewonly();
+
+            @foreach($functs_change as $key=>$value)
+            document.getElementById('{{$key}}').dispatchEvent(new Event('change'));
+            @endforeach
+
             {{-- Использовать после цикла по массиву функций:--}}
             {{-- Сначала должны посчитаться значения parent_is_child_related=true ('Автоматически фильтровать поля ввода'),--}}
             {{-- затем вывод значений из справочников, в т.ч. из уже отфильтрованных--}}
