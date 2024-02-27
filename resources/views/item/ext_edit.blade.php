@@ -1717,8 +1717,8 @@
                     $functions[] = "code_input_" . $prefix . $link->id;
                     //$functs_parent_refer[] = "code_input_" . $prefix . $link->id;
                     ?>
-                    //alert('200: '+code_7_494.value);
-                    @if(1==1)
+                    // Если у элемента code несколько функций-обработчиков,
+                    // то команды ниже "async function code_input" выполняются последними
                     {{--async - await нужно, https://tproger.ru/translations/understanding-async-await-in-javascript/--}}
                     async function code_input_{{$prefix}}{{$link->id}}() {
                         await axios.get('/item/item_from_base_code/'
@@ -1750,7 +1750,6 @@
                         {{--document.getElementById('code{{$link->id}}').dispatchEvent(new Event('change'));--}}
                     }
 
-                    @endif
                     {{--                    code_{{$prefix}}{{$link->id}}.addEventListener("input", code_input_{{$prefix}}{{$link->id}});--}}
 
                     code_{{$prefix}}{{$link->id}}.addEventListener("change", code_input_{{$prefix}}{{$link->id}});
@@ -1946,7 +1945,8 @@
                 var output_calc_inner{{$prefix}}{{$link->id}} = document.getElementById('link{{$link->id}}');
 
                 <?php
-                //$functs_parent_refer[] = "link_id_changeOption_" . $prefix . $link->id;
+                // Нужно
+                $functs_parent_refer[] = "link_id_changeOption_" . $prefix . $link->id;
                 //$functions[] = "link_id_changeOption_" . $prefix . $link->id;
                 ?>
                 function link_id_changeOption_{{$prefix}}{{$link->id}}() {
@@ -1998,11 +1998,6 @@
                 ?>
                 @endif
                 @endforeach
-
-                <?php
-                // Нужно
-                $functs_parent_refer[] = "link_id_changeOption_" . $prefix . $link->id;
-                    ?>
             </script>
         @endif
 
@@ -2216,7 +2211,7 @@
             @endforeach
         }
 
-        // Нужно для случая, когда меняется значение в вводимом коде, без этого не обновляются parent-поля
+        // Нужно для случая, когда меняется значение в вводимом коде, без этого не обновляются parent-поля и поля из вычисляемых таблиц
         function on_parent_refer() {
             @foreach($functs_parent_refer as $value)
                 {{$value}}();
@@ -2377,7 +2372,8 @@
             {{-- Использовать после цикла по массиву функций:--}}
             {{-- Сначала должны посчитаться значения parent_is_child_related=true ('Автоматически фильтровать поля ввода'),--}}
             {{-- затем вывод значений из справочников, в т.ч. из уже отфильтрованных--}}
-            {{-- on_parent_refer();--}}
+
+            on_parent_refer();
 
             {{-- Не удалять--}}
             {{-- Не нужно вызывать функцию on_numcalc_noviewonly(),--}}
