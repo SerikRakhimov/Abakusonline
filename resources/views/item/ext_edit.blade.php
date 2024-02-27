@@ -1950,6 +1950,19 @@
                 //$functions[] = "link_id_changeOption_" . $prefix . $link->id;
                 ?>
                 function link_id_changeOption_{{$prefix}}{{$link->id}}() {
+
+                    alert('300: {{$link->id}} = '
+                        @foreach($sets_group as $to_key => $to_value)
+                        @if(($to_value->link_from->parent_is_base_link == true) || ($to_value->link_from->parent_base->is_code_needed==true && $to_value->link_from->parent_is_enter_refer==true))
+                        {{--+ '/' + child_base_id{{$prefix}}{{$link->id}}_{{$to_value->id}}.value--}}
+                        + '&items_id_group[]=' + child_base_id{{$prefix}}{{$link->id}}_{{$to_value->id}}.value
+                        @else
+                        {{--+ '/' + child_base_id{{$prefix}}{{$link->id}}_{{$to_value->id}}.options[child_base_id{{$prefix}}{{$link->id}}_{{$to_value->id}}.selectedIndex].value--}}
+                        + '&items_id_group[]=' + child_base_id{{$prefix}}{{$link->id}}_{{$to_value->id}}.options[child_base_id{{$prefix}}{{$link->id}}_{{$to_value->id}}.selectedIndex].value
+                    @endif
+                    @endforeach
+);
+
                     {{--if (child_base_id{{$prefix}}{{$link->id}}.options[child_base_id{{$prefix}}{{$link->id}}.selectedIndex].value == 0) {--}}
                     {{--    parent_base_id{{$prefix}}{{$link->id}}.innerHTML = "{{trans('main.no_information') . '!'}}";--}}
                     {{--} else {--}}
