@@ -1950,7 +1950,7 @@
                 //$functions[] = "link_id_changeOption_" . $prefix . $link->id;
                 ?>
                 function link_id_changeOption_{{$prefix}}{{$link->id}}() {
-@if(1==1)
+@if(1==2)
                     alert('300: {{$link->id}} = '
                         @foreach($sets_group as $to_key => $to_value)
                         @if(($to_value->link_from->parent_is_base_link == true) || ($to_value->link_from->parent_base->is_code_needed==true && $to_value->link_from->parent_is_enter_refer==true))
