@@ -139,7 +139,7 @@ class Base extends Model
 
     function par_label_unit_meas($spaceleft = false)
     {
-        // запятая + единица измерения (для числовых и строковых полей), если есть
+        // в скобках единица измерения (для числовых и строковых полей), если есть
         $result = "";
         $desc = $this->unit_meas_desc();
         if ($desc != "") {

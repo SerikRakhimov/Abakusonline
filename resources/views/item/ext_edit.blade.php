@@ -487,11 +487,14 @@
                             {{--                                                            Открыть документ--}}
                             {{--                                                        </a>--}}
                         @else
-                            <span class="form-label text-related"
-                                  name="calc{{$key}}"
+                            <span class="form-label" name="calc{{$key}}">
+                            <span class="text-related"
                                   id="link{{$key}}"></span>
+                                <small>
+                            <span class="text-label"
+                                  id="unit{{$key}}"></span></small>
                             <span hidden
-                                  id='{{$key}}'></span>
+                                  id='{{$key}}'></span></span>
                         @endif
                     </div>
                     <div class="col-sm-2">
@@ -517,9 +520,11 @@
                                   id='{{$key}}'></span>
                         </div>
                         <div class="col-sm-7">
-                                    <span class="form-label text-related"
-                                          name="calc{{$key}}"
+                            <span class="form-label" name="calc{{$key}}">
+                                    <span class="text-related"
                                           id="link{{$key}}"></span>
+                            <small><span class="text-label"
+                                  id="unit{{$key}}"></span></small></span>
                         </div>
                         <div class="col-sm-2">
                         </div>
@@ -1772,6 +1777,7 @@
                 var parent_base_id{{$prefix}}{{$link->id}} = document.getElementById('link{{$link->id}}');
                 {{--                var parent_related_id{{$prefix}}{{$link->id}} = document.getElementById('related_id{{$link->id}}');--}}
                 var parent_related_id{{$prefix}}{{$link->id}} = document.getElementById('{{$link->id}}');
+                var parent_unit_id{{$prefix}}{{$link->id}} = document.getElementById('unit{{$link->id}}');
                 <?php
                 // Нужно использовать, см.примечание к on_parent_refer() ниже
                 $functs_parent_refer[] = "link_id_change_" . $prefix . $link->id;
@@ -1798,6 +1804,7 @@
                             + '/0'
                         ).then(function (res) {
                                 parent_base_id{{$prefix}}{{$link->id}}.innerHTML = res.data['result_item_name'];
+                                parent_unit_id{{$prefix}}{{$link->id}}.innerHTML = res.data['result_unit_name'];
                                 {{-- "related_id" используется несколько раз по тексту --}}
                                     parent_related_id{{$prefix}}{{$link->id}}.innerHTML = res.data['result_item_id'];
                                 {{--Не использовать проверку if (first == false) {--}}
@@ -1845,6 +1852,7 @@
                 var child_base_id{{$prefix}}{{$link->id}} = document.getElementById('link{{$const_link_id_start}}');
                 @endif
                 var parent_base_id{{$prefix}}{{$link->id}} = document.getElementById('link{{$link->id}}');
+                var parent_unit_id{{$prefix}}{{$link->id}} = document.getElementById('unit{{$link->id}}');
                 {{-- "related_id" используется несколько раз по тексту --}}
                 {{--                var parent_related_id{{$prefix}}{{$link->id}} = document.getElementById('related_id{{$link->id}}');--}}
                 var parent_related_id{{$prefix}}{{$link->id}} = document.getElementById('{{$link->id}}');
@@ -1884,9 +1892,9 @@
                                 + '/0'
                             ).then(function (res) {
                                     parent_base_id{{$prefix}}{{$link->id}}.innerHTML = res.data['result_item_name'];
-                                    {{--alert(parent_base_id{{$prefix}}{{$link->id}}.innerHTML);--}}
+                                    parent_unit_id{{$prefix}}{{$link->id}}.innerHTML = res.data['result_unit_name'];
                                         {{-- "related_id" используется несколько раз по тексту --}}
-                                        parent_related_id{{$prefix}}{{$link->id}}.innerHTML = res.data['result_item_id'];
+                                            parent_related_id{{$prefix}}{{$link->id}}.innerHTML = res.data['result_item_id'];
                                     {{--                                @if(!$update & $link->parent_is_nc_parameter == true)--}}
                                     {{--Не использовать проверку if (first == false) {--}}
                                     {{--if (first == false)--}}
@@ -1944,6 +1952,7 @@
 
                 var output_calc_id{{$prefix}}{{$link->id}} = document.getElementById('{{$link->id}}');
                 var output_calc_inner{{$prefix}}{{$link->id}} = document.getElementById('link{{$link->id}}');
+                var parent_unit_id{{$prefix}}{{$link->id}} = document.getElementById('unit{{$link->id}}');
 
                 <?php
                 // Нужно
@@ -1972,6 +1981,7 @@
                         @endforeach
                         ).then(function (res) {
                                 output_calc_id{{$prefix}}{{$link->id}}.innerHTML = res.data['id'];
+                                parent_unit_id{{$prefix}}{{$link->id}}.innerHTML = res.data['unitname'];
                                 output_calc_inner{{$prefix}}{{$link->id}}.innerHTML = res.data['inner'];
                                 <?php
                                     $links_related_start = GlobalController::links_related_start($base, $link)
@@ -2371,11 +2381,11 @@
             {{-- функции про зависимые поля, вычисляемые поля, вывод полей из вычисляемых основ--}}
             {{-- Нужно, например, для правильного отображения данных при добавлении/корректировке записей в шаблоне "Интернет - магазин"--}}
             {{-- Блок 1 --}}
-        @foreach($functs_change as $key=>$value)
-        document.getElementById('{{$key}}').dispatchEvent(new Event('change'));
-        @endforeach
+            @foreach($functs_change as $key=>$value)
+            document.getElementById('{{$key}}').dispatchEvent(new Event('change'));
+            @endforeach
 
-        {{-- Нужно--}}
+            {{-- Нужно--}}
             on_numcalc_viewonly();
 
             {{-- Блок 2 --}}
@@ -2387,7 +2397,7 @@
             {{-- Сначала должны посчитаться значения parent_is_child_related=true ('Автоматически фильтровать поля ввода'),--}}
             {{-- затем вывод значений из справочников, в т.ч. из уже отфильтрованных--}}
             {{-- Нужно--}}
-             on_parent_refer();
+            on_parent_refer();
 
             {{-- Не удалять--}}
             {{-- Не нужно вызывать функцию on_numcalc_noviewonly(),--}}

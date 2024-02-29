@@ -4058,6 +4058,7 @@ class ItemController extends Controller
         $params = $request->query();
         // '=0' использовать, в ext_edit.php проверка на равенство нулю
         $result_id = 0;
+        $result_itnm=null;
         $result_inner = trans('main.no_information') . '!';
         $project = null;
         if (array_key_exists('project_id', $params)) {
@@ -4138,6 +4139,7 @@ class ItemController extends Controller
                 // и в self::get_parent_item_from_output_calculated_table()
                 if ($result_item) {
                     $result_id = $result_item->id;
+                    $result_itnm = $result_item->base->par_label_unit_meas(true);
                     //$result_inner = $result_item->name(false, true, true);
                     if ($result_item->base->type_is_image() || $result_item->base->type_is_document()) {
                         if ($result_item->base->type_is_image()) {
@@ -4154,7 +4156,7 @@ class ItemController extends Controller
                 }
             }
         }
-        return ['id' => $result_id, 'inner' => $result_inner];
+        return ['id' => $result_id, 'inner' => $result_inner, 'unitname' => $result_itnm];
     }
 
 // Функции output_calculated_table_dop() и output_calculated_table_firstlast() похожи
@@ -6885,6 +6887,7 @@ class ItemController extends Controller
         $result_item = null;
         $result_item_id = null;
         $result_item_name = null;
+        $result_unit_name = null;
         $result_item_name_options = null;
         // проверка, если link - вычисляемое поле
         if ($link_result->parent_is_parent_related == true) {
@@ -6990,6 +6993,7 @@ class ItemController extends Controller
                             // $result_item_name = $item->name(false, false, false, false, true);
                             $result_item_name = $item->name();
                         }
+                        $result_unit_name = $item->base->par_label_unit_meas(true);
                         $result_item_name_options = "<option value='" . $item->id . "'>" . $item->name() . "</option>";
                     }
                 }
@@ -7001,6 +7005,7 @@ class ItemController extends Controller
         return ['result_item' => $result_item,
             'result_item_id' => $result_item_id,
             'result_item_name' => $result_item_name,
+            'result_unit_name' => $result_unit_name,
             'result_item_name_options' => $result_item_name_options];
     }
 
