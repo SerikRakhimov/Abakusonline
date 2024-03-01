@@ -524,7 +524,7 @@
                                     <span class="text-related"
                                           id="link{{$key}}"></span>
                             <small><span class="text-label"
-                                  id="unit{{$key}}"></span></small></span>
+                                         id="unit{{$key}}"></span></small></span>
                         </div>
                         <div class="col-sm-2">
                         </div>
@@ -1740,8 +1740,8 @@
                         {{--Не использовать проверку if (first == false) --}}
                         {{--if (first == false) --}}
 
-                        // Нужно использовать, см.примечание к on_parent_refer() ниже
-                        // Нужно, например, для правильного отображения данных при добавлении/корректировке записей в шаблоне "Интернет - магазин"
+                        {{-- Нужно использовать, см.примечание к on_parent_refer() ниже --}}
+                        {{-- Нужно, например, для правильного отображения данных при добавлении/корректировке записей в шаблоне "Интернет - магазин" --}}
                         on_parent_refer();
 
                         {{--}--}}
@@ -1806,6 +1806,11 @@
                                 parent_unit_id{{$prefix}}{{$link->id}}.innerHTML = res.data['result_unit_name'];
                                 {{-- "related_id" используется несколько раз по тексту --}}
                                     parent_related_id{{$prefix}}{{$link->id}}.innerHTML = res.data['result_item_id'];
+
+                                {{-- Нужно использовать, см.примечание к on_parent_refer() ниже --}}
+                                {{-- Нужно, например, для правильного отображения данных при добавлении/корректировке записей в шаблоне "Интернет - магазин" --}}
+                                on_parent_refer();
+
                                 {{--Не использовать проверку if (first == false) {--}}
                                 {{--if (first == false) {--}}
                                 @if($link->parent_is_nc_parameter == true)
@@ -1892,8 +1897,8 @@
                             ).then(function (res) {
                                     parent_base_id{{$prefix}}{{$link->id}}.innerHTML = res.data['result_item_name'];
                                     parent_unit_id{{$prefix}}{{$link->id}}.innerHTML = res.data['result_unit_name'];
-                                        {{-- "related_id" используется несколько раз по тексту --}}
-                                            parent_related_id{{$prefix}}{{$link->id}}.innerHTML = res.data['result_item_id'];
+                                    {{-- "related_id" используется несколько раз по тексту --}}
+                                        parent_related_id{{$prefix}}{{$link->id}}.innerHTML = res.data['result_item_id'];
                                     {{--                                @if(!$update & $link->parent_is_nc_parameter == true)--}}
                                     {{--Не использовать проверку if (first == false) {--}}
                                     {{--if (first == false)--}}
