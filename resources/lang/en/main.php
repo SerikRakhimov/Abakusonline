@@ -280,6 +280,7 @@ return [
     'explanation' => 'Explanation',
     'open_document' => 'Open document',
     'now' => 'Now',
+    'selected_image' => 'Selected image',
     'explanation_img' => 'Select another image to edit, or leave an existing',
     'explanation_doc' => 'Select another document to modify, or leave an existing one',
     'maxfilesize_img_doc' => 'Maximum file size, in bytes',
