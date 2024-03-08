@@ -43,9 +43,9 @@ if ($item) {
         <a href="{{Storage::url($url_filename)}}">
             @endif
             <img src="{{Storage::url($url_filename)}}"
-                 {{--                                  style="object-fit:cover;--}}
+                                                   style="object-fit:cover;
                  {{--style="object-fit:scale-down;--}}
-                 style="object-fit:contain;
+                 {{--style="object-fit:contain;--}}
                  @if(isset($border))
                  @if($border==true)
                      border: solid #bfc7f6;
