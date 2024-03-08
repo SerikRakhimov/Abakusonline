@@ -88,7 +88,7 @@ if ($item) {
         </a>
     @endif
     <script>
-        alert(window.innerWidth + window.innerHeight);
+        alert(window.innerWidth + ' '+window.innerHeight);
     </script>
     @if($is_moderation_info == true)
         <div class="text-danger">
