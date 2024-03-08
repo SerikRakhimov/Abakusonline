@@ -44,7 +44,7 @@ if ($item) {
             @endif
             <img src="{{Storage::url($url_filename)}}"
 {{--                                                   style="object-fit:cover;--}}
-                 style="object-fit:scale-down;
+                 style="object-fit:scale-down;object-position: 0 0;
                  {{--style="object-fit:contain;--}}
                  @if(isset($border))
                  @if($border==true)
