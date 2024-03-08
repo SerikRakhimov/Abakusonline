@@ -44,8 +44,8 @@ if ($item) {
             @endif
             <img src="{{Storage::url($url_filename)}}"
 {{--                                                   style="object-fit:cover;--}}
-                 style="object-fit:scale-down;object-position: 0 0;
-                 {{--style="object-fit:contain;--}}
+{{--                 style="object-fit:scale-down;--}}
+                 style="object-fit:contain;
                  @if(isset($border))
                  @if($border==true)
                      border: solid #bfc7f6;
@@ -67,7 +67,7 @@ if ($item) {
                  class="img-fluid"
                  @endif
                  @if(isset($width))
-                 width={{$width}} height={{$width}}
+                 width={{$width}}
                  @endif
                  @if(!isset($width) & isset($size))
                      height=
@@ -87,6 +87,9 @@ if ($item) {
             @if($link == true)
         </a>
     @endif
+    <script>
+        alert(window.innerWidth + window.innerHeight);
+    </script>
     @if($is_moderation_info == true)
         <div class="text-danger">
             {{$item->title_img()}}</div>
