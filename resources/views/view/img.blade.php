@@ -67,8 +67,7 @@ if ($item) {
                  class="img-fluid"
                  @endif
                  @if(isset($width))
-{{--                 width={{$width}}--}}
-                     height={{$width}}
+                 width={{$width}} height={{$width}}
                  @endif
                  @if(!isset($width) & isset($size))
                      height=
