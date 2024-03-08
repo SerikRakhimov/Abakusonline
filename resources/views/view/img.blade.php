@@ -87,9 +87,9 @@ if ($item) {
             @if($link == true)
         </a>
     @endif
-    <script>
-        alert(window.innerWidth + ' '+window.innerHeight);
-    </script>
+{{--    <script>--}}
+{{--        alert(window.innerWidth + ' '+window.innerHeight);--}}
+{{--    </script>--}}
     @if($is_moderation_info == true)
         <div class="text-danger">
             {{$item->title_img()}}</div>
