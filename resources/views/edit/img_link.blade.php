@@ -79,7 +79,8 @@ if ($update) {
                     {{--                    <label for="img{{$name}}">{{trans('main.selected_image')}}:--}}
                     {{--                    </label>--}}
                     <img src=""
-                         id="img{{$name}}" name="img{{$name}}"
+{{--                     id="img{{$name}}" name="img{{$name}}"--}}
+                         id="img{{$name}}"
                          height=@include('types.img.height',['size'=>$size])
                              alt="" title="{{trans('main.selected_image')}}">
                 </div>

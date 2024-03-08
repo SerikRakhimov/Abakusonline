@@ -43,8 +43,11 @@ if ($item) {
         <a href="{{Storage::url($url_filename)}}">
             @endif
             <img src="{{Storage::url($url_filename)}}"
-{{--                                                   style="object-fit:cover;--}}
-{{--                 style="object-fit:scale-down;--}}
+                 @if($item)
+                 id="img{{$item->id}}"
+                 @endif
+                 {{--                                                   style="object-fit:cover;--}}
+                 {{--                 style="object-fit:scale-down;--}}
                  style="object-fit:contain;
                  @if(isset($border))
                  @if($border==true)
@@ -68,8 +71,9 @@ if ($item) {
                  @endif
                  @if(isset($width))
                  width={{$width}}
-{{--                     width="1100"--}}
-{{--                     height="726"--}}
+                     height={{$width}}
+                 {{--                     width="1100"--}}
+                 {{--                     height="726"--}}
                  @endif
                  @if(!isset($width) & isset($size))
                      height=
@@ -86,12 +90,22 @@ if ($item) {
                 "{{$title}}"
             @endif
             >
+            @if($item)
+                <script>
+                    {{--        alert(window.innerWidth + ' '+window.innerHeight);--}}
+                        img{{$item->id}} = document.getElementById("img{{$item->id}}");
+                    {{--img{{$item->id}}.width = 1100;--}}
+                        {{--img{{$item->id}}.width = "100%";--}}
+                    if (window.innerWidth > window.innerHeight) {
+                        img{{$item->id}}.height = window.innerHeight;
+                    }else{
+                        img{{$item->id}}.width = Math.int(window.innerWidth*0.75);
+                    }
+                </script>
+            @endif
             @if($link == true)
         </a>
     @endif
-{{--    <script>--}}
-{{--        alert(window.innerWidth + ' '+window.innerHeight);--}}
-{{--    </script>--}}
     @if($is_moderation_info == true)
         <div class="text-danger">
             {{$item->title_img()}}</div>
