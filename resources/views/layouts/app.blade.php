@@ -349,31 +349,32 @@ height: 100%;
             </div>
         </div>
     </nav>
+    {{--Одинаковый процент 0.75 layouts\app.php и view\img.php--}}
     <main class="py-4 w-75 mw-75 mx-auto">
         {{--                <div class="mx-auto" style="width: 1200px;">--}}
         @yield('content')
         {{--                </div>--}}
-{{--        <hr>--}}
-{{--        <center>--}}
-{{--            <?php--}}
-{{--            $nom_pict = mt_rand(1, 7);--}}
-{{--            $img_name = "";--}}
-{{--            switch ($nom_pict) {--}}
-{{--                case 1:--}}
-{{--                    $img_name = "new_year1.jpg";--}}
-{{--                    break;--}}
-{{--                case 2:--}}
-{{--                    $img_name = "new_year2.jpg";--}}
-{{--                    break;--}}
-{{--                case 3:--}}
-{{--                    $img_name = "new_year3.png";--}}
-{{--                    break;--}}
-{{--            }--}}
-{{--            ?>--}}
-{{--            @if($img_name != "")--}}
-{{--                <img src="{{Storage::url($img_name)}} " width="75%">--}}
-{{--            @endif--}}
-{{--        </center>--}}
+        {{--        <hr>--}}
+        {{--        <center>--}}
+        {{--            <?php--}}
+        {{--            $nom_pict = mt_rand(1, 7);--}}
+        {{--            $img_name = "";--}}
+        {{--            switch ($nom_pict) {--}}
+        {{--                case 1:--}}
+        {{--                    $img_name = "new_year1.jpg";--}}
+        {{--                    break;--}}
+        {{--                case 2:--}}
+        {{--                    $img_name = "new_year2.jpg";--}}
+        {{--                    break;--}}
+        {{--                case 3:--}}
+        {{--                    $img_name = "new_year3.png";--}}
+        {{--                    break;--}}
+        {{--            }--}}
+        {{--            ?>--}}
+        {{--            @if($img_name != "")--}}
+        {{--                <img src="{{Storage::url($img_name)}} " width="75%">--}}
+        {{--            @endif--}}
+        {{--        </center>--}}
         @guest
             <hr>
             {{--            Похожие строки layouts\app.blade.php и message.blade.php--}}
