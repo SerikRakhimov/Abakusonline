@@ -43,8 +43,10 @@ if ($item) {
         <a href="{{Storage::url($url_filename)}}">
             @endif
             <img src="{{Storage::url($url_filename)}}"
+                 @if(isset($var_percent))
                  @if($item)
                  id="img{{$item->id}}"
+                 @endif
                  @endif
                  {{--                                                   style="object-fit:cover;--}}
                  {{--                 style="object-fit:scale-down;--}}
@@ -69,17 +71,19 @@ if ($item) {
                  @if($img_fluid == true)
                  class="img-fluid"
                  @endif
+                 @if(isset($var_percent))
+                 {{-- Обязательно так нужно(устанавливать значения ширину и высоту):--}}
+                 width="{{$var_percent}}%"
+                 height="{{$var_percent}}%"
+                 @else
                  @if(isset($width))
                  width={{$width}}
-                     height={{$width}}
-                 {{--                     width="1100"--}}
-                 {{--                     height="726"--}}
                  @endif
                  @if(!isset($width) & isset($size))
-                     height=
-                 @include('types.img.height',['size'=>$size])
+                     height=@include('types.img.height',['size'=>$size])
                  @endif
-                 alt="" title=
+                 @endif
+                     alt="" title=
                  @if($title == "")
                  @if($item)
                      "{{$item->title_img()}}"
@@ -90,18 +94,20 @@ if ($item) {
                 "{{$title}}"
             @endif
             >
-            @if($item)
-                <script>
-                    {{--        alert(window.innerWidth + ' '+window.innerHeight);--}}
-                        img{{$item->id}} = document.getElementById("img{{$item->id}}");
-                    {{--img{{$item->id}}.width = 1100;--}}
-                        {{--img{{$item->id}}.width = "100%";--}}
-                    if (window.innerWidth > window.innerHeight) {
-                        img{{$item->id}}.height = window.innerHeight;
-                    }else{
-                        img{{$item->id}}.width = Math.int(window.innerWidth*0.75);
-                    }
-                </script>
+            @if(isset($var_percent))
+                @if($item)
+                    <script>
+                        {{--        alert(window.innerWidth + ' '+window.innerHeight);--}}
+                        {{--    img{{$item->id}} = document.getElementById("img{{$item->id}}");--}}
+                        {{--img{{$item->id}}.width = 1100;--}}
+                            {{--img{{$item->id}}.width = "100%";--}}
+                        if (window.innerWidth > window.innerHeight) {
+                            document.getElementById("img{{$item->id}}").height = window.innerHeight * {{$var_percent}}/100;
+                        } else {
+                            document.getElementById("img{{$item->id}}").width = Math.int(window.innerWidth * {{$var_percent}}/100 * 0.75);
+                        }
+                    </script>
+                @endif
             @endif
             @if($link == true)
         </a>
