@@ -30,12 +30,26 @@
                 {{$message}}
             </div>
             @enderror
+            <img src=""
+                 id="img{{$name}}"
+                 height=@include('types.img.height',['size'=>"medium"])
+                     alt="" title="{{trans('main.selected_image')}}">
         </div>
         <div class="col-sm-5-left">
 {{--            <label>{{trans('main.explanation_img')}}--}}
 {{--                ({{mb_strtolower(trans('main.maximum'))}} {{$item->base->maxfilesize_title_img_doc}})--}}
 {{--            </label>--}}
         </div>
+        <script>
+            img{{$name}} = document.getElementById("img{{$name}}");
+            {{--Используется 'document.getElementById("{{$name}}"'--}}
+                file{{$name}} = document.getElementById("{{$name}}");
+            file{{$name}}.addEventListener('change', function () {
+                img{{$name}}.src = URL.createObjectURL(file{{$name}}.files[0]);
+                {{--img{{$name}}.style.display = "inline";--}}
+                {{--img{{$name}}.style.display = "block";--}}
+            });
+        </script>
     </div>
 
 

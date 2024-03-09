@@ -25,7 +25,7 @@ class ModerationController extends Controller
             ->where('bases.type_is_image', true)
             ->where('bases.is_to_moderate_image', true)
             ->orderBy('items.name_lang_1', 'desc')
-            ->orderBy('items.created_at', 'desc');
+            ->orderBy('items.updated_at', 'desc');
 
         session(['moderations_previous_url' => request()->url()]);
         return view('moderation/index', ['items' => $items->paginate(60)]);
