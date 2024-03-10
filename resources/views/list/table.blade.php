@@ -74,7 +74,7 @@ if ($view_link) {
                         {{$v_label}}
                     </small>
                     {{--                    <div class="card-body d-flex align-items-center">--}}
-                    <div class="card-body p-2">
+                    <div class="card-body pl-2 pr-2 pt-2 pb-0">
                         {{--                        <div class="card-title text-center">Card title</div>--}}
                         {{--                        <div class="card-subtitle m-2 text-center text-muted">Card subtitle</div>--}}
                         {{--                        @if($item_find)--}}
@@ -107,7 +107,7 @@ if ($view_link) {
                         </div>
                         {{--                        @endif--}}
                         {{--                        <div class="card-title text-left pt-2 pl-3 pr-3">--}}
-                        <div class="card-title text-center pt-2 pl-3 pr-3">
+                        <div class="card-title text-center pt-0 pl-3 pr-3">
                             <h6>
                                 {{--                            <a--}}
                                 {{--                                href="{{route('item.ext_show', ['item'=>$item, 'project'=>$project, 'role'=>$role, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id,--}}
