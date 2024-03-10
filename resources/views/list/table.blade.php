@@ -107,7 +107,7 @@ if ($view_link) {
                         </div>
                         {{--                        @endif--}}
                         {{--                        <div class="card-title text-left pt-2 pl-3 pr-3">--}}
-                        <div class="card-title text-center pt-1 pl-3 pr-3">
+                        <div class="card-title text-center pt-2 pl-3 pr-3">
                             <h6>
                                 {{--                            <a--}}
                                 {{--                                href="{{route('item.ext_show', ['item'=>$item, 'project'=>$project, 'role'=>$role, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id,--}}
