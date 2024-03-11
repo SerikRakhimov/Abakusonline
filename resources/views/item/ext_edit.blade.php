@@ -1735,7 +1735,6 @@
                     {{--            key_{{$prefix}}{{$link->id}}.value = res.data['item_id'];--}}
                     {{--        }--}}
                     {{--    );--}}
-
                         function code_input_{{$prefix}}{{$link->id}}() {
                             axios.get('/item/item_from_base_code/'
                                 + '{{$link->parent_base_id}}'
@@ -1820,7 +1819,7 @@
                                 parent_unit_id{{$prefix}}{{$link->id}}.innerHTML = res.data['result_unit_name'];
                                 {{-- "related_id" используется несколько раз по тексту --}}
                                     parent_related_id{{$prefix}}{{$link->id}}.innerHTML = res.data['result_item_id'];
-
+                                alert('22-> ' + child_base_id{{$prefix}}{{$link->id}}.value+' 223-> '+parent_base_id{{$prefix}}{{$link->id}}.innerHTML);
                                 {{-- Нужно использовать, см.примечание к on_parent_refer() ниже --}}
                                 {{-- Нужно, например, для правильного отображения данных при добавлении/корректировке записей в шаблоне "Интернет - магазин" --}}
                                 {{-- on_parent_refer(); --}}
