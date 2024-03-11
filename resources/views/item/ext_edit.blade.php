@@ -1863,10 +1863,10 @@
                     {{--Так не работает--}}
                     {{--on_numcalc_viewonly();--}}
                 }
-
+@if($link->id!=1246)
                 {{--Эта команда не нужна/нужна --}}
                 child_code_id{{$prefix}}{{$link->id}}.addEventListener("change", link_id_change_{{$prefix}}{{$link->id}});
-
+@endif
                 @elseif($const_link_start->parent_base->type_is_list())
                 <?php
                 // Проверка на вычисляемые поля ('Автоматически заполнять из родительского поля ввода')
