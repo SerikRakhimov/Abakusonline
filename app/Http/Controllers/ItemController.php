@@ -7005,6 +7005,7 @@ class ItemController extends Controller
             'result_item_id' => $result_item_id,
             'result_item_name' => $result_item_name,
             'result_unit_name' => $result_unit_name,
+            'const_link_id_start' => $const_link_id_start,
             'result_item_name_options' => $result_item_name_options];
     }
 
