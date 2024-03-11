@@ -2180,7 +2180,7 @@
             {{-- Нужно для обновления информации--}}
             {{--numcalc_{{$prefix}}{{$link->id}}.dispatchEvent(new Event('change'));--}}
 
-            v.dispatchEvent(new Event('change'));
+            {{-- v.dispatchEvent(new Event('change'));--}}
 
         }
 
