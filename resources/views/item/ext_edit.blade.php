@@ -1724,17 +1724,30 @@
                     // Если у элемента code несколько функций-обработчиков,
                     // то команды ниже "async function code_input" выполняются последними
                     {{--async - await нужно, https://tproger.ru/translations/understanding-async-await-in-javascript/--}}
-                    async function code_input_{{$prefix}}{{$link->id}}() {
-                        await axios.get('/item/item_from_base_code/'
-                            + '{{$link->parent_base_id}}'
-                            + '/' + '{{$relip_link_project->id}}'
-                            + '/' + code_{{$prefix}}{{$link->id}}.value
-                        ).then(function (res) {
-                                {{--code_{{$prefix}}{{$link->id}}.innerHTML = res.data['item_code'];--}}
-                                    name_{{$prefix}}{{$link->id}}.innerHTML = res.data['item_name'];
-                                key_{{$prefix}}{{$link->id}}.value = res.data['item_id'];
-                            }
-                        );
+                    {{--async function code_input_{{$prefix}}{{$link->id}}() {--}}
+                    {{--    await axios.get('/item/item_from_base_code/'--}}
+                    {{--        + '{{$link->parent_base_id}}'--}}
+                    {{--        + '/' + '{{$relip_link_project->id}}'--}}
+                    {{--        + '/' + code_{{$prefix}}{{$link->id}}.value--}}
+                    {{--    ).then(function (res) {--}}
+                    {{--            --}}{{--code_{{$prefix}}{{$link->id}}.innerHTML = res.data['item_code'];--}}
+                    {{--                name_{{$prefix}}{{$link->id}}.innerHTML = res.data['item_name'];--}}
+                    {{--            key_{{$prefix}}{{$link->id}}.value = res.data['item_id'];--}}
+                    {{--        }--}}
+                    {{--    );--}}
+
+                        function code_input_{{$prefix}}{{$link->id}}() {
+                            axios.get('/item/item_from_base_code/'
+                                + '{{$link->parent_base_id}}'
+                                + '/' + '{{$relip_link_project->id}}'
+                                + '/' + code_{{$prefix}}{{$link->id}}.value
+                            ).then(function (res) {
+                                    {{--code_{{$prefix}}{{$link->id}}.innerHTML = res.data['item_code'];--}}
+                                        name_{{$prefix}}{{$link->id}}.innerHTML = res.data['item_name'];
+                                    key_{{$prefix}}{{$link->id}}.value = res.data['item_id'];
+                                }
+                            );
+
                         {{--Команда "on_parent_refer();" нужна, для вызова функция обновления данных с зависимых таблиц--}}
                         {{--Функция code_input_{{$prefix}}{{$link->id}}(first) выполняется не сразу--}}
                         {{--Не использовать проверку if (first == false) --}}
