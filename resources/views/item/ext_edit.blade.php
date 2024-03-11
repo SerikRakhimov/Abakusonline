@@ -1779,7 +1779,7 @@
                 var parent_unit_id{{$prefix}}{{$link->id}} = document.getElementById('unit{{$link->id}}');
                 <?php
                 // Нужно использовать, см.примечание к on_parent_refer() ниже
-                $functs_parent_refer[] = "link_id_change_" . $prefix . $link->id;
+                // $functs_parent_refer[] = "link_id_change_" . $prefix . $link->id;
                 // $functions[] = "link_id_change_" . $prefix . $link->id;
                 ?>
                 function link_id_change_{{$prefix}}{{$link->id}}() {
