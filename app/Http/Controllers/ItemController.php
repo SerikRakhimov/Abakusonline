@@ -4058,7 +4058,7 @@ class ItemController extends Controller
         $params = $request->query();
         // '=0' использовать, в ext_edit.php проверка на равенство нулю
         $result_id = 0;
-        $result_itnm=null;
+        $result_itnm = null;
         $result_inner = trans('main.no_information') . '!';
         $project = null;
         if (array_key_exists('project_id', $params)) {
@@ -6952,7 +6952,8 @@ class ItemController extends Controller
                 if ($const_link_id_start && $link_ids) {
                     $error = false;
                     // цикл по вычисляемым полям
-                    foreach (@$link_ids as $link_id) {
+//                    foreach (@$link_ids as $link_id) {
+                    foreach ($link_ids as $link_id) {
                         $link_find = Link::find($link_id);
                         if (!$link_find) {
                             $error = true;
