@@ -1802,7 +1802,10 @@
                 function link_id_change_{{$prefix}}{{$link->id}}() {
                     if (child_base_id{{$prefix}}{{$link->id}}.value == 0) {
                         parent_base_id{{$prefix}}{{$link->id}}.innerHTML = "{{trans('main.no_information') . '!'}}";
-                        parent_related_id{{$prefix}}{{$link->id}}.innerHTML = "0";
+                        {{-- Такая проверка на '$link->parent_base->type_is_image()/!$link->parent_base->type_is_image()' в трех местах в этом файле--}}
+                            @if(!$link->parent_base->type_is_image())
+                            parent_related_id{{$prefix}}{{$link->id}}.innerHTML = "0";
+                        @endif
                         alert('{{$link->id}}-> :::' + child_base_id{{$prefix}}{{$link->id}}.value);
                         {{--Не использовать проверку if (first == false) {--}}
                         {{--if (first == false) {--}}
