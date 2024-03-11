@@ -4766,7 +4766,6 @@ class ItemController extends Controller
         if ($data_change) {
             $request->validate($this->name_lang_rules($request));
         }
-
         if (!($item->code == $request->code)) {
             $request->validate($this->code_rules($request, $relip_project->id, $item->base_id));
         }
