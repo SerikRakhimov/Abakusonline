@@ -1799,6 +1799,7 @@
                     if (child_base_id{{$prefix}}{{$link->id}}.value == 0) {
                         parent_base_id{{$prefix}}{{$link->id}}.innerHTML = "{{trans('main.no_information') . '!'}}";
                         parent_related_id{{$prefix}}{{$link->id}}.innerHTML = "0";
+                        alert('{{$link->id}}-> :::' + child_base_id{{$prefix}}{{$link->id}}.value;
                         {{--Не использовать проверку if (first == false) {--}}
                         {{--if (first == false) {--}}
                         @if($link->parent_is_nc_parameter == true)
