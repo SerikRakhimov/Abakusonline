@@ -474,6 +474,7 @@
                         </label>
                     </div>
                     <div class="col-sm-7">
+                        {{-- Такая проверка на '$link->parent_base->type_is_image()' в трех местах в этом файле--}}
                         @if($link->parent_base->type_is_image())
                             <span class=""
                                   name="calc{{$key}}"
@@ -1735,18 +1736,18 @@
                     {{--            key_{{$prefix}}{{$link->id}}.value = res.data['item_id'];--}}
                     {{--        }--}}
                     {{--    );--}}
-                        function code_input_{{$prefix}}{{$link->id}}() {
-                            axios.get('/item/item_from_base_code/'
-                                + '{{$link->parent_base_id}}'
-                                + '/' + '{{$relip_link_project->id}}'
-                                + '/' + code_{{$prefix}}{{$link->id}}.value
-                            ).then(function (res) {
-                                    {{--code_{{$prefix}}{{$link->id}}.innerHTML = res.data['item_code'];--}}
-                                        name_{{$prefix}}{{$link->id}}.innerHTML = res.data['item_name'];
-                                    key_{{$prefix}}{{$link->id}}.value = res.data['item_id'];
-                                    alert(res.data['item_id']+'-'+key_{{$prefix}}{{$link->id}}.value + ' '+res.data['item_name']+'-'+name_{{$prefix}}{{$link->id}}.innerHTML);
-                                }
-                            );
+                    function code_input_{{$prefix}}{{$link->id}}() {
+                        axios.get('/item/item_from_base_code/'
+                            + '{{$link->parent_base_id}}'
+                            + '/' + '{{$relip_link_project->id}}'
+                            + '/' + code_{{$prefix}}{{$link->id}}.value
+                        ).then(function (res) {
+                                {{--code_{{$prefix}}{{$link->id}}.innerHTML = res.data['item_code'];--}}
+                                    name_{{$prefix}}{{$link->id}}.innerHTML = res.data['item_name'];
+                                key_{{$prefix}}{{$link->id}}.value = res.data['item_id'];
+                                alert(res.data['item_id'] + '-' + key_{{$prefix}}{{$link->id}}.value + ' ' + res.data['item_name'] + '-' + name_{{$prefix}}{{$link->id}}.innerHTML);
+                            }
+                        );
 
                         {{--Команда "on_parent_refer();" нужна, для вызова функция обновления данных с зависимых таблиц--}}
                         {{--Функция code_input_{{$prefix}}{{$link->id}}(first) выполняется не сразу--}}
@@ -1789,7 +1790,10 @@
                 var parent_base_id{{$prefix}}{{$link->id}} = document.getElementById('link{{$link->id}}');
                 {{--                var parent_related_id{{$prefix}}{{$link->id}} = document.getElementById('related_id{{$link->id}}');--}}
                 var parent_related_id{{$prefix}}{{$link->id}} = document.getElementById('{{$link->id}}');
+                {{-- Такая проверка на '$link->parent_base->type_is_image()' в трех местах в этом файле--}}
+                @if(!$link->parent_base->type_is_image())
                 var parent_unit_id{{$prefix}}{{$link->id}} = document.getElementById('unit{{$link->id}}');
+                @endif
                 <?php
                 // Нужно использовать, см.примечание к on_parent_refer() ниже
                 // $functs_parent_refer[] = "link_id_change_" . $prefix . $link->id;
@@ -1817,10 +1821,13 @@
                             + '/0'
                         ).then(function (res) {
                                 parent_base_id{{$prefix}}{{$link->id}}.innerHTML = res.data['result_item_name'];
-                                parent_unit_id{{$prefix}}{{$link->id}}.innerHTML = res.data['result_unit_name'];
-                                {{-- "related_id" используется несколько раз по тексту --}}
+                                {{-- Такая проверка на '$link->parent_base->type_is_image()' в трех местах в этом файле--}}
+                                    @if(!$link->parent_base->type_is_image())
+                                    parent_unit_id{{$prefix}}{{$link->id}}.innerHTML = res.data['result_unit_name'];
+                                @endif
+                                    {{-- "related_id" используется несколько раз по тексту --}}
                                     parent_related_id{{$prefix}}{{$link->id}}.innerHTML = res.data['result_item_id'];
-                                alert('{{$link->id}}-> ' + child_base_id{{$prefix}}{{$link->id}}.value+' 223-> '+res.data['result_item_id']+'-'+parent_related_id{{$prefix}}{{$link->id}}.innerHTML+' '+res.data['result_item_name']+'-'+parent_base_id{{$prefix}}{{$link->id}}.innerHTML);
+                                alert('{{$link->id}}-> ' + child_base_id{{$prefix}}{{$link->id}}.value + ' 223-> ' + res.data['result_item_id'] + '-' + parent_related_id{{$prefix}}{{$link->id}}.innerHTML + ' ' + res.data['result_item_name'] + '-' + parent_base_id{{$prefix}}{{$link->id}}.innerHTML);
                                 {{-- Нужно использовать, см.примечание к on_parent_refer() ниже --}}
                                 {{-- Нужно, например, для правильного отображения данных при добавлении/корректировке записей в шаблоне "Интернет - магазин" --}}
                                 {{-- on_parent_refer(); --}}
