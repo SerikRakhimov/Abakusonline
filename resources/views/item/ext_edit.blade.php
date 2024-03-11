@@ -474,7 +474,7 @@
                         </label>
                     </div>
                     <div class="col-sm-7">
-                        {{-- Такая проверка на '$link->parent_base->type_is_image()' в трех местах в этом файле--}}
+                        {{-- Такая проверка на '$link->parent_base->type_is_image()/!$link->parent_base->type_is_image()' в трех местах в этом файле--}}
                         @if($link->parent_base->type_is_image())
                             <span class=""
                                   name="calc{{$key}}"
@@ -1790,7 +1790,7 @@
                 var parent_base_id{{$prefix}}{{$link->id}} = document.getElementById('link{{$link->id}}');
                 {{--                var parent_related_id{{$prefix}}{{$link->id}} = document.getElementById('related_id{{$link->id}}');--}}
                 var parent_related_id{{$prefix}}{{$link->id}} = document.getElementById('{{$link->id}}');
-                {{-- Такая проверка на '$link->parent_base->type_is_image()' в трех местах в этом файле--}}
+                {{-- Такая проверка на '$link->parent_base->type_is_image()/!$link->parent_base->type_is_image()' в трех местах в этом файле--}}
                 @if(!$link->parent_base->type_is_image())
                 var parent_unit_id{{$prefix}}{{$link->id}} = document.getElementById('unit{{$link->id}}');
                 @endif
@@ -1821,7 +1821,7 @@
                             + '/0'
                         ).then(function (res) {
                                 parent_base_id{{$prefix}}{{$link->id}}.innerHTML = res.data['result_item_name'];
-                                {{-- Такая проверка на '$link->parent_base->type_is_image()' в трех местах в этом файле--}}
+                                {{-- Такая проверка на '$link->parent_base->type_is_image()/!$link->parent_base->type_is_image()' в трех местах в этом файле--}}
                                     @if(!$link->parent_base->type_is_image())
                                     parent_unit_id{{$prefix}}{{$link->id}}.innerHTML = res.data['result_unit_name'];
                                 @endif
