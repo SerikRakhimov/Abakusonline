@@ -6968,12 +6968,13 @@ class ItemController extends Controller
                         // используется поле link->parent_parent_related_result_link_id
                         // находим новый $item (невычисляемый)
                         // $item меняется внутри цикла
+                        $it_1 = $item;
                         $item = self::get_parent_item_from_child_item($item, $link_find)['result_item'];
                         if (!$item) {
                             $error = true;
                             break;
                         }
-                        $info = "item->id =" . $item->id . " link_find_>id = " . $link_find->id;
+                        $info = "it_1->id =" . $it_1->id . ' ' . $it_1->name() . " link_find_>id = " . $link_find->id . " item->id =" . $item->id . ' ' . $item->name();
                     }
                     // Похожие строки в self::get_parent_item_from_calc_child_item()
                     // и в self::get_parent_item_from_output_calculated_table()
