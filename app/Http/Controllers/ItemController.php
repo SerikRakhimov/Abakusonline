@@ -6948,7 +6948,7 @@ class ItemController extends Controller
             } else {
                 $item = $item_start;
             }
-            $info = "";
+            $info = $item_start->id . " " . $item_start->name() . ':';
             if ($item) {
                 if ($const_link_id_start && $link_ids) {
                     $error = false;
