@@ -1736,8 +1736,8 @@
                     {{--            key_{{$prefix}}{{$link->id}}.value = res.data['item_id'];--}}
                     {{--        }--}}
                     {{--    );--}}
-                    function code_input_{{$prefix}}{{$link->id}}() {
-                        axios.get('/item/item_from_base_code/'
+                    async function code_input_{{$prefix}}{{$link->id}}() {
+                        await axios.get('/item/item_from_base_code/'
                             + '{{$link->parent_base_id}}'
                             + '/' + '{{$relip_link_project->id}}'
                             + '/' + code_{{$prefix}}{{$link->id}}.value
