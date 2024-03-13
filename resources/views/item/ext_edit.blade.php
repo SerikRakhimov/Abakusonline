@@ -1736,8 +1736,8 @@
                     {{--            key_{{$prefix}}{{$link->id}}.value = res.data['item_id'];--}}
                     {{--        }--}}
                     {{--    );--}}
-                    async function code_input_{{$prefix}}{{$link->id}}() {
-                        await axios.get('/item/item_from_base_code/'
+                    function code_input_{{$prefix}}{{$link->id}}() {
+                        axios.get('/item/item_from_base_code/'
                             + '{{$link->parent_base_id}}'
                             + '/' + '{{$relip_link_project->id}}'
                             + '/' + code_{{$prefix}}{{$link->id}}.value
@@ -1770,7 +1770,7 @@
                     }
 
                     {{--                    code_{{$prefix}}{{$link->id}}.addEventListener("input", code_input_{{$prefix}}{{$link->id}});--}}
-                    code_{{$prefix}}{{$link->id}}.addEventListener("change", alert('00-' + {{$prefix}}{{$link->id}}));
+                    code_{{$prefix}}{{$link->id}}.addEventListener("change", alert('00-' + '{{$prefix}}{{$link->id}}'));
                     code_{{$prefix}}{{$link->id}}.addEventListener("change", code_input_{{$prefix}}{{$link->id}});
                     <?php
                     $functs_change['code' . $link->id] = 1;
@@ -1867,7 +1867,7 @@
                 // 222
                 {{--Эта команда не нужна/нужна --}}
                 {{--                child_code_id{{$prefix}}{{$link->id}}.addEventListener("change", link_id_change_{{$prefix}}{{$link->id}});--}}
-                child_code_id{{$prefix}}{{$link->id}}.addEventListener("change", alert({{$prefix}}{{$link->id}}));
+                child_code_id{{$prefix}}{{$link->id}}.addEventListener("change", alert('{{$prefix}}{{$link->id}}'));
                 @elseif($const_link_start->parent_base->type_is_list())
                 <?php
                 // Проверка на вычисляемые поля ('Автоматически заполнять из родительского поля ввода')
