@@ -6948,12 +6948,13 @@ class ItemController extends Controller
             } else {
                 $item = $item_start;
             }
+            $info = "";
             if ($item) {
                 if ($const_link_id_start && $link_ids) {
                     $error = false;
                     // цикл по вычисляемым полям
-                    foreach (@$link_ids as $link_id) {
-//                    foreach ($link_ids as $link_id) {
+//                    foreach (@$link_ids as $link_id) {
+                    foreach ($link_ids as $link_id) {
                         $link_find = Link::find($link_id);
                         if (!$link_find) {
                             $error = true;
@@ -6972,6 +6973,7 @@ class ItemController extends Controller
                             $error = true;
                             break;
                         }
+                        $info = "item->id =" . $item->id . " link_find_>id = " . $link_find->id;
                     }
                     // Похожие строки в self::get_parent_item_from_calc_child_item()
                     // и в self::get_parent_item_from_output_calculated_table()
@@ -7006,7 +7008,7 @@ class ItemController extends Controller
             'result_item_id' => $result_item_id,
             'result_item_name' => $result_item_name,
             'result_unit_name' => $result_unit_name,
-            'const_link_id_start' => $const_link_id_start,
+            'const_link_id_start' => $info,
             'result_item_name_options' => $result_item_name_options];
     }
 
