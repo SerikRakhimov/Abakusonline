@@ -6953,7 +6953,7 @@ class ItemController extends Controller
                 if ($const_link_id_start && $link_ids) {
                     $error = false;
                     // цикл по вычисляемым полям
-//                    foreach (@$link_ids as $link_id) {
+//                  foreach (@$link_ids as $link_id) {
                     foreach ($link_ids as $link_id) {
                         $link_find = Link::find($link_id);
                         if (!$link_find) {
@@ -6974,7 +6974,7 @@ class ItemController extends Controller
                             $error = true;
                             break;
                         }
-                        $info = "it_1->id =" . $it_1->id . ' ' . $it_1->name() . " link_find_>id = " . $link_find->id . " item->id =" . $item->id . ' ' . $item->name();
+                        $info = $info . " it_1->id =" . $it_1->id . ' ' . $it_1->name() . " link_find_>id = " . $link_find->id . " item->id =" . $item->id . ' ' . $item->name();
                     }
                     // Похожие строки в self::get_parent_item_from_calc_child_item()
                     // и в self::get_parent_item_from_output_calculated_table()
