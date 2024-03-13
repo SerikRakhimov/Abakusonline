@@ -6952,8 +6952,8 @@ class ItemController extends Controller
                 if ($const_link_id_start && $link_ids) {
                     $error = false;
                     // цикл по вычисляемым полям
-//                    foreach (@$link_ids as $link_id) {
-                    foreach ($link_ids as $link_id) {
+                    foreach (@$link_ids as $link_id) {
+//                    foreach ($link_ids as $link_id) {
                         $link_find = Link::find($link_id);
                         if (!$link_find) {
                             $error = true;
