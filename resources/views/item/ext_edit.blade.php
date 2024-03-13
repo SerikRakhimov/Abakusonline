@@ -1837,7 +1837,7 @@
                                 {{-- Нужно использовать, см.примечание к on_parent_refer() ниже --}}
                                 {{-- Нужно, например, для правильного отображения данных при добавлении/корректировке записей в шаблоне "Интернет - магазин" --}}
                                 {{-- on_parent_refer(); --}}
-                                // 11111
+                                {{-- 11111 --}}
                                 {{--Не использовать проверку if (first == false) {--}}
                                 {{--if (first == false) {--}}
                                 @if($link->parent_is_nc_parameter == true)
@@ -1864,7 +1864,7 @@
                     {{--on_numcalc_viewonly();--}}
                 }
 
-                // 222
+                {{-- 222 --}}
                 {{--Эта команда не нужна/нужна --}}
                 {{--                child_code_id{{$prefix}}{{$link->id}}.addEventListener("change", link_id_change_{{$prefix}}{{$link->id}});--}}
                 child_code_id{{$prefix}}{{$link->id}}.addEventListener("change", alert('{{$prefix}}{{$link->id}}'));
