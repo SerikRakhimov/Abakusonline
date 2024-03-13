@@ -544,7 +544,8 @@
                         </div>
 
                         <div class="col-sm-2">
-                            <input name="{{$key}}" id="{{$key}}" type="hidden" value="{{old($key) ?? $value ?? "0"}}">
+{{--                        <input name="{{$key}}" id="{{$key}}" type="hidden" value="{{old($key) ?? $value ?? "0"}}">--}}
+                            <input name="{{$key}}" id="{{$key}}" value="{{old($key) ?? $value ?? "0"}}">
                             <input type={{$link->parent_base->is_code_number == true?"number":"text"}}
                                 name="code{{$key}}"
                                    id="code{{$key}}"
