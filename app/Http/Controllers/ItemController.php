@@ -6885,14 +6885,14 @@ class ItemController extends Controller
         $result_unit_name = null;
         $result_item_name_options = null;
         $item = self::item_from_base_code($base, $project, $code)['item'];
-//        if ($item) {
+        if ($item) {
             $get_parent_item_from_calc_child_item = self::get_parent_item_from_calc_child_item($item, $link_result, $item_calc, $role, $relit_id);
             $result_item = $get_parent_item_from_calc_child_item['result_item'];
             $result_item_id = $get_parent_item_from_calc_child_item['result_item_id'];
             $result_item_name = $get_parent_item_from_calc_child_item['result_item_name'];
             $result_unit_name = $get_parent_item_from_calc_child_item['result_unit_name'];
             $result_item_name_options = $get_parent_item_from_calc_child_item['result_item_name_options'];
-//        }
+        }
         return ['result_item' => $result_item,
             'result_item_id' => $result_item_id,
             'result_item_name' => $result_item_name,
