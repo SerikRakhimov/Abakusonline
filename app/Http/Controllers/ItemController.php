@@ -6880,8 +6880,8 @@ class ItemController extends Controller
     static function get_parent_item_from_calc_child_code(Base $base, Project $project, $code, Link $link_result, $item_calc, Role $role = null, $relit_id = null)
     {
 //        $item=self::item_from_base_code($base, $project, $code)['item'];
-        $item_from_base_code=self::item_from_base_code($base, $project, $code);
-        return $item_from_base_code;
+        $item_from_base_code = self::item_from_base_code($base, $project, $code);
+        return ['item_from_base_code' => $item_from_base_code, 'base' => $base, 'project' => $project, 'code' => $code];
 //        $get_parent_item_from_calc_child_item = self::get_parent_item_from_calc_child_item($item, $link_result, $item_calc, $role, $relit_id);
 //        return ['result_item' => $get_parent_item_from_calc_child_item['result_item'],
 //            'result_item_id' => $get_parent_item_from_calc_child_item['result_item_id'],
