@@ -1837,7 +1837,6 @@
                                 @else
                                 alert('{{$link->id}}-> ' + child_base_id{{$prefix}}{{$link->id}}.value + ' 223-> ' + res.data['result_item_name'] + '-' + parent_base_id{{$prefix}}{{$link->id}}.innerHTML);
                                 @endif
-                                alert('const_link_id_start = ' + res.data['const_link_id_start']);
                                 {{-- Нужно использовать, см.примечание к on_parent_refer() ниже --}}
                                 {{-- Нужно, например, для правильного отображения данных при добавлении/корректировке записей в шаблоне "Интернет - магазин" --}}
                                 {{-- on_parent_refer(); --}}
