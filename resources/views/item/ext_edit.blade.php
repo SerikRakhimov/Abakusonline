@@ -1746,7 +1746,7 @@
                                 {{--code_{{$prefix}}{{$link->id}}.innerHTML = res.data['item_code'];--}}
                                     name_{{$prefix}}{{$link->id}}.innerHTML = res.data['item_name'];
                                 key_{{$prefix}}{{$link->id}}.value = res.data['item_id'];
-                                alert(res.data['item_id'] + '-' + key_{{$prefix}}{{$link->id}}.value + ' ' + res.data['item_name'] + '-' + name_{{$prefix}}{{$link->id}}.innerHTML);
+{{--                                alert(res.data['item_id'] + '-' + key_{{$prefix}}{{$link->id}}.value + ' ' + res.data['item_name'] + '-' + name_{{$prefix}}{{$link->id}}.innerHTML);--}}
                             }
                         );
 
@@ -1771,7 +1771,6 @@
                     }
 
                     {{--                    code_{{$prefix}}{{$link->id}}.addEventListener("input", code_input_{{$prefix}}{{$link->id}});--}}
-                    code_{{$prefix}}{{$link->id}}.addEventListener("change", alert('00-' + '{{$prefix}}{{$link->id}}'));
                     code_{{$prefix}}{{$link->id}}.addEventListener("change", code_input_{{$prefix}}{{$link->id}});
                     <?php
                     $functs_change['code' . $link->id] = 1;
@@ -1801,14 +1800,13 @@
                 // $functions[] = "link_id_change_" . $prefix . $link->id;
                 ?>
                 function link_id_change_{{$prefix}}{{$link->id}}() {
-                    alert('{{$link->id}}->>>' + child_base_id{{$prefix}}{{$link->id}}.value + 'child_code_id{{$link->id}}->>>' + child_code_id{{$prefix}}{{$link->id}}.value);
+                    {{--alert('{{$link->id}}->>>' + child_base_id{{$prefix}}{{$link->id}}.value + 'child_code_id{{$link->id}}->>>' + child_code_id{{$prefix}}{{$link->id}}.value);--}}
                     if (child_base_id{{$prefix}}{{$link->id}}.value == 0) {
                         parent_base_id{{$prefix}}{{$link->id}}.innerHTML = "{{trans('main.no_information') . '!'}}";
                         {{-- Такая проверка на '$link->parent_base->type_is_image()/!$link->parent_base->type_is_image()' в трех местах в этом файле--}}
                             @if(!$link->parent_base->type_is_image())
                             parent_related_id{{$prefix}}{{$link->id}}.innerHTML = "0";
                         @endif
-                        {{--alert('{{$link->id}}-> :::' + child_base_id{{$prefix}}{{$link->id}}.value);--}}
                         {{--Не использовать проверку if (first == false) {--}}
                         {{--if (first == false) {--}}
                         @if($link->parent_is_nc_parameter == true)
@@ -1833,9 +1831,9 @@
                                     {{-- "related_id" используется несколько раз по тексту --}}
                                     parent_related_id{{$prefix}}{{$link->id}}.innerHTML = res.data['result_item_id'];
                                 parent_unit_id{{$prefix}}{{$link->id}}.innerHTML = res.data['result_unit_name'];
-                                alert('{{$link->id}}-> ' + child_base_id{{$prefix}}{{$link->id}}.value + ' 223-> ' + res.data['result_item_id'] + '-' + parent_related_id{{$prefix}}{{$link->id}}.innerHTML + ' ' + res.data['result_item_name'] + '-' + parent_base_id{{$prefix}}{{$link->id}}.innerHTML);
+                                {{--alert('{{$link->id}}-> ' + child_base_id{{$prefix}}{{$link->id}}.value + ' 223-> ' + res.data['result_item_id'] + '-' + parent_related_id{{$prefix}}{{$link->id}}.innerHTML + ' ' + res.data['result_item_name'] + '-' + parent_base_id{{$prefix}}{{$link->id}}.innerHTML);--}}
                                 @else
-                                alert('{{$link->id}}-> ' + child_base_id{{$prefix}}{{$link->id}}.value + ' 223-> ' + res.data['result_item_name'] + '-' + parent_base_id{{$prefix}}{{$link->id}}.innerHTML);
+                                {{--alert('{{$link->id}}-> ' + child_base_id{{$prefix}}{{$link->id}}.value + ' 223-> ' + res.data['result_item_name'] + '-' + parent_base_id{{$prefix}}{{$link->id}}.innerHTML);--}}
                                 @endif
                                 {{-- Нужно использовать, см.примечание к on_parent_refer() ниже --}}
                                 {{-- Нужно, например, для правильного отображения данных при добавлении/корректировке записей в шаблоне "Интернет - магазин" --}}
@@ -1870,7 +1868,6 @@
                 {{-- 222 --}}
                 {{--Эта команда не нужна/нужна --}}
                 child_code_id{{$prefix}}{{$link->id}}.addEventListener("change", link_id_change_{{$prefix}}{{$link->id}});
-                {{--child_code_id{{$prefix}}{{$link->id}}.addEventListener("change", alert('{{$prefix}}{{$link->id}}'));--}}
                 @elseif($const_link_start->parent_base->type_is_list())
                 <?php
                 // Проверка на вычисляемые поля ('Автоматически заполнять из родительского поля ввода')
@@ -2113,10 +2110,7 @@
 
         function button_nc_click_{{$prefix}}{{$link->id}}() {
             var x, y, result, error_message;
-            {{--            @if($link->parent_base->type_is_number())--}}
-                {{--            alert('{{$link->parent_base->type_is_number()}}');--}}
-                {{--            @endif--}}
-                x = 0;
+            x = 0;
             y = 0;
             z = 0;
             v = document.getElementById('link{{$link->id}}');
