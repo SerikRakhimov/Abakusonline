@@ -1821,8 +1821,8 @@
                         {{--}--}}
                     } else {
                         axios.get('/item/get_parent_item_from_calc_child_code/'
-                            + '{{$link->parent_base_id}}'
-                            + '/' + '{{$relip_link_project->id}}'
+                            + '{{$link_parent->parent_base_id}}'
+                            + '/' + '{{$project->id}}'
                             + '/' + child_code_id{{$prefix}}{{$link->id}}.value
                             + '/{{$link->id}}'
                             + '/0'
