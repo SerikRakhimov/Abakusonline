@@ -928,6 +928,10 @@ Route::get('/item/get_items_for_link/{link}/{project}/{role}/{relit_id}', [ItemC
 //    ->name('item.get_selection_child_items_from_parent_item')
 //    ->middleware('auth');
 
+Route::get('/item/get_parent_item_from_calc_child_code/{base}/{project}/{code}/{link_result}/{item_calc}', [ItemController::class, 'get_parent_item_from_calc_child_code'])
+    ->name('item.get_parent_item_from_calc_child_code')
+    ->middleware('auth');
+
 Route::get('/item/get_parent_item_from_calc_child_item/{item_start}/{link_result}/{item_calc}', [ItemController::class, 'get_parent_item_from_calc_child_item'])
     ->name('item.get_parent_item_from_calc_child_item')
     ->middleware('auth');

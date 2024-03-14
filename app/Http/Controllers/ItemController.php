@@ -6877,6 +6877,11 @@ class ItemController extends Controller
             'result_item_name_options' => $result_item_name_options];
     }
 
+    static function get_parent_item_from_calc_child_code(Base $base, Project $project, $code, Link $link_result, $item_calc, Role $role = null, $relit_id = null)
+    {
+        $item=self::item_from_base_code($base, $project, $code)['item'];
+        self::get_parent_item_from_calc_child_item($item, $link_result, $item_calc, $role, $relit_id);
+    }
 // Функция get_parent_item_from_calc_child_item() ищет вычисляемое поля от первого невычисляемого
 // в форме item/ext_edit.php
 // Например: значение вычисляемого (через "Бабушка со стороны матери") "Прабабушка со стороны матери" находится от значение поля "Мать",
@@ -7825,7 +7830,7 @@ class ItemController extends Controller
             $item_id = $item->id;
             $item_name = $item->name();
         }
-        return ['item_id' => $item_id, 'item_name' => $item_name];
+        return ['item' => $item, 'item_id' => $item_id, 'item_name' => $item_name];
     }
 
     function filesize_message($fs, $mx)
