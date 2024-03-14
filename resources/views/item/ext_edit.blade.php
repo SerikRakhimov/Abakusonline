@@ -544,8 +544,8 @@
                         </div>
 
                         <div class="col-sm-2">
-                            {{--                        <input name="{{$key}}" id="{{$key}}" type="hidden" value="{{old($key) ?? $value ?? "0"}}">--}}
-                            <input name="{{$key}}" id="{{$key}}" value="{{old($key) ?? $value ?? "0"}}">
+                            <input name="{{$key}}" id="{{$key}}" type="hidden" value="{{old($key) ?? $value ?? "0"}}">
+                            {{-- <input name="{{$key}}" id="{{$key}}" value="{{old($key) ?? $value ?? "0"}}">--}}
                             <input type={{$link->parent_base->is_code_number == true?"number":"text"}}
                                 name="code{{$key}}"
                                    id="code{{$key}}"
@@ -1746,7 +1746,7 @@
                                 {{--code_{{$prefix}}{{$link->id}}.innerHTML = res.data['item_code'];--}}
                                     name_{{$prefix}}{{$link->id}}.innerHTML = res.data['item_name'];
                                 key_{{$prefix}}{{$link->id}}.value = res.data['item_id'];
-{{--                                alert(res.data['item_id'] + '-' + key_{{$prefix}}{{$link->id}}.value + ' ' + res.data['item_name'] + '-' + name_{{$prefix}}{{$link->id}}.innerHTML);--}}
+                                {{--                                alert(res.data['item_id'] + '-' + key_{{$prefix}}{{$link->id}}.value + ' ' + res.data['item_name'] + '-' + name_{{$prefix}}{{$link->id}}.innerHTML);--}}
                             }
                         );
 
