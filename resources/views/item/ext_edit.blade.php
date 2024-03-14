@@ -1801,7 +1801,7 @@
                 // $functions[] = "link_id_change_" . $prefix . $link->id;
                 ?>
                 function link_id_change_{{$prefix}}{{$link->id}}() {
-                    alert('{{$link->id}}->>>' + child_base_id{{$prefix}}{{$link->id}}.value);
+                    alert('{{$link->id}}->>>' + child_base_id{{$prefix}}{{$link->id}}.value+'child_code_id{{$link->id}}->>>' + child_code_id{{$prefix}}{{$link->id}}.value);
                     if (child_base_id{{$prefix}}{{$link->id}}.value == 0) {
                         parent_base_id{{$prefix}}{{$link->id}}.innerHTML = "{{trans('main.no_information') . '!'}}";
                         {{-- Такая проверка на '$link->parent_base->type_is_image()/!$link->parent_base->type_is_image()' в трех местах в этом файле--}}
