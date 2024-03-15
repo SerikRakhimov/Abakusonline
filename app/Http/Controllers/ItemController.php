@@ -6885,14 +6885,20 @@ class ItemController extends Controller
         $result_unit_name = null;
         $result_item_name_options = null;
         $item = self::item_from_base_code($base, $project, $code)['item'];
+//        if ($item) {
+        $it = 0;
         if ($item) {
-            $get_parent_item_from_calc_child_item = self::get_parent_item_from_calc_child_item($item, $link_result, $item_calc, $role, $relit_id);
-            $result_item = $get_parent_item_from_calc_child_item['result_item'];
-            $result_item_id = $get_parent_item_from_calc_child_item['result_item_id'];
-            $result_item_name = $get_parent_item_from_calc_child_item['result_item_name'];
-            $result_unit_name = $get_parent_item_from_calc_child_item['result_unit_name'];
-            $result_item_name_options = $get_parent_item_from_calc_child_item['result_item_name_options'];
+            $it = $item->id;
+        } else {
+            $it = 0;
         }
+        $get_parent_item_from_calc_child_item = self::get_parent_item_from_calc_child_item($it, $link_result, $item_calc, $role, $relit_id);
+        $result_item = $get_parent_item_from_calc_child_item['result_item'];
+        $result_item_id = $get_parent_item_from_calc_child_item['result_item_id'];
+        $result_item_name = $get_parent_item_from_calc_child_item['result_item_name'];
+        $result_unit_name = $get_parent_item_from_calc_child_item['result_unit_name'];
+        $result_item_name_options = $get_parent_item_from_calc_child_item['result_item_name_options'];
+//        }
         return ['result_item' => $result_item,
             'result_item_id' => $result_item_id,
             'result_item_name' => $result_item_name,
@@ -6903,13 +6909,14 @@ class ItemController extends Controller
 // в форме item/ext_edit.php
 // Например: значение вычисляемого (через "Бабушка со стороны матери") "Прабабушка со стороны матери" находится от значение поля "Мать",
 // т.е. не зависит от промежуточных значений ("Бабушка со стороны матери")
-    static function get_parent_item_from_calc_child_item(Item $item_start, Link $link_result, $item_calc, Role $role = null, $relit_id = null)
+    static function get_parent_item_from_calc_child_item($item_id, Link $link_result, $item_calc, Role $role = null, $relit_id = null)
     {
         $result_item = null;
-        $result_item_id = null;
-        $result_item_name = null;
+        $result_item_id = 0;
+        $result_item_name = trans('main.no_information') . '!';
         $result_unit_name = null;
         $result_item_name_options = null;
+        $item_start = Item::find($item_id);
         // проверка, если link - вычисляемое поле
         if ($link_result->parent_is_parent_related == true) {
 
