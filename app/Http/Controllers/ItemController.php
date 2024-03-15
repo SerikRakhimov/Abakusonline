@@ -7025,7 +7025,7 @@ class ItemController extends Controller
                                 // $result_item_name = $item->name(false, false, false, false, true);
                                 $result_item_name = $item->name();
                             }
-                            $result_unit_name = $item->base->par_label_unit_meas(true)."333333333333 ".$item->id
+                            $result_unit_name = $item->base->par_label_unit_meas(true)."333333333333 ".$item->id;
                             $result_item_name_options = "<option value='" . $item->id . "'>" . $item->name() . "</option>";
                         }
                     }
