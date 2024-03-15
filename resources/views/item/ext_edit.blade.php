@@ -1784,7 +1784,6 @@
         @if($link_parent)
             <script>
                 @if($const_link_start->parent_base->is_code_needed==true && $const_link_start->parent_is_enter_refer == true)
-
                 var child_base_id{{$prefix}}{{$link->id}} = document.getElementById('{{$const_link_id_start}}');
                 var child_code_id{{$prefix}}{{$link->id}} = document.getElementById('code{{$const_link_id_start}}');
                 var parent_base_id{{$prefix}}{{$link->id}} = document.getElementById('link{{$link->id}}');
@@ -1801,13 +1800,14 @@
                 ?>
                 function link_id_change_{{$prefix}}{{$link->id}}() {
                     {{--alert('{{$link->id}}->>>' + child_base_id{{$prefix}}{{$link->id}}.value + 'child_code_id{{$link->id}}->>>' + child_code_id{{$prefix}}{{$link->id}}.value);--}}
-                    if (child_base_id{{$prefix}}{{$link->id}}.value == 0) {
-                        {{--                    if (child_code_id{{$prefix}}{{$link->id}}.value == 0) {--}}
-                            parent_base_id{{$prefix}}{{$link->id}}.innerHTML = "{{trans('main.no_information') . '!'}}";
+                        {{--                    if (child_base_id{{$prefix}}{{$link->id}}.value == 0) {--}}
+                        {{--Использовать "if (child_code_id{{$prefix}}{{$link->id}}.value == 0)"--}}
+                    if (child_code_id{{$prefix}}{{$link->id}}.value == 0) {
+                        parent_base_id{{$prefix}}{{$link->id}}.innerHTML = "{{trans('main.no_information') . '!'}}";
                         {{-- Такая проверка на '$link->parent_base->type_is_image()/!$link->parent_base->type_is_image()' в трех местах в этом файле--}}
                             @if(!$link->parent_base->type_is_image())
                             parent_related_id{{$prefix}}{{$link->id}}.innerHTML = "0";
-                            parent_unit_id{{$prefix}}{{$link->id}} = "";
+                        parent_unit_id{{$prefix}}{{$link->id}} = "";
                         @endif
                         {{--Не использовать проверку if (first == false) {--}}
                         {{--if (first == false) {--}}
