@@ -6881,8 +6881,8 @@ class ItemController extends Controller
     {
         $result_item = null;
         $result_item_id = null;
-        $result_item_name = null;
-        $result_unit_name = null;
+        $result_item_name = "";
+        $result_unit_name = "";
         $result_item_name_options = null;
         $item = self::item_from_base_code($base, $project, $code)['item'];
 //        if ($item) {
@@ -6914,7 +6914,7 @@ class ItemController extends Controller
         $result_item = null;
         $result_item_id = 0;
         $result_item_name = trans('main.no_information') . '!!!';
-        $result_unit_name = null;
+        $result_unit_name = "1111111111111";
         $result_item_name_options = null;
         $item_start = Item::find($item_id);
         if ($item_start) {
@@ -7025,7 +7025,7 @@ class ItemController extends Controller
                                 // $result_item_name = $item->name(false, false, false, false, true);
                                 $result_item_name = $item->name();
                             }
-                            $result_unit_name = $item->base->par_label_unit_meas(true);
+                            $result_unit_name = $item->base->par_label_unit_meas(true)."333333333333";
                             $result_item_name_options = "<option value='" . $item->id . "'>" . $item->name() . "</option>";
                         }
                     }
