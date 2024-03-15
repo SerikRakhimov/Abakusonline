@@ -6913,7 +6913,7 @@ class ItemController extends Controller
     {
         $result_item = null;
         $result_item_id = 0;
-        $result_item_name = trans('main.no_information') . '!';
+        $result_item_name = trans('main.no_information') . '!!!';
         $result_unit_name = null;
         $result_item_name_options = null;
         $item_start = Item::find($item_id);
