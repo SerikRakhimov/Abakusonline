@@ -6914,7 +6914,7 @@ class ItemController extends Controller
         $result_item = null;
         $result_item_id = 0;
         $result_item_name = trans('main.no_information') . '!!!';
-        $result_unit_name = "1111111111111";
+        $result_unit_name = "";
         $result_item_name_options = null;
         $item_start = Item::find($item_id);
         if ($item_start) {
