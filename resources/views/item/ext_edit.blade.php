@@ -1807,7 +1807,7 @@
                         {{-- Такая проверка на '$link->parent_base->type_is_image()/!$link->parent_base->type_is_image()' в трех местах в этом файле--}}
                             @if(!$link->parent_base->type_is_image())
                             parent_related_id{{$prefix}}{{$link->id}}.innerHTML = "0";
-                        parent_unit_id{{$prefix}}{{$link->id}} = "";
+                        parent_unit_id{{$prefix}}{{$link->id}} = "000000000000000000";
                         @endif
                         {{--Не использовать проверку if (first == false) {--}}
                         {{--if (first == false) {--}}
