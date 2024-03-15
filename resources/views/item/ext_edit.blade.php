@@ -1807,7 +1807,7 @@
                         {{-- Такая проверка на '$link->parent_base->type_is_image()/!$link->parent_base->type_is_image()' в трех местах в этом файле--}}
                             @if(!$link->parent_base->type_is_image())
                             parent_related_id{{$prefix}}{{$link->id}}.innerHTML = "0";
-                        parent_unit_id{{$prefix}}{{$link->id}}.innerHTML = "000000000000000000";
+                        parent_unit_id{{$prefix}}{{$link->id}}.innerHTML = "";
                         @endif
                         {{--Не использовать проверку if (first == false) {--}}
                         {{--if (first == false) {--}}
@@ -1833,7 +1833,6 @@
                                     {{-- "related_id" используется несколько раз по тексту --}}
                                     parent_related_id{{$prefix}}{{$link->id}}.innerHTML = res.data['result_item_id'];
                                 parent_unit_id{{$prefix}}{{$link->id}}.innerHTML = res.data['result_unit_name'];
-                                alert('unit= '+res.data['result_unit_name']);
                                 {{--                                alert('{{$link->id}}-> ' + child_code_id{{$prefix}}{{$link->id}}.value + ' '+ child_base_id{{$prefix}}{{$link->id}}.value + ' 223-> ' + res.data['result_item_id'] + '-' + parent_related_id{{$prefix}}{{$link->id}}.innerHTML + ' ' + res.data['result_item_name'] + '-' + parent_base_id{{$prefix}}{{$link->id}}.innerHTML);--}}
                                 @else
                                 {{--                                alert('{{$link->id}}-> ' + child_code_id{{$prefix}}{{$link->id}}.value + ' ' + child_base_id{{$prefix}}{{$link->id}}.value + ' 223-> ' + res.data['result_item_name'] + '-' + parent_base_id{{$prefix}}{{$link->id}}.innerHTML);--}}
