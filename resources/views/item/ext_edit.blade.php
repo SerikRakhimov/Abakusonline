@@ -1839,7 +1839,7 @@
                                 @endif
                                 {{-- Нужно использовать, см.примечание к on_parent_refer() ниже --}}
                                 {{-- Нужно, например, для правильного отображения данных при добавлении/корректировке записей в шаблоне "Интернет - магазин" --}}
-                                {{-- on_parent_refer(); --}}
+                                 on_parent_refer();
                                 {{-- 11111 --}}
                                 {{--Не использовать проверку if (first == false) {--}}
                                 {{--if (first == false) {--}}
@@ -2017,7 +2017,6 @@
                                 output_calc_id{{$prefix}}{{$link->id}}.innerHTML = res.data['id'];
                                 parent_unit_id{{$prefix}}{{$link->id}}.innerHTML = res.data['unitname'];
                                 output_calc_inner{{$prefix}}{{$link->id}}.innerHTML = res.data['inner'];
-                                alert(res.data['inner']);
                                 <?php
                                     $links_related_start = GlobalController::links_related_start($base, $link)
                                     ?>
