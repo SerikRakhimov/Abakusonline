@@ -6916,8 +6916,9 @@ class ItemController extends Controller
         $result_item_name = trans('main.no_information') . '!';
         $result_unit_name = "";
         $result_item_name_options = "";
-        $item_start = Item::find($item_id);
-//        if (isset($item_start->id) & isset($item_id)) {
+        //$item_start = Item::find($item_id);
+        $item_start = Item::find(22621);
+        if ($item_start) {
         // проверка, если link - вычисляемое поле
         if ($link_result->parent_is_parent_related == true) {
             // Не использовать - не работает при сложных связях: Например: Товар-ЕдиницаИзмерения-Цвет
@@ -7033,7 +7034,7 @@ class ItemController extends Controller
             //}
             // --------------------------------------------------------------
         }
-//        }
+        }
         return ['result_item' => $result_item,
             'result_item_id' => $result_item_id,
             'result_item_name' => $result_item_name,
