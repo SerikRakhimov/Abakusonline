@@ -6917,7 +6917,7 @@ class ItemController extends Controller
         $result_unit_name = "";
         $result_item_name_options = null;
         $item_start = Item::find($item_id);
-        if (isset($item_start->id)) {
+        if (isset($item_start->id) & $item_id != 0) {
             // проверка, если link - вычисляемое поле
             if ($link_result->parent_is_parent_related == true) {
                 // Не использовать - не работает при сложных связях: Например: Товар-ЕдиницаИзмерения-Цвет
