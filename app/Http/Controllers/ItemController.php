@@ -6917,7 +6917,7 @@ class ItemController extends Controller
         $result_unit_name = "";
         $result_item_name_options = null;
         $item_start = Item::find($item_id);
-        if ($item_start) {
+        if (isset($item_start->id)) {
             // проверка, если link - вычисляемое поле
             if ($link_result->parent_is_parent_related == true) {
                 // Не использовать - не работает при сложных связях: Например: Товар-ЕдиницаИзмерения-Цвет
@@ -6964,10 +6964,7 @@ class ItemController extends Controller
                 $link_ids = $rs['link_ids'];
                 // Вычисляем первоначальный $item;
                 if ($item_calc == true) {
-                    $item = null;
-                    if (isset($item_start->id)) {
-                        $item = GlobalController::get_parent_item_from_main($item_start->id, $const_link_id_start);
-                    }
+                    $item = GlobalController::get_parent_item_from_main($item_start->id, $const_link_id_start);
                     if ($item) {
                         if ($role) {
 //                    Использовать так '$relit_id!=null'
