@@ -1746,6 +1746,7 @@
                                 {{--code_{{$prefix}}{{$link->id}}.innerHTML = res.data['item_code'];--}}
                                     name_{{$prefix}}{{$link->id}}.innerHTML = res.data['item_name'];
                                 key_{{$prefix}}{{$link->id}}.value = res.data['item_id'];
+                                on_parent_refer();
                                 {{--                                alert(res.data['item_id'] + '-' + key_{{$prefix}}{{$link->id}}.value + ' ' + res.data['item_name'] + '-' + name_{{$prefix}}{{$link->id}}.innerHTML);--}}
                             }
                         );
@@ -1839,7 +1840,7 @@
                                 @endif
                                 {{-- Нужно использовать, см.примечание к on_parent_refer() ниже --}}
                                 {{-- Нужно, например, для правильного отображения данных при добавлении/корректировке записей в шаблоне "Интернет - магазин" --}}
-                                 on_parent_refer();
+                                on_parent_refer();
                                 {{-- 11111 --}}
                                 {{--Не использовать проверку if (first == false) {--}}
                                 {{--if (first == false) {--}}
