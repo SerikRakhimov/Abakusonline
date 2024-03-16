@@ -6964,6 +6964,7 @@ class ItemController extends Controller
                 $link_ids = $rs['link_ids'];
                 // Вычисляем первоначальный $item;
                 if ($item_calc == true) {
+                    $item = null;
                     if (isset($item_start->id)) {
                         $item = GlobalController::get_parent_item_from_main($item_start->id, $const_link_id_start);
                     }
