@@ -2141,12 +2141,12 @@ class GlobalController extends Controller
                             // Проверка 'if ($item_find)' нужна
                             if ($item_find) {
                                 // Затем находится 'Автоматически заполнять из родительского поля ввода'
-                                // Правильные параметры при вызове функции - 'ItemController::get_parent_item_from_calc_child_item($item_find, $link_find, false, $role, $relit_id)['result_item'];'
-                                $item = ItemController::get_parent_item_from_calc_child_item($item_find, $link_find, false, $role, $relit_id)['result_item'];
+                                // Правильные параметры при вызове функции - 'ItemController::get_parent_item_from_calc_child_item($item_find->id, $link_find, false, $role, $relit_id)['result_item'];'
+                                $item = ItemController::get_parent_item_from_calc_child_item($item_find->id, $link_find, false, $role, $relit_id)['result_item'];
                             }
                             // Если не надо 'Выводить поле вычисляемой таблицы'
                         } else {
-                            $item = ItemController::get_parent_item_from_calc_child_item($item_find, $link_find, true, $role, $relit_id)['result_item'];
+                            $item = ItemController::get_parent_item_from_calc_child_item($item_find->id, $link_find, true, $role, $relit_id)['result_item'];
                         }
                     }
                     // Выводить поле вычисляемой таблицы

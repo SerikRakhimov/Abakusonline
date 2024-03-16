@@ -7415,7 +7415,7 @@ class ItemController extends Controller
                                             // Функция get_parent_item_from_calc_child_item() ищет вычисляемое поля от первого невычисляемого
                                             // Например: значение вычисляемого (через "Бабушка со стороны матери") "Прабабушка со стороны матери" находится от значение поля "Мать",
                                             // т.е. не зависит от промежуточных значений ("Бабушка со стороны матери")
-                                            $result_func = self::get_parent_item_from_calc_child_item($item_find, $link, false);
+                                            $result_func = self::get_parent_item_from_calc_child_item($item_find->id, $link, false);
                                             // Сохранить значение в массиве
                                             $array_calc[$link->id] = $result_func['result_item_id'];
                                             $item_result = $result_func['result_item'];
