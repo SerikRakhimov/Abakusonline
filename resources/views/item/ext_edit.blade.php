@@ -2017,6 +2017,7 @@
                                 output_calc_id{{$prefix}}{{$link->id}}.innerHTML = res.data['id'];
                                 parent_unit_id{{$prefix}}{{$link->id}}.innerHTML = res.data['unitname'];
                                 output_calc_inner{{$prefix}}{{$link->id}}.innerHTML = res.data['inner'];
+                                alert(res.data['inner']);
                                 <?php
                                     $links_related_start = GlobalController::links_related_start($base, $link)
                                     ?>
