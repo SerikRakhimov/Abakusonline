@@ -6917,13 +6917,13 @@ class ItemController extends Controller
         $result_unit_name = "";
         $result_item_name_options = "";
         $item_start = Item::find($item_id);
-        if (isset($item_start->id) & isset($item_id)) {
-            // проверка, если link - вычисляемое поле
-            if ($link_result->parent_is_parent_related == true) {
-                // Не использовать - не работает при сложных связях: Например: Товар-ЕдиницаИзмерения-Цвет
-                // ----------------------------------------
-                // Вставка нового алгоритма
-                // Вычисляем первоначальный $item;
+//        if (isset($item_start->id) & isset($item_id)) {
+        // проверка, если link - вычисляемое поле
+        if ($link_result->parent_is_parent_related == true) {
+            // Не использовать - не работает при сложных связях: Например: Товар-ЕдиницаИзмерения-Цвет
+            // ----------------------------------------
+            // Вставка нового алгоритма
+            // Вычисляем первоначальный $item;
 //            $item = null;
 //            if ($item_calc == true) {
 //                // Поиск item-start (например: в заказе - поиск товара)
@@ -6953,87 +6953,87 @@ class ItemController extends Controller
 //                    $result_item_name_options = "<option value='" . $item->id . "'>" . $item->name() . "</option>";
 //                }
 //            }
-                // ------------------------------------------------------------
+            // ------------------------------------------------------------
 
-                // ------------------------------------------------------------
-                // Не удалять - сложный алгоритм поиска, например, прабабушка мамы
+            // ------------------------------------------------------------
+            // Не удалять - сложный алгоритм поиска, например, прабабушка мамы
 //            if (1 == 2) {
-                // возвращает маршрут $link_ids по вычисляемым полям до первого найденного постоянного link_id ($const_link_id_start)
-                $rs = LinkController::get_link_ids_from_calc_link($link_result);
-                $const_link_id_start = $rs['const_link_id_start'];
-                $link_ids = $rs['link_ids'];
-                // Вычисляем первоначальный $item;
-                if ($item_calc == true) {
-                    $item = GlobalController::get_parent_item_from_main($item_start->id, $const_link_id_start);
-                    if ($item) {
-                        if ($role) {
-//                    Использовать так '$relit_id!=null'
-                            if ($relit_id != null) {
-                                // Проверка $item_find
-                                $item = GlobalController::items_check_right($item, $role, $relit_id);
-                            }
-                        }
-                    }
-                } else {
-                    $item = $item_start;
-                }
-                $info = $item_start->id . " " . $item_start->name() . ':';
+            // возвращает маршрут $link_ids по вычисляемым полям до первого найденного постоянного link_id ($const_link_id_start)
+            $rs = LinkController::get_link_ids_from_calc_link($link_result);
+            $const_link_id_start = $rs['const_link_id_start'];
+            $link_ids = $rs['link_ids'];
+            // Вычисляем первоначальный $item;
+            if ($item_calc == true) {
+                $item = GlobalController::get_parent_item_from_main($item_start->id, $const_link_id_start);
                 if ($item) {
-                    if ($const_link_id_start && $link_ids) {
-                        $error = false;
-                        // цикл по вычисляемым полям
-//                  foreach (@$link_ids as $link_id) {
-                        foreach ($link_ids as $link_id) {
-                            $link_find = Link::find($link_id);
-                            if (!$link_find) {
-                                $error = true;
-                                break;
-                            }
-                            $link_find = Link::find($link_find->parent_parent_related_result_link_id);
-                            if (!$link_find) {
-                                $error = true;
-                                break;
-                            }
-                            // используется поле link->parent_parent_related_result_link_id
-                            // находим новый $item (невычисляемый)
-                            // $item меняется внутри цикла
-                            $it_1 = $item;
-                            $item = self::get_parent_item_from_child_item($item, $link_find)['result_item'];
-                            if (!$item) {
-                                $error = true;
-                                break;
-                            }
-                            $info = $info . " it_1->id =" . $it_1->id . ' ' . $it_1->name() . " link_find_>id = " . $link_find->id . " item->id =" . $item->id . ' ' . $item->name();
-                        }
-                        // Похожие строки в self::get_parent_item_from_calc_child_item()
-                        // и в self::get_parent_item_from_output_calculated_table()
-                        if (!$error && $item) {
-                            $result_item = $item;
-                            $result_item_id = $item->id;
-                            if ($item->base->type_is_image() || $item->base->type_is_document()) {
-                                //$result_item_name = "<a href='" . Storage::url($item->filename()) . "'><img src='" . Storage::url($item->filename()) . "' height='50' alt='' title='" . $item->filename() . "'></a>";
-                                if ($item->base->type_is_image()) {
-                                    //$result_item_name = "<img src='" . Storage::url($item->filename()) . "' height='250' alt='' title='" . $item->title_img() . "'>";
-                                    $result_item_name = GlobalController::view_img($item, "smed", false, false, false, $item->title_img());
-                                } else {
-                                    $result_item_name = GlobalController::view_doc($item, GlobalController::usercode_calc());
-                                }
-                            } elseif ($item->base->type_is_text()) {
-                                $result_item_name = GlobalController::it_txnm_n2b($item);
-                            } else {
-                                // $numcat = false - не выводить числовых поля с разрядом тысячи/миллионы/миллиарды
-                                // $result_item_name = $item->name(false, false, false, false, true);
-                                $result_item_name = $item->name();
-                            }
-                            $result_unit_name = $item->base->par_label_unit_meas(true);
-                            $result_item_name_options = "<option value='" . $item->id . "'>" . $item->name() . "</option>";
+                    if ($role) {
+//                    Использовать так '$relit_id!=null'
+                        if ($relit_id != null) {
+                            // Проверка $item_find
+                            $item = GlobalController::items_check_right($item, $role, $relit_id);
                         }
                     }
                 }
-                //}
-                // --------------------------------------------------------------
+            } else {
+                $item = $item_start;
             }
+            $info = $item_start->id . " " . $item_start->name() . ':';
+            if ($item) {
+                if ($const_link_id_start && $link_ids) {
+                    $error = false;
+                    // цикл по вычисляемым полям
+//                  foreach (@$link_ids as $link_id) {
+                    foreach ($link_ids as $link_id) {
+                        $link_find = Link::find($link_id);
+                        if (!$link_find) {
+                            $error = true;
+                            break;
+                        }
+                        $link_find = Link::find($link_find->parent_parent_related_result_link_id);
+                        if (!$link_find) {
+                            $error = true;
+                            break;
+                        }
+                        // используется поле link->parent_parent_related_result_link_id
+                        // находим новый $item (невычисляемый)
+                        // $item меняется внутри цикла
+                        $it_1 = $item;
+                        $item = self::get_parent_item_from_child_item($item, $link_find)['result_item'];
+                        if (!$item) {
+                            $error = true;
+                            break;
+                        }
+                        $info = $info . " it_1->id =" . $it_1->id . ' ' . $it_1->name() . " link_find_>id = " . $link_find->id . " item->id =" . $item->id . ' ' . $item->name();
+                    }
+                    // Похожие строки в self::get_parent_item_from_calc_child_item()
+                    // и в self::get_parent_item_from_output_calculated_table()
+                    if (!$error && $item) {
+                        $result_item = $item;
+                        $result_item_id = $item->id;
+                        if ($item->base->type_is_image() || $item->base->type_is_document()) {
+                            //$result_item_name = "<a href='" . Storage::url($item->filename()) . "'><img src='" . Storage::url($item->filename()) . "' height='50' alt='' title='" . $item->filename() . "'></a>";
+                            if ($item->base->type_is_image()) {
+                                //$result_item_name = "<img src='" . Storage::url($item->filename()) . "' height='250' alt='' title='" . $item->title_img() . "'>";
+                                $result_item_name = GlobalController::view_img($item, "smed", false, false, false, $item->title_img());
+                            } else {
+                                $result_item_name = GlobalController::view_doc($item, GlobalController::usercode_calc());
+                            }
+                        } elseif ($item->base->type_is_text()) {
+                            $result_item_name = GlobalController::it_txnm_n2b($item);
+                        } else {
+                            // $numcat = false - не выводить числовых поля с разрядом тысячи/миллионы/миллиарды
+                            // $result_item_name = $item->name(false, false, false, false, true);
+                            $result_item_name = $item->name();
+                        }
+                        $result_unit_name = $item->base->par_label_unit_meas(true);
+                        $result_item_name_options = "<option value='" . $item->id . "'>" . $item->name() . "</option>";
+                    }
+                }
+            }
+            //}
+            // --------------------------------------------------------------
         }
+//        }
         return ['result_item' => $result_item,
             'result_item_id' => $result_item_id,
             'result_item_name' => $result_item_name,
