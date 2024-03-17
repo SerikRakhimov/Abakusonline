@@ -2344,10 +2344,6 @@
         ?>
         @endforeach
         @endif
-
-
-
-
         {{--<?php--}}
         {{--Не нужно, вместо этого запускается on_numcalc_viewonly() в window.onload--}}
         {{--$functs_change['link' . $link->id] = 1;--}}
