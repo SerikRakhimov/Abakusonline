@@ -4107,83 +4107,80 @@ class ItemController extends Controller
             if ($sets_group) {
                 // base_id вычисляемой таблицы
                 $calc_table_base_id = $set->link_to->child_base_id;
-                $calc_table_base = Base::find($calc_table_base_id);
-                if ($calc_table_base) {
-                    $relip_project = GlobalController::calc_sn_relip_project($project, $set->serial_number);
+                $relip_project = GlobalController::calc_sn_relip_project($project, $set->serial_number);
 
 //                $item_seek0 = null;
 //                if (isset($items_id_group[0])) {
 //                    $item_seek0 = Item::find($items_id_group[0]);
 //                }
-                    //               if ($item_seek0) {
-                    $items = Item::where('base_id', $calc_table_base_id)->where('project_id', $relip_project->id);
+                //               if ($item_seek0) {
+                $items = Item::where('base_id', $calc_table_base_id)->where('project_id', $relip_project->id);
 //                  $items = Item::where('base_id', $calc_table_base_id)->where('project_id', $project->id);
 
-                    $i = 0;
-                    // Фильтрация/поиск
-                    // Цикл по записям, в каждой итерации цикла свой to_child_base_id в переменной $to_key
-                    foreach ($sets_group as $to_key => $to_value) {
-                        $item_seek = null;
+                $i = 0;
+                // Фильтрация/поиск
+                // Цикл по записям, в каждой итерации цикла свой to_child_base_id в переменной $to_key
+                foreach ($sets_group as $to_key => $to_value) {
+                    $item_seek = null;
 //                        if (isset($items_id_group[$i])) {
 //                            $item_seek = Item::find($items_id_group[$i]);
 //                        }
-                        if (isset($code_group[$i]) & isset($items_id_group[$i])) {
-                            $info = $info . ' i=' . $i . ' ' . $code_group[$i] . ' ' . $items_id_group[$i];
-                            $item_seek = null;
-                            // Если передан код
-                            if ($code_group[$i] != "0") {
-                                $item_seek = self::item_from_base_code($calc_table_base, $relip_project, $code_group[$i])['item'];
-                                $info = $info . ' code=' . $code_group[$i] . ' base=' . $calc_table_base->id . ' relip_project=' . $relip_project->id;
-                            } else {
-                                // Если передан $item->id
-                                $item_seek = Item::find($items_id_group[$i]);
-                                $info = $info . ' items_id=' . $items_id_group[$i];
-                            }
-                            // все присваивания по группе должны быть учтены, их может быть один и выше
-                            if (!$item_seek) {
+                    if (isset($code_group[$i]) & isset($items_id_group[$i])) {
+                        $info = $info . ' i=' . $i . ' ' . $code_group[$i] . ' ' . $items_id_group[$i];
+                        $item_seek = null;
+                        // Если передан код
+                        if ($code_group[$i] != "0") {
+                            $item_seek = self::item_from_base_code($set->link_to->parent_base, $relip_project, $code_group[$i])['item'];
+                            $info = $info . ' code=' . $code_group[$i] . ' base=' . $set->link_to->parent_base_id . ' relip_project=' . $relip_project->id;
+                        } else {
+                            // Если передан $item->id
+                            $item_seek = Item::find($items_id_group[$i]);
+                            $info = $info . ' items_id=' . $items_id_group[$i];
+                        }
+                        // все присваивания по группе должны быть учтены, их может быть один и выше
+                        if (!$item_seek) {
 //                            // Нужно, разницы нет null или false присвоить
 //                            //$result_item = null;
-                                $result_it_bool = false;
-                                break;
-                            }
-                            $info = $info . ' item_seek=' . $item_seek->id;
+                            $result_it_bool = false;
+                            break;
+                        }
+                        $info = $info . ' item_seek=' . $item_seek->id;
 //                        if ($item_seek) {
-                            $items = $items->whereHas('child_mains', function ($query) use ($to_value, $item_seek) {
-                                $query->where('link_id', $to_value->link_to_id)->where('parent_item_id', $item_seek->id);
-                            });
+                        $items = $items->whereHas('child_mains', function ($query) use ($to_value, $item_seek) {
+                            $query->where('link_id', $to_value->link_to_id)->where('parent_item_id', $item_seek->id);
+                        });
 //                        } else {
 //                            // Эта команда нужна, не удалять
 //                            $items = $items->whereDoesntHave('child_mains', function ($query) use ($to_value) {
 //                                $query->where('link_id', $to_value->link_to_id);
 //                            });
 //                        }
-                        }
-                        $i = $i + 1;
                     }
-                    //if (!$result_item) {
-                    if ($result_it_bool) {
-                        $result_item = self::output_calculated_table_dop($base, $link, $set, $relip_project, $items);
+                    $i = $i + 1;
+                }
+                //if (!$result_item) {
+                if ($result_it_bool) {
+                    $result_item = self::output_calculated_table_dop($base, $link, $set, $relip_project, $items);
 //                  $result_item = self::output_calculated_table_dop($base, $link, $set, $project, $items);
-                    }
-                    //               }
-                    // Похожие строки в self::get_parent_item_from_calc_child_item()
-                    // и в self::get_parent_item_from_output_calculated_table()
-                    if ($result_item) {
-                        $result_id = $result_item->id;
-                        $result_itnm = $result_item->base->par_label_unit_meas(true);
-                        //$result_inner = $result_item->name(false, true, true);
-                        if ($result_item->base->type_is_image() || $result_item->base->type_is_document()) {
-                            if ($result_item->base->type_is_image()) {
-                                //$result_item_name = "<img src='" . Storage::url($result_item->filename()) . "' height='250' alt='' title='" . $result_item->title_img() . "'>";
-                                $result_inner = GlobalController::view_img($result_item, "medium", false, false, false, $result_item->title_img());
-                            } else {
-                                $result_inner = GlobalController::view_doc($result_item, GlobalController::usercode_calc());
-                            }
-                        } elseif ($result_item->base->type_is_text()) {
-                            $result_inner = GlobalController::it_txnm_n2b($result_item);
+                }
+                //               }
+                // Похожие строки в self::get_parent_item_from_calc_child_item()
+                // и в self::get_parent_item_from_output_calculated_table()
+                if ($result_item) {
+                    $result_id = $result_item->id;
+                    $result_itnm = $result_item->base->par_label_unit_meas(true);
+                    //$result_inner = $result_item->name(false, true, true);
+                    if ($result_item->base->type_is_image() || $result_item->base->type_is_document()) {
+                        if ($result_item->base->type_is_image()) {
+                            //$result_item_name = "<img src='" . Storage::url($result_item->filename()) . "' height='250' alt='' title='" . $result_item->title_img() . "'>";
+                            $result_inner = GlobalController::view_img($result_item, "medium", false, false, false, $result_item->title_img());
                         } else {
-                            $result_inner = $result_item->name(false, true, true);
+                            $result_inner = GlobalController::view_doc($result_item, GlobalController::usercode_calc());
                         }
+                    } elseif ($result_item->base->type_is_text()) {
+                        $result_inner = GlobalController::it_txnm_n2b($result_item);
+                    } else {
+                        $result_inner = $result_item->name(false, true, true);
                     }
                 }
             }
