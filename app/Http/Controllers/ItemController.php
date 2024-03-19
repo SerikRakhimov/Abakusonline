@@ -4055,7 +4055,7 @@ class ItemController extends Controller
 // В функциях get_parent_item_from_output_calculated_table() и get_item_from_parent_output_calculated_table() похожи алгоритмы
     static function get_parent_item_from_output_calculated_table(Request $request)
     {
-        $info = '';
+//      $info = '';
         $params = $request->query();
         // '=0' использовать, в ext_edit.php проверка на равенство нулю
         $result_id = 0;
@@ -4085,17 +4085,6 @@ class ItemController extends Controller
                 $items_id_group = $params['items_id_group'];
             }
         }
-        $i = 0;
-        foreach ($code_group as $value) {
-            $info = $info . ' i_c=' . $i . ' ' . $value;
-            $i = $i + 1;
-        }
-        $i = 0;
-        foreach ($items_id_group as $value) {
-            $info = $info . ' i_i=' . $i . ' ' . $value;
-            $i = $i + 1;
-        }
-
         //  '&& $items_id_group' не нужно, т.к. группировки может не быть
         //'if ($project & $base & $link)' - такой вариант не работает правильно
         if ($project && $base && $link) {
@@ -4131,11 +4120,11 @@ class ItemController extends Controller
                         // Если передан код
                         if ($code_group[$i] != "0") {
                             $item_seek = self::item_from_base_code($to_value->link_from->parent_base, $relip_project, $code_group[$i])['item'];
-                            $info = $info . ' code=' . $code_group[$i] . ' base=' . $to_value->link_from->parent_base_id . ' relip_project=' . $relip_project->id;
+//                            $info = $info . ' code=' . $code_group[$i] . ' base=' . $to_value->link_from->parent_base_id . ' relip_project=' . $relip_project->id;
                         } else {
                             // Если передан $item->id
                             $item_seek = Item::find($items_id_group[$i]);
-                            $info = $info . ' items_id=' . $items_id_group[$i];
+//                            $info = $info . ' items_id=' . $items_id_group[$i];
                         }
                         // все присваивания по группе должны быть учтены, их может быть один и выше
                         if (!$item_seek) {
@@ -4144,7 +4133,7 @@ class ItemController extends Controller
                             $result_it_bool = false;
                             break;
                         }
-                        $info = $info . ' item_seek=' . $item_seek->id;
+//                        $info = $info . ' item_seek=' . $item_seek->id;
 //                        if ($item_seek) {
                         $items = $items->whereHas('child_mains', function ($query) use ($to_value, $item_seek) {
                             $query->where('link_id', $to_value->link_to_id)->where('parent_item_id', $item_seek->id);
@@ -4185,7 +4174,7 @@ class ItemController extends Controller
                 }
             }
         }
-        return ['id' => $result_id, 'inner' => $result_inner, 'unitname' => $result_itnm, 'info' => $info];
+        return ['id' => $result_id, 'inner' => $result_inner, 'unitname' => $result_itnm];
     }
 
 // Функции output_calculated_table_dop() и output_calculated_table_firstlast() похожи
