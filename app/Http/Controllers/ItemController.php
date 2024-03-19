@@ -4133,9 +4133,11 @@ class ItemController extends Controller
                             // Если передан код
                             if ($code_group[$i] != "0") {
                                 $item_seek = self::item_from_base_code($calc_table_base, $relip_project, $code_group[$i])['item'];
+                                $info = $info . ' code=' . $code_group[$i];
                             } else {
                                 // Если передан $item->id
                                 $item_seek = Item::find($items_id_group[$i]);
+                                $info = $info . ' items_id=' . $items_id_group[$i];
                             }
                             // все присваивания по группе должны быть учтены, их может быть один и выше
                             if (!$item_seek) {
@@ -4144,6 +4146,7 @@ class ItemController extends Controller
                                 $result_it_bool = false;
                                 break;
                             }
+                            $info = $info . ' item_seek=' . $item_seek->id;
 //                        if ($item_seek) {
                             $items = $items->whereHas('child_mains', function ($query) use ($to_value, $item_seek) {
                                 $query->where('link_id', $to_value->link_to_id)->where('parent_item_id', $item_seek->id);
