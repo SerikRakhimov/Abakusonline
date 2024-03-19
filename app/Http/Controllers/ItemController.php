@@ -4116,7 +4116,7 @@ class ItemController extends Controller
                     if (isset($code_group[$i]) & isset($items_id_group[$i])) {
                         $item_seek = null;
                         // Если передан код
-                        if ($code_group[$i] != 0) {
+                        if ($code_group[$i] != "0") {
                             $item_seek = self::item_from_base_code($calc_table_base_id, $relip_project, $code_group[$i])['item'];
                         } else {
                             // Если передан $item->id
