@@ -6843,7 +6843,7 @@ class ItemController extends Controller
         $result_item = null;
         $result_item_name = null;
         $result_item_name_options = null;
-        $item = $item_start;
+        $item = null;
         $cn = 0;
         $error = false;
         $link = null;
@@ -6924,7 +6924,7 @@ class ItemController extends Controller
 // в форме item/ext_edit.php
 // Например: значение вычисляемого (через "Бабушка со стороны матери") "Прабабушка со стороны матери" находится от значение поля "Мать",
 // т.е. не зависит от промежуточных значений ("Бабушка со стороны матери")
-    static function get_parent_item_from_calc_child_item($item_start, Link $link_result, $item_calc, Role $role = null, $relit_id = null)
+    static function get_parent_item_from_calc_child_item(Item $item_start, Link $link_result, $item_calc, Role $role = null, $relit_id = null)
     {
         // Одинаковые строки в ItemController::get_parent_item_from_calc_child_code() и ItemController::get_parent_item_from_calc_child_item()
         $result_item = null;
@@ -7011,7 +7011,6 @@ class ItemController extends Controller
                             // используется поле link->parent_parent_related_result_link_id
                             // находим новый $item (невычисляемый)
                             // $item меняется внутри цикла
-                            $it_1 = $item;
                             $item = self::get_parent_item_from_child_item($item, $link_find)['result_item'];
                             if (!$item) {
                                 $error = true;
