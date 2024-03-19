@@ -4055,6 +4055,7 @@ class ItemController extends Controller
 // В функциях get_parent_item_from_output_calculated_table() и get_item_from_parent_output_calculated_table() похожи алгоритмы
     static function get_parent_item_from_output_calculated_table(Request $request)
     {
+        $info = '';
         $params = $request->query();
         // '=0' использовать, в ext_edit.php проверка на равенство нулю
         $result_id = 0;
@@ -4114,6 +4115,7 @@ class ItemController extends Controller
 //                            $item_seek = Item::find($items_id_group[$i]);
 //                        }
                     if (isset($code_group[$i]) & isset($items_id_group[$i])) {
+                        $info = $info . ' i=' . $i . ' ' . $code_group[$i] . ' ' . $items_id_group[$i];
                         $item_seek = null;
                         // Если передан код
                         if ($code_group[$i] != "0") {
@@ -4169,7 +4171,7 @@ class ItemController extends Controller
                 }
             }
         }
-        return ['id' => $result_id, 'inner' => $result_inner, 'unitname' => $result_itnm];
+        return ['id' => $result_id, 'inner' => $result_inner, 'unitname' => $result_itnm, 'info' => $info];
     }
 
 // Функции output_calculated_table_dop() и output_calculated_table_firstlast() похожи
