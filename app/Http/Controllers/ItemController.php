@@ -4091,7 +4091,7 @@ class ItemController extends Controller
             $i = $i + 1;
         }
         $i = 0;
-        foreach ($$items_id_group as $value) {
+        foreach ($items_id_group as $value) {
             $info = $info . ' i_i=' . $i . ' ' . $value;
             $i = $i + 1;
         }
