@@ -2007,10 +2007,18 @@
                         {{-- Если $to_value->link_from->Ссылка на основу = true --}}
                         {{-- Выше по тексту тоже используется "parent_is_base_link"--}}
                         @if(($to_value->link_from->parent_is_base_link == true) || ($to_value->link_from->parent_base->is_code_needed==true && $to_value->link_from->parent_is_enter_refer==true))
-                        {{--+ '/' + child_base_id{{$prefix}}{{$link->id}}_{{$to_value->id}}.value--}}
+                        {{-- 'Ссылка на основу (кроме вычисляемых основ - Ребенок_Основа)' --}}
+                        @if($to_value->link_from->parent_is_base_link == true)
+                        + '&code_group[]=0'
                         + '&items_id_group[]=' + child_base_id{{$prefix}}{{$link->id}}_{{$to_value->id}}.value
+                        {{-- Передается код --}}
                         @else
-                        {{--+ '/' + child_base_id{{$prefix}}{{$link->id}}_{{$to_value->id}}.options[child_base_id{{$prefix}}{{$link->id}}_{{$to_value->id}}.selectedIndex].value--}}
+                        + '&code_group[]=' + code_child_base_id{{$prefix}}{{$link->id}}_{{$to_value->id}}.value
+                        + '&items_id_group[]=0'
+                        @endif
+                        {{-- Передается item->id --}}
+                        @else
+                        + '&code_group[]=0'
                         + '&items_id_group[]=' + child_base_id{{$prefix}}{{$link->id}}_{{$to_value->id}}.options[child_base_id{{$prefix}}{{$link->id}}_{{$to_value->id}}.selectedIndex].value
                         @endif
                         @endforeach

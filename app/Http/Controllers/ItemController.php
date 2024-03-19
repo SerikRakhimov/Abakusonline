@@ -4072,6 +4072,12 @@ class ItemController extends Controller
         if (array_key_exists('link_id', $params)) {
             $link = Link::find($params['link_id']);
         }
+        $code_group = null;
+        if (array_key_exists('code_group', $params)) {
+            if (is_array($params['code_group'])) {
+                $code_group = $params['code_group'];
+            }
+        }
         $items_id_group = null;
         if (array_key_exists('items_id_group', $params)) {
             if (is_array($params['items_id_group'])) {
