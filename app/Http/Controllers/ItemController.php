@@ -4130,8 +4130,8 @@ class ItemController extends Controller
                         $item_seek = null;
                         // Если передан код
                         if ($code_group[$i] != "0") {
-                            $item_seek = self::item_from_base_code($set->link_to->parent_base, $relip_project, $code_group[$i])['item'];
-                            $info = $info . ' code=' . $code_group[$i] . ' link=' . $to_value->link_to_id . ' relip_project=' . $relip_project->id;
+                            $item_seek = self::item_from_base_code($to_value->link_from->parent_base, $relip_project, $code_group[$i])['item'];
+                            $info = $info . ' code=' . $code_group[$i] . ' base=' . $to_value->link_from->parent_base_id . ' relip_project=' . $relip_project->id;
                         } else {
                             // Если передан $item->id
                             $item_seek = Item::find($items_id_group[$i]);
