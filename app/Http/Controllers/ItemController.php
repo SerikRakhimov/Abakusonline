@@ -6879,6 +6879,7 @@ class ItemController extends Controller
 
     static function get_parent_item_from_calc_child_code(Base $base, Project $project, $code, Link $link_result, $item_calc, Role $role = null, $relit_id = null)
     {
+        // Одинаковые строки в ItemController::get_parent_item_from_calc_child_code() и ItemController::get_parent_item_from_calc_child_item()
         $result_item = null;
         $result_item_id = 0;
         $result_item_name = trans('main.no_information') . '!';
@@ -6886,18 +6887,14 @@ class ItemController extends Controller
         $result_item_name_options = "";
         $item = self::item_from_base_code($base, $project, $code)['item'];
         if ($item) {
-            $it = 0;
             if ($item) {
-                $it = $item->id;
-            } else {
-                $it = 0;
+                $get_parent_item_from_calc_child_item = self::get_parent_item_from_calc_child_item($item, $link_result, $item_calc, $role, $relit_id);
+                $result_item = $get_parent_item_from_calc_child_item['result_item'];
+                $result_item_id = $get_parent_item_from_calc_child_item['result_item_id'];
+                $result_item_name = $get_parent_item_from_calc_child_item['result_item_name'];
+                $result_unit_name = $get_parent_item_from_calc_child_item['result_unit_name'];
+                $result_item_name_options = $get_parent_item_from_calc_child_item['result_item_name_options'];
             }
-            $get_parent_item_from_calc_child_item = self::get_parent_item_from_calc_child_item($it, $link_result, $item_calc, $role, $relit_id);
-            $result_item = $get_parent_item_from_calc_child_item['result_item'];
-            $result_item_id = $get_parent_item_from_calc_child_item['result_item_id'];
-            $result_item_name = $get_parent_item_from_calc_child_item['result_item_name'];
-            $result_unit_name = $get_parent_item_from_calc_child_item['result_unit_name'];
-            $result_item_name_options = $get_parent_item_from_calc_child_item['result_item_name_options'];
         }
         return ['result_item' => $result_item,
             'result_item_id' => $result_item_id,
@@ -6909,21 +6906,21 @@ class ItemController extends Controller
 // в форме item/ext_edit.php
 // Например: значение вычисляемого (через "Бабушка со стороны матери") "Прабабушка со стороны матери" находится от значение поля "Мать",
 // т.е. не зависит от промежуточных значений ("Бабушка со стороны матери")
-    static function get_parent_item_from_calc_child_item($item_id, Link $link_result, $item_calc, Role $role = null, $relit_id = null)
+    static function get_parent_item_from_calc_child_item($item_start, Link $link_result, $item_calc, Role $role = null, $relit_id = null)
     {
+        // Одинаковые строки в ItemController::get_parent_item_from_calc_child_code() и ItemController::get_parent_item_from_calc_child_item()
         $result_item = null;
         $result_item_id = 0;
         $result_item_name = trans('main.no_information') . '!';
         $result_unit_name = "";
         $result_item_name_options = "";
-        $item_start = Item::find($item_id);
         if ($item_start) {
-        // проверка, если link - вычисляемое поле
-        if ($link_result->parent_is_parent_related == true) {
-            // Не использовать - не работает при сложных связях: Например: Товар-ЕдиницаИзмерения-Цвет
-            // ----------------------------------------
-            // Вставка нового алгоритма
-            // Вычисляем первоначальный $item;
+            // проверка, если link - вычисляемое поле
+            if ($link_result->parent_is_parent_related == true) {
+                // Не использовать - не работает при сложных связях: Например: Товар-ЕдиницаИзмерения-Цвет
+                // ----------------------------------------
+                // Вставка нового алгоритма
+                // Вычисляем первоначальный $item;
 //            $item = null;
 //            if ($item_calc == true) {
 //                // Поиск item-start (например: в заказе - поиск товара)
@@ -6953,86 +6950,86 @@ class ItemController extends Controller
 //                    $result_item_name_options = "<option value='" . $item->id . "'>" . $item->name() . "</option>";
 //                }
 //            }
-            // ------------------------------------------------------------
+                // ------------------------------------------------------------
 
-            // ------------------------------------------------------------
-            // Не удалять - сложный алгоритм поиска, например, прабабушка мамы
+                // ------------------------------------------------------------
+                // Не удалять - сложный алгоритм поиска, например, прабабушка мамы
 //            if (1 == 2) {
-            // возвращает маршрут $link_ids по вычисляемым полям до первого найденного постоянного link_id ($const_link_id_start)
-            $rs = LinkController::get_link_ids_from_calc_link($link_result);
-            $const_link_id_start = $rs['const_link_id_start'];
-            $link_ids = $rs['link_ids'];
-            // Вычисляем первоначальный $item;
-            if ($item_calc == true) {
-                $item = GlobalController::get_parent_item_from_main($item_start->id, $const_link_id_start);
-                if ($item) {
-                    if ($role) {
+                // возвращает маршрут $link_ids по вычисляемым полям до первого найденного постоянного link_id ($const_link_id_start)
+                $rs = LinkController::get_link_ids_from_calc_link($link_result);
+                $const_link_id_start = $rs['const_link_id_start'];
+                $link_ids = $rs['link_ids'];
+                // Вычисляем первоначальный $item;
+                if ($item_calc == true) {
+                    $item = GlobalController::get_parent_item_from_main($item_start->id, $const_link_id_start);
+                    if ($item) {
+                        if ($role) {
 //                    Использовать так '$relit_id!=null'
-                        if ($relit_id != null) {
-                            // Проверка $item_find
-                            $item = GlobalController::items_check_right($item, $role, $relit_id);
-                        }
-                    }
-                }
-            } else {
-                $item = $item_start;
-            }
-            $info = $item_start->id . " " . $item_start->name() . ':';
-            if ($item) {
-                if ($const_link_id_start && $link_ids) {
-                    $error = false;
-                    // цикл по вычисляемым полям
-//                  foreach (@$link_ids as $link_id) {
-                    foreach ($link_ids as $link_id) {
-                        $link_find = Link::find($link_id);
-                        if (!$link_find) {
-                            $error = true;
-                            break;
-                        }
-                        $link_find = Link::find($link_find->parent_parent_related_result_link_id);
-                        if (!$link_find) {
-                            $error = true;
-                            break;
-                        }
-                        // используется поле link->parent_parent_related_result_link_id
-                        // находим новый $item (невычисляемый)
-                        // $item меняется внутри цикла
-                        $it_1 = $item;
-                        $item = self::get_parent_item_from_child_item($item, $link_find)['result_item'];
-                        if (!$item) {
-                            $error = true;
-                            break;
-                        }
-                        $info = $info . " it_1->id =" . $it_1->id . ' ' . $it_1->name() . " link_find_>id = " . $link_find->id . " item->id =" . $item->id . ' ' . $item->name();
-                    }
-                    // Похожие строки в self::get_parent_item_from_calc_child_item()
-                    // и в self::get_parent_item_from_output_calculated_table()
-                    if (!$error && $item) {
-                        $result_item = $item;
-                        $result_item_id = $item->id;
-                        if ($item->base->type_is_image() || $item->base->type_is_document()) {
-                            //$result_item_name = "<a href='" . Storage::url($item->filename()) . "'><img src='" . Storage::url($item->filename()) . "' height='50' alt='' title='" . $item->filename() . "'></a>";
-                            if ($item->base->type_is_image()) {
-                                //$result_item_name = "<img src='" . Storage::url($item->filename()) . "' height='250' alt='' title='" . $item->title_img() . "'>";
-                                $result_item_name = GlobalController::view_img($item, "smed", false, false, false, $item->title_img());
-                            } else {
-                                $result_item_name = GlobalController::view_doc($item, GlobalController::usercode_calc());
+                            if ($relit_id != null) {
+                                // Проверка $item_find
+                                $item = GlobalController::items_check_right($item, $role, $relit_id);
                             }
-                        } elseif ($item->base->type_is_text()) {
-                            $result_item_name = GlobalController::it_txnm_n2b($item);
-                        } else {
-                            // $numcat = false - не выводить числовых поля с разрядом тысячи/миллионы/миллиарды
-                            // $result_item_name = $item->name(false, false, false, false, true);
-                            $result_item_name = $item->name();
                         }
-                        $result_unit_name = $item->base->par_label_unit_meas(true);
-                        $result_item_name_options = "<option value='" . $item->id . "'>" . $item->name() . "</option>";
+                    }
+                } else {
+                    $item = $item_start;
+                }
+                $info = $item_start->id . " " . $item_start->name() . ':';
+                if ($item) {
+                    if ($const_link_id_start && $link_ids) {
+                        $error = false;
+                        // цикл по вычисляемым полям
+//                  foreach (@$link_ids as $link_id) {
+                        foreach ($link_ids as $link_id) {
+                            $link_find = Link::find($link_id);
+                            if (!$link_find) {
+                                $error = true;
+                                break;
+                            }
+                            $link_find = Link::find($link_find->parent_parent_related_result_link_id);
+                            if (!$link_find) {
+                                $error = true;
+                                break;
+                            }
+                            // используется поле link->parent_parent_related_result_link_id
+                            // находим новый $item (невычисляемый)
+                            // $item меняется внутри цикла
+                            $it_1 = $item;
+                            $item = self::get_parent_item_from_child_item($item, $link_find)['result_item'];
+                            if (!$item) {
+                                $error = true;
+                                break;
+                            }
+                            $info = $info . " it_1->id =" . $it_1->id . ' ' . $it_1->name() . " link_find_>id = " . $link_find->id . " item->id =" . $item->id . ' ' . $item->name();
+                        }
+                        // Похожие строки в self::get_parent_item_from_calc_child_item()
+                        // и в self::get_parent_item_from_output_calculated_table()
+                        if (!$error && $item) {
+                            $result_item = $item;
+                            $result_item_id = $item->id;
+                            if ($item->base->type_is_image() || $item->base->type_is_document()) {
+                                //$result_item_name = "<a href='" . Storage::url($item->filename()) . "'><img src='" . Storage::url($item->filename()) . "' height='50' alt='' title='" . $item->filename() . "'></a>";
+                                if ($item->base->type_is_image()) {
+                                    //$result_item_name = "<img src='" . Storage::url($item->filename()) . "' height='250' alt='' title='" . $item->title_img() . "'>";
+                                    $result_item_name = GlobalController::view_img($item, "smed", false, false, false, $item->title_img());
+                                } else {
+                                    $result_item_name = GlobalController::view_doc($item, GlobalController::usercode_calc());
+                                }
+                            } elseif ($item->base->type_is_text()) {
+                                $result_item_name = GlobalController::it_txnm_n2b($item);
+                            } else {
+                                // $numcat = false - не выводить числовых поля с разрядом тысячи/миллионы/миллиарды
+                                // $result_item_name = $item->name(false, false, false, false, true);
+                                $result_item_name = $item->name();
+                            }
+                            $result_unit_name = $item->base->par_label_unit_meas(true);
+                            $result_item_name_options = "<option value='" . $item->id . "'>" . $item->name() . "</option>";
+                        }
                     }
                 }
+                //}
+                // --------------------------------------------------------------
             }
-            //}
-            // --------------------------------------------------------------
-        }
         }
         return ['result_item' => $result_item,
             'result_item_id' => $result_item_id,
@@ -7414,7 +7411,7 @@ class ItemController extends Controller
                                             // Функция get_parent_item_from_calc_child_item() ищет вычисляемое поля от первого невычисляемого
                                             // Например: значение вычисляемого (через "Бабушка со стороны матери") "Прабабушка со стороны матери" находится от значение поля "Мать",
                                             // т.е. не зависит от промежуточных значений ("Бабушка со стороны матери")
-                                            $result_func = self::get_parent_item_from_calc_child_item($item_find->id, $link, false);
+                                            $result_func = self::get_parent_item_from_calc_child_item($item_find, $link, false);
                                             // Сохранить значение в массиве
                                             $array_calc[$link->id] = $result_func['result_item_id'];
                                             $item_result = $result_func['result_item'];
