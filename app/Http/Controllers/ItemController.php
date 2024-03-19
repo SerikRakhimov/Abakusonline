@@ -4113,8 +4113,15 @@ class ItemController extends Controller
 //                        if (isset($items_id_group[$i])) {
 //                            $item_seek = Item::find($items_id_group[$i]);
 //                        }
-                    if (isset($items_id_group[$i])) {
-                        $item_seek = Item::find($items_id_group[$i]);
+                    if (isset($code_group[$i]) & isset($items_id_group[$i])) {
+                        $item_seek = null;
+                        // Если передан код
+                        if ($code_group[$i] != 0) {
+                            $item_seek = self::item_from_base_code($calc_table_base_id, $relip_project, $code_group[$i])['item'];
+                        } else {
+                            // Если передан $item->id
+                            $item_seek = Item::find($items_id_group[$i]);
+                        }
                         // все присваивания по группе должны быть учтены, их может быть один и выше
                         if (!$item_seek) {
 //                            // Нужно, разницы нет null или false присвоить

@@ -2016,7 +2016,7 @@
                         + '&code_group[]=' + code_child_base_id{{$prefix}}{{$link->id}}_{{$to_value->id}}.value
                         + '&items_id_group[]=0'
                         @endif
-                        {{-- Передается item->id --}}
+                        {{-- Передается $item->id --}}
                         @else
                         + '&code_group[]=0'
                         + '&items_id_group[]=' + child_base_id{{$prefix}}{{$link->id}}_{{$to_value->id}}.options[child_base_id{{$prefix}}{{$link->id}}_{{$to_value->id}}.selectedIndex].value
