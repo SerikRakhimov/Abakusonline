@@ -4115,7 +4115,7 @@ class ItemController extends Controller
 //                            $item_seek = Item::find($items_id_group[$i]);
 //                        }
                     if (isset($code_group[$i]) & isset($items_id_group[$i])) {
-                        $info = $info . ' i=' . $i . ' ' . $code_group[$i] . ' ' . $items_id_group[$i];
+//                        $info = $info . ' i=' . $i . ' ' . $code_group[$i] . ' ' . $items_id_group[$i];
                         $item_seek = null;
                         // Если передан код
                         if ($code_group[$i] != "0") {
