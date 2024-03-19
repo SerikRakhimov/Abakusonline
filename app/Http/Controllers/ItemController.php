@@ -6843,7 +6843,8 @@ class ItemController extends Controller
         $result_item = null;
         $result_item_name = null;
         $result_item_name_options = null;
-        $item = null;
+        // "$item = $item_start;" нужно
+        $item = $item_start;
         $cn = 0;
         $error = false;
         $link = null;
