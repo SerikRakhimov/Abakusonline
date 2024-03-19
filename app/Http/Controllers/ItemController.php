@@ -4085,6 +4085,17 @@ class ItemController extends Controller
                 $items_id_group = $params['items_id_group'];
             }
         }
+        $i = 0;
+        foreach ($code_group as $value) {
+            $info = $info . ' i_c=' . $i . ' ' . $value;
+            $i = $i + 1;
+        }
+        $i = 0;
+        foreach ($$items_id_group as $value) {
+            $info = $info . ' i_i=' . $i . ' ' . $value;
+            $i = $i + 1;
+        }
+
         //  '&& $items_id_group' не нужно, т.к. группировки может не быть
         //'if ($project & $base & $link)' - такой вариант не работает правильно
         if ($project && $base && $link) {
