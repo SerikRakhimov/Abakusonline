@@ -171,9 +171,12 @@ class StepController extends Controller
                                         }
                                     } else {
                                         if ($step->second == "I") {
-                                            // Используется "x = nc_parameter_4_"
-                                            $result = $result . "\n x = nc_parameter_4_" . $step->first
-                                                . ".value;";
+//                                            // Используется "x = nc_parameter_4_"
+//                                            $result = $result . "\n x = nc_parameter_4_" . $step->first
+//                                                . ".value;";
+                                            // Используется "x = nc_param_id_4_"
+                                            $result = $result . "\n x = nc_param_id_4_" . $step->first
+                                                . ".innerHTML;";
                                         } else {
                                             // Используется "x = nc_parameter_4_"
                                             $result = $result . "\n  x = nc_parameter_4_" . $step->first

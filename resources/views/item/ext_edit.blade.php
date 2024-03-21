@@ -2075,11 +2075,11 @@
                 {{--в ext_edit.php и StepController::steps_javascript_code()--}}
                 {{--            @if($link->parent_is_parent_related == true & $link->parent_base->type_is_list())--}}
 
-                {{--                @if($link->parent_is_parent_related == true & ($link->parent_base->type_is_list() | $link->parent_base->type_is_string() | $link->parent_base->type_is_number() | $link->parent_base->type_is_boolean()))--}}
+{{--                @if($link->parent_is_parent_related == true & ($link->parent_base->type_is_list() | $link->parent_base->type_is_string() | $link->parent_base->type_is_number() | $link->parent_base->type_is_boolean()))--}}
                 {{-- "related_id" используется несколько раз по тексту --}}
                 {{--var nc_parameter_{{$prefix}}{{$link->id}} = document.getElementById('related_id{{$link->id}}');--}}
                 var nc_param_id_{{$prefix}}{{$link->id}} = document.getElementById('{{$link->id}}');
-                {{--                @endif--}}
+{{--                @endif--}}
 
                 {{--                @else--}}
                 var nc_parameter_{{$prefix}}{{$link->id}} = document.getElementById('link{{$link->id}}');
