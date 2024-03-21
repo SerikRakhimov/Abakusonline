@@ -1671,6 +1671,9 @@
                                     ).then(function (res) {
                                                 name_{{$prefix}}{{$link->id}}.innerHTML = res.data['item_name'];
                                                 key_{{$prefix}}{{$link->id}}.value = res.data['item_id'];
+                                                @if($link->parent_is_nc_parameter == true)
+                                                on_numcalc_viewonly();
+                                                @endif
                                             }
                                         );
 
@@ -1746,8 +1749,10 @@
                                 {{--code_{{$prefix}}{{$link->id}}.innerHTML = res.data['item_code'];--}}
                                     name_{{$prefix}}{{$link->id}}.innerHTML = res.data['item_name'];
                                 key_{{$prefix}}{{$link->id}}.value = res.data['item_id'];
-                                on_parent_refer();
-                                {{--                                alert(res.data['item_id'] + '-' + key_{{$prefix}}{{$link->id}}.value + ' ' + res.data['item_name'] + '-' + name_{{$prefix}}{{$link->id}}.innerHTML);--}}
+                                {{-- on_parent_refer();--}}
+                                @if($link->parent_is_nc_parameter == true)
+                                on_numcalc_viewonly();
+                                @endif
                             }
                         );
 
@@ -1840,7 +1845,7 @@
                                 @endif
                                 {{-- Нужно использовать, см.примечание к on_parent_refer() ниже --}}
                                 {{-- Нужно, например, для правильного отображения данных при добавлении/корректировке записей в шаблоне "Интернет - магазин" --}}
-                                on_parent_refer();
+                                {{-- on_parent_refer();--}}
                                 {{-- 11111 --}}
                                 {{--Не использовать проверку if (first == false) {--}}
                                 {{--if (first == false) {--}}
@@ -2026,15 +2031,19 @@
                                 output_calc_id{{$prefix}}{{$link->id}}.innerHTML = res.data['id'];
                                 parent_unit_id{{$prefix}}{{$link->id}}.innerHTML = res.data['unitname'];
                                 output_calc_inner{{$prefix}}{{$link->id}}.innerHTML = res.data['inner'];
-                                <?php
-                                    $links_related_start = GlobalController::links_related_start($base, $link)
-                                    ?>
-                                    {{-- https://ru.stackoverflow.com/questions/240856/%D0%9A%D0%B0%D0%BA-%D0%BC%D0%BE%D0%B6%D0%BD%D0%BE-%D0%BF%D1%80%D0%BE%D0%B2%D0%B5%D1%80%D0%B8%D1%82%D1%8C-%D1%81%D1%83%D1%89%D0%B5%D1%81%D1%82%D0%B2%D1%83%D0%B5%D1%82-%D0%BB%D0%B8-%D1%84%D1%83%D0%BD%D0%BA%D1%86%D0%B8%D1%8F-%D0%B2-js--}}
-                                    @foreach($links_related_start as $rel_st_value)
-                                if (typeof (link_id_changeOption_7_{{$rel_st_value->id}}) === "function") {
-                                    link_id_changeOption_7_{{$rel_st_value->id}}();
-                                }
-                                @endforeach
+                                {{-- Не нужно, т.к. это блок для вывода вычисляемых полей, а не для корректировки--}}
+                                {{--                                <?php--}}
+                                {{--                                    $links_related_start = GlobalController::links_related_start($base, $link)--}}
+                                {{--                                    ?>--}}
+                                {{--                                    --}}{{-- https://ru.stackoverflow.com/questions/240856/%D0%9A%D0%B0%D0%BA-%D0%BC%D0%BE%D0%B6%D0%BD%D0%BE-%D0%BF%D1%80%D0%BE%D0%B2%D0%B5%D1%80%D0%B8%D1%82%D1%8C-%D1%81%D1%83%D1%89%D0%B5%D1%81%D1%82%D0%B2%D1%83%D0%B5%D1%82-%D0%BB%D0%B8-%D1%84%D1%83%D0%BD%D0%BA%D1%86%D0%B8%D1%8F-%D0%B2-js--}}
+                                {{--                                    @foreach($links_related_start as $rel_st_value)--}}
+                                {{--                                if (typeof (link_id_changeOption_7_{{$rel_st_value->id}}) === "function") {--}}
+                                {{--                                    link_id_changeOption_7_{{$rel_st_value->id}}();--}}
+                                {{--                                }--}}
+                                {{--                                @endforeach--}}
+                                @if($link->parent_is_nc_parameter == true)
+                                on_numcalc_viewonly();
+                                @endif
                             }
                         );
                 }
@@ -2413,6 +2422,8 @@
             {{--    {{$value}}();--}}
             {{-- @endforeach--}}
 
+            on_numcalc_viewonly();
+
             {{-- Этот блок нужно выполнить два раза,--}}
             {{-- т.к. все взаимосвязано и порядок вызова этих функций разный:--}}
             {{-- функции про зависимые поля, вычисляемые поля, вывод полей из вычисляемых основ--}}
@@ -2423,18 +2434,18 @@
             @endforeach
 
             {{-- Нужно--}}
-            on_numcalc_viewonly();
+            {{-- on_numcalc_viewonly();--}}
 
-            {{-- Блок 2 --}}
-            @foreach($functs_change as $key=>$value)
-            document.getElementById('{{$key}}').dispatchEvent(new Event('change'));
-            @endforeach
+            {{--            --}}{{-- Блок 2 --}}
+            {{--            @foreach($functs_change as $key=>$value)--}}
+            {{--            document.getElementById('{{$key}}').dispatchEvent(new Event('change'));--}}
+            {{--            @endforeach--}}
 
             {{-- Использовать после цикла по массиву функций:--}}
             {{-- Сначала должны посчитаться значения parent_is_child_related=true ('Автоматически фильтровать поля ввода'),--}}
             {{-- затем вывод значений из справочников, в т.ч. из уже отфильтрованных--}}
             {{-- Нужно--}}
-            on_parent_refer();
+            {{-- on_parent_refer();--}}
 
             {{-- Не удалять--}}
             {{-- Не нужно вызывать функцию on_numcalc_noviewonly(),--}}
