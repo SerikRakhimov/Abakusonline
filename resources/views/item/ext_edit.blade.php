@@ -1400,6 +1400,7 @@
                         {{-- вызываем состояние "элемент изменился", в связи с этим запустятся функции - обработчики "change"--}}
                         {{--code_{{$prefix}}{{$link->id}}.dispatchEvent(new Event('input'));--}}
                     }
+
                     code_{{$prefix}}{{$link->id}}.addEventListener("change", code_change_{{$prefix}}{{$link->id}});
                     <?php
                     $functs_change['code' . $link->id] = 1;
@@ -1802,7 +1803,7 @@
                 // $functions[] = "link_id_change_" . $prefix . $link->id;
                 ?>
                 function link_id_change_{{$prefix}}{{$link->id}}() {
-                        {{--                    if (child_base_id{{$prefix}}{{$link->id}}.value == 0) {--}}
+                    {{--                    if (child_base_id{{$prefix}}{{$link->id}}.value == 0) {--}}
                         {{--Использовать "if (child_code_id{{$prefix}}{{$link->id}}.value == 0)"--}}
                     if (child_code_id{{$prefix}}{{$link->id}}.value == 0) {
                         parent_base_id{{$prefix}}{{$link->id}}.innerHTML = "{{trans('main.no_information') . '!'}}";
@@ -1900,7 +1901,7 @@
                         @else
                         if (child_base_id{{$prefix}}{{$link->id}}.options[child_base_id{{$prefix}}{{$link->id}}.selectedIndex].value == 0) {
                             @endif
-                            parent_base_id{{$prefix}}{{$link->id}}.innerHTML = "{{trans('main.no_information') . '!'}}";
+                                parent_base_id{{$prefix}}{{$link->id}}.innerHTML = "{{trans('main.no_information') . '!'}}";
                             parent_related_id{{$prefix}}{{$link->id}}.innerHTML = "0";
                             {{--                                @if(!$update & $link->parent_is_nc_parameter == true)--}}
                             {{--Не использовать проверку if (first == false) {--}}
@@ -2067,7 +2068,8 @@
                 {{--в ext_edit.php и StepController::steps_javascript_code()--}}
                 {{--            @if($link->parent_is_parent_related == true & $link->parent_base->type_is_list())--}}
 
-                @if($link->parent_is_parent_related == true & ($link->parent_base->type_is_list() | $link->parent_base->type_is_string() | $link->parent_base->type_is_number() | $link->parent_base->type_is_boolean()))
+                @if(($link->parent_is_parent_related == true | $link->parent_is_output_calculated_table_field == true)
+                    & ($link->parent_base->type_is_list() | $link->parent_base->type_is_string() | $link->parent_base->type_is_number() | $link->parent_base->type_is_boolean()))
                 {{-- "related_id" используется несколько раз по тексту --}}
                 {{--var nc_parameter_{{$prefix}}{{$link->id}} = document.getElementById('related_id{{$link->id}}');--}}
                 var nc_param_id_{{$prefix}}{{$link->id}} = document.getElementById('{{$link->id}}');

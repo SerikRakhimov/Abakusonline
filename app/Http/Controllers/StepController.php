@@ -67,7 +67,7 @@ class StepController extends Controller
                                 if ($ln_first->parent_base->type_is_number()) {
                                     $nc_p = "";
                                     $nc_s = "";
-                                    if ($ln_first->parent_is_parent_related == true) {
+                                    if ($ln_first->parent_is_parent_related == true | $ln_first->parent_is_output_calculated_table_field == true) {
                                         $nc_s = "innerHTML";
                                         if ($step->second == "I") {
                                             $nc_p = "nc_param_id_4_";
@@ -79,8 +79,7 @@ class StepController extends Controller
                                         $nc_s = "value";
                                     }
 //                                    $result = $result . "\n x = " . $nc_p . $step->first . "." . $nc_s . ";alert('" . $ln_first->id . "'+' ' +x);";
-//                                    $result = $result . "\n x = " . $nc_p . $step->first . "." . $nc_s . ";";
-                                    $result = $result . "\n x = 10;";
+                                    $result = $result . "\n x = " . $nc_p . $step->first . "." . $nc_s . ";";
 
                                     if ($link->parent_base->type_is_string() & $link->parent_base->is_one_value_lst_str_txt == false) {
                                         $i = 0;
