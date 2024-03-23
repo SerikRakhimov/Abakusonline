@@ -1931,6 +1931,7 @@
                                 + '/{{$link->id}}'
                                 + '/0'
                             ).then(function (res) {
+                            alert('{{$link->id}} - ' +child_base_id{{$prefix}}{{$link->id}}.options[child_base_id{{$prefix}}{{$link->id}}.selectedIndex].value);
                                     parent_base_id{{$prefix}}{{$link->id}}.innerHTML = res.data['result_item_name'];
                                     parent_unit_id{{$prefix}}{{$link->id}}.innerHTML = res.data['result_unit_name'];
                                     {{-- "related_id" используется несколько раз по тексту --}}
