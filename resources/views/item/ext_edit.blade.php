@@ -1908,7 +1908,8 @@
                         @else
                         if (child_base_id{{$prefix}}{{$link->id}}.options[child_base_id{{$prefix}}{{$link->id}}.selectedIndex].value == 0) {
                             @endif
-                                parent_base_id{{$prefix}}{{$link->id}}.innerHTML = "{{trans('main.no_information') . '!'}}";
+                            alert('{{$link->id}} - ' +child_base_id{{$prefix}}{{$link->id}}.options[child_base_id{{$prefix}}{{$link->id}}.selectedIndex].value);
+                            parent_base_id{{$prefix}}{{$link->id}}.innerHTML = "{{trans('main.no_information') . '!'}}";
                             parent_related_id{{$prefix}}{{$link->id}}.innerHTML = "0";
                             {{--                                @if(!$update & $link->parent_is_nc_parameter == true)--}}
                             {{--Не использовать проверку if (first == false) {--}}
@@ -1931,7 +1932,6 @@
                                 + '/{{$link->id}}'
                                 + '/0'
                             ).then(function (res) {
-                            alert('{{$link->id}} - ' +child_base_id{{$prefix}}{{$link->id}}.options[child_base_id{{$prefix}}{{$link->id}}.selectedIndex].value);
                                     parent_base_id{{$prefix}}{{$link->id}}.innerHTML = res.data['result_item_name'];
                                     parent_unit_id{{$prefix}}{{$link->id}}.innerHTML = res.data['result_unit_name'];
                                     {{-- "related_id" используется несколько раз по тексту --}}
