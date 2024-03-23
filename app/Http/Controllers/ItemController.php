@@ -4170,6 +4170,8 @@ class ItemController extends Controller
                         $result_inner = GlobalController::it_txnm_n2b($result_item);
                     } else {
 //                      $result_inner = $result_item->name(false, true, true);
+                        // Использовать "$result_inner = $result_item->name(false, false, true);", без "вывод числовых полей с разрядом тысячи/миллионы/миллиарды";
+                        // Нужно если число является параметром для расчета вычисляемых полей
                         $result_inner = $result_item->name(false, false, true);
                     }
                 }
