@@ -807,7 +807,8 @@ if ($view_link) {
                                                 @include('layouts.item.empty_name', ['name'=>GlobalController::it_txnm_n2b($item_find, false)])
                                             @else
                                                 {{--                                                @include('layouts.item.empty_name', ['name'=>$item_find->name(false,false,false,$heading & $emoji_enable)])--}}
-                                                @include('layouts.item.empty_name', ['name'=>$item_find->name(false, false, false, false, false)])
+{{--                                                @include('layouts.item.empty_name', ['name'=>$item_find->name(false, false, false, false, false)])--}}
+                                                @include('layouts.item.empty_name', ['name'=>$item_find->name(false, false, true, false, false)])
                                             @endif
                                             @if($heading)
                                                 {{--                                                </mark>--}}
