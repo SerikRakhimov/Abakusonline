@@ -4169,7 +4169,8 @@ class ItemController extends Controller
                     } elseif ($result_item->base->type_is_text()) {
                         $result_inner = GlobalController::it_txnm_n2b($result_item);
                     } else {
-                        $result_inner = $result_item->name(false, true, true);
+//                      $result_inner = $result_item->name(false, true, true);
+                        $result_inner = $result_item->name(false, false, true);
                     }
                 }
             }
