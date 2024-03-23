@@ -78,7 +78,7 @@ class StepController extends Controller
                                         $nc_p = "nc_parameter_4_";
                                         $nc_s = "value";
                                     }
-                                    $result = $result . "\n x = " . $nc_p . $step->first . "." . $nc_s . ";";
+                                    $result = $result . "\n x = " . $nc_p . $step->first . "." . $nc_s . ";alert(".$ln_first->id. " ". $nc_p . $step->first .")";
 
                                     if ($link->parent_base->type_is_string() & $link->parent_base->is_one_value_lst_str_txt == false) {
                                         $i = 0;
@@ -171,12 +171,12 @@ class StepController extends Controller
                                         }
                                     } else {
                                         if ($step->second == "I") {
-//                                            // Используется "x = nc_parameter_4_"
-//                                            $result = $result . "\n x = nc_parameter_4_" . $step->first
-//                                                . ".value;";
-                                            // Используется "x = nc_param_id_4_"
-                                            $result = $result . "\n x = nc_param_id_4_" . $step->first
-                                                . ".innerHTML;";
+                                            // Используется "x = nc_parameter_4_"
+                                            $result = $result . "\n x = nc_parameter_4_" . $step->first
+                                                . ".value;";
+//                                            // Используется "x = nc_param_id_4_"
+//                                            $result = $result . "\n x = nc_param_id_4_" . $step->first
+//                                                . ".innerHTML;";
                                         } else {
                                             // Используется "x = nc_parameter_4_"
                                             $result = $result . "\n  x = nc_parameter_4_" . $step->first
