@@ -1399,10 +1399,7 @@
                         {{-- http://javascript.ru/forum/events/76761-programmno-vyzvat-sobytie-change.html#post503465--}}
                         {{-- вызываем состояние "элемент изменился", в связи с этим запустятся функции - обработчики "change"--}}
                         {{--code_{{$prefix}}{{$link->id}}.dispatchEvent(new Event('input'));--}}
-                        {{--alert('code_change_ code_{{$prefix}}{{$link->id}}.value = ' + code_{{$prefix}}{{$link->id}}.value);--}}
-
                     }
-
                     code_{{$prefix}}{{$link->id}}.addEventListener("change", code_change_{{$prefix}}{{$link->id}});
                     <?php
                     $functs_change['code' . $link->id] = 1;
@@ -1805,7 +1802,6 @@
                 // $functions[] = "link_id_change_" . $prefix . $link->id;
                 ?>
                 function link_id_change_{{$prefix}}{{$link->id}}() {
-                    {{--alert('{{$link->id}}->>>' + child_base_id{{$prefix}}{{$link->id}}.value + 'child_code_id{{$link->id}}->>>' + child_code_id{{$prefix}}{{$link->id}}.value);--}}
                         {{--                    if (child_base_id{{$prefix}}{{$link->id}}.value == 0) {--}}
                         {{--Использовать "if (child_code_id{{$prefix}}{{$link->id}}.value == 0)"--}}
                     if (child_code_id{{$prefix}}{{$link->id}}.value == 0) {
@@ -1839,9 +1835,6 @@
                                     {{-- "related_id" используется несколько раз по тексту --}}
                                     parent_related_id{{$prefix}}{{$link->id}}.innerHTML = res.data['result_item_id'];
                                 parent_unit_id{{$prefix}}{{$link->id}}.innerHTML = res.data['result_unit_name'];
-                                {{--                                alert('{{$link->id}}-> ' + child_code_id{{$prefix}}{{$link->id}}.value + ' '+ child_base_id{{$prefix}}{{$link->id}}.value + ' 223-> ' + res.data['result_item_id'] + '-' + parent_related_id{{$prefix}}{{$link->id}}.innerHTML + ' ' + res.data['result_item_name'] + '-' + parent_base_id{{$prefix}}{{$link->id}}.innerHTML);--}}
-                                @else
-                                {{--                                alert('{{$link->id}}-> ' + child_code_id{{$prefix}}{{$link->id}}.value + ' ' + child_base_id{{$prefix}}{{$link->id}}.value + ' 223-> ' + res.data['result_item_name'] + '-' + parent_base_id{{$prefix}}{{$link->id}}.innerHTML);--}}
                                 @endif
                                 {{-- Нужно использовать, см.примечание к on_parent_refer() ниже --}}
                                 {{-- Нужно, например, для правильного отображения данных при добавлении/корректировке записей в шаблоне "Интернет - магазин" --}}
@@ -1861,7 +1854,6 @@
                                 {{--    arr = res.data;--}}
                                 {{--for (key in arr) {--}}
                                 {{--    // console.log(`${key} = ${arr[key]}`);--}}
-                                {{--    alert('link_id = {{$link->id}} key = ' + key + ' value = ' + arr[key]);--}}
                                 {{--}--}}
                             }
                         );
@@ -1922,7 +1914,6 @@
                             @endif
                             {{--}--}}
                         } else {
-                            alert('{{$link->id}} - ' +child_base_id{{$prefix}}{{$link->id}}.options[child_base_id{{$prefix}}{{$link->id}}.selectedIndex].value);
                             axios.get('/item/get_parent_item_from_calc_child_item/'
                                 @if($link_related_calculated)
                                 + child_base_id{{$prefix}}{{$link->id}}.innerHTML
