@@ -455,11 +455,11 @@
                                                                 'view_link'=>\App\Http\Controllers\GlobalController::const_null()])}}"
                                                    title="">
                                                     {{--                                                {{$item_find->name(false, true, true, $emoji_enable, false)}}--}}
-                                                    {{$item_find->name(false, true, true, false, false)}}
+                                                    {{$item_find->name(false, true, true, false, false)}}-1000
                                                 </a>
                                             @else
                                                 {{--                                            {{$item_find->name(false, true, true, $emoji_enable, false)}}--}}
-                                                {{$item_find->name(false, true, true, false, false)}}
+                                                {{$item_find->name(false, true, true, false, false)}}-2000
                                             @endif
                                             <small><span
                                                     class="text-label">{{$item_find->base->par_label_unit_meas()}}</span></small>
