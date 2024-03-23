@@ -1908,7 +1908,7 @@
                         @else
                         if (child_base_id{{$prefix}}{{$link->id}}.options[child_base_id{{$prefix}}{{$link->id}}.selectedIndex].value == 0) {
                             @endif
-                                parent_base_id{{$prefix}}{{$link->id}}.innerHTML = "{{trans('main.no_information') . '!'}}";
+                            parent_base_id{{$prefix}}{{$link->id}}.innerHTML = "{{trans('main.no_information') . '!'}}";
                             parent_related_id{{$prefix}}{{$link->id}}.innerHTML = "0";
                             {{--                                @if(!$update & $link->parent_is_nc_parameter == true)--}}
                             {{--Не использовать проверку if (first == false) {--}}
@@ -1922,7 +1922,7 @@
                             @endif
                             {{--}--}}
                         } else {
-                            alert('{{$link->id}} - ' + child_base_id{{$prefix}}{{$link->id}}.options[child_base_id{{$prefix}}{{$link->id}}.selectedIndex].value);
+                            alert('{{$link->id}} - ' +child_base_id{{$prefix}}{{$link->id}}.options[child_base_id{{$prefix}}{{$link->id}}.selectedIndex].value);
                             axios.get('/item/get_parent_item_from_calc_child_item/'
                                 @if($link_related_calculated)
                                 + child_base_id{{$prefix}}{{$link->id}}.innerHTML
@@ -2076,19 +2076,13 @@
                 {{--в ext_edit.php и StepController::steps_javascript_code()--}}
                 {{--            @if($link->parent_is_parent_related == true & $link->parent_base->type_is_list())--}}
 
-                {{--                @if($link->parent_is_parent_related == true & ($link->parent_base->type_is_list() | $link->parent_base->type_is_string() | $link->parent_base->type_is_number() | $link->parent_base->type_is_boolean()))--}}
+                @if($link->parent_is_parent_related == true & ($link->parent_base->type_is_list() | $link->parent_base->type_is_string() | $link->parent_base->type_is_number() | $link->parent_base->type_is_boolean()))
                 {{-- "related_id" используется несколько раз по тексту --}}
                 {{--var nc_parameter_{{$prefix}}{{$link->id}} = document.getElementById('related_id{{$link->id}}');--}}
-                var element = document.getElementById('{{$link->id}}');
-                if (element) {
-                    var nc_param_id_{{$prefix}}{{$link->id}} = document.getElementById('{{$link->id}}');
-                }
-                {{--                @endif--}}
+                var nc_param_id_{{$prefix}}{{$link->id}} = document.getElementById('{{$link->id}}');
+                @endif
                 {{--                @else--}}
-                var element = document.getElementById('link{{$link->id}}');
-                if (element) {
-                    var nc_parameter_{{$prefix}}{{$link->id}} = document.getElementById('link{{$link->id}}');
-                }
+                var nc_parameter_{{$prefix}}{{$link->id}} = document.getElementById('link{{$link->id}}');
                 @if ($link->parent_base->type_is_string() & $link->parent_base->is_one_value_lst_str_txt == false)
                 <?php
                 $i = 0;
