@@ -5,6 +5,8 @@
     "50px"
 @elseif($size == "smed")
     "125px"
+@elseif($size == "mem")
+    "200px"
 @elseif($size == "medium")
     "250px"
 @elseif($size == "big")
