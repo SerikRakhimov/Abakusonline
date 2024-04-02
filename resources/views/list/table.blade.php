@@ -59,7 +59,7 @@ if ($view_link) {
                 ?>
                 {{--                <div class="card text-center">--}}
                 {{--                    <div class="card card-inverse text-center" style="background-color: rgba(222,255,162,0.23); border-color: #3548ee;">--}}
-                <div class="card shadow m-2">
+                <div class="card shadow m-2 align-items-center">
                     {{--                <p class="card-header text-center text-label">{{$item->base->name()}}: {{$item->id}}--}}
                     <small class="card-header text-center text-title" title="{{$s_title}}">
                         {{--                        @if ($view_link)--}}
@@ -79,7 +79,7 @@ if ($view_link) {
                         {{--                        <div class="card-subtitle m-2 text-center text-muted">Card subtitle</div>--}}
                         {{--                        @if($item_find)--}}
                         {{--                            <div class="card-block text-center">--}}
-                        <div class="text-center  align-content-center">
+                        <div class="text-center">
                             {{-- https://askdev.ru/q/kak-vyzvat-funkciyu-javascript-iz-tega-href-v-html-276225/--}}
                             {{--                            <a href="{{route('item.ext_show', ['item'=>$item, 'project'=>$project, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id,--}}
                             {{--                                    'heading' => $heading,'base_index_page'=>$base_index_page, 'body_link_page'=>$body_link_page,'body_all_page'=>$body_all_page,--}}
