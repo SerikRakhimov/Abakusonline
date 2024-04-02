@@ -103,9 +103,6 @@ if ($item) {
                             {{--Одинаковый процент 0.75 layouts\app.php и view\img.php--}}
                             document.getElementById("img{{$item->id}}").width = Math.int(window.innerWidth * {{$var_percent}} / 100 * 0.75);
                         }
-                        if (window.innerWidth > 576) {
-                            document.getElementById("img{{$item->id}}").width = window.innerWidth * 0.3;
-                        }
                     </script>
                 @endif
             @endif
