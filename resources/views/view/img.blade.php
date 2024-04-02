@@ -99,7 +99,7 @@ if ($item) {
                     <script>
                         kf_window = 1;
                         if (window.innerWidth > 576) {
-                            kf_window = 0.5;
+                            // kf_window = 0.5;
                         }
                         if (window.innerWidth > window.innerHeight) {
                             document.getElementById("img{{$item->id}}").height = window.innerHeight * kf_window *{{$var_percent}} / 100;
