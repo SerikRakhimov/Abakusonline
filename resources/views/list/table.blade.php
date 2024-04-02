@@ -59,7 +59,7 @@ if ($view_link) {
                 ?>
                 {{--                <div class="card text-center">--}}
                 {{--                    <div class="card card-inverse text-center" style="background-color: rgba(222,255,162,0.23); border-color: #3548ee;">--}}
-                <div class="card shadow m-2 align-items-end">
+                <div class="card shadow m-2">
                     {{--                <p class="card-header text-center text-label">{{$item->base->name()}}: {{$item->id}}--}}
                     <small class="card-header text-center text-title" title="{{$s_title}}">
                         {{--                        @if ($view_link)--}}
@@ -73,8 +73,8 @@ if ($view_link) {
                         {{--                        @endif--}}
                         {{$v_label}}
                     </small>
-                    {{--                    <div class="card-body d-flex align-items-center">--}}
-                    <div class="card-body pl-2 pr-2 pt-2 pb-0">
+                                        <div class="card-body d-flex align-items-center">
+{{--                    <div class="card-body pl-2 pr-2 pt-2 pb-0">--}}
                         {{--                        <div class="card-title text-center">Card title</div>--}}
                         {{--                        <div class="card-subtitle m-2 text-center text-muted">Card subtitle</div>--}}
                         {{--                        @if($item_find)--}}
