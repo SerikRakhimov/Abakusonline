@@ -102,7 +102,8 @@ if ($view_link) {
                                 {{--                                'string_all_codes_current' => $string_all_codes_current,--}}
                                 {{--                                'string_link_ids_current' => $string_link_ids_current,--}}
                                 {{--                                'string_item_ids_current' => $string_item_ids_current,--}}
-                                @include('view.img',['item'=>$item_find, 'noimg_def'=>false, 'size'=>"mem", 'filenametrue'=>false, 'link'=>false, 'img_fluid'=>true, 'card_img_top'=>true, 'title'=>$item->name()])
+{{--                            @include('view.img',['item'=>$item_find, 'noimg_def'=>false, 'size'=>"mem", 'filenametrue'=>false, 'link'=>false, 'img_fluid'=>true, 'card_img_top'=>true, 'title'=>$item->name()])--}}
+                                @include('view.img',['item'=>$item_find, 'noimg_def'=>false, 'filenametrue'=>false, 'link'=>false, 'img_fluid'=>true, 'card_img_top'=>true, 'title'=>$item->name()])
                             </a>
                         </div>
                         {{--                        @endif--}}
