@@ -59,7 +59,7 @@ if ($view_link) {
                 ?>
                 {{--                <div class="card text-center">--}}
                 {{--                    <div class="card card-inverse text-center" style="background-color: rgba(222,255,162,0.23); border-color: #3548ee;">--}}
-                <div class="card shadow align-self-auto">
+                <div class="card shadow m-2">
                     {{--                <p class="card-header text-center text-label">{{$item->base->name()}}: {{$item->id}}--}}
                     <small class="card-header text-center text-title" title="{{$s_title}}">
                         {{--                        @if ($view_link)--}}
