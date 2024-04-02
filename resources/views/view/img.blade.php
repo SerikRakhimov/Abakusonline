@@ -73,7 +73,7 @@ if ($item) {
                  @endif
                  @if(isset($var_percent))
                  {{-- Обязательно так нужно(устанавливать значения ширину и высоту):--}}
-                 width="{{$var_percent}}%"
+{{--                 width="{{$var_percent}}%"--}}
                  height="{{$var_percent}}%"
                  @else
                  @if(isset($width))
@@ -94,18 +94,18 @@ if ($item) {
                 "{{$title}}"
             @endif
             >
-            @if(isset($var_percent))
-                @if($item)
-                    <script>
-                        if (window.innerWidth > window.innerHeight) {
-                            document.getElementById("img{{$item->id}}").height = window.innerHeight * {{$var_percent}} / 100;
-                        } else {
-                            {{--Одинаковый процент 0.75 layouts\app.php и view\img.php--}}
-                            document.getElementById("img{{$item->id}}").width = Math.int(window.innerWidth * {{$var_percent}} / 100 * 0.75);
-                        }
-                    </script>
-                @endif
-            @endif
+{{--            @if(isset($var_percent))--}}
+{{--                @if($item)--}}
+{{--                    <script>--}}
+{{--                        if (window.innerWidth > window.innerHeight) {--}}
+{{--                            document.getElementById("img{{$item->id}}").height = window.innerHeight * {{$var_percent}} / 100;--}}
+{{--                        } else {--}}
+{{--                            --}}{{--Одинаковый процент 0.75 layouts\app.php и view\img.php--}}
+{{--                            document.getElementById("img{{$item->id}}").width = Math.int(window.innerWidth * {{$var_percent}} / 100 * 0.75);--}}
+{{--                        }--}}
+{{--                    </script>--}}
+{{--                @endif--}}
+{{--            @endif--}}
             @if($link == true)
         </a>
     @endif
