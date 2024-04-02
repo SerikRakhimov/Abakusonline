@@ -48,9 +48,9 @@ if ($item) {
                  id="img{{$item->id}}"
                  @endif
                  @endif
-                 {{--                                                   style="object-fit:cover;--}}
+                 style="object-fit:cover;
                  {{--                 style="object-fit:scale-down;--}}
-                 style="object-fit:contain;
+                 {{--                 style="object-fit:contain;--}}
                  @if(isset($border))
                  @if($border==true)
                      border: solid #bfc7f6;
