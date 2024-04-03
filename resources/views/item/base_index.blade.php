@@ -642,13 +642,13 @@
 
 
 
-    <div class="card-deck">
+{{--    <div class="card-deck">--}}
 
 
 
-        <div class="card shadow m-2">
+{{--        <div class="card shadow m-2">--}}
 
-            <small class="card-header text-center text-title" title="Пост, id =439">
+{{--            <small class="card-header text-center text-title" title="Пост, id =439">--}}
 
 
 
@@ -658,16 +658,16 @@
 
 
 
-                Пост
-            </small>
+{{--                Пост--}}
+{{--            </small>--}}
 
-            <div class="card-body pl-2 pr-2 pt-2 pb-0 d-flex flex-wrap align-items-center">
+{{--            <div class="card-body pl-2 pr-2 pt-2 pb-0 d-flex flex-wrap align-items-center">--}}
 
 
 
 
 
-                <div class="text-center">
+{{--                <div class="text-center">--}}
 
 
 
@@ -675,23 +675,23 @@
 
 
 
-                    <a href="https://www.abakusonline.com/item/item_index/7/439/6/8884/0/0/text_base_null/null;null;null;null;null/1/0/0/0"
-                       class="card-link" title="Карамелька">
+{{--                    <a href="https://www.abakusonline.com/item/item_index/7/439/6/8884/0/0/text_base_null/null;null;null;null;null/1/0/0/0"--}}
+{{--                       class="card-link" title="Карамелька">--}}
 
 
 
 
-                        <img src="https://www.abakusonline.com/storage/7/32/4wo1XEkmXvS54ByVfzXzk6gJxMw3VfAxCEECjFlY.jpeg"
-                             style="object-fit:cover;
+{{--                        <img src="https://www.abakusonline.com/storage/7/32/4wo1XEkmXvS54ByVfzXzk6gJxMw3VfAxCEECjFlY.jpeg"--}}
+{{--                             style="object-fit:cover;--}}
 
 
-                                      "
+{{--                                      "--}}
 
-                             class="card-img-top"
-                             class="img-fluid"
-                             alt="" title=
-                             "Карамелька"
-                        >
+{{--                             class="card-img-top"--}}
+{{--                             class="img-fluid"--}}
+{{--                             alt="" title=--}}
+{{--                             "Карамелька"--}}
+{{--                        >--}}
 
 
 
@@ -741,12 +741,12 @@
 
 
 
-                    </a>
-                </div>
+{{--                    </a>--}}
+{{--                </div>--}}
 
-                <div class="card-title text-center pt-2 pl-3 pr-3">
+{{--                <div class="card-title text-center pt-2 pl-3 pr-3">--}}
 
-                    <h6>
+{{--                    <h6>--}}
 
 
 
@@ -760,45 +760,45 @@
 
 
 
-                        <a href="https://www.abakusonline.com/item/item_index/7/439/6/8884/0/0/text_base_null/null;null;null;null;null/1/0/0/0"
-                           class="card-link" title="Карамелька">
-                            Карамелька                                </a>
-                    </h6>
-                </div>
-            </div>
+{{--                        <a href="https://www.abakusonline.com/item/item_index/7/439/6/8884/0/0/text_base_null/null;null;null;null;null/1/0/0/0"--}}
+{{--                           class="card-link" title="Карамелька">--}}
+{{--                            Карамелька                                </a>--}}
+{{--                    </h6>--}}
+{{--                </div>--}}
+{{--            </div>--}}
 
 
 
 
 
 
-            <div class="card-footer">
+{{--            <div class="card-footer">--}}
 
-                <div style="float:left;width:50%;">
+{{--                <div style="float:left;width:50%;">--}}
 
-                    <small>
-                        <a href="https://www.abakusonline.com/item/ext_show/439/7/6/8884/0/null;null;null;null;null/0/1/0/0"
-                           title="Просмотр записи">
-                                    <span class="badge-pill badge-related">
-                                        1
-                                    </span>
-                        </a>
-                    </small>
-                </div>
+{{--                    <small>--}}
+{{--                        <a href="https://www.abakusonline.com/item/ext_show/439/7/6/8884/0/null;null;null;null;null/0/1/0/0"--}}
+{{--                           title="Просмотр записи">--}}
+{{--                                    <span class="badge-pill badge-related">--}}
+{{--                                        1--}}
+{{--                                    </span>--}}
+{{--                        </a>--}}
+{{--                    </small>--}}
+{{--                </div>--}}
 
-                <div style="float:right;width:50%;" class="text-right">
-                    <small class="text-title">
-                        02.04.2021
-                    </small>
-                </div>
+{{--                <div style="float:right;width:50%;" class="text-right">--}}
+{{--                    <small class="text-title">--}}
+{{--                        02.04.2021--}}
+{{--                    </small>--}}
+{{--                </div>--}}
 
-            </div>
-        </div>
+{{--            </div>--}}
+{{--        </div>--}}
 
 
-        <div class="card shadow m-2">
+{{--        <div class="card shadow m-2">--}}
 
-            <small class="card-header text-center text-title" title="Пост, id =433">
+{{--            <small class="card-header text-center text-title" title="Пост, id =433">--}}
 
 
 
@@ -808,16 +808,16 @@
 
 
 
-                Пост
-            </small>
+{{--                Пост--}}
+{{--            </small>--}}
 
-            <div class="card-body pl-2 pr-2 pt-2 pb-0 d-flex flex-wrap align-items-center">
+{{--            <div class="card-body pl-2 pr-2 pt-2 pb-0 d-flex flex-wrap align-items-center">--}}
 
 
 
 
 
-                <div class="text-center">
+{{--                <div class="text-center">--}}
 
 
 
@@ -825,23 +825,23 @@
 
 
 
-                    <a href="https://www.abakusonline.com/item/item_index/7/433/6/8884/0/0/text_base_null/null;null;null;null;null/1/0/0/0"
-                       class="card-link" title="Вишенька">
+{{--                    <a href="https://www.abakusonline.com/item/item_index/7/433/6/8884/0/0/text_base_null/null;null;null;null;null/1/0/0/0"--}}
+{{--                       class="card-link" title="Вишенька">--}}
 
 
 
 
-                        <img src="https://www.abakusonline.com/storage/7/32/d6TuAM8Z86nv6nI8FIZeXD3h0TmI7LPA5l7Ut202.jpeg"
-                             style="object-fit:cover;
+{{--                        <img src="https://www.abakusonline.com/storage/7/32/d6TuAM8Z86nv6nI8FIZeXD3h0TmI7LPA5l7Ut202.jpeg"--}}
+{{--                             style="object-fit:cover;--}}
 
 
-                                      "
+{{--                                      "--}}
 
-                             class="card-img-top"
-                             class="img-fluid"
-                             alt="" title=
-                             "Вишенька"
-                        >
+{{--                             class="card-img-top"--}}
+{{--                             class="img-fluid"--}}
+{{--                             alt="" title=--}}
+{{--                             "Вишенька"--}}
+{{--                        >--}}
 
 
 
@@ -891,12 +891,12 @@
 
 
 
-                    </a>
-                </div>
+{{--                    </a>--}}
+{{--                </div>--}}
 
-                <div class="card-title text-center pt-2 pl-3 pr-3">
+{{--                <div class="card-title text-center pt-2 pl-3 pr-3">--}}
 
-                    <h6>
+{{--                    <h6>--}}
 
 
 
@@ -910,90 +910,90 @@
 
 
 
-                        <a href="https://www.abakusonline.com/item/item_index/7/433/6/8884/0/0/text_base_null/null;null;null;null;null/1/0/0/0"
-                           class="card-link" title="Вишенька">
-                            Вишенька                                </a>
-                    </h6>
-                </div>
-            </div>
+{{--                        <a href="https://www.abakusonline.com/item/item_index/7/433/6/8884/0/0/text_base_null/null;null;null;null;null/1/0/0/0"--}}
+{{--                           class="card-link" title="Вишенька">--}}
+{{--                            Вишенька                                </a>--}}
+{{--                    </h6>--}}
+{{--                </div>--}}
+{{--            </div>--}}
 
 
 
 
 
 
-            <div class="card-footer">
+{{--            <div class="card-footer">--}}
 
-                <div style="float:left;width:50%;">
+{{--                <div style="float:left;width:50%;">--}}
 
-                    <small>
-                        <a href="https://www.abakusonline.com/item/ext_show/433/7/6/8884/0/null;null;null;null;null/0/1/0/0"
-                           title="Просмотр записи">
-                                    <span class="badge-pill badge-related">
-                                        2
-                                    </span>
-                        </a>
-                    </small>
-                </div>
+{{--                    <small>--}}
+{{--                        <a href="https://www.abakusonline.com/item/ext_show/433/7/6/8884/0/null;null;null;null;null/0/1/0/0"--}}
+{{--                           title="Просмотр записи">--}}
+{{--                                    <span class="badge-pill badge-related">--}}
+{{--                                        2--}}
+{{--                                    </span>--}}
+{{--                        </a>--}}
+{{--                    </small>--}}
+{{--                </div>--}}
 
-                <div style="float:right;width:50%;" class="text-right">
-                    <small class="text-title">
-                        02.04.2021
-                    </small>
-                </div>
+{{--                <div style="float:right;width:50%;" class="text-right">--}}
+{{--                    <small class="text-title">--}}
+{{--                        02.04.2021--}}
+{{--                    </small>--}}
+{{--                </div>--}}
 
-            </div>
-        </div>
+{{--            </div>--}}
+{{--        </div>--}}
 
 
-        <div class="card shadow m-2">
-            <small class="card-header text-center text-title" title="Пост, id =208">
-                Пост
-            </small>
-            <div class="card-body pl-2 pr-2 pt-2 pb-0 d-flex flex-wrap align-items-center">
-                <div class="text-center">
-                    <a href="https://www.abakusonline.com/item/item_index/7/208/6/8884/0/0/text_base_null/null;null;null;null;null/1/0/0/0"
-                       class="card-link" title="Восхищение">
-                        <img src="https://www.abakusonline.com/storage/7/32/bSPtJhJo0Zgbbpm4ChAeTGFe0pCeKcQumEIQRw2V.jpeg"
-                             style="object-fit:cover;"
-                             class="card-img-top"
-                             class="img-fluid"
-                             alt="" title=
-                             "Восхищение"
-                        >
-                    </a>
-                </div>
-                <div class="card-title text-center pb-2 pl-3 pr-3">
-                    <h6>
-                        <a href="https://www.abakusonline.com/item/item_index/7/208/6/8884/0/0/text_base_null/null;null;null;null;null/1/0/0/0"
-                           class="card-link" title="Восхищение">
-                            Восхищение                                </a>
-                    </h6>
-                </div>
-            </div>
-            <div class="card-footer">
-                <div style="float:left;width:50%;">
-                    <small>
-                        <a href="https://www.abakusonline.com/item/ext_show/208/7/6/8884/0/null;null;null;null;null/0/1/0/0"
-                           title="Просмотр записи">
-                                    <span class="badge-pill badge-related">
-                                        3
-                                    </span>
-                        </a>
-                    </small>
-                </div>
-                <div style="float:right;width:50%;" class="text-right">
-                    <small class="text-title">
-                        20.03.2021
-                    </small>
-                </div>
-            </div>
-        </div>
+{{--        <div class="card shadow m-2">--}}
+{{--            <small class="card-header text-center text-title" title="Пост, id =208">--}}
+{{--                Пост--}}
+{{--            </small>--}}
+{{--            <div class="card-body pl-2 pr-2 pt-2 pb-0 d-flex flex-wrap align-items-center">--}}
+{{--                <div class="text-center">--}}
+{{--                    <a href="https://www.abakusonline.com/item/item_index/7/208/6/8884/0/0/text_base_null/null;null;null;null;null/1/0/0/0"--}}
+{{--                       class="card-link" title="Восхищение">--}}
+{{--                        <img src="https://www.abakusonline.com/storage/7/32/bSPtJhJo0Zgbbpm4ChAeTGFe0pCeKcQumEIQRw2V.jpeg"--}}
+{{--                             style="object-fit:cover;"--}}
+{{--                             class="card-img-top"--}}
+{{--                             class="img-fluid"--}}
+{{--                             alt="" title=--}}
+{{--                             "Восхищение"--}}
+{{--                        >--}}
+{{--                    </a>--}}
+{{--                </div>--}}
+{{--                <div class="card-title text-center pb-2 pl-3 pr-3">--}}
+{{--                    <h6>--}}
+{{--                        <a href="https://www.abakusonline.com/item/item_index/7/208/6/8884/0/0/text_base_null/null;null;null;null;null/1/0/0/0"--}}
+{{--                           class="card-link" title="Восхищение">--}}
+{{--                            Восхищение                                </a>--}}
+{{--                    </h6>--}}
+{{--                </div>--}}
+{{--            </div>--}}
+{{--            <div class="card-footer">--}}
+{{--                <div style="float:left;width:50%;">--}}
+{{--                    <small>--}}
+{{--                        <a href="https://www.abakusonline.com/item/ext_show/208/7/6/8884/0/null;null;null;null;null/0/1/0/0"--}}
+{{--                           title="Просмотр записи">--}}
+{{--                                    <span class="badge-pill badge-related">--}}
+{{--                                        3--}}
+{{--                                    </span>--}}
+{{--                        </a>--}}
+{{--                    </small>--}}
+{{--                </div>--}}
+{{--                <div style="float:right;width:50%;" class="text-right">--}}
+{{--                    <small class="text-title">--}}
+{{--                        20.03.2021--}}
+{{--                    </small>--}}
+{{--                </div>--}}
+{{--            </div>--}}
+{{--        </div>--}}
 
 
-        <div class="card shadow m-2">
+{{--        <div class="card shadow m-2">--}}
 
-            <small class="card-header text-center text-title" title="Пост, id =205">
+{{--            <small class="card-header text-center text-title" title="Пост, id =205">--}}
 
 
 
@@ -1003,16 +1003,16 @@
 
 
 
-                Пост
-            </small>
+{{--                Пост--}}
+{{--            </small>--}}
 
-            <div class="card-body pl-2 pr-2 pt-2 pb-0 d-flex flex-wrap align-items-center">
+{{--            <div class="card-body pl-2 pr-2 pt-2 pb-0 d-flex flex-wrap align-items-center">--}}
 
 
 
 
 
-                <div class="text-center">
+{{--                <div class="text-center">--}}
 
 
 
@@ -1020,23 +1020,23 @@
 
 
 
-                    <a href="https://www.abakusonline.com/item/item_index/7/205/6/8884/0/0/text_base_null/null;null;null;null;null/1/0/0/0"
-                       class="card-link" title="Элегантность">
+{{--                    <a href="https://www.abakusonline.com/item/item_index/7/205/6/8884/0/0/text_base_null/null;null;null;null;null/1/0/0/0"--}}
+{{--                       class="card-link" title="Элегантность">--}}
 
 
 
 
-                        <img src="https://www.abakusonline.com/storage/7/32/VuBMYNr3IeU1W3KekjxHvTNpjQj3hqnkqK0qOUa3.jpeg"
-                             style="object-fit:cover;
+{{--                        <img src="https://www.abakusonline.com/storage/7/32/VuBMYNr3IeU1W3KekjxHvTNpjQj3hqnkqK0qOUa3.jpeg"--}}
+{{--                             style="object-fit:cover;--}}
 
 
-                                      "
+{{--                                      "--}}
 
-                             class="card-img-top"
-                             class="img-fluid"
-                             alt="" title=
-                             "Элегантность"
-                        >
+{{--                             class="card-img-top"--}}
+{{--                             class="img-fluid"--}}
+{{--                             alt="" title=--}}
+{{--                             "Элегантность"--}}
+{{--                        >--}}
 
 
 
@@ -1086,12 +1086,12 @@
 
 
 
-                    </a>
-                </div>
+{{--                    </a>--}}
+{{--                </div>--}}
 
-                <div class="card-title text-center pt-2 pl-3 pr-3">
+{{--                <div class="card-title text-center pt-2 pl-3 pr-3">--}}
 
-                    <h6>
+{{--                    <h6>--}}
 
 
 
@@ -1105,45 +1105,45 @@
 
 
 
-                        <a href="https://www.abakusonline.com/item/item_index/7/205/6/8884/0/0/text_base_null/null;null;null;null;null/1/0/0/0"
-                           class="card-link" title="Элегантность">
-                            Элегантность                                </a>
-                    </h6>
-                </div>
-            </div>
+{{--                        <a href="https://www.abakusonline.com/item/item_index/7/205/6/8884/0/0/text_base_null/null;null;null;null;null/1/0/0/0"--}}
+{{--                           class="card-link" title="Элегантность">--}}
+{{--                            Элегантность                                </a>--}}
+{{--                    </h6>--}}
+{{--                </div>--}}
+{{--            </div>--}}
 
 
 
 
 
 
-            <div class="card-footer">
+{{--            <div class="card-footer">--}}
 
-                <div style="float:left;width:50%;">
+{{--                <div style="float:left;width:50%;">--}}
 
-                    <small>
-                        <a href="https://www.abakusonline.com/item/ext_show/205/7/6/8884/0/null;null;null;null;null/0/1/0/0"
-                           title="Просмотр записи">
-                                    <span class="badge-pill badge-related">
-                                        4
-                                    </span>
-                        </a>
-                    </small>
-                </div>
+{{--                    <small>--}}
+{{--                        <a href="https://www.abakusonline.com/item/ext_show/205/7/6/8884/0/null;null;null;null;null/0/1/0/0"--}}
+{{--                           title="Просмотр записи">--}}
+{{--                                    <span class="badge-pill badge-related">--}}
+{{--                                        4--}}
+{{--                                    </span>--}}
+{{--                        </a>--}}
+{{--                    </small>--}}
+{{--                </div>--}}
 
-                <div style="float:right;width:50%;" class="text-right">
-                    <small class="text-title">
-                        20.03.2021
-                    </small>
-                </div>
+{{--                <div style="float:right;width:50%;" class="text-right">--}}
+{{--                    <small class="text-title">--}}
+{{--                        20.03.2021--}}
+{{--                    </small>--}}
+{{--                </div>--}}
 
-            </div>
-        </div>
+{{--            </div>--}}
+{{--        </div>--}}
 
 
-        <div class="card shadow m-2">
+{{--        <div class="card shadow m-2">--}}
 
-            <small class="card-header text-center text-title" title="Пост, id =202">
+{{--            <small class="card-header text-center text-title" title="Пост, id =202">--}}
 
 
 
@@ -1153,16 +1153,16 @@
 
 
 
-                Пост
-            </small>
+{{--                Пост--}}
+{{--            </small>--}}
 
-            <div class="card-body pl-2 pr-2 pt-2 pb-0 d-flex flex-wrap align-items-center">
+{{--            <div class="card-body pl-2 pr-2 pt-2 pb-0 d-flex flex-wrap align-items-center">--}}
 
 
 
 
 
-                <div class="text-center">
+{{--                <div class="text-center">--}}
 
 
 
@@ -1170,23 +1170,23 @@
 
 
 
-                    <a href="https://www.abakusonline.com/item/item_index/7/202/6/8884/0/0/text_base_null/null;null;null;null;null/1/0/0/0"
-                       class="card-link" title="Кокетка">
+{{--                    <a href="https://www.abakusonline.com/item/item_index/7/202/6/8884/0/0/text_base_null/null;null;null;null;null/1/0/0/0"--}}
+{{--                       class="card-link" title="Кокетка">--}}
 
 
 
 
-                        <img src="https://www.abakusonline.com/storage/7/32/EXEE4XA4S9nKT413JyibLHbWmrR7441DWbBnmyxb.jpeg"
-                             style="object-fit:cover;
+{{--                        <img src="https://www.abakusonline.com/storage/7/32/EXEE4XA4S9nKT413JyibLHbWmrR7441DWbBnmyxb.jpeg"--}}
+{{--                             style="object-fit:cover;--}}
 
 
-                                      "
+{{--                                      "--}}
 
-                             class="card-img-top"
-                             class="img-fluid"
-                             alt="" title=
-                             "Кокетка"
-                        >
+{{--                             class="card-img-top"--}}
+{{--                             class="img-fluid"--}}
+{{--                             alt="" title=--}}
+{{--                             "Кокетка"--}}
+{{--                        >--}}
 
 
 
@@ -1236,12 +1236,12 @@
 
 
 
-                    </a>
-                </div>
+{{--                    </a>--}}
+{{--                </div>--}}
 
-                <div class="card-title text-center pt-2 pl-3 pr-3">
+{{--                <div class="card-title text-center pt-2 pl-3 pr-3">--}}
 
-                    <h6>
+{{--                    <h6>--}}
 
 
 
@@ -1255,41 +1255,41 @@
 
 
 
-                        <a href="https://www.abakusonline.com/item/item_index/7/202/6/8884/0/0/text_base_null/null;null;null;null;null/1/0/0/0"
-                           class="card-link" title="Кокетка">
-                            Кокетка                                </a>
-                    </h6>
-                </div>
-            </div>
+{{--                        <a href="https://www.abakusonline.com/item/item_index/7/202/6/8884/0/0/text_base_null/null;null;null;null;null/1/0/0/0"--}}
+{{--                           class="card-link" title="Кокетка">--}}
+{{--                            Кокетка                                </a>--}}
+{{--                    </h6>--}}
+{{--                </div>--}}
+{{--            </div>--}}
 
 
 
 
 
 
-            <div class="card-footer">
+{{--            <div class="card-footer">--}}
 
-                <div style="float:left;width:50%;">
+{{--                <div style="float:left;width:50%;">--}}
 
-                    <small>
-                        <a href="https://www.abakusonline.com/item/ext_show/202/7/6/8884/0/null;null;null;null;null/0/1/0/0"
-                           title="Просмотр записи">
-                                    <span class="badge-pill badge-related">
-                                        5
-                                    </span>
-                        </a>
-                    </small>
-                </div>
+{{--                    <small>--}}
+{{--                        <a href="https://www.abakusonline.com/item/ext_show/202/7/6/8884/0/null;null;null;null;null/0/1/0/0"--}}
+{{--                           title="Просмотр записи">--}}
+{{--                                    <span class="badge-pill badge-related">--}}
+{{--                                        5--}}
+{{--                                    </span>--}}
+{{--                        </a>--}}
+{{--                    </small>--}}
+{{--                </div>--}}
 
-                <div style="float:right;width:50%;" class="text-right">
-                    <small class="text-title">
-                        20.03.2021
-                    </small>
-                </div>
+{{--                <div style="float:right;width:50%;" class="text-right">--}}
+{{--                    <small class="text-title">--}}
+{{--                        20.03.2021--}}
+{{--                    </small>--}}
+{{--                </div>--}}
 
-            </div>
-        </div>
-    </div>
+{{--            </div>--}}
+{{--        </div>--}}
+{{--    </div>--}}
 
 
 
