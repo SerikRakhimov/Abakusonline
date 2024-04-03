@@ -57,22 +57,21 @@ if ($view_link) {
                     $s_title = $s_title . ", " . trans('main.code') . " =" . $item->code;
                 }
                 ?>
-                {{--                <div class="card text-center">--}}
-                {{--                    <div class="card card-inverse text-center" style="background-color: rgba(222,255,162,0.23); border-color: #3548ee;">--}}
+                {{--                                    <div class="card card-inverse text-center" style="background-color: rgba(222,255,162,0.23); border-color: #3548ee;">--}}
                 <div class="card shadow m-2">
                     {{--                <p class="card-header text-center text-label">{{$item->base->name()}}: {{$item->id}}--}}
-{{--                    <small class="card-header text-center text-title" title="{{$s_title}}">--}}
-                        {{--                        @if ($view_link)--}}
-                        {{--                            {{$v_label}}--}}
-                        {{--                        @else--}}
-                        {{--                            {{$item->base->name()}}--}}
-                        {{--                        @endif--}}
-                        {{--                        {{$item->id}}--}}
-                        {{--                        @if($base->is_code_needed == true)--}}
-                        {{--                            &nbsp;({{trans('main.code')}} {{$item->code}})--}}
-                        {{--                        @endif--}}
-{{--                        {{$v_label}}--}}
-{{--                    </small>--}}
+                    {{--                    <small class="card-header text-center text-title" title="{{$s_title}}">--}}
+                    {{--                        @if ($view_link)--}}
+                    {{--                            {{$v_label}}--}}
+                    {{--                        @else--}}
+                    {{--                            {{$item->base->name()}}--}}
+                    {{--                        @endif--}}
+                    {{--                        {{$item->id}}--}}
+                    {{--                        @if($base->is_code_needed == true)--}}
+                    {{--                            &nbsp;({{trans('main.code')}} {{$item->code}})--}}
+                    {{--                        @endif--}}
+                    {{--                        {{$v_label}}--}}
+                    {{--                    </small>--}}
                     <div class="card-header text-center text-title">
                         <div style="float:left;width:50%;" class="text-left">
                             <small>
@@ -88,31 +87,17 @@ if ($view_link) {
                                 </a>
                             </small>
                         </div>
-{{--                        Нужно 'class="text-right"'--}}
+                        {{-- Нужно 'class="text-right"'--}}
                         <div style="float:right;width:50%;" class="text-right">
                             <small class="text-title">
                                 {{$item->created_at->Format(trans('main.format_date'))}}
                             </small>
                         </div>
                     </div>
-
-
                     {{--                    <div class="card-body d-flex align-items-center">--}}
                     {{--                    https://sky.pro/wiki/html/odnorodnaya-vysota-kartochek-v-bootstrap-reshenie-bez-css/--}}
-                    <div class="card-body bg-light pl-2 pr-2 pt-2 pb-0 d-flex flex-wrap align-items-center">
-                        {{--                        <div class="card-body align-items-center">--}}
-                        {{--                        <div class="card-title text-center">Card title</div>--}}
-                        {{--                        <div class="card-subtitle m-2 text-center text-muted">Card subtitle</div>--}}
-                        {{--                        @if($item_find)--}}
-                        {{--                            <div class="card-block text-center">--}}
+                    <div class="card-body bg-light p-2 d-flex flex-wrap align-items-center">
                         <div class="text-center">
-                            {{-- https://askdev.ru/q/kak-vyzvat-funkciyu-javascript-iz-tega-href-v-html-276225/--}}
-                            {{--                            <a href="{{route('item.ext_show', ['item'=>$item, 'project'=>$project, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id,--}}
-                            {{--                                    'heading' => $heading,'base_index_page'=>$base_index_page, 'body_link_page'=>$body_link_page,'body_all_page'=>$body_all_page,--}}
-                            {{--                                    'par_link'=>null, 'parent_item'=>null,--}}
-                            {{--                                    'string_current' => $string_current,--}}
-                            {{--                                    ])}}"--}}
-                            {{--                               title="{{$item->name()}}">--}}
                             <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,
         'usercode' =>GlobalController::usercode_calc(),
         'relit_id'=>$relit_id,
@@ -125,46 +110,9 @@ if ($view_link) {
         'prev_body_all_page'=>$body_all_page,
         ])}}"
                                class="card-link" title="{{$item->name()}}">
-                                {{--                                'string_all_codes_current' => $string_all_codes_current,--}}
-                                {{--                                'string_link_ids_current' => $string_link_ids_current,--}}
-                                {{--                                'string_item_ids_current' => $string_item_ids_current,--}}
-                                {{--                            @include('view.img',['item'=>$item_find, 'noimg_def'=>false, 'size'=>"mem", 'filenametrue'=>false, 'link'=>false, 'img_fluid'=>true, 'card_img_top'=>true, 'title'=>$item->name()])--}}
                                 @include('view.img',['item'=>$item_find, 'noimg_def'=>false, 'filenametrue'=>false,'filenametrue'=>false, 'link'=>false, 'img_fluid'=>true, 'card_img_top'=>true, 'title'=>$item->name()])
                             </a>
                         </div>
-                        {{--                        @endif--}}
-                        {{--                        <div class="card-title text-center pt-2 pl-3 pr-3">--}}
-                        {{--                            --}}{{--                        <div class="card-title text-center">--}}
-                        {{--                            <h6>--}}
-                        {{--                                --}}{{--                            <a--}}
-                        {{--                                --}}{{--                                href="{{route('item.ext_show', ['item'=>$item, 'project'=>$project, 'role'=>$role, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id,--}}
-                        {{--                                --}}{{--                                    'heading' => $heading,'base_index_page'=>$base_index_page, 'body_link_page'=>$body_link_page,'body_all_page'=>$body_all_page,--}}
-                        {{--                                --}}{{--                                    'par_link'=>null, 'parent_item'=>null,--}}
-                        {{--                                --}}{{--                             'string_current' => $string_current,--}}
-                        {{--                                --}}{{--                                    ])}}"--}}
-                        {{--                                --}}{{--                                title="{{$item->name()}}">--}}
-                        {{--                                --}}{{--                                --}}{{----}}{{--                                'string_all_codes_current' => $string_all_codes_current,--}}
-                        {{--                                --}}{{--                                --}}{{----}}{{--                                'string_link_ids_current' => $string_link_ids_current,--}}
-                        {{--                                --}}{{--                                --}}{{----}}{{--                                'string_item_ids_current' => $string_item_ids_current,--}}
-                        {{--                                --}}{{--                                --}}{{----}}{{--                            Где $item->name() выходит в cards выводить "<?php echo GlobalController::to_html();?>"--}}
-                        {{--                                --}}{{--                                <?php echo $item->nmbr(false);?>--}}
-                        {{--                                --}}{{--                            </a>--}}
-                        {{--                                <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,--}}
-                        {{--        'usercode' =>GlobalController::usercode_calc(),--}}
-                        {{--        'relit_id'=>$relit_id,--}}
-                        {{--        'called_from_button'=>0,--}}
-                        {{--        'view_link'=>$i_par_link,--}}
-                        {{--        'view_ret_id'=>$view_ret_id,--}}
-                        {{--        'string_current'=>$string_next,--}}
-                        {{--        'prev_base_index_page'=>$base_index_page,--}}
-                        {{--        'prev_body_link_page'=>$body_link_page,--}}
-                        {{--        'prev_body_all_page'=>$body_all_page,--}}
-                        {{--        ])}}"--}}
-                        {{--                                   class="card-link" title="{{$item->name()}}">--}}
-                        {{--                                    <?php echo $item->nmbr();?>--}}
-                        {{--                                </a>--}}
-                        {{--                            </h6>--}}
-                        {{--                        </div>--}}
                     </div>
                     {{--                    </div>--}}
                     {{--                <div class="card-footer">--}}
@@ -174,21 +122,6 @@ if ($view_link) {
                     {{--                </div>--}}
                     <div class="card-footer">
                         <div class="card-text text-center pt-2 pl-3 pr-3">
-                            {{--                        <div class="card-title text-center">--}}
-                            {{--                            <h6>--}}
-                            {{--                            <a--}}
-                            {{--                                href="{{route('item.ext_show', ['item'=>$item, 'project'=>$project, 'role'=>$role, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id,--}}
-                            {{--                                    'heading' => $heading,'base_index_page'=>$base_index_page, 'body_link_page'=>$body_link_page,'body_all_page'=>$body_all_page,--}}
-                            {{--                                    'par_link'=>null, 'parent_item'=>null,--}}
-                            {{--                             'string_current' => $string_current,--}}
-                            {{--                                    ])}}"--}}
-                            {{--                                title="{{$item->name()}}">--}}
-                            {{--                                --}}{{--                                'string_all_codes_current' => $string_all_codes_current,--}}
-                            {{--                                --}}{{--                                'string_link_ids_current' => $string_link_ids_current,--}}
-                            {{--                                --}}{{--                                'string_item_ids_current' => $string_item_ids_current,--}}
-                            {{--                                --}}{{--                            Где $item->name() выходит в cards выводить "<?php echo GlobalController::to_html();?>"--}}
-                            {{--                                <?php echo $item->nmbr(false);?>--}}
-                            {{--                            </a>--}}
                             <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,
         'usercode' =>GlobalController::usercode_calc(),
         'relit_id'=>$relit_id,
@@ -203,7 +136,6 @@ if ($view_link) {
                                class="card-link" title="{{$item->name()}}">
                                 <?php echo $item->nmbr();?>
                             </a>
-                            {{--                            </h6>--}}
                         </div>
                     </div>
                 </div>
