@@ -81,10 +81,10 @@
                     </p>
                 </div>
 {{--                <div class="card-body p-0">--}}
-                <div class="card-body bg-light d-flex flex-wrap align-items-center">
+                <div class="card-body d-flex flex-wrap align-items-center">
                     @if($get_project_logo_item)
                         {{--                            <div class="card-block text-center">--}}
-                        <div class="card-block text-center">
+                        <div class="card-block bg-light text-center">
 {{--                        @include('view.img',['item'=>$get_project_logo_item, 'size'=>"medium", 'filenametrue'=>false, 'link'=>false, 'img_fluid'=>true, 'card_img_top'=>true, 'title'=>'empty'])--}}
                             @include('view.img',['item'=>$get_project_logo_item, 'filenametrue'=>false, 'link'=>false, 'img_fluid'=>true, 'card_img_top'=>true, 'title'=>'empty'])
                         </div>
