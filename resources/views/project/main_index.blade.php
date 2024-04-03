@@ -76,21 +76,21 @@
                         </div>
                     </div>
                 </div>
-{{--                <div class="card-body p-0">--}}
+                <div class="card-block bg-light">
+                    <p class="card-text ml-3"><small class="text-muted">{{$project->template->name()}}</small>
+                    </p>
+                </div>
+                {{--                <div class="card-body p-0">--}}
                 <div class="card-body bg-light d-flex flex-wrap align-items-center">
-                    <div class="card-block p-2">
-                        <p class="card-text ml-3"><small class="text-muted">{{$project->template->name()}}</small>
-                        </p>
-                    </div>
                     @if($get_project_logo_item)
                         {{--                            <div class="card-block text-center">--}}
                         <div class="card-block text-center">
-{{--                        @include('view.img',['item'=>$get_project_logo_item, 'size'=>"medium", 'filenametrue'=>false, 'link'=>false, 'img_fluid'=>true, 'card_img_top'=>true, 'title'=>'empty'])--}}
+                            {{--                        @include('view.img',['item'=>$get_project_logo_item, 'size'=>"medium", 'filenametrue'=>false, 'link'=>false, 'img_fluid'=>true, 'card_img_top'=>true, 'title'=>'empty'])--}}
                             @include('view.img',['item'=>$get_project_logo_item, 'filenametrue'=>false, 'link'=>false, 'img_fluid'=>true, 'card_img_top'=>true, 'title'=>'empty'])
                         </div>
                     @endif
                     <p>
-                    <h5 class="mb-2">{{$project->name()}}</h5>
+                    <h5 class="mb-2 pb-2">{{$project->name()}}</h5>
                     {{--                <p class="card-text">{{$project->desc()}}</p>--}}
                     <span class="card-text"><?php echo nl2br($project->dc_ext()); ?></span></p>
                     <br>
@@ -173,27 +173,27 @@
             <br>
             <?php
             $i++;
-				?>
-				@if($i % $num_cols == 0)
-				 </div>
-		  		 <div class="card-deck">
-				@endif
+            ?>
+            @if($i % $num_cols == 0)
+    </div>
+    <div class="card-deck">
+        @endif
         @endforeach
-		{{-- Если строка из $num_cols элементов не завершилась до $num_cols столбцов--}}
+        {{-- Если строка из $num_cols элементов не завершилась до $num_cols столбцов--}}
         {{-- (т.е. $i не делится без остатка на $num_cols)--}}
         @if($i % $num_cols != 0)
-                   <?php
-                    // Подсчитываем количество оставшихся колонок
-                    $n = $num_cols - ($i % $num_cols);
-                    ?>
-        			{{-- В цикле $n раз вставляем вставляем пустые колонки--}}
-                    @for($k = 0; $k < $n; $k++)
-					{{-- Вставляем пустую карточку--}}
-						<div class="card m-2 bg-transparent">
-						</div>
-                    @endfor
+            <?php
+            // Подсчитываем количество оставшихся колонок
+            $n = $num_cols - ($i % $num_cols);
+            ?>
+            {{-- В цикле $n раз вставляем вставляем пустые колонки--}}
+            @for($k = 0; $k < $n; $k++)
+                {{-- Вставляем пустую карточку--}}
+                <div class="card m-2 bg-transparent">
+                </div>
+            @endfor
         @endif
-		</div>
+    </div>
 
     {{--    <div class="card">--}}
     {{--        <h3 class="card-header">Featured</h3>--}}
@@ -217,35 +217,35 @@
 
     {{$projects->links()}}
 
-{{--    <div class="card shadow w-100 mt-2">--}}
-{{--        <div class="card-block">--}}
-{{--            <p class="card-text ml-3"><small class="text-muted">{{Auth::user()->name()}}</small>--}}
-{{--            </p>--}}
-{{--        </div>--}}
-{{--        <div class="card-body">--}}
-{{--            <span class="card-text">Принеси воды...</span></p>--}}
-{{--        </div>--}}
-{{--    </div>--}}
+    {{--    <div class="card shadow w-100 mt-2">--}}
+    {{--        <div class="card-block">--}}
+    {{--            <p class="card-text ml-3"><small class="text-muted">{{Auth::user()->name()}}</small>--}}
+    {{--            </p>--}}
+    {{--        </div>--}}
+    {{--        <div class="card-body">--}}
+    {{--            <span class="card-text">Принеси воды...</span></p>--}}
+    {{--        </div>--}}
+    {{--    </div>--}}
 
-{{--    <div class="card shadow w-100 mt-2">--}}
-{{--        <div class="card-block">--}}
-{{--            <p class="card-text ml-3"><small class="text-muted">{{Auth::user()->name()}}</small>--}}
-{{--            </p>--}}
-{{--        </div>--}}
-{{--        <div class="card-body">--}}
-{{--            <span class="card-text">http://abakusonline/project/start/30 - ссылка на проект (ее можно отправить пользователям или разместить в вашем аккаунте любой социальной сети для привлечения клиентов)</span></p>--}}
-{{--        </div>--}}
-{{--    </div>--}}
+    {{--    <div class="card shadow w-100 mt-2">--}}
+    {{--        <div class="card-block">--}}
+    {{--            <p class="card-text ml-3"><small class="text-muted">{{Auth::user()->name()}}</small>--}}
+    {{--            </p>--}}
+    {{--        </div>--}}
+    {{--        <div class="card-body">--}}
+    {{--            <span class="card-text">http://abakusonline/project/start/30 - ссылка на проект (ее можно отправить пользователям или разместить в вашем аккаунте любой социальной сети для привлечения клиентов)</span></p>--}}
+    {{--        </div>--}}
+    {{--    </div>--}}
 
-{{--    <div class="card shadow w-100 mt-2">--}}
-{{--        <div class="card-block">--}}
-{{--            <p class="card-text ml-3"><small class="text-muted">{{Auth::user()->name()}}</small>--}}
-{{--            </p>--}}
-{{--        </div>--}}
-{{--        <div class="card-body">--}}
-{{--            <span class="card-text">Принеси молоко...</span></p>--}}
-{{--        </div>--}}
-{{--    </div>--}}
+    {{--    <div class="card shadow w-100 mt-2">--}}
+    {{--        <div class="card-block">--}}
+    {{--            <p class="card-text ml-3"><small class="text-muted">{{Auth::user()->name()}}</small>--}}
+    {{--            </p>--}}
+    {{--        </div>--}}
+    {{--        <div class="card-body">--}}
+    {{--            <span class="card-text">Принеси молоко...</span></p>--}}
+    {{--        </div>--}}
+    {{--    </div>--}}
 
     {{--    <div class="card mt-4 text-label">--}}
     {{--        <p class="card-header text-label">header</p>--}}
