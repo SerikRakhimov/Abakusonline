@@ -121,7 +121,7 @@ if ($view_link) {
                     {{--                    </small>--}}
                     {{--                </div>--}}
                     <div class="card-footer">
-                        <div class="card-text text-center pt-2 pl-3 pr-3">
+                        <div class="card-text text-center p-2">
                             <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,
         'usercode' =>GlobalController::usercode_calc(),
         'relit_id'=>$relit_id,
