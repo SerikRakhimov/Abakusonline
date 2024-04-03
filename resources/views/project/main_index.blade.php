@@ -76,12 +76,12 @@
                         </div>
                     </div>
                 </div>
-                <div class="card-block">
-                    <p class="card-text ml-3"><small class="text-muted">{{$project->template->name()}}</small>
-                    </p>
-                </div>
 {{--                <div class="card-body p-0">--}}
                 <div class="card-body bg-light d-flex flex-wrap align-items-center">
+                    <div class="card-block">
+                        <p class="card-text ml-3"><small class="text-muted">{{$project->template->name()}}</small>
+                        </p>
+                    </div>
                     @if($get_project_logo_item)
                         {{--                            <div class="card-block text-center">--}}
                         <div class="card-block text-center">
