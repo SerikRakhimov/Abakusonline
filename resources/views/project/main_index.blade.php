@@ -81,7 +81,7 @@
                     </p>
                 </div>
 {{--                <div class="card-body p-0">--}}
-                <div class="card-body d-flex flex-wrap align-items-center">
+                <div class="card-body bg-light d-flex flex-wrap align-items-center">
                     @if($get_project_logo_item)
                         {{--                            <div class="card-block text-center">--}}
                         <div class="card-block text-center">
