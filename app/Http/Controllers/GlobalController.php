@@ -3052,7 +3052,7 @@ class GlobalController extends Controller
                 $result = $result . ' (' . mb_strtolower(trans('main . current_user')) . ')';
             }
             if ($base_right['is_list_base_byuser'] == true) {
-                $result = $result . ' (' . mb_strtolower(trans('main . my_records')) . ')';
+                $result = $result . ' (' . mb_strtolower(trans('main.my_records')) . ')';
             }
 //          Не нужно
 //          if ($base_right['is_tst_enable'] == true) {
