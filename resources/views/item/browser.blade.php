@@ -114,7 +114,8 @@ $num_cols = GlobalController::get_number_of_columns_brow();
                        title="{{$it->name()}}">
                         <p class="card-header text-center text-label">{{trans('main.code')}}: {{$it->code}}</p>
                     </a>
-                    <div class="card-body p-0">
+{{--                    <div class="card-body p-0">--}}
+                        <div class="card-body bg-light p-2 d-flex flex-wrap align-items-center">
                         @if($item_find)
                             {{--                        <div class="card-block text-center">--}}
                             <div class="text-center">
