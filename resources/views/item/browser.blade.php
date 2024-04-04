@@ -97,7 +97,7 @@ $num_cols = GlobalController::get_number_of_columns_brow();
         </div>
         <br>
         {{--            Таблица из $num_cols колонок--}}
-        <div class="card-deck p-2">
+        <div class="card-deck m-2">
             @foreach($items as $it)
                 <?php
                 //$i = $i + 1;
@@ -161,7 +161,7 @@ $num_cols = GlobalController::get_number_of_columns_brow();
                 ?>
                 @if($i % $num_cols == 0)
         </div>
-        <div class="card-deck p-2">
+        <div class="card-deck m-2">
             @endif
             @endforeach
             {{-- Если строка из $num_cols элементов не завершилась до $num_cols столбцов--}}
