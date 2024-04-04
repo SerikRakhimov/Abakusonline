@@ -113,7 +113,8 @@ $num_cols = GlobalController::get_number_of_columns_brow();
                     <a href="#"
                        onclick="javascript:SelectFile('{{$it->id}}', '{{$it->code}}', '{{$it->name()}}')"
                        title="{{$it->name()}}">
-                        <p class="card-header text-center text-label">{{trans('main.code')}}: {{$it->code}}</p>
+{{--                        <p class="card-header text-center text-label">{{trans('main.code')}}: {{$it->code}}</p>--}}
+                        <p class="card-header text-center text-title">{{trans('main.code')}}: {{$it->code}}</p>
                     </a>
                     {{--                    <div class="card-body p-0">--}}
                     <div class="card-body bg-light p-2 d-flex flex-wrap align-items-center">
