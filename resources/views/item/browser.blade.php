@@ -114,8 +114,8 @@ $num_cols = GlobalController::get_number_of_columns_brow();
                        title="{{$it->name()}}">
                         <p class="card-header text-center text-label">{{trans('main.code')}}: {{$it->code}}</p>
                     </a>
-{{--                    <div class="card-body p-0">--}}
-                        <div class="card-body bg-light p-2 d-flex flex-wrap align-items-center">
+                    {{--                    <div class="card-body p-0">--}}
+                    <div class="card-body bg-light p-2 d-flex flex-wrap align-items-center">
                         @if($item_find)
                             {{--                        <div class="card-block text-center">--}}
                             <div class="text-center">
@@ -130,12 +130,18 @@ $num_cols = GlobalController::get_number_of_columns_brow();
                                 </a>
                             </div>
                         @endif
-                        <h5 class="card-title text-center"><a href="#"
-                                                              onclick="SelectFile('{{$it->id}}', '{{$it->code}}', '{{$it->name()}}')"
-                                                              title="{{$it->name()}}">
-                                {{--                            Где $item->name() выходит в cards выводить "<?php echo GlobalController::to_html();?>"--}}
-                                <?php echo $it->nmbr();?>
-                            </a></h5>
+                        {{--                        <h5 class="card-title text-center">--}}
+                        <div class="card-footer">
+                            <div class="card-text text-center p-2">
+                                <a href="#"
+                                   onclick="SelectFile('{{$it->id}}', '{{$it->code}}', '{{$it->name()}}')"
+                                   title="{{$it->name()}}">
+                                    {{--                            Где $item->name() выходит в cards выводить "<?php echo GlobalController::to_html();?>"--}}
+                                    <?php echo $it->nmbr();?>
+                                </a>
+                                {{--                        </h5>--}}
+                            </div>
+                        </div>
                     </div>
                     {{--                    <div class="card-footer">--}}
                     {{--                        <small class="text-muted">--}}
