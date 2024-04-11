@@ -107,8 +107,8 @@ if ($item) {
             @if(isset($var_percent))
                 @if($item)
                     <script>
-                        document.getElementById("img{{$item->id}}").title = document.getElementById("img{{$item->id}}").height;
-                        document.getElementById("img{{$item->id}}").title = document.getElementById("img{{$item->id}}").title + " - "+ document.getElementById("img{{$item->id}}").width;
+                        {{--document.getElementById("img{{$item->id}}").title = document.getElementById("img{{$item->id}}").height;--}}
+                        {{--document.getElementById("img{{$item->id}}").title = document.getElementById("img{{$item->id}}").title + " - "+ document.getElementById("img{{$item->id}}").width;--}}
                         document.getElementById("img{{$item->id}}").title = document.getElementById("img{{$item->id}}").title + " : "+ document.getElementById("img{{$item->id}}").offsetHeight;
                         document.getElementById("img{{$item->id}}").title = document.getElementById("img{{$item->id}}").title + " - "+ document.getElementById("img{{$item->id}}").offsetWidth;
                         if (window.innerWidth > window.innerHeight) {
