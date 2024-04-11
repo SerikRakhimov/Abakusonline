@@ -73,8 +73,8 @@ if ($item) {
                  @endif
                  @if(isset($var_percent))
                  {{--                                   Обязательно так нужно(устанавливать значения ширину и высоту):--}}
-                 width="{{$var_percent}}%"
-                 height="{{$var_percent}}%"
+{{--                 width="{{$var_percent}}%"--}}
+{{--                 height="{{$var_percent}}%"--}}
                  @endif
                  {{--                 @else--}}
                  @if(1==2)
