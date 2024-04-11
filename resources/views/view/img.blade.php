@@ -123,6 +123,7 @@ if ($item) {
                         }
                         document.getElementById("img{{$item->id}}").title = 'var5: ';
                         if (tmp) {
+                            document.getElementById("img{{$item->id}}").title = 'var6: ';
                             if ((tmp.real_height > tmp.real_width) & (window.innerHeight < window.innerWidth)) {
                                 {{--el.height = window.innerHeight * {{$var_percent}} / 100;--}}
                                 document.getElementById("img{{$item->id}}").title = 'var1: ' + [tmp.real_width, tmp.real_height, window.innerHeight, window.innerWidth];
