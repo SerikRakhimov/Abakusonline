@@ -106,10 +106,9 @@ if ($item) {
                         {{-- https://www.manhunter.ru/webmaster/905_kak_na_javascript_uznat_realniy_razmer_izobrazheniya.html--}}
                         {{--get_dimensions(el) описана в layouts\app.php--}}
                         var el = document.getElementById("img{{$item->id}}");
-                        var tmp = null;
                         {{-- Изображение уже загружено или взято из кэша браузера--}}
                         if (el.complete) {
-                            tmp = get_dimensions(el);
+                            var tmp = get_dimensions(el);
                             {{-- el.title = 'complete: ' + [tmp.real_width, tmp.real_height, tmp.client_width, tmp.client_height];--}}
                         }
                             {{-- Ожидаем загрузки изображения--}}
@@ -117,7 +116,7 @@ if ($item) {
                             el.onload = function (event) {
                                 event = event || window.event;
                                 var el = event.target || event.srcElement;
-                                tmp = get_dimensions(el);
+                                var tmp = get_dimensions(el);
                                 {{-- el.title = 'onload: ' + [tmp.real_width, tmp.real_height, tmp.client_width, tmp.client_height];--}}
                             }
                         }
