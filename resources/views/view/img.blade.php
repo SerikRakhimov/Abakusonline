@@ -120,7 +120,7 @@ if ($item) {
                                     document.getElementById("inf{{$item->id}}").innerHTML = '100';
                                 } else {
                                     {{--Одинаковый процент 0.75 layouts\app.php и view\img.php--}}
-                                    document.getElementById("img{{$item->id}}").width = Math.round(window.innerWidth * {{$var_percent}} / 100 * 0.75);
+                                    document.getElementById("img{{$item->id}}").width = Math.ceil(window.innerWidth * {{$var_percent}} / 100 * 0.75);
                                     document.getElementById("inf{{$item->id}}").innerHTML = '200';
                                 }
                             }
