@@ -122,7 +122,7 @@ if ($item) {
                             }
                         }
                         if (tmp) {
-                            if (window.innerWidth > window.innerHeight) {
+                            if ((tmp.real_height > tmp.real_width) & (window.innerHeight < window.innerWidth)) {
                                 el.height = window.innerHeight * {{$var_percent}} / 100;
                             } else {
                                 {{--Одинаковый процент 0.75 layouts\app.php и view\img.php--}}
