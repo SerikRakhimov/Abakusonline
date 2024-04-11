@@ -35,6 +35,8 @@ use \App\Http\Controllers\GlobalController;
         }
     </style>
 </head>
+{{--https://www.manhunter.ru/webmaster/905_kak_na_javascript_uznat_realniy_razmer_izobrazheniya.html--}}
+{{--get_dimensions(el) используется в view\img.php--}}
 <script type="text/javascript">
     // Функция для получения реального размера изображения
     // На входе: el - элемент DOM, для которого надо получить размеры

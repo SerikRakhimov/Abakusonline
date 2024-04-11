@@ -71,28 +71,24 @@ if ($item) {
                  @if($img_fluid == true)
                  class="img-fluid"
                  @endif
-                 @if(isset($var_percent))
+                 @if(!isset($var_percent))
                  {{--                                   Обязательно так нужно(устанавливать значения ширину и высоту):--}}
                  {{--                 width="{{$var_percent}}%"--}}
                  {{--                 height="{{$var_percent}}%"--}}
-                 @endif
-                 {{--                 @else--}}
-                 @if(1==2)
+                 {{--                 @if(isset($width))--}}
+                 {{--                 width={{$width}}--}}
+                 {{--                 @endif--}}
+                 {{--                 @if(!isset($width) & isset($size))--}}
+                 {{--                     height=@include('types.img.height',['size'=>$size])--}}
+                 {{--                 @endif--}}
                  @if(isset($width))
                  width={{$width}}
-                 @endif
-                 @if(!isset($width) & isset($size))
-                     height=@include('types.img.height',['size'=>$size])
-                 @endif
-                 @if(isset($width))
-                     width={{$width}}
                  @else
                  @if(isset($size))
                      height=@include('types.img.height',['size'=>$size])
                  @endif
                  @endif
                  @endif
-                 {{--                 @endif--}}
                      alt="" title=
                  @if($title == "")
                  @if($item)
@@ -107,29 +103,23 @@ if ($item) {
             @if(isset($var_percent))
                 @if($item)
                     <script>
-
-
+                        {{-- https://www.manhunter.ru/webmaster/905_kak_na_javascript_uznat_realniy_razmer_izobrazheniya.html--}}
+                        {{--get_dimensions(el) описана в layouts\app.php--}}
                         var el = document.getElementById("img{{$item->id}}");
-                        // Изображение уже загружено или взято из кэша браузера
+                        {{-- Изображение уже загружено или взято из кэша браузера--}}
                         if (el.complete) {
                             var tmp = get_dimensions(el);
-                            el.title = 'complete: ' + [tmp.real_width, tmp.real_height, tmp.client_width, tmp.client_height];
+                            {{-- el.title = 'complete: ' + [tmp.real_width, tmp.real_height, tmp.client_width, tmp.client_height];--}}
                         }
-                        // Ожидаем загрузки изображения
+                            {{-- Ожидаем загрузки изображения--}}
                         else {
                             el.onload = function (event) {
                                 event = event || window.event;
                                 var el = event.target || event.srcElement;
                                 var tmp = get_dimensions(el);
-                                el.title = 'onload: ' + [tmp.real_width, tmp.real_height, tmp.client_width, tmp.client_height];
+                                {{-- el.title = 'onload: ' + [tmp.real_width, tmp.real_height, tmp.client_width, tmp.client_height];--}}
                             }
                         }
-
-
-                        {{--document.getElementById("img{{$item->id}}").title = document.getElementById("img{{$item->id}}").height;--}}
-                            {{--document.getElementById("img{{$item->id}}").title = document.getElementById("img{{$item->id}}").title + " - "+ document.getElementById("img{{$item->id}}").width;--}}
-                            {{--document.getElementById("img{{$item->id}}").title = document.getElementById("img{{$item->id}}").title + " : " + rect.height;--}}
-                            {{--document.getElementById("img{{$item->id}}").title = document.getElementById("img{{$item->id}}").title + " - " + rect.width;--}}
                         if (window.innerWidth > window.innerHeight) {
                             document.getElementById("img{{$item->id}}").height = window.innerHeight * {{$var_percent}} / 100;
                         } else {
