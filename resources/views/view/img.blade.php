@@ -103,6 +103,7 @@ if ($item) {
             @if(isset($var_percent))
                 @if($item)
                     <script>
+                        document.getElementById("img{{$item->id}}").title = 'var4: ';
                         {{-- https://www.manhunter.ru/webmaster/905_kak_na_javascript_uznat_realniy_razmer_izobrazheniya.html--}}
                         {{--get_dimensions(el) описана в layouts\app.php--}}
                         var el = document.getElementById("img{{$item->id}}");
