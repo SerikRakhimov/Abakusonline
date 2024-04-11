@@ -71,10 +71,11 @@ if ($item) {
                  @if($img_fluid == true)
                  class="img-fluid"
                  @endif
-                 {{--                 @if(isset($var_percent))--}}
-                 {{--                  Обязательно так нужно(устанавливать значения ширину и высоту):--}}
-                 {{--                 width="{{$var_percent}}%"--}}
-                 {{--                 height="{{$var_percent}}%"--}}
+                 @if(isset($var_percent))
+                 {{--                                   Обязательно так нужно(устанавливать значения ширину и высоту):--}}
+                 width="{{$var_percent}}%"
+                 height="{{$var_percent}}%"
+                 @endif
                  {{--                 @else--}}
                  @if(isset($width))
                  width={{$width}}
