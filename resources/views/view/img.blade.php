@@ -121,6 +121,7 @@ if ($item) {
                                 {{-- el.title = 'onload: ' + [tmp.real_width, tmp.real_height, tmp.client_width, tmp.client_height];--}}
                             }
                         }
+                        document.getElementById("img{{$item->id}}").title = 'var5: ';
                         if (tmp) {
                             if ((tmp.real_height > tmp.real_width) & (window.innerHeight < window.innerWidth)) {
                                 {{--el.height = window.innerHeight * {{$var_percent}} / 100;--}}
