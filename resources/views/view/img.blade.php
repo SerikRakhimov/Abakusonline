@@ -131,7 +131,8 @@ if ($item) {
                             } else {
                                 {{--Одинаковый процент 0.75 layouts\app.php и view\img.php--}}
                                 document.getElementById("img{{$item->id}}").title = 'var8: ';
-                                document.getElementById("img{{$item->id}}").width = Math.int(window.innerWidth * {{$var_percent}} / 100 * 0.75);
+                                {{--document.getElementById("img{{$item->id}}").width = Math.int(window.innerWidth * {{$var_percent}} / 100 * 0.75);--}}
+                                document.getElementById("img{{$item->id}}").width = Math.int(window.innerWidth * {{$var_percent}} / 100);
                                 document.getElementById("img{{$item->id}}").title = 'var2: ' + [tmp.real_width, tmp.real_height, window.innerHeight, window.innerWidth];
                             }
                         } else {
