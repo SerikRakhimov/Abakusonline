@@ -109,8 +109,9 @@ if ($item) {
                     <script>
                         {{--document.getElementById("img{{$item->id}}").title = document.getElementById("img{{$item->id}}").height;--}}
                         {{--document.getElementById("img{{$item->id}}").title = document.getElementById("img{{$item->id}}").title + " - "+ document.getElementById("img{{$item->id}}").width;--}}
-                        document.getElementById("img{{$item->id}}").title = document.getElementById("img{{$item->id}}").title + " : "+ document.getElementById("img{{$item->id}}").clientHeight;
-                        document.getElementById("img{{$item->id}}").title = document.getElementById("img{{$item->id}}").title + " - "+ document.getElementById("img{{$item->id}}").clientWidth;
+                        const rect = document.getElementById("img{{$item->id}}").getBoundingClientRect();
+                        document.getElementById("img{{$item->id}}").title = document.getElementById("img{{$item->id}}").title + " : "+ rect.height;
+                        document.getElementById("img{{$item->id}}").title = document.getElementById("img{{$item->id}}").title + " - "+ rect.width;
                         if (window.innerWidth > window.innerHeight) {
                             document.getElementById("img{{$item->id}}").height = window.innerHeight * {{$var_percent}} / 100;
                         } else {
