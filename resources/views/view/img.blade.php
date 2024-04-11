@@ -111,6 +111,15 @@ if ($item) {
                         if (el.complete) {
                             var tmp = get_dimensions(el);
                             {{-- el.title = 'complete: ' + [tmp.real_width, tmp.real_height, tmp.client_width, tmp.client_height];--}}
+                            if (tmp) {
+                                document.getElementById("img{{$item->id}}").title = 'var6: ';
+                                if ((tmp.real_height > tmp.real_width) & (window.innerHeight < window.innerWidth)) {
+                                    document.getElementById("img{{$item->id}}").height = Math.round(window.innerHeight * {{$var_percent}} / 100);
+                                } else {
+                                    {{--Одинаковый процент 0.75 layouts\app.php и view\img.php--}}
+                                    document.getElementById("img{{$item->id}}").width = Math.round(window.innerWidth * {{$var_percent}} / 100 * 0.75);
+                                }
+                            }
                         }
                             {{-- Ожидаем загрузки изображения--}}
                         else {
@@ -119,24 +128,16 @@ if ($item) {
                                 var el = event.target || event.srcElement;
                                 var tmp = get_dimensions(el);
                                 {{-- el.title = 'onload: ' + [tmp.real_width, tmp.real_height, tmp.client_width, tmp.client_height];--}}
+                                if (tmp) {
+                                    document.getElementById("img{{$item->id}}").title = 'var6: ';
+                                    if ((tmp.real_height > tmp.real_width) & (window.innerHeight < window.innerWidth)) {
+                                        document.getElementById("img{{$item->id}}").height = Math.round(window.innerHeight * {{$var_percent}} / 100);
+                                    } else {
+                                        {{--Одинаковый процент 0.75 layouts\app.php и view\img.php--}}
+                                        document.getElementById("img{{$item->id}}").width = Math.round(window.innerWidth * {{$var_percent}} / 100 * 0.75);
+                                    }
+                                }
                             }
-                        }
-                        document.getElementById("img{{$item->id}}").title = 'var5: ';
-                        if (tmp) {
-                            document.getElementById("img{{$item->id}}").title = 'var6: ';
-                            if ((tmp.real_height > tmp.real_width) & (window.innerHeight < window.innerWidth)) {
-                                document.getElementById("img{{$item->id}}").height = window.innerHeight * {{$var_percent}} / 100;
-                                document.getElementById("img{{$item->id}}").title = 'var7: ';
-                                {{--document.getElementById("img{{$item->id}}").title = 'var1: ' + [tmp.real_width, tmp.real_height, window.innerHeight, window.innerWidth];--}}
-                            } else {
-                                {{--Одинаковый процент 0.75 layouts\app.php и view\img.php--}}
-                                document.getElementById("img{{$item->id}}").title = 'var8: ';
-                                {{--document.getElementById("img{{$item->id}}").width = Math.int(window.innerWidth * {{$var_percent}} / 100 * 0.75);--}}
-                                document.getElementById("img{{$item->id}}").width = Math.round(window.innerWidth * {{$var_percent}} / 100 * 0.75);
-                                document.getElementById("img{{$item->id}}").title = 'var2: ' + [tmp.real_width, tmp.real_height, window.innerHeight, window.innerWidth];
-                            }
-                        } else {
-                            document.getElementById("img{{$item->id}}").title = 'var3: ';
                         }
                     </script>
                 @endif
