@@ -124,11 +124,11 @@ if ($item) {
                         if (tmp) {
                             if ((tmp.real_height > tmp.real_width) & (window.innerHeight < window.innerWidth)) {
                                 {{--el.height = window.innerHeight * {{$var_percent}} / 100;--}}
-                                    el.title = 'var1: ' + [tmp.real_width, tmp.real_height, window.innerHeight, window.innerWidth];
+                                document.getElementById("img{{$item->id}}").title = 'var1: ' + [tmp.real_width, tmp.real_height, window.innerHeight, window.innerWidth];
                             } else {
                                 {{--Одинаковый процент 0.75 layouts\app.php и view\img.php--}}
                                 document.getElementById("img{{$item->id}}").width = Math.int(window.innerWidth * {{$var_percent}} / 100 * 0.75);
-                                    el.title = 'var2: ' + [tmp.real_width, tmp.real_height, window.innerHeight, window.innerWidth];
+                                document.getElementById("img{{$item->id}}").title = 'var2: ' + [tmp.real_width, tmp.real_height, window.innerHeight, window.innerWidth];
                             }
                         }
                     </script>
