@@ -73,8 +73,8 @@ if ($item) {
                  @endif
                  @if(isset($var_percent))
                  {{--                                   Обязательно так нужно(устанавливать значения ширину и высоту):--}}
-{{--                 width="{{$var_percent}}%"--}}
-{{--                 height="{{$var_percent}}%"--}}
+                 {{--                 width="{{$var_percent}}%"--}}
+                 {{--                 height="{{$var_percent}}%"--}}
                  @endif
                  {{--                 @else--}}
                  @if(1==2)
@@ -107,11 +107,29 @@ if ($item) {
             @if(isset($var_percent))
                 @if($item)
                     <script>
+
+
+                        var el = document.getElementById("img{{$item->id}}");
+                        // Изображение уже загружено или взято из кэша браузера
+                        if (el.complete) {
+                            var tmp = get_dimensions(el);
+                            el.title = 'complete: ' + [tmp.real_width, tmp.real_height];
+                        }
+                        // Ожидаем загрузки изображения
+                        else {
+                            el.onload = function (event) {
+                                event = event || window.event;
+                                var el = event.target || event.srcElement;
+                                var tmp = get_dimensions(el);
+                                el.title = 'onload: ' + [tmp.real_width, tmp.real_height];
+                            }
+                        }
+
+
                         {{--document.getElementById("img{{$item->id}}").title = document.getElementById("img{{$item->id}}").height;--}}
-                        {{--document.getElementById("img{{$item->id}}").title = document.getElementById("img{{$item->id}}").title + " - "+ document.getElementById("img{{$item->id}}").width;--}}
-                        const rect = document.getElementById("img{{$item->id}}").getBoundingClientRect();
-                        document.getElementById("img{{$item->id}}").title = document.getElementById("img{{$item->id}}").title + " : "+ rect.height;
-                        document.getElementById("img{{$item->id}}").title = document.getElementById("img{{$item->id}}").title + " - "+ rect.width;
+                            {{--document.getElementById("img{{$item->id}}").title = document.getElementById("img{{$item->id}}").title + " - "+ document.getElementById("img{{$item->id}}").width;--}}
+                            {{--document.getElementById("img{{$item->id}}").title = document.getElementById("img{{$item->id}}").title + " : " + rect.height;--}}
+                            {{--document.getElementById("img{{$item->id}}").title = document.getElementById("img{{$item->id}}").title + " - " + rect.width;--}}
                         if (window.innerWidth > window.innerHeight) {
                             document.getElementById("img{{$item->id}}").height = window.innerHeight * {{$var_percent}} / 100;
                         } else {

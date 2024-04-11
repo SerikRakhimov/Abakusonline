@@ -35,6 +35,36 @@ use \App\Http\Controllers\GlobalController;
         }
     </style>
 </head>
+<script type="text/javascript">
+    // Функция для получения реального размера изображения
+    // На входе: el - элемент DOM, для которого надо получить размеры
+    // На выходе: объект {real_width, real_height, client_width, client_height}
+    // или false, если произошла ошибка
+    function get_dimensions(el) {
+        // Браузер с поддержкой naturalWidth/naturalHeight
+        if (el.naturalWidth!=undefined) {
+            return { 'real_width':el.naturalWidth,
+                'real_height':el.naturalHeight,
+                'client_width':el.width,
+                'client_height':el.height };
+        }
+        // Устаревший браузер
+        else if (el.tagName.toLowerCase()=='img') {
+            var img=new Image();
+            img.src=el.src;
+            var real_w=img.width;
+            var real_h=img.height;
+            return { 'real_width':real_w,
+                'real_height':real_h,
+                'client_width':el.width,
+                'client_height':el.height };
+        }
+        // Что-то непонятное
+        else {
+            return false;
+        }
+    }
+</script>
 {{--<body background="{{Storage::url('newyear.jpeg')}}">--}}
 {{--<body>--}}
 <body background="{{Storage::url('gray-abstract.jpg')}}"
