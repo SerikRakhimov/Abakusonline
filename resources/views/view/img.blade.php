@@ -106,9 +106,10 @@ if ($item) {
                         {{-- https://www.manhunter.ru/webmaster/905_kak_na_javascript_uznat_realniy_razmer_izobrazheniya.html--}}
                         {{--get_dimensions(el) описана в layouts\app.php--}}
                         var el = document.getElementById("img{{$item->id}}");
+                        var tmp = null;
                         {{-- Изображение уже загружено или взято из кэша браузера--}}
                         if (el.complete) {
-                            var tmp = get_dimensions(el);
+                            tmp = get_dimensions(el);
                             {{-- el.title = 'complete: ' + [tmp.real_width, tmp.real_height, tmp.client_width, tmp.client_height];--}}
                         }
                             {{-- Ожидаем загрузки изображения--}}
@@ -116,15 +117,17 @@ if ($item) {
                             el.onload = function (event) {
                                 event = event || window.event;
                                 var el = event.target || event.srcElement;
-                                var tmp = get_dimensions(el);
+                                tmp = get_dimensions(el);
                                 {{-- el.title = 'onload: ' + [tmp.real_width, tmp.real_height, tmp.client_width, tmp.client_height];--}}
                             }
                         }
-                        if (window.innerWidth > window.innerHeight) {
-                            el.height = window.innerHeight * {{$var_percent}} / 100;
-                        } else {
-                            {{--Одинаковый процент 0.75 layouts\app.php и view\img.php--}}
-                            el.width = Math.int(window.innerWidth * {{$var_percent}} / 100 * 0.75);
+                        if (tmp) {
+                            if (window.innerWidth > window.innerHeight) {
+                                el.height = window.innerHeight * {{$var_percent}} / 100;
+                            } else {
+                                {{--Одинаковый процент 0.75 layouts\app.php и view\img.php--}}
+                                    el.width = Math.int(window.innerWidth * {{$var_percent}} / 100 * 0.75);
+                            }
                         }
                     </script>
                 @endif
