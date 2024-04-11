@@ -77,6 +77,7 @@ if ($item) {
                  height="{{$var_percent}}%"
                  @endif
                  {{--                 @else--}}
+                 @if(1==2)
                  @if(isset($width))
                  width={{$width}}
                  @endif
@@ -88,6 +89,7 @@ if ($item) {
                  @else
                  @if(isset($size))
                      height=@include('types.img.height',['size'=>$size])
+                 @endif
                  @endif
                  @endif
                  {{--                 @endif--}}
