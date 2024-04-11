@@ -235,6 +235,7 @@ if ($view_link) {
                 @endforeach
             </table>
         @endif
+        // Вывод фото на весь экран
         @foreach($its_page as $item)
             <?php
             $item_find = GlobalController::view_info($item->id, $link_image->id, $role, $relit_id, true);
