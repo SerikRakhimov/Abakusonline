@@ -42,6 +42,7 @@ if ($item) {
     @if($link == true)
         <a href="{{Storage::url($url_filename)}}">
             @endif
+            <div id="inf{{$item->id}}"></div>
             <img src="{{Storage::url($url_filename)}}"
                  @if(isset($var_percent))
                  @if($item)
@@ -116,9 +117,11 @@ if ($item) {
                                 document.getElementById("img{{$item->id}}").title = 'var6: ';
                                 if ((tmp.real_height > tmp.real_width) & (window.innerHeight < window.innerWidth)) {
                                     document.getElementById("img{{$item->id}}").height = Math.round(window.innerHeight * {{$var_percent}} / 100);
+                                    document.getElementById("inf{{$item->id}}").innerHTML = '100';
                                 } else {
                                     {{--Одинаковый процент 0.75 layouts\app.php и view\img.php--}}
                                     document.getElementById("img{{$item->id}}").width = Math.round(window.innerWidth * {{$var_percent}} / 100 * 0.75);
+                                    document.getElementById("inf{{$item->id}}").innerHTML = '200';
                                 }
                             }
                             {{-- *** --}}
@@ -135,9 +138,11 @@ if ($item) {
                                     document.getElementById("img{{$item->id}}").title = 'var6: ';
                                     if ((tmp.real_height > tmp.real_width) & (window.innerHeight < window.innerWidth)) {
                                         document.getElementById("img{{$item->id}}").height = Math.round(window.innerHeight * {{$var_percent}} / 100);
+                                        document.getElementById("inf{{$item->id}}").innerHTML = '300';
                                     } else {
                                         {{--Одинаковый процент 0.75 layouts\app.php и view\img.php--}}
                                         document.getElementById("img{{$item->id}}").width = Math.round(window.innerWidth * {{$var_percent}} / 100 * 0.75);
+                                        document.getElementById("inf{{$item->id}}").innerHTML = '400';
                                     }
                                 }
                                 {{-- *** --}}
