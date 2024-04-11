@@ -121,12 +121,11 @@ if ($item) {
                             }
                         }
                         if (window.innerWidth > window.innerHeight) {
-                            {{--el.height = window.innerHeight * {{$var_percent}} / 100;--}}
+                            el.height = window.innerHeight * {{$var_percent}} / 100;
                         } else {
                             {{--Одинаковый процент 0.75 layouts\app.php и view\img.php--}}
-                            {{--el.width = Math.int(window.innerWidth * {{$var_percent}} / 100 * 0.75);--}}
+                            el.width = Math.int(window.innerWidth * {{$var_percent}} / 100 * 0.75);
                         }
-                        el.width = "100%";
                     </script>
                 @endif
             @endif
