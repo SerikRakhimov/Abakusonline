@@ -235,7 +235,7 @@ if ($view_link) {
                 @endforeach
             </table>
         @endif
-        // Вывод фото на весь экран
+        {{-- Вывод фото на весь экран--}}
         @foreach($its_page as $item)
             <?php
             $item_find = GlobalController::view_info($item->id, $link_image->id, $role, $relit_id, true);
@@ -271,7 +271,7 @@ if ($view_link) {
             @if($item_find)
                 <center>
                     {{--                @include('view.img',['item'=>$item_find, 'size'=>"medium", 'width'=>"55%", 'border'=>true, 'filenametrue'=>false, 'link'=>true, 'img_fluid'=>false, 'card_img_top'=>false, 'title'=>$item->name()])--}}
-                    @include('view.img',['item'=>$item_find, 'size'=>"medium", 'var_percent'=>"100", 'border'=>false, 'filenametrue'=>false, 'link'=>true, 'img_fluid'=>false, 'card_img_top'=>false, 'title'=>$item->name()])
+                    @include('view.img',['item'=>$item_find, 'size'=>"medium", 'var_percent'=>"50", 'border'=>false, 'filenametrue'=>false, 'link'=>true, 'img_fluid'=>false, 'card_img_top'=>false, 'title'=>$item->name()])
                     {{--                    @include('view.img',['item'=>$item_find, 'size'=>"medium", 'width'=>"100%", 'border'=>false, 'filenametrue'=>false, 'link'=>true, 'img_fluid'=>false, 'card_img_top'=>false, 'title'=>$item->name()])--}}
                     {{--                    @include('view.img',['item'=>$item_find, 'size'=>"big", 'border'=>true, 'filenametrue'=>false, 'link'=>true, 'img_fluid'=>false, 'card_img_top'=>false, 'title'=>$item->name()])--}}
                 </center>
