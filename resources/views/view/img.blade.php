@@ -130,6 +130,8 @@ if ($item) {
                                 document.getElementById("img{{$item->id}}").width = Math.int(window.innerWidth * {{$var_percent}} / 100 * 0.75);
                                 document.getElementById("img{{$item->id}}").title = 'var2: ' + [tmp.real_width, tmp.real_height, window.innerHeight, window.innerWidth];
                             }
+                        }else{
+                            document.getElementById("img{{$item->id}}").title = 'var3: ';
                         }
                     </script>
                 @endif
