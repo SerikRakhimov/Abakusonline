@@ -111,6 +111,7 @@ if ($item) {
                         if (el.complete) {
                             var tmp = get_dimensions(el);
                             {{-- el.title = 'complete: ' + [tmp.real_width, tmp.real_height, tmp.client_width, tmp.client_height];--}}
+                                {{-- *** Блок одинаковых строк (см. ниже по тексту) *** --}}
                             if (tmp) {
                                 document.getElementById("img{{$item->id}}").title = 'var6: ';
                                 if ((tmp.real_height > tmp.real_width) & (window.innerHeight < window.innerWidth)) {
@@ -120,6 +121,7 @@ if ($item) {
                                     document.getElementById("img{{$item->id}}").width = Math.round(window.innerWidth * {{$var_percent}} / 100 * 0.75);
                                 }
                             }
+                            {{-- *** --}}
                         }
                             {{-- Ожидаем загрузки изображения--}}
                         else {
@@ -128,6 +130,7 @@ if ($item) {
                                 var el = event.target || event.srcElement;
                                 var tmp = get_dimensions(el);
                                 {{-- el.title = 'onload: ' + [tmp.real_width, tmp.real_height, tmp.client_width, tmp.client_height];--}}
+                                    {{-- *** Блок одинаковых строк (см. выше по тексту)  *** --}}
                                 if (tmp) {
                                     document.getElementById("img{{$item->id}}").title = 'var6: ';
                                     if ((tmp.real_height > tmp.real_width) & (window.innerHeight < window.innerWidth)) {
@@ -137,6 +140,7 @@ if ($item) {
                                         document.getElementById("img{{$item->id}}").width = Math.round(window.innerWidth * {{$var_percent}} / 100 * 0.75);
                                     }
                                 }
+                                {{-- *** --}}
                             }
                         }
                     </script>
