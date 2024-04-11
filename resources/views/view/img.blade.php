@@ -113,7 +113,7 @@ if ($item) {
                         // Изображение уже загружено или взято из кэша браузера
                         if (el.complete) {
                             var tmp = get_dimensions(el);
-                            el.title = 'complete: ' + [tmp.real_width, tmp.real_height,tmp.client_width, tmp.client_height];
+                            el.title = 'complete: ' + [tmp.real_width, tmp.real_height, tmp.client_width, tmp.client_height];
                         }
                         // Ожидаем загрузки изображения
                         else {
@@ -121,7 +121,7 @@ if ($item) {
                                 event = event || window.event;
                                 var el = event.target || event.srcElement;
                                 var tmp = get_dimensions(el);
-                                el.title = 'onload: ' + [tmp.real_width, tmp.real_height];
+                                el.title = 'onload: ' + [tmp.real_width, tmp.real_height, tmp.client_width, tmp.client_height];
                             }
                         }
 
