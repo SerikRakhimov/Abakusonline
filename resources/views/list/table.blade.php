@@ -615,6 +615,7 @@ if ($view_link) {
                 @endif
                 {{--                <td class="text-center">&#8594;</td>--}}
                 @foreach($link_id_array as $value)
+                    1000
                     <?php
                     $link = Link::findOrFail($value);
                     $base_link_right = $link_base_right_array[$link->id];
