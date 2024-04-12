@@ -115,7 +115,7 @@
                     ?>
                     @if($item_image['item'])
                     {{-- @include('view.img',['item'=>$item_image['item'], 'size'=>"medium", 'width'=>"30%", 'border'=>true, 'filenametrue'=>false, 'link'=>true, 'img_fluid'=>true, 'card_img_top'=>false, 'title'=>$link_image->parent_label()])--}}
-                    @include('view.img',['item'=>$item_image['item'], 'size'=>"medium", 'width'=>"30%", 'border'=>false, 'filenametrue'=>false, 'link'=>true, 'img_fluid'=>true, 'card_img_top'=>false, 'title'=>$link_image->parent_label()])
+                    @include('view.img',['item'=>$item_image['item'], 'size'=>"medium", 'border'=>false, 'filenametrue'=>false, 'link'=>true, 'img_fluid'=>true, 'card_img_top'=>false, 'title'=>$link_image->parent_label()])
                             <br><br>
                     @endif
                     <big><big>
@@ -193,7 +193,7 @@
         {{--        @endif--}}
         {{--    @endforeach--}}
 
-        {{--        Вывод связей--}}
+        {{--        Вывод связей, закоментарено @if(1==2)--}}
         @foreach($array_calc as $key=>$value)
             <?php
             $link = Link::find($key);
