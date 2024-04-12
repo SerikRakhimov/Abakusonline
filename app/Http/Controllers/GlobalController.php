@@ -1442,6 +1442,7 @@ class GlobalController extends Controller
     {
         $result = false;
         if ($project->template_id == $role->template_id) {
+            // "if ($role->is_external == true & !$project->is_closed)" используется
             if ($role->is_external == true & !$project->is_closed) {
                 $result = true;
             } else {
