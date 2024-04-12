@@ -1087,7 +1087,7 @@
                     {{--                            если тип корректировки поля - изображение--}}
                 @elseif($link->parent_base->type_is_image())
                     {{--                    @include('edit.img_link',['update'=>$update, 'base'=>$link->parent_base,'value'=>$value, 'title'=>$result_parent_label, 'name'=>$key,'id'=>"link".$key, 'size'=>"small"])--}}
-                    @include('edit.img_link',['update'=>$update, 'base'=>$link->parent_base,'value'=>$value, 'base_link_right'=>$base_link_right,'title'=>$result_parent_label, 'name'=>$key,'id'=>"link".$key, 'size'=>"smed"])
+                    @include('edit.img_link',['update'=>$update, 'base'=>$link->parent_base,'value'=>$value, 'base_link_right'=>$base_link_right,'title'=>$result_parent_label, 'name'=>$key,'id'=>"link".$key, 'size'=>"small"])
 
                     {{--                            если тип корректировки поля - документ--}}
                 @elseif($link->parent_base->type_is_document())
