@@ -312,7 +312,7 @@ if ($view_link) {
             @endif
             {{-- 'Показывать дату создания'--}}
             @if($base_right['is_list_base_sort_creation_date_desc'] == true)
-                <th rowspan="{{$rows + 1 - 1}}" style="width: 10%"  class="text-center align-top" rowspan="{{$rows + 1 - 1}}">
+                <th rowspan="{{$rows + 1 - 1}}" class="text-center align-top" rowspan="{{$rows + 1 - 1}}">
                     {{trans('main.date')}}
                 </th>
             @endif
