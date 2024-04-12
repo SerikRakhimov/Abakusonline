@@ -108,9 +108,7 @@ class ProjectController extends Controller
 //        })
 //            ->orderBy('user_id')->orderBy('template_id')->orderBy('created_at');
 
-        $projects = Project::whereHas('template.roles', function ($query) {
-            $query->where('is_author', false);
-        })
+        $projects = Project::all()
             ->orderBy('user_id')->orderBy('template_id')->orderBy('created_at');
 
         $name = "";  // нужно, не удалять
