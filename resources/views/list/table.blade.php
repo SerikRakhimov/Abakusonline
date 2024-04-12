@@ -45,6 +45,7 @@ if ($view_link) {
 {{--@endif--}}
 {{--    ">--}}
 @if(($base_index==true || $item_body_base==true) & $tile_view['result'] == true)
+    {{-- I.Вывод карт--}}
     @if($base_right['is_view_cards'] == true)
         <div class="card-deck">
             {{--        $its_page используется--}}
@@ -235,7 +236,7 @@ if ($view_link) {
                 @endforeach
             </table>
         @endif
-        {{-- Вывод фото на весь экран--}}
+        {{-- II.Вывод фото на весь экран--}}
         @foreach($its_page as $item)
             <?php
             $item_find = GlobalController::view_info($item->id, $link_image->id, $role, $relit_id, true);
@@ -266,6 +267,14 @@ if ($view_link) {
                     <?php
                     echo $item->nmbr(true, true, false);;
                     ?>
+                    {{-- 'Показывать признак "В истории" при просмотре списков'--}}
+                    @if($base_right['is_list_hist_attr_enable'] == true)
+                        @include('layouts.item.show_history',['item'=>$item])
+                    @endif
+                    {{-- 'Показывать дату создания'--}}
+                    @if($base_right['is_list_base_sort_creation_date_desc'] == true)
+                        {{$item->created_date()}}
+                    @endif
                 </a>
             </article>
             @if($item_find)
@@ -279,6 +288,7 @@ if ($view_link) {
             <br>
         @endforeach
     @endif
+    {{-- III.Вывод информации в виде таблицы--}}
 @else
     {{--    style="margin: 0 auto;"--}}
     <table class="table table-sm table-hover
@@ -295,7 +305,7 @@ if ($view_link) {
             @if(!$heading)
                 <th rowspan="{{$rows + 1 - 1}}" style="width: 5%" class="text-center align-top">#</th>
             @endif
-            {{--        'Показывать признак "В истории" при просмотре списков'--}}
+            {{-- 'Показывать признак "В истории" при просмотре списков'--}}
             @if($base_right['is_list_hist_attr_enable'] == true)
                 <th rowspan="{{$rows + 1 - 1}}" style="width: 5%" class="text-center align-top"
                     title="{{trans('main.history')}}">{{trans('main.small_history')}}</th>
@@ -307,6 +317,7 @@ if ($view_link) {
                     <th class="text-center align-top" rowspan="{{$rows + 1 - 1}}" style="width: 5%"
                         class="text-center align-top">{{trans('main.code')}}</th>
                 @endif
+                {{-- 'Показывать дату создания'--}}
                 @if($base_right['is_list_base_sort_creation_date_desc'] == true)
                     <th class="text-center align-top" rowspan="{{$rows + 1 - 1}}">{{trans('main.date')}}</th>
                 @endif
@@ -437,7 +448,7 @@ if ($view_link) {
                         </a>
                     </td>
                 @endif
-                {{--        'Показывать признак "В истории" при просмотре списков'--}}
+                {{-- 'Показывать признак "В истории" при просмотре списков'--}}
                 @if($base_right['is_list_hist_attr_enable'] == true)
                     <td class="text-center">
                         @include('layouts.item.show_history',['item'=>$item])
@@ -485,6 +496,7 @@ if ($view_link) {
                             {{--                        @endif--}}
                         </td>
                     @endif
+                    {{-- 'Показывать дату создания'--}}
                     @if($base_right['is_list_base_sort_creation_date_desc'] == true)
                         <td class="text-center">
                             {{--                            @if($base_index || $item_body_base)--}}
@@ -505,7 +517,8 @@ if ($view_link) {
                                 {{--                            'string_all_codes_current'=>$string_all_codes_next,--}}
                                 {{--                                    @endif--}}
                                 {{--                                {{GlobalController::date_and_emoji($item->created_date(), $heading & $emoji_enable)}}--}}
-                                {{GlobalController::date_and_emoji($item->created_date(), false)}}
+                                {{--                                {{GlobalController::date_and_emoji($item->created_date(), false)}}--}}
+                                {{$item->created_date()}}
                                 {{--                                    @if($base_index || $item_body_base)--}}
                             </a>
                             {{--                            @endif--}}
