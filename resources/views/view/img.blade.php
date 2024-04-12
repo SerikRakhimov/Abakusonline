@@ -103,7 +103,6 @@ if ($item) {
             @if(isset($var_percent))
                 @if($item)
                     <script>
-                        document.getElementById("img{{$item->id}}").title = 'var4: ';
                         {{-- https://www.manhunter.ru/webmaster/905_kak_na_javascript_uznat_realniy_razmer_izobrazheniya.html--}}
                         {{--get_dimensions(el) описана в layouts\app.php--}}
                         var el = document.getElementById("img{{$item->id}}");
@@ -113,7 +112,6 @@ if ($item) {
                             {{-- el.title = 'complete: ' + [tmp.real_width, tmp.real_height, tmp.client_width, tmp.client_height];--}}
                                 {{-- *** Блок одинаковых строк (см. ниже по тексту) *** --}}
                             if (tmp) {
-                                document.getElementById("img{{$item->id}}").title = 'var6: ';
                                 {{-- Вертикальная(книжная) картинка и горизонтальный(альбомный) экран --}}
                                 if ((tmp.real_height > tmp.real_width) & (window.innerHeight < window.innerWidth)) {
                                     document.getElementById("img{{$item->id}}").height = Math.ceil(window.innerHeight * {{$var_percent}} / 100);
