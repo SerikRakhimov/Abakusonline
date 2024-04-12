@@ -102,9 +102,14 @@ class ProjectController extends Controller
 //            })
 //            ->orderBy('user_id')->orderBy('template_id')->orderBy('created_at');
 
+//        $projects = Project::whereHas('template.roles', function ($query) {
+//            $query->where('is_author', false)
+//                ->where('is_external', false);
+//        })
+//            ->orderBy('user_id')->orderBy('template_id')->orderBy('created_at');
+
         $projects = Project::whereHas('template.roles', function ($query) {
-            $query->where('is_author', false)
-                ->where('is_external', false);
+            $query->where('is_author', false);
         })
             ->orderBy('user_id')->orderBy('template_id')->orderBy('created_at');
 

@@ -114,6 +114,7 @@ if ($item) {
                                 {{-- *** Блок одинаковых строк (см. ниже по тексту) *** --}}
                             if (tmp) {
                                 document.getElementById("img{{$item->id}}").title = 'var6: ';
+                                {{-- Вертикальная(книжная) картинка и горизонтальный(альбомный) экран --}}
                                 if ((tmp.real_height > tmp.real_width) & (window.innerHeight < window.innerWidth)) {
                                     document.getElementById("img{{$item->id}}").height = Math.ceil(window.innerHeight * {{$var_percent}} / 100);
                                 } else {
@@ -133,6 +134,7 @@ if ($item) {
                                     {{-- *** Блок одинаковых строк (см. выше по тексту)  *** --}}
                                 if (tmp) {
                                     document.getElementById("img{{$item->id}}").title = 'var6: ';
+                                    {{-- Вертикальная(книжная) картинка и горизонтальный(альбомный) экран --}}
                                     if ((tmp.real_height > tmp.real_width) & (window.innerHeight < window.innerWidth)) {
                                         document.getElementById("img{{$item->id}}").height = Math.ceil(window.innerHeight * {{$var_percent}} / 100);
                                     } else {
