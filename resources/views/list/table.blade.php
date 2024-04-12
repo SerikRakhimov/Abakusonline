@@ -273,7 +273,7 @@ if ($view_link) {
                     @endif
                     {{-- 'Показывать дату создания'--}}
                     @if($base_right['is_list_base_sort_creation_date_desc'] == true)
-                        <I>{{$item->created_date()}}</I>
+                        ,<small><i>{{$item->created_date()}}</i></small>
                     @endif
                 </a>
             </article>
