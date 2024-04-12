@@ -273,7 +273,7 @@ if ($view_link) {
                     @endif
                     {{-- 'Показывать дату создания'--}}
                     @if($base_right['is_list_base_sort_creation_date_desc'] == true)
-                            <i>({{$item->created_date()}})</i>
+                        ({{$item->created_date()}})
                     @endif
                 </a>
             </article>
@@ -310,16 +310,16 @@ if ($view_link) {
                 <th rowspan="{{$rows + 1 - 1}}" style="width: 5%" class="text-center align-top"
                     title="{{trans('main.history')}}">{{trans('main.small_history')}}</th>
             @endif
+            {{-- 'Показывать дату создания'--}}
+            @if($base_right['is_list_base_sort_creation_date_desc'] == true)
+                <th class="text-center align-top" rowspan="{{$rows + 1 - 1}}">{{trans('main.date')}}</th>
+            @endif
             {{--        <th rowspan="{{$rows + 1}}" class="text-center align-top">Id</th>--}}
             {{--        Вывод в $base_index или в $item_body_base--}}
             @if($base_index || $item_body_base)
                 @if($base->is_code_needed == true)
                     <th class="text-center align-top" rowspan="{{$rows + 1 - 1}}" style="width: 5%"
                         class="text-center align-top">{{trans('main.code')}}</th>
-                @endif
-                {{-- 'Показывать дату создания'--}}
-                @if($base_right['is_list_base_sort_creation_date_desc'] == true)
-                    <th class="text-center align-top" rowspan="{{$rows + 1 - 1}}">{{trans('main.date')}}</th>
                 @endif
                 @if($base_right['is_list_base_enable'] == true)
                     {{--                Если тип-вычисляемое наименование и Показывать Основу с вычисляемым наименованием--}}
@@ -454,6 +454,34 @@ if ($view_link) {
                         @include('layouts.item.show_history',['item'=>$item])
                     </td>
                 @endif
+                {{-- 'Показывать дату создания'--}}
+                @if($base_right['is_list_base_sort_creation_date_desc'] == true)
+                    <td class="text-center">
+                        {{--                            @if($base_index || $item_body_base)--}}
+                        <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,
+        'usercode' =>GlobalController::usercode_calc(),
+        'relit_id'=>$relit_id,
+        'called_from_button'=>0,
+        'view_link'=>$i_par_link,
+        'view_ret_id'=>$view_ret_id,
+        'string_current'=>$string_next,
+        'prev_base_index_page'=>$base_index_page,
+        'prev_body_link_page'=>$body_link_page,
+        'prev_body_all_page'=>$body_all_page,
+        ])}}"
+                           title="{{$item->name()}}">
+                            {{--                            'string_link_ids_current'=>$string_link_ids_next,--}}
+                            {{--                            'string_item_ids_current'=>$string_item_ids_next,--}}
+                            {{--                            'string_all_codes_current'=>$string_all_codes_next,--}}
+                            {{--                                    @endif--}}
+                            {{--                                {{GlobalController::date_and_emoji($item->created_date(), $heading & $emoji_enable)}}--}}
+                            {{--                                {{GlobalController::date_and_emoji($item->created_date(), false)}}--}}
+                            {{$item->created_date()}}
+                            {{--                                    @if($base_index || $item_body_base)--}}
+                        </a>
+                        {{--                            @endif--}}
+                    </td>
+                @endif
                 {{--            <td class="text-center">--}}
                 {{--                    Не удалять--}}
                 {{--                    <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc()])}}">--}}
@@ -494,34 +522,6 @@ if ($view_link) {
                                 {{--                                @if($base_index || $item_body_base)--}}
                             </a>
                             {{--                        @endif--}}
-                        </td>
-                    @endif
-                    {{-- 'Показывать дату создания'--}}
-                    @if($base_right['is_list_base_sort_creation_date_desc'] == true)
-                        <td class="text-center">
-                            {{--                            @if($base_index || $item_body_base)--}}
-                            <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,
-        'usercode' =>GlobalController::usercode_calc(),
-        'relit_id'=>$relit_id,
-        'called_from_button'=>0,
-        'view_link'=>$i_par_link,
-        'view_ret_id'=>$view_ret_id,
-        'string_current'=>$string_next,
-        'prev_base_index_page'=>$base_index_page,
-        'prev_body_link_page'=>$body_link_page,
-        'prev_body_all_page'=>$body_all_page,
-        ])}}"
-                               title="{{$item->name()}}">
-                                {{--                            'string_link_ids_current'=>$string_link_ids_next,--}}
-                                {{--                            'string_item_ids_current'=>$string_item_ids_next,--}}
-                                {{--                            'string_all_codes_current'=>$string_all_codes_next,--}}
-                                {{--                                    @endif--}}
-                                {{--                                {{GlobalController::date_and_emoji($item->created_date(), $heading & $emoji_enable)}}--}}
-                                {{--                                {{GlobalController::date_and_emoji($item->created_date(), false)}}--}}
-                                {{$item->created_date()}}
-                                {{--                                    @if($base_index || $item_body_base)--}}
-                            </a>
-                            {{--                            @endif--}}
                         </td>
                     @endif
                     @if($base_right['is_list_base_enable'] == true)
