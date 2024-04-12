@@ -312,7 +312,9 @@ if ($view_link) {
             @endif
             {{-- 'Показывать дату создания'--}}
             @if($base_right['is_list_base_sort_creation_date_desc'] == true)
-                <th class="text-center align-top" rowspan="{{$rows + 1 - 1}}">{{trans('main.date')}}</th>
+                <th rowspan="{{$rows + 1 - 1}}" style="width: 10%"  class="text-center align-top" rowspan="{{$rows + 1 - 1}}">
+                    {{trans('main.date')}}
+                </th>
             @endif
             {{--        <th rowspan="{{$rows + 1}}" class="text-center align-top">Id</th>--}}
             {{--        Вывод в $base_index или в $item_body_base--}}
@@ -615,7 +617,6 @@ if ($view_link) {
                 @endif
                 {{--                <td class="text-center">&#8594;</td>--}}
                 @foreach($link_id_array as $value)
-                    1000
                     <?php
                     $link = Link::findOrFail($value);
                     $base_link_right = $link_base_right_array[$link->id];
