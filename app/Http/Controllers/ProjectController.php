@@ -888,7 +888,8 @@ class ProjectController extends Controller
         // Если $role не передана, $role = null - идет поиск роли 'where('is_default_for_external', true)'
         if (!$role) {
             $role = Role::where('template_id', $project->template_id)->where('is_default_for_external', true)->first();
-            if (!$role) {
+            // Дополнительная проверка ИЛИ на закрыт проект или нет
+            if (!$role | @$project->is_closed) {
                 return view('message', ['message' => trans('main.role_default_for_external_not_found')]);
             }
         }
