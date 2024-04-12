@@ -41,6 +41,8 @@ class ProjectController extends Controller
         ];
     }
 
+    // При корректировке all_index(), subs_index(), my_index(), mysubs_index()
+    // нужно смотреть/менять алгоритм в ProjectController::get_roles()
     function all_index()
     {
 //        $projects = Project::where('is_closed', false)
@@ -109,7 +111,7 @@ class ProjectController extends Controller
 //            ->orderBy('user_id')->orderBy('template_id')->orderBy('created_at');
 
         $projects = Project::whereHas('template.roles', function ($query) {
-            $query->where('is_external', true);
+            $query->where('is_author', false);
         })
             ->orderBy('user_id')->orderBy('template_id')->orderBy('created_at');
 
@@ -269,8 +271,17 @@ class ProjectController extends Controller
 //                        ->where('project_id', $project->id);
 //                })->orderBy('serial_number')->get();
 
+//            $roles = Role::where('is_author', false)
+//                ->where('is_external', false)
+//                ->whereHas('template', function ($query) use ($project) {
+//                    $query->where('id', $project->template_id);
+//                })
+//                ->whereDoesntHave('accesses', function ($query) use ($project) {
+//                    $query->where('user_id', GlobalController::glo_user_id())
+//                        ->where('project_id', $project->id);
+//                })->orderBy('serial_number')->get();
+
             $roles = Role::where('is_author', false)
-                ->where('is_external', false)
                 ->whereHas('template', function ($query) use ($project) {
                     $query->where('id', $project->template_id);
                 })
