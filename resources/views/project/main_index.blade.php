@@ -80,8 +80,9 @@
                     <p class="card-text ml-3"><small class="text-muted">{{$project->template->name()}}</small>
                     </p>
                 </div>
-                {{--                <div class="card-body p-0">--}}
-                <div class="card-body bg-light d-flex flex-wrap align-items-center">
+                {{-- <div class="card-body p-0">--}}
+                {{-- <div class="card-body bg-light d-flex flex-wrap align-items-center">--}}
+                <div class="bg-light d-flex flex-wrap align-items-center">
                     @if($get_project_logo_item)
                         {{--                            <div class="card-block text-center">--}}
                         <div class="card-block text-center">
@@ -92,7 +93,7 @@
                     <p>
                     <h5 class="mb-2 pb-2">{{$project->name()}}</h5>
                     {{--                <p class="card-text">{{$project->desc()}}</p>--}}
-{{--                    <span class="card-text"><?php echo nl2br($project->dc_ext()); ?></span>--}}
+                    <span class="card-text"><?php echo nl2br($project->dc_ext()); ?></span>
                     </p>
                     <br>
                     <form action="{{route('project.start_check')}}" method=GET" enctype=multipart/form-data>
