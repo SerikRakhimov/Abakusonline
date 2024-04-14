@@ -92,7 +92,7 @@
                     <p>
                     <h5 class="mb-2 pb-2">{{$project->name()}}</h5>
                     {{--                <p class="card-text">{{$project->desc()}}</p>--}}
-                    <span class="card-text"><?php echo nl2br($project->dc_ext()); ?></span>
+{{--                    <span class="card-text"><?php echo nl2br($project->dc_ext()); ?></span>--}}
                     </p>
                     <br>
                     <form action="{{route('project.start_check')}}" method=GET" enctype=multipart/form-data>
