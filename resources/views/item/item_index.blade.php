@@ -237,11 +237,11 @@
                                 @else
                                     @foreach($calcname_mains as $calcname_main)
                                         {{--                                                    <h6>--}}
-{{--                                        <big>--}}
-                                            {{GlobalController::calc_title_name($calcname_main->link->parent_label(true),true,true)}}
-                                            {{-- Выводить с 'Единица измерения (для числовых и строковых полей)'--}}
-                                            <strong>{{$calcname_main->parent_item->name(false,false,false,false,true)}}</strong>
-{{--                                        </big>--}}
+                                        {{--                                        <big>--}}
+                                        {{GlobalController::calc_title_name($calcname_main->link->parent_label(true),true,true)}}
+                                        {{-- Выводить с 'Единица измерения (для числовых и строковых полей)'--}}
+                                        <strong>{{$calcname_main->parent_item->name(false,false,false,false,true)}}</strong>
+                                        {{--                                        </big>--}}
                                         <br>
                                         @if($calcname_main->parent_item->base->is_code_needed == true)
                                             {{trans('main.code')}}:
@@ -258,9 +258,9 @@
                 </div>
             @endif
         </div>
-        10000
-        @if((($prev_item) ||($next_item)) & ($base_right['is_list_base_create'] == true))
-            <br>20000
+        {{-- @if((($prev_item) ||($next_item)) & ($base_right['is_list_base_create'] == true))--}}
+        @if((($prev_item) |($next_item)) | ($base_right['is_list_base_create'] == true))
+            <br>
             <div class="row">
                 <div class="col-6 text-center">
                     @if(($prev_item) ||($next_item))
