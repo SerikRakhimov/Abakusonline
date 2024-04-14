@@ -259,7 +259,7 @@
             @endif
         </div>
         {{-- @if((($prev_item) ||($next_item)) & ($base_right['is_list_base_create'] == true))--}}
-        @if((($prev_item) |($next_item)) | ($base_right['is_list_base_create'] == true))
+        @if((($prev_item) ||($next_item)) || ($base_right['is_list_base_create'] == true))
             <br>
             <div class="row">
                 <div class="col-6 text-center">
