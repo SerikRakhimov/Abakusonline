@@ -258,8 +258,9 @@
                 </div>
             @endif
         </div>
+        10000
         @if((($prev_item) ||($next_item)) & ($base_right['is_list_base_create'] == true))
-            <br>
+            <br>20000
             <div class="row">
                 <div class="col-6 text-center">
                     @if(($prev_item) ||($next_item))
