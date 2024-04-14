@@ -81,7 +81,7 @@
                     </p>
                 </div>
                 {{-- <div class="card-body p-0">--}}
-                <div class="card-body bg-light d-flex flex-wrap align-items-center">
+                <div class="card-block bg-light d-flex flex-wrap align-items-center">
                     @if($get_project_logo_item)
                         {{--                            <div class="card-block text-center">--}}
                         <div class="card-block text-center">
@@ -127,7 +127,7 @@
                             </div>
                             <div class="col-4 text-left p-0">
                                 <button type="submit" class="btn btn-dreamer" title="
-                                    @if($subs_projects == true)
+                                @if($subs_projects == true)
                                 {{trans('main.subscribe')}}
                                 @else
                                 {{trans('main.run')}}
@@ -149,7 +149,9 @@
                         <p class="card-text mt-3">
                             <small
                                 class="text-muted">
-                                {{$project->link_info()}}</small></p>
+                                {{$project->link_info()}}
+                            </small>
+                        </p>
                     @endif
                 </div>
                 <div class="card-footer">
