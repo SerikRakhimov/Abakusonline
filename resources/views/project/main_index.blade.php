@@ -81,8 +81,7 @@
                     </p>
                 </div>
                 {{-- <div class="card-body p-0">--}}
-                {{-- <div class="card-body bg-light d-flex flex-wrap align-items-center">--}}
-                <div class="bg-light d-flex flex-wrap align-items-center">
+                <div class="card-body bg-light d-flex flex-wrap align-items-center">
                     @if($get_project_logo_item)
                         {{--                            <div class="card-block text-center">--}}
                         <div class="card-block text-center">
@@ -96,55 +95,57 @@
                     <span class="card-text"><?php echo nl2br($project->dc_ext()); ?></span>
                     </p>
                     <br>
-                    <form action="{{route('project.start_check')}}" method=GET" enctype=multipart/form-data>
-                        @csrf
-                        <input type="hidden" name="project_id" value="{{$project->id}}">
-                        <input type="hidden" name="is_cancel_all_projects"
-                               value="{{GlobalController::num_is_boolean($all_projects)}}">
-                        <input type="hidden" name="is_cancel_subs_projects"
-                               value="{{GlobalController::num_is_boolean($subs_projects)}}">
-                        <input type="hidden" name="is_cancel_my_projects"
-                               value="{{GlobalController::num_is_boolean($my_projects)}}">
-                        <input type="hidden" name="is_cancel_mysubs_projects"
-                               value="{{GlobalController::num_is_boolean($mysubs_projects)}}">
-                        <div class="form-group row justify-content-md-center">
-                            <div class="col-2 text-right">
-                                <label for="role_id" class="col-form-label">{{trans('main.role')}}</label>
-                            </div>
-                            <div class="col-6 text-center pl-1">
-                                <select class="form-control"
-                                        name="role_id">
-                                    @foreach ($roles as $key=>$value)
-                                        <option value="{{$key}}"
-                                            {{--                                                    @if ($update)--}}
-                                            {{--                                                    --}}{{--            "(int) 0" нужно--}}
-                                            {{--                                                    @if ((old('role_id') ?? ($key ?? (int) 0)) ==  $base->type())--}}
-                                            {{--                                                    selected--}}
-                                            {{--                                                @endif--}}
-                                            {{--                                                @endif--}}
-                                        >{{$value}}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="col-4 text-left p-0">
-                                <button type="submit" class="btn btn-dreamer" title="
+                    <center>
+                        <form action="{{route('project.start_check')}}" method=GET" enctype=multipart/form-data>
+                            @csrf
+                            <input type="hidden" name="project_id" value="{{$project->id}}">
+                            <input type="hidden" name="is_cancel_all_projects"
+                                   value="{{GlobalController::num_is_boolean($all_projects)}}">
+                            <input type="hidden" name="is_cancel_subs_projects"
+                                   value="{{GlobalController::num_is_boolean($subs_projects)}}">
+                            <input type="hidden" name="is_cancel_my_projects"
+                                   value="{{GlobalController::num_is_boolean($my_projects)}}">
+                            <input type="hidden" name="is_cancel_mysubs_projects"
+                                   value="{{GlobalController::num_is_boolean($mysubs_projects)}}">
+                            <div class="form-group row justify-content-md-center">
+                                <div class="col-2 text-right">
+                                    <label for="role_id" class="col-form-label">{{trans('main.role')}}</label>
+                                </div>
+                                <div class="col-6 text-center pl-1">
+                                    <select class="form-control"
+                                            name="role_id">
+                                        @foreach ($roles as $key=>$value)
+                                            <option value="{{$key}}"
+                                                {{--                                                    @if ($update)--}}
+                                                {{--                                                    --}}{{--            "(int) 0" нужно--}}
+                                                {{--                                                    @if ((old('role_id') ?? ($key ?? (int) 0)) ==  $base->type())--}}
+                                                {{--                                                    selected--}}
+                                                {{--                                                @endif--}}
+                                                {{--                                                @endif--}}
+                                            >{{$value}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="col-4 text-left p-0">
+                                    <button type="submit" class="btn btn-dreamer" title="
                                     @if($subs_projects == true)
-                                {{trans('main.subscribe')}}
-                                @else
-                                {{trans('main.run')}}
-                                @endif
-                                    ">
-                                    @if($subs_projects == true)
-                                        <i class="fas fa-book-open d-inline"></i>
-                                        {{trans('main.subscribe')}}
+                                    {{trans('main.subscribe')}}
                                     @else
-                                        <i class="fas fa-play d-inline"></i>
-                                        {{trans('main.run')}}
+                                    {{trans('main.run')}}
                                     @endif
-                                </button>
+                                        ">
+                                        @if($subs_projects == true)
+                                            <i class="fas fa-book-open d-inline"></i>
+                                            {{trans('main.subscribe')}}
+                                        @else
+                                            <i class="fas fa-play d-inline"></i>
+                                            {{trans('main.run')}}
+                                        @endif
+                                    </button>
+                                </div>
                             </div>
-                        </div>
-                    </form>
+                        </form>
+                    </center>
                     {{--                        Не удалять--}}
                     @if ($all_projects == true && $project->is_closed == false)
                         <p class="card-text mt-3">
