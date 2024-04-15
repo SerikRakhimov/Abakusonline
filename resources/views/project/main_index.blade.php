@@ -108,7 +108,7 @@
                         <input type="hidden" name="is_cancel_mysubs_projects"
                                value="{{GlobalController::num_is_boolean($mysubs_projects)}}">
                         {{--                        <div class="form-group row justify-content-md-center">--}}
-                        <div class="form-group row justify-content-center">
+                        <div class="row justify-content-center">
                             <div class="row">
                                 <div class="col-2 text-right">
                                     <label for="role_id" class="col-form-label">{{trans('main.role')}}</label>
