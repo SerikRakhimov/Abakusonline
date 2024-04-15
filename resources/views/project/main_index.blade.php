@@ -112,7 +112,8 @@
                             <div class="col-2 text-right">
                                 <label for="role_id" class="col-form-label">{{trans('main.role')}}</label>
                             </div>
-                            <div class="col-6 text-center pl-1">
+{{--                            <div class="col-6 text-center pl-1">--}}
+                                <div class="col-6 text-center pl-1">
                                 <select class="form-control"
                                         name="role_id">
                                     @foreach ($roles as $key=>$value)
@@ -127,7 +128,8 @@
                                     @endforeach
                                 </select>
                             </div>
-                            <div class="col-4 text-left p-0">
+{{--                            <div class="col-4 text-left p-0">--}}
+                                <div class="col-4 text-left">
                                 <button type="submit" class="btn btn-dreamer" title="
                                 @if($subs_projects == true)
                                 {{trans('main.subscribe')}}
