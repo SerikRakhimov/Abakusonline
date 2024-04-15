@@ -129,7 +129,7 @@
                                 </select>
                             </div>
                             {{--                                <div class="col-6 text-left p-0">--}}
-                            <div class="col-6 text-center pl-0">
+                            <div class="col-6 text-right pl-0">
                                 <button type="submit" class="btn btn-dreamer" title="
                                 @if($subs_projects == true)
                                 {{trans('main.subscribe')}}
