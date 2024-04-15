@@ -113,8 +113,8 @@
                             {{--                                    <label for="role_id" class="col-form-label">{{trans('main.role')}}</label>--}}
                             {{--                                </div>--}}
                             {{--                                <div class="col-6 text-center pl-1">--}}
-                            <div class="col-6 text-center">
-                                <select class="form-control"
+                            <div class="col-6 text-center pr-0">
+                                <select class="form-control d-inline"
                                         name="role_id" title="{{trans('main.role')}}">
                                     @foreach ($roles as $key=>$value)
                                         <option value="{{$key}}"
@@ -129,7 +129,7 @@
                                 </select>
                             </div>
                             {{--                                <div class="col-6 text-left p-0">--}}
-                            <div class="col-6 text-center">
+                            <div class="col-6 text-center pl-0">
                                 <button type="submit" class="btn btn-dreamer" title="
                                 @if($subs_projects == true)
                                 {{trans('main.subscribe')}}
@@ -145,8 +145,8 @@
                                         {{trans('main.run')}}
                                     @endif
                                 </button>
+                                {{--                            </div>--}}
                             </div>
-                            {{--                            </div>--}}
                         </div>
                     </form>
                     {{--                        Не удалять--}}
