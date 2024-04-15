@@ -107,47 +107,46 @@
                                value="{{GlobalController::num_is_boolean($my_projects)}}">
                         <input type="hidden" name="is_cancel_mysubs_projects"
                                value="{{GlobalController::num_is_boolean($mysubs_projects)}}">
-                        {{--                        <div class="form-group row justify-content-md-center">--}}
-                        <div class="form-group justify-content-center">
-                            <div class="row">
-                                <div class="col-2 text-right">
-                                    <label for="role_id" class="col-form-label">{{trans('main.role')}}</label>
-                                </div>
-                                {{--                            <div class="col-6 text-center pl-1">--}}
-                                <div class="col-6 text-center">
-                                    <select class="form-control"
-                                            name="role_id">
-                                        @foreach ($roles as $key=>$value)
-                                            <option value="{{$key}}"
-                                                {{--                                                    @if ($update)--}}
-                                                {{--                                                    --}}{{--            "(int) 0" нужно--}}
-                                                {{--                                                    @if ((old('role_id') ?? ($key ?? (int) 0)) ==  $base->type())--}}
-                                                {{--                                                    selected--}}
-                                                {{--                                                @endif--}}
-                                                {{--                                                @endif--}}
-                                            >{{$value}}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                {{--                            <div class="col-4 text-left p-0">--}}
-                                <div class="col-4 text-left">
-                                    <button type="submit" class="btn btn-dreamer" title="
-                                @if($subs_projects == true)
-                                    {{trans('main.subscribe')}}
-                                    @else
-                                    {{trans('main.run')}}
-                                    @endif
-                                        ">
-                                        @if($subs_projects == true)
-                                            <i class="fas fa-book-open d-inline"></i>
-                                            {{trans('main.subscribe')}}
-                                        @else
-                                            <i class="fas fa-play d-inline"></i>
-                                            {{trans('main.run')}}
-                                        @endif
-                                    </button>
-                                </div>
+                        {{--                        <div class="form-group row justify-content-center">--}}
+                        <div class="row">
+                            {{--                                <div class="col-2 text-right">--}}
+                            {{--                                    <label for="role_id" class="col-form-label">{{trans('main.role')}}</label>--}}
+                            {{--                                </div>--}}
+                            {{--                                <div class="col-6 text-center pl-1">--}}
+                            <div class="col-6 text-center">
+                                <select class="form-control"
+                                        name="role_id" title="{{trans('main.role')}}">
+                                    @foreach ($roles as $key=>$value)
+                                        <option value="{{$key}}"
+                                            {{--                                                    @if ($update)--}}
+                                            {{--                                                    --}}{{--            "(int) 0" нужно--}}
+                                            {{--                                                    @if ((old('role_id') ?? ($key ?? (int) 0)) ==  $base->type())--}}
+                                            {{--                                                    selected--}}
+                                            {{--                                                @endif--}}
+                                            {{--                                                @endif--}}
+                                        >{{$value}}</option>
+                                    @endforeach
+                                </select>
                             </div>
+                            {{--                                <div class="col-6 text-left p-0">--}}
+                            <div class="col-6 text-center">
+                                <button type="submit" class="btn btn-dreamer" title="
+                                @if($subs_projects == true)
+                                {{trans('main.subscribe')}}
+                                @else
+                                {{trans('main.run')}}
+                                @endif
+                                    ">
+                                    @if($subs_projects == true)
+                                        <i class="fas fa-book-open d-inline"></i>
+                                        {{trans('main.subscribe')}}
+                                    @else
+                                        <i class="fas fa-play d-inline"></i>
+                                        {{trans('main.run')}}
+                                    @endif
+                                </button>
+                            </div>
+                            {{--                            </div>--}}
                         </div>
                     </form>
                     {{--                        Не удалять--}}
