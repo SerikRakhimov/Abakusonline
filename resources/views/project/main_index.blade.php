@@ -114,7 +114,7 @@
                                     <label for="role_id" class="col-form-label">{{trans('main.role')}}</label>
                                 </div>
                                 {{--                            <div class="col-6 text-center pl-1">--}}
-                                <div class="col-6 text-center pl-1">
+                                <div class="col-6 text-center">
                                     <select class="form-control"
                                             name="role_id">
                                         @foreach ($roles as $key=>$value)
