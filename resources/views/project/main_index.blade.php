@@ -82,7 +82,7 @@
                 </div>
                 {{-- <div class="card-body p-0">--}}
 {{--                <div class="card-body bg-light d-flex flex-wrap align-items-center">--}}
-                    <div class="card-body bg-light d-flex flex-wrap align-items-center">
+                    <div class="card-body bg-light flex-wrap align-items-center">
                     @if($get_project_logo_item)
                         {{--                            <div class="card-block text-center">--}}
                         <div class="card-block text-center">
@@ -107,7 +107,8 @@
                                value="{{GlobalController::num_is_boolean($my_projects)}}">
                         <input type="hidden" name="is_cancel_mysubs_projects"
                                value="{{GlobalController::num_is_boolean($mysubs_projects)}}">
-                        <div class="form-group row justify-content-md-center">
+{{--                        <div class="form-group row justify-content-md-center">--}}
+                            <div class="form-group row justify-content-center">
                             <div class="col-2 text-right">
                                 <label for="role_id" class="col-form-label">{{trans('main.role')}}</label>
                             </div>
