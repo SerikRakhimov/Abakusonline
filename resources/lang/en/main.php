@@ -402,7 +402,7 @@ return [
     'current_status' => 'Current status',
     'current_template' => 'Current template',
     'send' => 'Send',
-    'subscribe' => 'Subscribe',
+    'subscribe' => 'Subscribe to the project',
     'subscription_requests' => 'Subscription requests',
     'subscription_status_has_changed' => 'Subscription status has changed',
     'subscription_removed' => 'Subscription removed',

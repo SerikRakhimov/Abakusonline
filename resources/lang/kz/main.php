@@ -402,7 +402,7 @@ return [
     'current_status' => 'Ағымдағы мәртебе',
     'current_template' => 'Ағымдағы үлгі',
     'send' => 'Жіберу',
-    'subscribe' => 'Жазылу',
+    'subscribe' => 'Жобаға жазылу',
     'subscription_requests' => 'Жазылуға сұрау салу',
     'subscription_status_has_changed' => 'Жазылу мәртебесі өзгерді',
     'subscription_removed' => 'Жазылым жойылды',

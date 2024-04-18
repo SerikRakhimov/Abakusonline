@@ -402,7 +402,7 @@ return [
     'current_status' => 'Текущий статус',
     'current_template' => 'Текущий шаблон',
     'send' => 'Отправить',
-    'subscribe' => 'Подписаться',
+    'subscribe' => 'Подписаться на проект',
     'subscription_requests' => 'Запросы на подписку',
     'subscription_status_has_changed' => 'Изменился статус подписки',
     'subscription_removed' => 'Подписка удалена',
