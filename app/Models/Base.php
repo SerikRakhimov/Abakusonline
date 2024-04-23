@@ -357,9 +357,8 @@ class Base extends Model
         if (!($role->is_author() & $relit_id == 0)) {
             // Только чтение данных(без создания, корректировки и удаления)
             // Проверка должна быть одинакова "$base_right['is_list_base_read'] == true" ItemController::item_index() и Base::tile_view()
-            if ($base_right['is_list_base_read'] == true) {
-//                $links = $this->child_links();
-//                $link = $links->where('parent_is_primary_image', true)->first();
+//          if ($base_right['is_list_base_read'] == true) {
+            if ($base_right['is_list_base_update'] == false & $base_right['is_list_base_delete'] == false) {
                 $link = $this->get_link_primary_image();
                 if ($link) {
                     //if ($link->parent_base->type_is_image()) {
@@ -374,9 +373,9 @@ class Base extends Model
 // Возвращает $link  с признаком 'parent_is_setup_project_logo_img'
     function get_link_primary_image()
     {
-      //$links = $this->child_links();
-      //$link = $links->where('parent_is_primary_image', true)->first();
-      $link = $this->child_links->where('parent_is_primary_image', true)->first();
+        //$links = $this->child_links();
+        //$link = $links->where('parent_is_primary_image', true)->first();
+        $link = $this->child_links->where('parent_is_primary_image', true)->first();
         if ($link) {
             if (!($link->parent_base->type_is_image())) {
                 $link = null;
