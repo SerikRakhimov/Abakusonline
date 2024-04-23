@@ -1400,7 +1400,6 @@
                         {{-- вызываем состояние "элемент изменился", в связи с этим запустятся функции - обработчики "change"--}}
                         {{--code_{{$prefix}}{{$link->id}}.dispatchEvent(new Event('input'));--}}
                     }
-
                     code_{{$prefix}}{{$link->id}}.addEventListener("change", code_change_{{$prefix}}{{$link->id}});
                     <?php
                     $functs_change['code' . $link->id] = 1;
@@ -1901,6 +1900,7 @@
                         @else
                         if (child_base_id{{$prefix}}{{$link->id}}.options[child_base_id{{$prefix}}{{$link->id}}.selectedIndex].value == 0) {
                             @endif
+
                                 parent_base_id{{$prefix}}{{$link->id}}.innerHTML = "{{trans('main.no_information') . '!'}}";
                             parent_related_id{{$prefix}}{{$link->id}}.innerHTML = "0";
                             {{--                                @if(!$update & $link->parent_is_nc_parameter == true)--}}
@@ -1962,9 +1962,7 @@
                 $functs_change['link' . $const_link_id_start] = 1;
                 //$functs_change[$const_link_id_start] = 1;
                 ?>
-
                 {{--                @endif--}}
-
                 @endif
             </script>
         @endif
@@ -2267,12 +2265,12 @@
             @endforeach
         }
 
-        // Нужно для случая, когда меняется значение в вводимом коде, без этого не обновляются parent-поля и поля из вычисляемых таблиц
-        function on_parent_refer() {
-            @foreach($functs_parent_refer as $value)
-                {{$value}}();
-            @endforeach
-        }
+        {{--Нужно для случая, когда меняется значение в вводимом коде, без этого не обновляются parent-поля и поля из вычисляемых таблиц--}}
+        {{--function on_parent_refer() {--}}
+        {{--    @foreach($functs_parent_refer as $value)--}}
+        {{--        {{$value}}();--}}
+        {{--    @endforeach--}}
+        {{--}--}}
 
         {{-- Два похожих блока команд в функциях on_submit() и window.onload по обработке строковых полей--}}
         function on_submit() {
@@ -2388,7 +2386,6 @@
             if (ds == true) {
                 {{--Две похожие команды в этой функции--}}
                 document.getElementById('link{{$key}}').disabled = true;
-
                 @if($link->parent_base->type_is_string())
                 @if ($link->parent_base->is_one_value_lst_str_txt == false)
                 <?php
