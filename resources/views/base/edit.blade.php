@@ -929,6 +929,80 @@
             </div>
         </div>
 
+        {{--    en_min_desc    --}}
+        <div class="form-group row" id="en_min_desc_form_group">
+            @foreach (config('app.locales') as $key=>$value)
+                <div class="col-sm-3 text-right">
+                    <label for="en_min_desc_{{$key}}" class="col-form-label">{{trans('main.en_min_desc')}}
+                        ({{trans('main.' . $value)}})<span
+                            class="text-danger">*</span></label>
+                </div>
+                <div class="col-sm-7">
+                    <input type="text"
+                           name="en_min_desc_{{$key}}"
+                           id="en_min_desc_{{$key}}"
+                           class="form-control @error('en_min_desc_' . $key) is-invalid @enderror"
+                           placeholder=""
+                           value="{{ old('en_min_desc_' . $key) ?? ($base['en_min_desc_' . $key] ?? '') }}">
+                </div>
+                @error('en_min_desc_' . $key)
+                <div class="text-danger">
+                    {{$message}}
+                </div>
+                @enderror
+                <div class="col-sm-2">
+                </div>
+            @endforeach
+        </div>
+
+        <div class="form-group row" id="lifetime_minutes_form_group">
+            <div class="col-sm-3 text-right">
+                <label for="lifetime_minutes">{{trans('main.lifetime_minutes')}}<span
+                        class="text-danger">*</span></label>
+            </div>
+            <div class="col-sm-2">
+                <input type="number"
+                       name="lifetime_minutes"
+                       id="lifetime_minutes"
+                       class="form-control @error('lifetime_minutes') is-invalid @enderror"
+                       placeholder=""
+                       value="{{ old('lifetime_minutes') ?? ($base['lifetime_minutes'] ?? '0') }}">
+                @error('lifetime_minutes')
+                <div class="text-danger">
+                    {{$message}}
+                </div>
+                @enderror
+            </div>
+            <div class="col-sm-7">
+            </div>
+        </div>
+
+        {{--    lt_min_desc    --}}
+        <div class="form-group row" id="lt_min_desc_form_group">
+            @foreach (config('app.locales') as $key=>$value)
+                <div class="col-sm-3 text-right">
+                    <label for="lt_min_desc_{{$key}}" class="col-form-label">{{trans('main.lt_min_desc')}}
+                        ({{trans('main.' . $value)}})<span
+                            class="text-danger">*</span></label>
+                </div>
+                <div class="col-sm-7">
+                    <input type="text"
+                           name="lt_min_desc_{{$key}}"
+                           id="lt_min_desc_{{$key}}"
+                           class="form-control @error('lt_min_desc_' . $key) is-invalid @enderror"
+                           placeholder=""
+                           value="{{ old('lt_min_desc_' . $key) ?? ($base['lt_min_desc_' . $key] ?? '') }}">
+                </div>
+                @error('lt_min_desc_' . $key)
+                <div class="text-danger">
+                    {{$message}}
+                </div>
+                @enderror
+                <div class="col-sm-2">
+                </div>
+            @endforeach
+        </div>
+
         {{--    unit_meas_desc    --}}
         <div class="form-group row" id="unit_meas_desc_form_group">
             @foreach (config('app.locales') as $key=>$value)
@@ -946,32 +1020,6 @@
                            value="{{ old('unit_meas_desc_' . $key) ?? ($base['unit_meas_desc_' . $key] ?? '') }}">
                 </div>
                 @error('unit_meas_desc_' . $key)
-                <div class="text-danger">
-                    {{$message}}
-                </div>
-                @enderror
-                <div class="col-sm-2">
-                </div>
-            @endforeach
-        </div>
-
-        {{--    ch_min_desc    --}}
-        <div class="form-group row" id="ch_min_desc_form_group">
-            @foreach (config('app.locales') as $key=>$value)
-                <div class="col-sm-3 text-right">
-                    <label for="ch_min_desc_{{$key}}" class="col-form-label">{{trans('main.ch_min_desc')}}
-                        ({{trans('main.' . $value)}})<span
-                            class="text-danger">*</span></label>
-                </div>
-                <div class="col-sm-7">
-                    <input type="text"
-                           name="ch_min_desc_{{$key}}"
-                           id="ch_min_desc_{{$key}}"
-                           class="form-control @error('ch_min_desc_' . $key) is-invalid @enderror"
-                           placeholder=""
-                           value="{{ old('ch_min_desc_' . $key) ?? ($base['ch_min_desc_' . $key] ?? '') }}">
-                </div>
-                @error('ch_min_desc_' . $key)
                 <div class="text-danger">
                     {{$message}}
                 </div>
@@ -1127,8 +1175,10 @@
         var is_heading = document.getElementById('is_default_heading_form_group');
         var is_cards = document.getElementById('is_default_view_cards_form_group');
         var ent_min = document.getElementById('entry_minutes_form_group');
+        var en_min_ds = document.getElementById('en_min_desc_form_group');
+        var lt_min = document.getElementById('lifetime_minutes_form_group');
+        var lt_min_ds = document.getElementById('lt_min_desc_form_group');
         var un_ms_ds = document.getElementById('unit_meas_desc_form_group');
-        var ch_min_ds = document.getElementById('ch_min_desc_form_group');
         var is_required_lst_num_str_txt_img_doc = document.getElementById('is_required_lst_num_str_txt_img_doc_form_group');
         var is_vw_emp_lst = document.getElementById('is_view_empty_lst_form_group');
         var is_tomoderate_img = document.getElementById('is_to_moderate_image_form_group');
@@ -1190,9 +1240,11 @@
             val_is_byuser = "hidden";
             val_is_heading = "hidden";
             val_is_cards = "hidden";
-            val_e_min = "hidden";
+            val_en_min = "hidden";
+            val_lt_min = "hidden";
+            val_en_min_desc = true;
+            val_lt_min_desc = true;
             val_u_meas_desc = true;
-            val_c_min_desc = true;
             val_digits_num = "hidden";
             val_required_num_str = "hidden";
             val_vw_emp_lst = "hidden";
@@ -1230,8 +1282,10 @@
                     val_is_byuser = "visible";
                     val_is_heading = "visible";
                     val_is_cards = "visible";
-                    val_e_min = "visible";
-                    val_c_min_desc = false;
+                    val_en_min = "visible";
+                    val_lt_min = "visible";
+                    val_en_min_desc = false;
+                    val_lt_min_desc = false;
                     val_required_num_str = "visible";
                     val_vw_emp_lst = "visible";
                     val_onevalue_str = "visible";
@@ -1298,10 +1352,12 @@
             is_byuser.style.visibility = val_is_byuser;
             is_heading.style.visibility = val_is_heading;
             is_cards.style.visibility = val_is_cards;
-            ent_min.style.visibility = val_e_min;
-            // Свойство ".visibility" недоступно для un_ms_ds, ch_min_ds
+            ent_min.style.visibility = val_en_min;
+            lt_min.style.visibility = val_lt_min;
+            // Свойство ".visibility" недоступно для en_min_ds, lt_min_ds, un_ms_ds
+            en_min_ds.hidden = val_en_min_desc;
+            lt_min_ds.hidden = val_lt_min_desc;
             un_ms_ds.hidden = val_u_meas_desc;
-            ch_min_ds.hidden = val_c_min_desc;
             digits_num.style.visibility = val_digits_num;
             is_required_lst_num_str_txt_img_doc.style.visibility = val_required_num_str;
             is_vw_emp_lst.style.visibility = val_vw_emp_lst;

@@ -273,6 +273,9 @@ class ItemController extends Controller
             return redirect()->route('project.start', ['project' => $project, 'role' => $role]);
         }
 
+        // Проверка/удаление записей
+        self::del_items_lifetime_minutes($project, $base, $base_right);
+
         // Используется $relip_project
         // Вызывается без параметров '($mains_item_id, $mains_link_id, $parent_proj и $current_item_id)', чтобы проверка сработала '$base_right['is_twt_enable'] == true'
         $items_right = GlobalController::items_right($base, $relip_project, $role, $relit_id);
@@ -284,11 +287,10 @@ class ItemController extends Controller
             $base_index_page_current = $items->currentPage();
             $body_link_page_current = 0;
             $body_all_page_current = 0;
-
 //            // Похожая проверка в GlobalController::get_project_bases(), ItemController::base_index() и project/start.php
 //            // Две проверки использовать
 //            if ($base_right['is_list_base_calc'] == false || $base_right['is_bsin_base_enable'] == false) {
-//                return view('message', ['message' => trans('main.no_access')]);
+//                return view('message', ['message' => trans('main . no_access')]);
 //            }
             // Нужно '$redirect_item_index = false;'
             $redirect_item_index = false;
@@ -297,7 +299,7 @@ class ItemController extends Controller
                     $item_redirect = $items->first();
                     if ($item_redirect) {
                         $redirect_item_index = true;
-                        return redirect()->route('item.item_index', ['project' => $project, 'item' => $item_redirect, 'role' => $role,
+                        return redirect()->route('item . item_index', ['project' => $project, 'item' => $item_redirect, 'role' => $role,
                             'usercode' => GlobalController::usercode_calc(),
                             'relit_id' => $relit_id
                         ]);
@@ -331,25 +333,59 @@ class ItemController extends Controller
             // Нужная команда (при доступе без входа/регистрации) , не удалять
             return view('message', ['message' => trans('main.no_access_for_unregistered_users')]);
         }
-
     }
 
-    // $usercode нужно, чтобы проверять на текущего пользователя, если у $item проект внешний,
-    // и чтобы невозможно было скопировать адресную строку с item_index с параметрами
-    //  и вставить в адресную строку другого пользователя платформы www.abakusonline.com
-    // - должно работать только на текущем проекте
-    // $view_link передается в функцию item_index(),
-    // может иметь значения null, GlobalController::par_link_const_textnull(), GlobalController::par_link_const_text_base_null() - вызов из base_index.php)
-    // $current_link расчитывается в item_index(), затем $view_link присваивается $current_link и передается в index_item.php
-    // $par_link используется (index_item.php, list\table.php, list\all.php, ext_show.php, ext_edit.php)
-    // для вызова 'item.ext_show', 'item.ext_show', 'item.ext_create', get:'item.ext_edit', 'item.ext_store', put:'item.ext_edit', 'item.ext_delete', 'item.ext_delete_question'
-    // $prev_base_index_page, $prev_body_link_page, $prev_body_all_page - "предыдущие"/"текущие" номера страниц при пагинации
-    //      используются как параметры при вызове 'item.ext_show' в конце функции item_index();
-    //  $base_index_page_current = 0, $body_link_page_current = текущая страница, $body_all_page_current = текущая страница,
-    //      используются как параметры при вызове 'item_index.php' в конце функции item_index();
-    //  'base_index_page', 'body_link_page', 'body_all_page' - названия переменных пагинации,
-    //      используются/вызываются при вызове 'route('item.item_index)' в конце функций ext_store(), ext_update(), ext_delete();
-    // $view_ret_id - это $relit_id для просмотра нескольких взаимосвязанных шаблонов/проектов(если они есть) в body-списке
+    static function del_items_lifetime_minutes(Project $project, Base $base, $base_right)
+    {
+        //
+        // https://qna.habr.com/q/676115#:~:text=%24time%20%3D%20%2210%3A30%22%3B%20%24add%20%3D%2010%3B%20list%28%24hours%2C%24minutes%29%20%3D,60%20%2B%20%24minutes%3B%20%24new_total%20%3D%20%24total_minutes%20%2B%20%24add%3B
+        // https://snipp.ru/php/date#:~:text=date%20%28%29%20%E2%80%93%20%D1%84%D0%BE%D1%80%D0%BC%D0%B0%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5%20%D0%B4%D0%B0%D1%82%D1%8B%20PHP%201%20%D0%9E%D1%81%D0%BD%D0%BE%D0%B2%D0%BD%D1%8B%D0%B5,3339%20...%208%20%D0%94%D0%B0%D1%82%D0%B0%20%D1%81%20%D1%80%D1%83%D1%81%D0%BA%D0%B8%D0%BC%D0%B8%20%D0%BC%D0%B5%D1%81%D1%8F%D1%86%D0%B0%D0%BC%D0%B8%20
+        if ($base_right['is_lifetime_limit_minutes'] == true) {
+            // Примерно срабатывает условие 1 из 10, чтобы не нагружать сервер постоянным удалением при просмотре списков base_index.php и item_index.php
+            if (mt_rand(1, 10) == 1) {
+                date_default_timezone_set('Asia/Almaty');
+                $oldTime = strtotime(Now());
+                $minutes = $base->lifetime_minutes;
+                $newTime = date("Y-m-d H:i:s", strtotime('-' . $minutes . ' minutes', $oldTime));
+                // При "->delete()" не удаляются файлы фотографий и документов с диска
+//          $items = Item::where('base_id', $base->id)->where('project_id', $project->id)
+//              ->where('created_at', '<', $newTime)
+//              ->delete();
+                // "->get()" нужно
+                $items = Item::where('base_id', $base->id)->where('project_id', $project->id)
+                    ->where('created_at', '<', $newTime)
+                    ->get();
+                // При "$item->delete()" (движение по списку) удаляются файлы фотографий и документов с диска
+                foreach ($items as $item) {
+                    // Инициализация массива, нужно
+                    $array_items_ids = array();
+                    // Вычисляем массив вложенных $item_id для удаления
+                    self::calc_items_ids_for_delete($item, $array_items_ids, false);
+                    $delete_in_transaction = self::delete_in_transaction($item, $array_items_ids);
+                    if ($delete_in_transaction != "") {
+                        return $delete_in_transaction;
+                    }
+                }
+            }
+        }
+    }
+
+// $usercode нужно, чтобы проверять на текущего пользователя, если у $item проект внешний,
+// и чтобы невозможно было скопировать адресную строку с item_index с параметрами
+//  и вставить в адресную строку другого пользователя платформы www.abakusonline.com
+// - должно работать только на текущем проекте
+// $view_link передается в функцию item_index(),
+// может иметь значения null, GlobalController::par_link_const_textnull(), GlobalController::par_link_const_text_base_null() - вызов из base_index.php)
+// $current_link расчитывается в item_index(), затем $view_link присваивается $current_link и передается в index_item.php
+// $par_link используется (index_item.php, list\table.php, list\all.php, ext_show.php, ext_edit.php)
+// для вызова 'item.ext_show', 'item.ext_show', 'item.ext_create', get:'item.ext_edit', 'item.ext_store', put:'item.ext_edit', 'item.ext_delete', 'item.ext_delete_question'
+// $prev_base_index_page, $prev_body_link_page, $prev_body_all_page - "предыдущие"/"текущие" номера страниц при пагинации
+//      используются как параметры при вызове 'item.ext_show' в конце функции item_index();
+//  $base_index_page_current = 0, $body_link_page_current = текущая страница, $body_all_page_current = текущая страница,
+//      используются как параметры при вызове 'item_index.php' в конце функции item_index();
+//  'base_index_page', 'body_link_page', 'body_all_page' - названия переменных пагинации,
+//      используются/вызываются при вызове 'route('item.item_index)' в конце функций ext_store(), ext_update(), ext_delete();
+// $view_ret_id - это $relit_id для просмотра нескольких взаимосвязанных шаблонов/проектов(если они есть) в body-списке
 
 //    function item_index(Project $project, Item $item, Role $role, $usercode, $relit_id, $view_link = null,
 //                                $string_link_ids_current = '', $string_item_ids_current = '', $string_all_codes_current = '',
@@ -614,7 +650,12 @@ class ItemController extends Controller
                     $child_body_links_info = self::links_info($current_link->child_base, $role, $view_ret_id, null, null, null);
                 }
             }
+
             $relip_body_project = GlobalController::calc_relip_project($view_ret_id, $project);
+
+            // Проверка на удаление записей
+            self::del_items_lifetime_minutes($relip_body_project, $current_link->child_base, $base_body_right);
+
             // Используется $relip_body_project, $view_ret_id
             $items_body_right = GlobalController::items_right($current_link->child_base, $relip_body_project, $role, $relit_id, $item->id, $current_link->id, $project, $view_ret_id);
             $body_items = $items_body_right['items']->paginate(60, ['*'], 'body_link_page');
@@ -968,7 +1009,7 @@ class ItemController extends Controller
         return $result;
     }
 
-    // Поиск в массиве tree_array $link->parent_base_id = $item->base_id
+// Поиск в массиве tree_array $link->parent_base_id = $item->base_id
     function get_tree_item($role, $link, $string_current)
     {
         $result = null;
@@ -1603,7 +1644,7 @@ class ItemController extends Controller
             'message_ln_array_info' => $message_ln_array_info, 'message_ln_link_array_item' => $message_ln_link_array_item];
     }
 
-    // Заполнение массива $relit_id и соответствующими проектами
+// Заполнение массива $relit_id и соответствующими проектами
     function calc_array_link_relips(Project $project)
     {
         $array_link_relips = [];
@@ -1624,7 +1665,7 @@ class ItemController extends Controller
         return $array_link_relips;
     }
 
-    function message_bs_calc(Project $project, Base $base)
+    static function message_bs_calc(Project $project, Base $base)
     {
         $message_bs_mc = GlobalController::base_maxcount_message($base);
         $message_bs_user_id_mc = GlobalController::base_user_id_maxcount_message($base);
@@ -1676,7 +1717,7 @@ class ItemController extends Controller
             'string_link_ids_current' => $string_link_ids_current, 'string_item_ids_current' => $string_item_ids_current, 'string_all_codes_current' => $string_all_codes_current]);
     }
 
-    private
+    private static
     function get_child_links(Base $base)
     {
         // "sortBy('parent_base_number')" обязательно использовать
@@ -1684,7 +1725,7 @@ class ItemController extends Controller
     }
 
     private
-    function get_array_calc(Base $base, Item $item = null, $create = false, Link $par_link = null, Item $parent_item = null)  // 'Item $item=null' нужно
+    static function get_array_calc(Base $base, Item $item = null, $create = false, Link $par_link = null, Item $parent_item = null)  // 'Item $item=null' нужно
     {
         // по настройке links
         $plan_child_links = self::get_child_links($base);
@@ -1782,7 +1823,7 @@ class ItemController extends Controller
     }
 
     private
-    function get_array_calc_edit(Item $item, Link $par_link = null, Item $parent_item = null)
+    static function get_array_calc_edit(Item $item, Link $par_link = null, Item $parent_item = null)
     {
         return self::get_array_calc($item->base, $item, false, $par_link, $parent_item);
     }
@@ -1791,7 +1832,7 @@ class ItemController extends Controller
 // Вычисление зависимых значений по фильтрируемым полям
 // Например, есть фильтр на форме Поставщик - Номер заказа,
 // parlink, например, поле Номер заказа, тогда поле Поставщик тоже будет с признаком disabled в форме
-    private
+    private static
     function par_link_calc_in_array_disabled($plan_child_links, $parent_item, &$array_disabled, Link $p_link)
     {
         foreach ($plan_child_links as $key => $link) {
@@ -1868,7 +1909,8 @@ class ItemController extends Controller
             return view('message', ['message' => trans('main.access_restricted')]);
         }
 
-        $is_limit_minutes = GlobalController::is_limit_minutes($base_right, $item);
+        $is_en_limit_minutes = GlobalController::is_en_limit_minutes($base_right, $item);
+        $is_lt_limit_minutes = GlobalController::is_lt_limit_minutes($base_right, $item);
         $is_checking_history = GlobalController::is_checking_history($item, $role, $relit_id);
         $is_checking_empty = GlobalController::is_checking_empty($item, $role, $relit_id);
 
@@ -1902,7 +1944,8 @@ class ItemController extends Controller
             'relit_id' => $relit_id,
             'base_right' => $base_right,
             'array_calc' => $this->get_array_calc_edit($item)['array_calc'],
-            'is_limit_minutes' => $is_limit_minutes,
+            'is_en_limit_minutes' => $is_en_limit_minutes,
+            'is_lt_limit_minutes' => $is_lt_limit_minutes,
             'is_checking_history' => $is_checking_history,
             'is_checking_empty' => $is_checking_empty,
             'string_link_ids_current' => $string_link_ids_current,
@@ -1955,8 +1998,10 @@ class ItemController extends Controller
         }
 
         // Проверка: выводить минуты при 'Ограничение в минутах для корректировки/удаления данных'
-        // Используется "GlobalController::is_limit_add_record_minutes()"
-        $is_view_minutes = GlobalController::is_limit_add_record_minutes($base_right);
+        // Используется "GlobalController::is_en_limit_add_record_minutes()"
+        $is_view_en_minutes = GlobalController::is_en_limit_add_record_minutes($base_right);
+
+        $is_view_lt_minutes = GlobalController::is_lt_limit_add_record_minutes($base_right);
 
         // Проверка 'Доступность ввода данных на основе проверки истории (links)'
         // Используется "GlobalController::is_checking_add_history()"
@@ -2007,7 +2052,8 @@ class ItemController extends Controller
                 $string_all_codes_current),
             'array_calc' => $array_calc,
             'array_disabled' => $array_disabled,
-            'is_view_minutes' => $is_view_minutes,
+            'is_view_en_minutes' => $is_view_en_minutes,
+            'is_view_lt_minutes' => $is_view_lt_minutes,
             'base_index_page' => $base_index_page, 'body_link_page' => $body_link_page, 'body_all_page' => $body_all_page,
             'parent_ret_id' => $parent_ret_id,
             'view_link' => GlobalController::set_par_null($view_link),
@@ -2025,6 +2071,7 @@ class ItemController extends Controller
     {
         self::ext_store($request, $base, $project, $role, $usercode, $relit_id);
     }
+
 //    function ext_store(Request $request, Base $base, Project $project, Role $role, $usercode,
 //                               $relit_id,
 //                               $string_link_ids_current = '', $string_item_ids_current = '', $string_all_codes_current = '',
@@ -2839,6 +2886,7 @@ class ItemController extends Controller
                 if ($message == '') {
                     self::func_del_items_maxcnt($relip_project, $item);
                 } else {
+                    self::func_del_items_maxcnt($relip_project, $item);
                     throw new Exception($message);
                 }
 
@@ -3024,7 +3072,7 @@ class ItemController extends Controller
         }
     }
 
-    // Автоматическое удаление записей из $items при достижении предела разрешенного количества записей
+// Автоматическое удаление записей из $items при достижении предела разрешенного количества записей
     function func_del_items_maxcnt(Project $project, Item $item)
     {
         $base = $item->base;
@@ -3037,22 +3085,30 @@ class ItemController extends Controller
                 ->where('base_id', '=', $base->id)
                 ->skip($skip - 1)->take(100000)
                 ->orderBy('updated_at', 'desc')->get();
+            // Использовать $value, т.к. $item занято, передается параметром в функцию
             foreach ($items as $value) {
                 // Инициализация массива, нужно
                 $array_items_ids = array();
                 // Вычисляем массив вложенных $item_id для удаления
                 self::calc_items_ids_for_delete($value, $array_items_ids, false);
-                // Нужно
-                self::func_delete($value);
-                // Удаление подчиненных связанных записей
-                self::run_items_ids_for_delete($array_items_ids);
+
+//                // Нужно
+//                self::func_delete($value);
+//                // Удаление подчиненных связанных записей
+//                self::run_items_ids_for_delete($array_items_ids);
+
+                $delete_in_transaction = self::delete_in_transaction($value, $array_items_ids);
+                if ($delete_in_transaction != "") {
+                    return $delete_in_transaction;
+                }
+
             }
         }
     }
 
-    // Вызывается из ext_store(), ext_update()
-    // Проверка на уникальность базовых типов Дата, Число, Строка, Логический
-    // Похожие строки есть в ItemController::save_main() и в ItemController::verify_item_unique()
+// Вызывается из ext_store(), ext_update()
+// Проверка на уникальность базовых типов Дата, Число, Строка, Логический
+// Похожие строки есть в ItemController::save_main() и в ItemController::verify_item_unique()
     function verify_item_unique(Item $item)
     {
         $result = "";
@@ -3096,7 +3152,7 @@ class ItemController extends Controller
 // $reverse = true - отнимать, false - прибавлять
 // $urepl = true используется при добавлении/корректировке записи, = false при удалении записи; проверяется при Заменить(->is_upd_replace = true)
 // private
-    function save_info_sets(Item $item, bool $reverse, bool $urepl)
+    static function save_info_sets(Item $item, bool $reverse, bool $urepl)
     {
         $is_save_sets = self::is_save_sets($item);
         if (!$is_save_sets) {
@@ -3164,12 +3220,13 @@ class ItemController extends Controller
         $values_reverse = array_values($invals);
         $valits_reverse = array_values($inputs_reverse);
 
-        $this->save_sets($itpv, $keys_reverse, $values_reverse, $valits_reverse, $reverse, $urepl);
+//      $this->save_sets($itpv, $keys_reverse, $values_reverse, $valits_reverse, $reverse, $urepl);
+        self::save_sets($itpv, $keys_reverse, $values_reverse, $valits_reverse, $reverse, $urepl);
 
     }
 
 // Проверка на возможность выполнения присваиваний для переданного $item
-    private
+    private static
     function is_save_sets(Item $item)
     {
 //        $set_main = Set::select(DB::Raw('sets.*, lt.child_base_id as to_child_base_id, lt.parent_base_id as to_parent_base_id'))
@@ -3206,8 +3263,8 @@ class ItemController extends Controller
 // get_sets_list_group()
 // get_parent_item_from_output_calculated_table()
 // Обрабатывает присваивания
-// $valits_previous - предыщения значения $valits при $reverse = true и обновлении данных = замена
-    private
+// $valits_previous - предыдущии значения $valits при $reverse = true и обновлении данных = замена
+    private static
     function save_sets(Item $item, $keys, $values, $valits, bool $reverse, bool $urepl)
     {
 //        $table1 = Set::select(DB::Raw('sets.*'))
@@ -3425,7 +3482,8 @@ class ItemController extends Controller
                     // "$create_item_seek = true;" нужно
                     $create_item_seek = true;
                     // true - с реверсом
-                    $this->save_info_sets($item_seek, true, $urepl);
+//                  $this->save_info_sets($item_seek, true, $urepl);
+                    self::save_info_sets($item_seek, true, $urepl);
                 }
                 // Если нужно создавать $item
                 // Если $item_seek создано
@@ -3568,7 +3626,8 @@ class ItemController extends Controller
                             }
                         }
                     }
-                    $rs = $this->calc_value_func($item_seek);
+//                  $rs = $this->calc_value_func($item_seek);
+                    $rs = self::calc_value_func($item_seek);
 
                     if ($rs != null) {
                         $item_seek->name_lang_0 = $rs['calc_lang_0'];
@@ -3588,10 +3647,12 @@ class ItemController extends Controller
                     // false - без реверса
                     // "$this->save_info_sets()" выполнять перед проверкой на удаление
                     // $this->save_info_sets($item_seek, false);
-                    $this->save_info_sets($item_seek, false, $urepl);
+//                  $this->save_info_sets($item_seek, false, $urepl);
+                    self::save_info_sets($item_seek, false, $urepl);
                     // Если links->"Удалить запись с нулевым значением при обновлении" == true и значение равно нулю,
                     // то удалить запись
-                    $val_item_seek_delete = $this->val_item_seek_delete_func($item_seek, $urepl);
+//                  $val_item_seek_delete = $this->val_item_seek_delete_func($item_seek, $urepl);
+                    $val_item_seek_delete = self::val_item_seek_delete_func($item_seek, $urepl);
                     if ($del_item_seek_nogroup | $val_item_seek_delete) {
 //                    if ($val_item_seek_delete) {
                         $item_seek->delete();
@@ -3904,8 +3965,8 @@ class ItemController extends Controller
         }
     }
 
-    // Функции get_sets_group() и get_sets_list_group() похожи
-    // "->where('bs.type_is_list', '=', true)" нужно, т.к. запрос функции идет с ext_edit.php
+// Функции get_sets_group() и get_sets_list_group() похожи
+// "->where('bs.type_is_list', '=', true)" нужно, т.к. запрос функции идет с ext_edit.php
     static function get_sets_group(Base $base, Link $link, $type_no_is_list_enable = false)
     {
         $result = null;
@@ -3950,7 +4011,7 @@ class ItemController extends Controller
         return $result;
     }
 
-    // Функция "Если в присваиваниях группировки "только type_is_list()"
+// Функция "Если в присваиваниях группировки "только type_is_list()"
     static function get_sets_list_group(Base $base, Link $link)
     {
         $result = false;
@@ -4809,9 +4870,14 @@ class ItemController extends Controller
 
         $base_right = GlobalController::base_right($item->base, $role, $relit_id);
 
-        $is_limit_minutes = GlobalController::is_limit_minutes($base_right, $item);
-        if ($is_limit_minutes['is_entry_minutes'] == false) {
-            return view('message', ['message' => trans('main.no_access') . ' (' . trans('main.title_min') . ')']);
+        $is_en_limit_minutes = GlobalController::is_en_limit_minutes($base_right, $item);
+        if ($is_en_limit_minutes['is_entry_minutes'] == false) {
+            return view('message', ['message' => trans('main.no_access') . ' (' . trans('main.title_en_min') . ')']);
+        }
+
+        $is_lt_limit_minutes = GlobalController::is_lt_limit_minutes($base_right, $item);
+        if ($is_lt_limit_minutes['is_lifetime_minutes'] == false) {
+            return view('message', ['message' => trans('main.no_access') . ' (' . trans('main.title_lt_min') . ')']);
         }
 
         // Проверка на обязательность ввода
@@ -5547,6 +5613,7 @@ class ItemController extends Controller
                 if ($message == '') {
                     self::func_del_items_maxcnt($relip_project, $item);
                 } else {
+                    self::func_del_items_maxcnt($relip_project, $item);
                     throw new Exception($message);
                 }
 
@@ -5894,9 +5961,14 @@ class ItemController extends Controller
             return view('message', ['message' => trans('main.no_access')]);
         }
 
-        $is_limit_minutes = GlobalController::is_limit_minutes($base_right, $item);
-        if ($is_limit_minutes['is_entry_minutes'] == false) {
-            return view('message', ['message' => trans('main.no_access') . ' (' . trans('main.title_min') . ')']);
+        $is_en_limit_minutes = GlobalController::is_en_limit_minutes($base_right, $item);
+        if ($is_en_limit_minutes['is_entry_minutes'] == false) {
+            return view('message', ['message' => trans('main.no_access') . ' (' . trans('main.title_en_min') . ')']);
+        }
+
+        $is_lt_limit_minutes = GlobalController::is_lt_limit_minutes($base_right, $item);
+        if ($is_lt_limit_minutes['is_lifetime_minutes'] == false) {
+            return view('message', ['message' => trans('main.no_access') . ' (' . trans('main.title_lt_min') . ')']);
         }
 
         $is_checking_history = GlobalController::is_checking_history($item, $role, $relit_id);
@@ -5930,7 +6002,8 @@ class ItemController extends Controller
             'relit_id' => $relit_id,
             'array_calc' => $array_calc,
             'array_disabled' => $array_disabled,
-            'is_view_minutes' => $is_limit_minutes['is_view_minutes'],
+            'is_view_en_minutes' => $is_en_limit_minutes['is_view_en_minutes'],
+            'is_view_lt_minutes' => $is_lt_limit_minutes['is_view_lt_minutes'],
 //          'string_link_ids_current' => $string_link_ids_current, 'string_item_ids_current' => $string_item_ids_current, 'string_all_codes_current' => $string_all_codes_current,
             'string_current' => $string_current,
             'heading' => $heading,
@@ -5988,9 +6061,14 @@ class ItemController extends Controller
 //      $base_right = self::base_relit_right($item->base, $role, $heading, $base_index_page, $relit_id, $parent_ret_id);
         $base_right = GlobalController::base_right($item->base, $role, $relit_id);
 
-        $is_limit_minutes = GlobalController::is_limit_minutes($base_right, $item);
-        if ($is_limit_minutes['is_entry_minutes'] == false) {
-            return view('message', ['message' => trans('main.no_access') . ' (' . trans('main.title_min') . ')']);
+        $is_en_limit_minutes = GlobalController::is_en_limit_minutes($base_right, $item);
+        if ($is_en_limit_minutes['is_entry_minutes'] == false) {
+            return view('message', ['message' => trans('main.no_access') . ' (' . trans('main.title_en_min') . ')']);
+        }
+
+        $is_lt_limit_minutes = GlobalController::is_lt_limit_minutes($base_right, $item);
+        if ($is_lt_limit_minutes['is_lifetime_minutes'] == false) {
+            return view('message', ['message' => trans('main.no_access') . ' (' . trans('main.title_lt_min') . ')']);
         }
 
         $is_checking_history = GlobalController::is_checking_history($item, $role, $relit_id);
@@ -6008,7 +6086,8 @@ class ItemController extends Controller
             'relit_id' => $relit_id,
             'base_right' => $base_right,
             'array_calc' => $this->get_array_calc_edit($item)['array_calc'],
-            'is_limit_minutes' => $is_limit_minutes,
+            'is_en_limit_minutes' => $is_en_limit_minutes,
+            'is_lt_limit_minutes' => $is_lt_limit_minutes,
             'is_checking_history' => $is_checking_history,
             'is_checking_empty' => $is_checking_empty,
             // 'string_link_ids_current' => $string_link_ids_current, 'string_item_ids_current' => $string_item_ids_current, 'string_all_codes_current' => $string_all_codes_current,
@@ -6089,20 +6168,16 @@ class ItemController extends Controller
                 self::calc_items_ids_for_delete($item, $array_items_ids, false);
             }
 
-//            if ($this->is_save_sets($item)) {
+            if (($this->is_save_sets($item)) || (count($array_items_ids) > 0)) {
+                // Не удалять
 //                try {
 //                    // начало транзакции
-//                    DB::transaction(function ($r) use ($item) {
-//                        // true - с реверсом
-//                        // false - без замены
-//                        $this->save_info_sets($item, true, false);
+//                    DB::transaction(function ($r) use ($item, $array_items_ids) {
+//                        // Нужно, для вызова ItemObserver::deleting($item)
+//                        self::func_delete($item);
 //
-//                        $base_id = $item->base_id;
-//                        $project_id = $item->project_id;
-//
-//                        $item->delete();
-//
-//                        $this->sets_null_delete($base_id, $project_id);
+//                        // Удаление подчиненных связанных записей
+//                        self::run_items_ids_for_delete($array_items_ids);
 //
 //                    }, 3);  // Повторить три раза, прежде чем признать неудачу
 //                    // окончание транзакции
@@ -6110,33 +6185,13 @@ class ItemController extends Controller
 //                } catch (Exception $exc) {
 //                    return trans('transaction_not_completed') . ": " . $exc->getMessage();
 //                }
-//
-//            } else {
-//                $item->delete();
-//
-//            }
-
-            if (($this->is_save_sets($item)) || (count($array_items_ids) > 0)) {
-                try {
-
-                    // начало транзакции
-                    DB::transaction(function ($r) use ($item, $array_items_ids) {
-                        // Нужно, для вызова ItemObserver::deleting($item)
-                        self::func_delete($item);
-
-                        // Удаление подчиненных связанных записей
-                        self::run_items_ids_for_delete($array_items_ids);
-
-                    }, 3);  // Повторить три раза, прежде чем признать неудачу
-                    // окончание транзакции
-
-                } catch (Exception $exc) {
-                    return trans('transaction_not_completed') . ": " . $exc->getMessage();
+                $delete_in_transaction = self::delete_in_transaction($item, $array_items_ids);
+                if ($delete_in_transaction != "") {
+                    return $delete_in_transaction;
                 }
 
             } else {
 
-//                $item->delete();
                 $item->delete($item);
 
             }
@@ -6161,8 +6216,11 @@ class ItemController extends Controller
                 }
             }
         } else {
-            if ($is_delete['is_limit_minutes']['is_entry_minutes'] == false) {
-                return view('message', ['message' => trans('main.no_access') . ' (' . trans('main.title_min') . ')']);
+            if ($is_delete['is_en_limit_minutes']['is_entry_minutes'] == false) {
+                return view('message', ['message' => trans('main.no_access') . ' (' . trans('main.title_en_min') . ')']);
+            }
+            if ($is_delete['is_lt_limit_minutes']['is_lifetime_minutes'] == false) {
+                return view('message', ['message' => trans('main.no_access') . ' (' . trans('main.title_lt_min') . ')']);
             }
         }
 
@@ -6244,21 +6302,46 @@ class ItemController extends Controller
         }
     }
 
-    function func_delete(Item $item)
+    static function delete_in_transaction($item, $array_items_ids)
     {
-        $is_save_sets = $this->is_save_sets($item);
+        $result = "";
+        try {
+            // начало транзакции
+            DB::transaction(function ($r) use ($item, $array_items_ids) {
+                // Нужно, для вызова ItemObserver::deleting($item)
+                self::func_delete($item);
+
+                // Удаление подчиненных связанных записей
+                self::run_items_ids_for_delete($array_items_ids);
+
+            }, 3);  // Повторить три раза, прежде чем признать неудачу
+            // окончание транзакции
+
+        } catch (Exception $exc) {
+//          return trans('transaction_not_completed') . ": " . $exc->getMessage();
+            $result = trans('transaction_not_completed') . ": " . $exc->getMessage();
+        }
+        return $result;
+    }
+
+    static function func_delete(Item $item)
+    {
+//      $is_save_sets = $this->is_save_sets($item);
+        $is_save_sets = self::is_save_sets($item);
 
         if ($is_save_sets == true) {
             // true - с реверсом
             // false - без замены
-            $this->save_info_sets($item, true, false);
+//          $this->save_info_sets($item, true, false);
+            self::save_info_sets($item, true, false);
 
             $base_id = $item->base_id;
             $project_id = $item->project_id;
 
             $item->delete();
 
-            $this->sets_null_delete($base_id, $project_id);
+            // $this->sets_null_delete($base_id, $project_id);
+            self::sets_null_delete($base_id, $project_id);
 
         } else {
             $item->delete();
@@ -6274,10 +6357,11 @@ class ItemController extends Controller
         $is_list_base_used_delete = false;
         //$base_right = self::base_relit_right($item->base, $role, $heading, $base_index_page, $relit_id, $parent_ret_id);
         $base_right = GlobalController::base_right($item->base, $role, $relit_id);
-        $is_limit_minutes = GlobalController::is_limit_minutes($base_right, $item);
+        $is_en_limit_minutes = GlobalController::is_en_limit_minutes($base_right, $item);
+        $is_lt_limit_minutes = GlobalController::is_lt_limit_minutes($base_right, $item);
         $is_checking_history = GlobalController::is_checking_history($item, $role, $relit_id);
         $is_checking_empty = GlobalController::is_checking_empty($item, $role, $relit_id);
-        if ($is_limit_minutes['is_entry_minutes'] == true
+        if ($is_en_limit_minutes['is_entry_minutes'] == true
             & $is_checking_history['result_entry_history'] == true
             & $is_checking_empty['result_entry_empty'] == true) {
             if ($base_right['is_list_base_delete'] == true) {
@@ -6296,12 +6380,15 @@ class ItemController extends Controller
                 }
             }
         }
-        return ['result' => $result, 'is_list_base_used_delete' => $is_list_base_used_delete, 'is_limit_minutes' => $is_limit_minutes];
+        return ['result' => $result, 'is_list_base_used_delete' => $is_list_base_used_delete,
+            'is_en_limit_minutes' => $is_en_limit_minutes,
+            'is_lt_limit_minutes' => $is_lt_limit_minutes
+        ];
     }
 
-    // Рекурсивная функция
-    // Вычисление вложенных items_ids для удаления взависимости от переданного $item
-    private
+// Рекурсивная функция
+// Вычисление вложенных items_ids для удаления взависимости от переданного $item
+    private static
     function calc_items_ids_for_delete(Item $item, &$array_items_ids, bool $exist)
     {
         // '->get()' нужно
@@ -6320,8 +6407,8 @@ class ItemController extends Controller
         }
     }
 
-    // Удаление $items для удаления
-    private
+// Удаление $items для удаления
+    private static
     function run_items_ids_for_delete($array_items_ids)
     {
         foreach ($array_items_ids as $item_id) {
@@ -6924,6 +7011,7 @@ class ItemController extends Controller
             'result_unit_name' => $result_unit_name,
             'result_item_name_options' => $result_item_name_options];
     }
+
 // Функция get_parent_item_from_calc_child_item() ищет вычисляемое поля от первого невычисляемого
 // в форме item/ext_edit.php
 // Например: значение вычисляемого (через "Бабушка со стороны матери") "Прабабушка со стороны матери" находится от значение поля "Мать",
@@ -7254,7 +7342,7 @@ class ItemController extends Controller
         return $result;
     }
 
-    //static function form_child_deta_hier(Item $item, Project $project, Role $role, $relit_id, $view_ret_id)
+//static function form_child_deta_hier(Item $item, Project $project, Role $role, $relit_id, $view_ret_id)
     static function form_child_deta_hier(Item $item, Project $project, Role $role, $relit_id)
     {
         $items = array();
@@ -7384,7 +7472,7 @@ class ItemController extends Controller
     }
 
 // Функция calc_value_func() вычисляет наименования для записи $item
-    function calc_value_func(Item $item, $level = 0, $first_run = true)
+    static function calc_value_func(Item $item, $level = 0, $first_run = true)
     {
         // Эта функция только для base с вычисляемым наименованием
         if ($item->base->is_calcname_lst == false) {
@@ -7566,7 +7654,7 @@ class ItemController extends Controller
             'calc_lang_0' => $calc_lang_0, 'calc_lang_1' => $calc_lang_1, 'calc_lang_2' => $calc_lang_2, 'calc_lang_3' => $calc_lang_3];
     }
 
-    // Перерасчет $items по переданным $base, $project
+// Перерасчет $items по переданным $base, $project
     function calculate_names(Base $base, Project $project)
     {
         // "->get()" нужно
@@ -7587,7 +7675,7 @@ class ItemController extends Controller
         return redirect()->back();
     }
 
-    // Перерасчет $items по переданным $item по всем проектам
+// Перерасчет $items по переданным $item по всем проектам
     function calc_item_names(Item $item)
     {
         $list = array();
@@ -7665,7 +7753,7 @@ class ItemController extends Controller
         return $result;
     }
 
-    function calculate_new_seqnum(Project $project, Link $link, Item $parent_item = null, Link $par_ln = null)
+    static function calculate_new_seqnum(Project $project, Link $link, Item $parent_item = null, Link $par_ln = null)
     {
         $result = 0;
         // "      if ($parent_item & $par_ln)",

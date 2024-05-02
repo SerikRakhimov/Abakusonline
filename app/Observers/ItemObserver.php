@@ -18,11 +18,6 @@ class ItemObserver
     //public function created(Item $item)
     public function created($item)
     {
-        if($item->base_id != 195 && $item->base_id != 193) {
-            //dd($item->base);
-        //dd('100 - '.$item->base_id. ' - '.$item->base->name());
-            //
-        }
     }
 
     /**

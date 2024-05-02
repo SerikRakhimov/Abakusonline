@@ -151,12 +151,22 @@ class Base extends Model
         return $result;
     }
 
-    function ch_min_desc()
+    function en_min_desc()
     {
         $result = "";  // нужно, не удалять
         $index = array_search(App::getLocale(), config('app.locales'));
         if ($index !== false) {   // '!==' использовать, '!=' не использовать
-            $result = $this['ch_min_desc_' . $index];
+            $result = $this['en_min_desc_' . $index];
+        }
+        return $result;
+    }
+
+    function lt_min_desc()
+    {
+        $result = "";  // нужно, не удалять
+        $index = array_search(App::getLocale(), config('app.locales'));
+        if ($index !== false) {   // '!==' использовать, '!=' не использовать
+            $result = $this['lt_min_desc_' . $index];
         }
         return $result;
     }

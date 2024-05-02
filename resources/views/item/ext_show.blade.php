@@ -53,9 +53,13 @@
         @if($base_right['is_show_hist_attr_enable'] == true)
             @include('layouts.item.show_history',['item'=>$item])
         @endif
-        @if($is_limit_minutes['is_view_minutes'] == true)
+        @if($is_en_limit_minutes['is_view_en_minutes'] == true)
             <span class="badge badge-pill badge-related"
-                  title="{{trans('main.title_min')}}">{{GlobalController::remaining_minutes($item)}}</span>
+                  title="{{trans('main.title_en_min')}}">{{GlobalController::remaining_en_minutes($item)}}</span>
+        @endif
+        @if($is_lt_limit_minutes['is_view_lt_minutes'] == true)
+            <span class="badge badge-pill badge"
+                  title="{{trans('main.title_lt_min')}}">{{GlobalController::remaining_lt_minutes($item)}}</span>
         @endif
     </h4>
     <br>
@@ -114,9 +118,9 @@
                     $link_image = $item_image['link'];
                     ?>
                     @if($item_image['item'])
-                    {{-- @include('view.img',['item'=>$item_image['item'], 'size'=>"medium", 'width'=>"30%", 'border'=>true, 'filenametrue'=>false, 'link'=>true, 'img_fluid'=>true, 'card_img_top'=>false, 'title'=>$link_image->parent_label()])--}}
-                    @include('view.img',['item'=>$item_image['item'], 'size'=>"medium", 'border'=>false, 'filenametrue'=>false, 'link'=>true, 'img_fluid'=>true, 'card_img_top'=>false, 'title'=>$link_image->parent_label()])
-                            <br><br>
+                        {{-- @include('view.img',['item'=>$item_image['item'], 'size'=>"medium", 'width'=>"30%", 'border'=>true, 'filenametrue'=>false, 'link'=>true, 'img_fluid'=>true, 'card_img_top'=>false, 'title'=>$link_image->parent_label()])--}}
+                        @include('view.img',['item'=>$item_image['item'], 'size'=>"medium", 'border'=>false, 'filenametrue'=>false, 'link'=>true, 'img_fluid'=>true, 'card_img_top'=>false, 'title'=>$link_image->parent_label()])
+                        <br><br>
                     @endif
                     <big><big>
                             <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,
@@ -540,7 +544,7 @@
                     {{$item->button_title()}}
                 </button>
             @endif
-            @if($is_limit_minutes['is_entry_minutes'] == true & $is_checking_history['result_entry_history'] == true & $is_checking_empty['result_entry_empty'] == true)
+            @if($is_en_limit_minutes['is_entry_minutes'] == true & $is_checking_history['result_entry_history'] == true & $is_checking_empty['result_entry_empty'] == true)
                 @if($item->is_history() == false)
                     {{--Похожая проверка в ItemController::ext_edit() и ext_show.php--}}
                     @if($base_right['is_list_base_update'] == true)
@@ -590,7 +594,7 @@
                 @endif
             @endif
             {{--            В ItemController::is_delete() есть необходимые проверки--}}
-            {{--            @if($is_limit_minutes['is_entry_minutes'] == true & $is_checking_history['result_entry_history'] == true& $is_checking_empty['result_entry_empty'] == true)--}}
+            {{--            @if($is_en_limit_minutes['is_entry_minutes'] == true & $is_checking_history['result_entry_history'] == true& $is_checking_empty['result_entry_empty'] == true)--}}
             @if($item->is_history() == false)
                 {{--            В ItemController::is_delete() есть необходимые проверки на права по удалению записи--}}
                 @if($is_delete['result'] == true)
@@ -678,22 +682,22 @@
             {{--                {{trans('main.return')}}--}}
             {{--            </button>--}}
 
-{{--            <button type="button" class="btn btn-dreamer"--}}
-{{--                    onclick='document.location="{{route('item.ext_return',['item'=>$item,'project'=>$project, 'role'=>$role,--}}
-{{--            'usercode' =>GlobalController::usercode_calc(),--}}
-{{--            'string_current' => $string_current,--}}
-{{--            'heading' => $heading,--}}
-{{--            'relit_id'=>$relit_id,--}}
-{{--            'base_index_page' => $base_index_page, 'body_link_page' => $body_link_page, 'body_all_page' => $body_all_page,--}}
-{{--            'parent_ret_id' => GlobalController::set_rev_relit_id($parent_ret_id),--}}
-{{--            'view_link' => $view_link,--}}
-{{--            'saveurl_ret' => $saveurl_show_ret,--}}
-{{--            'par_link' => $par_link, 'parent_item' => $parent_item])}}"'--}}
-{{--                    title="{{trans('main.return')}}"--}}
-{{--            >--}}
-{{--                <i class="fas fa-arrow-left"></i>--}}
-{{--                {{trans('main.return')}}--}}
-{{--            </button>--}}
+            {{--            <button type="button" class="btn btn-dreamer"--}}
+            {{--                    onclick='document.location="{{route('item.ext_return',['item'=>$item,'project'=>$project, 'role'=>$role,--}}
+            {{--            'usercode' =>GlobalController::usercode_calc(),--}}
+            {{--            'string_current' => $string_current,--}}
+            {{--            'heading' => $heading,--}}
+            {{--            'relit_id'=>$relit_id,--}}
+            {{--            'base_index_page' => $base_index_page, 'body_link_page' => $body_link_page, 'body_all_page' => $body_all_page,--}}
+            {{--            'parent_ret_id' => GlobalController::set_rev_relit_id($parent_ret_id),--}}
+            {{--            'view_link' => $view_link,--}}
+            {{--            'saveurl_ret' => $saveurl_show_ret,--}}
+            {{--            'par_link' => $par_link, 'parent_item' => $parent_item])}}"'--}}
+            {{--                    title="{{trans('main.return')}}"--}}
+            {{--            >--}}
+            {{--                <i class="fas fa-arrow-left"></i>--}}
+            {{--                {{trans('main.return')}}--}}
+            {{--            </button>--}}
 
             <button type="button" class="btn btn-dreamer" title="{{trans('main.cancel')}}"
                 @include('layouts.item.base_index.previous_url')

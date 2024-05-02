@@ -124,7 +124,10 @@ class GlobalController extends Controller
         $is_tst_enable = $base->is_default_tst_lst;
         $is_cus_enable = false;
         $is_edit_parlink_enable = false;
+        // Проверка '$base->entry_minutes > 0' нужна
         $is_entry_limit_minutes = $base->entry_minutes > 0;
+        // Проверка '$base->lifetime_minutes > 0' нужна
+        $is_lifetime_limit_minutes = $base->lifetime_minutes > 0;
         $is_show_hist_attr_enable = false;
         $is_edit_hist_attr_enable = false;
         $is_list_hist_attr_enable = false;
@@ -421,6 +424,7 @@ class GlobalController extends Controller
             'is_cus_enable' => $is_cus_enable,
             'is_edit_parlink_enable' => $is_edit_parlink_enable,
             'is_entry_limit_minutes' => $is_entry_limit_minutes,
+            'is_lifetime_limit_minutes' => $is_lifetime_limit_minutes,
             'is_show_hist_attr_enable' => $is_show_hist_attr_enable,
             'is_edit_hist_attr_enable' => $is_edit_hist_attr_enable,
             'is_list_hist_attr_enable' => $is_list_hist_attr_enable,
@@ -492,6 +496,8 @@ class GlobalController extends Controller
         $is_tst_enable = $base_child_right['is_tst_enable'];
         $is_cus_enable = $base_child_right['is_cus_enable'];
         $is_edit_parlink_enable = $base_right['is_edit_parlink_enable'];
+        $is_entry_limit_minutes = $base_right['is_entry_limit_minutes'];
+        $is_lifetime_limit_minutes = $base_right['is_lifetime_limit_minutes'];
         $is_checking_history = $link->parent_is_checking_history;
         $is_checking_empty = $link->parent_is_checking_empty;
         $is_show_hist_attr_enable = $base_right['is_show_hist_attr_enable'];
@@ -636,6 +642,8 @@ class GlobalController extends Controller
             'is_tst_enable' => $is_tst_enable,
             'is_cus_enable' => $is_cus_enable,
             'is_edit_parlink_enable' => $is_edit_parlink_enable,
+            'is_entry_limit_minutes' => $is_entry_limit_minutes,
+            'is_lifetime_limit_minutes' => $is_lifetime_limit_minutes,
             'is_checking_history' => $is_checking_history,
             'is_checking_empty' => $is_checking_empty,
             'is_show_hist_attr_enable' => $is_show_hist_attr_enable,
@@ -2299,7 +2307,7 @@ class GlobalController extends Controller
         return $children_id_projects;
     }
 
-    function get_array_relits(Template $template)
+    static function get_array_relits(Template $template)
     {
         $array_relits = [];
         $child_relits = $template->child_relits;
@@ -2821,7 +2829,7 @@ class GlobalController extends Controller
     }
 
     // Сохранение и resize() изображения
-    function image_store($request, $key, $project_id, $base_id)
+    static function image_store($request, $key, $project_id, $base_id)
     {
         // Сохраняем на диск графический файл "один к одному"
         //$path = $request[$key]->store('public/' . $item->project_id . '/' . $link->parent_base_id);
@@ -3272,7 +3280,20 @@ class GlobalController extends Controller
         return ['proj_name' => $proj_name, 'relit_title' => $relit_title, 'proj_relit_total' => $proj_name . $relit_title];
     }
 
-    static function const_base_min(Base $base)
+    static function calc_minutes(Item $item)
+    {
+        // https://www.techiedelight.com/ru/get-time-difference-in-minutes-php/
+        // установка часового пояса нужно для проверки времени
+        date_default_timezone_set('Asia/Almaty');
+        $start = Now();
+        $end = $item->created_at;
+        $interval = $start->diff($end);
+        $result = ($interval->days * 24 * 60) + ($interval->h * 60) + $interval->i;
+        return $result;
+    }
+
+    // $base->entry_minutes
+    static function const_base_en_min(Base $base)
     {
         // Результат в int нужно, используется при выводе текста и вычисления разности минут
         $result = $base->entry_minutes;
@@ -3282,58 +3303,101 @@ class GlobalController extends Controller
         return $result;
     }
 
-    static function calc_minutes(Item $item)
-    {
-        // https://www.techiedelight.com/ru/get-time-difference-in-minutes-php/
-        // установка часового пояса нужно для проверки времени
-        date_default_timezone_set('Asia / Almaty');
-        $start = Now();
-        $end = $item->created_at;
-        $interval = $start->diff($end);
-        $result = ($interval->days * 24 * 60) + ($interval->h * 60) + $interval->i;
-        return $result;
-    }
-
     // $base->entry_minutes
-    static function base_minutes(Base $base)
+    static function base_en_minutes(Base $base)
     {
-        $minutes = self::const_base_min($base);
-        $result = $minutes . ' ' . trans('main . info_min');
-        $ch_min_desc = $base->ch_min_desc();
-        if ($ch_min_desc != 0) {
-            $result = $result . ' (' . $ch_min_desc . ')';
+        $minutes = self::const_base_en_min($base);
+        $result = $minutes . ' ' . trans('main.info_min');
+        $en_min_desc = $base->en_min_desc();
+        if ($en_min_desc != "") {
+//          $result = $result . ' (' . $en_min_desc . ')';
+            $result = $en_min_desc;
         }
         return $result;
     }
 
     // Остаток минут
-    static function remaining_minutes(Item $item)
+    static function remaining_en_minutes(Item $item)
     {
-        $minutes = self::const_base_min($item->base) - self::calc_minutes($item);
-        $result = $minutes . ' ' . trans('main . info_min');
+        $minutes = self::const_base_en_min($item->base) - self::calc_minutes($item);
+        $result = $minutes . ' ' . trans('main.info_min');
         return $result;
     }
 
     // При добавлении записи, вызывается из ext_create()
-    static function is_limit_add_record_minutes($base_right)
+    static function is_en_limit_add_record_minutes($base_right)
     {
         return $base_right['is_entry_limit_minutes'];
     }
 
-    static function is_limit_minutes($base_right, Item $item)
+    static function is_en_limit_minutes($base_right, Item $item)
     {
         // Можно выполнять корректировку и удаление данных - да/нет
         // 'true' по умолчанию
         $result_entry_minutes = true;
         // Выводить количество минут - да/нет
         // 'false' по умолчанию
-        $result_view_minutes = false;
+        $result_view_en_minutes = false;
         if ($base_right['is_entry_limit_minutes'] == true) {
             $minutes = self::calc_minutes($item);
-            $result_entry_minutes = $minutes < self::const_base_min($item->base);
-            $result_view_minutes = $result_entry_minutes;
+            $result_entry_minutes = $minutes < self::const_base_en_min($item->base);
+            $result_view_en_minutes = $result_entry_minutes;
         }
-        return ['is_entry_minutes' => $result_entry_minutes, 'is_view_minutes' => $result_view_minutes];
+        return ['is_entry_minutes' => $result_entry_minutes, 'is_view_en_minutes' => $result_view_en_minutes];
+    }
+
+    // $base->lifetime_minutes
+    static function const_base_lt_min(Base $base)
+    {
+        // Результат в int нужно, используется при выводе текста и вычисления разности минут
+        $result = $base->lifetime_minutes;
+        if ($result < 0) {
+            $result = 0;
+        }
+        return $result;
+    }
+
+    // $base->lifetime_minutes
+    static function base_lt_minutes(Base $base)
+    {
+        $minutes = self::const_base_lt_min($base);
+        $result = $minutes . ' ' . trans('main.info_min');
+        $lt_min_desc = $base->lt_min_desc();
+        if ($lt_min_desc != "") {
+//          $result = $result . ' (' . $lt_min_desc . ')';
+            $result = $lt_min_desc;
+        }
+        return $result;
+    }
+
+    // Остаток минут
+    static function remaining_lt_minutes(Item $item)
+    {
+        $minutes = self::const_base_lt_min($item->base) - self::calc_minutes($item);
+        $result = $minutes . ' ' . trans('main.info_min');
+        return $result;
+    }
+
+    // При добавлении записи, вызывается из ext_create()
+    static function is_lt_limit_add_record_minutes($base_right)
+    {
+        return $base_right['is_lifetime_limit_minutes'];
+    }
+
+    static function is_lt_limit_minutes($base_right, Item $item)
+    {
+        // Можно выполнять корректировку и удаление данных - да/нет
+        // 'true' по умолчанию
+        $result_lifetime_minutes = true;
+        // Выводить количество минут - да/нет
+        // 'false' по умолчанию
+        $result_view_lt_minutes = false;
+        if ($base_right['is_lifetime_limit_minutes'] == true) {
+            $minutes = self::calc_minutes($item);
+            $result_lifetime_minutes = $minutes < self::const_base_lt_min($item->base);
+            $result_view_lt_minutes = $result_lifetime_minutes;
+        }
+        return ['is_lifetime_minutes' => $result_lifetime_minutes, 'is_view_lt_minutes' => $result_view_lt_minutes];
     }
 
     // Алгоритмы функций is_checking_add_history() и is_checking_history() похожи между собой
