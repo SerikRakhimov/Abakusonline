@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class UpdateBasesTableEntryDescMinutes extends Migration
+class UpdateBasesTableMaxMinutes extends Migration
 {
     /**
      * Run the migrations.
@@ -14,10 +14,7 @@ class UpdateBasesTableEntryDescMinutes extends Migration
     public function up()
     {
         Schema::table('bases', function (Blueprint $table) {
-            $table->string('en_min_desc_0', 255)->default("");
-            $table->string('en_min_desc_1', 255)->default("");
-            $table->string('en_min_desc_2', 255)->default("");
-            $table->string('en_min_desc_3', 255)->default("");
+            $table->integer('lifetime_minutes')->default(0);
         });
     }
 
