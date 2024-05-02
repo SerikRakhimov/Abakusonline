@@ -828,7 +828,7 @@ class ItemController extends Controller
         }
     }
 
-    function string_null()
+    static function string_null()
     {
         return GlobalController::const_null()
             . ';' . GlobalController::const_null()
@@ -1039,7 +1039,7 @@ class ItemController extends Controller
         return $result;
     }
 
-    function string_zip_current_next($string_link_ids, $string_item_ids, $string_relit_ids, $string_vwret_ids, $string_all_codes)
+    static function string_zip_current_next($string_link_ids, $string_item_ids, $string_relit_ids, $string_vwret_ids, $string_all_codes)
     {
         $result = self::string_null();
         if (($string_link_ids != "")
@@ -1052,7 +1052,7 @@ class ItemController extends Controller
         return $result;
     }
 
-    function string_unzip_current_next($string_current_next)
+    static function string_unzip_current_next($string_current_next)
     {
         $string_link_ids = '';
         $string_item_ids = '';
