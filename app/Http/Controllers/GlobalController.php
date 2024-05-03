@@ -3069,7 +3069,7 @@ class GlobalController extends Controller
 //          }
             if ($base_right['is_cus_enable'] == true) {
                 //$result = $result . ' (' . GlobalController::glo_user()->get_user_itnm() . ')';
-                $result = $result . ' (' . mb_strtolower(trans('main . filter_by_current_user')) . ')';
+                $result = $result . ' (' . mb_strtolower(trans('main.filter_by_current_user')) . ')';
             }
         }
         return $result;
