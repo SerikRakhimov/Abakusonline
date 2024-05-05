@@ -1760,7 +1760,9 @@ class GlobalController extends Controller
         return '- ' . mb_strtolower(trans('main.all_links')) . ' -';
     }
 
+    //
 // Алгоритмы одинаковые в types.img.height.blade.php и GlobalController::types_img_height()
+//
     static function types_img_height($size)
     {
         $result = '';
