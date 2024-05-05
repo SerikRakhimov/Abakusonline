@@ -1768,6 +1768,8 @@ class GlobalController extends Controller
             $result = '"30"';
         } elseif ($size == "small") {
             $result = '"50"';
+        } elseif ($size == "shundred") {
+            $result = '"100"';
         } elseif ($size == "smed") {
             $result = '"125"';
         } elseif ($size == "medium") {
