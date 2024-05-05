@@ -3,6 +3,8 @@
     "30px"
 @elseif($size == "small")
     "50px"
+@elseif($size == "shundred")
+    "100px"
 @elseif($size == "smed")
     "125px"
 @elseif($size == "mem")

@@ -7118,7 +7118,7 @@ class ItemController extends Controller
                                 //$result_item_name = "<a href='" . Storage::url($item->filename()) . "'><img src='" . Storage::url($item->filename()) . "' height='50' alt='' title='" . $item->filename() . "'></a>";
                                 if ($item->base->type_is_image()) {
                                     //$result_item_name = "<img src='" . Storage::url($item->filename()) . "' height='250' alt='' title='" . $item->title_img() . "'>";
-                                    $result_item_name = GlobalController::view_img($item, "small", false, false, false, "empty");
+                                    $result_item_name = GlobalController::view_img($item, "shundred", false, false, false, "empty");
                                 } else {
                                     $result_item_name = GlobalController::view_doc($item, GlobalController::usercode_calc());
                                 }
