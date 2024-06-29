@@ -53,7 +53,6 @@ $num_cols = GlobalController::get_number_of_columns_info();
                     $item_find = GlobalController::view_info($item->id, $link_image->id, $role, $relit_id, true);
                 }
                 ?>
-
                 {{--            Сортировка по links--}}
                 @if(!$next_all_is_sortdate)
                     @if($link_id_current != $link->id)
@@ -80,8 +79,6 @@ $num_cols = GlobalController::get_number_of_columns_info();
             ?>
             @endif
             @endif
-
-
             {{--                @if($item_find)--}}
             {{-- Вывод карты--}}
             @include('list.elements.card',
@@ -177,7 +174,6 @@ $num_cols = GlobalController::get_number_of_columns_info();
         @endforeach
     @endif
 @else
-    10101010
     {{-- III.Вывод информации в виде таблицы--}}
     {{-- III.1 Сортировка по дате создания записи--}}
     @if($next_all_is_sortdate)
@@ -337,6 +333,7 @@ $num_cols = GlobalController::get_number_of_columns_info();
             </tbody>
         </table>
     @else
+        1010101010
         {{-- III.Вывод информации в виде таблицы--}}
         {{-- III.2 Сортировка по links--}}
         <?php
