@@ -14,8 +14,8 @@ use \App\Http\Controllers\GlobalController;
                                                                         'string_current' => $string_current,
                                                                         ])}}"
            title="{{trans('main.viewing_record')}}{{GlobalController::calc_title_name($label_name,true,false)}}">
-{{--        <span class="badge badge-related">--}}
-    <span class="badge badge-pale">
+        <span class="badge badge-related">
+{{--    <span class="badge badge-pale">--}}
             {{$i}}
         </span>
     </a>
