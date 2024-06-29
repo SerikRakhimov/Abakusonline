@@ -4,7 +4,9 @@ namespace App\Models;
 
 use App\Http\Controllers\GlobalController;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
+
 
 class Base extends Model
 {
@@ -363,20 +365,23 @@ class Base extends Model
     {
         $result = false;
         $link = null;
-        // Для роли Автор и текущего (не взаимосвязанного шаблона) просмотр в виде стандартной таблицы
-        if (!($role->is_author() & $relit_id == 0)) {
-            // Только чтение данных(без создания, корректировки и удаления)
-            // Проверка должна быть одинакова "$base_right['is_list_base_read'] == true" ItemController::item_index() и Base::tile_view()
-//          if ($base_right['is_list_base_read'] == true) {
-            if ($base_right['is_list_base_update'] == false & $base_right['is_list_base_delete'] == false) {
-                $link = $this->get_link_primary_image();
-                if ($link) {
-                    //if ($link->parent_base->type_is_image()) {
-                    $result = true;
-                    //}
-                }
-            }
+        // Для роли Автор и текущего (не взаимосвязанного шаблона) просмотр в виде стандартной таблицы, не удалять
+//      if (!($role->is_author() & $relit_id == 0)) {
+        // Только чтение данных(без создания, корректировки и удаления)
+        // Проверка должна быть одинакова "$base_right['is_list_base_read'] == true" ItemController::item_index() и Base::tile_view()
+//      if ($base_right['is_list_base_read'] == true) {
+//        if ($base_right['is_list_base_update'] == false & $base_right['is_list_base_delete'] == false) {
+        // Одинаковое условие 'if ($base_right['is_list_base_upd_del'])' в GlobalController::is_base_calcname_check() и Base::tile_view()
+        if ($base_right['is_list_base_upd_del'] == false) {
+            $link = $this->get_link_primary_image();
+            // Эту проверку 'if ($link)' не использовать
+//            if ($link) {
+//                //if ($link->parent_base->type_is_image()) {
+            $result = true;
+            //}
+//            }
         }
+//      }
         return ['result' => $result, 'link' => $link];
     }
 
@@ -449,4 +454,34 @@ class Base extends Model
         return ['text' => $text, 'icon' => $icon];
     }
 
+    function level_array()
+    {
+        $result = false;
+        $l_arr = array();
+        // 'Учитывать уровни при добавлении/корректировке записей'
+        if ($this->is_consider_levels_lst == true) {
+            // Использовать именно так:
+//        "->orderBy('links.parent_base_number')
+//         ->get()
+//         ->groupBy('id');"
+            // сначала сортировка 'links.parent_base_number'
+            // потом выборка данных 'get()'
+            // группировка по $level->id 'groupBy('id')'
+            $ch_levels = Level::select(DB::Raw('levels.*'))
+                ->join('links', 'levels.id', '=', 'links.parent_level_id_0')
+                ->where('links.child_base_id', '=', $this->id)
+                ->orderBy('links.parent_base_number')
+                ->get()
+                ->groupBy('id');
+            $count = count($ch_levels);
+            if ($count > 0) {
+                foreach ($ch_levels as $level) {
+                    // Добавляем новый элемент массива
+                    $l_arr[] = $level['0']->id;
+                }
+                $result = true;
+            }
+        }
+        return ['result' => $result, 'l_arr' => $l_arr];
+    }
 }

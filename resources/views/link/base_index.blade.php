@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<?php
+    <?php
     use \App\Http\Controllers\GlobalController;
     ?>
     <p>
@@ -66,6 +66,7 @@
             <th class="text-left">{{trans('main.parent_is_small_calcname')}}</th>
             <th class="text-left">{{trans('main.parent_is_checking_history')}}</th>
             <th class="text-left">{{trans('main.parent_is_checking_empty')}}</th>
+            <th class="text-left">{{trans('main.is_enabled_alinks')}}</th>
             <th class="text-left">{{trans('main.parent_calcname_prefix')}}</th>
             <th class="text-center">Id</th>
             <th class="text-center"></th>
@@ -83,7 +84,11 @@
             $i++;
             ?>
             <tr>
-                <td class="text-center">{{$i}}</td>
+                <td class="text-center">
+                    <a href="{{route('link.edit',[$link, $base])}}" title="{{trans('main.edit')}}">
+                        {{$i}}
+                    </a>
+                </td>
                 <td class="text-left">
                     <a href="{{route('link.show',$link)}}">
                         {{$link->link_maxcount}}
@@ -261,11 +266,18 @@
                 </td>
                 <td class="text-left">
                     <a href="{{route('link.show',$link)}}">
+                        {{$link->is_enabled_alinks}}
+                    </a>
+                </td>
+                <td class="text-left">
+                    <a href="{{route('link.show',$link)}}">
                         {{$link->parent_calcname_prefix()}}
                     </a>
                 </td>
                 <td class="text-center">
-                    {{$link->id}}
+                    <a href="{{route('link.show',$link)}}">
+                        {{$link->id}}
+                    </a>
                 </td>
                 <td class="text-center">
                     <a href="{{route('link.edit',[$link, $base])}}" title="{{trans('main.edit')}}">

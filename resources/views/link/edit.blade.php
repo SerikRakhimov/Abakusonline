@@ -694,6 +694,21 @@
             </div>
         </div>
 
+
+        <div class="form-group" id="is_enabled_alinks_form_group">
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" name="is_enabled_alinks"
+                       id="is_enabled_alinks"
+                       {{--            "true" - значение по умолчанию --}}
+                       @if ((old('is_enabled_alinks') ?? ($link->is_enabled_alinks ?? true)) ==  true)
+                       checked
+                    @endif
+                >
+                <label class="form-check-label"
+                       for="is_enabled_alinks">{{trans('main.is_enabled_alinks')}}</label>
+            </div>
+        </div>
+
         <div class="form-group" id="parent_is_setup_project_logo_img_form_group">
             <div class="form-check form-check-inline">
                 <input class="form-check-input" type="checkbox" name="parent_is_setup_project_logo_img"

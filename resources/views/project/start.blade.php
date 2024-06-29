@@ -133,7 +133,7 @@
 
     {{--    <h3 class="text-center">Справочники</h3><br>--}}
 
-    {{--    <div class="card-deck">--}}
+    {{--    <div class="elements-deck">--}}
     {{--        <?php--}}
     {{--        $i = $bases->firstItem() - 1;--}}
     {{--        ?>--}}
@@ -145,10 +145,10 @@
     {{--                <?php--}}
     {{--                $i++;--}}
     {{--                ?>--}}
-    {{--                <div class="card shadow">--}}
-    {{--                    --}}{{--                                        <p class="card-header text-center">{{$i}}</p>--}}
-    {{--                    <div class="card-body">--}}
-    {{--                        <h5 class="card-title text-center">--}}
+    {{--                <div class="elements shadow">--}}
+    {{--                    --}}{{--                                        <p class="elements-header text-center">{{$i}}</p>--}}
+    {{--                    <div class="elements-body">--}}
+    {{--                        <h5 class="elements-title text-center">--}}
     {{--                            <a--}}
     {{--                                href="{{route('item.base_index',['base'=>$base, 'project' => $project, 'role' => $role, 'relit_id' => 0])}}"--}}
     {{--                                title="{{$base->names()}}">--}}
@@ -160,7 +160,7 @@
     {{--                            </a>--}}
     {{--                        </h5>--}}
     {{--                    </div>--}}
-    {{--                    --}}{{--                    <div class="card-footer text-center">--}}
+    {{--                    --}}{{--                    <div class="elements-footer text-center">--}}
     {{--                    --}}{{--                        <small class="text-muted">--}}
     {{--                    --}}{{--                            {{GlobalController::items_right($base, $project, $role)['view_count']}}--}}
     {{--                    --}}{{--                        </small>--}}

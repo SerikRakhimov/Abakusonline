@@ -78,7 +78,11 @@ class StepController extends Controller
                                         $nc_p = "nc_parameter_4_";
                                         $nc_s = "value";
                                     }
+
                                     $result = $result . "\n x = " . $nc_p . $step->first . "." . $nc_s . ";";
+                                    // Нужно
+//                                  $result = $result . "\n if(nc_parameter_4_" . $step->first . "." . $nc_s . " == '') {x = 0;}";
+                                    $result = $result . "\n if(nc_parameter_4_" . $step->first . "." . $nc_s . " == '') {v.value = ''; return;}";
 
                                     if ($link->parent_base->type_is_string() & $link->parent_base->is_one_value_lst_str_txt == false) {
                                         $i = 0;
@@ -293,6 +297,7 @@ class StepController extends Controller
                         $lc = config('app.locales')[$lang_key];
                         App::setLocale($lc);
                         foreach ($steps as $step) {
+                            $br = false;
                             switch ($step->command) {
                                 // x = число-константа
                                 case "N":
@@ -337,9 +342,13 @@ class StepController extends Controller
                                             }
                                         } else {
                                             $x = "";
+                                            $br = true;
+                                            break;
                                         }
                                     } else {
                                         $x = "";
+                                        $br = true;
+                                        break;
                                     }
                                     break;
                                 case
@@ -429,6 +438,10 @@ class StepController extends Controller
                                     $x = $z;
                                     $z = "";
                                     break;
+                            }
+                            if ($br == true) {
+                                $x = "";
+                                break;
                             }
                         }
 //        if ($link->parent_base->type_is_boolean()) {

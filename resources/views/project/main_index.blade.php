@@ -39,14 +39,14 @@
             @if(count($roles) == 0)
                 @continue
             @endif
-            {{--        <div class="card shadow">--}}
-            {{--            <img class="card-img-top" src="{{Storage::url('background.png')}}" alt="Card image">--}}
-            {{--            <p class="card-header">{{$project->template->name()}}</p>--}}
-            {{--            <div class="card-body">--}}
-            {{--                <h4 class="card-title">{{$project->name()}}</h4>--}}
-            {{--                <p class="card-title text-label">Id = {{$project->id}}</p>--}}
-            {{--                --}}{{--                <p class="card-text">{{$project->desc()}}</p>--}}
-            {{--                <p class="card-text"><?php echo nl2br($project->dc_ext()); ?></p>--}}
+            {{--        <div class="elements shadow">--}}
+            {{--            <img class="elements-img-top" src="{{Storage::url('background.png')}}" alt="Card image">--}}
+            {{--            <p class="elements-header">{{$project->template->name()}}</p>--}}
+            {{--            <div class="elements-body">--}}
+            {{--                <h4 class="elements-title">{{$project->name()}}</h4>--}}
+            {{--                <p class="elements-title text-label">Id = {{$project->id}}</p>--}}
+            {{--                --}}{{--                <p class="elements-text">{{$project->desc()}}</p>--}}
+            {{--                <p class="elements-text"><?php echo nl2br($project->dc_ext()); ?></p>--}}
             {{--                @if($role)--}}
             {{--                    --}}{{--                ($my_projects ? 1 : 0)--}}
             {{--                    <button type="button" class="btn btn-dreamer" title="{{trans('main.run')}}"--}}
@@ -55,16 +55,16 @@
             {{--                        {{trans('main.run')}}--}}
             {{--                    </button>--}}
             {{--                @else--}}
-            {{--                    <p class="card-text text-danger">{{$message}}</p>--}}
+            {{--                    <p class="elements-text text-danger">{{$message}}</p>--}}
             {{--                @endif--}}
             {{--            </div>--}}
-            {{--            <div class="card-footer">--}}
+            {{--            <div class="elements-footer">--}}
             {{--                <small class="text-muted">{{$project->created_at}}</small>--}}
             {{--            </div>--}}
             {{--        </div>--}}
             {{--            @if($role)--}}
             <div class="card shadow m-2">
-                {{--                <img class="card-img-top" src="{{Storage::url('background.png')}}" alt="Card image">--}}
+                {{--                <img class="elements-img-top" src="{{Storage::url('background.png')}}" alt="Card image">--}}
                 <div class="card-header">
                     <div class="row">
                         {{--                        <div class="col-sm-6 text-left text-title">--}}
@@ -80,11 +80,11 @@
                     <p class="card-text ml-3"><small class="text-muted">{{$project->template->name()}}</small>
                     </p>
                 </div>
-                {{-- <div class="card-body p-0">--}}
-                {{--                <div class="card-body bg-light d-flex flex-wrap align-items-center">--}}
+                {{-- <div class="elements-body p-0">--}}
+                {{--                <div class="elements-body bg-light d-flex flex-wrap align-items-center">--}}
                 <div class="card-body bg-light flex-wrap align-items-center">
                     @if($get_project_logo_item)
-                        {{--                            <div class="card-block text-center">--}}
+                        {{--                            <div class="elements-block text-center">--}}
                         <div class="card-block text-center">
                             {{--                        @include('view.img',['item'=>$get_project_logo_item, 'size'=>"medium", 'filenametrue'=>false, 'link'=>false, 'img_fluid'=>true, 'card_img_top'=>true, 'title'=>'empty'])--}}
                             @include('view.img',['item'=>$get_project_logo_item, 'filenametrue'=>false, 'link'=>false, 'img_fluid'=>true, 'card_img_top'=>true, 'title'=>'empty'])
@@ -92,7 +92,7 @@
                     @endif
                     <p>
                     <h5 class="mb-2 pb-2">{{$project->name()}}</h5>
-                    {{--                <p class="card-text">{{$project->desc()}}</p>--}}
+                    {{--                <p class="elements-text">{{$project->desc()}}</p>--}}
                     <span class="card-text"><?php echo nl2br($project->dc_ext()); ?></span>
                     </p>
                     <br>
@@ -176,7 +176,7 @@
                 </div>
             </div>
             {{--            @else--}}
-            {{--                <p class="card-text text-danger">{{$message}}</p>--}}
+            {{--                <p class="elements-text text-danger">{{$message}}</p>--}}
             {{--            @endif--}}
             <br>
             <?php
@@ -203,87 +203,87 @@
         @endif
     </div>
 
-    {{--    <div class="card">--}}
-    {{--        <h3 class="card-header">Featured</h3>--}}
-    {{--        <div class="card-block">--}}
-    {{--            <h4 class="card-title">Special title treatment</h4>--}}
-    {{--            <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>--}}
+    {{--    <div class="elements">--}}
+    {{--        <h3 class="elements-header">Featured</h3>--}}
+    {{--        <div class="elements-block">--}}
+    {{--            <h4 class="elements-title">Special title treatment</h4>--}}
+    {{--            <p class="elements-text">With supporting text below as a natural lead-in to additional content.</p>--}}
     {{--            <a href="#" class="btn btn-primary">Go somewhere</a>--}}
     {{--        </div>--}}
-    {{--        <div class="card-footer">--}}
+    {{--        <div class="elements-footer">--}}
     {{--            <small class="text-muted">{{$project->created_at}}</small>--}}
     {{--        </div>--}}
     {{--    </div>--}}
-    {{--        <div class="card bg-primary">--}}
-    {{--            <div class="card-body text-center">--}}
-    {{--                <p class="card-text">Some text inside the first card</p>--}}
-    {{--                <p class="card-text">Some more text to increase the height</p>--}}
-    {{--                <p class="card-text">Some more text to increase the height</p>--}}
-    {{--                <p class="card-text">Some more text to increase the height</p>--}}
+    {{--        <div class="elements bg-primary">--}}
+    {{--            <div class="elements-body text-center">--}}
+    {{--                <p class="elements-text">Some text inside the first elements</p>--}}
+    {{--                <p class="elements-text">Some more text to increase the height</p>--}}
+    {{--                <p class="elements-text">Some more text to increase the height</p>--}}
+    {{--                <p class="elements-text">Some more text to increase the height</p>--}}
     {{--            </div>--}}
     {{--        </div>--}}
 
     {{$projects->links()}}
 
-    {{--    <div class="card shadow w-100 mt-2">--}}
-    {{--        <div class="card-block">--}}
-    {{--            <p class="card-text ml-3"><small class="text-muted">{{Auth::user()->name()}}</small>--}}
+    {{--    <div class="elements shadow w-100 mt-2">--}}
+    {{--        <div class="elements-block">--}}
+    {{--            <p class="elements-text ml-3"><small class="text-muted">{{Auth::user()->name()}}</small>--}}
     {{--            </p>--}}
     {{--        </div>--}}
-    {{--        <div class="card-body">--}}
-    {{--            <span class="card-text">Принеси воды...</span></p>--}}
+    {{--        <div class="elements-body">--}}
+    {{--            <span class="elements-text">Принеси воды...</span></p>--}}
     {{--        </div>--}}
     {{--    </div>--}}
 
-    {{--    <div class="card shadow w-100 mt-2">--}}
-    {{--        <div class="card-block">--}}
-    {{--            <p class="card-text ml-3"><small class="text-muted">{{Auth::user()->name()}}</small>--}}
+    {{--    <div class="elements shadow w-100 mt-2">--}}
+    {{--        <div class="elements-block">--}}
+    {{--            <p class="elements-text ml-3"><small class="text-muted">{{Auth::user()->name()}}</small>--}}
     {{--            </p>--}}
     {{--        </div>--}}
-    {{--        <div class="card-body">--}}
-    {{--            <span class="card-text">http://abakusonline/project/start/30 - ссылка на проект (ее можно отправить пользователям или разместить в вашем аккаунте любой социальной сети для привлечения клиентов)</span></p>--}}
+    {{--        <div class="elements-body">--}}
+    {{--            <span class="elements-text">http://abakusonline/project/start/30 - ссылка на проект (ее можно отправить пользователям или разместить в вашем аккаунте любой социальной сети для привлечения клиентов)</span></p>--}}
     {{--        </div>--}}
     {{--    </div>--}}
 
-    {{--    <div class="card shadow w-100 mt-2">--}}
-    {{--        <div class="card-block">--}}
-    {{--            <p class="card-text ml-3"><small class="text-muted">{{Auth::user()->name()}}</small>--}}
+    {{--    <div class="elements shadow w-100 mt-2">--}}
+    {{--        <div class="elements-block">--}}
+    {{--            <p class="elements-text ml-3"><small class="text-muted">{{Auth::user()->name()}}</small>--}}
     {{--            </p>--}}
     {{--        </div>--}}
-    {{--        <div class="card-body">--}}
-    {{--            <span class="card-text">Принеси молоко...</span></p>--}}
+    {{--        <div class="elements-body">--}}
+    {{--            <span class="elements-text">Принеси молоко...</span></p>--}}
     {{--        </div>--}}
     {{--    </div>--}}
 
-    {{--    <div class="card mt-4 text-label">--}}
-    {{--        <p class="card-header text-label">header</p>--}}
+    {{--    <div class="elements mt-4 text-label">--}}
+    {{--        <p class="elements-header text-label">header</p>--}}
     {{--        <div class="row align-items-center">--}}
     {{--            <div class="col-md-3">--}}
     {{--                <img class="img-fluid" src="{{Storage::url('MyPhoto.jpeg')}}" alt="Card image">--}}
     {{--            </div>--}}
     {{--            <div class="col-md-8">--}}
-    {{--                <h4 class="card-title">ttttt</h4>--}}
-    {{--                <h2 class="card-title mt-2">Yummi Foods</h2>--}}
+    {{--                <h4 class="elements-title">ttttt</h4>--}}
+    {{--                <h2 class="elements-title mt-2">Yummi Foods</h2>--}}
     {{--                <p>ghghghghhh hhhhhhhhhh ghghghghghhh eeeeeeeeer bbbbbxbxbxbxbxbxbx eeererrerrr hhhhhhffgfggf</p>--}}
     {{--            </div>--}}
     {{--        </div>--}}
-    {{--        <div class="card-footer text-label">--}}
+    {{--        <div class="elements-footer text-label">--}}
     {{--            <small class="text-muted">Footer</small>--}}
     {{--        </div>--}}
     {{--    </div>--}}
 
 
-    {{--    <div class="card-columns">--}}
-    {{--        <div class="card">--}}
-    {{--            <img class="card-img-top img-fluid" src="{{Storage::url('MyPhoto.jpeg')}}" alt="Card image cap">--}}
-    {{--            <div class="card-block">--}}
-    {{--                <h4 class="card-title">Card title that wraps to a new line</h4>--}}
-    {{--                <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional--}}
+    {{--    <div class="elements-columns">--}}
+    {{--        <div class="elements">--}}
+    {{--            <img class="elements-img-top img-fluid" src="{{Storage::url('MyPhoto.jpeg')}}" alt="Card image cap">--}}
+    {{--            <div class="elements-block">--}}
+    {{--                <h4 class="elements-title">Card title that wraps to a new line</h4>--}}
+    {{--                <p class="elements-text">This is a longer elements with supporting text below as a natural lead-in to additional--}}
     {{--                    content. This content is a little bit longer.</p>--}}
     {{--            </div>--}}
     {{--        </div>--}}
-    {{--        <div class="card p-3">--}}
-    {{--            <blockquote class="card-block card-blockquote">--}}
+    {{--        <div class="elements p-3">--}}
+    {{--            <blockquote class="elements-block elements-blockquote">--}}
     {{--                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>--}}
     {{--                <footer>--}}
     {{--                    <small class="text-muted">--}}
@@ -292,16 +292,16 @@
     {{--                </footer>--}}
     {{--            </blockquote>--}}
     {{--        </div>--}}
-    {{--        <div class="card">--}}
-    {{--            <img class="card-img-top img-fluid" src="{{Storage::url('MyPhoto.jpeg')}}" alt="Card image cap">--}}
-    {{--            <div class="card-block">--}}
-    {{--                <h4 class="card-title">Card title</h4>--}}
-    {{--                <p class="card-text">This card has supporting text below as a natural lead-in to additional content.</p>--}}
-    {{--                <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>--}}
+    {{--        <div class="elements">--}}
+    {{--            <img class="elements-img-top img-fluid" src="{{Storage::url('MyPhoto.jpeg')}}" alt="Card image cap">--}}
+    {{--            <div class="elements-block">--}}
+    {{--                <h4 class="elements-title">Card title</h4>--}}
+    {{--                <p class="elements-text">This elements has supporting text below as a natural lead-in to additional content.</p>--}}
+    {{--                <p class="elements-text"><small class="text-muted">Last updated 3 mins ago</small></p>--}}
     {{--            </div>--}}
     {{--        </div>--}}
-    {{--        <div class="card card-inverse card-primary p-3 text-center">--}}
-    {{--            <blockquote class="card-blockquote">--}}
+    {{--        <div class="elements elements-inverse elements-primary p-3 text-center">--}}
+    {{--            <blockquote class="elements-blockquote">--}}
     {{--                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat.</p>--}}
     {{--                <footer>--}}
     {{--                    <small>--}}
@@ -310,18 +310,18 @@
     {{--                </footer>--}}
     {{--            </blockquote>--}}
     {{--        </div>--}}
-    {{--        <div class="card text-center">--}}
-    {{--            <div class="card-block">--}}
-    {{--                <h4 class="card-title">Card title</h4>--}}
-    {{--                <p class="card-text">This card has supporting text below as a natural lead-in to additional content.</p>--}}
-    {{--                <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>--}}
+    {{--        <div class="elements text-center">--}}
+    {{--            <div class="elements-block">--}}
+    {{--                <h4 class="elements-title">Card title</h4>--}}
+    {{--                <p class="elements-text">This elements has supporting text below as a natural lead-in to additional content.</p>--}}
+    {{--                <p class="elements-text"><small class="text-muted">Last updated 3 mins ago</small></p>--}}
     {{--            </div>--}}
     {{--        </div>--}}
-    {{--        <div class="card">--}}
-    {{--            <img class="card-img img-fluid" src="{{Storage::url('MyPhoto.jpeg')}}" alt="Card image">--}}
+    {{--        <div class="elements">--}}
+    {{--            <img class="elements-img img-fluid" src="{{Storage::url('MyPhoto.jpeg')}}" alt="Card image">--}}
     {{--        </div>--}}
-    {{--        <div class="card p-3 text-right">--}}
-    {{--            <blockquote class="card-blockquote">--}}
+    {{--        <div class="elements p-3 text-right">--}}
+    {{--            <blockquote class="elements-blockquote">--}}
     {{--                <p>11111111111111111111111Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat--}}
     {{--                    a ante.</p>--}}
     {{--                <footer>--}}
@@ -331,12 +331,12 @@
     {{--                </footer>--}}
     {{--            </blockquote>--}}
     {{--        </div>--}}
-    {{--        <div class="card">--}}
-    {{--            <div class="card-block">--}}
-    {{--                <h4 class="card-title">Card title</h4>--}}
-    {{--                <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional--}}
-    {{--                    content. This card has even longer content than the first to show that equal height action.</p>--}}
-    {{--                <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>--}}
+    {{--        <div class="elements">--}}
+    {{--            <div class="elements-block">--}}
+    {{--                <h4 class="elements-title">Card title</h4>--}}
+    {{--                <p class="elements-text">This is a wider elements with supporting text below as a natural lead-in to additional--}}
+    {{--                    content. This elements has even longer content than the first to show that equal height action.</p>--}}
+    {{--                <p class="elements-text"><small class="text-muted">Last updated 3 mins ago</small></p>--}}
     {{--            </div>--}}
     {{--        </div>--}}
     {{--    </div>--}}

@@ -15,14 +15,13 @@
     // Нужно для функции date('Y-m-d')
     // установка часового пояса нужно для сохранения времени
     date_default_timezone_set('Asia/Almaty');
-
     $update = isset($item);
-    $saveurl_add = null;
-    // При добавлении записи
-    if (!$update) {
-        // Шифровка
-        $saveurl_add = GlobalController::set_url_save(Request::server('HTTP_REFERER'));
-    }
+    //    $saveurl_add = null;
+    //    // При добавлении записи
+    //    if (!$update) {
+    //        // Шифровка
+    //        $saveurl_add = GlobalController::set_url_save(Request::server('HTTP_REFERER'));
+    //    }
     $base_right = GlobalController::base_right($base, $role, $relit_id);
     $relip_project = GlobalController::calc_relip_project($relit_id, $project);
     // У $base есть ли считаемые поля (да/нет)
@@ -61,15 +60,15 @@
                 @endif
                 </span>
         @endif
-            @if($is_view_lt_minutes == true)
-                <span class="badge badge-pill badge" title="{{trans('main.title_lt_min')}}">
+        @if($is_view_lt_minutes == true)
+            <span class="badge badge-pill badge" title="{{trans('main.title_lt_min')}}">
                     @if (!$update)
-                        {{GlobalController::base_lt_minutes($base)}}
-                    @else
-                        {{GlobalController::remaining_lt_minutes($item)}}
-                    @endif
+                    {{GlobalController::base_lt_minutes($base)}}
+                @else
+                    {{GlobalController::remaining_lt_minutes($item)}}
+                @endif
                 </span>
-            @endif
+        @endif
     </h4>
     <br>
     {{--    https://qastack.ru/programming/1191113/how-to-ensure-a-select-form-field-is-submitted-when-it-is-disabled--}}
@@ -207,7 +206,9 @@
                                placeholder=""
                                {{--                               value="{{old('name_lang_0') ?? (GlobalController::restore_number_from_item($base,$item['name_lang_0']) ?? '') }}"--}}
                                {{--                               value="{{old('name_lang_0') ?? ($item['name_lang_0'] ?? '') }}"--}}
-                               value="{{old('name_lang_0') ?? ($update?GlobalController::restore_number_from_item($base,$item['name_lang_0']):'0')}}"
+                               value="{{old('name_lang_0') ?? ($update?GlobalController::restore_number_from_item($base,$item['name_lang_0']):
+(($base_right['is_base_required'] == true)? '0':'')
+)}}"
                                step="{{$base->digits_num_format()}}">
                         @error('name_lang_0')
                         <div class="invalid-feedback">
@@ -232,7 +233,9 @@
                                id="name_lang_0" ;
                                class="form-control @error('name_lang_0') is-invalid @enderror"
                                placeholder=""
-                               value="{{old('name_lang_0') ?? ($item['name_lang_0'] ?? date('Y-m-d')) }}">
+                               value="{{old('name_lang_0') ?? ($item['name_lang_0'] ??
+(($base_right['is_base_required'] == true)? date('Y-m-d'):'')
+) }}">
                         @error('name_lang_0')
                         <div class="invalid-feedback">
                             {{$message}}
@@ -383,6 +386,16 @@
             //            $calc_link_relit_id = GlobalController::calc_link_relit_id($link, $role, $relit_id);
             //            $base_link_right = GlobalController::base_link_right($link, $role, $calc_link_relit_id);
             $base_link_right = GlobalController::base_link_right($link, $role, $relit_id);
+            $link_is_read = $base_link_right['is_edit_link_read'];
+            // Если в форму передана переменная $level
+            if ($level) {
+                // Эта проверка нужна
+                if ($link->parent_level_id_0 != 0) {
+                    if ($link->parent_level_id_0 != $level->id) {
+                        $link_is_read = true;
+                    }
+                }
+            }
             ?>
             @if($base_link_right['is_edit_link_enable'] == false)
                 @continue
@@ -479,7 +492,7 @@
                     <div class="col-sm-3 text-right">
                         <label for="calc{{$key}}" class="form-label">
                             @include('layouts.item.ext_edit.parent_label',
-                                ['result_parent_label'=>$result_parent_label, 'key'=>$key, 'par_link'=>$par_link])
+                                ['result_parent_label'=>$result_parent_label, 'key'=>$key, 'par_link'=>$par_link, 'lvl'=>$level])
                         </label>
                     </div>
                     <div class="col-sm-7">
@@ -523,7 +536,7 @@
                         <div class="col-sm-3 text-right">
                             <label for="calc{{$key}}" class="form-label">
                                 @include('layouts.item.ext_edit.parent_label',
-                                    ['result_parent_label'=>$result_parent_label, 'key'=>$key, 'par_link'=>$par_link])
+                                    ['result_parent_label'=>$result_parent_label, 'key'=>$key, 'par_link'=>$par_link, 'lvl'=>$level])
                             </label>
                             {{--                            Выводить скрытое поле - id найденного значения, для 'Выводить поле вычисляемой таблицы'--}}
                             <span hidden
@@ -546,7 +559,7 @@
                         <div class="col-sm-3 text-right">
                             <label for="{{$key}}" class="col-form-label">
                                 @include('layouts.item.ext_edit.parent_label',
-                                ['result_parent_label'=>$result_parent_label, 'key'=>$key, 'par_link'=>$par_link])
+                                ['result_parent_label'=>$result_parent_label, 'key'=>$key, 'par_link'=>$par_link, 'lvl'=>$level])
                                 ({{mb_strtolower(trans('main.code'))}})
                                 <span
                                     class="text-danger">{{GlobalController::label_is_required($link->parent_base)}}</span></label>
@@ -567,7 +580,7 @@
                                    {{--                                       @if($link->parent_base->is_code_number == true  && $link->parent_base->is_limit_sign_code == true)--}}
                                    {{--                                       min="0" max="{{$link->parent_base->number_format()}}"--}}
                                    {{--                                       @endif--}}
-                                   @if($base_link_right['is_edit_link_read'] == true)
+                                   @if($link_is_read == true)
                                    disabled
                                    @else
                                    @if($par_link)
@@ -600,7 +613,7 @@
                             {{--                                    Не удалять--}}
                             {{--                            <input type="button" value="..." title="{{trans('main.select_from_refer')}}"--}}
                             {{--                                   onclick="browse('{{$link->parent_base_id}}','{{$project->id}}','{{$role->id}}','{{$key}}')"--}}
-                            {{--                                   @if($base_link_right['is_edit_link_read'] == true)--}}
+                            {{--                                   @if($link_is_read == true)--}}
                             {{--                                   disabled--}}
                             {{--                                @endif--}}
                             {{--                            >--}}
@@ -616,7 +629,7 @@
                                     {{--                                        child_base_start_id{{$link->id}}.options[child_base_start_id{{$link->id}}.selectedIndex].value--}}
                                     {{--                                    @endif--}}
                                     {{--                                          )"--}}
-                                    @if($base_link_right['is_edit_link_read'] == true)
+                                    @if($link_is_read == true)
                                     disabled
                                     @else
                                     @if($par_link )
@@ -659,7 +672,7 @@
                         <div class="col-sm-3 text-right">
                             <label for="{{$key}}" class="col-form-label">
                                 @include('layouts.item.ext_edit.parent_label',
-                                ['result_parent_label'=>$result_parent_label, 'key'=>$key, 'par_link'=>$par_link])
+                                ['result_parent_label'=>$result_parent_label, 'key'=>$key, 'par_link'=>$par_link, 'lvl'=>$level])
                                 <span
                                     class="text-danger">{{GlobalController::label_is_required($link->parent_base)}}</span></label>
                         </div>
@@ -676,13 +689,18 @@
                                    {{--                                    На выходе это же число в виде строки--}}
                                    {{--                                    Нужно для правильного отображения чисел--}}
                                    {{--                            "$parent_item->project_id" не использовать, правильно "$project"--}}
+                                   {{--                                   value="{{(old($key)) ?? (($value != null) ? GlobalController::restore_number_from_item($link->parent_base, Item::find($value)->name()) :--}}
+                                   {{--                                                                (($link->parent_is_seqnum==true)? ItemController::calculate_new_seqnum($project, $link, $parent_item, $par_link):--}}
+                                   {{--                                                                (($link->parent_num_bool_default_value!="")? $link->parent_num_bool_default_value: '0'))--}}
+                                   {{--                                                                )}}"--}}
                                    value="{{(old($key)) ?? (($value != null) ? GlobalController::restore_number_from_item($link->parent_base, Item::find($value)->name()) :
                                                                 (($link->parent_is_seqnum==true)? ItemController::calculate_new_seqnum($project, $link, $parent_item, $par_link):
-                                                                (($link->parent_num_bool_default_value!="")? $link->parent_num_bool_default_value: '0'))
+                                                                (($link->parent_num_bool_default_value!="")? $link->parent_num_bool_default_value:
+                                                                (($base_link_right['is_base_required'] == true)? '0':'')))
                                                                 )}}"
                                    step="{{$link->parent_base->digits_num_format()}}"
 
-                                   @if($base_link_right['is_edit_link_read'] == true)
+                                   @if($link_is_read == true)
                                    disabled
                                    @else
                                    @if($par_link || $link->parent_is_nc_viewonly==true)
@@ -726,10 +744,10 @@
                             {{$link->parent_base->unit_meas_desc()}}
                         </div>
                         {{-- Похожие проверка внизу--}}
-                        {{-- @if($base_link_right['is_edit_link_read'] == false)--}}
+                        {{-- @if($link_is_read == false)--}}
                         {{-- @if($link->parent_is_numcalc == true)--}}
                         {{-- 'is_edit_link_read' - 'Чтение Связи в форме'--}}
-                        @if($base_link_right['is_edit_link_read'] == false)
+                        @if($link_is_read == false)
                             {{--                            @if($link->parent_is_numcalc == true)--}}
                             {{-- Похожие по смыслу проверки "@if($link->parent_is_numcalc==true && $link->parent_is_nc_screencalc==true && $link->parent_is_nc_viewonly==false)" в этом файле восемь раз --}}
                             @if($link->parent_is_numcalc==true && $link->parent_is_nc_screencalc==true && $link->parent_is_nc_viewonly==false)
@@ -764,7 +782,7 @@
                         <div class="col-sm-3 text-right">
                             <label for="{{$key}}" class="col-form-label">
                                 @include('layouts.item.ext_edit.parent_label',
-                                ['result_parent_label'=>$result_parent_label, 'key'=>$key, 'par_link'=>$par_link])
+                                ['result_parent_label'=>$result_parent_label, 'key'=>$key, 'par_link'=>$par_link, 'lvl'=>$level])
                                 <span
                                     class="text-danger">{{GlobalController::label_is_required($link->parent_base)}}</span>
                             </label>
@@ -775,8 +793,8 @@
                                    id="link{{$key}}"
                                    class="form-control @error($key) is-invalid @enderror"
                                    placeholder=""
-                                   value="{{(old($key)) ?? (($value != null) ? Item::find($value)->name_lang_0 : date('Y-m-d'))}}"
-                                   @if($base_link_right['is_edit_link_read'] == true)
+                                   value="{{(old($key)) ?? (($value != null) ? Item::find($value)->name_lang_0 : (($base_link_right['is_base_required'] == true)? date('Y-m-d'):''))}}"
+                                   @if($link_is_read == true)
                                    disabled
                                    @else
                                    @if($par_link )
@@ -816,7 +834,7 @@
                         <div class="col-sm-3 text-right">
                             <label class="form-label" for="{{$key}}">
                                 @include('layouts.item.ext_edit.parent_label',
-                                ['result_parent_label'=>$result_parent_label, 'key'=>$key, 'par_link'=>$par_link])
+                                ['result_parent_label'=>$result_parent_label, 'key'=>$key, 'par_link'=>$par_link, 'lvl'=>$level])
                                 <span
                                     class="text-danger">{{GlobalController::label_is_required($link->parent_base)}}</span>
                             </label>
@@ -832,7 +850,7 @@
                                            ) == true)
                                    checked
                                    @endif
-                                   {{--                            @if($base_link_right['is_edit_link_read'] == true)--}}
+                                   {{--                            @if($link_is_read == true)--}}
                                    {{--                                disabled--}}
                                    {{--                            @else--}}
                                    {{--                                @if($par_link)--}}
@@ -841,7 +859,7 @@
                                    {{--                                    @endif--}}
                                    {{--                                @endif--}}
                                    {{--                            @endif--}}
-                                   @if($base_link_right['is_edit_link_read'] == true)
+                                   @if($link_is_read == true)
                                    disabled
                                    @else
                                    @if($par_link || $link->parent_is_nc_viewonly==true)
@@ -877,7 +895,7 @@
                             @enderror
                         </div>
                         {{-- 'is_edit_link_read' - 'Чтение Связи в форме'--}}
-                        @if($base_link_right['is_edit_link_read'] == false)
+                        @if($link_is_read == false)
                             {{-- Похожие по смыслу проверки "@if($link->parent_is_numcalc==true && $link->parent_is_nc_screencalc==true && $link->parent_is_nc_viewonly==false)" в этом файле восемь раз --}}
                             @if($link->parent_is_numcalc==true && $link->parent_is_nc_screencalc==true && $link->parent_is_nc_viewonly==false)
                                 <div class="col-sm-1">
@@ -902,7 +920,7 @@
                     {{--                                если тип корректировки поля - строка--}}
                 @elseif($link->parent_base->type_is_string())
                     <fieldset id="link{{$key}}_fs"
-                              @if($base_link_right['is_edit_link_read'] == true)
+                              @if($link_is_read == true)
                               disabled
                               @else
                               @if($par_link )
@@ -935,7 +953,7 @@
                                         <label for="{{$input_name}}"
                                                class="col-form-label">
                                             @include('layouts.item.ext_edit.parent_label',
-                                ['result_parent_label'=>$result_parent_label, 'key'=>$key, 'par_link'=>$par_link])
+                                ['result_parent_label'=>$result_parent_label, 'key'=>$key, 'par_link'=>$par_link, 'lvl'=>$level])
                                             @if($link->parent_base->is_one_value_lst_str_txt == false)
                                                 ({{trans('main.' . $lang_value)}})
                                             @endif
@@ -1025,7 +1043,7 @@
                     {{--                                если тип корректировки поля - текст--}}
                 @elseif($link->parent_base->type_is_text())
                     <fieldset id="link{{$key}}_fs"
-                              @if($base_link_right['is_edit_link_read'] == true)
+                              @if($link_is_read == true)
                               disabled
                               @else
                               @if($par_link )
@@ -1058,7 +1076,7 @@
                                         <label for="{{$input_name}}"
                                                class="col-form-label">
                                             @include('layouts.item.ext_edit.parent_label',
-                                ['result_parent_label'=>$result_parent_label, 'key'=>$key, 'par_link'=>$par_link])
+                                ['result_parent_label'=>$result_parent_label, 'key'=>$key, 'par_link'=>$par_link, 'lvl'=>$level])
                                             @if($link->parent_base->is_one_value_lst_str_txt == false)
                                                 ({{trans('main.' . $lang_value)}})
                                             @endif
@@ -1134,7 +1152,10 @@
                     if ($link->parent_is_tree_value == true) {
                         $item_tree = ItemController::get_tree_item($role, $link, $string_current);
                     }
-                    $its_list = $its_no_get->get();
+                    $its_list = null;
+                    if ($its_no_get) {
+                        $its_list = $its_no_get->get();
+                    }
                     ?>
                     <div class="form-group row">
                         <div class="col-sm-3 text-right">
@@ -1147,7 +1168,7 @@
                                 @endif
                             >
                                 @include('layouts.item.ext_edit.parent_label',
-                                ['result_parent_label'=>$result_parent_label, 'key'=>$key, 'par_link'=>$par_link])
+                                ['result_parent_label'=>$result_parent_label, 'key'=>$key, 'par_link'=>$par_link, 'lvl'=>$level])
                                 <span
                                     class="text-danger">{{GlobalController::label_is_required($link->parent_base)}}{{$value !=null ? "" : "~"}}</span></label>
                         </div>
@@ -1156,7 +1177,7 @@
                                     name="{{$key}}"
                                     id="link{{$key}}"
                                     class="form-control @error($key) is-invalid @enderror"
-                                    {{--                                    @if($base_link_right['is_edit_link_read'] == true)--}}
+                                    {{--                                    @if($link_is_read == true)--}}
                                     {{--                                    disabled--}}
                                     {{--                                    @else--}}
                                     {{--                                    @if($par_link)--}}
@@ -1169,7 +1190,7 @@
                                     {{--                                    @endif--}}
                                     {{--                                    @endif--}}
                                     {{--                                    @endif--}}
-                                    @if($base_link_right['is_edit_link_read'] == true)
+                                    @if($link_is_read == true)
                                     disabled
                                     @else
                                     @if($par_link || $link->parent_is_nc_viewonly==true)
@@ -1202,42 +1223,48 @@
                                 @endif
                             >
                                 @if($item_tree)
-                                    <option value="{{$item_tree->id}}"
-                                    >{{$item_tree->name()}}
+                                    <option value="{{$item_tree->id}}">
+                                        {{$item_tree->name()}}
                                     </option>
                                 @else
-                                    @if ((count($its_list) == 0))
-                                        @if($link->parent_base->is_view_empty_lst)
-                                            {{--                                            @if(!$link->parent_base->is_required_lst_num_str_txt_img_doc)--}}
-                                            {{--                                            @if($base_link_right['is_base_required'] == false)--}}
-                                            <option value='0'>{{GlobalController::option_empty()}}</option>
-                                        @else
-                                            <option value='0'>{{trans('main.no_information_on')}}
-                                                "{{$result_parent_label}}"!
-                                            </option>
-                                        @endif
-                                    @else
-                                        {{-- Чтобы не выводить лишний раз ненужное --}}
-                                        @if($ing_filter == false)
+                                    @if($its_list)
+                                        @if ((count($its_list) == 0))
                                             @if($link->parent_base->is_view_empty_lst)
                                                 {{--                                            @if(!$link->parent_base->is_required_lst_num_str_txt_img_doc)--}}
                                                 {{--                                            @if($base_link_right['is_base_required'] == false)--}}
                                                 <option value='0'>{{GlobalController::option_empty()}}</option>
+                                            @else
+                                                <option value='0'>{{trans('main.no_information_on')}}
+                                                    "{{$result_parent_label}}"!
+                                                </option>
                                             @endif
-                                        @endif
-                                        @foreach ($its_list as $item_work)
-                                            <option value="{{$item_work->id}}"
-                                                    @if (((old($key)) ?? (($value != null) ? $value : 0)) == $item_work->id)
-                                                    selected
+                                        @else
+                                            {{-- Чтобы не выводить лишний раз ненужное --}}
+                                            @if($ing_filter == false)
+                                                @if($link->parent_base->is_view_empty_lst)
+                                                    {{--                                            @if(!$link->parent_base->is_required_lst_num_str_txt_img_doc)--}}
+                                                    {{--                                            @if($base_link_right['is_base_required'] == false)--}}
+                                                    <option value='0'>{{GlobalController::option_empty()}}</option>
                                                 @endif
-                                            >
-                                                <?php
-                                                //                                                echo $item_work->name();
-                                                //                                                ?>
-                                                {{$item_work->name()}}
-                                                @include('layouts.item.show_history',['item'=>$item_work])
-                                            </option>
-                                        @endforeach
+                                            @endif
+                                            @foreach ($its_list as $item_work)
+                                                <option value="{{$item_work->id}}"
+                                                        @if (((old($key)) ?? (($value != null) ? $value : 0)) == $item_work->id)
+                                                        selected
+                                                    @endif
+                                                >
+                                                    <?php
+                                                    //                                                echo $item_work->name();
+                                                    //                                                ?>
+                                                    {{$item_work->name()}}
+                                                    @include('layouts.item.show_history',['item'=>$item_work])
+                                                </option>
+                                            @endforeach
+                                        @endif
+                                    @else
+                                        <option value='0'>
+                                            {{trans('main.no_data')}}
+                                        </option>
                                     @endif
                                 @endif
                             </select>
@@ -1255,7 +1282,7 @@
                         {{--                        </div>--}}
                         {{-- Похожие проверка вверху--}}
                         {{-- 'is_edit_link_read' - 'Чтение Связи в форме'--}}
-                        @if($base_link_right['is_edit_link_read'] == false)
+                        @if($link_is_read == false)
                             {{--                            @if($link->parent_is_numcalc == true)--}}
                             {{-- Похожие по смыслу проверки "@if($link->parent_is_numcalc==true && $link->parent_is_nc_screencalc==true && $link->parent_is_nc_viewonly==false)" в этом файле восемь раз --}}
                             @if($link->parent_is_numcalc==true && $link->parent_is_nc_screencalc==true && $link->parent_is_nc_viewonly==false)
@@ -1289,7 +1316,7 @@
         <br>
         <div class="row text-center">
             <div class="col-sm-5 text-right">
-                <button type="submit" class="btn btn-dreamer"
+                <button type="submit" class="btn btn-dreamer d-inline"
                         @if (!$update)
                         title="{{trans('main.add')}}"><i class="fas fa-save d-inline"></i> {{trans('main.add')}}
                     @else
@@ -1299,7 +1326,7 @@
             </div>
             <div class="col-sm-2">
                 @if ($allcalc_button)
-                    <button type="button" class="btn btn-dreamer" title="{{trans('main.calculate_all')}}"
+                    <button type="button" class="btn btn-dreamer d-inline" title="{{trans('main.calculate_all')}}"
                             onclick="javascript:on_numcalc_noviewonly();"
                     >
                         <i class="fas fa-calculator d-inline"></i>
@@ -1308,8 +1335,10 @@
                 @endif
             </div>
             <div class="col-sm-5 text-left">
-                <button type="button" class="btn btn-dreamer" title="{{trans('main.cancel')}}"
-                    @include('layouts.item.base_index.previous_url')
+                <button type="button" class="btn btn-dreamer d-inline" title="{{trans('main.cancel')}}"
+                        {{--                    @include('layouts.item.base_index.previous_url')--}}
+                        {{-- @include('layouts.item.base_index.previous_url')--}}
+                        onclick="document.location='{{GlobalController::set_un_url_save($update?$saveurl_edit:$saveurl_add)}}'"
                 >
                     <i class="fas fa-arrow-left d-inline"></i>
                     {{trans('main.cancel')}}
@@ -1409,6 +1438,7 @@
                         {{-- вызываем состояние "элемент изменился", в связи с этим запустятся функции - обработчики "change"--}}
                         {{--code_{{$prefix}}{{$link->id}}.dispatchEvent(new Event('input'));--}}
                     }
+
                     code_{{$prefix}}{{$link->id}}.addEventListener("change", code_change_{{$prefix}}{{$link->id}});
                     <?php
                     $functs_change['code' . $link->id] = 1;
@@ -2117,7 +2147,7 @@
         {{-- Кроме ($link->parent_base->is_code_needed==true && $link->parent_is_enter_refer==true)--}}
         @if(!($link->parent_base->is_code_needed==true && $link->parent_is_enter_refer==true))
         {{-- 'is_edit_link_read' - 'Чтение Связи в форме', 'is_edit_link_update' - 'Корректировка Связи в форме' --}}
-        @if($base_link_right['is_edit_link_read'] == false & $base_link_right['is_edit_link_update'] == true)
+        @if($link_is_read == false & $base_link_right['is_edit_link_update'] == true)
         @if($link->parent_is_numcalc==true && $link->parent_is_nc_screencalc==true)
         {{--    Не срабатывает--}}
         {{--var numcalc_{{$prefix}}{{$link->id}} = document.getElementById('link{{$link->id}}');--}}

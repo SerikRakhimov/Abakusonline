@@ -1335,7 +1335,7 @@ class ProjectController extends Controller
 
                 // Нужно "->where('sets.is_savesets_enabled', '=', true)"
                 // Это условие 'where('bf.is_calculated_lst', '=', false)->where('bt.is_calculated_lst', '=', true)' означает
-                // исключить sets, когда link_from->child_base и link_to->child_base являются вычисляемыми (base->is_calculated_lst=true)
+                // Исключить sets, когда link_from->child_base и link_to->child_base являются вычисляемыми (base->is_calculated_lst=true)
 //                $bases_from = Set::select(DB::Raw('lf.child_base_id as base_id'))
 //                    ->join('links as lf', 'sets.link_from_id', '=', 'lf.id')
 //                    ->join('links as lt', 'sets.link_to_id', '=', 'lt.id')
@@ -1419,7 +1419,8 @@ class ProjectController extends Controller
                         //echo nl2br(trans('main.processed') . " id = " . $item->id . " " . $item->name() . " ".$item->id. PHP_EOL);
                         // $reverse = true - отнимать, false - прибавлять
                         // true - с заменой
-                        (new ItemController)->save_info_sets($item, false, true);
+                        // 0 - текущий проект
+                        (new ItemController)->save_info_sets($item, false, true, 0, $role);
                     }
                     echo nl2br(trans('main.processed') . " " . $count . " " . $str_records . PHP_EOL);
                 }
@@ -1445,7 +1446,7 @@ class ProjectController extends Controller
                             //echo nl2br(trans('main.processed') . " id = " . $item->id . " " . $item->name() . " ".$item->id. PHP_EOL);
                             // $reverse = true - отнимать, false - прибавлять
                             // true - с заменой
-                            (new ItemController)->save_info_sets($item, false, true);
+                            (new ItemController)->save_info_sets($item, false, true, $relit->id, $role);
                         }
                         echo nl2br(trans('main.processed') . " " . $count . " " . $str_records . PHP_EOL);
                     }

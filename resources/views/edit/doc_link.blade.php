@@ -4,6 +4,7 @@
 //view/doc.php, edit/doc_base.php, edit/doc_link.php,
 //view/img.php, edit/img_base.php, edit/img_link.php.
 use App\Models\Item;
+use \App\Http\Controllers\GlobalController;
 $item_doc = null;
 if ($update) {
     if ($value != null) {

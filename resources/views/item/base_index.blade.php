@@ -6,6 +6,7 @@
     use App\Models\Item;
     use App\Models\Link;
     use App\Models\Main;
+    use App\Models\Level;
     use \App\Http\Controllers\GlobalController;
     use \App\Http\Controllers\ItemController;
     use \App\Http\Controllers\MainController;
@@ -36,6 +37,11 @@
     }
     $emoji_enable = true;
     //    Config::set('app.display', 'table');
+    // Шифровка
+    //    $saveurl_add = GlobalController::set_url_save(Request::server('HTTP_REFERER'));
+    $saveurl_add = GlobalController::set_url_save(GlobalController::current_path());
+    $saveurl_show = $saveurl_add;
+    $level_array = $base->level_array();
     ?>
     @include('layouts.project.show_project_role',['project'=>$project, 'role'=>$role, 'relit_id'=>$relit_id])
     <div class="container-fluid">
@@ -60,22 +66,77 @@
             <div class="col-12 text-right">
                 {{--            Не удалять: используется $message_bs_validate --}}
                 @if($message_bs_validate == "")
-                    {{-- Используется "'parent_ret_id' => 0"--}}
-                    <button type="button" class="btn btn-dreamer"
-                            {{--                        Выводится $message_mc--}}
-                            title="{{trans('main.add') . $message_bs_info}}"
-                            onclick="document.location='{{route('item.ext_create',
-                            ['base'=>$base, 'project'=>$project, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(),
-                             'relit_id' =>$relit_id_par,
+                    @if($level_array['result'] == true)
+                        <div class="dropdown d-inline">
+                            <button type="button" class="btn btn-dreamer dropdown-toggle"
+                                    data-toggle="dropdown"
+                                    title="{{trans('main.add')}}">
+                                <i class="fas fa-plus  d-inline"></i>
+                                {{trans('main.add')}}
+                            </button>
+                            <div class="dropdown-menu">
+                                {{-- Корректировать все поля формы--}}
+                                <a class="dropdown-item" href="{{route('item.ext_create', ['base'=>$base, 'project'=>$project, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(),
+                             'relit_id' => $relit_id_par,
                              'string_current' => $string_current,
                              'heading' =>intval(false),
                              'base_index_page'=>$base_index_page, 'body_link_page'=>$body_link_page,'body_all_page'=>$body_all_page,
-                             'parent_ret_id' => $parent_ret_id_par])}}'">
-                        {{--                        'string_link_ids_current' => $string_link_ids_current,--}}
-                        {{--                        'string_item_ids_current' => $string_item_ids_current,--}}
-                        {{--                        'string_all_codes_current' => $string_all_codes_current,--}}
-                        <i class="fas fa-plus d-inline"></i>&nbsp;{{trans('main.add')}}
-                    </button>
+                             'parent_ret_id' => $parent_ret_id_par,
+                             'view_link'=>GlobalController::const_null(),
+                             'saveurl_add' =>$saveurl_add
+                             ])}}"
+                                   title="{{trans('main.add') . ' '.GlobalController::alf_text()}}">
+                                    {{--                                                    'string_all_codes_current' => $string_all_codes_current,--}}
+                                    {{--                                                    'string_link_ids_current' => $string_link_ids_current,--}}
+                                    {{--                                                    'string_item_ids_current' => $string_item_ids_current,--}}
+                                    {{trans('main.add')}} {{GlobalController::alf_text()}}
+                                </a>
+                                {{-- Цикл по массиву--}}
+                                @foreach($level_array['l_arr'] as $level_id)
+                                    <?php
+                                    $level = Level::find($level_id);
+                                    $level_name = '(' . mb_strtolower($level->name()) . ')';
+                                    ?>
+                                    @if($level)
+                                        <a class="dropdown-item" href="{{route('item.ext_create', ['base'=>$base, 'project'=>$project, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(),
+                             'relit_id' => $relit_id_par,
+                             'string_current' => $string_current,
+                             'heading' =>intval(false),
+                             'base_index_page'=>$base_index_page, 'body_link_page'=>$body_link_page,'body_all_page'=>$body_all_page,
+                             'parent_ret_id' => $parent_ret_id_par,
+                             'view_link'=>GlobalController::const_null(),
+                             'saveurl_add' =>$saveurl_add,
+                             'level_id' => $level_id
+                             ])}}"
+                                           title="{{trans('main.add')}} {{$level_name}}">
+                                            {{--                                                    'string_all_codes_current' => $string_all_codes_current,--}}
+                                            {{--                                                    'string_link_ids_current' => $string_link_ids_current,--}}
+                                            {{--                                                    'string_item_ids_current' => $string_item_ids_current,--}}
+                                            {{trans('main.add')}} {{$level_name}}
+                                        </a>
+                                    @endif
+                                @endforeach
+                            </div>
+                        </div>
+                    @else
+                        <button type="button" class="btn btn-dreamer"
+                                {{--                        Выводится $message_mc--}}
+                                title="{{trans('main.add') . $message_bs_info}}"
+                                onclick="document.location='{{route('item.ext_create',
+                            ['base'=>$base, 'project'=>$project, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(),
+                             'relit_id' => $relit_id_par,
+                             'string_current' => $string_current,
+                             'heading' =>intval(false),
+                             'base_index_page'=>$base_index_page, 'body_link_page'=>$body_link_page,'body_all_page'=>$body_all_page,
+                             'parent_ret_id' => $parent_ret_id_par,
+                             'view_link'=>GlobalController::const_null(),
+                             'saveurl_add' =>$saveurl_add])}}'">
+                            {{--                        'string_link_ids_current' => $string_link_ids_current,--}}
+                            {{--                        'string_item_ids_current' => $string_item_ids_current,--}}
+                            {{--                        'string_all_codes_current' => $string_all_codes_current,--}}
+                            <i class="fas fa-plus d-inline"></i>&nbsp;{{trans('main.add')}}
+                        </button>
+                    @endif
                 @endif
             </div>
         @endif
@@ -85,7 +146,7 @@
                 @if ($role->is_author())
                     @if ($base->is_calcname_lst == true)
                         <div class="col-12 text-right">
-                            <a href="{{route('item.calculate_names', ['base'=>$base, 'project'=>$relip_project])}}"
+                            <a href="{{route('item.calculate_names', ['base'=>$base, 'project'=>$relip_project, 'relit_id'=>$relit_id_par, 'role'=>$role])}}"
                                title="{{trans('main.calculate')}}">
                                 <img src="{{Storage::url('calculate_names.png')}}" width="15" height="15"
                                      alt="{{trans('main.calculate')}}">
@@ -140,23 +201,23 @@
     {{--            </p>--}}
 
     {{--    <!-- Карточка (border-primary - цвет границ карточки) -->--}}
-    {{--    <div class="card border-info">--}}
+    {{--    <div class="elements border-info">--}}
     {{--        <!-- Шапка (bg-primary - цвет фона, text-white - цвет текста) -->--}}
-    {{--        <div class="card-header bg-primary text-white">--}}
+    {{--        <div class="elements-header bg-primary text-white">--}}
     {{--            Название панели--}}
     {{--        </div>--}}
     {{--        <!-- Текстовый контент -->--}}
-    {{--        <div class="card-body">--}}
-    {{--            <h4 class="card-title">Заголовок</h4>--}}
-    {{--            <p class="card-text">...</p>--}}
+    {{--        <div class="elements-body">--}}
+    {{--            <h4 class="elements-title">Заголовок</h4>--}}
+    {{--            <p class="elements-text">...</p>--}}
     {{--            <a href="#" class="btn btn-primary">Ссылка</a>--}}
     {{--        </div>--}}
     {{--    </div><!-- Конец карточки -->--}}
 
     {{--    <!-- Карточка с текстовым контентом и списком -->--}}
-    {{--    <div class="card">--}}
+    {{--    <div class="elements">--}}
     {{--        <!-- Текстовый контент -->--}}
-    {{--        <div class="card-body">--}}
+    {{--        <div class="elements-body">--}}
     {{--            <!-- Текстовое содержимое карточки -->--}}
     {{--        </div>--}}
     {{--        <!-- Список List groups -->--}}
@@ -168,9 +229,9 @@
     {{--    </div><!-- Конец карточки -->--}}
 
     {{--    <!-- Карточка с шапкой и списком -->--}}
-    {{--    <div class="card">--}}
+    {{--    <div class="elements">--}}
     {{--        <!-- Шапка (header) карточки -->--}}
-    {{--        <div class="card-header">--}}
+    {{--        <div class="elements-header">--}}
     {{--            Шапка карточки--}}
     {{--        </div>--}}
     {{--        <!-- Список List groups -->--}}
@@ -181,10 +242,10 @@
     {{--        </ul>--}}
     {{--    </div><!-- Конец карточки -->--}}
     {{--    <!-- Карточка с навигацией (в заголовке) -->--}}
-    {{--    <div class="card">--}}
+    {{--    <div class="elements">--}}
     {{--        <!-- Шапка с навигацией -->--}}
-    {{--        <div class="card-header">--}}
-    {{--            <ul class="nav nav-tabs card-header-tabs">--}}
+    {{--        <div class="elements-header">--}}
+    {{--            <ul class="nav nav-tabs elements-header-tabs">--}}
     {{--                <li class="nav-item">--}}
     {{--                    <a class="nav-link active" data-toggle="tab" href="#item1">Заказать товар</a>--}}
     {{--                </li>--}}
@@ -200,9 +261,9 @@
     {{--            </ul>--}}
     {{--        </div>--}}
     {{--        <!-- Текстовый контент -->--}}
-    {{--        <div class="card-body tab-content">--}}
+    {{--        <div class="elements-body tab-content">--}}
     {{--            <div class="tab-pane fade show active" id="item1">--}}
-    {{--                <a href="#" class="card-link">Ссылка №1</a>--}}
+    {{--                <a href="#" class="elements-link">Ссылка №1</a>--}}
     {{--            </div>--}}
     {{--            <div class="tab-pane fade" id="item2">--}}
     {{--                <ul class="list-group list-group-flush">--}}
@@ -239,7 +300,9 @@
                 'view_link'=>null,
                 'view_ret_id'=>0,
                 'current_link'=>null, 'parent_item'=>null, 'is_table_body'=>$is_table_body,
-                'base_index'=>true, 'item_heading_base'=>false, 'item_body_base'=>false
+                'base_index'=>true, 'item_heading_base'=>false, 'item_body_base'=>false,
+                'saveurl_show' =>$saveurl_show,
+                        'nolink_id' =>null
                 ])
     {{--    @endif--}}
     {{$items->links()}}
@@ -255,77 +318,77 @@
     {{--        </p>--}}
     {{--        </div>--}}
     {{--        <img src="paris.jpg" alt="Paris" style="float:left;width:50%;height:100%;object-fit:cover;">--}}
-    {{--    <div class="card" style="width: 18rem;">--}}
-    {{--    <div class="card shadow" style="width: 100%;">--}}
-    {{--        <div class="card-body">--}}
-    {{--            <h5 class="card-title">Название карточки</h5>--}}
-    {{--            <h6 class="card-subtitle mb-2 text-muted">Подзаголовок карты</h6>--}}
-    {{--            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the--}}
-    {{--                card's--}}
+    {{--    <div class="elements" style="width: 18rem;">--}}
+    {{--    <div class="elements shadow" style="width: 100%;">--}}
+    {{--        <div class="elements-body">--}}
+    {{--            <h5 class="elements-title">Название карточки</h5>--}}
+    {{--            <h6 class="elements-subtitle mb-2 text-muted">Подзаголовок карты</h6>--}}
+    {{--            <p class="elements-text">Some quick example text to build on the elements title and make up the bulk of the--}}
+    {{--                elements's--}}
     {{--                content.--}}
     {{--                лллллллллллллллллллл--}}
     {{--                ддддддддддддддддддд--}}
     {{--                жжжжжжжжжжжжжжжжжжжжжжжжжжжжжжж--}}
     {{--            </p>--}}
-    {{--            <a href="#" class="card-link">Ссылка карты</a>--}}
-    {{--            <a href="#" class="card-link">Другая ссылка</a>--}}
+    {{--            <a href="#" class="elements-link">Ссылка карты</a>--}}
+    {{--            <a href="#" class="elements-link">Другая ссылка</a>--}}
     {{--        </div>--}}
     {{--    </div>--}}
     {{--    <br>--}}
-    {{--    <div class="card shadow" style="width: 100%;">--}}
-    {{--        <div class="card-body">--}}
-    {{--            <h5 class="card-title">Название карточки</h5>--}}
-    {{--            <h6 class="card-subtitle mb-2 text-muted">Подзаголовок карты</h6>--}}
-    {{--            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the--}}
-    {{--                card's--}}
+    {{--    <div class="elements shadow" style="width: 100%;">--}}
+    {{--        <div class="elements-body">--}}
+    {{--            <h5 class="elements-title">Название карточки</h5>--}}
+    {{--            <h6 class="elements-subtitle mb-2 text-muted">Подзаголовок карты</h6>--}}
+    {{--            <p class="elements-text">Some quick example text to build on the elements title and make up the bulk of the--}}
+    {{--                elements's--}}
     {{--                content.--}}
     {{--                лллллллллллллллллллл--}}
     {{--                ддддддддддддддддддд--}}
     {{--                жжжжжжжжжжжжжжжжжжжжжжжжжжжжжжж--}}
     {{--            </p>--}}
-    {{--            <a href="#" class="card-link">Ссылка карты</a>--}}
-    {{--            <a href="#" class="card-link">Другая ссылка</a>--}}
+    {{--            <a href="#" class="elements-link">Ссылка карты</a>--}}
+    {{--            <a href="#" class="elements-link">Другая ссылка</a>--}}
     {{--        </div>--}}
     {{--    </div>--}}
     {{--    <br>--}}
-    {{--    <div class="card shadow" style="width: 100%;">--}}
-    {{--        <div class="card-body">--}}
-    {{--            <h5 class="card-title">Название карточки</h5>--}}
-    {{--            <h6 class="card-subtitle mb-2 text-muted">Подзаголовок карты</h6>--}}
-    {{--            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the--}}
-    {{--                card's--}}
+    {{--    <div class="elements shadow" style="width: 100%;">--}}
+    {{--        <div class="elements-body">--}}
+    {{--            <h5 class="elements-title">Название карточки</h5>--}}
+    {{--            <h6 class="elements-subtitle mb-2 text-muted">Подзаголовок карты</h6>--}}
+    {{--            <p class="elements-text">Some quick example text to build on the elements title and make up the bulk of the--}}
+    {{--                elements's--}}
     {{--                content.--}}
     {{--                лллллллллллллллллллл--}}
     {{--                ддддддддддддддддддд--}}
     {{--                жжжжжжжжжжжжжжжжжжжжжжжжжжжжжжж--}}
     {{--            </p>--}}
-    {{--            <a href="#" class="card-link">Ссылка карты</a>--}}
-    {{--            <a href="#" class="card-link">Другая ссылка</a>--}}
+    {{--            <a href="#" class="elements-link">Ссылка карты</a>--}}
+    {{--            <a href="#" class="elements-link">Другая ссылка</a>--}}
     {{--        </div>--}}
     {{--    </div>--}}
-    {{--    <div class="card shadow ">--}}
-    {{--        <div class="card" style="width: 100%;">--}}
-    {{--            <div class="card-body mt-0">--}}
-    {{--                <h5 class="card-title">Название карточки</h5>--}}
-    {{--                <h6 class="card-subtitle mb-2 text-muted">Подзаголовок карты</h6>--}}
-    {{--                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the--}}
-    {{--                    card's--}}
+    {{--    <div class="elements shadow ">--}}
+    {{--        <div class="elements" style="width: 100%;">--}}
+    {{--            <div class="elements-body mt-0">--}}
+    {{--                <h5 class="elements-title">Название карточки</h5>--}}
+    {{--                <h6 class="elements-subtitle mb-2 text-muted">Подзаголовок карты</h6>--}}
+    {{--                <p class="elements-text">Some quick example text to build on the elements title and make up the bulk of the--}}
+    {{--                    elements's--}}
     {{--                    content.</p>--}}
-    {{--                <a href="#" class="card-link">Ссылка карты</a>--}}
-    {{--                <a href="#" class="card-link">Другая ссылка</a>--}}
+    {{--                <a href="#" class="elements-link">Ссылка карты</a>--}}
+    {{--                <a href="#" class="elements-link">Другая ссылка</a>--}}
     {{--            </div>--}}
     {{--        </div>--}}
     {{--    </div>--}}
-    {{--    <div class="card shadow">--}}
-    {{--        <div class="card" style="width: 18rem;">--}}
-    {{--            <div class="card-body">--}}
-    {{--                <h5 class="card-title">Название карточки</h5>--}}
-    {{--                <h6 class="card-subtitle mb-2 text-muted">Подзаголовок карты</h6>--}}
-    {{--                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the--}}
-    {{--                    card's--}}
+    {{--    <div class="elements shadow">--}}
+    {{--        <div class="elements" style="width: 18rem;">--}}
+    {{--            <div class="elements-body">--}}
+    {{--                <h5 class="elements-title">Название карточки</h5>--}}
+    {{--                <h6 class="elements-subtitle mb-2 text-muted">Подзаголовок карты</h6>--}}
+    {{--                <p class="elements-text">Some quick example text to build on the elements title and make up the bulk of the--}}
+    {{--                    elements's--}}
     {{--                    content.</p>--}}
-    {{--                <a href="#" class="card-link">Ссылка карты</a>--}}
-    {{--                <a href="#" class="card-link">Другая ссылка</a>--}}
+    {{--                <a href="#" class="elements-link">Ссылка карты</a>--}}
+    {{--                <a href="#" class="elements-link">Другая ссылка</a>--}}
     {{--            </div>--}}
     {{--        </div>--}}
     {{--    </div>--}}
@@ -584,61 +647,61 @@
     {{--        </tr>--}}
     {{--        </tbody>--}}
     {{--    </table>--}}
-{{--    <div class="jumbotron">--}}
-{{--        <h1 class="display-4">Hello, world!</h1>--}}
-{{--        <p class="lead">Это простой пример блока с компонентом в стиле jumbotron для привлечения дополнительного--}}
-{{--            внимания к содержанию или информации.</p>--}}
-{{--        <hr class="my-4">--}}
-{{--        <p>Используются служебные классы для типографики и расстояния содержимого в контейнере большего размера.</p>--}}
-{{--        <p class="lead">--}}
-{{--            <a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a>--}}
-{{--        </p>--}}
-{{--    </div>--}}
-{{--    <div class="jumbotron pt-3 pb-1 mb-3">--}}
-{{--            <p>Гаухар:</p>--}}
-{{--            <p class="lead">Привет!</p>--}}
-{{--    </div>--}}
-{{--    <div class="jumbotron pt-3 pb-1 mb-3">--}}
-{{--        <p>Серик:</p>--}}
-{{--        <p class="lead">Используются служебные классы для типографики и расстояния содержимого в контейнере большего размера.</p>--}}
-{{--    </div>--}}
-{{--    <div class="jumbotron pt-3 pb-1 mb-3">--}}
-{{--        <p>Серик:</p>--}}
-{{--        <p class="lead">Используются служебные классы для типографики и расстояния содержимого в контейнере большего размера.</p>--}}
-{{--    </div>--}}
-{{--    <span class="badge badge-pill badge-primary">Главный</span>--}}
-{{--    <span class="badge badge-pill badge-secondary">Вторичный</span>--}}
-{{--    <span class="badge badge-pill badge-success">Успех</span>--}}
-{{--    <span class="badge badge-pill badge-danger">Опасность</span>--}}
-{{--    <span class="badge badge-pill badge-warning">Предупреждение</span>--}}
-{{--    <span class="badge badge-pill badge-info">Инфо</span>--}}
-{{--    <span class="badge badge-pill badge-light">Светлый</span>--}}
-{{--    <span class="badge badge-pill badge-dark">Темный</span>--}}
-{{--    <div class="collapse">--}}
-{{--        <div class="card card-body">--}}
-{{--            Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.--}}
-{{--        </div>--}}
-{{--        <button>JJJ</button>--}}
-{{--    </div>--}}
-{{--    <table>--}}
-{{--        <tr><th  >Продукт</th><th  ></th><th  >Кол-во</th></tr>--}}
-{{--        <tr><td  >Творог протёртый</td><td  >-</td><td  >900 г</td></tr>--}}
-{{--        <tr><td  >Сливочное масло</td><td  >-</td><td  >180 г</td></tr>--}}
-{{--        <tr><td  >Сахар</td><td  >-</td><td  >150 г</td></tr>--}}
-{{--        <tr><td  >Ванильный сахар</td><td  >-</td><td  >4 ч. л.</td></tr>--}}
-{{--        <tr><td  >Изюм</td><td  >-</td><td  >80 г</td></tr>--}}
-{{--        <tr><td  >Апельсиновая цедра</td><td  >-</td><td  >1 ст. л.</td></tr>--}}
-{{--    </table>--}}
-{{--    <br>--}}
-{{--    <table cellpadding="1">--}}
-{{--        <tr><th  >Дата</th><th  >Количество</th><th  >Материал</th></tr>--}}
-{{--        <tr><td  >06.10.2023</td><td  >101</td></tr>--}}
-{{--        <tr><td  >06.10.2023</td><td  >101</td><td  >Сок</td></tr>--}}
-{{--        <tr><td  >06.10.2023</td><td  >102</td><td  >Сок</td></tr>--}}
-{{--        <tr><td  >07.10.2023</td><td  >0</td><td  >Помидоры</td></tr>--}}
-{{--        <tr><td  >07.10.2023</td><td  >10</td><td  >Ноутбук</td></tr>--}}
-{{--        <tr><td  >08.10.2023</td><td  >10</td></tr>--}}
-{{--    </table>--}}
+    {{--    <div class="jumbotron">--}}
+    {{--        <h1 class="display-4">Hello, world!</h1>--}}
+    {{--        <p class="lead">Это простой пример блока с компонентом в стиле jumbotron для привлечения дополнительного--}}
+    {{--            внимания к содержанию или информации.</p>--}}
+    {{--        <hr class="my-4">--}}
+    {{--        <p>Используются служебные классы для типографики и расстояния содержимого в контейнере большего размера.</p>--}}
+    {{--        <p class="lead">--}}
+    {{--            <a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a>--}}
+    {{--        </p>--}}
+    {{--    </div>--}}
+    {{--    <div class="jumbotron pt-3 pb-1 mb-3">--}}
+    {{--            <p>Гаухар:</p>--}}
+    {{--            <p class="lead">Привет!</p>--}}
+    {{--    </div>--}}
+    {{--    <div class="jumbotron pt-3 pb-1 mb-3">--}}
+    {{--        <p>Серик:</p>--}}
+    {{--        <p class="lead">Используются служебные классы для типографики и расстояния содержимого в контейнере большего размера.</p>--}}
+    {{--    </div>--}}
+    {{--    <div class="jumbotron pt-3 pb-1 mb-3">--}}
+    {{--        <p>Серик:</p>--}}
+    {{--        <p class="lead">Используются служебные классы для типографики и расстояния содержимого в контейнере большего размера.</p>--}}
+    {{--    </div>--}}
+    {{--    <span class="badge badge-pill badge-primary">Главный</span>--}}
+    {{--    <span class="badge badge-pill badge-secondary">Вторичный</span>--}}
+    {{--    <span class="badge badge-pill badge-success">Успех</span>--}}
+    {{--    <span class="badge badge-pill badge-danger">Опасность</span>--}}
+    {{--    <span class="badge badge-pill badge-warning">Предупреждение</span>--}}
+    {{--    <span class="badge badge-pill badge-info">Инфо</span>--}}
+    {{--    <span class="badge badge-pill badge-light">Светлый</span>--}}
+    {{--    <span class="badge badge-pill badge-dark">Темный</span>--}}
+    {{--    <div class="collapse">--}}
+    {{--        <div class="elements elements-body">--}}
+    {{--            Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.--}}
+    {{--        </div>--}}
+    {{--        <button>JJJ</button>--}}
+    {{--    </div>--}}
+    {{--    <table>--}}
+    {{--        <tr><th  >Продукт</th><th  ></th><th  >Кол-во</th></tr>--}}
+    {{--        <tr><td  >Творог протёртый</td><td  >-</td><td  >900 г</td></tr>--}}
+    {{--        <tr><td  >Сливочное масло</td><td  >-</td><td  >180 г</td></tr>--}}
+    {{--        <tr><td  >Сахар</td><td  >-</td><td  >150 г</td></tr>--}}
+    {{--        <tr><td  >Ванильный сахар</td><td  >-</td><td  >4 ч. л.</td></tr>--}}
+    {{--        <tr><td  >Изюм</td><td  >-</td><td  >80 г</td></tr>--}}
+    {{--        <tr><td  >Апельсиновая цедра</td><td  >-</td><td  >1 ст. л.</td></tr>--}}
+    {{--    </table>--}}
+    {{--    <br>--}}
+    {{--    <table cellpadding="1">--}}
+    {{--        <tr><th  >Дата</th><th  >Количество</th><th  >Материал</th></tr>--}}
+    {{--        <tr><td  >06.10.2023</td><td  >101</td></tr>--}}
+    {{--        <tr><td  >06.10.2023</td><td  >101</td><td  >Сок</td></tr>--}}
+    {{--        <tr><td  >06.10.2023</td><td  >102</td><td  >Сок</td></tr>--}}
+    {{--        <tr><td  >07.10.2023</td><td  >0</td><td  >Помидоры</td></tr>--}}
+    {{--        <tr><td  >07.10.2023</td><td  >10</td><td  >Ноутбук</td></tr>--}}
+    {{--        <tr><td  >08.10.2023</td><td  >10</td></tr>--}}
+    {{--    </table>--}}
 @endsection
 
 

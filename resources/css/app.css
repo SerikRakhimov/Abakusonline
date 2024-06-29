@@ -353,6 +353,18 @@ mark {
     background-color: #5f7a91;
     color: white;
 }
+.badge-lifetime {
+    background-color: #5f7a91;
+    color: yellow;
+}
+.badge-pale {
+    background-color: #9396F87F;
+    color: white;
+}
+
+.text-pale {
+    color: #d7d1fd;
+}
 
 .text-project {
     /*background-color: white;*/

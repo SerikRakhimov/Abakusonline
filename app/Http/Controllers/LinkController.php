@@ -65,7 +65,8 @@ class LinkController extends Controller
         }
 
         $items = null;
-        session(['links' => ((!empty($_SERVER['HTTPS'])) ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . '/' . request()->path()]);
+//      session(['links' => ((!empty($_SERVER['HTTPS'])) ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . '/' . request()->path()]);
+        session(['links' => GlobalController::current_path()]);
         return view('link/base_index', ['base' => $base,
             'links' => Link::where('child_base_id', $base->id)->orderBy('parent_base_number')->get()]);
     }
@@ -163,6 +164,7 @@ class LinkController extends Controller
         $link->parent_is_cus_link = isset($request->parent_is_cus_link) ? true : false;
         $link->parent_is_checking_history = isset($request->parent_is_checking_history) ? true : false;
         $link->parent_is_checking_empty = isset($request->parent_is_checking_empty) ? true : false;
+        $link->is_enabled_alinks = isset($request->is_enabled_alinks) ? true : false;
         $link->parent_is_setup_project_logo_img = isset($request->parent_is_setup_project_logo_img) ? true : false;
         $link->parent_is_setup_project_external_description_txt = isset($request->parent_is_setup_project_external_description_txt) ? true : false;
         $link->parent_is_setup_project_internal_description_txt = isset($request->parent_is_setup_project_internal_description_txt) ? true : false;
@@ -492,6 +494,7 @@ class LinkController extends Controller
         $link->parent_is_cus_link = isset($request->parent_is_cus_link) ? true : false;
         $link->parent_is_checking_history = isset($request->parent_is_checking_history) ? true : false;
         $link->parent_is_checking_empty = isset($request->parent_is_checking_empty) ? true : false;
+        $link->is_enabled_alinks = isset($request->is_enabled_alinks) ? true : false;
         $link->parent_is_setup_project_logo_img = isset($request->parent_is_setup_project_logo_img) ? true : false;
         $link->parent_is_setup_project_external_description_txt = isset($request->parent_is_setup_project_external_description_txt) ? true : false;
         $link->parent_is_setup_project_internal_description_txt = isset($request->parent_is_setup_project_internal_description_txt) ? true : false;
@@ -1004,7 +1007,7 @@ class LinkController extends Controller
         $result_parent_child_related_start_link_id_options = '';
         if ($base != null) {
             // список links по выбранному base_id
-            // исключить вычисляемые поля
+            // Исключить вычисляемые поля
             $links = Link::all()
                 ->where('parent_is_parent_related', false)
                 ->where('child_base_id', $base->id)->sortBy('parent_base_number');
@@ -1104,7 +1107,7 @@ class LinkController extends Controller
         if ($set != null) {
             $base = $set->link_from->parent_base;
             // список links по выбранному base_id
-            // исключить вычисляемые и другие поля
+            // Исключить вычисляемые и другие поля
             $links = Link::all()
                 ->where('parent_is_parent_related', false)
                 ->where('parent_is_in_the_selection_list_use_the_calculated_table_field', false)
@@ -1133,7 +1136,7 @@ class LinkController extends Controller
         if ($link != null) {
             $base = $link->parent_base;
             // список links по выбранному base_id
-            // исключить вычисляемые и другие поля
+            // Исключить вычисляемые и другие поля
             $links = Link::all()
                 ->where('parent_is_parent_related', false)
                 ->where('parent_is_in_the_selection_list_use_the_calculated_table_field', false)

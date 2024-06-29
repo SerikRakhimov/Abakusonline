@@ -164,6 +164,7 @@ class BaseController extends Controller
         $base->is_default_list_base_byuser = isset($request->is_default_list_base_byuser) ? "1" : "0";
         $base->is_default_heading = isset($request->is_default_heading) ? "1" : "0";
         $base->is_default_view_cards = isset($request->is_default_view_cards) ? "1" : "0";
+        $base->is_default_allsort_datecreate = isset($request->is_default_allsort_datecreate) ? "1" : "0";
         $base->is_required_lst_num_str_txt_img_doc = isset($request->is_required_lst_num_str_txt_img_doc) ? "1" : "0";
         $base->is_to_moderate_image = isset($request->is_to_moderate_image) ? "1" : "0";
         $base->is_one_value_lst_str_txt = isset($request->is_one_value_lst_str_txt) ? "1" : "0";
@@ -171,6 +172,7 @@ class BaseController extends Controller
         $base->is_calcnm_correct_lst = isset($request->is_calcnm_correct_lst) ? "1" : "0";
         $base->is_default_twt_lst = isset($request->is_default_twt_lst) ? "1" : "0";
         $base->is_default_tst_lst = isset($request->is_default_tst_lst) ? "1" : "0";
+        $base->is_consider_levels_lst = isset($request->is_consider_levels_lst) ? "1" : "0";
         $base->is_same_small_calcname = isset($request->is_same_small_calcname) ? "1" : "0";
 
         $base->digits_num = isset($request->digits_num) ? $request->digits_num : "0";
@@ -233,6 +235,7 @@ class BaseController extends Controller
                 $base->is_calcnm_correct_lst = "0";
                 $base->is_default_twt_lst = "0";
                 $base->is_default_tst_lst = "0";
+                $base->is_consider_levels_lst = "0";
                 $base->sepa_calcname = "";
                 $base->is_same_small_calcname = "0";
                 $base->sepa_same_left_calcname = "";
@@ -251,6 +254,7 @@ class BaseController extends Controller
                 $base->is_default_list_base_byuser = 0;
                 $base->is_default_heading = 0;
                 $base->is_default_view_cards = 0;
+                $base->is_default_allsort_datecreate = 0;
                 $base->entry_minutes = 0;
                 $base->lifetime_minutes = 0;
                 $base->en_min_desc_0 = "";
@@ -278,6 +282,7 @@ class BaseController extends Controller
                 $base->is_calcnm_correct_lst = "0";
                 $base->is_default_twt_lst = "0";
                 $base->is_default_tst_lst = "0";
+                $base->is_consider_levels_lst = "0";
                 $base->sepa_calcname = "";
                 $base->is_same_small_calcname = "0";
                 $base->sepa_same_left_calcname = "";
@@ -296,6 +301,7 @@ class BaseController extends Controller
                 $base->is_default_list_base_byuser = 0;
                 $base->is_default_heading = 0;
                 $base->is_default_view_cards = 0;
+                $base->is_default_allsort_datecreate = 0;
                 $base->entry_minutes = 0;
                 $base->lifetime_minutes = 0;
                 $base->en_min_desc_0 = "";
@@ -319,13 +325,14 @@ class BaseController extends Controller
                 $base->type_is_document = false;
                 $base->is_code_needed = "0";
                 $base->digits_num = 0;
-                $base->is_required_lst_num_str_txt_img_doc = "0";
+//              $base->is_required_lst_num_str_txt_img_doc = "0";
                 $base->is_to_moderate_image = "0";
                 $base->is_one_value_lst_str_txt = "0";
                 $base->is_calcname_lst = "0";
                 $base->is_calcnm_correct_lst = "0";
                 $base->is_default_twt_lst = "0";
                 $base->is_default_tst_lst = "0";
+                $base->is_consider_levels_lst = "0";
                 $base->sepa_calcname = "";
                 $base->is_same_small_calcname = "0";
                 $base->sepa_same_left_calcname = "";
@@ -343,6 +350,7 @@ class BaseController extends Controller
                 $base->is_default_list_base_byuser = 0;
                 $base->is_default_heading = 0;
                 $base->is_default_view_cards = 0;
+                $base->is_default_allsort_datecreate = 0;
                 $base->entry_minutes = 0;
                 $base->lifetime_minutes = 0;
                 $base->en_min_desc_0 = "";
@@ -377,6 +385,7 @@ class BaseController extends Controller
                 $base->is_calcnm_correct_lst = "0";
                 $base->is_default_twt_lst = "0";
                 $base->is_default_tst_lst = "0";
+                $base->is_consider_levels_lst = "0";
                 $base->sepa_calcname = "";
                 $base->is_same_small_calcname = "0";
                 $base->sepa_same_left_calcname = "";
@@ -394,6 +403,7 @@ class BaseController extends Controller
                 $base->is_default_list_base_byuser = 0;
                 $base->is_default_heading = 0;
                 $base->is_default_view_cards = 0;
+                $base->is_default_allsort_datecreate = 0;
                 $base->entry_minutes = 0;
                 $base->lifetime_minutes = 0;
                 $base->en_min_desc_0 = "";
@@ -425,6 +435,7 @@ class BaseController extends Controller
                 $base->is_calcnm_correct_lst = "0";
                 $base->is_default_twt_lst = "0";
                 $base->is_default_tst_lst = "0";
+                $base->is_consider_levels_lst = "0";
                 $base->sepa_calcname = "";
                 $base->is_same_small_calcname = "0";
                 $base->sepa_same_left_calcname = "";
@@ -442,6 +453,7 @@ class BaseController extends Controller
                 $base->is_default_list_base_byuser = 0;
                 $base->is_default_heading = 0;
                 $base->is_default_view_cards = 0;
+                $base->is_default_allsort_datecreate = 0;
                 $base->entry_minutes = 0;
                 $base->lifetime_minutes = 0;
                 $base->en_min_desc_0 = "";
@@ -475,6 +487,7 @@ class BaseController extends Controller
                 $base->is_calcnm_correct_lst = "0";
                 $base->is_default_twt_lst = "0";
                 $base->is_default_tst_lst = "0";
+                $base->is_consider_levels_lst = "0";
                 $base->sepa_calcname = "";
                 $base->is_same_small_calcname = "0";
                 $base->sepa_same_left_calcname = "";
@@ -490,6 +503,7 @@ class BaseController extends Controller
                 $base->is_default_list_base_byuser = 0;
                 $base->is_default_heading = 0;
                 $base->is_default_view_cards = 0;
+                $base->is_default_allsort_datecreate = 0;
                 $base->entry_minutes = 0;
                 $base->lifetime_minutes = 0;
                 $base->en_min_desc_0 = "";
@@ -523,6 +537,7 @@ class BaseController extends Controller
                 $base->is_calcnm_correct_lst = "0";
                 $base->is_default_twt_lst = "0";
                 $base->is_default_tst_lst = "0";
+                $base->is_consider_levels_lst = "0";
                 $base->sepa_calcname = "";
                 $base->is_same_small_calcname = "0";
                 $base->sepa_same_left_calcname = "";
@@ -539,6 +554,7 @@ class BaseController extends Controller
                 $base->is_default_list_base_byuser = 0;
                 $base->is_default_heading = 0;
                 $base->is_default_view_cards = 0;
+                $base->is_default_allsort_datecreate = 0;
                 $base->entry_minutes = 0;
                 $base->lifetime_minutes = 0;
                 $base->en_min_desc_0 = "";
@@ -682,6 +698,7 @@ class BaseController extends Controller
         $base->is_default_list_base_byuser = isset($request->is_default_list_base_byuser) ? "1" : "0";
         $base->is_default_heading = isset($request->is_default_heading) ? "1" : "0";
         $base->is_default_view_cards = isset($request->is_default_view_cards) ? "1" : "0";
+        $base->is_default_allsort_datecreate = isset($request->is_default_allsort_datecreate) ? "1" : "0";
         $base->is_required_lst_num_str_txt_img_doc = isset($request->is_required_lst_num_str_txt_img_doc) ? "1" : "0";
         $base->is_view_empty_lst = isset($request->is_view_empty_lst) ? "1" : "0";
         $base->is_to_moderate_image = isset($request->is_to_moderate_image) ? "1" : "0";
@@ -690,6 +707,7 @@ class BaseController extends Controller
         $base->is_calcnm_correct_lst = isset($request->is_calcnm_correct_lst) ? "1" : "0";
         $base->is_default_twt_lst = isset($request->is_default_twt_lst) ? "1" : "0";
         $base->is_default_tst_lst = isset($request->is_default_tst_lst) ? "1" : "0";
+        $base->is_consider_levels_lst = isset($request->is_consider_levels_lst) ? "1" : "0";
         $base->is_same_small_calcname = isset($request->is_same_small_calcname) ? "1" : "0";
 
         $base->digits_num = isset($request->digits_num) ? $request->digits_num : "0";
@@ -753,6 +771,7 @@ class BaseController extends Controller
                 $base->is_calcnm_correct_lst = "0";
                 $base->is_default_twt_lst = "0";
                 $base->is_default_tst_lst = "0";
+                $base->is_consider_levels_lst = "0";
                 $base->sepa_calcname = "";
                 $base->is_same_small_calcname = "0";
                 $base->sepa_same_left_calcname = "";
@@ -771,6 +790,7 @@ class BaseController extends Controller
                 $base->is_default_list_base_byuser = 0;
                 $base->is_default_heading = 0;
                 $base->is_default_view_cards = 0;
+                $base->is_default_allsort_datecreate = 0;
                 $base->entry_minutes = 0;
                 $base->lifetime_minutes = 0;
                 $base->en_min_desc_0 = "";
@@ -799,6 +819,7 @@ class BaseController extends Controller
                 $base->is_calcnm_correct_lst = "0";
                 $base->is_default_twt_lst = "0";
                 $base->is_default_tst_lst = "0";
+                $base->is_consider_levels_lst = "0";
                 $base->sepa_calcname = "";
                 $base->is_same_small_calcname = "0";
                 $base->sepa_same_left_calcname = "";
@@ -817,6 +838,7 @@ class BaseController extends Controller
                 $base->is_default_list_base_byuser = 0;
                 $base->is_default_heading = 0;
                 $base->is_default_view_cards = 0;
+                $base->is_default_allsort_datecreate = 0;
                 $base->entry_minutes = 0;
                 $base->lifetime_minutes = 0;
                 $base->en_min_desc_0 = "";
@@ -841,13 +863,14 @@ class BaseController extends Controller
                 $base->is_view_empty_lst = "0";
                 $base->is_code_needed = "0";
                 $base->digits_num = 0;
-                $base->is_required_lst_num_str_txt_img_doc = "0";
+//              $base->is_required_lst_num_str_txt_img_doc = "0";
                 $base->is_to_moderate_image = "0";
                 $base->is_one_value_lst_str_txt = "0";
                 $base->is_calcname_lst = "0";
                 $base->is_calcnm_correct_lst = "0";
                 $base->is_default_twt_lst = "0";
                 $base->is_default_tst_lst = "0";
+                $base->is_consider_levels_lst = "0";
                 $base->sepa_calcname = "";
                 $base->is_same_small_calcname = "0";
                 $base->sepa_same_left_calcname = "";
@@ -865,6 +888,7 @@ class BaseController extends Controller
                 $base->is_default_list_base_byuser = 0;
                 $base->is_default_heading = 0;
                 $base->is_default_view_cards = 0;
+                $base->is_default_allsort_datecreate = 0;
                 $base->entry_minutes = 0;
                 $base->lifetime_minutes = 0;
                 $base->en_min_desc_0 = "";
@@ -900,6 +924,7 @@ class BaseController extends Controller
                 $base->is_calcnm_correct_lst = "0";
                 $base->is_default_twt_lst = "0";
                 $base->is_default_tst_lst = "0";
+                $base->is_consider_levels_lst = "0";
                 $base->sepa_calcname = "";
                 $base->is_same_small_calcname = "0";
                 $base->sepa_same_left_calcname = "";
@@ -917,6 +942,7 @@ class BaseController extends Controller
                 $base->is_default_list_base_byuser = 0;
                 $base->is_default_heading = 0;
                 $base->is_default_view_cards = 0;
+                $base->is_default_allsort_datecreate = 0;
                 $base->entry_minutes = 0;
                 $base->lifetime_minutes = 0;
                 $base->en_min_desc_0 = "";
@@ -949,6 +975,7 @@ class BaseController extends Controller
                 $base->is_calcnm_correct_lst = "0";
                 $base->is_default_twt_lst = "0";
                 $base->is_default_tst_lst = "0";
+                $base->is_consider_levels_lst = "0";
                 $base->sepa_calcname = "";
                 $base->is_same_small_calcname = "0";
                 $base->sepa_same_left_calcname = "";
@@ -966,6 +993,7 @@ class BaseController extends Controller
                 $base->is_default_list_base_byuser = 0;
                 $base->is_default_heading = 0;
                 $base->is_default_view_cards = 0;
+                $base->is_default_allsort_datecreate = 0;
                 $base->entry_minutes = 0;
                 $base->lifetime_minutes = 0;
                 $base->en_min_desc_0 = "";
@@ -1000,6 +1028,7 @@ class BaseController extends Controller
                 $base->is_calcnm_correct_lst = "0";
                 $base->is_default_twt_lst = "0";
                 $base->is_default_tst_lst = "0";
+                $base->is_consider_levels_lst = "0";
                 $base->sepa_calcname = "";
                 $base->is_same_small_calcname = "0";
                 $base->sepa_same_left_calcname = "";
@@ -1015,6 +1044,7 @@ class BaseController extends Controller
                 $base->is_default_list_base_byuser = 0;
                 $base->is_default_heading = 0;
                 $base->is_default_view_cards = 0;
+                $base->is_default_allsort_datecreate = 0;
                 $base->entry_minutes = 0;
                 $base->lifetime_minutes = 0;
                 $base->en_min_desc_0 = "";
@@ -1049,6 +1079,7 @@ class BaseController extends Controller
                 $base->is_calcnm_correct_lst = "0";
                 $base->is_default_twt_lst = "0";
                 $base->is_default_tst_lst = "0";
+                $base->is_consider_levels_lst = "0";
                 $base->sepa_calcname = "";
                 $base->is_same_small_calcname = "0";
                 $base->sepa_same_left_calcname = "";
@@ -1065,6 +1096,7 @@ class BaseController extends Controller
                 $base->is_default_list_base_byuser = 0;
                 $base->is_default_heading = 0;
                 $base->is_default_view_cards = 0;
+                $base->is_default_allsort_datecreate = 0;
                 $base->entry_minutes = 0;
                 $base->lifetime_minutes = 0;
                 $base->en_min_desc_0 = "";

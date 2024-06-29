@@ -101,6 +101,7 @@ $num_cols = GlobalController::get_number_of_columns_brow();
         <div class="card-deck m-2">
             @foreach($items as $it)
                 <?php
+                $it_name = $it->name();
                 //$i = $i + 1;
                 $item_find = GlobalController::view_info($it->id, $link_image->id);
                 ?>
@@ -111,33 +112,33 @@ $num_cols = GlobalController::get_number_of_columns_brow();
                 {{--                    <div class="col-4">--}}
                 <div class="card shadow m-2">
                     <a href="#"
-                       onclick="javascript:SelectFile('{{$it->id}}', '{{$it->code}}', '{{$it->name()}}')"
-                       title="{{$it->name()}}">
-{{--                        <p class="card-header text-center text-label">{{trans('main.code')}}: {{$it->code}}</p>--}}
+                       onclick="javascript:SelectFile('{{$it->id}}', '{{$it->code}}', '{{$it_name}}')"
+                       title="{{$it_name}}">
+{{--                        <p class="elements-header text-center text-label">{{trans('main.code')}}: {{$it->code}}</p>--}}
                         <p class="card-header text-center text-title">{{trans('main.code')}}: {{$it->code}}</p>
                     </a>
-                    {{--                    <div class="card-body p-0">--}}
+                    {{--                    <div class="elements-body p-0">--}}
                     <div class="card-body bg-light p-2 d-flex flex-wrap align-items-center">
                         @if($item_find)
-                            {{--                        <div class="card-block text-center">--}}
+                            {{--                        <div class="elements-block text-center">--}}
                             <div class="text-center">
                                 {{--                                https://askdev.ru/q/kak-vyzvat-funkciyu-javascript-iz-tega-href-v-html-276225/--}}
                                 <a href="#"
-                                   onclick="SelectFile('{{$it->id}}', '{{$it->code}}', '{{$it->name()}}')"
-                                   title="{{$it->name()}}">
-                                    @include('view.img',['item'=>$item_find, 'size'=>"medium", 'filenametrue'=>false, 'link'=>false, 'img_fluid'=>true, 'card_img_top'=>true, 'title'=>$it->name()])
+                                   onclick="SelectFile('{{$it->id}}', '{{$it->code}}', '{{$it_name}}')"
+                                   title="{{$it_name}}">
+                                    @include('view.img',['item'=>$item_find, 'size'=>"medium", 'filenametrue'=>false, 'link'=>false, 'img_fluid'=>true, 'card_img_top'=>true, 'title'=>$it_name])
                                     {{--                            @else--}}
                                     {{--                                <div class="text-danger">--}}
                                     {{--                                    {{GlobalController::empty_html()}}</div>--}}
                                 </a>
                             </div>
                         @endif
-                        {{--                        <h5 class="card-title text-center">--}}
+                        {{--                        <h5 class="elements-title text-center">--}}
                         <div class="card-footer">
                             <div class="card-text text-center p-2">
                                 <a href="#"
-                                   onclick="SelectFile('{{$it->id}}', '{{$it->code}}', '{{$it->name()}}')"
-                                   title="{{$it->name()}}">
+                                   onclick="SelectFile('{{$it->id}}', '{{$it->code}}', '{{$it_name}}')"
+                                   title="{{$it_name}}">
                                     {{--                            Где $item->name() выходит в cards выводить "<?php echo GlobalController::to_html();?>"--}}
                                     <?php echo $it->nmbr();?>
                                 </a>
@@ -145,7 +146,7 @@ $num_cols = GlobalController::get_number_of_columns_brow();
                             </div>
                         </div>
                     </div>
-                    {{--                    <div class="card-footer">--}}
+                    {{--                    <div class="elements-footer">--}}
                     {{--                        <small class="text-muted">--}}
                     {{--                            {{$item->created_at->Format(trans('main.format_date'))}}--}}
                     {{--                        </small>--}}
@@ -234,15 +235,15 @@ $num_cols = GlobalController::get_number_of_columns_brow();
                         </td>
                     @endif
                     <td class="text-center" style="cursor:pointer"
-                        onclick="SelectFile('{{$it->id}}', '{{$it->code}}', '{{$it->name()}}')">{{$it->code}}</td>
+                        onclick="SelectFile('{{$it->id}}', '{{$it->code}}', '{{$it_name}}')">{{$it->code}}</td>
                     <td class="text-left" style="cursor:pointer"
-                        onclick="SelectFile('{{$it->id}}', '{{$it->code}}', '{{$it->name()}}')">{{$it->name()}}
+                        onclick="SelectFile('{{$it->id}}', '{{$it->code}}', '{{$it_name}}')">{{$it_name}}
                     </td>
                     @if($link_image)
                         <td class="text-center" style="cursor:pointer"
-                            onclick="SelectFile('{{$it->id}}', '{{$it->code}}', '{{$it->name()}}')">
+                            onclick="SelectFile('{{$it->id}}', '{{$it->code}}', '{{$it_name}}')">
                             @if($item_find)
-                                @include('view.img',['item'=>$item_find, 'size'=>"small", 'filenametrue'=>false, 'link'=>false, 'img_fluid'=>false, 'card_img_top'=>false, 'title'=>$it->name()])
+                                @include('view.img',['item'=>$item_find, 'size'=>"small", 'filenametrue'=>false, 'link'=>false, 'img_fluid'=>false, 'card_img_top'=>false, 'title'=>$it_name])
                             @endif
                         </td>
                     @endif

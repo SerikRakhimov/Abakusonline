@@ -56,12 +56,14 @@
     <p>{{trans('main.is_default_list_base_byuser')}}: <b>{{GlobalController::name_is_boolean($base->is_default_list_base_byuser)}}</b></p>
     <p>{{trans('main.is_default_heading')}}: <b>{{GlobalController::name_is_boolean($base->is_default_heading)}}</b></p>
     <p>{{trans('main.is_default_view_cards')}}: <b>{{GlobalController::name_is_boolean($base->is_default_view_cards)}}</b></p>
+    <p>{{trans('main.is_default_allsort_datecreate')}}: <b>{{GlobalController::name_is_boolean($base->is_default_allsort_datecreate)}}</b></p>
     <p>{{trans('main.digits_num')}}: <b>{{$base->digits_num}}</b></p>
     <p>{{trans('main.is_one_value_lst_str_txt')}}: <b>{{GlobalController::name_is_boolean($base->is_one_value_lst_str_txt)}}</b></p>
     <p>{{trans('main.is_calcname_lst')}}: <b>{{GlobalController::name_is_boolean($base->is_calcname_lst)}}</b></p>
     <p>{{trans('main.is_calcnm_correct_lst')}}: <b>{{GlobalController::name_is_boolean($base->is_calcnm_correct_lst)}}</b></p>
     <p>{{trans('main.is_default_twt_lst')}}: <b>{{GlobalController::name_is_boolean($base->is_default_twt_lst)}}</b></p>
     <p>{{trans('main.is_default_tst_lst')}}: <b>{{GlobalController::name_is_boolean($base->is_default_tst_lst)}}</b></p>
+    <p>{{trans('main.is_consider_levels_lst')}}: <b>{{GlobalController::name_is_boolean($base->is_consider_levels_lst)}}</b></p>
     <p>{{trans('main.entry_minutes')}}: <b>{{$base->entry_minutes}}</b></p>
     <p>{{trans('main.en_min_desc')}}: <b>{{$base->en_min_desc()}}</b></p>
     <p>{{trans('main.lifetime_minutes')}}: <b>{{$base->lifetime_minutes}}</b></p>

@@ -93,12 +93,28 @@ class Link extends Model
         if ($emoji_enable) {
 //          $result = GlobalController::name_and_brackets_emoji($result, $this->parent_base);
 //            $result = GlobalController::name_and_end_emoji($result, $this->parent_base);
-            if($first_emoji){
+            if ($first_emoji) {
                 $result = GlobalController::name_and_first_emoji($result, $this->parent_base);
-            }
-            else{
+            } else {
                 $result = GlobalController::name_and_end_emoji($result, $this->parent_base);
             }
+        }
+        return $result;
+    }
+
+    // Возвращает true/false
+    function is_level()
+    {
+        $result = Level::find($this->parent_level_id_0);
+        return $result;
+    }
+
+    function level_info()
+    {
+        $result = "";  // нужно, не удалять
+        $level = Level::find($this->parent_level_id_0);
+        if ($level) {
+            $result = '(' . $level->name() . ')';
         }
         return $result;
     }

@@ -9,6 +9,8 @@ use \App\Http\Controllers\GlobalController;
 // Нужно "", ниже идет сравнение на ""
 $url_filename = "";
 $is_moderation_info = false;
+// $random - случайное число, нужно для правильного отображения картинок с одинаковым $item->id на странице
+$random = mt_rand(1, 1000);
 if ($item) {
     if ($item->base->type_is_image()) {
         if ($item->img_doc_exist()) {
@@ -45,7 +47,7 @@ if ($item) {
             <img src="{{Storage::url($url_filename)}}"
                  @if(isset($var_percent))
                  @if($item)
-                 id="img{{$item->id}}"
+                 id="img{{$item->id}}_{{$random}}"
                  @endif
                  @endif
                  style="object-fit:cover;
@@ -58,7 +60,7 @@ if ($item) {
                  @endif
                      "
                  @if($card_img_top)
-                 {{--                 class="card-img-top" style="object-fit:contain"--}}
+                 {{--                 class="elements-img-top" style="object-fit:contain"--}}
                  class="card-img-top"
                  @endif
                  @if(isset($size))
@@ -105,7 +107,7 @@ if ($item) {
                     <script>
                         {{-- https://www.manhunter.ru/webmaster/905_kak_na_javascript_uznat_realniy_razmer_izobrazheniya.html--}}
                         {{--get_dimensions(el) описана в layouts\app.php--}}
-                        var el = document.getElementById("img{{$item->id}}");
+                        var el = document.getElementById("img{{$item->id}}_{{$random}}");
                         {{-- Изображение уже загружено или взято из кэша браузера--}}
                         if (el.complete) {
                             var tmp = get_dimensions(el);
@@ -114,10 +116,10 @@ if ($item) {
                             if (tmp) {
                                 {{-- Вертикальная(книжная) картинка и горизонтальный(альбомный) экран --}}
                                 if ((tmp.real_height > tmp.real_width) & (window.innerHeight < window.innerWidth)) {
-                                    document.getElementById("img{{$item->id}}").height = Math.ceil(window.innerHeight * {{$var_percent}} / 100);
+                                    document.getElementById("img{{$item->id}}_{{$random}}").height = Math.ceil(window.innerHeight * {{$var_percent}} / 100);
                                 } else {
-                                    {{--Одинаковый процент 0.75 layouts\app.php и view\img.php--}}
-                                    document.getElementById("img{{$item->id}}").width = Math.ceil(window.innerWidth * {{$var_percent}} / 100 * 0.75);
+                                    {{--Одинаковый процент 0.75 layouts\app.php (на двух строках используется) и view\img.php--}}
+                                    document.getElementById("img{{$item->id}}_{{$random}}").width = Math.ceil(window.innerWidth * {{$var_percent}} / 100 * 0.75);
                                 }
                             }
                             {{-- *** --}}
@@ -133,10 +135,10 @@ if ($item) {
                                 if (tmp) {
                                     {{-- Вертикальная(книжная) картинка и горизонтальный(альбомный) экран --}}
                                     if ((tmp.real_height > tmp.real_width) & (window.innerHeight < window.innerWidth)) {
-                                        document.getElementById("img{{$item->id}}").height = Math.ceil(window.innerHeight * {{$var_percent}} / 100);
+                                        document.getElementById("img{{$item->id}}_{{$random}}").height = Math.ceil(window.innerHeight * {{$var_percent}} / 100);
                                     } else {
-                                        {{--Одинаковый процент 0.75 layouts\app.php и view\img.php--}}
-                                        document.getElementById("img{{$item->id}}").width = Math.ceil(window.innerWidth * {{$var_percent}} / 100 * 0.75);
+                                        {{--Одинаковый процент 0.75 layouts\app.php (на двух строках используется) и view\img.php--}}
+                                        document.getElementById("img{{$item->id}}_{{$random}}").width = Math.ceil(window.innerWidth * {{$var_percent}} / 100 * 0.75);
                                     }
                                 }
                                 {{-- *** --}}
@@ -166,8 +168,8 @@ if ($item) {
 {{--                                        @endif--}}
 {{--                                        <img--}}
 {{--                                            @if($card_img_top)--}}
-{{--                                            --}}{{--                                    class="card-img-top" style="object-fit:contain"--}}
-{{--                                            class="card-img-top" style="object-fit:cover"--}}
+{{--                                            --}}{{--                                    class="elements-img-top" style="object-fit:contain"--}}
+{{--                                            class="elements-img-top" style="object-fit:cover"--}}
 {{--                                            @endif--}}
 {{--                                            @if($size == 'avatar')--}}
 {{--                                            class="circle"--}}

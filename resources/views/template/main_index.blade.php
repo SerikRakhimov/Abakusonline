@@ -21,7 +21,7 @@
 //            $i++;
 //            ?>
             <div class="card shadow m-2">
-                {{--            <img class="card-img-top" src="{{Storage::url('background.png')}}" alt="Card image">--}}
+                {{--            <img class="elements-img-top" src="{{Storage::url('background.png')}}" alt="Card image">--}}
                 <div class="card-header">
                     <div class="row">
                         <div class="col-sm-8 text-left text-title">
@@ -32,7 +32,7 @@
                         </div>
                     </div>
                 </div>
-{{--                <div class="card-body p-0">--}}
+{{--                <div class="elements-body p-0">--}}
                     <div class="card-body">
                     <h4 class="card-title mb-3">{{$template->name()}}</h4>
                     <p class="card-text text-label">
@@ -99,23 +99,23 @@
             @endfor
         @endif
     </div>
-    {{--    <div class="card">--}}
-    {{--        <h3 class="card-header">Featured</h3>--}}
-    {{--        <div class="card-block">--}}
-    {{--            <h4 class="card-title">Special title treatment</h4>--}}
-    {{--            <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>--}}
+    {{--    <div class="elements">--}}
+    {{--        <h3 class="elements-header">Featured</h3>--}}
+    {{--        <div class="elements-block">--}}
+    {{--            <h4 class="elements-title">Special title treatment</h4>--}}
+    {{--            <p class="elements-text">With supporting text below as a natural lead-in to additional content.</p>--}}
     {{--            <a href="#" class="btn btn-primary">Go somewhere</a>--}}
     {{--        </div>--}}
-    {{--        <div class="card-footer">--}}
+    {{--        <div class="elements-footer">--}}
     {{--            <small class="text-muted">{{$project->created_at}}</small>--}}
     {{--        </div>--}}
     {{--    </div>--}}
-    {{--        <div class="card bg-primary">--}}
-    {{--            <div class="card-body text-center">--}}
-    {{--                <p class="card-text">Some text inside the first card</p>--}}
-    {{--                <p class="card-text">Some more text to increase the height</p>--}}
-    {{--                <p class="card-text">Some more text to increase the height</p>--}}
-    {{--                <p class="card-text">Some more text to increase the height</p>--}}
+    {{--        <div class="elements bg-primary">--}}
+    {{--            <div class="elements-body text-center">--}}
+    {{--                <p class="elements-text">Some text inside the first elements</p>--}}
+    {{--                <p class="elements-text">Some more text to increase the height</p>--}}
+    {{--                <p class="elements-text">Some more text to increase the height</p>--}}
+    {{--                <p class="elements-text">Some more text to increase the height</p>--}}
     {{--            </div>--}}
     {{--        </div>--}}
     {{$templates->links()}}

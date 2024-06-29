@@ -91,7 +91,9 @@ class Item extends Model
     // $numcat = true/false - вывод числовых полей с разрядом тысячи/миллионы/миллиарды
     // $rightnull = true/false - у вещественных чисел убрать правые нули после запятой
     // $unitmeas = true/false - у числовых и строковых полей выводить единицу измерения из $base->'unit_meas_desc_x
-    function name_start($fullname = false, $numcat = false, $rightnull = false, $unitmeas = false)
+    // $for_view = true - вычислить вычисляемое наименование для просмотра на экране,
+    // $for_view = false - вычислить вычисляемое наименование для дальнейшего сохранения в $item->name_lang_x и для правильной сортировки при выводе списка all_links в item_index.php
+    function name_start($fullname = false, $numcat = false, $rightnull = false, $unitmeas = false, Link $nolink = null, $is_full_left = false, $for_view = false, $relit_id = null, Role $role = null)
     {
         $result = "";  // нужно, не удалять
 
@@ -104,23 +106,35 @@ class Item extends Model
 //                $result = $this['name_lang_' . $index];
 //            }
 //        }
+        $index = array_search(App::getLocale(), config('app.locales'));
+        if ($index !== false) {   // '!==' использовать, '!=' не использовать
+            $result = $this['name_lang_' . $index];
+        }
         $base = $this->base;
         if ($base) {
             if ($base->type_is_date()) {
                 // "$this->name_lang_0 ??..." нужно, в случае если в $this->name_lang_0 хранится не дата
 //               $result = $this->name_lang_0 ? date_create($this->name_lang_0)->Format(trans('main.format_date')):'';
                 //$timestamp- дата создания записи
-                if (($timestamp = date_create($this->name_lang_0)) === false) {
-                    $result = $this->name_lang_0;
-                } else {
+//                if (($timestamp = date_create($this->name_lang_0)) === false) {
+//                    $result = $this->name_lang_0;
+//                } else {
+//                    $result = date_create($this->name_lang_0)->Format(trans('main.format_date'))."7777";
+//                }
+                $result = $this->name_lang_0;
+                if ($result != "") {
                     $result = date_create($this->name_lang_0)->Format(trans('main.format_date'));
                 }
+//                $result = $this->name_lang_0;
                 // Не использовать
 //                    $result = date_create($this->name_lang_0)->Format('Y.m.d');
 
             } elseif ($base->type_is_number()) {
-                $result = GlobalController::restore_number_from_item($base, $this->name_lang_0, $numcat, $rightnull, $unitmeas);
-
+                $result = $this->name_lang_0;
+                // Нужно
+                if ($result != '') {
+                    $result = GlobalController::restore_number_from_item($base, $this->name_lang_0, $numcat, $rightnull, $unitmeas);
+                }
             } elseif ($base->type_is_boolean()) {
                 //    Похожие строки в Base.php
                 // #65794 - ранее был пустой квадратик
@@ -151,7 +165,7 @@ class Item extends Model
 //                        }
 //                    }
                     if ($fullname == true & $base->is_calcname_lst == true) {
-                        $result = ItemController::calc_value_func($this)['calc_full_lang_' . $index];
+                        $result = ItemController::calc_value_func($this, 0, true, $nolink, $for_view, $relit_id, $role)[($is_full_left ? 'calc_lang_' : 'calc_full_lang_') . $index];
                     }
                 }
             }
@@ -172,9 +186,13 @@ class Item extends Model
     // $rightnull = true/false - у вещественных чисел убрать правые нули после запятой
     // $emoji_enable = true/false - вывод изображений - эмодзи
     // $unitmeas = true/false - у числовых и строковых полей выводить единицу измерения из $base->'unit_meas_desc_x
-    function name($fullname = false, $numcat = false, $rightnull = false, $emoji_enable = false, $unitmeas = false)
+    // $nolink - исключить этот $link при расчете вычисляемого наименования $fullname = true/false - вывод полной строки (более 255 символов)
+    // $is_full_left = true - рассчитать вычисляемое наименование и обрезать до 255 символов
+    // $for_view = true - вычислить вычисляемое наименование для просмотра на экране,
+    // $for_view = false - вычислить вычисляемое наименование для дальнейшего сохранения в $item->name_lang_x и для правильной сортировки при выводе списка all_links в item_index.php
+    function name($fullname = false, $numcat = false, $rightnull = false, $emoji_enable = false, $unitmeas = false, Link $nolink = null, $is_full_left = false, $for_view = false, $relit_id = null, Role $role = null)
     {
-        $result = self::name_start($fullname, $numcat, $rightnull, $unitmeas);
+        $result = self::name_start($fullname, $numcat, $rightnull, $unitmeas, $nolink, $is_full_left, $for_view, $relit_id, $role);
         $result = str_replace('\~', '', $result);
         // Не нужна эта строка
         // $result = str_replace('\t', '', $result);
@@ -200,12 +218,19 @@ class Item extends Model
     // "\~" - символ перевода каретки (используется также в Item.php: name() nmbr())
     // "\~" - символ перевода каретки (используется также в ItemController.php: calc_value_func(), GlobalController: itnm_left)
     // "\t" - символ широкого пробела(исп. для отступа в абзаце) (используется также в Item.php: функции name() nmbr())
+    // $fullname = true/false - вывод полной строки (более 255 символов)
     // $numcat = true/false - вывод числовых полей с разрядом тысячи/миллионы/миллиарды
-    // fullname = true
-    function nmbr($fullname = false, $numcat = false, $rightnull = false, $emoji_enable = false)
+    // $rightnull = true/false - у вещественных чисел убрать правые нули после запятой
+    // $emoji_enable = true/false - вывод изображений - эмодзи
+    // $unitmeas = true/false - у числовых и строковых полей выводить единицу измерения из $base->'unit_meas_desc_x
+    // $nolink - исключить этот $link при расчете вычисляемого наименования $fullname = true/false - вывод полной строки (более 255 символов)
+    // $is_full_left = true - рассчитать вычисляемое наименование и обрезать до 255 символов
+    // $for_view = true - вычислить вычисляемое наименование для просмотра на экране,
+    // $for_view = false - вычислить вычисляемое наименование для дальнейшего сохранения в $item->name_lang_x и для правильной сортировки при выводе списка all_links в item_index.php
+    function nmbr($fullname = false, $numcat = false, $rightnull = false, $emoji_enable = false, $unitmeas = false, Link $nolink = null, $is_full_left = false, $for_view = false, $relit_id = null, Role $role = null)
     {
         //$result = self::name_start(true, false);
-        $result = self::name_start($fullname, $numcat, $rightnull);
+        $result = self::name_start($fullname, $numcat, $rightnull, $unitmeas, $nolink, $is_full_left, $for_view, $relit_id, $role);
         $result = str_replace('\~', '<br>', $result);
         // Не нужна эта строка
         // $result = str_replace('\t', '&emsp;&emsp;', $result);
@@ -218,7 +243,10 @@ class Item extends Model
 
     // Массив names() в разбивке по языкам
     // names() используется для расчета вычисляемого наименования
-    function names()
+    // $for_view = true - вычислить вычисляемое наименование для просмотра на экране,
+    // $for_view = false - вычислить вычисляемое наименование для дальнейшего сохранения в $item->name_lang_x и для правильной сортировки при выводе списка all_links в item_index.php
+    //  Похожие строки GlobalController::items_right(), GlobalController::its_page(), Item.php - names()
+    function names($for_view = false)
     {
         $res_array = array();
         // массив "glo_menu_main" показывает, что четыре поля наименований хранятся в bases и items
@@ -238,33 +266,52 @@ class Item extends Model
                     // Для полей типа текст - наименование берется из $item->name_lang_x, а не с $text->name_lang_x
                     $name = $this['name_lang_' . $lang_key];
                     if ($base->type_is_date()) {
-                        $name = date_create($name)->Format(trans('main.format_date'));
-                        // Нужно для правильной сортировки по полю $item->name_lang_x
-                        //$name = date_create($name)->Format('Y.m.d');
-
+                        if ($for_view) {
+                            $name = date_create($name)->Format(trans('main.format_date'));
+                            // Нужно для правильной сортировки по полю $item->name_lang_x
+                            //$name = date_create($name)->Format('Y.m.d');
+                        } else {
+                            $name = trim($this->dt_desc());
+                        }
                     } elseif ($base->type_is_number()) {
-                        // 'Единица измерения (для числовых и строковых полей)', параметр $unitmeas = true
-                        $name = GlobalController::restore_number_from_item($base, $name, false, true, true);
+                        if ($for_view) {
+                            // 'Единица измерения (для числовых и строковых полей)', параметр $unitmeas = true
+                            $name = GlobalController::restore_number_from_item($base, $name, false, true, true);
+                        } else {
+                            // Числовые значения хранятся в items с нулями спереди для правильной сортировки
+                            $name = trim($name);
+                        }
 
                     } elseif ($base->type_is_boolean()) {
-                        //    Похожие строки в Base.php
+                        if ($for_view) {
+                            //    Похожие строки в Base.php
 //                    $name = $name == "1" ? html_entity_decode('	&#9745;')
 //                        : ($name == "0" ? html_entity_decode('&#10065;') : trans('main.empty'));
 //                        // Нужно для правильной сортировки по полю $item->name_lang_x
 //                        $name = $name == "1" ? trans('main.yes')
 //                            : ($name == "0" ? trans('main.no') : trans('main.empty'));
-                        // Нужно для правильной сортировки по полю $item->name_lang_x
-                        $name = $name == "1" ? GlobalController::is_boolean_true()
-                            : ($name == "0" ? GlobalController::is_boolean_false() : trans('main.empty'));
-                        //
-
+                            // Нужно для правильной сортировки по полю $item->name_lang_x
+                            $name = $name == "1" ? GlobalController::is_boolean_true()
+                                : ($name == "0" ? GlobalController::is_boolean_false() : trans('main.empty'));
+                            //
+                        } else {
+                            $name = trim($name);
+                        }
                     } elseif ($base->type_is_string()) {
-                        // $name + 'Единица измерения (для числовых и строковых полей)'
-                        $name = $name . $base->par_label_unit_meas(true);
+                        if ($for_view) {
+                            // $name + 'Единица измерения (для числовых и строковых полей)'
+                            $name = $name . $base->par_label_unit_meas(true);
+                        } else {
+                            $name = str_pad(trim($name), 50);
+                        }
 
                     } elseif ($base->type_is_text()) {
-                        // Полное текстовое наименование(более 255 символов), с разметкой
-                        $name = GlobalController::it_txnm_n2b($this);
+                        if ($for_view) {
+                            // Полное текстовое наименование(более 255 символов), с разметкой
+                            $name = GlobalController::it_txnm_n2b($this);
+                        } else {
+                            $name = str_pad(trim($name), 50);
+                        }
                     }
                 }
             }

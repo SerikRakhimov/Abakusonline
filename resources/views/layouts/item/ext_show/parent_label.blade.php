@@ -13,9 +13,12 @@
 $result = \App\Http\Controllers\GlobalController::link_par_link($link, $par_link)
 ?>
 @if($result)
-{{--<u>{{$link->parent_label()}}</u>--}}
-    <u>{{$link->parent_label(false,false,false)}}</u>
+    {{--<u>{{$link->parent_label()}}</u>--}}
+    <u>{{$link->parent_label(false, false, false)}}</u>
 @else
-{{--{{$link->parent_label()}}--}}
-    {{$link->parent_label(false,false,false)}}
+    {{--{{$link->parent_label()}}--}}
+    {{$link->parent_label(false, false, false)}}
 @endif
+<small class="text-title">
+    {{$link->level_info()}}
+</small>

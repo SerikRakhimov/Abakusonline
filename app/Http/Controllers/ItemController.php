@@ -11,12 +11,12 @@ use App\Models\User;
 use App\Models\Base;
 use App\Models\Item;
 use App\Models\Link;
+use App\Models\Level;
 use App\Models\Main;
 use App\Models\Set;
 use App\Models\Project;
 use App\Models\Role;
 use App\Models\Text;
-use App\Models\Level;
 use App\Models\Relit;
 use App\Models\Relip;
 use Illuminate\Http\Request;
@@ -274,7 +274,7 @@ class ItemController extends Controller
         }
 
         // Проверка/удаление записей
-        self::del_items_lifetime_minutes($project, $base, $base_right);
+        self::del_items_lifetime_minutes($project, $base, $base_right, $relit_id, $role);
 
         // Используется $relip_project
         // Вызывается без параметров '($mains_item_id, $mains_link_id, $parent_proj и $current_item_id)', чтобы проверка сработала '$base_right['is_twt_enable'] == true'
@@ -307,7 +307,8 @@ class ItemController extends Controller
                 }
             }
             if ($redirect_item_index == false) {
-                session(['base_index_previous_url' => ((!empty($_SERVER['HTTPS'])) ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . '/' . request()->path()]);
+//              session(['base_index_previous_url' => ((!empty($_SERVER['HTTPS'])) ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . '/' . request()->path()]);
+//              session(['base_index_previous_url' => GlobalController::current_path()]);
                 // Нужно 'GlobalController::const_null()' 'null/null/null/', иначе в строке с параметрами будет '///' (дает ошибку)
                 return view('item/base_index', ['base_right' => $base_right, 'base' => $base, 'project' => $project, 'role' => $role, 'relit_id' => $relit_id,
                     'string_link_ids_current' => GlobalController::const_null(),
@@ -335,7 +336,7 @@ class ItemController extends Controller
         }
     }
 
-    static function del_items_lifetime_minutes(Project $project, Base $base, $base_right)
+    static function del_items_lifetime_minutes(Project $project, Base $base, $base_right, $relit_id, Role $role)
     {
         //
         // https://qna.habr.com/q/676115#:~:text=%24time%20%3D%20%2210%3A30%22%3B%20%24add%20%3D%2010%3B%20list%28%24hours%2C%24minutes%29%20%3D,60%20%2B%20%24minutes%3B%20%24new_total%20%3D%20%24total_minutes%20%2B%20%24add%3B
@@ -361,7 +362,7 @@ class ItemController extends Controller
                     $array_items_ids = array();
                     // Вычисляем массив вложенных $item_id для удаления
                     self::calc_items_ids_for_delete($item, $array_items_ids, false);
-                    $delete_in_transaction = self::delete_in_transaction($item, $array_items_ids);
+                    $delete_in_transaction = self::delete_in_transaction($item, $array_items_ids, $relit_id, $role);
                     if ($delete_in_transaction != "") {
                         return $delete_in_transaction;
                     }
@@ -547,7 +548,7 @@ class ItemController extends Controller
         // здесь равно false
         // Исключить link_id из $child_mains_link_is_calcname в итоговом результате функции links_info()
         // if (GlobalController::is_base_calcname_check($item->base) == false) {
-        if (GlobalController::is_base_calcname_check($it_local->base) == false) {
+        if (GlobalController::is_base_calcname_check($it_local->base, $base_right) == false) {
             $para_child_mains_link_is_calcname = $child_mains_link_is_calcname;
         }
         // Нужно передать в функцию links_info() $item
@@ -570,20 +571,24 @@ class ItemController extends Controller
 
         // "Шапка" документа
         // Используется фильтр на равенство одному $item->id (для вывода таблицы из одной строки)
-        $items_right = GlobalController::items_right($item->base, $item->project, $role, $relit_id, null, null, null, null, $item->id);
-//        if (empty($tree_array)) {
-//            $items_right = GlobalController::items_right($item->base, $item->project, $role, $relit_id, null, null, null, null, $item->id);
-//        } else {
-//            //$items_right = GlobalController::items_right($item->base, $item->project, $role, $relit_id, $tree_array_last_item_id, $tree_array_last_link_id, $project, $view_ret_id, $item->id);
-//            // $relit_id нужно передавать, предпоследний параметр, нужно так, чтобы правильно данные выбирались
-//            $items_right = GlobalController::items_right($item->base, $item->project, $role, $relit_id, $tree_array_last_item_id, $tree_array_last_link_id, $project, $relit_id, $item->id);
-//        }
+        //$items_right = GlobalController::items_right($item->base, $item->project, $role, $relit_id, null, null, null, null, $item->id);
+
+        if (empty($tree_array)) {
+            $items_right = GlobalController::items_right($item->base, $item->project, $role, $relit_id, null, null, null, null, $item->id);
+        } else {
+            //$items_right = GlobalController::items_right($item->base, $item->project, $role, $relit_id, $tree_array_last_item_id, $tree_array_last_link_id, $project, $view_ret_id, $item->id);
+            // $relit_id нужно передавать, предпоследний параметр, нужно так, чтобы правильно данные выбирались
+            $items_right = GlobalController::items_right($item->base, $item->project, $role, $relit_id, $tree_array_last_item_id, $tree_array_last_link_id, $project, $relit_id, $item->id);
+        }
+
+        $items_right = GlobalController::items_right($item->base, $item->project, $role, $relit_id, $tree_array_last_item_id, $tree_array_last_link_id, $project, $relit_id, $item->id);
+
         if (count($items_right['items']->get()) != 1) {
             return view('message', ['message' => trans('main.no_access') . ' (count($items_right[items]->get()) != 1)']);
         }
 
-//        // 'itget' нужно
-//        $items = $items_right['itget'];
+        // 'itget' нужно
+        // $items = $items_right['itget'];
         $items = $items_right['items'];
         // Все нужно
         $prev_item = null;
@@ -613,6 +618,9 @@ class ItemController extends Controller
         $array_relips = $next_all_links_mains_calc['array_relips'];
         $current_link = $next_all_links_mains_calc['current_link'];
         $view_ret_id = $next_all_links_mains_calc['current_vw_ret_id'];
+        $next_all_is_tileview = $next_all_links_mains_calc['next_all_is_tileview'];
+        $next_all_is_viewcards = $next_all_links_mains_calc['next_all_is_viewcards'];
+        $next_all_is_sortdate = $next_all_links_mains_calc['next_all_is_sortdate'];
         // Нужно
         $view_ret_id = GlobalController::set_relit_id($view_ret_id);
         $message_ln_info = '';
@@ -642,7 +650,7 @@ class ItemController extends Controller
 //                           или если тип-не вычисляемое наименование
 //                           похожая проверка в list\table.php, ItemController::item_index() и ext_show.php
                 // '== false' используется
-                if (GlobalController::is_base_calcname_check($current_link->child_base) == false) {
+                if (GlobalController::is_base_calcname_check($current_link->child_base, $base_body_right) == false) {
                     // Не исключать переданный $nolink - null
                     // В таблице 'item_body_base' должно быть как минимум два столбца: номер строки с вызовом 'item.show'
                     // и вычисляемое наименование, код, связи для вызова 'item.item_index'.
@@ -654,7 +662,7 @@ class ItemController extends Controller
             $relip_body_project = GlobalController::calc_relip_project($view_ret_id, $project);
 
             // Проверка на удаление записей
-            self::del_items_lifetime_minutes($relip_body_project, $current_link->child_base, $base_body_right);
+            self::del_items_lifetime_minutes($relip_body_project, $current_link->child_base, $base_body_right, $view_ret_id, $role);
 
             // Используется $relip_body_project, $view_ret_id
             $items_body_right = GlobalController::items_right($current_link->child_base, $relip_body_project, $role, $relit_id, $item->id, $current_link->id, $project, $view_ret_id);
@@ -716,116 +724,117 @@ class ItemController extends Controller
 
         // Не удалять
         // Перенаправление на "route('item.ext_show'" при "count($next_all_links) == 0"
-        if (count($next_all_links) == 0) {
-//            "'par_link' => GlobalController::set_par_null($tree_array_last_link_id)" неправильно
-//            "'par_link' => $tree_array_last_link_id" правильно
-            return redirect()->route('item.ext_show', [
-                'item' => $item,
-                'project' => $project,
-                'role' => $role,
-                'usercode' => GlobalController::usercode_calc(),
-                'relit_id' => GlobalController::set_relit_id($save_relit_id),
-                'string_current' => $tree_array_last_string_previous,
-                'heading' => intval(false),
-                'base_index_page' => $prev_base_index_page,
-                'body_link_page' => $prev_body_link_page,
-                'body_all_page' => $prev_body_all_page,
-                'view_link' => GlobalController::set_par_null($tree_array_last_link_id),
-                'parent_item' => $tree_array_last_item_id,
-                'par_link' => $tree_array_last_link_id,
-                'parent_ret_id' => GlobalController::set_relit_id($save_view_ret_id)
-            ]);
+        //if (count($next_all_links) == 0) {
+//            return redirect()->route('item.ext_show', [
+//                'item' => $item,
+//                'project' => $project,
+//                'role' => $role,
+//                'usercode' => GlobalController::usercode_calc(),
+//                'relit_id' => GlobalController::set_relit_id($save_relit_id),
+//                'string_current' => $tree_array_last_string_previous,
+//                'heading' => intval(false),
+//                'base_index_page' => $prev_base_index_page,
+//                'body_link_page' => $prev_body_link_page,
+//                'body_all_page' => $prev_body_all_page,
+//                'view_link' => GlobalController::set_par_null($tree_array_last_link_id),
+//                'parent_item' => $tree_array_last_item_id,
+//                'par_link' => $tree_array_last_link_id,
+//                'parent_ret_id' => GlobalController::set_relit_id($save_view_ret_id)
+//            ]);
 
-        } else {
-            //     session(['links' => ((!empty($_SERVER['HTTPS'])) ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . '/' . request()->path()]);
-            // Редирект страницы
-            // Если одна запись в списке - тогда идти дальше, пропустить
-            // Нужно '$redirect_item_index = false;'
-            $redirect_item_index = false;
-            if ($view_link) {
-                if ($base_body_right['is_skip_count_records_equal_1_item_body_index'] == true) {
-                    if (count($body_items) == 1) {
-                        $item_redirect = $body_items->first();
-                        if ($item_redirect) {
-                            $redirect_item_index = true;
-                            // "'view_link' => $view_link" не использовать
-                            return redirect()->route('item.item_index', ['project' => $project, 'item' => $item_redirect, 'role' => $role,
-                                'usercode' => GlobalController::usercode_calc(),
-                                'relit_id' => $view_ret_id,
-                                'called_from_button' => 0,
-                                'view_link' => GlobalController::par_link_const_textnull(),
-                                'string_current' => $string_next,
-                                'prev_base_index_page' => $base_index_page_current,
-                                'prev_body_link_page' => $body_link_page_current,
-                                'prev_body_all_page' => $body_all_page_current,
-                                'view_ret_id' => $view_ret_id]);
-                        }
+        // } else {
+        //     session(['links' => ((!empty($_SERVER['HTTPS'])) ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . '/' . request()->path()]);
+        // Редирект страницы
+        // Если одна запись в списке - тогда идти дальше, пропустить
+        // Нужно '$redirect_item_index = false;'
+        $redirect_item_index = false;
+        if ($view_link) {
+            if ($base_body_right['is_skip_count_records_equal_1_item_body_index'] == true) {
+                if (count($body_items) == 1) {
+                    $item_redirect = $body_items->first();
+                    if ($item_redirect) {
+                        $redirect_item_index = true;
+                        // "'view_link' => $view_link" не использовать
+                        return redirect()->route('item.item_index', ['project' => $project, 'item' => $item_redirect, 'role' => $role,
+                            'usercode' => GlobalController::usercode_calc(),
+                            'relit_id' => $view_ret_id,
+                            'called_from_button' => 0,
+                            'view_link' => GlobalController::par_link_const_textnull(),
+                            'string_current' => $string_next,
+                            'prev_base_index_page' => $base_index_page_current,
+                            'prev_body_link_page' => $body_link_page_current,
+                            'prev_body_all_page' => $body_all_page_current,
+                            'view_ret_id' => $view_ret_id]);
                     }
                 }
             }
-            if ($redirect_item_index == false) {
-                $message_bs_calc = ItemController::message_bs_calc($relip_project, $item->base);
-                $message_bs_info = $message_bs_calc['message_bs_info'];
-                $message_bs_validate = $message_bs_calc['message_bs_validate'];
-                return view('item/item_index', ['project' => $project,
-                    'item' => $item,
-                    'role' => $role,
-                    'relit_id' => $relit_id,
-                    'view_link' => GlobalController::set_par_null($view_link),
-                    'view_ret_id' => $view_ret_id,
-                    'array_relips' => $array_relips,
-                    'base_right' => $base_right,
-                    'items' => $items,
-                    'it_local' => $it_local,
-                    'prev_item' => $prev_item,
-                    'next_item' => $next_item,
-                    'child_links' => $child_links,
-                    'child_links_info' => $child_links_info,
-                    'child_mains_link_is_calcname' => $child_mains_link_is_calcname,
-                    'child_body_links_info' => $child_body_links_info,
-                    'body_items' => $body_items,
-                    'its_body_page' => $its_body_page,
-                    'base_body_right' => $base_body_right,
-                    'tree_array' => $tree_array,
-                    'tree_array_last_link_id' => $tree_array_last_link_id,
-                    'tree_array_last_item_id' => $tree_array_last_item_id,
-                    'string_link_ids_current' => $string_link_ids_current,
-                    'string_item_ids_current' => $string_item_ids_current,
-                    'string_relit_ids_current' => $string_relit_ids_current,
-                    'string_vwret_ids_current' => $string_vwret_ids_current,
-                    'string_all_codes_current' => $string_all_codes_current,
-                    'string_current' => $string_current,
-                    'string_link_ids_next' => $string_link_ids_next,
-                    'string_item_ids_next' => $string_item_ids_next,
-                    'string_relit_ids_next' => $string_relit_ids_next,
-                    'string_vwret_ids_next' => $string_vwret_ids_next,
-                    'string_all_codes_next' => $string_all_codes_next,
-                    'string_next' => $string_next,
-                    'next_all_links' => $next_all_links,
-                    'next_all_mains' => $next_all_mains,
-                    'next_all_is_create' => $next_all_is_create,
-                    'next_all_is_all_create' => $next_all_is_all_create,
-                    'next_all_is_calcname' => $next_all_is_calcname,
-                    'next_all_is_code_enable' => $next_all_is_code_enable,
-                    'next_all_is_enable' => $next_all_is_enable,
-                    'message_bs_info' => $message_bs_info,
-                    'message_bs_validate' => $message_bs_validate,
-                    'message_ln_info' => $message_ln_info,
-                    'message_ln_validate' => $message_ln_validate,
-                    'string_link_ids_array_next' => $string_link_ids_array_next,
-                    'string_item_ids_array_next' => $string_item_ids_array_next,
-                    'string_relit_ids_array_next' => $string_relit_ids_array_next,
-                    'string_vwret_ids_array_next' => $string_vwret_ids_array_next,
-                    'string_all_codes_array_next' => $string_all_codes_array_next,
-                    'string_array_next' => $string_array_next,
-                    'message_ln_array_info' => $message_ln_array_info,
-                    'message_ln_link_array_item' => $message_ln_link_array_item,
-                    'base_index_page' => $base_index_page_current,
-                    'body_link_page' => $body_link_page_current,
-                    'body_all_page' => $body_all_page_current
-                ]);
-            }
         }
+        if ($redirect_item_index == false) {
+            $message_bs_calc = ItemController::message_bs_calc($relip_project, $item->base);
+            $message_bs_info = $message_bs_calc['message_bs_info'];
+            $message_bs_validate = $message_bs_calc['message_bs_validate'];
+            return view('item/item_index', ['project' => $project,
+                'item' => $item,
+                'role' => $role,
+                'relit_id' => $relit_id,
+                'view_link' => GlobalController::set_par_null($view_link),
+                'view_ret_id' => $view_ret_id,
+                'array_relips' => $array_relips,
+                'base_right' => $base_right,
+                'items' => $items,
+                'it_local' => $it_local,
+                'prev_item' => $prev_item,
+                'next_item' => $next_item,
+                'child_links' => $child_links,
+                'child_links_info' => $child_links_info,
+                'child_mains_link_is_calcname' => $child_mains_link_is_calcname,
+                'child_body_links_info' => $child_body_links_info,
+                'body_items' => $body_items,
+                'its_body_page' => $its_body_page,
+                'base_body_right' => $base_body_right,
+                'tree_array' => $tree_array,
+                'tree_array_last_link_id' => $tree_array_last_link_id,
+                'tree_array_last_item_id' => $tree_array_last_item_id,
+                'string_link_ids_current' => $string_link_ids_current,
+                'string_item_ids_current' => $string_item_ids_current,
+                'string_relit_ids_current' => $string_relit_ids_current,
+                'string_vwret_ids_current' => $string_vwret_ids_current,
+                'string_all_codes_current' => $string_all_codes_current,
+                'string_current' => $string_current,
+                'string_link_ids_next' => $string_link_ids_next,
+                'string_item_ids_next' => $string_item_ids_next,
+                'string_relit_ids_next' => $string_relit_ids_next,
+                'string_vwret_ids_next' => $string_vwret_ids_next,
+                'string_all_codes_next' => $string_all_codes_next,
+                'string_next' => $string_next,
+                'next_all_links' => $next_all_links,
+                'next_all_mains' => $next_all_mains,
+                'next_all_is_create' => $next_all_is_create,
+                'next_all_is_all_create' => $next_all_is_all_create,
+                'next_all_is_calcname' => $next_all_is_calcname,
+                'next_all_is_code_enable' => $next_all_is_code_enable,
+                'next_all_is_enable' => $next_all_is_enable,
+                'next_all_is_tileview' => $next_all_is_tileview,
+                'next_all_is_viewcards' => $next_all_is_viewcards,
+                'next_all_is_sortdate' => $next_all_is_sortdate,
+                'message_bs_info' => $message_bs_info,
+                'message_bs_validate' => $message_bs_validate,
+                'message_ln_info' => $message_ln_info,
+                'message_ln_validate' => $message_ln_validate,
+                'string_link_ids_array_next' => $string_link_ids_array_next,
+                'string_item_ids_array_next' => $string_item_ids_array_next,
+                'string_relit_ids_array_next' => $string_relit_ids_array_next,
+                'string_vwret_ids_array_next' => $string_vwret_ids_array_next,
+                'string_all_codes_array_next' => $string_all_codes_array_next,
+                'string_array_next' => $string_array_next,
+                'message_ln_array_info' => $message_ln_array_info,
+                'message_ln_link_array_item' => $message_ln_link_array_item,
+                'base_index_page' => $base_index_page_current,
+                'body_link_page' => $body_link_page_current,
+                'body_all_page' => $body_all_page_current
+            ]);
+        }
+        //}
     }
 
     static function string_null()
@@ -1158,12 +1167,18 @@ class ItemController extends Controller
         $next_all_rts_links_user_ids = array();
         $next_all_rts_is_calcname = array();
         $next_all_rts_is_create = array();
-
+        $next_all_rts_is_array_tileview = array();
+        $next_all_rts_is_array_viewcards = array();
+        $next_all_rts_is_array_sortdate = array();
+        $next_all_is_relit_tileview = array();
+        $next_all_is_relit_viewcards = array();
+        $next_all_is_relit_sortdate = array();
         foreach ($links as $link) {
             //$array_link_relips = [];
             // Выводить вычисляемое наименование
             // Использовать '$link->child_base'
-            $is_calcname = GlobalController::is_base_calcname_check($link->child_base);
+            $br = GlobalController::base_right($link->child_base, $role, $relit_id);
+            $is_calcname = GlobalController::is_base_calcname_check($link->child_base, $br);
 //            // Текущий проект
 //            $array_link_relips[0] = $project->id;
 //            // relips текущего проекта $parent->id
@@ -1250,15 +1265,12 @@ class ItemController extends Controller
 //                        $base_link_right = GlobalController::base_link_right($link, $role, $relit_id, true, $key);
                         // "GlobalController::base_link_right($link, $role,$key,true)" - true обязательно нужно
                         $base_link_right = GlobalController::base_link_right($link, $role, $key, true);
-
                         // Проверка 'Доступность ввода данных на основе проверки истории (links)'
                         // Используется "GlobalController::is_checking_add_history()"
                         $is_checking_add_history = GlobalController::is_checking_add_history($role, $relit_id, $view_link, $item);
-
                         // Проверка 'Доступность ввода данных на основе проверки заполненности данных (links)'
                         // Используется "GlobalController::is_checking_add_empty()"
                         $is_checking_add_empty = GlobalController::is_checking_add_empty($role, $relit_id, $view_link, $item);
-
                         // Использовать две этих проверки
                         if (!(($base_link_right['is_body_link_enable'] == true) && ($base_link_right['is_list_base_calc'] == true))) {
                             unset($array_link_relips[$key]);
@@ -1268,6 +1280,10 @@ class ItemController extends Controller
                                 && $base_link_right['is_edit_link_update'] == true
                                 && $is_checking_add_history['result_entry_history'] == true
                                 && $is_checking_add_empty['result_entry_empty'] == true;
+                            // "['result']" - нужно обязательно
+                            $is_tileview = $link->child_base->tile_view($role, $relit_id, $base_link_right)['result'];
+                            $is_viewcards = ($base_link_right['is_view_cards'] == true);
+                            $is_sortdate = ($base_link_right['is_view_sortdate'] == true);
                             if (!(self::item_link_parent_mains_exists($item, $link) || $next_create)) {
                                 unset($array_link_relips[$key]);
                             } else {
@@ -1279,18 +1295,23 @@ class ItemController extends Controller
                                         // Нужно '$next_all_rts_links[$key][] = $link;'
                                         // Второй элемент массива - порядковый номер, начинается с 0
                                         $next_all_rts_links[$key][] = $link;
-                                        // Эта команда "$next_all_rts_links_ids[$key][] = $link->id;" не нужна
-                                        // $next_all_rts_links_ids[$key][] = $link->id;
-                                        if ($base_link_right['is_list_base_user_id'] == true) {
-                                            $next_all_rts_links_user_ids[$key][] = $link->id;
-                                        }
-                                        if ($base_link_right['is_list_base_byuser'] == true) {
-                                            $next_all_rts_links_byuser_ids[$key][] = $link->id;
-                                        }
-                                        $next_all_rts_is_calcname[$key][$link->id] = $is_calcname;
-//                      Такая же проверка на 'is_list_base_create' == true && 'is_edit_link_update' == true в item_index.php и ItemController.php
+                                        // Такая же проверка на 'is_list_base_create' == true && 'is_edit_link_update' == true в item_index.php и ItemController.php
                                         //$next_all_is_create[$link->id] = $base_right['is_list_base_create'];
                                         $next_all_rts_is_create[$key][$link->id] = $next_create;
+                                        if ($link->is_enabled_alinks == true) {
+                                            // Эта команда "$next_all_rts_links_ids[$key][] = $link->id;" не нужна
+                                            // $next_all_rts_links_ids[$key][] = $link->id;
+                                            if ($base_link_right['is_list_base_user_id'] == true) {
+                                                $next_all_rts_links_user_ids[$key][] = $link->id;
+                                            }
+                                            if ($base_link_right['is_list_base_byuser'] == true) {
+                                                $next_all_rts_links_byuser_ids[$key][] = $link->id;
+                                            }
+                                            $next_all_rts_is_calcname[$key][$link->id] = $is_calcname;
+                                            $next_all_rts_is_array_tileview[$key][$link->id] = $is_tileview;
+                                            $next_all_rts_is_array_viewcards[$key][$link->id] = $is_viewcards;
+                                            $next_all_rts_is_array_sortdate[$key][$link->id] = $is_sortdate;
+                                        }
                                     } else {
                                         // Данные не добавляются
                                         unset($array_link_relips[$key]);
@@ -1300,9 +1321,14 @@ class ItemController extends Controller
                                     // Нужно '$next_all_rts_links[$key][] = $link;'
                                     // Второй элемент массива - порядковый номер, начинается с 0
                                     $next_all_rts_links[$key][] = $link;
-                                    $next_all_rts_links_ids[$key][] = $link->id;
-                                    $next_all_rts_is_calcname[$key][$link->id] = $is_calcname;
                                     $next_all_rts_is_create[$key][$link->id] = $next_create;
+                                    if ($link->is_enabled_alinks == true) {
+                                        $next_all_rts_links_ids[$key][] = $link->id;
+                                        $next_all_rts_is_calcname[$key][$link->id] = $is_calcname;
+                                        $next_all_rts_is_array_tileview[$key][$link->id] = $is_tileview;
+                                        $next_all_rts_is_array_viewcards[$key][$link->id] = $is_viewcards;
+                                        $next_all_rts_is_array_sortdate[$key][$link->id] = $is_sortdate;
+                                    }
                                 }
                             }
                             //}
@@ -1316,7 +1342,6 @@ class ItemController extends Controller
                 }
             }
         }
-
         // Блок проверки и вычисления $current_vw_ret_id
         // Нужно
         $current_vw_ret_id = null;
@@ -1336,13 +1361,15 @@ class ItemController extends Controller
                 // Если не найдены, то берем первый ключ из массива $array_relips
                 $current_vw_ret_id = array_key_first($array_relips);
             }
-
+            // Используется коментарий '$called_from_button == 0' два раза по тексту в ItemController.php, чтобы первоначально выходили все записи, а не по $view_link
+            if (1 == 2) {
 //      'if ($called_from_button == 0)' используется
-            if ($called_from_button == 0) {
-                foreach ($array_relips as $key => $value) {
-                    if ($relit_id == $key) {
-                        $current_vw_ret_id = $key;
-                        break;
+                if ($called_from_button == 0) {
+                    foreach ($array_relips as $key => $value) {
+                        if ($relit_id == $key) {
+                            $current_vw_ret_id = $key;
+                            break;
+                        }
                     }
                 }
             }
@@ -1412,8 +1439,22 @@ class ItemController extends Controller
                     $next_all_is_create = $next_all_rts_is_create[$current_vw_ret_id];
                 }
             }
+            if (count($next_all_rts_is_array_tileview) > 0) {
+                if (isset($next_all_rts_is_array_tileview[$current_vw_ret_id])) {
+                    $next_all_is_relit_tileview = $next_all_rts_is_array_tileview[$current_vw_ret_id];
+                }
+            }
+            if (count($next_all_rts_is_array_viewcards) > 0) {
+                if (isset($next_all_rts_is_array_viewcards[$current_vw_ret_id])) {
+                    $next_all_is_relit_viewcards = $next_all_rts_is_array_viewcards[$current_vw_ret_id];
+                }
+            }
+            if (count($next_all_rts_is_array_sortdate) > 0) {
+                if (isset($next_all_rts_is_array_sortdate[$current_vw_ret_id])) {
+                    $next_all_is_relit_sortdate = $next_all_rts_is_array_sortdate[$current_vw_ret_id];
+                }
+            }
         }
-
 // Первая связь (по сортировке)
         $next_all_first_link = null;
         if (count($next_all_links) > 0) {
@@ -1459,6 +1500,37 @@ class ItemController extends Controller
                 break;
             }
         }
+// Нужно '$next_all_is_tileview = true;'
+        // $next_all_is_tileview равен истина, если во всех элементах $next_all_is_relit_tileview $value == true
+        $next_all_is_tileview = true;
+// $next_all_is_tileview - Признак "Выводить карты или info"
+        foreach ($next_all_is_relit_tileview as $value) {
+            if ($value == false) {
+                $next_all_is_tileview = false;
+                break;
+            }
+        }
+        // Нужно '$next_all_is_viewcards = true;'
+        // $next_all_is_viewcards равен истина, если во всех элементах $next_all_is_relit_viewcards $value == true
+        // $next_all_is_viewcards - Признак "Выводить карты (предпочтительно)"
+        $next_all_is_viewcards = true;
+        foreach ($next_all_is_relit_viewcards as $value) {
+            if ($value == false) {
+                $next_all_is_viewcards = false;
+                break;
+            }
+        }
+        // Нужно '$next_all_is_sortdate = true;'
+        // $next_all_is_sortdate равен истина, если во всех элементах $next_all_is_relit_sortdate $value == true
+        // $next_all_is_sortdate - Признак "По умолчанию, "все связи", сортировка по дате создания"
+        $next_all_is_sortdate = true;
+        foreach ($next_all_is_relit_sortdate as $value) {
+            if ($value == false) {
+                $next_all_is_sortdate = false;
+                break;
+            }
+        }
+
 // Нужно
         $current_link = null;
 // Блок проверки и вычисления $current_link
@@ -1491,18 +1563,20 @@ class ItemController extends Controller
                 }
             }
         }
-
+        // Используется коментарий '$called_from_button == 0' два раза по тексту в ItemController.php, чтобы первоначально выходили все записи, а не по $view_link
+        if (1 == 2) {
 //      'if ($called_from_button == 0)' используется
-        if ($called_from_button == 0) {
-            if ($next_all_full_link) {
-                if ($current_link) {
-                    // Если нет данных по связи $current_link
-                    if (self::item_link_parent_mains_exists($item, $current_link) == false) {
+            if ($called_from_button == 0) {
+                if ($next_all_full_link) {
+                    if ($current_link) {
+                        // Если нет данных по связи $current_link
+                        if (self::item_link_parent_mains_exists($item, $current_link) == false) {
+                            $current_link = $next_all_full_link;
+                        }
+                        // Если выводятся 'Все связи'
+                    } else {
                         $current_link = $next_all_full_link;
                     }
-                    // Если выводятся 'Все связи'
-                } else {
-                    $current_link = $next_all_full_link;
                 }
             }
         }
@@ -1547,7 +1621,7 @@ class ItemController extends Controller
 // $next_all_links = все связи;
 // $next_all_links_ids = связи без фильтра по пользователю($link->id);
 // $next_all_links_user_ids = связи c фильтром по пользователю user_id($link->id);
-//// $next_all_links_byuser_ids = связи c фильтром по пользователю($link->id);
+// $next_all_links_byuser_ids = связи c фильтром по пользователю($link->id);
 // $next_all_is_calcname = $links с признаком "Выводить наименование";
 // $next_all_is_create = $links с признаком "Есть кнопка 'Добавить' в теле документа";
         $item_name_lang = GlobalController::calc_item_name_lang();
@@ -1562,7 +1636,8 @@ class ItemController extends Controller
             $usersetup_project_id = env('USERSETUP_PROJECT_ID');
             $usersetup_base_id = env('USERSETUP_BASE_ID');
             $usersetup_name_link_id = env('USERSETUP_NAME_LINK_ID');
-            $username = GlobalController::glo_user()->name();
+            //if (Auth::check()) {
+            //$username = GlobalController::glo_user()->name();
             if ($usersetup_project_id != '' && $usersetup_base_id != '' && $usersetup_name_link_id != '') {
                 // Все записи, со всеми links, по факту
                 // Условия одинаковые 'where('parent_is_base_link', false)'
@@ -1576,36 +1651,51 @@ class ItemController extends Controller
                 $next_all_mains = Main::select('mains.*')
                     ->join('links', 'mains.link_id', '=', 'links.id')
                     ->join('items', 'mains.child_item_id', '=', 'items.id')
+                    ->where('is_enabled_alinks', true)
                     ->where(function ($query) use (
                         $next_all_links_ids, $next_all_links_user_ids, $next_all_links_byuser_ids,
-                        $usersetup_project_id, $usersetup_base_id, $usersetup_name_link_id, $username
+                        $usersetup_project_id, $usersetup_base_id, $usersetup_name_link_id
                     ) {
                         $query->whereIn('links.id', $next_all_links_ids)
-                            ->orWhere(function ($query) use ($next_all_links_user_ids, $usersetup_project_id, $usersetup_base_id, $usersetup_name_link_id, $username) {
+                            ->orWhere(function ($query) use ($next_all_links_user_ids, $usersetup_project_id, $usersetup_base_id, $usersetup_name_link_id) {
                                 $query->whereIn('links.id', $next_all_links_user_ids)
-                                    ->whereHas('child_item', function ($query) use ($usersetup_project_id, $usersetup_base_id, $usersetup_name_link_id, $username) {
+                                    ->whereHas('child_item', function ($query) use ($usersetup_project_id, $usersetup_base_id, $usersetup_name_link_id) {
                                         $query->where('project_id', $usersetup_project_id)
-                                            ->where('base_id', $usersetup_base_id)
-                                            ->whereHas('child_mains', function ($query) use ($usersetup_name_link_id, $username) {
+                                            ->where('base_id', $usersetup_base_id);
+                                        if (Auth::check()) {
+                                            $username = GlobalController::glo_user()->name();
+                                            // Устанавливает фильтр для Пользователи по текущему пользователю
+                                            // Сравнение на равенство по наименованию/логину
+                                            // Подразумевается, что наименование/логин имеет уникальное значение по base Пользователи
+                                            $query = $query->whereHas('child_mains', function ($query) use ($usersetup_name_link_id, $username) {
                                                 $query->where('link_id', $usersetup_name_link_id)
                                                     ->whereHas('parent_item', function ($query) use ($username) {
                                                         $query->where('name_lang_0', '=', $username);
                                                     });
                                             });
+                                        }
                                     });
-                            })
-                            ->orWhere(function ($query) use ($next_all_links_byuser_ids) {
+                            });
+                        if (Auth::check()) {
+                            $query = $query->orWhere(function ($query) use ($next_all_links_byuser_ids) {
                                 $query->whereIn('links.id', $next_all_links_byuser_ids)
                                     ->where('items.created_user_id', GlobalController::glo_user_id());
                             });
+                        }
                     })
                     ->where('items.project_id', '=', $array_relips[$current_vw_ret_id])
                     ->where('links.parent_is_base_link', '=', false)
-                    ->where('parent_item_id', $item->id)
-                    ->orderBy('links.child_base_number')
-                    ->orderBy('links.child_base_id')
-                    ->orderBy('items.' . $item_name_lang);
+                    ->where('parent_item_id', $item->id);
 
+                // По умолчанию, "все связи", сортировка по дате создания
+                if ($next_all_is_sortdate == true) {
+                    $next_all_mains = $next_all_mains->latest();
+                } else {
+                    $next_all_mains = $next_all_mains->orderBy('links.child_base_number')
+                        ->orderBy('links.child_base_id')
+                        ->orderBy('items.' . $item_name_lang);
+                }
+//
                 // Запрос по одному $current_link и $array_relips[$current_vw_ret_id], иначе все записи по $array_relips[$current_vw_ret_id]
 //            if (!is_null($current_link)) {
 //                $next_all_mains = $next_all_mains
@@ -1622,8 +1712,8 @@ class ItemController extends Controller
 //                        ->where('relips.child_project_id', '=', $project->id);
 //                }
             }
+            //}
         }
-
         return ['next_all_links' => $next_all_links,
             'array_relips' => $array_relips,
             'current_link' => $current_link,
@@ -1635,6 +1725,9 @@ class ItemController extends Controller
             'next_all_full_link' => $next_all_full_link,
             'next_all_is_code_enable' => $next_all_is_code_enable,
             'next_all_is_enable' => $next_all_is_enable,
+            'next_all_is_tileview' => $next_all_is_tileview,
+            'next_all_is_viewcards' => $next_all_is_viewcards,
+            'next_all_is_sortdate' => $next_all_is_sortdate,
             'string_link_ids_array_next' => $string_link_ids_array_next,
             'string_item_ids_array_next' => $string_item_ids_array_next,
             'string_relit_ids_array_next' => $string_relit_ids_array_next,
@@ -1877,7 +1970,6 @@ class ItemController extends Controller
 //                           $parent_ret_id = null,
 //                           $view_link = null,
 //                      Link $par_link = null, Item $parent_item = null)
-
     function ext_show(Item $item, Project $project, Role $role, $usercode,
                            $relit_id,
                            $string_current = '',
@@ -1885,17 +1977,16 @@ class ItemController extends Controller
                            $base_index_page = 0, $body_link_page = 0, $body_all_page = 0,
                            $parent_ret_id = null,
                            $view_link = null,
+                           $saveurl_show = null,
                       Link $par_link = null, Item $parent_item = null)
     {
 
         if (GlobalController::check_project_item_user($project, $item, $role, $usercode) == false) {
             return view('message', ['message' => trans('main.no_access')]);
         }
-
 //        if (GlobalController::check_project_user($project, $role) == false) {
 //            return view('message', ['message' => trans('main.info_user_changed')]);
 //        }
-
         //$base_right = self::base_relit_right($item->base, $role, $heading, $base_index_page, $relit_id, $parent_ret_id);
         $base_right = GlobalController::base_right($item->base, $role, $relit_id);
         if ($base_right['is_list_base_calc'] == false) {
@@ -1937,7 +2028,6 @@ class ItemController extends Controller
         if ($string_all_codes_current == '') {
             $string_all_codes_current = GlobalController::const_null();
         }
-
         return view('item/ext_show', ['type_form' => 'show', 'item' => $item,
             'role' => $role,
             'project' => $project,
@@ -1961,7 +2051,9 @@ class ItemController extends Controller
                 $string_all_codes_current),
             'heading' => $heading,
             'base_index_page' => $base_index_page, 'body_link_page' => $body_link_page, 'body_all_page' => $body_all_page,
-            'view_link' => GlobalController::set_par_null($view_link),
+//          'view_link' => GlobalController::set_par_null($view_link),
+            'view_link' => $view_link,
+            'saveurl_show' => $saveurl_show,
             'par_link' => $par_link, 'parent_item' => $parent_item,
             'parent_ret_id' => $parent_ret_id
         ]);
@@ -1978,6 +2070,8 @@ class ItemController extends Controller
                              $heading = 0, $base_index_page = 0, $body_link_page = 0, $body_all_page = 0,
                              $parent_ret_id = null,
                              $view_link = null,
+                             $saveurl_add = null,
+                             $level_id = null,
                         Link $par_link = null, Item $parent_item = null)
         // '$heading = 0' использовать; аналог '$heading = false', в этом случае так /item/ext_create/{base}//
     {
@@ -1995,6 +2089,13 @@ class ItemController extends Controller
 //      Похожая проверка в ItemController::ext_create() и base_index.php
         if ($base_right['is_list_base_create'] == false) {
             return view('message', ['message' => trans('main.no_access')]);
+        }
+
+        // Нужно '$level = null;'
+        $level = null;
+        // 'if !()' используется
+        if (!($level_id == null || $level_id == GlobalController::par_link_const_textnull())) {
+            $level = Link::find($level_id);
         }
 
         // Проверка: выводить минуты при 'Ограничение в минутах для корректировки/удаления данных'
@@ -2057,6 +2158,8 @@ class ItemController extends Controller
             'base_index_page' => $base_index_page, 'body_link_page' => $body_link_page, 'body_all_page' => $body_all_page,
             'parent_ret_id' => $parent_ret_id,
             'view_link' => GlobalController::set_par_null($view_link),
+            'saveurl_add' => $saveurl_add,
+            'level' => $level,
             'par_link' => $par_link,
             'parent_item' => $parent_item]);
     }
@@ -2089,7 +2192,6 @@ class ItemController extends Controller
                                $saveurl_add = null,
                        Link    $par_link = null, Item $parent_item = null)
     {
-
         if (GlobalController::check_project_item_user($project, null, $role, $usercode) == false) {
             return view('message', ['message' => trans('main.no_access')]);
         }
@@ -2105,7 +2207,6 @@ class ItemController extends Controller
 //        }else{
         $request->validate($this->code_rules($request, $relip_project->id, $base->id));
 //        }
-
         // Расшифровка
         $saveurl_add = GlobalController::set_un_url_save($saveurl_add);
 
@@ -2326,7 +2427,15 @@ class ItemController extends Controller
 
             // тип - число
         } elseif ($base->type_is_number()) {
-            $item->name_lang_0 = GlobalController::save_number_to_item($base, $request->name_lang_0);
+            $value_work = $request->name_lang_0;
+            // Нужно
+            if ($request->name_lang_0 == null) {
+                $value_work = '';
+            }
+            if ($value_work != '') {
+                $value_work = GlobalController::save_number_to_item($item->base, $request->name_lang_0);
+            }
+            $item->name_lang_0 = $value_work;
 
         } // тип - текст
         elseif ($base->type_is_text()) {
@@ -2493,6 +2602,7 @@ class ItemController extends Controller
             }
         }
 
+        // Преобразование null в ""
         foreach ($inputs as $key => $value) {
             $inputs[$key] = ($value != null) ? $value : "";
         }
@@ -2544,7 +2654,12 @@ class ItemController extends Controller
                 }
                 $inputs[$key] = $path;
             } elseif ($link->parent_base->type_is_number()) {
-                $inputs[$key] = GlobalController::save_number_to_item($link->parent_base, $value);
+                $value_work = $value;
+                if ($value_work != '') {
+                    $value_work = GlobalController::save_number_to_item($link->parent_base, $value);
+                }
+//              $inputs[$key] = GlobalController::save_number_to_item($link->parent_base, $value);
+                $inputs[$key] = $value_work;
             }
         }
         $keys = array_keys($inputs);
@@ -2594,8 +2709,9 @@ class ItemController extends Controller
             $work_base = $link->parent_base;
             // при типе "логический" проверять на обязательность заполнения не нужно
             $control_required = false;
-            // При ссылке '$link->parent_is_base_link == false' не проверять на обязательность заполнения
-            if ($link->parent_is_base_link == false) {
+            // При ссылке '$link->parent_is_base_link == false'
+            // и при 'link->parent_is_numcalc == false' не проверять на обязательность заполнения
+            if ($link->parent_is_base_link == false & $link->parent_is_numcalc == false) {
                 // Тип - список
                 if ($work_base->type_is_list()) {
                     // так не использовать
@@ -2623,7 +2739,10 @@ class ItemController extends Controller
                     }
                 } // Тип - дата
                 elseif ($work_base->type_is_date()) {
-                    $control_required = true;
+                    // Проверка на обязательность ввода
+                    if ($work_base->is_required_lst_num_str_txt_img_doc == true) {
+                        $control_required = true;
+                    }
                 }
             }
             // при типе корректировки поля "строка", "логический" проверять на обязательность заполнения не нужно
@@ -2716,7 +2835,6 @@ class ItemController extends Controller
                 ->withInput()
                 ->withErrors($array_mess);
         }
-
 // Одно значение у всех языков
         if ($base->is_one_value_lst_str_txt == true) {
             $item->name_lang_1 = $item->name_lang_0;
@@ -2884,9 +3002,9 @@ class ItemController extends Controller
                 // 'added = false' используется, нужно
                 $message = GlobalController::base_maxcount_validate($relip_project, $item->base, false);
                 if ($message == '') {
-                    self::func_del_items_maxcnt($relip_project, $item);
+                    self::func_del_items_maxcnt($relip_project, $item, $relit_id, $role);
                 } else {
-                    self::func_del_items_maxcnt($relip_project, $item);
+                    self::func_del_items_maxcnt($relip_project, $item, $relit_id, $role);
                     throw new Exception($message);
                 }
 
@@ -2936,7 +3054,7 @@ class ItemController extends Controller
                     throw new Exception($is_checking_empty['result_message_empty']);
                 }
 
-                $rs = $this->calc_value_func($item);
+                $rs = $this->calc_value_func($item, 0, true, null, false, $relit_id, $role);
                 if ($rs != null) {
                     $item->name_lang_0 = $rs['calc_lang_0'];
                     $item->name_lang_1 = $rs['calc_lang_1'];
@@ -2952,7 +3070,7 @@ class ItemController extends Controller
                 // параметр $urepl = true - с заменой
                 //$this->save_sets($item, $keys, $values, $valits, false, true);
 
-                $this->save_info_sets($item, false, true);
+                $this->save_info_sets($item, false, true, $relit_id, $role);
 
                 $item->save();
                 // GlobalController::item_calc_main($item);
@@ -3073,7 +3191,7 @@ class ItemController extends Controller
     }
 
 // Автоматическое удаление записей из $items при достижении предела разрешенного количества записей
-    function func_del_items_maxcnt(Project $project, Item $item)
+    function func_del_items_maxcnt(Project $project, Item $item, $relit_id, Role $role)
     {
         $base = $item->base;
         $skip = $base->maxcount_lst;
@@ -3097,7 +3215,7 @@ class ItemController extends Controller
 //                // Удаление подчиненных связанных записей
 //                self::run_items_ids_for_delete($array_items_ids);
 
-                $delete_in_transaction = self::delete_in_transaction($value, $array_items_ids);
+                $delete_in_transaction = self::delete_in_transaction($value, $array_items_ids, $relit_id, $role);
                 if ($delete_in_transaction != "") {
                     return $delete_in_transaction;
                 }
@@ -3152,7 +3270,7 @@ class ItemController extends Controller
 // $reverse = true - отнимать, false - прибавлять
 // $urepl = true используется при добавлении/корректировке записи, = false при удалении записи; проверяется при Заменить(->is_upd_replace = true)
 // private
-    static function save_info_sets(Item $item, bool $reverse, bool $urepl)
+    static function save_info_sets(Item $item, bool $reverse, bool $urepl, $relit_id, Role $role)
     {
         $is_save_sets = self::is_save_sets($item);
         if (!$is_save_sets) {
@@ -3221,7 +3339,7 @@ class ItemController extends Controller
         $valits_reverse = array_values($inputs_reverse);
 
 //      $this->save_sets($itpv, $keys_reverse, $values_reverse, $valits_reverse, $reverse, $urepl);
-        self::save_sets($itpv, $keys_reverse, $values_reverse, $valits_reverse, $reverse, $urepl);
+        self::save_sets($itpv, $keys_reverse, $values_reverse, $valits_reverse, $reverse, $urepl, $relit_id, $role);
 
     }
 
@@ -3265,7 +3383,7 @@ class ItemController extends Controller
 // Обрабатывает присваивания
 // $valits_previous - предыдущии значения $valits при $reverse = true и обновлении данных = замена
     private static
-    function save_sets(Item $item, $keys, $values, $valits, bool $reverse, bool $urepl)
+    function save_sets(Item $item, $keys, $values, $valits, bool $reverse, bool $urepl, $relit_id, Role $role)
     {
 //        $table1 = Set::select(DB::Raw('sets.*'))
 //            ->join('links', 'sets.link_from_id', '=', 'links.id')
@@ -3483,7 +3601,7 @@ class ItemController extends Controller
                     $create_item_seek = true;
                     // true - с реверсом
 //                  $this->save_info_sets($item_seek, true, $urepl);
-                    self::save_info_sets($item_seek, true, $urepl);
+                    self::save_info_sets($item_seek, true, $urepl, $relit_id, $role);
                 }
                 // Если нужно создавать $item
                 // Если $item_seek создано
@@ -3627,7 +3745,7 @@ class ItemController extends Controller
                         }
                     }
 //                  $rs = $this->calc_value_func($item_seek);
-                    $rs = self::calc_value_func($item_seek);
+                    $rs = self::calc_value_func($item_seek, 0, true, null, false, $relit_id, $role);
 
                     if ($rs != null) {
                         $item_seek->name_lang_0 = $rs['calc_lang_0'];
@@ -3648,7 +3766,7 @@ class ItemController extends Controller
                     // "$this->save_info_sets()" выполнять перед проверкой на удаление
                     // $this->save_info_sets($item_seek, false);
 //                  $this->save_info_sets($item_seek, false, $urepl);
-                    self::save_info_sets($item_seek, false, $urepl);
+                    self::save_info_sets($item_seek, false, $urepl, $relit_id, $role);
                     // Если links->"Удалить запись с нулевым значением при обновлении" == true и значение равно нулю,
                     // то удалить запись
 //                  $val_item_seek_delete = $this->val_item_seek_delete_func($item_seek, $urepl);
@@ -4395,7 +4513,6 @@ class ItemController extends Controller
         // сохранялись с пользователем - автором проекта, куда идет добавление
         $relip_project_id = $relip_project->id;
         $relip_project_user_id = $relip_project->user_id;
-
         // тип корректировки поля - список
         if ($link->parent_base->type_is_list()) {
             if ($values[$index] == 0) {
@@ -4493,7 +4610,7 @@ class ItemController extends Controller
                     if (isset($main->id)) {
                         $main->delete();
                     }
-                    // Нужно
+                    // 'return' нужно
                     return;
                 }
             }
@@ -4573,7 +4690,7 @@ class ItemController extends Controller
                     if (isset($main->id)) {
                         $main->delete();
                     }
-                    // Нужно
+                    // 'return' нужно
                     return;
                 }
             }
@@ -4630,22 +4747,24 @@ class ItemController extends Controller
 
             // тип корректировки поля - не строка и не список
         } else {
-
-            // Проверка числовых полей
-            // Если равно нулю и "$link->parent_base->is_required_lst_num_str_txt_img_doc == false",
+            // Проверка полей дат и числовых полей
+            // Если равно '' и "$link->parent_base->is_required_lst_num_str_txt_img_doc == false",
             // удаляет запись $main, если она есть
-            // и в итоге: вместо нуля отображается null/empty
-//            if (($link->parent_base->type_is_number()) && ($link->parent_base->is_required_lst_num_str_txt_img_doc == false)) {
-//                if ($values[$index] == 0) {
-//                    // Нужно
-//                    // Если запись main существует - то удалить ее
-//                    if (isset($main->id)) {
-//                        $main->delete();
-//                    }
-//                    // Нужно
-//                    return;
-//                }
-//            }
+            // и в итоге: вместо '' отображается null/empty
+            // Похожие строки в ItemController::save_main() и GlobalController::item_calc_main()
+            if (
+                (($link->parent_base->type_is_date()) | ($link->parent_base->type_is_number()))
+                & ($link->parent_base->is_required_lst_num_str_txt_img_doc == false)) {
+                if ($values[$index] == '') {
+                    // Нужно
+                    // Если запись main существует - то удалить ее
+                    if (isset($main->id)) {
+                        $main->delete();
+                    }
+                    // 'return' нужно
+                    return;
+                }
+            }
 
             // поиск в таблице items значение с таким же названием и base_id
             $item_find = Item::where('base_id', $link->parent_base_id)
@@ -5053,7 +5172,15 @@ class ItemController extends Controller
 
         } // тип - число
         elseif ($item->base->type_is_number()) {
-            $item->name_lang_0 = GlobalController::save_number_to_item($item->base, $request->name_lang_0);
+            $value_work = $request->name_lang_0;
+            // Нужно
+            if ($request->name_lang_0 == null) {
+                $value_work = '';
+            }
+            if ($value_work != '') {
+                $value_work = GlobalController::save_number_to_item($item->base, $request->name_lang_0);
+            }
+            $item->name_lang_0 = $value_work;
 
         } // тип - текст
         elseif ($item->base->type_is_text()) {
@@ -5199,7 +5326,13 @@ class ItemController extends Controller
                 }
                 $inputs[$key] = $path;
             } elseif ($link->parent_base->type_is_number()) {
-                $inputs[$key] = GlobalController::save_number_to_item($link->parent_base, $value);
+                $value_work = $value;
+                if ($value_work != '') {
+                    $value_work = GlobalController::save_number_to_item($link->parent_base, $value);
+                }
+//              $inputs[$key] = GlobalController::save_number_to_item($link->parent_base, $value);
+                $inputs[$key] = $value_work;
+
             }
         }
 
@@ -5269,6 +5402,7 @@ class ItemController extends Controller
             }
         }
 
+        // Преобразование null в ""
         foreach ($inputs as $key => $value) {
             $inputs[$key] = ($value != null) ? $value : "";
         }
@@ -5324,8 +5458,9 @@ class ItemController extends Controller
             $work_base = $link->parent_base;
             // при типе "логический" проверять на обязательность заполнения не нужно
             $control_required = false;
-            // При ссылке '$link->parent_is_base_link == false' не проверять на обязательность заполнения
-            if ($link->parent_is_base_link == false) {
+            // При ссылке '$link->parent_is_base_link == false'
+            // и при 'link->parent_is_numcalc == false' не проверять на обязательность заполнения
+            if ($link->parent_is_base_link == false & $link->parent_is_numcalc == false) {
                 // Тип - список
                 if ($work_base->type_is_list()) {
                     // так не использовать
@@ -5353,7 +5488,10 @@ class ItemController extends Controller
                     }
                 } // Тип - дата
                 elseif ($work_base->type_is_date()) {
-                    $control_required = true;
+                    // Проверка на обязательность ввода
+                    if ($work_base->is_required_lst_num_str_txt_img_doc == true) {
+                        $control_required = true;
+                    }
                 }
             }
             // при типе корректировки поля "строка", "логический" проверять на обязательность заполнения не нужно
@@ -5461,7 +5599,6 @@ class ItemController extends Controller
         // сохранение предыдущих значений $array_plan
         // до начала выполнения транзакции
         $array_calc = $this->get_array_calc_edit($item)['array_calc'];
-
         $array_items_ids = array();
         // Вычисляем массив вложенных $item_id для удаления
         self::calc_items_ids_for_delete($item, $array_items_ids, false);
@@ -5512,7 +5649,7 @@ class ItemController extends Controller
                 // Только для ext_update()
                 // true - с реверсом
                 // обязательно true - с заменой
-                $this->save_info_sets($item, true, true);
+                $this->save_info_sets($item, true, true, $relit_id, $role);
 
                 // после ввода данных в форме массив состоит:
                 // индекс массива = link_id (для занесения в links->id)
@@ -5611,9 +5748,9 @@ class ItemController extends Controller
                 // 'added = false' используется, нужно
                 $message = GlobalController::base_maxcount_validate($relip_project, $item->base, false);
                 if ($message == '') {
-                    self::func_del_items_maxcnt($relip_project, $item);
+                    self::func_del_items_maxcnt($relip_project, $item, $relit_id, $role);
                 } else {
-                    self::func_del_items_maxcnt($relip_project, $item);
+                    self::func_del_items_maxcnt($relip_project, $item, $relit_id, $role);
                     throw new Exception($message);
                 }
 
@@ -5678,7 +5815,7 @@ class ItemController extends Controller
                 }
 
                 // Расчет вычисляемого наименования
-                $rs = $this->calc_value_func($item);
+                $rs = $this->calc_value_func($item, 0, true, null, false, $relit_id, $role);
                 if ($rs != null) {
                     $item->name_lang_0 = $rs['calc_lang_0'];
                     $item->name_lang_1 = $rs['calc_lang_1'];
@@ -5693,7 +5830,7 @@ class ItemController extends Controller
                 // При reverse = false передаем null
                 // true - с заменой
                 //$this->save_sets($item, $keys, $values, $valits, false, true);
-                $this->save_info_sets($item, false, true);
+                $this->save_info_sets($item, false, true, $relit_id, $role);
 
                 $item->save();
                 //GlobalController::item_calc_main($item);
@@ -5703,7 +5840,7 @@ class ItemController extends Controller
                 // Перерасчет $items по переданным $item по всем проектам,
                 // т.к. $item->names... могли поменяться
                 // обязательно нужно после команды " $item->save();"
-                $this->calc_item_names($item);
+                $this->calc_item_names($item, $relit_id, $role);
 
             }, 3);  // Повторить три раза, прежде чем признать неудачу
             // окончание транзакции
@@ -5933,6 +6070,7 @@ class ItemController extends Controller
                            $parent_ret_id = null,
                            $view_link = null,
                            $saveurl_edit = null,
+                           $level_id = null,
                       Link $par_link = null, Item $parent_item = null)
     {
         if ($item->is_history() == true) {
@@ -5946,6 +6084,13 @@ class ItemController extends Controller
 //    if (GlobalController::check_project_user($project, $role) == false) {
 //        return view('message', ['message' => trans('main.info_user_changed')]);
 //    }
+
+        // Нужно '$level = null;'
+        $level = null;
+        // 'if !()' используется
+        if (!($level_id == null || $level_id == GlobalController::par_link_const_textnull())) {
+            $level = Link::find($level_id);
+        }
 
         // Проверка $item
         $item_ch = GlobalController::items_check_right($item, $role, $relit_id);
@@ -6014,6 +6159,7 @@ class ItemController extends Controller
             'parent_ret_id' => $parent_ret_id,
             'view_link' => $view_link,
             'saveurl_edit' => $saveurl_edit,
+            'level' => $level,
             'par_link' => $par_link,
             'parent_item' => $parent_item]);
     }
@@ -6098,7 +6244,8 @@ class ItemController extends Controller
             'body_all_page' => $body_all_page,
             'view_link' => $view_link,
             'par_link' => $par_link,
-            'saveurl_question_del' => $saveurl_del,
+//          'saveurl_question_del' => $saveurl_del,
+            'saveurl_show' => $saveurl_del,
             'parent_item' => $parent_item,
             'parent_ret_id' => $parent_ret_id]);
 
@@ -6185,7 +6332,7 @@ class ItemController extends Controller
 //                } catch (Exception $exc) {
 //                    return trans('transaction_not_completed') . ": " . $exc->getMessage();
 //                }
-                $delete_in_transaction = self::delete_in_transaction($item, $array_items_ids);
+                $delete_in_transaction = self::delete_in_transaction($item, $array_items_ids, $relit_id, $role);
                 if ($delete_in_transaction != "") {
                     return $delete_in_transaction;
                 }
@@ -6302,14 +6449,14 @@ class ItemController extends Controller
         }
     }
 
-    static function delete_in_transaction($item, $array_items_ids)
+    static function delete_in_transaction($item, $array_items_ids, $relit_id, Role $role)
     {
         $result = "";
         try {
             // начало транзакции
-            DB::transaction(function ($r) use ($item, $array_items_ids) {
+            DB::transaction(function ($r) use ($item, $relit_id, $role, $array_items_ids) {
                 // Нужно, для вызова ItemObserver::deleting($item)
-                self::func_delete($item);
+                self::func_delete($item, $relit_id, $role);
 
                 // Удаление подчиненных связанных записей
                 self::run_items_ids_for_delete($array_items_ids);
@@ -6324,7 +6471,7 @@ class ItemController extends Controller
         return $result;
     }
 
-    static function func_delete(Item $item)
+    static function func_delete(Item $item, $relit_id, Role $role)
     {
 //      $is_save_sets = $this->is_save_sets($item);
         $is_save_sets = self::is_save_sets($item);
@@ -6333,7 +6480,7 @@ class ItemController extends Controller
             // true - с реверсом
             // false - без замены
 //          $this->save_info_sets($item, true, false);
-            self::save_info_sets($item, true, false);
+            self::save_info_sets($item, true, false, $relit_id, $role);
 
             $base_id = $item->base_id;
             $project_id = $item->project_id;
@@ -7225,7 +7372,7 @@ class ItemController extends Controller
             if ($result != '') {
                 $result = '<ul type="circle">' . $result . '</ul>';
                 if ($level > 1) {
-                    $result = '<div class="card">' . $result . '</div>';
+                    $result = '<div class="elements">' . $result . '</div>';
                 }
             }
         }
@@ -7471,8 +7618,17 @@ class ItemController extends Controller
         return $result;
     }
 
-// Функция calc_value_func() вычисляет наименования для записи $item
-    static function calc_value_func(Item $item, $level = 0, $first_run = true)
+// Функция calc_value_func() вычисляет наименования для записи $item и для просмотра на экране
+// $for_view = true - вычислить вычисляемое наименование для просмотра на экране,
+// $for_view = false - вычислить вычисляемое наименование для дальнейшего сохранения в $item->name_lang_x и для правильной сортировки при выводе списка all_links в item_index.php
+// Вычисляемое наименование считается при условиях-
+// для сохранения в $item и сортировки (в all_links) по полю $item->name_lang_x ($for_view = false):
+//  $link->parent_is_calcname == true
+//  $link->parent_is_sorting == true
+// при выводе на экран ($for_view = true):
+//  $link->parent_is_calcname == true
+//  $base_link_right['is_list_link_enable'] == true
+    static function calc_value_func(Item $item, $level = 0, $first_run = true, Link $nolink = null, $for_view = false, $relit_id = null, Role $role = null)
     {
         // Эта функция только для base с вычисляемым наименованием
         if ($item->base->is_calcname_lst == false) {
@@ -7498,60 +7654,84 @@ class ItemController extends Controller
             // Эта строка "$item_result = null;" нужна
             $item_result = null;
             if ($link) {
-                // если поле входит в состав вычисляемого составного поля / Для вычисляемого наименования
-                if ($link->parent_is_calcname == true) {
-                    // $first_run = false запускается только для однородных значений (например: ФизЛицо имеет поле Мать(ФизЛицо), Отец(ФизЛицо))
-                    if (($first_run == true) ||
-                        (($first_run == false)
-                            && (($item->base->is_same_small_calcname == false)
-                                || ($item->base->is_same_small_calcname == true) && ($link->parent_is_small_calcname == true)))) {
-                        if ($value == null) {
-                            // Проверка на вычисляемые поля / Автоматически заполнять из родительского поля ввода
-                            if ($link->parent_is_parent_related == true) {
-                                $const_link_id_start = LinkController::get_link_ids_from_calc_link($link)['const_link_id_start'];
-                                $link_parent = Link::find($link->parent_parent_related_start_link_id);
-                                if ($link_parent) {
-                                    // Если существует такой индекс в массиве
-                                    if (array_key_exists($const_link_id_start, $array_calc)) {
-                                        $item_find = Item::find($array_calc[$const_link_id_start]);
-                                        if ($item_find) {
-                                            // Функция get_parent_item_from_calc_child_item() ищет вычисляемое поля от первого невычисляемого
-                                            // Например: значение вычисляемого (через "Бабушка со стороны матери") "Прабабушка со стороны матери" находится от значение поля "Мать",
-                                            // т.е. не зависит от промежуточных значений ("Бабушка со стороны матери")
-                                            $result_func = self::get_parent_item_from_calc_child_item($item_find, $link, false);
-                                            // Сохранить значение в массиве
-                                            $array_calc[$link->id] = $result_func['result_item_id'];
-                                            $item_result = $result_func['result_item'];
+                $cn_link = true;
+                if ($nolink) {
+                    // Проверка на неравенство
+                    $cn_link = $nolink->id != $link->id;
+                }
+                // Нужно "if($cn_link)"
+                if ($cn_link) {
+                    // Для расчета вычисляемого наименования для сохранения в $item
+                    if ($for_view == false) {
+                        // Проверка на 'Используется в сортировке'
+                        $cn_link = $link->parent_is_sorting == true;
+                    }
+                }
+                // Нужно "if($cn_link)"
+                if ($cn_link) {
+                    // Для расчета вычисляемого наименования для просмотра
+                    if ($for_view == true) {
+//                        if ($role) {
+                        $base_link_right = GlobalController::base_link_right($link, $role, $relit_id);
+                        $cn_link = $base_link_right['is_list_link_enable'] == true;
+//                        }
+                    }
+                }
+                if ($cn_link) {
+                    // если поле входит в состав вычисляемого составного поля / Для вычисляемого наименования
+                    if ($link->parent_is_calcname == true) {
+                        // $first_run = false запускается только для однородных значений (например: ФизЛицо имеет поле Мать(ФизЛицо), Отец(ФизЛицо))
+                        if (($first_run == true) ||
+                            (($first_run == false)
+                                && (($item->base->is_same_small_calcname == false)
+                                    || ($item->base->is_same_small_calcname == true) && ($link->parent_is_small_calcname == true)))) {
+                            if ($value == null) {
+                                // Проверка на вычисляемые поля / Автоматически заполнять из родительского поля ввода
+                                if ($link->parent_is_parent_related == true) {
+                                    $const_link_id_start = LinkController::get_link_ids_from_calc_link($link)['const_link_id_start'];
+                                    $link_parent = Link::find($link->parent_parent_related_start_link_id);
+                                    if ($link_parent) {
+                                        // Если существует такой индекс в массиве
+                                        if (array_key_exists($const_link_id_start, $array_calc)) {
+                                            $item_find = Item::find($array_calc[$const_link_id_start]);
+                                            if ($item_find) {
+                                                // Функция get_parent_item_from_calc_child_item() ищет вычисляемое поля от первого невычисляемого
+                                                // Например: значение вычисляемого (через "Бабушка со стороны матери") "Прабабушка со стороны матери" находится от значение поля "Мать",
+                                                // т.е. не зависит от промежуточных значений ("Бабушка со стороны матери")
+                                                $result_func = self::get_parent_item_from_calc_child_item($item_find, $link, false);
+                                                // Сохранить значение в массиве
+                                                $array_calc[$link->id] = $result_func['result_item_id'];
+                                                $item_result = $result_func['result_item'];
+                                            }
                                         }
                                     }
                                 }
+                            } else {
+                                $item_result = Item::find($value);
                             }
-                        } else {
-                            $item_result = Item::find($value);
                         }
                     }
-                }
-                if ($item_result) {
-                    $dop_name_0 = "";
-                    $dop_name_1 = "";
-                    $dop_name_2 = "";
-                    $dop_name_3 = "";
-                    if ($item->base_id == $item_result->base_id) {
-
-                        // Не удалять
+                    if ($item_result) {
+                        $dop_name_0 = "";
+                        $dop_name_1 = "";
+                        $dop_name_2 = "";
+                        $dop_name_3 = "";
+                        // Одинаковые bases (например, Папка - Папка)
+                        if ($item->base_id == $item_result->base_id) {
+                            // Не удалять
 //                        if ($level == 1) {
 
-                        // всего два запуска этой функции (основной и этот), только для однородных значений (например: ФизЛицо имеет поле Мать(ФизЛицо), Отец(ФизЛицо))
-                        $rs = self::calc_value_func($item_result, $level, false);
-                        $dop_name_0 = $rs['calc_lang_0'] == "" ? "" : $item->base->sepa_same_left_calcname . $rs['calc_lang_0'] . $item->base->sepa_same_right_calcname;
-                        $dop_name_1 = $rs['calc_lang_1'] == "" ? "" : $item->base->sepa_same_left_calcname . $rs['calc_lang_1'] . $item->base->sepa_same_right_calcname;
-                        $dop_name_2 = $rs['calc_lang_2'] == "" ? "" : $item->base->sepa_same_left_calcname . $rs['calc_lang_2'] . $item->base->sepa_same_right_calcname;
-                        $dop_name_3 = $rs['calc_lang_3'] == "" ? "" : $item->base->sepa_same_left_calcname . $rs['calc_lang_3'] . $item->base->sepa_same_right_calcname;
+                            // всего два запуска этой функции (основной и этот), только для однородных значений (например: ФизЛицо имеет поле Мать(ФизЛицо), Отец(ФизЛицо))
+                            $rs = self::calc_value_func($item_result, $level, false, $nolink, $for_view, $relit_id, $role);
+                            $dop_name_0 = $rs['calc_lang_0'] == "" ? "" : $item->base->sepa_same_left_calcname . $rs['calc_lang_0'] . $item->base->sepa_same_right_calcname;
+                            $dop_name_1 = $rs['calc_lang_1'] == "" ? "" : $item->base->sepa_same_left_calcname . $rs['calc_lang_1'] . $item->base->sepa_same_right_calcname;
+                            $dop_name_2 = $rs['calc_lang_2'] == "" ? "" : $item->base->sepa_same_left_calcname . $rs['calc_lang_2'] . $item->base->sepa_same_right_calcname;
+                            $dop_name_3 = $rs['calc_lang_3'] == "" ? "" : $item->base->sepa_same_left_calcname . $rs['calc_lang_3'] . $item->base->sepa_same_right_calcname;
 
 //                        } else {
 //                            continue;
 
-                        //$res_names = $item_result->names();
+                            //$res_names = $item_result->names();
 //                            $dop_name_0 = $res_names[0];
 //                            $dop_name_1 = $res_names[1];
 //                            $dop_name_2 = $res_names[2];
@@ -7561,33 +7741,33 @@ class ItemController extends Controller
 //                            $dop_name_2 = "";
 //                            $dop_name_3 = "";
 
-                        //}
+                            //}
 
-                    } else {
-                        $res_names = $item_result->names();
-                        $dop_name_0 = $res_names[0];
-                        $dop_name_1 = $res_names[1];
-                        $dop_name_2 = $res_names[2];
-                        $dop_name_3 = $res_names[3];
-                    }
-                    $dop_name_0 = trim($dop_name_0);
-                    $dop_name_1 = trim($dop_name_1);
-                    $dop_name_2 = trim($dop_name_2);
-                    $dop_name_3 = trim($dop_name_3);
-                    if (!($dop_name_0 == "" && $dop_name_1 == "" && $dop_name_2 == "" && $dop_name_3 == "")) {
-                        // $item->base->sepa_calcname - символ разделения для вычисляемых полей
-                        // "\~" - символ перевода каретки (используется также в Item.php: name() nmbr())
-                        // "\~" - символ перевода каретки (используется также в ItemController.php: calc_value_func(), GlobalController: itnm_left)
-                        //$sc = trim($item->base->sepa_calcname) . "\~";
-                        $sc = trim($item->base->sepa_calcname);
+                        } else {
+                            $res_names = $item_result->names($for_view);
+                            $dop_name_0 = $res_names[0];
+                            $dop_name_1 = $res_names[1];
+                            $dop_name_2 = $res_names[2];
+                            $dop_name_3 = $res_names[3];
+                        }
+                        $dop_name_0 = trim($dop_name_0);
+                        $dop_name_1 = trim($dop_name_1);
+                        $dop_name_2 = trim($dop_name_2);
+                        $dop_name_3 = trim($dop_name_3);
+                        if (!($dop_name_0 == "" && $dop_name_1 == "" && $dop_name_2 == "" && $dop_name_3 == "")) {
+                            // $item->base->sepa_calcname - символ разделения для вычисляемых полей
+                            // "\~" - символ перевода каретки (используется также в Item.php: name() nmbr())
+                            // "\~" - символ перевода каретки (используется также в ItemController.php: calc_value_func(), GlobalController: itnm_left)
+                            //$sc = trim($item->base->sepa_calcname) . "\~";
+                            $sc = trim($item->base->sepa_calcname);
 //                        $dop_sepa0 = $calc_lang_0 == "" ? "" : $sc . " ";
 //                        $dop_sepa1 = $calc_lang_1 == "" ? "" : $sc . " ";
 //                        $dop_sepa2 = $calc_lang_2 == "" ? "" : $sc . " ";
 //                        $dop_sepa3 = $calc_lang_3 == "" ? "" : $sc . " ";
-                        $dop_sepa0 = $calc_lang_0 == "" ? "" : $sc;
-                        $dop_sepa1 = $calc_lang_1 == "" ? "" : $sc;
-                        $dop_sepa2 = $calc_lang_2 == "" ? "" : $sc;
-                        $dop_sepa3 = $calc_lang_3 == "" ? "" : $sc;
+                            $dop_sepa0 = $calc_lang_0 == "" ? "" : $sc;
+                            $dop_sepa1 = $calc_lang_1 == "" ? "" : $sc;
+                            $dop_sepa2 = $calc_lang_2 == "" ? "" : $sc;
+                            $dop_sepa3 = $calc_lang_3 == "" ? "" : $sc;
 
 //Лучше без пробела ("Цена = 15000" на одной строке может быть "Цена =", на второй "15000"; а если "Цена=15000" всегда выходит на одной строке, т.к. это одно слово)
 //                        $left_str0 = $link->parent_is_left_calcname_lang_0 == true ? $link->parent_calcname_prefix_lang_0 . " " : "";
@@ -7607,25 +7787,26 @@ class ItemController extends Controller
 //                        $right_str1 = $link->parent_is_left_calcname_lang_1 == false ? " " . $link->parent_calcname_prefix_lang_1 : "";
 //                        $right_str2 = $link->parent_is_left_calcname_lang_2 == false ? " " . $link->parent_calcname_prefix_lang_2 : "";
 //                        $right_str3 = $link->parent_is_left_calcname_lang_3 == false ? " " . $link->parent_calcname_prefix_lang_3 : "";
-                        $left_str0 = $link->parent_is_left_calcname_lang_0 == true ? $link->parent_calcname_prefix_lang_0 : "";
-                        $left_str1 = $link->parent_is_left_calcname_lang_1 == true ? $link->parent_calcname_prefix_lang_1 : "";
-                        $left_str2 = $link->parent_is_left_calcname_lang_2 == true ? $link->parent_calcname_prefix_lang_2 : "";
-                        $left_str3 = $link->parent_is_left_calcname_lang_3 == true ? $link->parent_calcname_prefix_lang_3 : "";
-                        $right_str0 = $link->parent_is_left_calcname_lang_0 == false ? $link->parent_calcname_prefix_lang_0 : "";
-                        $right_str1 = $link->parent_is_left_calcname_lang_1 == false ? $link->parent_calcname_prefix_lang_1 : "";
-                        $right_str2 = $link->parent_is_left_calcname_lang_2 == false ? $link->parent_calcname_prefix_lang_2 : "";
-                        $right_str3 = $link->parent_is_left_calcname_lang_3 == false ? $link->parent_calcname_prefix_lang_3 : "";
+                            $left_str0 = $link->parent_is_left_calcname_lang_0 == true ? $link->parent_calcname_prefix_lang_0 : "";
+                            $left_str1 = $link->parent_is_left_calcname_lang_1 == true ? $link->parent_calcname_prefix_lang_1 : "";
+                            $left_str2 = $link->parent_is_left_calcname_lang_2 == true ? $link->parent_calcname_prefix_lang_2 : "";
+                            $left_str3 = $link->parent_is_left_calcname_lang_3 == true ? $link->parent_calcname_prefix_lang_3 : "";
+                            $right_str0 = $link->parent_is_left_calcname_lang_0 == false ? $link->parent_calcname_prefix_lang_0 : "";
+                            $right_str1 = $link->parent_is_left_calcname_lang_1 == false ? $link->parent_calcname_prefix_lang_1 : "";
+                            $right_str2 = $link->parent_is_left_calcname_lang_2 == false ? $link->parent_calcname_prefix_lang_2 : "";
+                            $right_str3 = $link->parent_is_left_calcname_lang_3 == false ? $link->parent_calcname_prefix_lang_3 : "";
 
 //                        $calc_lang_0 = $calc_lang_0 . ($dop_name_0 == "" ? "" : $dop_sepa0 . $left_str0) . $dop_name_0 . ($dop_name_0 == "" ? "" : $right_str0);
 //                        $calc_lang_1 = $calc_lang_1 . ($dop_name_1 == "" ? "" : $dop_sepa1 . $left_str1) . $dop_name_1 . ($dop_name_1 == "" ? "" : $right_str1);
 //                        $calc_lang_2 = $calc_lang_2 . ($dop_name_2 == "" ? "" : $dop_sepa2 . $left_str2) . $dop_name_2 . ($dop_name_2 == "" ? "" : $right_str2);
 //                        $calc_lang_3 = $calc_lang_3 . ($dop_name_3 == "" ? "" : $dop_sepa3 . $left_str3) . $dop_name_3 . ($dop_name_3 == "" ? "" : $right_str3);
 
-                        $calc_lang_0 = $calc_lang_0 . ($dop_name_0 == "" ? "" : $dop_sepa0 . $space . $left_str0) . $dop_name_0 . ($dop_name_0 == "" ? "" : $right_str0);
-                        $calc_lang_1 = $calc_lang_1 . ($dop_name_1 == "" ? "" : $dop_sepa1 . $space . $left_str1) . $dop_name_1 . ($dop_name_1 == "" ? "" : $right_str1);
-                        $calc_lang_2 = $calc_lang_2 . ($dop_name_2 == "" ? "" : $dop_sepa2 . $space . $left_str2) . $dop_name_2 . ($dop_name_2 == "" ? "" : $right_str2);
-                        $calc_lang_3 = $calc_lang_3 . ($dop_name_3 == "" ? "" : $dop_sepa3 . $space . $left_str3) . $dop_name_3 . ($dop_name_3 == "" ? "" : $right_str3);
-                        $space = " ";
+                            $calc_lang_0 = $calc_lang_0 . ($dop_name_0 == "" ? "" : $dop_sepa0 . $space . $left_str0) . $dop_name_0 . ($dop_name_0 == "" ? "" : $right_str0);
+                            $calc_lang_1 = $calc_lang_1 . ($dop_name_1 == "" ? "" : $dop_sepa1 . $space . $left_str1) . $dop_name_1 . ($dop_name_1 == "" ? "" : $right_str1);
+                            $calc_lang_2 = $calc_lang_2 . ($dop_name_2 == "" ? "" : $dop_sepa2 . $space . $left_str2) . $dop_name_2 . ($dop_name_2 == "" ? "" : $right_str2);
+                            $calc_lang_3 = $calc_lang_3 . ($dop_name_3 == "" ? "" : $dop_sepa3 . $space . $left_str3) . $dop_name_3 . ($dop_name_3 == "" ? "" : $right_str3);
+                            $space = " ";
+                        }
                     }
                 }
             }
@@ -7654,8 +7835,8 @@ class ItemController extends Controller
             'calc_lang_0' => $calc_lang_0, 'calc_lang_1' => $calc_lang_1, 'calc_lang_2' => $calc_lang_2, 'calc_lang_3' => $calc_lang_3];
     }
 
-// Перерасчет $items по переданным $base, $project
-    function calculate_names(Base $base, Project $project)
+// Перерасчет $items по переданным $base, $project, $relit_id, $role
+    function calculate_names(Base $base, Project $project, $relit_id, Role $role)
     {
         // "->get()" нужно
         $items = Item::where('base_id', $base->id)->where('project_id', $project->id)
@@ -7663,7 +7844,8 @@ class ItemController extends Controller
 
         $rs = false;
         foreach ($items as $item) {
-            $rs = $this->calc_value_func($item);
+            // Расчет вычисляемого наименования
+            $rs = $this->calc_value_func($item, 0, true, null, false, $relit_id, $role);
             $item->name_lang_0 = $rs['calc_lang_0'];
             $item->name_lang_1 = $rs['calc_lang_1'];
             $item->name_lang_2 = $rs['calc_lang_2'];
@@ -7676,13 +7858,13 @@ class ItemController extends Controller
     }
 
 // Перерасчет $items по переданным $item по всем проектам
-    function calc_item_names(Item $item)
+    function calc_item_names(Item $item, $relit_id, Role $role)
     {
         $list = array();
-        $this->calc_item_names_start($list, $item);
+        $this->calc_item_names_start($list, $item, $relit_id, $role);
     }
 
-    function calc_item_names_start(&$list, Item $item)
+    function calc_item_names_start(&$list, Item $item, $relit_id, Role $role)
     {
         // эти строки нужны
         // Чтобы не было зацикливания, не считался повторно уже посчитанный $base
@@ -7705,14 +7887,15 @@ class ItemController extends Controller
 
         $rs = false;
         foreach ($work_items as $work_item) {
-            $rs = $this->calc_value_func($work_item);
+            // $for_view = false передается, для сохранения в $work_item
+            $rs = $this->calc_value_func($work_item, 0, true, null, false, $relit_id, $role);
             $work_item->name_lang_0 = $rs['calc_lang_0'];
             $work_item->name_lang_1 = $rs['calc_lang_1'];
             $work_item->name_lang_2 = $rs['calc_lang_2'];
             $work_item->name_lang_3 = $rs['calc_lang_3'];
             $work_item->save();
             // Рекурсивный вызов для изменения вычисляемого наименования во вложенных записях, нужно
-            $this->calc_item_names_start($list, $work_item);
+            $this->calc_item_names_start($list, $work_item, $relit_id, $role);
         }
     }
 
@@ -8048,7 +8231,6 @@ class ItemController extends Controller
                 $links = $links->where('parent_base_id', '!=', $value['base_id']);
             }
         }
-
         if ($nolink != null) {
             // При параллельной связи $nolink ($nolink->parent_is_parallel == true)
             // другие паралельные связи не доступны при отображении списка в Пространство-тело таблицы
@@ -8076,7 +8258,7 @@ class ItemController extends Controller
             $base_link_right = GlobalController::base_link_right($link, $role, $relit_id);
             if ($base_link_right['is_list_link_enable'] == true) {
                 $base_right = GlobalController::base_right($link->child_base, $role, $relit_id);
-                if (GlobalController::is_base_calcname_check($link->child_base) == true) {
+                if (GlobalController::is_base_calcname_check($link->child_base, $base_right) == true) {
                     // Исключить links с признаком 'Для вычисляемого наименования'
                     if ($link->parent_is_calcname == true) {
                         $links = $links->where('id', '!=', $link->id);
@@ -8107,7 +8289,6 @@ class ItemController extends Controller
         }
 
         $links = $links->sortBy('parent_base_number');
-
         $k = 0;
         foreach ($links as $link) {
             //$base_link_right = GlobalController::base_link_right($link, $role, $relit_id);
@@ -8264,7 +8445,7 @@ class ItemController extends Controller
         $mains = Main::where('child_item_id', '=', $item->id);
         //        Если не тип-вычисляемое наименование и Показывать Основу с вычисляемым наименованием
         //        или если тип-не вычисляемое наименование
-        if (!GlobalController::is_base_calcname_check($base)) {
+        if (!GlobalController::is_base_calcname_check($base, $base_right)) {
             // Оставить links с признаком 'Для вычисляемого наименования'
             $mains = $mains->whereHas('link', function ($query) {
                 $query->where('parent_is_calcname', true);
@@ -8439,7 +8620,9 @@ class ItemController extends Controller
                 if ($default_order_by == true) {
                     $index = array_search(App::getLocale(), config('app.locales'));
                     if ($index !== false) {   // '!==' использовать, '!=' не использовать
-                        $items = $items->orderBy('name_lang_' . $index);
+                        if ($items) {
+                            $items = $items->orderBy('name_lang_' . $index);
+                        }
                     }
                 }
             }///////////////////////\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\//////////////////////////////

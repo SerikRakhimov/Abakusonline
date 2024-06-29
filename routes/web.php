@@ -827,14 +827,14 @@ Route::get('/item/create', [ItemController::class, 'create'])
 //Route::get('/item/ext_show/{item}/{project}/{role}/{usercode}/{relit_id}/{string_link_ids_current?}/{string_item_ids_current?}/{string_all_codes_current?}/{heading?}/{base_index_page?}/{body_link_page?}/{body_all_page?}/{parent_ret_id?}/{view_link?}/{par_link?}/{parent_item?}', [ItemController::class, 'ext_show'])
 //    ->name('item.ext_show');
 ////->middleware('auth');
-Route::get('/item/ext_show/{item}/{project}/{role}/{usercode}/{relit_id}/{string_current?}/{heading?}/{base_index_page?}/{body_link_page?}/{body_all_page?}/{parent_ret_id?}/{view_link?}/{par_link?}/{parent_item?}', [ItemController::class, 'ext_show'])
+Route::get('/item/ext_show/{item}/{project}/{role}/{usercode}/{relit_id}/{string_current?}/{heading?}/{base_index_page?}/{body_link_page?}/{body_all_page?}/{parent_ret_id?}/{view_link?}/{saveurl_show?}/{par_link?}/{parent_item?}', [ItemController::class, 'ext_show'])
     ->name('item.ext_show');
 //->middleware('auth');
 
 //Route::get('/item/ext_create/{base}/{project}/{role}/{usercode}/{relit_id}/{string_link_ids_current?}/{string_item_ids_current?}/{string_all_codes_current?}/{heading?}/{base_index_page?}/{body_link_page?}/{body_all_page?}/{parent_ret_id?}/{view_link?}/{par_link?}/{parent_item?}', [ItemController::class, 'ext_create'])
 //    ->name('item.ext_create')
 //    ->middleware('auth');
-Route::get('/item/ext_create/{base}/{project}/{role}/{usercode}/{relit_id}/{string_current?}/{heading?}/{base_index_page?}/{body_link_page?}/{body_all_page?}/{parent_ret_id?}/{view_link?}/{par_link?}/{parent_item?}', [ItemController::class, 'ext_create'])
+Route::get('/item/ext_create/{base}/{project}/{role}/{usercode}/{relit_id}/{string_current?}/{heading?}/{base_index_page?}/{body_link_page?}/{body_all_page?}/{parent_ret_id?}/{view_link?}/{saveurl_add?}/{level_id?}/{par_link?}/{parent_item?}', [ItemController::class, 'ext_create'])
     ->name('item.ext_create')
     ->middleware('auth');
 
@@ -845,7 +845,7 @@ Route::get('/item/edit/{item}', [ItemController::class, 'edit'])
 //Route::get('/item/ext_edit/{item}/{project}/{role}/{usercode}/{relit_id}/{string_link_ids_current?}/{string_item_ids_current?}/{string_all_codes_current?}/{heading?}/{base_index_page?}/{body_link_page?}/{body_all_page?}/{parent_ret_id?}/{view_link?}/{par_link?}/{parent_item?}', [ItemController::class, 'ext_edit'])
 //    ->name('item.ext_edit')
 //    ->middleware('auth');
-Route::get('/item/ext_edit/{item}/{project}/{role}/{usercode}/{relit_id}/{string_current?}/{heading?}/{base_index_page?}/{body_link_page?}/{body_all_page?}/{parent_ret_id?}/{view_link?}/{saveurl_edit?}/{par_link?}/{parent_item?}', [ItemController::class, 'ext_edit'])
+Route::get('/item/ext_edit/{item}/{project}/{role}/{usercode}/{relit_id}/{string_current?}/{heading?}/{base_index_page?}/{body_link_page?}/{body_all_page?}/{parent_ret_id?}/{view_link?}/{saveurl_edit?}/{level_id?}/{par_link?}/{parent_item?}', [ItemController::class, 'ext_edit'])
     ->name('item.ext_edit')
     ->middleware('auth');
 
@@ -956,7 +956,7 @@ Route::get('/item/browser/{link_id}/{project_id?}/{role_id?}/{relit_id?}/{item_i
     ->name('item.browser')
     ->middleware('auth');
 
-Route::get('/item/calculate_names/{base}/{project}', [ItemController::class, 'calculate_names'])
+Route::get('/item/calculate_names/{base}/{project}/{relit_id}/{role}', [ItemController::class, 'calculate_names'])
     ->name('item.calculate_names')
     ->middleware('auth');
 

@@ -780,6 +780,32 @@
             </div>
         </div>
 
+        <div class="form-group row" id="is_default_allsort_datecreate_form_group">
+            <div class="col-sm-3 text-right">
+                <label class="form-label"
+                       for="is_default_allsort_datecreate">{{trans('main.is_default_allsort_datecreate')}}</label>
+            </div>
+            <div class="col-sm-7">
+                <input class="@error('is_default_allsort_datecreate') is-invalid @enderror"
+                       type="checkbox"
+                       name="is_default_allsort_datecreate"
+                       id="linkis_default_allsort_datecreate"
+                       placeholder=""
+                       {{--                       Значение по умолчанию false--}}
+                       @if ((old('is_default_allsort_datecreate') ?? ($base->is_default_allsort_datecreate ?? false)) ==  true)
+                       checked
+                    @endif
+                >
+                @error('is_default_allsort_datecreate')
+                <div class="invalid-feedback">
+                    {{$message}}
+                </div>
+                @enderror
+            </div>
+            <div class="col-sm-2">
+            </div>
+        </div>
+
         <div class="form-group row" id="is_one_value_lst_str_txt_form_group">
             <div class="col-sm-3 text-right">
                 <label class="form-label"
@@ -855,7 +881,7 @@
             </div>
         </div>
 
-        {{--        'По умолчанию, древовидная структура (main->parent_item = null, для base_index.php)'--}}
+        {{-- 'По умолчанию, древовидная структура (main->parent_item = null, для base_index.php)'--}}
         <div class="form-group row" id="is_default_twt_lst_form_group">
             <div class="col-sm-3 text-right">
                 <label class="form-label"
@@ -881,7 +907,7 @@
             </div>
         </div>
 
-        {{--        'По умолчанию, tst структура (main->parent_item = null, для base_index.php, item_index($link))'--}}
+        {{-- 'По умолчанию, tst структура (main->parent_item = null, для base_index.php, item_index($link))'--}}
         <div class="form-group row" id="is_default_tst_lst_form_group">
             <div class="col-sm-3 text-right">
                 <label class="form-label"
@@ -898,6 +924,32 @@
                     @endif
                 >
                 @error('is_default_tst_lst')
+                <div class="invalid-feedback">
+                    {{$message}}
+                </div>
+                @enderror
+            </div>
+            <div class="col-sm-2">
+            </div>
+        </div>
+
+        {{-- 'Учитывать уровни при добавлении/корректировке записей'--}}
+        <div class="form-group row" id="is_consider_levels_lst_form_group">
+            <div class="col-sm-3 text-right">
+                <label class="form-label"
+                       for="is_consider_levels_lst">{{trans('main.is_consider_levels_lst')}}</label>
+            </div>
+            <div class="col-sm-7">
+                <input class="@error('is_consider_levels_lst') is-invalid @enderror"
+                       type="checkbox"
+                       name="is_consider_levels_lst"
+                       id="linkis_consider_levels_lst"
+                       placeholder=""
+                       @if ((old('is_consider_levels_lst') ?? ($base->is_consider_levels_lst ?? false)) ==  true)
+                       checked
+                    @endif
+                >
+                @error('is_consider_levels_lst')
                 <div class="invalid-feedback">
                     {{$message}}
                 </div>
@@ -1174,6 +1226,7 @@
         var is_byuser = document.getElementById('is_default_list_base_byuser_form_group');
         var is_heading = document.getElementById('is_default_heading_form_group');
         var is_cards = document.getElementById('is_default_view_cards_form_group');
+        var is_dt_create = document.getElementById('is_default_allsort_datecreate_form_group');
         var ent_min = document.getElementById('entry_minutes_form_group');
         var en_min_ds = document.getElementById('en_min_desc_form_group');
         var lt_min = document.getElementById('lifetime_minutes_form_group');
@@ -1189,6 +1242,7 @@
         var is_calcnm_correct_lst = document.getElementById('is_calcnm_correct_lst_form_group');
         var is_def_twt_lst = document.getElementById('is_default_twt_lst_form_group');
         var is_def_tst_lst = document.getElementById('is_default_tst_lst_form_group');
+        var is_con_lev_lst = document.getElementById('is_consider_levels_lst_form_group');
         var sepa_calcname = document.getElementById('sepa_calcname_form_group');
         var is_same_small_calcname = document.getElementById('is_same_small_calcname_form_group');
         var sepa_same_left_calcname = document.getElementById('sepa_same_left_calcname_form_group');
@@ -1240,11 +1294,12 @@
             val_is_byuser = "hidden";
             val_is_heading = "hidden";
             val_is_cards = "hidden";
+            val_is_dt_create = "hidden";
             val_en_min = "hidden";
             val_lt_min = "hidden";
-            val_en_min_desc = true;
-            val_lt_min_desc = true;
-            val_u_meas_desc = true;
+            val_en_min_hidden_desc = true;
+            val_lt_min_hidden_desc = true;
+            val_u_meas_hidden_desc = true;
             val_digits_num = "hidden";
             val_required_num_str = "hidden";
             val_vw_emp_lst = "hidden";
@@ -1256,6 +1311,7 @@
             val_calcnm_correct_lst = "hidden";
             val_def_twt_lst = "hidden";
             val_def_tst_lst = "hidden";
+            val_con_lev_lst = "hidden";
             val_sepa_calcname = "hidden";
             val_same_small_calcname = "hidden";
             val_sepa_same_left_calcname = "hidden";
@@ -1282,10 +1338,11 @@
                     val_is_byuser = "visible";
                     val_is_heading = "visible";
                     val_is_cards = "visible";
+                    val_is_dt_create = "visible";
                     val_en_min = "visible";
                     val_lt_min = "visible";
-                    val_en_min_desc = false;
-                    val_lt_min_desc = false;
+                    val_en_min_hidden_desc = false;
+                    val_lt_min_hidden_desc = false;
                     val_required_num_str = "visible";
                     val_vw_emp_lst = "visible";
                     val_onevalue_str = "visible";
@@ -1293,6 +1350,7 @@
                     val_calcnm_correct_lst = "visible";
                     val_def_twt_lst = "visible";
                     val_def_tst_lst = "visible";
+                    val_con_lev_lst ="visible";
                     val_sepa_calcname = "visible";
                     val_same_small_calcname = "visible";
                     val_sepa_same_left_calcname = "visible";
@@ -1300,15 +1358,19 @@
                     break;
                 // Число
                 case "1":
-                    val_u_meas_desc = false;
+                    val_u_meas_hidden_desc = false;
                     val_digits_num = "visible";
                     val_required_num_str = "visible";
                     break;
                 // Строка
                 case "2":
-                    val_u_meas_desc = false;
+                    val_u_meas_hidden_desc = false;
                     val_required_num_str = "visible";
                     val_onevalue_str = "visible";
+                    break;
+                // Дата
+                case "3":
+                    val_required_num_str = "visible";
                     break;
                 // Текст
                 case "5":
@@ -1352,12 +1414,13 @@
             is_byuser.style.visibility = val_is_byuser;
             is_heading.style.visibility = val_is_heading;
             is_cards.style.visibility = val_is_cards;
+            is_dt_create.style.visibility = val_is_dt_create;
             ent_min.style.visibility = val_en_min;
             lt_min.style.visibility = val_lt_min;
             // Свойство ".visibility" недоступно для en_min_ds, lt_min_ds, un_ms_ds
-            en_min_ds.hidden = val_en_min_desc;
-            lt_min_ds.hidden = val_lt_min_desc;
-            un_ms_ds.hidden = val_u_meas_desc;
+            en_min_ds.hidden = val_en_min_hidden_desc;
+            lt_min_ds.hidden = val_lt_min_hidden_desc;
+            un_ms_ds.hidden = val_u_meas_hidden_desc;
             digits_num.style.visibility = val_digits_num;
             is_required_lst_num_str_txt_img_doc.style.visibility = val_required_num_str;
             is_vw_emp_lst.style.visibility = val_vw_emp_lst;
@@ -1369,6 +1432,7 @@
             is_calcnm_correct_lst.style.visibility = val_calcnm_correct_lst;
             is_def_twt_lst.style.visibility = val_def_twt_lst;
             is_def_tst_lst.style.visibility = val_def_tst_lst;
+            is_con_lev_lst.style.visibility = val_con_lev_lst;
             sepa_calcname.style.visibility = val_sepa_calcname;
             is_same_small_calcname.style.visibility = val_same_small_calcname;
             sepa_same_left_calcname.style.visibility = val_sepa_same_left_calcname;
