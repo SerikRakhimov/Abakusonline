@@ -9,6 +9,7 @@ $i = $next_all_mains->firstItem() - 1;
 $p = $i;
 $num_cols = GlobalController::get_number_of_columns_info();
 ?>
+5555555555555555555555555555
 @if($next_all_is_tileview == true)
     {{-- I.Вывод карт--}}
     @if($next_all_is_viewcards == true)
@@ -333,7 +334,6 @@ $num_cols = GlobalController::get_number_of_columns_info();
             </tbody>
         </table>
     @else
-        1010101010
         {{-- III.Вывод информации в виде таблицы--}}
         {{-- III.2 Сортировка по links--}}
         <?php
