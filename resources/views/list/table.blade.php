@@ -11,9 +11,9 @@ $cols = $links_info['cols'];
 $emoji_enable = true;
 $i = 0;
 if ($item_heading_base == true) {
-    $i = 0;
+    $i = 1;
 } else {
-    $i = $items->firstItem() - 1;
+    $i = $items->firstItem();
 }
 $i_par_link = null;
 // Вызов list\table.php из base_index.php
