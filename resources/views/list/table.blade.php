@@ -11,9 +11,9 @@ $cols = $links_info['cols'];
 $emoji_enable = true;
 $i = 0;
 if ($item_heading_base == true) {
-    $i = 1;
+    $i = 0;
 } else {
-    $i = $items->firstItem();
+    $i = $items->firstItem() - 1;
 }
 $i_par_link = null;
 // Вызов list\table.php из base_index.php
@@ -52,7 +52,7 @@ if ($view_link) {
             {{--        $its_page используется--}}
             @foreach($its_page as $item)
                 <?php
-                //$i = $i + 1;
+                $i = $i + 1;
                 $item_find = GlobalController::view_info($item->id, $link_image->id, $role, $relit_id, true);
                 //                $s_title = $v_label . ", id =" . $item->id;
                 //                if ($base->is_code_needed == true) {
@@ -71,9 +71,9 @@ if ($view_link) {
                'prev_base_index_page'=>$base_index_page,
                'prev_body_link_page'=>$body_link_page,
                'prev_body_all_page'=>$body_all_page])
-                <?php
-                $i++;
-                ?>
+<!--                --><?php
+//                $i++;
+//                ?>
                 @if($i % $num_cols == 0)
         </div>
         <div class="card-deck">
