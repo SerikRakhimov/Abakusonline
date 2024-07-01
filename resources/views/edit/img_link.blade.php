@@ -28,9 +28,10 @@ if ($update) {
                     @if ($item_image != null)
                         {{-- В режиме корректировки формы не нужно--}}
                         {{-- <a href="{{Storage::url($item_image->filename())}}">--}}
+                        {{-- title="{{$item_image->title_img()}}"  не нужно--}}
                         <img src="{{Storage::url($item_image->filename())}}"
                              height=@include('types.img.height',['size'=>$size])
-                                 alt="" title="{{$item_image->title_img()}}">
+                                 alt="" title="">
                         {{--                        </a>--}}
                     @endif
                 </div>
@@ -48,9 +49,10 @@ if ($update) {
                             ({{mb_strtolower(trans('main.now'))}}:
                             {{-- В режиме корректировки формы не нужно--}}
                             {{-- <a href="{{Storage::url($item_image->filename())}}">--}}
+                            {{-- title="{{$item_image->title_img()}}" не нужно--}}
                             <img src="{{Storage::url($item_image->filename())}}"
                                  height=@include('types.img.height',['size'=>$size])
-                                     alt="" title="{{$item_image->title_img()}}">
+                                     alt="" title="">
                             {{--                            </a>--}}
                             @if($base->is_required_lst_num_str_txt_img_doc == false)
                                 <label for="{{$name}}_img_doc_delete">{{trans('main.delete_image')}}
