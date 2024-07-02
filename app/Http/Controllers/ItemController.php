@@ -1481,9 +1481,9 @@ class ItemController extends Controller
                 break;
             }
         }
-        if($next_all_is_enable == true & count($next_all_is_calcname)==1){
-            $next_all_is_enable == false;
-        }
+//        if($next_all_is_enable == true & count($next_all_is_calcname)==1){
+//            $next_all_is_enable = false;
+//        }
 // Проверки link_maxcount, item_maxcount
         $message_ln_array_info = array();
         $message_ln_link_array_item = array();
