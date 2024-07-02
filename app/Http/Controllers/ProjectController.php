@@ -1313,7 +1313,7 @@ class ProjectController extends Controller
 
         try {
             // начало транзакции
-            DB::transaction(function ($r) use ($project) {
+            DB::transaction(function ($r) use ($project, $role) {
                 // Запрос для определения bases, которые нужно удалить
                 // Нужно "->where('sets.is_savesets_enabled', '=', true)"
                 $bases_to = Set::select(DB::Raw('links.child_base_id as base_id'))
