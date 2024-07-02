@@ -1178,7 +1178,8 @@ class ItemController extends Controller
             // Выводить вычисляемое наименование
             // Использовать '$link->child_base'
             $br = GlobalController::base_right($link->child_base, $role, $relit_id);
-            $is_calcname = GlobalController::is_base_calcname_check($link->child_base, $br);
+            $is_calcname = (GlobalController::is_base_calcname_check($link->child_base, $br))
+                            & ($link->is_enabled_alinks == true);
 //            // Текущий проект
 //            $array_link_relips[0] = $project->id;
 //            // relips текущего проекта $parent->id
@@ -1284,9 +1285,7 @@ class ItemController extends Controller
                             $is_tileview = $link->child_base->tile_view($role, $relit_id, $base_link_right)['result'];
                             $is_viewcards = ($base_link_right['is_view_cards'] == true);
                             $is_sortdate = ($base_link_right['is_view_sortdate'] == true);
-                            // if (!(self::item_link_parent_mains_exists($item, $link) || $next_create)) {
-                            if (!(self::item_link_parent_mains_exists($item, $link) || $next_create )
-                                || ($link->is_enabled_alinks == false)) {
+                            if (!(self::item_link_parent_mains_exists($item, $link) || $next_create)) {
                                 unset($array_link_relips[$key]);
                             } else {
                                 // Такая же проверка и в GlobalController (function items_right(), items_check_right()),
