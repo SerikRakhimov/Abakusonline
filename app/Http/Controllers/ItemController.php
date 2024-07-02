@@ -1178,8 +1178,7 @@ class ItemController extends Controller
             // Выводить вычисляемое наименование
             // Использовать '$link->child_base'
             $br = GlobalController::base_right($link->child_base, $role, $relit_id);
-            $is_calcname = (GlobalController::is_base_calcname_check($link->child_base, $br))
-                            & ($link->is_enabled_alinks == true);
+            $is_calcname = GlobalController::is_base_calcname_check($link->child_base, $br);
 //            // Текущий проект
 //            $array_link_relips[0] = $project->id;
 //            // relips текущего проекта $parent->id
@@ -1481,6 +1480,9 @@ class ItemController extends Controller
                 $next_all_is_enable = false;
                 break;
             }
+        }
+        if($next_all_is_enable == true & count($next_all_is_calcname)==1){
+            $next_all_is_enable == false;
         }
 // Проверки link_maxcount, item_maxcount
         $message_ln_array_info = array();
