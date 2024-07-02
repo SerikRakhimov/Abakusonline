@@ -1284,7 +1284,8 @@ class ItemController extends Controller
                             $is_tileview = $link->child_base->tile_view($role, $relit_id, $base_link_right)['result'];
                             $is_viewcards = ($base_link_right['is_view_cards'] == true);
                             $is_sortdate = ($base_link_right['is_view_sortdate'] == true);
-                            if (!(self::item_link_parent_mains_exists($item, $link) || $next_create)) {
+                            // if (!(self::item_link_parent_mains_exists($item, $link) || $next_create)) {
+                            if (!(self::item_link_parent_mains_exists($item, $link) || $next_create || ($link->is_enabled_alinks == true))) {
                                 unset($array_link_relips[$key]);
                             } else {
                                 // Такая же проверка и в GlobalController (function items_right(), items_check_right()),
