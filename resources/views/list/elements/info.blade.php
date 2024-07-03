@@ -64,7 +64,7 @@ use \App\Http\Controllers\GlobalController;
 @if($item_find)
     <center>
         {{-- Вывод только изображения, похожие строки list.elements.info.php и list.all.php--}}
-        @include('view.img',['item'=>$item_find, 'var_percent'=>"70", 'border'=>true, 'filenametrue'=>false, 'link'=>true, 'img_fluid'=>false, 'card_img_top'=>false, 'title'=>$item->name()])
+        @include('view.img',['item'=>$item_find, 'var_percent'=>"55", 'border'=>true, 'filenametrue'=>false, 'link'=>true, 'img_fluid'=>false, 'card_img_top'=>false, 'title'=>$item->name()])
     </center>
 @endif
 <br>
