@@ -112,8 +112,10 @@ class SetController extends Controller
 //        if ($request->session()->has('sets_previous_url')) {
 //            return redirect(session('sets_previous_url'));
 //        } else {
-        return redirect()->back();
+//            return redirect()->back();
 //        }
+        $template = Template::findOrFail($set->template_id);
+        return redirect()->route('set.index', ['template' => $template]);
     }
 
     function update(Request $request, Set $set)
@@ -152,8 +154,10 @@ class SetController extends Controller
 //        if ($request->session()->has('sets_previous_url')) {
 //            return redirect(session('sets_previous_url'));
 //        } else {
-        return redirect()->back();
+//            return redirect()->back();
 //        }
+        $template = Template::findOrFail($set->template_id);
+        return redirect()->route('set.index', ['template' => $template]);
     }
 
     function check(Request $request, &$array_mess)
@@ -464,8 +468,10 @@ class SetController extends Controller
 //        if ($request->session()->has('sets_previous_url')) {
 //            return redirect(session('sets_previous_url'));
 //        } else {
-            return redirect()->back();
+//            return redirect()->back();
 //        }
+        $template = Template::findOrFail($set->template_id);
+        return redirect()->route('set.index', ['template' => $template]);
     }
 
 }
