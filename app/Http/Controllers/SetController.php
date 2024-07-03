@@ -55,7 +55,7 @@ class SetController extends Controller
             ->orderBy('lf.parent_base_number')
             ->orderBy('lt.parent_base_number');
 
-        session(['sets_previous_url' => request()->url()]);
+//      session(['sets_previous_url' => request()->url()]);
         return view('set/index', ['template' => $template, 'sets' => $sets->paginate(60)]);
     }
 
@@ -109,11 +109,11 @@ class SetController extends Controller
 
         $this->set($request, $set);
         //https://laravel.demiart.ru/laravel-sessions/
-        if ($request->session()->has('sets_previous_url')) {
-            return redirect(session('sets_previous_url'));
-        } else {
-            return redirect()->back();
-        }
+//        if ($request->session()->has('sets_previous_url')) {
+//            return redirect(session('sets_previous_url'));
+//        } else {
+        return redirect()->back();
+//        }
     }
 
     function update(Request $request, Set $set)
@@ -149,11 +149,11 @@ class SetController extends Controller
 
         $this->set($request, $set);
 
-        if ($request->session()->has('sets_previous_url')) {
-            return redirect(session('sets_previous_url'));
-        } else {
-            return redirect()->back();
-        }
+//        if ($request->session()->has('sets_previous_url')) {
+//            return redirect(session('sets_previous_url'));
+//        } else {
+        return redirect()->back();
+//        }
     }
 
     function check(Request $request, &$array_mess)
@@ -461,11 +461,11 @@ class SetController extends Controller
 
         $set->delete();
 
-        if ($request->session()->has('sets_previous_url')) {
-            return redirect(session('sets_previous_url'));
-        } else {
+//        if ($request->session()->has('sets_previous_url')) {
+//            return redirect(session('sets_previous_url'));
+//        } else {
             return redirect()->back();
-        }
+//        }
     }
 
 }
