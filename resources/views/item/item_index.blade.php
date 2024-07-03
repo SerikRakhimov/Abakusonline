@@ -153,16 +153,16 @@
                        title="{{$it_local->base->names($base_right) . $message_bs_info}}">
                         @endif
                         {{$title}}:
-                                                    <br>
+                        <br>
                         @if ($base_right['is_bsmn_base_enable'] == true)
                     </a>
                 @endif
                 {{--                        <big/>--}}
                 <div style="font-size:xx-large">
-                        {{-- Одинаковые строки рядом (route('item.ext_show'))--}}
-                        @if ($base_right['is_list_base_calc'] == true)
-                            {{--              Использовать "'heading' => intval(true)", проверяется в окончании функции ItemController:ext_delete()--}}
-                            <a href="{{route('item.ext_show', ['item'=>$it_local, 'project'=>$project, 'role'=>$role,
+                    {{-- Одинаковые строки рядом (route('item.ext_show'))--}}
+                    @if ($base_right['is_list_base_calc'] == true)
+                        {{--              Использовать "'heading' => intval(true)", проверяется в окончании функции ItemController:ext_delete()--}}
+                        <a href="{{route('item.ext_show', ['item'=>$it_local, 'project'=>$project, 'role'=>$role,
                                         'usercode' =>GlobalController::usercode_calc(),
                                         'relit_id'=>$relit_id,
                                         'string_current' => $string_current,
@@ -172,21 +172,21 @@
         'saveurl_show' =>$saveurl_show,
         'par_link'=>$tree_array_last_link_id, 'parent_item'=>$tree_array_last_item_id,
         'parent_ret_id' => $view_ret_id])}}"
-                               title="{{trans('main.viewing_record')}}:{{$it_local->name(false, false, false, false)}}"
-                            >
-                                @if($base_right['is_list_base_read'] == true)
-                                    {{-- @include('layouts.item.empty_name', ['name'=>$it_local->nmbr(true, false, false, false)])--}}
-                                    @include('layouts.item.empty_name', ['name'=>$it_local->nmbr(true, false, false, false, false, null, false, true, $relit_id, $role)])
-                                @else
-                                    @include('layouts.item.empty_name', ['name'=>$it_local->name(false, false, false, false, false, null, false, true, $relit_id, $role)])
-                                @endif
-                            </a>
-                        @else
-                            <?php
-                            //                                    emoji не показывать
-                            echo $it_local->nmbr(false, false, false, false, false, null, false, true, $relit_id, $role);
-                            ?>
-                        @endif
+                           title="{{trans('main.viewing_record')}}:{{$it_local->name(false, false, false, false)}}"
+                        >
+                            @if($base_right['is_list_base_read'] == true)
+                                {{-- @include('layouts.item.empty_name', ['name'=>$it_local->nmbr(true, false, false, false)])--}}
+                                @include('layouts.item.empty_name', ['name'=>$it_local->nmbr(true, false, false, false, false, null, false, true, $relit_id, $role)])
+                            @else
+                                @include('layouts.item.empty_name', ['name'=>$it_local->name(false, false, false, false, false, null, false, true, $relit_id, $role)])
+                            @endif
+                        </a>
+                    @else
+                        <?php
+                        //                                    emoji не показывать
+                        echo $it_local->nmbr(false, false, false, false, false, null, false, true, $relit_id, $role);
+                        ?>
+                    @endif
                 </div>
                 <br>
                 @if($it_local->base->is_code_needed == true)
@@ -927,37 +927,40 @@
             </div>
             </p>
         @endif
-        @if (count($body_items) > 0)
-            {{--        Выводится список записей по одной связи $view_link--}}
-            {{--        Используется "'heading'=>intval(false)"--}}
-            {{--        'view_link' передается затем (в list\table.php) в 'item.ext_show' как 'par_link'--}}
-            {{--        Параметры 'relit_id' и 'view_ret_id' передаются в зависимости от значения $heading--}}
-            {{--        "'its_page'=>$its_body_page->get()" "->get()" нужно--}}
-            @include('list.table',['base'=>$view_link->child_base, 'project'=>$project, 'role'=>$role,
-        'links_info'=>$child_body_links_info,
-        'items'=>$body_items,
-        'its_page'=>$its_body_page,
-        'base_right'=>$base_body_right,
-        'relit_id'=>$relit_body_id,
-        'heading'=>intval(false),
-        'base_index_page'=>$base_index_page, 'body_link_page'=>$body_link_page,'body_all_page'=>$body_all_page,
-        'view_link'=>$view_link,
-        'view_ret_id'=>$view_ret_body_id, 'parent_item'=>$item, 'is_table_body'=>false,
-            'base_index'=>false, 'item_heading_base'=>false, 'item_body_base'=>true,
-            'string_link_ids_current' => $string_link_ids_current,
-            'string_item_ids_current' => $string_item_ids_current,
-            'string_relit_ids_current' => $string_relit_ids_current,
-            'string_all_codes_current' => $string_all_codes_current,
-            'string_current' => $string_current,
-            'string_link_ids_next'=>$string_link_ids_next,
-            'string_item_ids_next'=>$string_item_ids_next,
-            'string_relit_ids_next'=>$string_relit_ids_next,
-            'string_all_codes_next'=>$string_all_codes_next,
-            'string_next' => $string_next,
-            'saveurl_show' =>$saveurl_show,
-            'nolink_id' =>null
-            ])
-            {{$body_items->links()}}
+        {{-- Проверка нужна--}}
+        @if($body_items)
+            @if (count($body_items) > 0)
+                {{--        Выводится список записей по одной связи $view_link--}}
+                {{--        Используется "'heading'=>intval(false)"--}}
+                {{--        'view_link' передается затем (в list\table.php) в 'item.ext_show' как 'par_link'--}}
+                {{--        Параметры 'relit_id' и 'view_ret_id' передаются в зависимости от значения $heading--}}
+                {{--        "'its_page'=>$its_body_page->get()" "->get()" нужно--}}
+                @include('list.table',['base'=>$view_link->child_base, 'project'=>$project, 'role'=>$role,
+            'links_info'=>$child_body_links_info,
+            'items'=>$body_items,
+            'its_page'=>$its_body_page,
+            'base_right'=>$base_body_right,
+            'relit_id'=>$relit_body_id,
+            'heading'=>intval(false),
+            'base_index_page'=>$base_index_page, 'body_link_page'=>$body_link_page,'body_all_page'=>$body_all_page,
+            'view_link'=>$view_link,
+            'view_ret_id'=>$view_ret_body_id, 'parent_item'=>$item, 'is_table_body'=>false,
+                'base_index'=>false, 'item_heading_base'=>false, 'item_body_base'=>true,
+                'string_link_ids_current' => $string_link_ids_current,
+                'string_item_ids_current' => $string_item_ids_current,
+                'string_relit_ids_current' => $string_relit_ids_current,
+                'string_all_codes_current' => $string_all_codes_current,
+                'string_current' => $string_current,
+                'string_link_ids_next'=>$string_link_ids_next,
+                'string_item_ids_next'=>$string_item_ids_next,
+                'string_relit_ids_next'=>$string_relit_ids_next,
+                'string_all_codes_next'=>$string_all_codes_next,
+                'string_next' => $string_next,
+                'saveurl_show' =>$saveurl_show,
+                'nolink_id' =>null
+                ])
+                {{$body_items->links()}}
+            @endif
         @endif
         {{--            Вывод всех записей, с разным link--}}
         {{--Похожие команды в ItemController::calc_tree_array() и item_index.php--}}
