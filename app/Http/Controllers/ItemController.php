@@ -666,7 +666,11 @@ class ItemController extends Controller
 
             // Используется $relip_body_project, $view_ret_id
             $items_body_right = GlobalController::items_right($current_link->child_base, $relip_body_project, $role, $relit_id, $item->id, $current_link->id, $project, $view_ret_id);
-            $body_items = $items_body_right['items']->paginate(60, ['*'], 'body_link_page');
+            $body_items = $items_body_right['items'];
+            // Проверка нужна
+            if ($body_items) {
+                $body_items = $body_items->paginate(60, ['*'], 'body_link_page');
+            }
             $its_body_page = GlobalController::its_page($role, $relit_id, $items_body_right['links'], $body_items);
             // Нужно
             //$next_all_mains = null;
