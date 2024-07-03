@@ -14,7 +14,7 @@ use \App\Http\Controllers\GlobalController;
                                                                         'string_current' => $string_current,
                                                                         ])}}"
            title="{{trans('main.viewing_record')}}{{GlobalController::calc_title_name($label_name,true,false)}}">
-        <span class="badge badge-related">
+        <span style="font-size:small" class="badge badge-related">
 {{--    <span class="badge badge-pale">--}}
             {{$i}}
         </span>
@@ -43,11 +43,13 @@ use \App\Http\Controllers\GlobalController;
         ])}}"
        class="card-link"
        title="{{$item->name()}}">
+        <span style="font-size:medium">
         <?php
         // echo $item->nmbr(true, true, false);
         // Исключить $view_link при расчете вычисляемого наименования
         echo $item->nmbr(true, true, false, false, false, GlobalController::set_un_all_par_null($view_link), false, true, $relit_id, $role);
         ?>
+            </span>
         {{-- 'Показывать признак "В истории" при просмотре списков'--}}
         @if($base_right['is_list_hist_attr_enable'] == true)
             @include('layouts.item.show_history',['item'=>$item])
