@@ -1913,7 +1913,6 @@ class ItemController extends Controller
                 }
             }
         }
-
 //      return ['array_calc' => $array_plan, 'array_fill' => $array_fill, 'array_disabled' => $array_disabled, 'array_refer' => $array_refer];
         return ['array_calc' => $array_plan, 'array_disabled' => $array_disabled, 'array_refer' => $array_refer];
     }
@@ -3620,7 +3619,11 @@ class ItemController extends Controller
                     $del_item_seek_nogroup = count($set_base_to) > 0;
                     // Фильтры 111 - похожие строки выше
                     foreach ($set_base_to as $key => $value) {
-                        $relip_project = GlobalController::calc_relip_project($value->relit_to_id, $item->project);
+                        //$relip_project = GlobalController::calc_relip_project($value->relit_to_id, $item->project);
+                        // Так правильно вычислять $relip_project, нужен для добавления числа в базу данных
+                        $linkto = Link::findOrFail($value->link_to_id);
+                        $relip_project = GlobalController::calc_relip_project($linkto->parent_relit_id, $item->project);
+
                         //Находится $nk - индекс/порядковый номер
                         $nk = -1;
                         foreach ($keys as $k => $v) {

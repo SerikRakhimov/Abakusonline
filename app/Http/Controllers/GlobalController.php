@@ -780,7 +780,6 @@ class GlobalController extends Controller
             // Обязательно фильтр на два запроса:
             // where('base_id', $base->id)->where('project_id', $project->id)
             $items = Item::where('base_id', $base->id)->where('project_id', $project->id);
-
             // 'Древовидная структура (main->parent_item = null, для base_index.php)'
             // Важно: Для просмотра в base_index.php
             // При вызове этой функции items_right() из base_index.php параметры '($mains_item_id, $mains_link_id, $parent_proj и $current_item_id)' не передаются
