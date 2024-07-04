@@ -7723,8 +7723,14 @@ class ItemController extends Controller
                                     // В базу данных в поле $item->name_lang_x не сохраняется значения поля 'Выводить поле вычисляемой таблицы'
                                     // Только при просмотре ($for_view == true) вычисляется и выводится на экран
                                     if ($for_view == true) {
-                                        $item_result = ItemController::get_item_from_parent_output_calculated_table($item, $link);
-                                        $array_calc[$link->id] = $item_result->id;
+                                        $item_output = ItemController::get_item_from_parent_output_calculated_table($item, $link);
+                                        if ($item_output) {
+                                            $item_result = $item_output;
+                                            $array_calc[$link->id] = $item_result->id;
+                                        }
+                                        else{
+                                            dd($item);
+                                        }
                                     }
                                 }
 
