@@ -52,7 +52,9 @@
             </span>
         {{--        'Показывать признак "В истории" при просмотре записи'--}}
         @if($base_right['is_show_hist_attr_enable'] == true)
-            ,
+            @if($item->is_history())
+                ,
+            @endif
             @include('layouts.item.show_history',['item'=>$item])
         @endif
         @if($is_en_limit_minutes['is_view_en_minutes'] == true)
@@ -134,7 +136,8 @@
                                 // Исключить $view_link при расчете вычисляемого наименования
                                 // 'set_un_all_par_link_null()' используется, при приведения к типу Link
                                 // Чтобы в функцию передалось как Link, а не как число $link->id (так передается (почему, не понятно) из list\elements\info.php)
-                                echo $item->nmbr(true, true, false, $emoji_enable, false, GlobalController::set_un_all_par_link_null($view_link), true, true, $relit_id, $role);
+                                //                              echo $item->nmbr(true, true, false, $emoji_enable, false, GlobalController::set_un_all_par_link_null($view_link), true, true, $relit_id, $role);
+                                echo $item->nmbr(true, true, false, $emoji_enable, false, GlobalController::set_un_all_par_null($view_link), true, true, $relit_id, $role);
                                 ?>
                             </a>
                         </big></big>

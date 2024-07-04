@@ -3005,6 +3005,7 @@ class GlobalController extends Controller
         return $result;
     }
 
+    // Проверка на const_textnull()
     static function set_un_par_null($val)
     {
         $result = $val;
@@ -3014,6 +3015,7 @@ class GlobalController extends Controller
         return $result;
     }
 
+    // Проверка на text_base_null()
     static function set_un_text_base_par_null($val)
     {
         $result = $val;
@@ -3023,10 +3025,13 @@ class GlobalController extends Controller
         return $result;
     }
 
+    // Одновременная проверка на const_textnull() и на text_base_null()
     static function set_un_all_par_null($val)
     {
         return self::set_un_text_base_par_null(self::set_un_par_null($val));
     }
+
+    // При ($result != null) возвращает $result типа Link
     static function set_un_all_par_link_null($val)
     {
         $result = self::set_un_all_par_null($val);

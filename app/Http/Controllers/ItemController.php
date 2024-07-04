@@ -5849,7 +5849,7 @@ class ItemController extends Controller
 
                 // Нужно
                 // Только для ext_update()
-                // Перерасчет $items по переданным $item по всем проектам,
+                // Перерасчет $items по переданным $item по всем проектам, включая вложенные записи
                 // т.к. $item->names... могли поменяться
                 // обязательно нужно после команды " $item->save();"
                 $this->calc_item_names($item, $relit_id, $role);
@@ -7642,6 +7642,7 @@ class ItemController extends Controller
 //  $base_link_right['is_list_link_enable'] == true
     static function calc_value_func(Item $item, $level = 0, $first_run = true, Link $nolink = null, $for_view = false, $relit_id = null, Role $role = null)
     {
+        // Эта проверка нужна
         // Эта функция только для base с вычисляемым наименованием
         if ($item->base->is_calcname_lst == false) {
             return null;
@@ -7717,7 +7718,16 @@ class ItemController extends Controller
                                             }
                                         }
                                     }
+                                    // 'Выводить поле вычисляемой таблицы'
+                                } elseif ($link->parent_is_output_calculated_table_field == true) {
+                                    // В базу данных в поле $item->name_lang_x не сохраняется значения поля 'Выводить поле вычисляемой таблицы'
+                                    // Только при просмотре ($for_view == true) вычисляется и выводится на экран
+                                    if ($for_view == true) {
+                                        $item_result = ItemController::get_item_from_parent_output_calculated_table($item, $link);
+                                        $array_calc[$link->id] = $item_result->id;
+                                    }
                                 }
+
                             } else {
                                 $item_result = Item::find($value);
                             }
@@ -7869,7 +7879,7 @@ class ItemController extends Controller
         return redirect()->back();
     }
 
-// Перерасчет $items по переданным $item по всем проектам
+// Перерасчет $items по переданным $item по всем проектам, включая вложенные записи
     function calc_item_names(Item $item, $relit_id, Role $role)
     {
         $list = array();
