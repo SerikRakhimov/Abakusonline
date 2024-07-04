@@ -471,15 +471,15 @@
                                                                 'called_from_button'=>0,
                                                                 'view_link'=>GlobalController::const_null()])}}"
                                                    title="">
-                                                    {{--                                                {{$item_find->name(false, true, true, $emoji_enable, false)}}--}}
-                                                    {{$item_find->name(false, true, true, false, false)}}
+                                                    {{-- {{$item_find->name(false, true, true, false, false)}}--}}
+                                                    {{$item_find->name(false, true, true, false, true)}}
                                                 </a>
                                             @else
-                                                {{--                                            {{$item_find->name(false, true, true, $emoji_enable, false)}}--}}
-                                                {{$item_find->name(false, true, true, false, false)}}
+                                                {{-- {{$item_find->name(false, true, true, false, false)}}--}}
+                                                {{$item_find->name(false, true, true, false, true)}}
                                             @endif
-                                            <small><span
-                                                    class="text-label">{{$item_find->base->par_label_unit_meas()}}</span></small>
+                                            {{--                                            <small><span--}}
+                                            {{--                                                    class="text-label">{{$item_find->base->par_label_unit_meas()}}</span></small>--}}
                                             {{--                            </b>--}}
                                             {{--                            </span>--}}
                                         @endif

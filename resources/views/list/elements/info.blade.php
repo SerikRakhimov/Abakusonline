@@ -45,10 +45,11 @@ use \App\Http\Controllers\GlobalController;
        title="{{$item->name()}}">
         <span style="font-size:medium">
         <?php
-        // echo $item->nmbr(true, true, false);
-        // Исключить $view_link при расчете вычисляемого наименования
-        echo $item->nmbr(true, true, false, false, false, GlobalController::set_un_all_par_null($view_link), false, true, $relit_id, $role);
-        ?>
+            // echo $item->nmbr(true, true, false);
+            // Исключить $view_link при расчете вычисляемого наименования
+            // echo $item->nmbr(true, true, false, false, false, GlobalController::set_un_all_par_link_null($view_link), false, true, $relit_id, $role);
+            echo $item->nmbr(true, true, false, false, false, GlobalController::set_un_all_par_null($view_link), false, true, $relit_id, $role);
+            ?>
             </span>
         {{-- 'Показывать признак "В истории" при просмотре списков'--}}
         @if($base_right['is_list_hist_attr_enable'] == true)
