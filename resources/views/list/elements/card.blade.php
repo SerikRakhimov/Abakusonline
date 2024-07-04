@@ -66,7 +66,7 @@ use \App\Http\Controllers\GlobalController;
                 // echo $item->nmbr();
                 // Исключить $view_link при расчете вычисляемого наименования
                 // echo $item->nmbr(true, false, false, false, false, GlobalController::set_un_all_par_null($view_link), true, true, $relit_id, $role);
-                echo $item->nmbr(true, false, false, false, false, GlobalController::set_un_all_par_link_null($view_link), true, true, $relit_id, $role);
+                echo $item->nmbr(true, false, false, false, false, GlobalController::set_un_all_par_null($view_link), true, true, $relit_id, $role);
                 ?>
                 <small><i>{{GlobalController::calc_title_name($label_name,true,false)}}</i></small>
             </a>
