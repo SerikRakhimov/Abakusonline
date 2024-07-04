@@ -7729,7 +7729,7 @@ class ItemController extends Controller
                                             $array_calc[$link->id] = $item_result->id;
                                         }
                                         else{
-                                            dd($item);
+                                            dd($link);
                                         }
                                     }
                                 }
