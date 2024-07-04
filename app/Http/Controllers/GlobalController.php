@@ -3374,7 +3374,8 @@ class GlobalController extends Controller
     static function remaining_en_minutes(Item $item)
     {
         $minutes = self::const_base_en_min($item->base) - self::calc_minutes($item);
-        $result = $minutes . ' ' . trans('main.info_minutes');
+        //$result = $minutes . ' ' . trans('main.info_minutes');
+        $result = self::result_minuts_info($minutes);
         return $result;
     }
 
