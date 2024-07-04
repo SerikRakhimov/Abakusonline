@@ -3458,6 +3458,9 @@ class GlobalController extends Controller
     // Остаток минут
     static function result_minuts_info($minutes)
     {
+        // '-1' - эта погрешность в одну минуту
+        // Нужно, чтобы для удобства отображалось
+        // Например "1 день" при 60*24 - 1 минутах
         $info = $minutes . ' ' . trans('main.info_minutes');
         if ($minutes > 60 * 24 * 365.75 - 1) {
             $info = intval($minutes / (60 * 24 * 365.75)) . ' ' . trans('main.info_years');
