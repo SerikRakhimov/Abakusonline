@@ -7724,12 +7724,10 @@ class ItemController extends Controller
                                     // Только при просмотре ($for_view == true) вычисляется и выводится на экран
                                     if ($for_view == true) {
                                         $item_output = ItemController::get_item_from_parent_output_calculated_table($item, $link);
+                                        // Эта проверка нужна
                                         if ($item_output) {
                                             $item_result = $item_output;
                                             $array_calc[$link->id] = $item_result->id;
-                                        }
-                                        else{
-                                            dd($link);
                                         }
                                     }
                                 }
