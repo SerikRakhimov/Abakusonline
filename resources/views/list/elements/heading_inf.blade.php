@@ -45,7 +45,8 @@ $emoji_enable = true;
         <?php
         // echo $item_find->nmbr(true, true, false);
         // Исключить $view_link при расчете вычисляемого наименования
-        echo $item_find->nmbr(true, true, false, false, true, GlobalController::set_un_all_par_null($view_link), false, true, $relit_id, $role);
+        // echo $item_find->nmbr(true, true, false, false, true, GlobalController::set_un_all_par_null($view_link), false, true, $relit_id, $role);
+        echo $item_find->nmbr(true, true, false, false, true, GlobalController::set_un_all_par_link_null($view_link), false, true, $relit_id, $role);
         ?>
     </a>
     @endif
