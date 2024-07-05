@@ -166,7 +166,7 @@
                     </a>
                 @endif
                 {{--                        <big/>--}}
-                <div style="font-size:xx-large">{{$view_link}}
+                <div style="font-size:xx-large">
                     {{-- Одинаковые строки рядом (route('item.ext_show'))--}}
                     @if ($base_right['is_list_base_calc'] == true)
                         {{--              Использовать "'heading' => intval(true)", проверяется в окончании функции ItemController:ext_delete()--}}
