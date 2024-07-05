@@ -15,6 +15,12 @@ if ($item_heading_base == true) {
 } else {
     $i = $items->firstItem() - 1;
 }
+// $view_link передаются как число($link->id) или текст(GlobalController::par_link_const_textnull() или GlobalController::par_link_const_text_base_null())
+// $v_link либо приведен к типу link либо null
+$v_link = null;
+if ($view_link) {
+    $v_link = Link::find($view_link);
+}
 $i_par_link = null;
 // Вызов list\table.php из base_index.php
 if ($base_index == true) {
@@ -29,8 +35,10 @@ $tile_view = $base->tile_view($role, $relit_id, $base_right);
 $link_image = $tile_view['link'];
 $num_cols = GlobalController::get_number_of_columns_info();
 $v_label = "";
-if ($view_link) {
-    $v_label = $view_link->child_label();
+// $v_link используется
+if ($v_link) {
+    // $v_link используется
+    $v_label = $v_link->child_label();
 } else {
     $v_label = $base->name();
 }
@@ -49,31 +57,31 @@ if ($view_link) {
     {{-- I.Вывод карт--}}
     @if($base_right['is_view_cards'] == true)
         <div class="card-deck">
-            {{--        $its_page используется--}}
-            @foreach($its_page as $item)
-                <?php
-                $i = $i + 1;
-                $item_find = GlobalController::view_info($item->id, $link_image->id, $role, $relit_id, true);
-                //                $s_title = $v_label . ", id =" . $item->id;
-                //                if ($base->is_code_needed == true) {
-                //                    $s_title = $s_title . ", " . trans('main.code') . " =" . $item->code;
-                //                }
-                ?>
-                @include('list.elements.card',
-               ['project'=>$project, 'item'=>$item, 'item_find'=>$item_find, 'role'=>$role,
-               'i'=>$i,
-               'label_name'=>"",
-               'relit_id'=>$relit_id,
-               'called_from_button'=>0,
-               'view_link'=>$i_par_link,
-               'view_ret_id'=>$view_ret_id,
-               'string_current'=>$string_next,
-               'prev_base_index_page'=>$base_index_page,
-               'prev_body_link_page'=>$body_link_page,
-               'prev_body_all_page'=>$body_all_page])
-<!--                --><?php
-//                $i++;
-//                ?>
+        {{--        $its_page используется--}}
+        @foreach($its_page as $item)
+            <?php
+            $i = $i + 1;
+            $item_find = GlobalController::view_info($item->id, $link_image->id, $role, $relit_id, true);
+            //                $s_title = $v_label . ", id =" . $item->id;
+            //                if ($base->is_code_needed == true) {
+            //                    $s_title = $s_title . ", " . trans('main.code') . " =" . $item->code;
+            //                }
+            ?>
+            @include('list.elements.card',
+           ['project'=>$project, 'item'=>$item, 'item_find'=>$item_find, 'role'=>$role,
+           'i'=>$i,
+           'label_name'=>"",
+           'relit_id'=>$relit_id,
+           'called_from_button'=>0,
+           'view_link'=>$i_par_link,
+           'view_ret_id'=>$view_ret_id,
+           'string_current'=>$string_next,
+           'prev_base_index_page'=>$base_index_page,
+           'prev_body_link_page'=>$body_link_page,
+           'prev_body_all_page'=>$body_all_page])
+            <!--                --><?php
+                //                $i++;
+                //                ?>
                 @if($i % $num_cols == 0)
         </div>
         <div class="card-deck">
