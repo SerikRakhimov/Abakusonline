@@ -725,7 +725,6 @@ class ItemController extends Controller
         if ($next_all_mains) {
             $body_all_page_current = $next_all_mains->currentPage();
         }
-
         // Нужно
         // $view_link = $current_link->id;
         if ($current_link) {
