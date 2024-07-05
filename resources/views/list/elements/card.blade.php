@@ -54,7 +54,7 @@ use \App\Http\Controllers\GlobalController;
         'usercode' =>GlobalController::usercode_calc(),
         'relit_id'=>$relit_id,
         'called_from_button'=>0,
-        'view_link'=>$view_link,
+        'view_link'=>GlobalController::set_par_null($view_link),
         'view_ret_id'=>$view_ret_id,
         'string_current'=>$string_next,
         'prev_base_index_page'=>$base_index_page,
