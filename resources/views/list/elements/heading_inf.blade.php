@@ -29,28 +29,28 @@ $emoji_enable = true;
     @elseif($link->parent_base->type_is_document())
         @include('view.doc',['item'=>$item_find, 'usercode'=>GlobalController::usercode_calc()])
     @else
-    <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item_find, 'role'=>$role,
-        'usercode' =>GlobalController::usercode_calc(),
-        'relit_id'=>$relit_id,
-        'called_from_button'=>0,
-        'view_link'=>GlobalController::set_par_null($view_link),
-        'view_ret_id'=>$view_ret_id,
-        'string_current'=>$string_next,
-        'prev_base_index_page'=>$base_index_page,
-        'prev_body_link_page'=>$body_link_page,
-        'prev_body_all_page'=>$body_all_page,
-        ])}}"
-       class="card-link"
-       title="{{$item_find->name()}}">
+        {{--    <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item_find, 'role'=>$role,--}}
+        {{--        'usercode' =>GlobalController::usercode_calc(),--}}
+        {{--        'relit_id'=>$relit_id,--}}
+        {{--        'called_from_button'=>0,--}}
+        {{--        'view_link'=>GlobalController::set_par_null($view_link),--}}
+        {{--        'view_ret_id'=>$view_ret_id,--}}
+        {{--        'string_current'=>$string_next,--}}
+        {{--        'prev_base_index_page'=>$base_index_page,--}}
+        {{--        'prev_body_link_page'=>$body_link_page,--}}
+        {{--        'prev_body_all_page'=>$body_all_page,--}}
+        {{--        ])}}"--}}
+        {{--       class="card-link"--}}
+        {{--       title="{{$item_find->name()}}">--}}
         <?php
         // echo $item_find->nmbr(true, true, false);
         // Исключить $view_link при расчете вычисляемого наименования
         // echo $item_find->nmbr(true, true, false, false, true, GlobalController::set_un_all_par_null($view_link), false, true, $relit_id, $role);
         echo $item_find->nmbr(true, true, false, false, true, GlobalController::set_un_all_par_link_null($view_link), false, true, $relit_id, $role);
         ?>
-    </a>
+        {{--    </a>--}}
     @endif
-{{--    </article>--}}
+    {{--    </article>--}}
     </span>
 <br>
 <hr class="hr_ext_show">
