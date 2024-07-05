@@ -29,7 +29,7 @@ $emoji_enable = true;
     @elseif($link->parent_base->type_is_document())
         @include('view.doc',['item'=>$item_find, 'usercode'=>GlobalController::usercode_calc()])
     @else
-    <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,
+    <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item_find, 'role'=>$role,
         'usercode' =>GlobalController::usercode_calc(),
         'relit_id'=>$relit_id,
         'called_from_button'=>0,
