@@ -6494,7 +6494,7 @@ class ItemController extends Controller
                 self::func_delete($item, $relit_id, $role);
 
                 // Удаление подчиненных связанных записей
-                self::run_items_ids_for_delete($array_items_ids);
+                self::run_items_ids_for_delete($array_items_ids, $relit_id, $role);
 
             }, 3);  // Повторить три раза, прежде чем признать неудачу
             // окончание транзакции
@@ -6591,12 +6591,12 @@ class ItemController extends Controller
 
 // Удаление $items для удаления
     private static
-    function run_items_ids_for_delete($array_items_ids)
+    function run_items_ids_for_delete($array_items_ids, $relit_id, $role)
     {
         foreach ($array_items_ids as $item_id) {
             $item_find = Item::find($item_id);
             if ($item_find) {
-                self::func_delete($item_find);
+                self::func_delete($item_find, $relit_id, $role);
             }
         }
     }
