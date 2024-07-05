@@ -38,6 +38,12 @@
 
     // Нужно
     $view_link = GlobalController::set_un_par_null($view_link);
+    // $view_link передаются как число($link->id) или текст(GlobalController::par_link_const_textnull() или GlobalController::par_link_const_text_base_null())
+    // $v_link либо приведен к типу link либо null
+    $v_link = null;
+    if ($view_link) {
+        $v_link = Link::find($view_link);
+    }
     // 'if (isset($parent_ret_id))' нужно
     if (isset($parent_ret_id)) {
         $parent_ret_id = GlobalController::set_un_par_null($parent_ret_id);
@@ -132,9 +138,11 @@
         //                $title = $item->base->name($emoji_enable);
         //            }
         // Нужно так использовать '&&'
-        if (($view_link) && ($item->id == $it_local->id)) {
+        // $v_link используется
+        if (($v_link) && ($item->id == $it_local->id)) {
             // true - с эмодзи
-            $title = $view_link->parent_label($emoji_enable);
+            // $v_link используется
+            $title = $v_link->parent_label($emoji_enable);
         } else {
             $title = $it_local->base->name($emoji_enable);
         }
