@@ -456,13 +456,16 @@ class ItemController extends Controller
         }
 
         // Нужно
-        // Два блока с одинаковым алгоритмом
         if ($view_link == null || $view_link == GlobalController::par_link_const_textnull() || $view_link == GlobalController::par_link_const_text_base_null()) {
             // Нужно '$view_link = null;'
             $view_link = null;
-        } else {
-            $view_link = Link::find($view_link);
         }
+        // Не нужны строки
+//        } else {
+//            $view_link = Link::find($view_link);
+//        }
+
+        // $view_link передаются как число($link->id) или текст(GlobalController::par_link_const_textnull() или GlobalController::par_link_const_text_base_null())
 
         // Если переход на другой link, то тогда $it_local не равен $item
         // $it_local - переданные в функцию значение
@@ -1269,12 +1272,20 @@ class ItemController extends Controller
 //                        $base_link_right = GlobalController::base_link_right($link, $role, $relit_id, true, $key);
                         // "GlobalController::base_link_right($link, $role,$key,true)" - true обязательно нужно
                         $base_link_right = GlobalController::base_link_right($link, $role, $key, true);
+                        // $view_link передаются как число($link->id) или текст(GlobalController::par_link_const_textnull() или GlobalController::par_link_const_text_base_null())
+                        // $v_link либо приведен к типу link либо null
+                        $v_link = null;
+                        if ($view_link) {
+                            $v_link = Link::find($view_link);
+                        }
                         // Проверка 'Доступность ввода данных на основе проверки истории (links)'
                         // Используется "GlobalController::is_checking_add_history()"
-                        $is_checking_add_history = GlobalController::is_checking_add_history($role, $relit_id, $view_link, $item);
+                        // $v_link передается в качестве параметра
+                        $is_checking_add_history = GlobalController::is_checking_add_history($role, $relit_id, $v_link, $item);
                         // Проверка 'Доступность ввода данных на основе проверки заполненности данных (links)'
                         // Используется "GlobalController::is_checking_add_empty()"
-                        $is_checking_add_empty = GlobalController::is_checking_add_empty($role, $relit_id, $view_link, $item);
+                        // $v_link передается в качестве параметра
+                        $is_checking_add_empty = GlobalController::is_checking_add_empty($role, $relit_id, $v_link, $item);
                         // Использовать две этих проверки
                         if (!(($base_link_right['is_body_link_enable'] == true) && ($base_link_right['is_list_base_calc'] == true))) {
                             unset($array_link_relips[$key]);
@@ -1352,7 +1363,7 @@ class ItemController extends Controller
         if (count($array_relips) > 0) {
             // Использовать '!is_null($view_ret_id)' чтобы правильно срабатывал алгоритм при $view_ret_id = 0
             if (!is_null($view_ret_id)) {
-                // Проверка, есть ли $view_link в $next_all_links
+                // Проверка, есть ли $view_ret_id в $next_all_links
                 foreach ($array_relips as $key => $array_relip) {
                     if ($key == $view_ret_id) {
                         $current_vw_ret_id = $view_ret_id;
@@ -2141,7 +2152,6 @@ class ItemController extends Controller
         // Похожая строка внизу
         // создать уникальный идентификато
         $code_uniqid = uniqid($base->id . '_', true);
-        //$view_link = GlobalController::set_view_link_null($view_link);
 
         //$array_parent_related = GlobalController::get_array_parent_related($base);
 //        'string_all_codes_current' => $string_all_codes_current,
@@ -2165,7 +2175,8 @@ class ItemController extends Controller
             'is_view_lt_minutes' => $is_view_lt_minutes,
             'base_index_page' => $base_index_page, 'body_link_page' => $body_link_page, 'body_all_page' => $body_all_page,
             'parent_ret_id' => $parent_ret_id,
-            'view_link' => GlobalController::set_par_null($view_link),
+//          'view_link' => GlobalController::set_par_null($view_link),
+            'view_link' => $view_link,
             'saveurl_add' => $saveurl_add,
             'level' => $level,
             'par_link' => $par_link,
@@ -6409,7 +6420,6 @@ class ItemController extends Controller
             }
             // Не удалять
             if (1 == 2) {
-                $str_link = '';
                 if ($base_index_page > 0) {
                     // Только при удалении эти строки
                     if ($base_index_page > 1) {
@@ -6615,9 +6625,9 @@ class ItemController extends Controller
             // Переход по сохраненной ссылке
             return redirect($saveurl_ret);
         }
+        $str_link = '';
         // Не удалять
         if (1 == 2) {
-            $str_link = '';
             if ($base_index_page > 0) {
                 // Только при удалении эти строки
 //            if ($base_index_page > 1) {
