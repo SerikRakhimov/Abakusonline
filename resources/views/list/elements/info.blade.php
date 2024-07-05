@@ -48,7 +48,8 @@ use \App\Http\Controllers\GlobalController;
             // echo $item->nmbr(true, true, false);
             // Исключить $view_link при расчете вычисляемого наименования
             // echo $item->nmbr(true, true, false, false, false, GlobalController::set_un_all_par_null($view_link), false, true, $relit_id, $role);
-            echo $item->nmbr(true, true, false, false, false, GlobalController::set_un_all_par_link_null($view_link), false, true, $relit_id, $role);
+            echo $view_link . '-';
+            //echo $item->nmbr(true, true, false, false, false, GlobalController::set_un_all_par_link_null($view_link), false, true, $relit_id, $role);
             ?>
             </span>
         {{-- 'Показывать признак "В истории" при просмотре списков'--}}
