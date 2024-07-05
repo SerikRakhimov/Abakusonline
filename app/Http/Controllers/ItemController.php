@@ -455,6 +455,7 @@ class ItemController extends Controller
                 $string_all_codes_current);
         }
 
+        // $view_link передаются как число($link->id) или текст(GlobalController::par_link_const_textnull() или GlobalController::par_link_const_text_base_null())
         // Нужно
         if ($view_link == null || $view_link == GlobalController::par_link_const_textnull() || $view_link == GlobalController::par_link_const_text_base_null()) {
             // Нужно '$view_link = null;'
@@ -465,9 +466,7 @@ class ItemController extends Controller
 //            $view_link = Link::find($view_link);
 //        }
 
-        // $view_link передаются как число($link->id) или текст(GlobalController::par_link_const_textnull() или GlobalController::par_link_const_text_base_null())
-
-        // Если переход на другой link, то тогда $it_local не равен $item
+         // Если переход на другой link, то тогда $it_local не равен $item
         // $it_local - переданные в функцию значение
         // $item, $view_link - рассчитанные с учетом признака 'parent_is_tree_top'
         $it_local = $item;
@@ -1153,6 +1152,13 @@ class ItemController extends Controller
 
     function next_all_links_mains_calc(Project $project, Item $item, Role $role, $relit_id, $view_link, $view_ret_id, $tree_array, $base_right, $called_from_button)
     {
+        // $view_link передаются как число($link->id) или текст(GlobalController::par_link_const_textnull() или GlobalController::par_link_const_text_base_null())
+        // $v_link либо приведен к типу link либо null
+        $v_link = null;
+        if ($view_link) {
+            $v_link = Link::find($view_link);
+        }
+
         // Блок расчета данных по $item($item->base, $item->template)
         // Список доступных связей
         $base = $item->base;
@@ -1161,6 +1167,7 @@ class ItemController extends Controller
             ->where('parent_is_base_link', false)
             ->where('parent_is_output_calculated_table_field', false)
             ->sortBy('child_base_number');
+
         $next_all_links = array();
         $next_all_links_ids = array();
         $next_all_links_user_ids = array();
@@ -1272,12 +1279,6 @@ class ItemController extends Controller
 //                        $base_link_right = GlobalController::base_link_right($link, $role, $relit_id, true, $key);
                         // "GlobalController::base_link_right($link, $role,$key,true)" - true обязательно нужно
                         $base_link_right = GlobalController::base_link_right($link, $role, $key, true);
-                        // $view_link передаются как число($link->id) или текст(GlobalController::par_link_const_textnull() или GlobalController::par_link_const_text_base_null())
-                        // $v_link либо приведен к типу link либо null
-                        $v_link = null;
-                        if ($view_link) {
-                            $v_link = Link::find($view_link);
-                        }
                         // Проверка 'Доступность ввода данных на основе проверки истории (links)'
                         // Используется "GlobalController::is_checking_add_history()"
                         // $v_link передается в качестве параметра
@@ -1555,17 +1556,22 @@ class ItemController extends Controller
         $current_link = null;
 // Блок проверки и вычисления $current_link
         if (count($next_all_links) > 0) {
-            if ($view_link) {
+            // $v_link используется
+            if ($v_link) {
                 // Проверка, есть ли $view_link в $next_all_links
                 foreach ($next_all_links as $next_all_link) {
-                    if ($next_all_link->id == $view_link->id) {
-                        $current_link = $view_link;
+                    // $v_link используется
+                    if ($next_all_link->id == $v_link->id) {
+                        // $v_link используется
+                        $current_link = $v_link;
                         break;
                     }
                 }
             }
             if (is_null($current_link)) {
+                // $view_link используется
                 if ($view_link) {
+                    // $view_link используется
                     if ($view_link == GlobalController::par_link_const_text_base_null()) {
                         if ($base_right['is_heading']) {
                             // Если не найдены, то берем первый $link по списку
