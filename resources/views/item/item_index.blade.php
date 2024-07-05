@@ -536,8 +536,10 @@
                         }
                         // Находим родительский проект
                         $relip_select_body_project = Project::findOrFail($array_relip_id);
-                        if ($view_link) {
-                            $view_value_link = $view_link->id;
+                        // $v_link используется
+                        if ($v_link) {
+                            // $v_link используется
+                            $view_value_link = $v_link->id;
                         } else {
                             $view_value_link = GlobalController::const_null();
                         }
@@ -706,8 +708,10 @@
                                     {{--                                        @endif--}}
                                 >
                                 {{$child_labels}}</span>
-                                    @if(isset($view_link))
-                                        @if($value->id == $view_link->id)
+                                    {{-- $v_link используется--}}
+                                    @if(isset($v_link))
+                                        {{-- $v_link используется--}}
+                                        @if($value->id == $v_link->id)
                                             {{--                                            Этот символ используется в двух местах--}}
                                             &#10003;
                                         @endif
@@ -731,7 +735,8 @@
     {{--Похожие команды в ItemController::calc_tree_array() и item_index.php--}}
     @if($view_link)
         <?php
-        $level_array = $view_link->child_base->level_array();
+        // $v_link используется
+        $level_array = $v_link->child_base->level_array();
         ?>
         {{--        <hr>--}}
         {{--        <br>--}}
@@ -808,13 +813,14 @@
                             {{--                        @else--}}
                             {{--                            {{$item->base->name()}}:--}}
                             {{--                        @endif--}}
+                            {{-- $v_link используется--}}
                             @if($base_body_right['is_bsmn_base_enable'] == true)
-                                <a href="{{route('item.base_index', ['base'=>$view_link->child_base,
+                                <a href="{{route('item.base_index', ['base'=>$v_link->child_base,
                         'project'=>$project, 'role'=>$role, 'relit_id'=>$view_ret_id])}}"
-                                   title="{{$view_link->child_base->names($base_body_right) . $message_ln_info}}">
+                                   title="{{$v_link->child_base->names($base_body_right) . $message_ln_info}}">
                                     @endif
-                                    {{--                                    {{$view_link->child_labels($base_body_right)}}:--}}
-                                    {{$view_link->child_labels($emoji_enable, $base_body_right)}}
+                                    {{-- $v_link используется--}}
+                                    {{$v_link->child_labels($emoji_enable, $base_body_right)}}
                                     @if($base_body_right['is_bsmn_base_enable'] == true)
                                 </a>
                             @endif
@@ -826,7 +832,8 @@
                     {{--                Такая же проверка на 'is_list_base_create' == true && 'is_edit_link_update' == true в item_index.php и ItemController.php--}}
                     {{--                @if ($base_body_right['is_list_base_create'] == true)--}}
                     {{--                    @if ($base_body_right['is_list_base_create'] == true && $base_body_right['is_edit_link_update'] == true)--}}
-                    @if ($next_all_is_create[$view_link->id] == true)
+                    {{-- $v_link используется--}}
+                    @if ($next_all_is_create[$v_link->id] == true)
                         @if($message_ln_validate == "")
                             <!--                                --><?php
                                 //                                $heading = 0;
@@ -850,7 +857,8 @@
                                         </button>
                                         <div class="dropdown-menu">
                                             {{-- Корректировать все поля формы--}}
-                                            <a class="dropdown-item" href="{{route('item.ext_create', ['base'=>$view_link->child_base_id,
+                                            {{-- $v_link используется--}}
+                                            <a class="dropdown-item" href="{{route('item.ext_create', ['base'=>$v_link->child_base_id,
                                     'project'=>$project, 'role'=>$role,
                                     'usercode' =>GlobalController::usercode_calc(),
                          'relit_id' => $relit_body_id,
@@ -877,7 +885,8 @@
                                                 $level_name = '(' . mb_strtolower($level->name()) . ')';
                                                 ?>
                                                 @if($level)
-                                                    <a class="dropdown-item" href="{{route('item.ext_create', ['base'=>$view_link->child_base_id,
+                                                        {{-- $v_link используется--}}
+                                                    <a class="dropdown-item" href="{{route('item.ext_create', ['base'=>$v_link->child_base_id,
                                     'project'=>$project, 'role'=>$role,
                                     'usercode' =>GlobalController::usercode_calc(),
                          'relit_id' => $relit_body_id,
@@ -904,9 +913,10 @@
                                     </div>
                                 @else
                                     {{-- Выводится $message_mc--}}
+                                    {{-- $v_link используется--}}
                                     <button type="button" class="btn btn-dreamer btn-sm"
-                                            title="{{trans('main.add'). " '" . $view_link->child_base->name() . "'" . $message_ln_info}}"
-                                            onclick="document.location='{{route('item.ext_create', ['base'=>$view_link->child_base_id,
+                                            title="{{trans('main.add'). " '" . $v_link->child_base->name() . "'" . $message_ln_info}}"
+                                            onclick="document.location='{{route('item.ext_create', ['base'=>$v_link->child_base_id,
                                     'project'=>$project, 'role'=>$role,
                                     'usercode' =>GlobalController::usercode_calc(),
                          'relit_id' => $relit_body_id,
@@ -943,7 +953,8 @@
                 {{--        'view_link' передается затем (в list\table.php) в 'item.ext_show' как 'par_link'--}}
                 {{--        Параметры 'relit_id' и 'view_ret_id' передаются в зависимости от значения $heading--}}
                 {{--        "'its_page'=>$its_body_page->get()" "->get()" нужно--}}
-                @include('list.table',['base'=>$view_link->child_base, 'project'=>$project, 'role'=>$role,
+                {{-- $v_link используется--}}
+                @include('list.table',['base'=>$v_link->child_base, 'project'=>$project, 'role'=>$role,
             'links_info'=>$child_body_links_info,
             'items'=>$body_items,
             'its_page'=>$its_body_page,
