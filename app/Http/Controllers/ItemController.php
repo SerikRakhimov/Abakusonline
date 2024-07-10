@@ -3055,6 +3055,7 @@ class ItemController extends Controller
                 foreach ($get_child_links as $key => $link) {
                     $link_id = $link->id;
                     if ($link->parent_is_unique == true) {
+                        $items_unique_bases = $items_unique_bases . ($items_unique_exist == false ? '' : ', ') . $link->parent_base->name();
                         $main = Main::where('child_item_id', $item->id)->where('link_id', $link_id)->first();
                         if ($main) {
                             $parent_item_id = $main->parent_item_id;
@@ -3062,7 +3063,6 @@ class ItemController extends Controller
                                 $query->where('link_id', $link_id)
                                     ->where('parent_item_id', $parent_item_id);
                             });
-                            $items_unique_bases = $items_unique_bases . ($items_unique_exist == false ? '' : ', ') . $link->parent_base->name();;
                             // Нужно '$items_unique_exist = true;'
                             $items_unique_exist = true;
                         }
