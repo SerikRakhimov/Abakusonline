@@ -223,7 +223,8 @@ if ($v_link) {
                         {{--                Если тип-вычисляемое наименование и Показывать Основу с вычисляемым наименованием--}}
                         {{--                или если тип-не вычисляемое наименование--}}
                         {{--            похожая проверка в ext_show.blade.php--}}
-                        {{--                        @if(GlobalController::is_base_calcname_check($base))--}}
+                        {{-- @if(GlobalController::is_base_calcname_check($base))--}}
+                        {{-- Нужно передавать $base_right: @if(GlobalController::is_base_calcname_check($base, $base_right)) --}}
                         @if(GlobalController::is_base_calcname_check($base, $base_right))
                             <th rowspan="{{$rows + 1 - 1}}" @include('layouts.class_from_base',['base'=>$base, 'align_top'=>true])>
                                 {{--                        {{trans('main.name')}}--}}
@@ -426,8 +427,9 @@ if ($v_link) {
                             {{--                или если тип-не вычисляемое наименование--}}
                             {{--                похожая проверка в list\table.php, ItemController::item_index() и ext_show.php--}}
                             {{-- Вывод вычисляемого наименования--}}
-                            {{-- @if(GlobalController::is_base_calcname_check($base, $base_right))--}}
-                            @if(GlobalController::is_base_calcname_check($base))
+                            {{-- @if(GlobalController::is_base_calcname_check($base))--}}
+                            {{-- Нужно передавать $base_right: @if(GlobalController::is_base_calcname_check($base, $base_right)) --}}
+                            @if(GlobalController::is_base_calcname_check($base, $base_right))
                                 <td @include('layouts.class_from_base',['base'=>$base])>
                                     @if($base->type_is_image)
                                         {{--                                @include('view.img',['item'=>$item, 'size'=>"small", 'border'=>true, 'filenametrue'=>false, 'link'=>true, 'img_fluid'=>false, 'card_img_top'=>false, 'title'=>""])--}}
@@ -504,7 +506,7 @@ if ($v_link) {
                                                 {{--                                            "$item->name()" чтобы быстрее выводилось на экран--}}
                                                 {{-- @include('layouts.item.empty_name', ['name'=>$item->name()])--}}
                                                 {{-- nmbr(true): $fullname = true/false - вывод полной строки (более 255 символов), исключить $view_link при расчете вычисляемого наименования--}}
-                                                @include('layouts.item.empty_name', ['name'=>$item->nmbr(true, false, false, false, false, GlobalController::set_un_all_par_null($i_par_link), false, true, $relit_id, $role)])
+                                                @include('layouts.item.empty_name', ['name'=>$item->nmbr(true, false, false, false, false, GlobalController::set_un_all_par_link_null($i_par_link), false, true, $relit_id, $role)])
                                                 @if ($item_index_view)
                                             </a>
                                         @endif
