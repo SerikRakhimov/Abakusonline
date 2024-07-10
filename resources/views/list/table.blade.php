@@ -223,8 +223,8 @@ if ($v_link) {
                         {{--                Если тип-вычисляемое наименование и Показывать Основу с вычисляемым наименованием--}}
                         {{--                или если тип-не вычисляемое наименование--}}
                         {{--            похожая проверка в ext_show.blade.php--}}
-                        {{-- @if(GlobalController::is_base_calcname_check($base, $base_right))--}}
-                        @if(GlobalController::is_base_calcname_check($base))
+                        {{--                        @if(GlobalController::is_base_calcname_check($base))--}}
+                        @if(GlobalController::is_base_calcname_check($base, $base_right))
                             <th rowspan="{{$rows + 1 - 1}}" @include('layouts.class_from_base',['base'=>$base, 'align_top'=>true])>
                                 {{--                        {{trans('main.name')}}--}}
                                 {{--                                @if($view_link)--}}

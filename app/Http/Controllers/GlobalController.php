@@ -1441,9 +1441,8 @@ class GlobalController extends Controller
 //  Если тип-вычисляемое наименование(Вычисляемое наименование) и Показывать Основу с вычисляемым наименованием
 //  или если тип-не вычисляемое наименование(Вычисляемое наименование)
 //  В $base_right могут передаваться и $base_right и $base_link_right
-//    static function is_base_calcname_check($base, $base_right)
-    static function is_base_calcname_check($base)
 //    static function is_base_calcname_check($base)
+    static function is_base_calcname_check($base, $base_right = null)
     {
 //        $var = ($base->is_calcname_lst == true && $base_right['is_all_base_calcname_enable'] == true)
 //            || ($base->is_calcname_lst == false);
@@ -1459,12 +1458,15 @@ class GlobalController extends Controller
         $result = ($base->is_calcname_lst == true && $base->is_calcnm_correct_lst == true)
             || ($base->is_calcname_lst == false);
         // Не нужно
-//        if ($result) {
-//            // Одинаковое условие 'if ($base_right['is_list_base_upd_del'])' в GlobalController::is_base_calcname_check() и Base::tile_view()
-//            if ($base_right['is_list_base_upd_del']) {
-//                $result = false;
-//            }
-//        }
+        if ($result) {
+            // Если передано $base_right
+            if ($base_right) {
+                // Одинаковое условие 'if ($base_right['is_list_base_upd_del'])' в GlobalController::is_base_calcname_check() и Base::tile_view()
+                if ($base_right['is_list_base_upd_del']) {
+                    $result = false;
+                }
+            }
+        }
         return $result;
     }
 
