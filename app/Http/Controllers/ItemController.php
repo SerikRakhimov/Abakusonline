@@ -4978,7 +4978,6 @@ class ItemController extends Controller
         //    }
 
         $relip_project = GlobalController::calc_relip_project($relit_id, $project);
-
         // Расшифровка
         $saveurl_edit = GlobalController::set_un_url_save($saveurl_edit);
 

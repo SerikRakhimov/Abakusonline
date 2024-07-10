@@ -1328,6 +1328,8 @@
                     val_setup = "visible";
                     val_code_needed = "visible";
                     val_limit_sign_code = "visible";
+                    // Код записи использует только при типе данных список,
+                    // чтобы в основе,которое использует это поле, тоже использовалось поле с типом список
                     val_code_number = "visible";
                     val_significance_code = "visible";
                     val_code_zeros = "visible";

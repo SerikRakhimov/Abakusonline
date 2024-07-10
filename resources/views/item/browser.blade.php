@@ -222,6 +222,9 @@ $num_cols = GlobalController::get_number_of_columns_brow();
             </thead>
             <tbody>
             @foreach($items as $it)
+                <?php
+                $it_name = $it->name();
+                ?>
                 @if($link_image)
                     <?php
                     $item_find = GlobalController::view_info($it->id, $link_image->id);
