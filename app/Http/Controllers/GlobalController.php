@@ -1441,7 +1441,8 @@ class GlobalController extends Controller
 //  Если тип-вычисляемое наименование(Вычисляемое наименование) и Показывать Основу с вычисляемым наименованием
 //  или если тип-не вычисляемое наименование(Вычисляемое наименование)
 //  В $base_right могут передаваться и $base_right и $base_link_right
-    static function is_base_calcname_check($base, $base_right)
+//    static function is_base_calcname_check($base, $base_right)
+    static function is_base_calcname_check($base)
 //    static function is_base_calcname_check($base)
     {
 //        $var = ($base->is_calcname_lst == true && $base_right['is_all_base_calcname_enable'] == true)
@@ -1457,12 +1458,13 @@ class GlobalController extends Controller
 //            || ($base->is_calcname_lst == false);
         $result = ($base->is_calcname_lst == true && $base->is_calcnm_correct_lst == true)
             || ($base->is_calcname_lst == false);
-        if ($result) {
-            // Одинаковое условие 'if ($base_right['is_list_base_upd_del'])' в GlobalController::is_base_calcname_check() и Base::tile_view()
-            if ($base_right['is_list_base_upd_del']) {
-                $result = false;
-            }
-        }
+        // Не нужно
+//        if ($result) {
+//            // Одинаковое условие 'if ($base_right['is_list_base_upd_del'])' в GlobalController::is_base_calcname_check() и Base::tile_view()
+//            if ($base_right['is_list_base_upd_del']) {
+//                $result = false;
+//            }
+//        }
         return $result;
     }
 
@@ -3035,7 +3037,7 @@ class GlobalController extends Controller
     static function set_un_all_par_link_null($val)
     {
         $result = self::set_un_all_par_null($val);
-        if($result != null){
+        if ($result != null) {
             $result = Link::find($result);
         }
         return $result;

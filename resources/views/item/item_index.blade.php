@@ -151,7 +151,8 @@
         {{--                    Выводить вычисляемое наименование--}}
         {{-- Одинаковые проверки должны быть в ItemController::item_index() и в item_index.php--}}
         {{-- здесь равно true--}}
-        @if(GlobalController::is_base_calcname_check($it_local->base, $base_right))
+        {{-- @if(GlobalController::is_base_calcname_check($it_local->base, $base_right))--}}
+        @if(GlobalController::is_base_calcname_check($it_local->base))
             <div class="col-12 text-center">
                 {{--                    <big>--}}
                 {{--                    <h6>--}}
@@ -291,7 +292,7 @@
             @if($item_image['item'])
                 {{--            В table.php идет проверка на $link_image (вычисляется вначале table.php командой "$link_image = $tile_view['link'];")--}}
                 <center>
-{{--                @include('view.img',['item'=>$item_image['item'], 'size'=>"medium", 'width'=>"30%", 'border'=>true, 'filenametrue'=>false, 'link'=>true, 'img_fluid'=>true, 'card_img_top'=>false, 'title'=>$link_image->parent_label()])--}}
+                    {{--                @include('view.img',['item'=>$item_image['item'], 'size'=>"medium", 'width'=>"30%", 'border'=>true, 'filenametrue'=>false, 'link'=>true, 'img_fluid'=>true, 'card_img_top'=>false, 'title'=>$link_image->parent_label()])--}}
                     @include('view.img',['item'=>$item_image['item'], 'width'=>"25%", 'border'=>true, 'filenametrue'=>false, 'link'=>true, 'img_fluid'=>true, 'card_img_top'=>false, 'title'=>$link_image->parent_label()])
                     <?php
                     $nolink_id = $link_image->id;
@@ -886,7 +887,7 @@
                                                 $level_name = '(' . mb_strtolower($level->name()) . ')';
                                                 ?>
                                                 @if($level)
-                                                        {{-- $v_link используется--}}
+                                                    {{-- $v_link используется--}}
                                                     <a class="dropdown-item" href="{{route('item.ext_create', ['base'=>$v_link->child_base_id,
                                     'project'=>$project, 'role'=>$role,
                                     'usercode' =>GlobalController::usercode_calc(),
