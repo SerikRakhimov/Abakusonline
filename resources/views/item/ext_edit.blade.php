@@ -1577,7 +1577,6 @@
                         {{--                            @endif--}}
                         {{--                        } else {--}}
                         {{-- Здесь правильные проверки на условия--}}
-                        alert(document.getElementById('code1347').value);
                         @if(($link_start_child->parent_is_base_link == true) || ($link_start_child->parent_base->is_code_needed==true && $link_start_child->parent_is_enter_refer==true))
                         @else
                         await axios.get('/item/get_items_main_options/'
@@ -1616,7 +1615,7 @@
                 {{-- Событие на изменение значения--}}
                 @if($link->parent_base->is_code_needed==true && $link->parent_is_enter_refer==true)
                 {{--Не нужно--}}
-                document.getElementById('code{{$link->id}}').addEventListener("change", link_id_changeOption_{{$prefix}}{{$link->id}});
+                {{--document.getElementById('code{{$link->id}}').addEventListener("change", link_id_changeOption_{{$prefix}}{{$link->id}});--}}
                 @else
                 document.getElementById('link{{$link->id}}').addEventListener("change", link_id_changeOption_{{$prefix}}{{$link->id}});
                 <?php
