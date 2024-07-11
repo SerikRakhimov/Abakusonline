@@ -8685,7 +8685,8 @@ class ItemController extends Controller
     }
 
 // Выборка данных в виде списка
-    static function get_items_main_options(Base $base, Base $p_bs, Project $project, Role $role, $relit_id, Link $link, $cd_it_id, Boolean $is_code, $par_link_id = null, $parent_item_id = null)
+// 'Bool $is_code' правильно, 'Boolean $is_code' неправильно
+    static function get_items_main_options(Base $base, Base $p_bs, Project $project, Role $role, $relit_id, Link $link, $cd_it_id, Bool $is_code, $par_link_id = null, $parent_item_id = null)
     {
         $base_right = GlobalController::base_right($base, $role, $relit_id);
         $base_link_right = null;

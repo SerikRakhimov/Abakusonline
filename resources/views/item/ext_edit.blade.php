@@ -1619,6 +1619,7 @@
                 {{-- Событие на изменение значения--}}
                 @if($link->parent_base->is_code_needed==true && $link->parent_is_enter_refer==true)
                 {{--Не нужно--}}
+                {{--Нужно--}}
                 document.getElementById('code{{$link->id}}').addEventListener("change", link_id_changeOption_{{$prefix}}{{$link->id}});
                 @else
                 document.getElementById('link{{$link->id}}').addEventListener("change", link_id_changeOption_{{$prefix}}{{$link->id}});
