@@ -1539,6 +1539,7 @@
                 {{--                @if(($link->parent_is_base_link == true) || ($link->parent_base->is_code_needed==true && $link->parent_is_enter_refer==true))--}}
                 @if($link->parent_base->is_code_needed==true && $link->parent_is_enter_refer==true)
                 var parent_base_id{{$prefix}}{{$link->id}} = document.getElementById('{{$link->id}}');
+                var parent_code_id{{$prefix}}{{$link->id}} = document.getElementById('code{{$link->id}}');
                 @else
                 var parent_base_id{{$prefix}}{{$link->id}} = document.getElementById('link{{$link->id}}');
 
@@ -1580,11 +1581,14 @@
                         @if(($link_start_child->parent_is_base_link == true) || ($link_start_child->parent_base->is_code_needed==true && $link_start_child->parent_is_enter_refer==true))
                         @else
                         await axios.get('/item/get_items_main_options/'
-                        + '{{$link_start_child->parent_base_id}}' + '/' + {{$project->id}} + '/' + {{$role->id}} + '/' + {{$relit_id}} + '/' + {{$link_get->id}}
+                        + '{{$link_start_child->parent_base_id}}' + '/' + {{$link->parent_base_id}} + '/' + {{$project->id}} + '/' + {{$role->id}} + '/' + {{$relit_id}} + '/' + {{$link_get->id}}
+
                             @if(($link->parent_is_base_link == true) || ($link->parent_base->is_code_needed==true && $link->parent_is_enter_refer==true))
-                        + '/' + parent_base_id{{$prefix}}{{$link->id}}.value
+                            {{-- '/1' - признак передачи кода--}}
+                        + '/' + parent_code_id{{$prefix}}{{$link->id}}.value + '/1'
                         @else
-                        + '/' + parent_base_id{{$prefix}}{{$link->id}}.options[parent_base_id{{$prefix}}{{$link->id}}.selectedIndex].value
+                        {{-- '/0' - признак передачи $item_id--}}
+                        + '/' + parent_base_id{{$prefix}}{{$link->id}}.options[parent_base_id{{$prefix}}{{$link->id}}.selectedIndex].value + '/0'
                         @endif
                         {{--                    @if($par_link & $parent_item) - так не использовать (дает ошибку) --}}
                         @if($par_link && $parent_item)
@@ -1615,7 +1619,7 @@
                 {{-- Событие на изменение значения--}}
                 @if($link->parent_base->is_code_needed==true && $link->parent_is_enter_refer==true)
                 {{--Не нужно--}}
-                {{--document.getElementById('code{{$link->id}}').addEventListener("change", link_id_changeOption_{{$prefix}}{{$link->id}});--}}
+                document.getElementById('code{{$link->id}}').addEventListener("change", link_id_changeOption_{{$prefix}}{{$link->id}});
                 @else
                 document.getElementById('link{{$link->id}}').addEventListener("change", link_id_changeOption_{{$prefix}}{{$link->id}});
                 <?php

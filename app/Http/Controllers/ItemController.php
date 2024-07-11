@@ -550,7 +550,7 @@ class ItemController extends Controller
         // здесь равно false
         // Исключить link_id из $child_mains_link_is_calcname в итоговом результате функции links_info()
         if (GlobalController::is_base_calcname_check($it_local->base, $base_right) == false) {
-        //if (GlobalController::is_base_calcname_check($it_local->base) == false) {
+            //if (GlobalController::is_base_calcname_check($it_local->base) == false) {
             $para_child_mains_link_is_calcname = $child_mains_link_is_calcname;
         }
         // Нужно передать в функцию links_info() $item
@@ -653,7 +653,7 @@ class ItemController extends Controller
 //                           похожая проверка в list\table.php, ItemController::item_index() и ext_show.php
                 // '== false' используется
                 if (GlobalController::is_base_calcname_check($current_link->child_base, $base_body_right) == false) {
-                // if (GlobalController::is_base_calcname_check($current_link->child_base) == false) {
+                    // if (GlobalController::is_base_calcname_check($current_link->child_base) == false) {
                     // Не исключать переданный $nolink - null
                     // В таблице 'item_body_base' должно быть как минимум два столбца: номер строки с вызовом 'item.show'
                     // и вычисляемое наименование, код, связи для вызова 'item.item_index'.
@@ -1199,8 +1199,8 @@ class ItemController extends Controller
             //$array_link_relips = [];
             // Выводить вычисляемое наименование
             // Использовать '$link->child_base'
-              $br = GlobalController::base_right($link->child_base, $role, $relit_id);
-              $is_calcname = GlobalController::is_base_calcname_check($link->child_base, $br);
+            $br = GlobalController::base_right($link->child_base, $role, $relit_id);
+            $is_calcname = GlobalController::is_base_calcname_check($link->child_base, $br);
 //            $is_calcname = GlobalController::is_base_calcname_check($link->child_base);
 //            // Текущий проект
 //            $array_link_relips[0] = $project->id;
@@ -8180,7 +8180,7 @@ class ItemController extends Controller
         return view('message', ['message' => $result]);
     }
 
-    function item_from_base_code(Base $base, Project $project, $code)
+    static function item_from_base_code(Base $base, Project $project, $code)
     {
         $item_id = 0;
         $item_name = trans('main.no_information') . '!';
@@ -8309,7 +8309,7 @@ class ItemController extends Controller
             if ($base_link_right['is_list_link_enable'] == true) {
                 $base_right = GlobalController::base_right($link->child_base, $role, $relit_id);
                 if (GlobalController::is_base_calcname_check($link->child_base, $base_right) == true) {
-                // if (GlobalController::is_base_calcname_check($link->child_base) == true) {
+                    // if (GlobalController::is_base_calcname_check($link->child_base) == true) {
                     // Исключить links с признаком 'Для вычисляемого наименования'
                     if ($link->parent_is_calcname == true) {
                         $links = $links->where('id', '!=', $link->id);
@@ -8497,7 +8497,7 @@ class ItemController extends Controller
         //        Если не тип-вычисляемое наименование и Показывать Основу с вычисляемым наименованием
         //        или если тип-не вычисляемое наименование
         if (!GlobalController::is_base_calcname_check($base, $base_right)) {
-        // if (!GlobalController::is_base_calcname_check($base)) {
+            // if (!GlobalController::is_base_calcname_check($base)) {
             // Оставить links с признаком 'Для вычисляемого наименования'
             $mains = $mains->whereHas('link', function ($query) {
                 $query->where('parent_is_calcname', true);
@@ -8685,10 +8685,20 @@ class ItemController extends Controller
     }
 
 // Выборка данных в виде списка
-    static function get_items_main_options(Base $base, Project $project, Role $role, $relit_id, Link $link = null, $item_id = null, $par_link_id = null, $parent_item_id = null)
+    static function get_items_main_options(Base $base, Base $p_bs, Project $project, Role $role, $relit_id, Link $link, $cd_it_id, Boolean $is_code, $par_link_id = null, $parent_item_id = null)
     {
         $base_right = GlobalController::base_right($base, $role, $relit_id);
         $base_link_right = null;
+        $item_id = null;
+        if ($is_code == true) {
+            // В переменную $cd_it_id передается код
+            // $p_bs (Base) - нужно для поиска $item->id по коду
+            // Поиск $item->id по коду $cd_it_id, $p_bs (Base), $project (Project)
+            $item_id = self::item_from_base_code($p_bs, $project, $cd_it_id)['item_id'];
+        } else {
+            // В переменную $cd_it_id передается $item->id
+            $item_id = $cd_it_id;
+        }
         //$items_main = self::get_items_main($base, $project, $role, $relit_id, $base_right['is_list_hist_records_enable'], $link, $item);
         $items_main = self::get_items_main($base, $project, $role, $relit_id, $base_right['is_brow_hist_records_enable'], $link, $item_id);
         $items_no_get = $items_main['items_no_get'];
