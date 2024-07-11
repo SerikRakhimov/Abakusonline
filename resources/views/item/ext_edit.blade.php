@@ -1577,6 +1577,8 @@
                         {{--                            @endif--}}
                         {{--                        } else {--}}
                         {{-- Здесь правильные проверки на условия--}}
+                        linkid = {{$link_start_child->id}}
+                        kk = {{($link_start_child->parent_is_base_link == true) || ($link_start_child->parent_base->is_code_needed==true && $link_start_child->parent_is_enter_refer==true)}};
                         @if(($link_start_child->parent_is_base_link == true) || ($link_start_child->parent_base->is_code_needed==true && $link_start_child->parent_is_enter_refer==true))
                         @else
                         await axios.get('/item/get_items_main_options/'
