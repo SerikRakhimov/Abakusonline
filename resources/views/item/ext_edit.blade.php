@@ -1424,7 +1424,7 @@
         ?>
         {{--        Вводить как справочник--}}
         @if($link->parent_base->is_code_needed == true && $link->parent_is_enter_refer == true)
-{{--            @if($link->parent_base->is_code_number == true && $link->parent_base->is_limit_sign_code == true && $link->parent_base->is_code_zeros == true  && $link->parent_base->significance_code > 0)--}}
+            @if($link->parent_base->is_code_number == true && $link->parent_base->is_limit_sign_code == true && $link->parent_base->is_code_zeros == true  && $link->parent_base->significance_code > 0)
                 <script>
                     var code_{{$prefix}}{{$link->id}} = document.getElementById('code{{$link->id}}');
                     <?php
@@ -1444,7 +1444,7 @@
                     $functs_change['code' . $link->id] = 1;
                     ?>
                 </script>
-{{--            @endif--}}
+            @endif
         @endif
 
         <?php
