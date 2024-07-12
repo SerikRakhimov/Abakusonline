@@ -8686,11 +8686,12 @@ class ItemController extends Controller
 
 // Выборка данных в виде списка
 // 'Bool $is_code' правильно, 'Boolean $is_code' неправильно
-    static function get_items_main_options(Base $base, Base $p_bs, Project $project, Role $role, $relit_id, Link $link, $cd_it_id, Bool $is_code, $par_link_id = null, $parent_item_id = null)
+    static function get_items_main_options(Base $base, Base $p_bs, Project $project, Role $role, $relit_id, Link $link, $cd_it_id, bool $is_code, $par_link_id = null, $parent_item_id = null)
     {
         $base_right = GlobalController::base_right($base, $role, $relit_id);
         $base_link_right = null;
         $item_id = null;
+        $result_items = null;
         if ($is_code == true) {
             // В переменную $cd_it_id передается код
             // $p_bs (Base) - нужно для поиска $item->id по коду
@@ -8720,32 +8721,45 @@ class ItemController extends Controller
                     }
                 }
             }
-        }
 
-        // '->get()' нужно
-        $result_items = $items_no_get->get();
+            // '->get()' нужно
+            $result_items = $items_no_get->get();
 
-        $is_base_required = $base_right['is_base_required'];
-        $base_link_right = null;
-        if ($link) {
-            $base_link_right = GlobalController::base_link_right($link, $role, $relit_id);
-            $is_base_required = $base_link_right['is_base_required'];
+            $is_base_required = $base_right['is_base_required'];
+            $base_link_right = null;
+            if ($link) {
+                $base_link_right = GlobalController::base_link_right($link, $role, $relit_id);
+                $is_base_required = $base_link_right['is_base_required'];
+            }
         }
         $result_items_name_options = "";
-        if (count($result_items) > 0) {
+        if ($result_items) {
+            if (count($result_items) > 0) {
 //          Чтобы не выводить лишний раз ненужное
-            if ($ing_filter == false) {
+                if ($ing_filter == false) {
+                    if ($base->is_view_empty_lst) {
+                        // if (!$base->is_required_lst_num_str_txt_img_doc) {
+                        // 'Обязательно к заполнению (для списков и чисел, при условии $base->is_required_lst_num_str_txt_img_doc = false
+                        //if (!$is_base_required) {
+                        $result_items_name_options = "<option value='0'>" . GlobalController::option_empty() . "</option>";
+                    }
+                }
+                foreach ($result_items as $it) {
+                    $result_items_name_options = $result_items_name_options . "<option value='" . $it->id . "'>" . $it->name() . "</option>";
+                }
+            } else {
+                // Два блока одинакового текста в одной функции
                 if ($base->is_view_empty_lst) {
                     // if (!$base->is_required_lst_num_str_txt_img_doc) {
                     // 'Обязательно к заполнению (для списков и чисел, при условии $base->is_required_lst_num_str_txt_img_doc = false
                     //if (!$is_base_required) {
                     $result_items_name_options = "<option value='0'>" . GlobalController::option_empty() . "</option>";
+                } else {
+                    $result_items_name_options = "<option value='0'>" . trans('main.no_information') . "!</option>";
                 }
             }
-            foreach ($result_items as $it) {
-                $result_items_name_options = $result_items_name_options . "<option value='" . $it->id . "'>" . $it->name() . "</option>";
-            }
         } else {
+            // Два блока одинакового текста в одной функции
             if ($base->is_view_empty_lst) {
                 // if (!$base->is_required_lst_num_str_txt_img_doc) {
                 // 'Обязательно к заполнению (для списков и чисел, при условии $base->is_required_lst_num_str_txt_img_doc = false
@@ -8755,7 +8769,8 @@ class ItemController extends Controller
                 $result_items_name_options = "<option value='0'>" . trans('main.no_information') . "!</option>";
             }
         }
-        return ['item_id' => $item_id,'items_no_get' => $items_no_get,
+
+        return ['item_id' => $item_id, 'items_no_get' => $items_no_get,
             'result_parent_label' => $items_main['result_parent_label'],
             'result_parent_base_name' => $items_main['result_parent_base_name'],
             'result_items' => $result_items,
