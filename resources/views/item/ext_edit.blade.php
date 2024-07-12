@@ -1587,6 +1587,7 @@
                             {{-- '/1' - признак передачи кода--}}
                         {{--+ '/' + parent_code_id{{$prefix}}{{$link->id}}.value + '/1'--}}
                             {{-- https://sky.pro/media/proverka-pustoj-ili-nedefinirovannoj-stroki-v-javascript/--}}
+                            {{-- Если поле Код пустое, то передается 0--}}
                         + '/' + (parent_code_id{{$prefix}}{{$link->id}}.value.trim() === "" ? 0 : parent_code_id{{$prefix}}{{$link->id}}.value) + '/1'
                             @else
                             {{-- '/0' - признак передачи $item_id--}}
