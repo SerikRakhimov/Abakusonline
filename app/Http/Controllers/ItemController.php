@@ -8686,7 +8686,7 @@ class ItemController extends Controller
 
 // Выборка данных в виде списка
 // 'Bool $is_code' правильно, 'Boolean $is_code' неправильно
-    static function get_items_main_options(Base $base, Base $p_bs, Project $project, Role $role, $relit_id, Link $link, $cd_it_id, bool $is_code, $par_link_id = null, $parent_item_id = null)
+    static function get_items_main_options(Base $base, Base $p_bs, Project $project, Project $relip_link_project, Role $role, $relit_id, Link $link, $cd_it_id, bool $is_code, $par_link_id = null, $parent_item_id = null)
     {
         $base_right = GlobalController::base_right($base, $role, $relit_id);
         $base_link_right = null;
@@ -8696,7 +8696,7 @@ class ItemController extends Controller
             // В переменную $cd_it_id передается код
             // $p_bs (Base) - нужно для поиска $item->id по коду
             // Поиск $item->id по коду $cd_it_id, $p_bs (Base), $project (Project)
-            $item_id = self::item_from_base_code($p_bs, $project, $cd_it_id)['item_id'];
+            $item_id = self::item_from_base_code($p_bs, $relip_link_project, $cd_it_id)['item_id'];
         } else {
             // В переменную $cd_it_id передается $item->id
             $item_id = $cd_it_id;
@@ -8770,7 +8770,7 @@ class ItemController extends Controller
             }
         }
 
-        return ['item_id' => $item_id, 'items_no_get' => $items_no_get,
+        return ['item_id' => $base->name(), 'items_no_get' => $items_no_get,
             'result_parent_label' => $items_main['result_parent_label'],
             'result_parent_base_name' => $items_main['result_parent_base_name'],
             'result_items' => $result_items,
