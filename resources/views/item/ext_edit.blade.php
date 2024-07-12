@@ -1599,6 +1599,7 @@
                             @endif
                            ).then(function (res) {
                                 child_base_id{{$prefix}}{{$link->id}}.innerHTML = res.data['result_items_name_options'];
+                                alert(res.data['item_id']);
                                 for (let i = 0; i < child_base_id{{$prefix}}{{$link->id}}.length; i++) {
                                     if (child_base_id{{$prefix}}{{$link->id}}[i].value ==
                                         {{old($link_start_child->id) ?? (($array_calc[$link_start_child->id] != null) ? $array_calc[$link_start_child->id] : 0)}}) {
