@@ -8755,7 +8755,7 @@ class ItemController extends Controller
                 $result_items_name_options = "<option value='0'>" . trans('main.no_information') . "!</option>";
             }
         }
-        return ['items_id' => $item_id,'items_no_get' => $items_no_get,
+        return ['item_id' => $item_id,'items_no_get' => $items_no_get,
             'result_parent_label' => $items_main['result_parent_label'],
             'result_parent_base_name' => $items_main['result_parent_base_name'],
             'result_items' => $result_items,
