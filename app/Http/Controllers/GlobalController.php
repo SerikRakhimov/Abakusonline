@@ -1438,6 +1438,13 @@ class GlobalController extends Controller
         return trans('main.image_is_missing');
     }
 
+    // Используется в table.php
+    static function is_bs_calcname_check($base, $base_right = null)
+    {
+        return ($base->is_calcname_lst == false);
+    }
+
+
 //  Если тип-вычисляемое наименование(Вычисляемое наименование) и Показывать Основу с вычисляемым наименованием
 //  или если тип-не вычисляемое наименование(Вычисляемое наименование)
 //  В $base_right могут передаваться и $base_right и $base_link_right
@@ -1457,7 +1464,6 @@ class GlobalController extends Controller
 //            || ($base->is_calcname_lst == false);
         $result = ($base->is_calcname_lst == true && $base->is_calcnm_correct_lst == true)
             || ($base->is_calcname_lst == false);
-        // Не нужно
         if ($result) {
             // Если передано $base_right
             if ($base_right) {

@@ -1528,9 +1528,6 @@
             {{--                <script>--}}
             {{--                </script>--}}
             <script>
-                {{$relip_link_project->name()}}-----------------
-                    {{$project->name()}}-----------------
-                    {{$relip_project->name()}}-----------------
                 {{--                @if(($link_start_child->parent_is_base_link == true) || ($link_start_child->parent_base->is_code_needed==true && $link_start_child->parent_is_enter_refer==true))--}}
                 @if($link_start_child->parent_base->is_code_needed==true && $link_start_child->parent_is_enter_refer==true)
                 var child_base_id{{$prefix}}{{$link->id}} = document.getElementById('{{$link_start_child->id}}');
@@ -1584,13 +1581,15 @@
                         @if(($link_start_child->parent_is_base_link == true) || ($link_start_child->parent_base->is_code_needed==true && $link_start_child->parent_is_enter_refer==true))
                         @else
                         await axios.get('/item/get_items_main_options/'
-                        + '{{$link_start_child->parent_base_id}}' + '/' + {{$link->parent_base_id}} + '/' + {{$project->id}} + '/' + {{$role->id}} + '/' + {{$relit_id}} + '/' + {{$link_get->id}}
+                        + '{{$link_start_child->parent_base_id}}' + '/' + {{$link->parent_base_id}} + '/' + {{$relip_link_project->id}} + '/' + {{$role->id}} + '/' + {{$relit_id}} + '/' + {{$link_get->id}}
 
                             @if(($link->parent_is_base_link == true) || ($link->parent_base->is_code_needed==true && $link->parent_is_enter_refer==true))
                             {{-- '/1' - признак передачи кода--}}
-                        + '/' + parent_code_id{{$prefix}}{{$link->id}}.value + '/1'
-                        @else
-                        {{-- '/0' - признак передачи $item_id--}}
+                        {{--+ '/' + parent_code_id{{$prefix}}{{$link->id}}.value + '/1'--}}
+                            {{-- https://sky.pro/media/proverka-pustoj-ili-nedefinirovannoj-stroki-v-javascript/--}}
+                        + '/' + (parent_code_id{{$prefix}}{{$link->id}}.value.trim() === "" ? 0 : parent_code_id{{$prefix}}{{$link->id}}.value) + '/1'
+                            @else
+                            {{-- '/0' - признак передачи $item_id--}}
                         + '/' + parent_base_id{{$prefix}}{{$link->id}}.options[parent_base_id{{$prefix}}{{$link->id}}.selectedIndex].value + '/0'
                         @endif
                         {{--                    @if($par_link & $parent_item) - так не использовать (дает ошибку) --}}
