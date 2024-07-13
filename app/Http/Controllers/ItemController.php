@@ -8686,7 +8686,7 @@ class ItemController extends Controller
 
 // Выборка данных в виде списка
 // 'Bool $is_code' правильно, 'Boolean $is_code' неправильно
-    static function get_items_main_options(Base $base, Base $p_bs, Project $project, Project $relip_link_project, Role $role, $relit_id, Link $link, $cd_it_id, bool $is_code, $par_link_id = null, $parent_item_id = null)
+    static function get_items_main_options(Base $base, Base $p_bs, Project $project, Project $relip_link_project, Role $role, $relit_id, Link $link, Link $nolnk, $cd_it_id, bool $is_code, $par_link_id = null, $parent_item_id = null)
     {
         $base_right = GlobalController::base_right($base, $role, $relit_id);
         $base_link_right = null;
@@ -8745,7 +8745,11 @@ class ItemController extends Controller
                     }
                 }
                 foreach ($result_items as $it) {
-                    $result_items_name_options = $result_items_name_options . "<option value='" . $it->id . "'>" . $it->name() . "</option>";
+//                    $result_items_name_options = $result_items_name_options . "<option value='" . $it->id . "'>" . $it->name() . "</option>";
+                    // Вычислить вычисляемое наименование, исключить поле с $nolnk
+                    $result_items_name_options = $result_items_name_options . "<option value='" . $it->id . "'>"
+                    .$it->name(true, false, false, false, false, $nolnk, false, true, $relit_id, $role)
+                    . "</option>";
                 }
             } else {
                 // Два блока одинакового текста в одной функции

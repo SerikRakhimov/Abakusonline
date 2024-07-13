@@ -1581,7 +1581,7 @@
                         @if(($link_start_child->parent_is_base_link == true) || ($link_start_child->parent_base->is_code_needed==true && $link_start_child->parent_is_enter_refer==true))
                         @else
                         await axios.get('/item/get_items_main_options/'
-                        + '{{$link_start_child->parent_base_id}}' + '/' + {{$link->parent_base_id}} + '/' + {{$project->id}} + '/' + {{$relip_link_project->id}} + '/' + {{$role->id}} + '/' + {{$relit_id}} + '/' + {{$link_get->id}}
+                        + '{{$link_start_child->parent_base_id}}' + '/' + {{$link->parent_base_id}} + '/' + {{$project->id}} + '/' + {{$relip_link_project->id}} + '/' + {{$role->id}} + '/' + {{$relit_id}} + '/' + {{$link_get->id}} + '/' + {{$link_result_child->id}}
 
                             @if(($link->parent_is_base_link == true) || ($link->parent_base->is_code_needed==true && $link->parent_is_enter_refer==true))
                             {{-- '/1' - признак передачи кода--}}
