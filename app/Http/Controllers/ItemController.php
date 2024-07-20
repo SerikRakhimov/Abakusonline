@@ -3771,7 +3771,7 @@ class ItemController extends Controller
                                 if ($delete_main == true) {
                                     $main->delete();
                                 } else {
-                                    //  Добавление числа в базу данных
+                                    // Добавление числа в базу данных
                                     if ($seek_item == true) {
                                         $item_find = self::find_save_number($value->link_to->parent_base_id, $relip_project->id, $seek_value);
                                         $main->parent_item_id = $item_find->id;
@@ -4122,7 +4122,7 @@ class ItemController extends Controller
     }
 
 // Функции get_sets_group() и get_sets_list_group() похожи
-// "->where('bs.type_is_list', '=', true)" нужно, т.к. запрос функции идет с ext_edit.php
+// "->where('bs.type_is_list', '=', true)" нужно, т.к. запрос функции идет также и с ext_edit.php
     static function get_sets_group(Base $base, Link $link, $type_no_is_list_enable = false)
     {
         $result = null;
@@ -4229,6 +4229,7 @@ class ItemController extends Controller
     {
         $result_item = null;
         $set = Set::find($link->parent_output_calculated_table_set_id);
+        // Нужно '$r_info = true;'
         $r_info = true;
         if ($set) {
             // base_id вычисляемой таблицы
@@ -4239,7 +4240,6 @@ class ItemController extends Controller
             $items = Item::where('base_id', $calc_table_base_id)->where('project_id', $relip_project->id);
 
             $sets_group = self::get_sets_group($item_main->base, $link);
-
             if ($sets_group) {
                 // Фильтрация/поиск
                 // Цикл по записям, в каждой итерации цикла свой to_child_base_id в переменной $to_key
@@ -4508,6 +4508,7 @@ class ItemController extends Controller
 
             // Если есть данные для расчета
             if ($seek_item) {
+                // Добавление числа в базу данных
                 $item_calc = self::find_save_number($set->link_from->parent_base_id, $project->id, $seek_value);
             }
 
@@ -8748,8 +8749,8 @@ class ItemController extends Controller
 //                    $result_items_name_options = $result_items_name_options . "<option value='" . $it->id . "'>" . $it->name() . "</option>";
                     // Вычислить вычисляемое наименование, исключить поле с $nolnk
                     $result_items_name_options = $result_items_name_options . "<option value='" . $it->id . "'>"
-                    .$it->name(true, false, false, false, false, $nolnk, false, true, $relit_id, $role)
-                    . "</option>";
+                        . $it->name(true, false, false, false, false, $nolnk, false, true, $relit_id, $role)
+                        . "</option>";
                 }
             } else {
                 // Два блока одинакового текста в одной функции

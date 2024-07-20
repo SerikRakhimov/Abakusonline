@@ -276,9 +276,12 @@ class StepController extends Controller
 // Неэкранное вычисление
     static function steps_calc_code(Item $item, Link $link, $block)
     {
+        // Нужно '$result = false;'
+        $result = false;
         $res_array = array();
         // массив "glo_menu_main" показывает, что четыре поля наименований хранятся в bases и items
         // ['1', '2', '3', '4'] - тут разницы нет, какие значения хранятся; главное, чтобы что-то хранилось
+        // Индексы массива 0,1,2,3
         $main_array = ['1', '2', '3', '4'];
         // Сохранить текущий язык
         $locale = App::getLocale();
@@ -309,6 +312,22 @@ class StepController extends Controller
                                     $link_first = Link::find(intval($step->first));
                                     //$item_link = GlobalController::get_parent_item_from_main($item->id, $link_first->id);
                                     $item_link = GlobalController::view_info($item->id, $link_first->id);
+//                                    if ($link_first->id == 628) {
+//                                        if ($item_link) {
+//                                            //if($item_link->name_lang_0 != "200" && $item_link->name_lang_0 != "300" && $item_link->name_lang_0 != "2202") {
+//                                                if($item_link->name_lang_0 == "300") {
+//                                                    dd($item);
+//                                            }
+//                                        }
+//                                    }
+//                                    if ($link_first->id == 630) {
+//                                        if ($item_link) {
+//                                            //if($item_link->name_lang_0 != "200" && $item_link->name_lang_0 != "300" && $item_link->name_lang_0 != "2202") {
+//                                            if($item_link->name_lang_0 == "1001") {
+//                                                dd($item);
+//                                            }
+//                                        }
+//                                    }
                                     $y = $x;
                                     if ($link_first) {
                                         if ($item_link) {
@@ -440,8 +459,10 @@ class StepController extends Controller
                                     break;
                             }
                             if ($br == true) {
+                                // Если, например, переменная $item_link не найдена, то присваивается '$x = "";'
                                 $x = "";
-                                break;
+                                // Не нужна команда 'break;' здесь
+                                // break;
                             }
                         }
 //        if ($link->parent_base->type_is_boolean()) {
@@ -451,12 +472,14 @@ class StepController extends Controller
 //        }
                     }
                     $res_array[$lang_key] = $x;
+                    // Нужна здесь эта команда '$result = true;'
+                    $result = true;
                 }
             }
         }
         // Восстановить текущий язык
         App::setLocale($locale);
-        return $res_array;
+        return ['result' => $result, 'res_array' => $res_array];
     }
 
     function lc_rnd($a, $b, $c)

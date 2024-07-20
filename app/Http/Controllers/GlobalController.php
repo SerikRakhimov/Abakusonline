@@ -2191,7 +2191,9 @@ class GlobalController extends Controller
                             }
                             // Если не надо 'Выводить поле вычисляемой таблицы'
                         } else {
+
                             $item = ItemController::get_parent_item_from_calc_child_item($item_find, $link_find, true, $role, $relit_id)['result_item'];
+
                         }
                     }
                     // Выводить поле вычисляемой таблицы
@@ -3662,97 +3664,107 @@ class GlobalController extends Controller
             ->where('parent_is_nc_screencalc', false)
             ->orderBy('parent_base_number')
             ->get();
-
         foreach ($links as $link) {
 //          $val_calc = trim(StepController::steps_calc_code($item, $link, 'button_nc'));
-            $val_calc = StepController::steps_calc_code($item, $link, 'button_nc');
-            $vc0 = $val_calc[0];
-            if (count($val_calc) != 0) {
-                $item_find = null;
-                // Похожие строки в ItemController::save_main() и GlobalController::item_calc_main()
-                if ($link->parent_base->type_is_number() | $link->parent_base->type_is_boolean()) {
-                    if (($vc0 == "") & $link->parent_base->type_is_number() & ($link->parent_base->is_required_lst_num_str_txt_img_doc == false)) {
-                        $main = Main::where('child_item_id', $item->id)->where('link_id', $link->id)->first();
-                        if ($main) {
-                            $main->delete();
-                        }
-                    } else {
-                        // поиск в таблице items значение с таким же названием и base_id
-                        $item_find = Item::where('base_id', $link->parent_base_id)
-                            ->where('project_id', $item->project_id)
-                            ->where('name_lang_0', $vc0)
-                            ->first();
-                        // если не найдено
-                        if (!$item_find) {
-                            // создание новой записи в items
-                            $item_find = new Item();
-                            $item_find->base_id = $link->parent_base_id;
-                            // Похожие строки вверху
-                            $item_find->code = uniqid($item_find->base_id . '_', true);
-                            // присваивание полям наименование строкового значение числа
-                            foreach (config('app.locales') as $key => $value) {
-                                $item_find['name_lang_' . $key] = $val_calc[$key];
+            $steps_calc_code = StepController::steps_calc_code($item, $link, 'button_nc');
+            if ($steps_calc_code['result'] == true) {
+                $val_calc = $steps_calc_code['res_array'];
+                $vc0 = $val_calc[0];
+                if (count($val_calc) != 0) {
+                    $item_find = null;
+                    // Похожие строки в ItemController::save_main() и GlobalController::item_calc_main()
+                    if ($link->parent_base->type_is_number() | $link->parent_base->type_is_boolean()) {
+                        if (($vc0 == "") & $link->parent_base->type_is_number() & ($link->parent_base->is_required_lst_num_str_txt_img_doc == false)) {
+                            $main = Main::where('child_item_id', $item->id)->where('link_id', $link->id)->first();
+                            if ($main) {
+                                $main->delete();
                             }
+                        } else {
                             // Поиск relip - проекта
                             $item_find_project = self::calc_relip_project($link->parent_relit_id, $item->project);
-                            $item_find->project_id = $item_find_project->id;
-                            // при создании записи "$item->created_user_id" заполняется
-                            $project_user_id = $item_find_project->user_id;
-                            $item_find->created_user_id = $project_user_id;
-                            $item_find->updated_user_id = $project_user_id;
-                            $item_find->save();
+                            // Для числовых полей
+                            if ($link->parent_base->type_is_number()) {
+                                // Добавление числа в базу данных
+                                $item_find = ItemController::find_save_number($link->parent_base_id, $item_find_project->id, $vc0);
+                                // Для логических полей
+                            } else {
+                                // поиск в таблице items значение с таким же названием и base_id
+                                $item_find = Item::where('base_id', $link->parent_base_id)
+                                    ->where('project_id', $item->project_id)
+                                    ->where('name_lang_0', $vc0)
+                                    ->first();
+                                // если не найдено
+                                if (!$item_find) {
+                                    // создание новой записи в items
+                                    $item_find = new Item();
+                                    $item_find->base_id = $link->parent_base_id;
+                                    // Похожие строки вверху
+                                    $item_find->code = uniqid($item_find->base_id . '_', true);
+                                    // присваивание полям наименование строкового значение числа
+                                    foreach (config('app.locales') as $key => $value) {
+                                        $item_find['name_lang_' . $key] = $val_calc[$key];
+                                    }
+                                    $item_find->project_id = $item_find_project->id;
+                                    // при создании записи "$item->created_user_id" заполняется
+                                    $project_user_id = $item_find_project->user_id;
+                                    $item_find->created_user_id = $project_user_id;
+                                    $item_find->updated_user_id = $project_user_id;
+                                    $item_find->save();
+                                }
+                            }
                         }
-                    }
-                } elseif ($link->parent_base->type_is_string()) {
-                    if (($vc0 == "") & ($link->parent_base->is_required_lst_num_str_txt_img_doc == false)) {
-                        $main = Main::where('child_item_id', $item->id)->where('link_id', $link->id)->first();
-                        if ($main) {
-                            $main->delete();
-                        }
-                    } else {
-                        // поиск в таблице items значение с таким же названием и base_id
-                        $item_find = Item::where('base_id', $link->parent_base_id)
-                            ->where('project_id', $item->project_id)
-                            ->where('name_lang_0', $vc0)
-                            ->first();
+                    } elseif ($link->parent_base->type_is_string()) {
+                        if (($vc0 == "") & ($link->parent_base->is_required_lst_num_str_txt_img_doc == false)) {
+                            $main = Main::where('child_item_id', $item->id)->where('link_id', $link->id)->first();
+                            if ($main) {
+                                $main->delete();
+                            }
+                        } else {
+                            // поиск в таблице items значение с таким же названием и base_id
+                            $item_find = Item::where('base_id', $link->parent_base_id)
+                                ->where('project_id', $item->project_id)
+                                ->where('name_lang_0', $vc0)
+                                ->first();
 
-                        // если не найдено
-                        if (!$item_find) {
-                            // создание новой записи в items
-                            $item_find = new Item();
-                            $item_find->base_id = $link->parent_base_id;
-                            // Похожие строки вверху
-                            $item_find->code = uniqid($item_find->base_id . '_', true);
-                            // присваивание полям наименование строкового значение числа
-                            foreach (config('app.locales') as $key => $value) {
-                                $item_find['name_lang_' . $key] = $val_calc[$key];
+                            // если не найдено
+                            if (!$item_find) {
+                                // создание новой записи в items
+                                $item_find = new Item();
+                                $item_find->base_id = $link->parent_base_id;
+                                // Похожие строки вверху
+                                $item_find->code = uniqid($item_find->base_id . '_', true);
+                                // присваивание полям наименование строкового значение числа
+                                foreach (config('app.locales') as $key => $value) {
+                                    $item_find['name_lang_' . $key] = $val_calc[$key];
+                                }
+                                // Поиск relip - проекта
+                                $item_find_project = self::calc_relip_project($link->parent_relit_id, $item->project);
+                                $item_find->project_id = $item_find_project->id;
+                                // при создании записи "$item->created_user_id" заполняется
+                                $project_user_id = $item_find_project->user_id;
+                                $item_find->created_user_id = $project_user_id;
+                                $item_find->updated_user_id = $project_user_id;
+                                $item_find->save();
                             }
-                            // Поиск relip - проекта
-                            $item_find_project = self::calc_relip_project($link->parent_relit_id, $item->project);
-                            $item_find->project_id = $item_find_project->id;
-                            // при создании записи "$item->created_user_id" заполняется
-                            $project_user_id = $item_find_project->user_id;
-                            $item_find->created_user_id = $project_user_id;
-                            $item_find->updated_user_id = $project_user_id;
-                            $item_find->save();
                         }
                     }
-                }
-                if ($item_find) {
-                    // '->get()' нужно
-                    $main = Main::where('child_item_id', $item->id)
-                        ->where('link_id', $link->id)
-                        ->first();
-                    if (!$main) {
-                        $main = new Main();
-                        $main->child_item_id = $item->id;
-                        $main->link_id = $link->id;
-                        // при создании записи "$item->created_user_id" заполняется
-                        $main->created_user_id = Auth::user()->id;
+                    if ($item_find) {
+                        // '->get()' нужно
+                        $main = Main::where('child_item_id', $item->id)
+                            ->where('link_id', $link->id)
+                            ->first();
+                        if (!$main) {
+                            $main = new Main();
+                            $main->child_item_id = $item->id;
+                            $main->link_id = $link->id;
+                            // при создании записи "$item->created_user_id" заполняется
+                            $main->created_user_id = Auth::user()->id;
+                        }
+                        $main->parent_item_id = $item_find->id;
+                        $main->updated_user_id = Auth::user()->id;
+                        $main->save();
                     }
-                    $main->parent_item_id = $item_find->id;
-                    $main->updated_user_id = Auth::user()->id;
-                    $main->save();
+
                 }
 
             }

@@ -363,7 +363,8 @@ class Base extends Model
 // Возвращает истину, если вид отображения информации - плитка, и если есть основное изображение в links
     function tile_view(Role $role, $relit_id, $base_right)
     {
-        $result = false;
+        //$result = false;
+        $result = GlobalController::is_base_calcname_check($this, $base_right);
         $link = null;
         // Для роли Автор и текущего (не взаимосвязанного шаблона) просмотр в виде стандартной таблицы, не удалять
 //      if (!($role->is_author() & $relit_id == 0)) {
@@ -371,15 +372,18 @@ class Base extends Model
         // Проверка должна быть одинакова "$base_right['is_list_base_read'] == true" ItemController::item_index() и Base::tile_view()
 //      if ($base_right['is_list_base_read'] == true) {
 //        if ($base_right['is_list_base_update'] == false & $base_right['is_list_base_delete'] == false) {
-        // Одинаковое условие 'if ($base_right['is_list_base_upd_del'])' в GlobalController::is_base_calcname_check() и Base::tile_view()
-        if ($base_right['is_list_base_upd_del'] == false) {
-            $link = $this->get_link_primary_image();
-            // Эту проверку 'if ($link)' не использовать
+        // Эта проверка нужна 'if ($result == true)'
+        if ($result == true) {
+            // Одинаковое условие 'if ($base_right['is_list_base_upd_del'])' в GlobalController::is_base_calcname_check() и Base::tile_view()
+            if ($base_right['is_list_base_upd_del'] == false) {
+                $link = $this->get_link_primary_image();
+                // Эту проверку 'if ($link)' не использовать
 //            if ($link) {
 //                //if ($link->parent_base->type_is_image()) {
-            $result = true;
-            //}
+                $result = true;
+                //}
 //            }
+            }
         }
 //      }
         return ['result' => $result, 'link' => $link];
