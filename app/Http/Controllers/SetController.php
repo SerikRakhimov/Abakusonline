@@ -163,19 +163,16 @@ class SetController extends Controller
     function check(Request $request, &$array_mess)
     {
         //base_id  д.б. список
-        // Не удалять
-        if (1 == 2) {
-            // Не равен "Сортировка"
-            if ($request->forwhat != 1) {
-                // Одинаковые значения недопустимы
-                if ($request->link_from_id == $request->link_to_id) {
-                    $message = trans('main.the_same_values_are_not_valid')
-                        . ' ("' . trans('main.link_from') . '" ' . mb_strtolower(trans('main.and')) .
-                        ' "' . trans('main.link_to') . '")!';;
-                    $array_mess['link_from_id'] = $message;
-                    $array_mess['link_to_id'] = $message;
-                    return;
-                }
+        // Не равен "Сортировка"
+        if ($request->forwhat != 1) {
+            // Одинаковые значения недопустимы
+            if ($request->link_from_id == $request->link_to_id) {
+                $message = trans('main.the_same_values_are_not_valid')
+                    . ' ("' . trans('main.link_from') . '" ' . mb_strtolower(trans('main.and')) .
+                    ' "' . trans('main.link_to') . '")!';;
+                $array_mess['link_from_id'] = $message;
+                $array_mess['link_to_id'] = $message;
+                return;
             }
         }
 
@@ -197,21 +194,18 @@ class SetController extends Controller
                 }
             }
         }
-        // Не удалять
-        if (1 == 2) {
-            // Не равен "Сортировка"
-            if ($request->forwhat != 1) {
-                // Детские основы не должны быть одинаковыми
-                if ($link_from) {
-                    if ($link_to) {
-                        if ($link_from->child_base_id == $link_to->child_base_id) {
-                            $message = trans('main.child_bases_should_not_be_the_same')
-                                . ' ("' . $link_from->child_base->name() . '" ' . mb_strtolower(trans('main.and')) .
-                                ' "' . $link_to->child_base->name() . '")!';;
-                            $array_mess['link_from_id'] = $message;
-                            $array_mess['link_to_id'] = $message;
-                            return;
-                        }
+        // Не равен "Сортировка"
+        if ($request->forwhat != 1) {
+            // Детские основы не должны быть одинаковыми
+            if ($link_from) {
+                if ($link_to) {
+                    if ($link_from->child_base_id == $link_to->child_base_id) {
+                        $message = trans('main.child_bases_should_not_be_the_same')
+                            . ' ("' . $link_from->child_base->name() . '" ' . mb_strtolower(trans('main.and')) .
+                            ' "' . $link_to->child_base->name() . '")!';;
+                        $array_mess['link_from_id'] = $message;
+                        $array_mess['link_to_id'] = $message;
+                        return;
                     }
                 }
             }
