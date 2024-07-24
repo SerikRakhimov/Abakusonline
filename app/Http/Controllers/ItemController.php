@@ -5685,9 +5685,7 @@ class ItemController extends Controller
                 }
 
                 // Только для ext_update()
-
-                GlobalController::item_calc_main($item);
-
+                // GlobalController::item_calc_main($item);
                 // true - с реверсом
                 // обязательно true - с заменой
                 $this->save_info_sets($item, true, true, $relit_id, $role);
