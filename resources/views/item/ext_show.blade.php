@@ -609,7 +609,7 @@
             'parent_ret_id' => $parent_ret_id,
             'view_link' => $view_link,
             'saveurl_edit'=>$saveurl_show_edit,
-            'level_id' =>GlobalController::const_null(),
+            'level_id' => GlobalController::par_link_const_textnull(),
             'par_link' => $par_link,
             'parent_item' => $parent_item])}}"
                                title="{{trans('main.edit') . ' '.GlobalController::alf_text()}}">
@@ -649,6 +649,7 @@
                         </div>
                     </div>
                 @else
+                    {{-- 'level_id' =>GlobalController::const_null(),--}}
                     <button type="button" class="btn btn-dreamer mb-1 mb-sm-0"
                             onclick='document.location="{{route('item.ext_edit',
             ['item'=>$item,'project'=>$project, 'role'=>$role,
@@ -660,7 +661,7 @@
             'parent_ret_id' => $parent_ret_id,
             'view_link' => $view_link,
             'saveurl_edit'=>$saveurl_show_edit,
-            'level_id' =>GlobalController::const_null(),
+            'level_id' =>GlobalController::par_link_const_textnull(),
             'par_link' => $par_link,
             'parent_item' => $parent_item])}}"'
                             title="{{trans('main.edit')}}">
