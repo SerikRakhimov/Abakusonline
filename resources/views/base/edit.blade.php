@@ -397,7 +397,7 @@
                         class="text-danger">*</span></label>
             </div>
             <div class="col-sm-2">
-                <input type="number" min="0" max="9"
+                <input type="number" min="0" max="15"
                        name="digits_num"
                        id="digits_num"
                        class="form-control @error('digits_num') is-invalid @enderror"
