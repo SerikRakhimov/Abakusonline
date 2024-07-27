@@ -554,6 +554,7 @@
                     </div>
                 @endif
             @else
+                {{-- Одинаковые строки по тексту этого файла используется несколько раз--}}
                 @if($link->parent_base->is_code_needed==true && $link->parent_is_enter_refer==true)
                     <div class="form-group row">
                         <div class="col-sm-3 text-right">
@@ -2321,50 +2322,35 @@
         {{-- Два похожих блока команд в функциях on_submit() и window.onload по обработке строковых полей--}}
         function on_submit() {
             @foreach($array_disabled as $key=>$value)
-
             <?php
             $link = Link::find($key);
             ?>
-
             @if($link)
-
+            {{-- Одинаковые строки по тексту этого файла используется несколько раз--}}
             @if($link->parent_base->is_code_needed==true && $link->parent_is_enter_refer==true)
-
             document.getElementById('code{{$key}}').disabled = false;
-
             @else
-
             {{--Две похожие команды в этой функции--}}
             document.getElementById('link{{$key}}').disabled = false;
-
             @if($link->parent_base->type_is_string())
-
             @if ($link->parent_base->is_one_value_lst_str_txt == false)
             <?php
             $i = 0;
             ?>
-
             @foreach (config('app.locales') as $lang_key => $lang_value)
             {{--Начиная со второго(индекс==1) элемента массива языков сохранять--}}
-
             @if ($i > 0)
             {{--Две похожие команды в этой функции--}}
             document.getElementById('link{{$link->id}}_{{$lang_key}}').disabled = false;
             @endif
-
             <?php
             $i = $i + 1;
             ?>
             @endforeach
-
             @endif
-
             @endif
-
             @endif
-
             @endif
-
             @endforeach
         }
 
@@ -2428,15 +2414,12 @@
     <script>
         {{-- Два похожих блока команд в функциях on_submit() и window.onload по обработке строковых полей--}}
             window.onload = function () {
-
             {{-- Этот блок перед вызовом on_parent_refer()--}}
-
                 ds = true;
             @foreach($array_disabled as $key=>$value)
             <?php
                 $link = Link::find($key);
                 ?>
-
                 @if($link)
                 ds = true;
             @if($par_link)
@@ -2447,10 +2430,11 @@
             @endif
                 @endif
             if (ds == true) {
-                @if($link->parent_base->is_code_needed==true && $link->parent_is_enter_refer==true)
-                document.getElementById('code{{$key}}').disabled = true;
-                @else
-                {{--Две похожие команды в этой функции--}}
+                {{-- Одинаковые строки по тексту этого файла используется несколько раз--}}
+                    @if($link->parent_base->is_code_needed==true && $link->parent_is_enter_refer==true)
+                    document.getElementById('code{{$key}}').disabled = true;
+                    @else
+                    {{--Две похожие команды в этой функции--}}
                 document.getElementById('link{{$key}}').disabled = true;
                 @if($link->parent_base->type_is_string())
                 @if ($link->parent_base->is_one_value_lst_str_txt == false)
