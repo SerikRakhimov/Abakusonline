@@ -1585,12 +1585,12 @@
 
                             @if(($link->parent_is_base_link == true) || ($link->parent_base->is_code_needed==true && $link->parent_is_enter_refer==true))
                             {{-- '/1' - признак передачи кода--}}
-                        {{--+ '/' + parent_code_id{{$prefix}}{{$link->id}}.value + '/1'--}}
+                            {{--+ '/' + parent_code_id{{$prefix}}{{$link->id}}.value + '/1'--}}
                             {{-- https://sky.pro/media/proverka-pustoj-ili-nedefinirovannoj-stroki-v-javascript/--}}
                             {{-- Если поле Код пустое, то передается 0--}}
                         + '/' + (parent_code_id{{$prefix}}{{$link->id}}.value.trim() === "" ? 0 : parent_code_id{{$prefix}}{{$link->id}}.value) + '/1'
-                            @else
-                            {{-- '/0' - признак передачи $item_id--}}
+                        @else
+                        {{-- '/0' - признак передачи $item_id--}}
                         + '/' + parent_base_id{{$prefix}}{{$link->id}}.options[parent_base_id{{$prefix}}{{$link->id}}.selectedIndex].value + '/0'
                         @endif
                         {{--                    @if($par_link & $parent_item) - так не использовать (дает ошибку) --}}
@@ -2327,27 +2327,44 @@
             ?>
 
             @if($link)
+
+            @if($link->parent_base->is_code_needed==true && $link->parent_is_enter_refer==true)
+
+            document.getElementById('code{{$key}}').disabled = false;
+
+            @else
+
             {{--Две похожие команды в этой функции--}}
             document.getElementById('link{{$key}}').disabled = false;
 
             @if($link->parent_base->type_is_string())
+
             @if ($link->parent_base->is_one_value_lst_str_txt == false)
             <?php
             $i = 0;
             ?>
+
             @foreach (config('app.locales') as $lang_key => $lang_value)
             {{--Начиная со второго(индекс==1) элемента массива языков сохранять--}}
+
             @if ($i > 0)
             {{--Две похожие команды в этой функции--}}
             document.getElementById('link{{$link->id}}_{{$lang_key}}').disabled = false;
             @endif
+
             <?php
             $i = $i + 1;
             ?>
             @endforeach
+
             @endif
+
             @endif
+
             @endif
+
+            @endif
+
             @endforeach
         }
 
@@ -2430,6 +2447,9 @@
             @endif
                 @endif
             if (ds == true) {
+                @if($link->parent_base->is_code_needed==true && $link->parent_is_enter_refer==true)
+                document.getElementById('code{{$key}}').disabled = true;
+                @else
                 {{--Две похожие команды в этой функции--}}
                 document.getElementById('link{{$key}}').disabled = true;
                 @if($link->parent_base->type_is_string())
@@ -2447,6 +2467,7 @@
                 $i = $i + 1;
                 ?>
                 @endforeach
+                @endif
                 @endif
                 @endif
                 @endif
