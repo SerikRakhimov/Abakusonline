@@ -229,6 +229,7 @@ if ($v_link) {
                         {{--            похожая проверка в ext_show.blade.php--}}
                         {{--                        Так нужно GlobalController::is_bs_calcname_check($base)--}}
                         {{--                        @if(GlobalController::is_bs_calcname_check($base))--}}
+                        {{-- Одинаковые проверки в ItemController::links_info() и в table.php--}}
                         @if(GlobalController::is_base_calcname_check($base))
                             <th rowspan="{{$rows + 1 - 1}}" @include('layouts.class_from_base',['base'=>$base, 'align_top'=>true])>
                                 {{--                        {{trans('main.name')}}--}}
@@ -433,6 +434,7 @@ if ($v_link) {
                             {{-- Вывод вычисляемого наименования--}}
                             {{--                        Так нужно GlobalController::is_bs_calcname_check($base)--}}
                             {{--                            @if(GlobalController::is_bs_calcname_check($base))--}}
+                            {{-- Одинаковые проверки в ItemController::links_info() и в table.php--}}
                             @if(GlobalController::is_base_calcname_check($base))
                                 <td @include('layouts.class_from_base',['base'=>$base])>
                                     @if($base->type_is_image)

@@ -3804,7 +3804,9 @@ class ItemController extends Controller
                     // "$this->save_info_sets()" выполнять перед проверкой на удаление
                     // $this->save_info_sets($item_seek, false);
 //                  $this->save_info_sets($item_seek, false, $urepl);
-                    self::save_info_sets($item_seek, false, $urepl, $relit_id, $role);
+
+                    // self::save_info_sets($item_seek, false, $urepl, $relit_id, $role);
+
                     // Если links->"Удалить запись с нулевым значением при обновлении" == true и значение равно нулю,
                     // то удалить запись
 //                  $val_item_seek_delete = $this->val_item_seek_delete_func($item_seek, $urepl);
@@ -3819,6 +3821,9 @@ class ItemController extends Controller
                             $item_seek->delete();
                         }
                     }
+
+                    self::save_info_sets($item_seek, false, $urepl, $relit_id, $role);
+
                 }
                 //}
             }
@@ -8310,6 +8315,7 @@ class ItemController extends Controller
             $base_link_right = GlobalController::base_link_right($link, $role, $relit_id);
             if ($base_link_right['is_list_link_enable'] == true) {
                 $base_right = GlobalController::base_right($link->child_base, $role, $relit_id);
+                // Одинаковые проверки в ItemController::links_info() и в table.php
                 if (GlobalController::is_base_calcname_check($link->child_base, $base_right) == true) {
                     // if (GlobalController::is_base_calcname_check($link->child_base) == true) {
                     // Исключить links с признаком 'Для вычисляемого наименования'
