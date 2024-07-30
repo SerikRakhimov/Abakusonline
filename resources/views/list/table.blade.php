@@ -61,7 +61,11 @@ if ($v_link) {
         @foreach($its_page as $item)
             <?php
             $i = $i + 1;
-            $item_find = GlobalController::view_info($item->id, $link_image->id, $role, $relit_id, true);
+            // Нужно
+            $item_find = null;
+            if ($link_image) {
+                $item_find = GlobalController::view_info($item->id, $link_image->id, $role, $relit_id, true);
+            }
             //                $s_title = $v_label . ", id =" . $item->id;
             //                if ($base->is_code_needed == true) {
             //                    $s_title = $s_title . ", " . trans('main.code') . " =" . $item->code;
