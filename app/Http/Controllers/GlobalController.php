@@ -1441,7 +1441,8 @@ class GlobalController extends Controller
     // Используется в table.php
     static function is_bs_calcname_check($base, $base_right = null)
     {
-        return ($base->is_calcname_lst == false);
+//      return ($base->is_calcname_lst == false);
+        return ($base->is_calcname_lst == true);
     }
 
 
