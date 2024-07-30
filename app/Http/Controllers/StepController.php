@@ -52,7 +52,7 @@ class StepController extends Controller
                                 // в ext_edit.php и StepController::steps_javascript_code()
                                 // "innerHTML" - id параметра
                                 // "value" - введенное числовое значение (число, сумма)
-                                $result = $result . "\ny = x;";
+                                $result = $result . "\nz = y;\ny = x;";
                                 if ($link->parent_base->type_is_string() & $link->parent_base->is_one_value_lst_str_txt == false) {
                                     $i = 0;
                                     foreach (config('app.locales') as $lang_key => $lang_value) {
@@ -209,19 +209,19 @@ class StepController extends Controller
                             $result = $result . "\n x = Number(x);\n y = Number(y);";
                             switch ($step->first) {
                                 case "+":
-                                    $result = $result . "\n x = y + x;\n y = 0;";
+                                    $result = $result . "\n x = y + x;\n y = z;";
                                     break;
                                 case "-":
-                                    $result = $result . "\n x = y - x;\n y = 0;";
+                                    $result = $result . "\n x = y - x;\n y = z;";
                                     break;
                                 case "*":
-                                    $result = $result . "\n x = y * x;\n y = 0;";
+                                    $result = $result . "\n x = y * x;\n y = z;";
                                     break;
                                 case "/":
                                     $result = $result . "\n if (x == 0) {
-                                        x = 0;\n y = 0; error_message = error_div0;
+                                        x = 0;\n y = z; error_message = error_div0;
                                     }else
-                                    {x = y / x;\n y = 0;}";
+                                    {x = y / x;\n y = z;}";
                                     break;
                             }
                             break;
@@ -328,6 +328,7 @@ class StepController extends Controller
 //                                            }
 //                                        }
 //                                    }
+                                    $z = $y;
                                     $y = $x;
                                     if ($link_first) {
                                         if ($item_link) {
@@ -379,15 +380,15 @@ class StepController extends Controller
                                     switch ($step->first) {
                                         case "+":
                                             $x = $y + $x;
-                                            $y = 0;
+                                            $y = $z;
                                             break;
                                         case "-":
                                             $x = $y - $x;
-                                            $y = 0;
+                                            $y = $z;
                                             break;
                                         case "*":
                                             $x = $y * $x;
-                                            $y = 0;
+                                            $y = $z;
                                             break;
                                         case "/":
                                             if ($x == 0) {
@@ -395,7 +396,7 @@ class StepController extends Controller
                                             } else {
                                                 $x = $y / $x;
                                             }
-                                            $y = 0;
+                                            $y = $z;
                                             break;
                                     }
                                     break;
