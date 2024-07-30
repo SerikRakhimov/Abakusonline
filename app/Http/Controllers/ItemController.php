@@ -3804,28 +3804,19 @@ class ItemController extends Controller
                     // "$this->save_info_sets()" выполнять перед проверкой на удаление
                     // $this->save_info_sets($item_seek, false);
 //                  $this->save_info_sets($item_seek, false, $urepl);
-
-                    // self::save_info_sets($item_seek, false, $urepl, $relit_id, $role);
-
+                    self::save_info_sets($item_seek, false, $urepl, $relit_id, $role);
                     // Если links->"Удалить запись с нулевым значением при обновлении" == true и значение равно нулю,
                     // то удалить запись
 //                  $val_item_seek_delete = $this->val_item_seek_delete_func($item_seek, $urepl);
                     $val_item_seek_delete = self::val_item_seek_delete_func($item_seek, $urepl);
-                    $is_sv = true;
                     if ($del_item_seek_nogroup || $val_item_seek_delete) {
-//                    if ($val_item_seek_delete) {
                         $item_seek->delete();
-                        $is_sv = false;
                     } else {
                         // Похожие строки выше
                         // Если в цикле не создано mains в цикле
                         if (!$item_seek->child_mains()->exists()) {
                             $item_seek->delete();
-                            $is_sv = false;
                         }
-                    }
-                    if ($is_sv) {
-                        self::save_info_sets($item_seek, false, $urepl, $relit_id, $role);
                     }
                 }
                 //}
