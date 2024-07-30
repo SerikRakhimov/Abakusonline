@@ -363,11 +363,14 @@ class Base extends Model
 // Возвращает истину, если вид отображения информации - плитка, и если есть основное изображение в links
     function tile_view(Role $role, $relit_id, $base_right)
     {
-        //$result = false;
-        $result = GlobalController::is_base_calcname_check($this, $base_right);
+        // Нужно
+        $result = false;
         $link = null;
         // Для роли Автор и текущего (не взаимосвязанного шаблона) просмотр в виде стандартной таблицы, не удалять
         if (!($role->is_author() & $relit_id == 0)) {
+            $result = GlobalController::is_base_calcname_check($this, $base_right);
+            // Для роли Автор и текущего (не взаимосвязанного шаблона) просмотр в виде стандартной таблицы, не удалять
+//        if (!($role->is_author() & $relit_id == 0)) {
             // Только чтение данных(без создания, корректировки и удаления)
             // Проверка должна быть одинакова "$base_right['is_list_base_read'] == true" ItemController::item_index() и Base::tile_view()
 //      if ($base_right['is_list_base_read'] == true) {
@@ -385,6 +388,7 @@ class Base extends Model
 //            }
                 }
             }
+//        }
         }
         return ['result' => $result, 'link' => $link];
     }
