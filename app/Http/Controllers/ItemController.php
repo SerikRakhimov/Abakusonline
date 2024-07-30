@@ -3821,9 +3821,9 @@ class ItemController extends Controller
                             $item_seek->delete();
                         }
                     }
-
-                    self::save_info_sets($item_seek, false, $urepl, $relit_id, $role);
-
+                    if ($item_seek) {
+                        self::save_info_sets($item_seek, false, $urepl, $relit_id, $role);
+                    }
                 }
                 //}
             }
