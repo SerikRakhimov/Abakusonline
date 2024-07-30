@@ -3812,7 +3812,7 @@ class ItemController extends Controller
 //                  $val_item_seek_delete = $this->val_item_seek_delete_func($item_seek, $urepl);
                     $val_item_seek_delete = self::val_item_seek_delete_func($item_seek, $urepl);
                     $is_sv = true;
-                    if ($del_item_seek_nogroup | $val_item_seek_delete) {
+                    if ($del_item_seek_nogroup || $val_item_seek_delete) {
 //                    if ($val_item_seek_delete) {
                         $item_seek->delete();
                         $is_sv = false;
