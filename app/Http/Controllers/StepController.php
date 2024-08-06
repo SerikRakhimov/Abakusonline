@@ -229,14 +229,14 @@ class StepController extends Controller
                             // Строковые операции над x и y
                             switch ($step->first) {
                                 case ".":
-                                    $result = $result . "\n x = y + '" . trim($step->second) . "' + x; y = '';";
+                                    $result = $result . "\n x = y + '" . trim($step->second) . "' + x; y = z;";
 
                                     if ($link->parent_base->type_is_string() & $link->parent_base->is_one_value_lst_str_txt == false) {
                                         $i = 0;
                                         foreach (config('app.locales') as $lang_key => $lang_value) {
                                             // Начиная со второго(индекс==1) элемента массива языков сохранять
                                             if ($i > 0) {
-                                                $result = $result . "\n x_" . $lang_key . " = y_" . $lang_key . " + '" . trim($step->second) . "' + x_" . $lang_key . "; y_" . $lang_key . " = '';";
+                                                $result = $result . "\n x_" . $lang_key . " = y_" . $lang_key . " + '" . trim($step->second) . "' + x_" . $lang_key . "; y_" . $lang_key . " = z_" . $lang_key . ";";
                                             }
                                             $i = $i + 1;
                                         }
@@ -405,7 +405,7 @@ class StepController extends Controller
                                     switch ($step->first) {
                                         case ".":
                                             $x = $y . trim($step->second) . $x;
-                                            $y = "";
+                                            $y = $z;
                                             break;
                                     }
                                     break;
