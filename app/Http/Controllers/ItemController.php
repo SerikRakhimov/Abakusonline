@@ -587,6 +587,7 @@ class ItemController extends Controller
             // $items_right = GlobalController::items_right($item->base, $item->project, $role, $relit_id, $tree_array_last_item_id, $tree_array_last_link_id, $project, $relit_id, $item->id);
         }
 
+        // Выборка одной записи для "шапки" item_index.php
         $items_right = GlobalController::items_right($item->base, $item->project, $role, $relit_id, null, null, null, null, $item->id);
 
         if (count($items_right['items']->get()) != 1) {
