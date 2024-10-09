@@ -102,7 +102,6 @@
                         <h5>
                             <a href="{{route('item.base_index',['base'=>$base, 'project' => $project, 'role' => $role, 'relit_id' => $relit_id])}}"
                                title="{{$base_names}}">
-
                                 {{$i}}
                             </a>
                         </h5>
