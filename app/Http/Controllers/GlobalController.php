@@ -3656,15 +3656,29 @@ class GlobalController extends Controller
         return $links;
     }
 
-    // Расчет вычисляемых полей (неэкранное вычисление)
-    static function item_calc_main(Item $item)
+    static function item_calc_links(Item $item)
     {
         // '->get()' нужно
         $links = Link::where('child_base_id', $item->base_id)
             ->where('parent_is_numcalc', true)
-            ->where('parent_is_nc_screencalc', false)
+            ->where('parent_is_nc_screencalc', false);
+        $links = $links
             ->orderBy('parent_base_number')
             ->get();
+        return $links;
+    }
+
+    // Расчет вычисляемых полей (неэкранное вычисление)
+    static function item_calc_main(Item $item, $is_run = false)
+    {
+        // '->get()' нужно
+//        $links = Link::where('child_base_id', $item->base_id)
+//            ->where('parent_is_numcalc', true)
+//            ->where('parent_is_nc_screencalc', false)
+//            ->orderBy('parent_base_number')
+//            ->get();
+
+        $links = self::item_calc_links($item, $is_run);
         foreach ($links as $link) {
 //          $val_calc = trim(StepController::steps_calc_code($item, $link, 'button_nc'));
             $steps_calc_code = StepController::steps_calc_code($item, $link, 'button_nc');
@@ -3675,6 +3689,7 @@ class GlobalController extends Controller
                     $item_find = null;
                     // Похожие строки в ItemController::save_main() и GlobalController::item_calc_main()
                     if ($link->parent_base->type_is_number() | $link->parent_base->type_is_boolean()) {
+                        // Похожие проверки ItemController->save_sets() и GlobalController->item_calc_main() ('is_required_lst_num_str_txt_img_doc==false') для числовых полей при нулевом значении
                         if (($vc0 == "") & $link->parent_base->type_is_number() & ($link->parent_base->is_required_lst_num_str_txt_img_doc == false)) {
                             $main = Main::where('child_item_id', $item->id)->where('link_id', $link->id)->first();
                             if ($main) {
@@ -3748,6 +3763,8 @@ class GlobalController extends Controller
                                 $item_find->save();
                             }
                         }
+                    } elseif ($link->parent_base->type_is_list()) {
+                        $item_find = Item::find($vc0);
                     }
                     if ($item_find) {
                         // '->get()' нужно
@@ -3774,9 +3791,9 @@ class GlobalController extends Controller
 
     }
 
-    // https://otus.ru/nest/post/1704/
-    // $_SERVER['REQUEST_URI'] возвращает адрес текущей страницы вместе с параметрами после вопросительного знака
-    // request()->path() возвращает адрес текущей страницы без параметров после вопросительного знака
+// https://otus.ru/nest/post/1704/
+// $_SERVER['REQUEST_URI'] возвращает адрес текущей страницы вместе с параметрами после вопросительного знака
+// request()->path() возвращает адрес текущей страницы без параметров после вопросительного знака
     static function current_path()
     {
         return (!empty($_SERVER['HTTPS']) ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
@@ -3785,6 +3802,11 @@ class GlobalController extends Controller
     static function alf_text()
     {
         return '(' . mb_strtolower(trans('main.all_fields')) . ')';
+    }
+
+    static function trans_lower($info)
+    {
+        return mb_strtolower(trans($info));
     }
 
 //    function get_display()

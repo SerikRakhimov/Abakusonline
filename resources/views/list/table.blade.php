@@ -163,7 +163,8 @@ if ($v_link) {
             @endif
             <?php
             // Нужны все параметры GlobalController::view_info($item->id, $link->id, $role, $relit_id, false)
-            $item_find = GlobalController::view_info($item->id, $link->id, $role, $relit_id, false);
+            //$item_find = GlobalController::view_info($item->id, $link->id, $role, $relit_id, false);
+            $item_find = GlobalController::view_info($it_local->id, $link->id, $role, $relit_id, false);
             ?>
             @if($item_find)
                 <?php
@@ -231,6 +232,7 @@ if ($v_link) {
                         {{--                        @if(GlobalController::is_bs_calcname_check($base))--}}
                         {{-- Одинаковые проверки в ItemController::links_info() и в table.php--}}
                         @if(GlobalController::is_base_calcname_check($base))
+                            {{--                        @if($base_index & GlobalController::is_base_calcname_check($base))--}}
                             <th rowspan="{{$rows + 1 - 1}}" @include('layouts.class_from_base',['base'=>$base, 'align_top'=>true])>
                                 {{--                        {{trans('main.name')}}--}}
                                 {{--                                @if($view_link)--}}
@@ -334,14 +336,14 @@ if ($v_link) {
                             <a href="{{route('item.ext_show', ['item'=>$item, 'project'=>$project, 'role'=>$role,
     'usercode' =>GlobalController::usercode_calc(),
     'relit_id'=>$relit_id,
+    'string_current' => $string_current,
     'heading'=>$heading,
     'base_index_page'=>$base_index_page, 'body_link_page'=>$body_link_page,'body_all_page'=>$body_all_page,
+    'parent_ret_id'=>$view_ret_id,
     'view_link' => GlobalController::set_par_null($view_link),
     'saveurl_show' =>$saveurl_show,
     'par_link' => $view_link,
-    'parent_item'=>$parent_item,
-    'parent_ret_id'=>$view_ret_id,
-    'string_current' => $string_current,
+    'parent_item'=>$parent_item
     ])}}"
                                title="{{trans('main.viewing_record') . ' (id = ' . $item->id . ')'}}">
                                 {{--                        'string_link_ids_current' => $string_link_ids_current,--}}
@@ -436,6 +438,7 @@ if ($v_link) {
                             {{--                            @if(GlobalController::is_bs_calcname_check($base))--}}
                             {{-- Одинаковые проверки в ItemController::links_info() и в table.php--}}
                             @if(GlobalController::is_base_calcname_check($base))
+                                {{--                            @if($base_index & GlobalController::is_base_calcname_check($base))--}}
                                 <td @include('layouts.class_from_base',['base'=>$base])>
                                     @if($base->type_is_image)
                                         {{--                                @include('view.img',['item'=>$item, 'size'=>"small", 'border'=>true, 'filenametrue'=>false, 'link'=>true, 'img_fluid'=>false, 'card_img_top'=>false, 'title'=>""])--}}

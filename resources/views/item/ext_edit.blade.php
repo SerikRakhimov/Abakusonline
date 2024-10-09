@@ -413,6 +413,12 @@
             @if($view_enable == false)
                 @continue
             @endif
+            {{-- Две похожие проверки в этом файле '$link->parent_is_numcalc == true & $link->parent_is_nc_screencalc==false'--}}
+            {{-- 'parent_is_numcalc' - 'Вычислять значение для числового поля, строки, логического поля, списка',--}}
+            {{-- 'parent_is_nc_screencalc' - 'Экранное вычисление',--}}
+            @if($link->parent_is_numcalc == true & $link->parent_is_nc_screencalc==false)
+                @continue
+            @endif
             <?php
             // Вывести с эмодзи
             $result_parent_label = $link->parent_label(true);
@@ -1410,7 +1416,12 @@
         //$base_link_right = GlobalController::base_link_right($link, $role, $calc_link_relit_id);
         $base_link_right = GlobalController::base_link_right($link, $role, $relit_id);
         ?>
-        @if($base_link_right['is_edit_link_enable'] == false)
+        {{--        @if($base_link_right['is_edit_link_enable'] == false)--}}
+        {{-- Две похожие проверки в этом файле '$link->parent_is_numcalc == true & $link->parent_is_nc_screencalc==false'--}}
+        {{-- 'parent_is_numcalc' - 'Вычислять значение для числового поля, строки, логического поля, списка',--}}
+        {{-- 'parent_is_nc_screencalc' - 'Экранное вычисление',--}}
+        @if(($base_link_right['is_edit_link_enable'] == false) |
+            ($link->parent_is_numcalc == true & $link->parent_is_nc_screencalc==false))
             <?php
             // Удаление из массива $array_disabled,
             // Нужно, чтобы не было ошибок в команде JavaScript "document.getElementById('link{{$key}}').disabled = false;"
@@ -2431,10 +2442,10 @@
                 @endif
             if (ds == true) {
                 {{-- Одинаковые строки по тексту этого файла используется несколько раз--}}
-                    @if($link->parent_base->is_code_needed==true && $link->parent_is_enter_refer==true)
-                    document.getElementById('code{{$key}}').disabled = true;
-                    @else
-                    {{--Две похожие команды в этой функции--}}
+                @if($link->parent_base->is_code_needed==true && $link->parent_is_enter_refer==true)
+                document.getElementById('code{{$key}}').disabled = true;
+                @else
+                {{--Две похожие команды в этой функции--}}
                 document.getElementById('link{{$key}}').disabled = true;
                 @if($link->parent_base->type_is_string())
                 @if ($link->parent_base->is_one_value_lst_str_txt == false)

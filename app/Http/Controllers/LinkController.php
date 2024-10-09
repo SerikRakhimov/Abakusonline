@@ -350,6 +350,13 @@ class LinkController extends Controller
             $link->parent_is_base_link = false;
         }
 
+        // Если 'Ссылка на основу (кроме вычисляемых основ - Ребенок_Основа)' равна true,
+        // присвоить 'Для вычисляемого наименования' присвоить false
+        // (чтобы не было зацикливания при вычислении вычисляемого наименования)
+        if ($link->parent_is_base_link == true) {
+            $link->parent_is_calcname  = false;
+        }
+
         if ($link->parent_is_numcalc == false) {
             $link->parent_is_nc_screencalc = 0;
         }
@@ -678,6 +685,13 @@ class LinkController extends Controller
         // то 'Ссылка на основу (кроме вычисляемых основ - Ребенок_Основа)' присвоить false
         if ($link->child_base->is_calculated_lst == true) {
             $link->parent_is_base_link = false;
+        }
+
+        // Если 'Ссылка на основу (кроме вычисляемых основ - Ребенок_Основа)' равна true,
+        // присвоить 'Для вычисляемого наименования' присвоить false
+        // (чтобы не было зацикливания при вычислении вычисляемого наименования)
+        if ($link->parent_is_base_link == true) {
+            $link->parent_is_calcname  = false;
         }
 
         if ($link->parent_is_numcalc == false) {

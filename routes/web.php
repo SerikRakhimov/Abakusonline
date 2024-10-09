@@ -544,6 +544,14 @@ Route::get('/project/calculate_bases/{project}/{role}', [ProjectController::clas
     ->name('project.calculate_bases')
     ->middleware('auth');
 
+//Route::get('/project/calculate_all/{base}/{project}/{relip_proj}/{relit_id}/{role}', [ProjectController::class, 'calculate_all'])
+//    ->name('project.calculate_all')
+//    ->middleware('auth');
+//
+//Route::get('/project/calculate_item/{project}/{relit_id}/{role}/{item}/{is_local}', [ProjectController::class, 'calculate_item'])
+//    ->name('project.calculate_item')
+//    ->middleware('auth');
+
 // Accesses
 Route::get('/access/index_project/{project}', [AccessController::class, 'index_project'])
     ->name('access.index_project')

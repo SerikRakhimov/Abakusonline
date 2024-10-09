@@ -22,7 +22,15 @@
     @include('layouts.project.show_project_role',['project'=>$project, 'role'=>$role])
     @auth
         @if ($role->is_author())
-            @if ($project->is_calculated_base_exist() == true)
+            {{--            @if ($project->is_calculated_base_exist() == true)--}}
+            {{--                <div class="col-12 text-right">--}}
+            {{--                    <a href="{{route('project.calculate_bases_start', ['project'=>$project, 'role'=>$role])}}"--}}
+            {{--                       title="{{trans('main.calculate_bases')}}">--}}
+            {{--                        {{trans('main.calculate_bases')}}--}}
+            {{--                    </a>--}}
+            {{--                </div>--}}
+            {{--            @endif--}}
+            @if ((new ProjectController)->is_exist_calculate_bases($project) == true)
                 <div class="col-12 text-right">
                     <a href="{{route('project.calculate_bases_start', ['project'=>$project, 'role'=>$role])}}"
                        title="{{trans('main.calculate_bases')}}">
@@ -34,46 +42,46 @@
     @endauth
     <h3 class="ml-5">{{trans('main.mainmenu')}}</h3>
     <table class="table">
-    @foreach($array_relips as $relit_id=>$array_relip)
-        {{--        <hr>--}}
-        <?php
-        $relit = null;
-        if ($relit_id == 0) {
+        @foreach($array_relips as $relit_id=>$array_relip)
+            {{--        <hr>--}}
+            <?php
             $relit = null;
-        } else {
-            $relit = Relit::findOrFail($relit_id);
-        }
-        // Находим родительский проект
-        // Использовать Project::findOrFail(), а не Project::find()
-        $relip_project = Project::findOrFail($array_relip['project_id']);
-        $base_ids = $array_relip['base_ids'];
-        $calc_relip_info = GlobalController::calc_relip_info($project, $role, $relip_project, $relit_id);
-        ?>
-        {{--        @if($role->is_view_info_relits == true)--}}
-        {{--            @if($relit_id != 0)--}}
-        {{--                <div class="row ml-5">--}}
-        {{--                    <div class="col-12 text-left">--}}
-        {{--                        --}}{{--                    <small><small>{{trans('main.project')}}: </small></small>--}}
-        {{--                        <small>{{$relip_project->name()}}</small>--}}
-        {{--                        <h6>{{$relit->title()}}</h6>--}}
-        {{--                    </div>--}}
-        {{--                </div>--}}
-        {{--            @endif--}}
-        {{--        @endif--}}
-        @if($calc_relip_info['proj_relit_total'] != '')
+            if ($relit_id == 0) {
+                $relit = null;
+            } else {
+                $relit = Relit::findOrFail($relit_id);
+            }
+            // Находим родительский проект
+            // Использовать Project::findOrFail(), а не Project::find()
+            $relip_project = Project::findOrFail($array_relip['project_id']);
+            $base_ids = $array_relip['base_ids'];
+            $calc_relip_info = GlobalController::calc_relip_info($project, $role, $relip_project, $relit_id);
+            ?>
+            {{--        @if($role->is_view_info_relits == true)--}}
+            {{--            @if($relit_id != 0)--}}
+            {{--                <div class="row ml-5">--}}
+            {{--                    <div class="col-12 text-left">--}}
+            {{--                        --}}{{--                    <small><small>{{trans('main.project')}}: </small></small>--}}
+            {{--                        <small>{{$relip_project->name()}}</small>--}}
+            {{--                        <h6>{{$relit->title()}}</h6>--}}
+            {{--                    </div>--}}
+            {{--                </div>--}}
+            {{--            @endif--}}
+            {{--        @endif--}}
+            @if($calc_relip_info['proj_relit_total'] != '')
                 {{--                    <div class="row ml-5">--}}
                 {{--                        <div class="col-12 text-left">--}}
-{{--                @include('layouts.project.show_relip_info',['calc_relip_info'=>$calc_relip_info])--}}
+                {{--                @include('layouts.project.show_relip_info',['calc_relip_info'=>$calc_relip_info])--}}
                 {{--                        </div>--}}
                 {{--                    </div>--}}
-            <tr>
-                <td colspan="2" class="pl-5">
-                    <br>
-                            @include('layouts.project.show_relip_info',['calc_relip_info'=>$calc_relip_info])
-                </td>
-            </tr>
-        @endif
-{{--        <table class="table">--}}
+                <tr>
+                    <td colspan="2" class="pl-5">
+                        <br>
+                        @include('layouts.project.show_relip_info',['calc_relip_info'=>$calc_relip_info])
+                    </td>
+                </tr>
+            @endif
+            {{--        <table class="table">--}}
             @foreach($base_ids as $base_id)
                 <?php
                 $base = Base::findOrFail($base_id);
@@ -127,8 +135,8 @@
                     </td>
                 </tr>
             @endforeach
-{{--        </table>--}}
-    @endforeach
+            {{--        </table>--}}
+        @endforeach
     </table>
 
     {{--    <h3 class="text-center">Справочники</h3><br>--}}

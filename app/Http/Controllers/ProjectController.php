@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Access;
 use App\Models\Base;
+use App\Models\Link;
 use App\Models\Item;
+use App\Models\Main;
 use App\Rules\IsLatinProject;
 use App\Rules\IsLowerProject;
 use App\Rules\IsOneWordProject;
@@ -17,6 +19,7 @@ use App\Models\Role;
 use App\Models\Set;
 use App\Models\Relit;
 use App\Models\Relip;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Artisan;
@@ -1294,60 +1297,81 @@ class ProjectController extends Controller
             return redirect()->back();
         }
     }
-
-    function calculate_bases_start(Project $project, Role $role)
-    {
-        if (!(($project->template_id == $role->template_id) && ($role->is_author()))) {
-            return;
-        }
-        return view('project/calculate_bases_start', ['project' => $project, 'role' => $role]);
-    }
-
-    function calculate_bases(Project $project, Role $role)
-    {
-        if (!(($project->template_id == $role->template_id) && ($role->is_author()))) {
-            return;
-        }
-
-        echo nl2br(trans('main.calculation') . ": " . PHP_EOL);
-
-        try {
-            // начало транзакции
-            DB::transaction(function ($r) use ($project, $role) {
-                // Запрос для определения bases, которые нужно удалить
-                // Нужно "->where('sets.is_savesets_enabled', '=', true)"
-                $bases_to = Set::select(DB::Raw('links.child_base_id as base_id'))
-                    ->join('links', 'sets.link_to_id', '=', 'links.id')
-                    ->join('bases', 'links.child_base_id', '=', 'bases.id')
-                    ->where('bases.template_id', $project->template_id)
-                    ->where('sets.is_savesets_enabled', '=', true)
-                    ->distinct()
-                    ->orderBy('links.child_base_id')
-                    ->get();
-
-//                $bases_from = Set::select(DB::Raw('links.child_base_id as base_id'))
-//                    ->join('links', 'sets.link_from_id', '=', 'links.id')
+//    Предыдущий вариант
+//
+//    function calculate_bases_start(Project $project, Role $role)
+//    {
+//        if (!(($project->template_id == $role->template_id) && ($role->is_author()))) {
+//            return;
+//        }
+//        return view('project/calculate_bases_start', ['project' => $project, 'role' => $role]);
+//    }
+//
+//    // Перерасчет снизу вверх ("от вассалов к господину")
+//    function calculate_bases(Project $project, Role $role)
+//    {
+//        if (!(($project->template_id == $role->template_id) && ($role->is_author()))) {
+//            return;
+//        }
+//
+//        if (!$project->is_calculated_base_exist()) {
+//            return;
+//        }
+//
+//        echo nl2br(trans('main.calculation') . ": " . PHP_EOL);
+//
+//        try {
+//            // начало транзакции
+//            DB::transaction(function ($r) use ($project, $role) {
+//                // Запрос для определения bases, которые нужно удалить
+//                // Нужно "->where('sets.is_savesets_enabled', '=', true)"
+//                $bases_to = Set::select(DB::Raw('links.child_base_id as base_id'))
+//                    ->join('links', 'sets.link_to_id', '=', 'links.id')
 //                    ->join('bases', 'links.child_base_id', '=', 'bases.id')
 //                    ->where('bases.template_id', $project->template_id)
+//                    ->where('sets.is_savesets_enabled', '=', true)
 //                    ->distinct()
 //                    ->orderBy('links.child_base_id')
 //                    ->get();
-
-                // Нужно "->where('sets.is_savesets_enabled', '=', true)"
-                // Это условие 'where('bf.is_calculated_lst', '=', false)->where('bt.is_calculated_lst', '=', true)' означает
-                // Исключить sets, когда link_from->child_base и link_to->child_base являются вычисляемыми (base->is_calculated_lst=true)
-//                $bases_from = Set::select(DB::Raw('lf.child_base_id as base_id'))
-//                    ->join('links as lf', 'sets.link_from_id', '=', 'lf.id')
-//                    ->join('links as lt', 'sets.link_to_id', '=', 'lt.id')
-//                    ->join('bases as bf', 'lf.child_base_id', '=', 'bf.id')
-//                    ->join('bases as bt', 'lt.child_base_id', '=', 'bt.id')
-//                    ->where('bf.template_id', $project->template_id)
-//                    ->where('sets.is_savesets_enabled', '=', true)
-//                    ->where('bf.is_calculated_lst', '=', false)
-//                    ->where('bt.is_calculated_lst', '=', true)
-//                    ->distinct()
-//                    ->orderBy('lf.child_base_id')
-//                    ->get();
+//
+////                $bases_from = Set::select(DB::Raw('links.child_base_id as base_id'))
+////                    ->join('links', 'sets.link_from_id', '=', 'links.id')
+////                    ->join('bases', 'links.child_base_id', '=', 'bases.id')
+////                    ->where('bases.template_id', $project->template_id)
+////                    ->distinct()
+////                    ->orderBy('links.child_base_id')
+////                    ->get();
+//
+//                // Нужно "->where('sets.is_savesets_enabled', '=', true)"
+//                // Это условие 'where('bf.is_calculated_lst', '=', false)->where('bt.is_calculated_lst', '=', true)' означает
+//                // Исключить sets, когда link_from->child_base и link_to->child_base являются вычисляемыми (base->is_calculated_lst=true)
+////                $bases_from = Set::select(DB::Raw('lf.child_base_id as base_id'))
+////                    ->join('links as lf', 'sets.link_from_id', '=', 'lf.id')
+////                    ->join('links as lt', 'sets.link_to_id', '=', 'lt.id')
+////                    ->join('bases as bf', 'lf.child_base_id', '=', 'bf.id')
+////                    ->join('bases as bt', 'lt.child_base_id', '=', 'bt.id')
+////                    ->where('bf.template_id', $project->template_id)
+////                    ->where('sets.is_savesets_enabled', '=', true)
+////                    ->where('bf.is_calculated_lst', '=', false)
+////                    ->where('bt.is_calculated_lst', '=', true)
+////                    ->distinct()
+////                    ->orderBy('lf.child_base_id')
+////                    ->get();
+////                $bases_from = Set::select(DB::Raw('lf.child_base_id as base_id'))
+////                    ->join('links as lf', 'sets.link_from_id', '=', 'lf.id')
+////                    ->join('links as lt', 'sets.link_to_id', '=', 'lt.id')
+////                    ->join('bases as bf', 'lf.child_base_id', '=', 'bf.id')
+////                    ->join('bases as bt', 'lt.child_base_id', '=', 'bt.id')
+////                    ->where('bf.template_id', $project->template_id)
+////                    ->where('sets.is_savesets_enabled', '=', true)
+////                    ->where('bf.is_calculated_lst', '=', false)
+////                    ->where('bt.is_calculated_lst', '=', true)
+////                    ->where('sets.is_calcsort', '=', false)
+////                    ->distinct()
+////                    ->orderBy('lf.child_base_id')
+////                    ->get();
+//                // Запросы $bases_from и $bases_relit_from похожи
+//                // Запрос по текущему проекту
 //                $bases_from = Set::select(DB::Raw('lf.child_base_id as base_id'))
 //                    ->join('links as lf', 'sets.link_from_id', '=', 'lf.id')
 //                    ->join('links as lt', 'sets.link_to_id', '=', 'lt.id')
@@ -1359,104 +1383,512 @@ class ProjectController extends Controller
 //                    ->where('bt.is_calculated_lst', '=', true)
 //                    ->where('sets.is_calcsort', '=', false)
 //                    ->distinct()
-//                    ->orderBy('lf.child_base_id')
+//                    ->orderBy('lf.child_base_id');
+//
+//                // "if (111 == 222)" - обработка внешних основ(постоянные и вычисляемые) не совсем корректно работает,
+//                // т.к. внешние основы не очищаются
+//                // Например, если несколько классов (у каждого класса свой проект), то количество учеников в классе неправильно считает, т.к. обнуляется количество учеников
+//                if (111 == 222) {
+//                    // Запрос по проектам - Дети по отношению к текущему проекту/шаблону
+//                    // '->orderBy('lf.child_base_id, relits.id')' - дает ошибку
+//                    $bases_relit_from = Set::select(DB::Raw('lf.child_base_id as base_id, relits.id as relit_id'))
+//                        ->join('relits', 'sets.relit_to_id', '=', 'relits.id')
+//                        ->join('links as lf', 'sets.link_from_id', '=', 'lf.id')
+//                        ->join('links as lt', 'sets.link_to_id', '=', 'lt.id')
+//                        ->join('bases as bf', 'lf.child_base_id', '=', 'bf.id')
+//                        ->join('bases as bt', 'lt.child_base_id', '=', 'bt.id')
+//                        ->where('sets.is_savesets_enabled', '=', true)
+//                        ->where('bf.is_calculated_lst', '=', false)
+//                        ->where('bt.is_calculated_lst', '=', true)
+//                        ->where('sets.is_calcsort', '=', false)
+//                        ->distinct()
+//                        ->orderBy('lf.child_base_id')
+//                        ->get();
+//                }
+//
+//                // Обработка для вычисляемых полей постоянных основ
+//                // Запрос по текущему проекту
+//                // ->distinct()->orderBy('bf.id')->orderBy('lt.id') так не работает;
+//                // Обработка записей текущего проекта
+//                // Если bt есть в других проектах, как взаимосвязанный шаблон - проверить
+//                $bases_body_from_start = Set::select(DB::Raw('bf.id as bf_id, bt.id as bt_id, lt.id as link_id'))
+//                    ->join('links as lf', 'sets.link_from_id', '=', 'lf.id')
+//                    ->join('links as lt', 'sets.link_to_id', '=', 'lt.id')
+//                    ->join('bases as bf', 'lf.child_base_id', '=', 'bf.id')
+//                    ->join('bases as bt', 'lt.child_base_id', '=', 'bt.id')
+//                    ->where('bf.template_id', $project->template_id)
+//                    ->where('sets.is_savesets_enabled', '=', true)
+//                    ->where('bf.is_calculated_lst', '=', false)
+//                    ->where('bt.is_calculated_lst', '=', false)
+//                    ->where('sets.is_group', '=', false)
+//                    ->where('sets.is_calcsort', '=', false)
+//                    ->distinct();
+//
+//                $links_body_to = $bases_body_from_start
+//                    ->select('lt.id as link_id')
+//                    ->distinct()
 //                    ->get();
-                // Запросы $bases_from и $bases_relit_from похожи
-                // Запрос по текущему проекту
-                $bases_from = Set::select(DB::Raw('lf.child_base_id as base_id'))
-                    ->join('links as lf', 'sets.link_from_id', '=', 'lf.id')
-                    ->join('links as lt', 'sets.link_to_id', '=', 'lt.id')
-                    ->join('bases as bf', 'lf.child_base_id', '=', 'bf.id')
-                    ->join('bases as bt', 'lt.child_base_id', '=', 'bt.id')
-                    ->where('bf.template_id', $project->template_id)
-                    ->where('sets.is_savesets_enabled', '=', true)
-                    ->where('bf.is_calculated_lst', '=', false)
-                    ->where('bt.is_calculated_lst', '=', true)
-                    ->where('sets.is_calcsort', '=', false)
+//
+////                $bases_body_from = $bases_body_from_start
+////                    ->select('bf.id as base_id')
+////                    ->distinct();
+//
+//                $bases_body_info_to = $bases_body_from_start
+//                    ->select('bt.id as base_id')
+//                    ->distinct()
+//                    ->get();
+//
+//                $ids = array();
+//                foreach ($bases_body_info_to as $value) {
+//                    $ids[] = $value['base_id'];
+//                }
+//
+//                // Исключить bt.id, чтобы не было удвоения и т.д.,
+//                // т.к. в ItemController::save_sets() вызывается рекурсивно ItemController::save_sets().
+//                // Расчет(рекурсивный вызов функции ItemController::save_sets()) снизу вверх ("от вассалов к господину")
+//                $bases_body_from = $bases_body_from_start
+//                    ->select('bf.id as base_id')
+//                    ->whereNotIn('bf.id', $ids)
+//                    ->distinct();
+//
+//                if (111 == 222) {
+//                    // Запрос по проектам - Дети по отношению к текущему проекту/шаблону
+//                    $links_body_relit_to = Set::select(DB::Raw('lt.id as link_id, relits.id as relit_id'))
+//                        ->join('relits', 'sets.relit_to_id', '=', 'relits.id')
+//                        ->join('links as lf', 'sets.link_from_id', '=', 'lf.id')
+//                        ->join('links as lt', 'sets.link_to_id', '=', 'lt.id')
+//                        ->join('bases as bf', 'lf.child_base_id', '=', 'bf.id')
+//                        ->join('bases as bt', 'lt.child_base_id', '=', 'bt.id')
+//                        ->where('bf.template_id', $project->template_id)
+//                        ->where('sets.is_savesets_enabled', '=', true)
+//                        ->where('bf.is_calculated_lst', '=', false)
+//                        ->where('bt.is_calculated_lst', '=', false)
+//                        ->where('sets.is_group', '=', false)
+//                        ->where('sets.is_calcsort', '=', false)
+//                        ->distinct()
+//                        ->get();
+//                }
+//                // Объединить шаблоны в одну выборку
+//                // Использовать union() т.к. эта команда возвращает уникальные записи
+//                // unionall() - возвращает все записи
+//                // distinct() - не обязательная команда в данном случае
+//                $bases_from = $bases_from->union($bases_body_from)->distinct();
+//
+//                $str_records = mb_strtolower(trans('main.records'));
+//
+//                // Обработка для вычисляемых полей постоянных основ
+//                // Например, если несколько классов (у каждого класса свой проект), то количество учеников в классе неправильно считает, т.к. обнуляется количество учеников
+//                // Удаление записей из mains
+//                // Обработка записей текущего проекта
+//                foreach ($links_body_to as $links_body_to_id) {
+//                    $link = Link::findOrFail($links_body_to_id['link_id']);
+//                    echo nl2br(trans('main.link') . ": " . $link->child_label() . "." . $link->parent_label() . " - ");
+//                    $mains = Main::join('items', 'mains.child_item_id', '=', 'items.id')
+//                        ->where('items.project_id', $project->id)
+//                        ->where('link_id', $link->id);
+//                    $count = $mains->count();
+//                    $mains->delete();
+//                    echo nl2br(trans('main.deleted') . " " . $count . " " . $str_records . " (" . GlobalController::trans_lower('main.project') . ": " . $project->name() . ")" . PHP_EOL);
+//                }
+//
+//                if (111 == 222) {
+//                    // Удаление записей из mains
+//                    // Обработка записей проектов - Дети
+//                    foreach ($links_body_relit_to as $value) {
+//                        $link = Link::findOrFail($value['link_id']);
+//                        echo nl2br(trans('main.link') . ": " . $link->child_label() . "." . $link->parent_label() . " - ");
+//                        $relit = Relit::findOrFail($value['relit_id']);
+//                        // Поиск $child_project
+//                        //$child_id_projects = GlobalController::calc_relit_children_id_projects($relit, $project);
+//
+//                        $children_id_projects = Relip::select(DB::Raw('relips.parent_project_id as project_id'))
+//                            ->where('relips.relit_id', '=', $relit->id)
+//                            ->where('relips.child_project_id', '=', $project->id)
+//                            ->get();
+//
+//                        $child_id_projects = $children_id_projects;
+//
+//                        foreach ($child_id_projects as $project_id) {
+//                            $child_project = Project::findOrFail($project_id['project_id']);
+//
+//                            // Используется $child_project два раза
+//                            $mains = Main::join('items', 'mains.child_item_id', '=', 'items.id')
+//                                ->where('items.project_id', $child_project->id)
+//                                ->where('link_id', $link->id);
+//                            $count = $mains->count();
+//                            $mains->delete();
+//                            echo nl2br(trans('main.deleted') . " " . $count . " " . $str_records
+//                                . " (" . GlobalController::trans_lower('main.project') . ": "
+//                                . $child_project->name() . ")" . PHP_EOL);
+//                        }
+//                    }
+//                }
+//
+//                // Удаление записей
+//                foreach ($bases_to as $base_to_id) {
+//                    $base = Base::findOrFail($base_to_id['base_id']);
+//                    // Проверка нужна, только для вычисляемых основ
+//                    if ($base->is_calculated_lst == true) {
+//                        echo nl2br(trans('main.base') . ": " . $base->name() . " - ");
+//                        $items = Item::where('project_id', $project->id)->where('base_id', $base->id);
+//                        $count = $items->count();
+//                        $items->delete();
+//                        echo nl2br(trans('main.deleted') . " " . $count . " " . $str_records . PHP_EOL);
+//                    }
+//                }
+//
+//                // Обработка записей текущего проекта
+//                $bases_from = $bases_from->get();
+//                foreach ($bases_from as $base_from_id) {
+//                    $base = Base::findOrFail($base_from_id['base_id']);
+//                    //if ($base->id == 324) {
+//                    echo nl2br(trans('main.base') . ": " . $base->name() . " - ");
+//                    $items = Item::where('project_id', $project->id)->where('base_id', $base->id)->get();
+//                    $count = $items->count();
+//                    foreach ($items as $item) {
+//                        //Log::info($item->id . ' - ' . $item->name());
+//                        //echo nl2br(trans('main.processed') . " id = " . $item->id . " " . $item->name() . " ".$item->id. PHP_EOL);
+//                        // $reverse = true - отнимать, false - прибавлять
+//                        // true - с заменой
+//                        // 0 - текущий проект
+//                        (new ItemController)->save_info_sets($item, false, true, 0, $role);
+//                    }
+//                    echo nl2br(trans('main.processed') . " " . $count . " " . $str_records . PHP_EOL);
+//                    //}
+//                }
+//
+//                if (111 == 222) {
+//                    // Обработка записей проектов - Дети
+//                    foreach ($bases_relit_from as $value) {
+//                        $base = Base::findOrFail($value['base_id']);
+//                        echo nl2br(trans('main.base') . ": " . $base->name() . PHP_EOL);
+//                        $relit = Relit::findOrFail($value['relit_id']);
+//                        // Поиск $child_project
+//                        $child_id_projects = GlobalController::calc_relit_children_id_projects($relit, $project);
+//                        foreach ($child_id_projects as $project_id) {
+//                            $child_project = Project::findOrFail($project_id['project_id']);
+//                            echo nl2br('->' . trans('main.child') . '_' . trans('main.template') . ": " . $relit->child_template->name() . ", "
+//                                . trans('main.project') . ": " . $child_project->name()
+//                                . " - ");
+//
+//                            // Используется $child_project
+//                            $items = Item::where('project_id', $child_project->id)->where('base_id', $base->id)->get();
+//                            $count = $items->count();
+//                            foreach ($items as $item) {
+//                                //Log::info($item->id . ' - ' . $item->name());
+//                                //echo nl2br(trans('main.processed') . " id = " . $item->id . " " . $item->name() . " ".$item->id. PHP_EOL);
+//                                // $reverse = true - отнимать, false - прибавлять
+//                                // true - с заменой
+//                                (new ItemController)->save_info_sets($item, false, true, $relit->id, $role);
+//                            }
+//                            echo nl2br(trans('main.processed') . " " . $count . " " . $str_records . PHP_EOL);
+//                        }
+//                    }
+//                }
+//
+//            }, 3);  // Повторить три раза, прежде чем признать неудачу
+//            // окончание транзакции
+//
+//        } catch (Exception $exc) {
+//            return trans('transaction_not_completed') . ": " . $exc->getMessage();
+//        }
+//
+//        echo '<p class="text-center">
+//            <a href=' . '"' . route('project.start', ['project' => $project->id, 'role' => $role]) . '" title="' . trans('main.bases') . '">' . $project->name()
+//            . '</a>
+//        </p>';
+//
+////        $set_main = Set::select(DB::Raw('sets.*, lt.child_base_id as to_child_base_id, lt.parent_base_id as to_parent_base_id'))
+////            ->join('links as lt', 'sets.link_to_id', '=', 'lt.id')
+////            ->where('lf.child_base_id', '=', $item->base_id)
+////            ->orderBy('sets.serial_number')
+////            ->orderBy('sets.link_from_id')
+////            ->orderBy('sets.link_to_id')->get();
+//
+//        //$items = Item::joinSub($sets, 'sets', function ($join) {
+//        //        $join->on('items.base_id', '=', 'sets.base_id');})->get();
+//
+//
+////        $users = DB::table('items')
+////            ->joinSub($bases, 'bases', function ($join) {
+////                $join->on('items.id', 1);
+////            })->get();
+//
+//    }
+
+    function calculate_bases_start(Project $project, Role $role)
+    {
+        if (!(($project->template_id == $role->template_id) && ($role->is_author()))) {
+            return;
+        }
+        return view('project/calculate_bases_start', ['project' => $project, 'role' => $role]);
+    }
+
+
+    function is_exist_calculate_bases(Project $project)
+    {
+        // Основная выборка, вычисляются $sets_ids
+        $info_sets = self::calc_info_sets($project);
+        $result = $info_sets->count()>0;
+        return $result;
+    }
+
+    static function calc_info_sets(Project $project)
+    {
+        // '->get()' нужно
+        // Основная выборка, вычисляются $sets_ids
+        $info_sets = Set::select(DB::Raw('sets.id as set_id'))
+            ->join('links as lt', 'sets.link_to_id', '=', 'lt.id')
+            ->join('bases as bt', 'lt.child_base_id', '=', 'bt.id')
+            ->where('bt.template_id', $project->template_id)
+            ->where('sets.is_savesets_enabled', '=', true)
+            ->where('sets.is_calcsort', '=', false)
+            ->distinct()
+            ->get();
+        return $info_sets;
+    }
+
+    function calculate_bases(Project $project, Role $role)
+    {
+        if (!(($project->template_id == $role->template_id) && ($role->is_author()))) {
+            return;
+        }
+
+//        if (!$project->is_calculated_base_exist()) {
+//            return;
+//        }
+        echo nl2br(trans('main.calculation') . ": " . PHP_EOL);
+
+        try {
+            // начало транзакции
+            DB::transaction(function ($r) use ($project, $role) {
+
+                // '->get()' везде в запросах нужно
+                // Основная выборка, вычисляются $sets_ids
+                $info_sets = self::calc_info_sets($project);
+
+                $sets_ids = array();
+                foreach ($info_sets as $value) {
+                    $sets_ids[] = $value['set_id'];
+                }
+
+                // Используемые серийные номера sets
+                $info_sn = Set::select(DB::Raw('serial_number as sn'))
+                    ->whereIn('sets.id', $sets_ids)
                     ->distinct()
-                    ->orderBy('lf.child_base_id')
                     ->get();
 
-                // Запрос по проектам - Дети по отношению к текущему проекту/шаблону
-                // '->orderBy('lf.child_base_id, relits.id')' - дает ошибку
-                $bases_relit_from = Set::select(DB::Raw('lf.child_base_id as base_id, relits.id as relit_id'))
-                    ->join('relits', 'sets.relit_to_id', '=', 'relits.id')
-                    ->join('links as lf', 'sets.link_from_id', '=', 'lf.id')
+                $sn_ids = array();
+                foreach ($info_sn as $value) {
+                    $sn_ids[] = $value['sn'];
+                }
+                // Данные - результат
+                $info_bt_all = Set::select(DB::Raw('bt.id as bt_id'))
                     ->join('links as lt', 'sets.link_to_id', '=', 'lt.id')
-                    ->join('bases as bf', 'lf.child_base_id', '=', 'bf.id')
                     ->join('bases as bt', 'lt.child_base_id', '=', 'bt.id')
-                    ->where('sets.is_savesets_enabled', '=', true)
-                    ->where('bf.is_calculated_lst', '=', false)
-                    ->where('bt.is_calculated_lst', '=', true)
-                    ->where('sets.is_calcsort', '=', false)
+                    ->whereIn('sets.id', $sets_ids)
                     ->distinct()
-                    ->orderBy('lf.child_base_id')
                     ->get();
+
+                $info_bt_calc = Set::select(DB::Raw('bt.id as bt_id'))
+                    ->join('links as lt', 'sets.link_to_id', '=', 'lt.id')
+                    ->join('bases as bt', 'lt.child_base_id', '=', 'bt.id')
+                    ->whereIn('sets.id', $sets_ids)
+                    ->where('bt.is_calculated_lst', '=', true)
+                    ->distinct()
+                    ->get();
+
+                $bt_ids = array();
+                foreach ($info_bt_all as $value) {
+                    $bt_ids[] = $value['bt_id'];
+                }
+
+                $info_lt_nocalc = Set::select(DB::Raw('lt.id as lt_id'))
+                    ->join('links as lt', 'sets.link_to_id', '=', 'lt.id')
+                    ->join('bases as bt', 'lt.child_base_id', '=', 'bt.id')
+                    ->whereIn('sets.id', $sets_ids)
+                    ->where('bt.is_calculated_lst', '=', false)
+                    ->where('sets.is_group', '=', false)
+                    ->distinct()
+                    ->get();
+
+//                // Исключить bt.id, чтобы не было удвоения и т.д.,
+//                // т.к. в ItemController::save_sets() вызывается рекурсивно ItemController::save_sets().
+//                // Расчет(рекурсивный вызов функции ItemController::save_sets()) снизу вверх ("от вассалов к господину")
+//                // 'looping_possible' = 'Возможно зацикливание'
+//              Исходные данные
+                $info_bf = Set::select(DB::Raw('bf.id as bf_id'))
+                    ->join('links as lf', 'sets.link_from_id', '=', 'lf.id')
+                    ->join('bases as bf', 'lf.child_base_id', '=', 'bf.id')
+                    ->whereIn('sets.id', $sets_ids)
+                    ->whereNotIn('bf.id', $bt_ids)
+                    ->distinct()
+                    ->get();
+
+                $bf_ids = array();
+                foreach ($info_bf as $value) {
+                    $bf_ids[] = $value['bf_id'];
+                }
+
+                $info_lf = Set::select(DB::Raw('lf.id as lf_id'))
+                    ->join('links as lf', 'sets.link_from_id', '=', 'lf.id')
+                    ->join('bases as bf', 'lf.child_base_id', '=', 'bf.id')
+                    ->whereIn('sets.id', $sets_ids)
+                    ->whereIn('bf.id', $bf_ids)
+                    ->distinct()
+                    ->get();
+
+                $lf_ids = array();
+                foreach ($info_lf as $value) {
+                    $lf_ids[] = $value['lf_id'];
+                }
+
+
+                $proj_ids = array();
+                $proj_ids[] = $project->id;
+                // '->get()' нужно
+                $relips = Relip::where('parent_project_id', $project->id)
+                    ->get();
+                foreach ($relips as $relip) {
+                    $proj_ids[] = $relip['child_project_id'];
+                }
+
+                // Сохранить данные до проведения расчета
+                $mains_all_step = self::calc_mains_all_step($proj_ids, $bf_ids, $lf_ids);
+                $items_all = $mains_all_step['items_all'];
+                $mains_all_step_first = $mains_all_step['mains_all_step'];
 
                 $str_records = mb_strtolower(trans('main.records'));
 
-                // Удаление записей
-                foreach ($bases_to as $base_to_id) {
-                    $base = Base::findOrFail($base_to_id['base_id']);
-                    // Проверка нужна, только для вычисляемых основ
-                    if ($base->is_calculated_lst == true) {
-                        echo nl2br(trans('main.base') . ": " . $base->name() . " - ");
-                        $items = Item::where('project_id', $project->id)->where('base_id', $base->id);
-                        $count = $items->count();
-                        $items->delete();
-                        echo nl2br(trans('main.deleted') . " " . $count . " " . $str_records . PHP_EOL);
-                    }
-                }
-
-                // Обработка записей текущего проекта
-                foreach ($bases_from as $base_from_id) {
-                    $base = Base::findOrFail($base_from_id['base_id']);
+                // Сторно записей $info_bt_all
+                // Сделать проверку, если ли ссылки дальше от господина к вассалам
+                foreach ($info_bt_all as $base_to_id) {
+                    $base = Base::findOrFail($base_to_id['bt_id']);
                     echo nl2br(trans('main.base') . ": " . $base->name() . " - ");
-                    $items = Item::where('project_id', $project->id)->where('base_id', $base->id)->get();
+                    // '->get()' нужно
+                    $items = Item::where('project_id', $project->id)->where('base_id', $base->id)
+                        ->get();
                     $count = $items->count();
                     foreach ($items as $item) {
-                        //Log::info($item->id . ' - ' . $item->name());
-                        //echo nl2br(trans('main.processed') . " id = " . $item->id . " " . $item->name() . " ".$item->id. PHP_EOL);
-                        // $reverse = true - отнимать, false - прибавлять
-                        // true - с заменой
-                        // 0 - текущий проект
-                        (new ItemController)->save_info_sets($item, false, true, 0, $role);
+                        // сторно
+                        ItemController::save_info_sets($item, true, false, 0, $role, $sn_ids);
                     }
-                    echo nl2br(trans('main.processed') . " " . $count . " " . $str_records . PHP_EOL);
+                    echo nl2br(trans('main.reversal_processed') . " " . $count . " " . $str_records . PHP_EOL);
+                }
+                // Удаление всех записей вычисляемых таблиц-основ
+                // where('bt.is_calculated_lst', '=', true)
+                echo nl2br(PHP_EOL);
+                foreach ($info_bt_calc as $base_to_id) {
+                    $base = Base::findOrFail($base_to_id['bt_id']);
+                    echo nl2br(trans('main.base') . ": " . $base->name() . " - ");
+                    $items = Item::where('project_id', $project->id)->where('base_id', $base->id);
+                    $count = $items->count();
+                    $items->delete();
+                    echo nl2br(trans('main.calculated_base_cleared') . ": " . $count . " " . $str_records . PHP_EOL);
                 }
 
-                // Обработка записей проектов - Дети
-                foreach ($bases_relit_from as $value) {
-                    $base = Base::findOrFail($value['base_id']);
-                    echo nl2br(trans('main.base') . ": " . $base->name() . PHP_EOL);
-                    $relit = Relit::findOrFail($value['relit_id']);
-                    // Поиск $child_project
-                    $child_id_projects = GlobalController::calc_relit_children_id_projects($relit, $project);
-                    foreach ($child_id_projects as $project_id) {
-                        $child_project = Project::findOrFail($project_id['project_id']);
-                        echo nl2br('->' . trans('main.child') . '_' . trans('main.template') . ": " . $relit->child_template->name() . ", "
-                            . trans('main.project') . ": " . $child_project->name()
-                            . " - ");
-
-                        // Используется $child_project
-                        $items = Item::where('project_id', $child_project->id)->where('base_id', $base->id)->get();
-                        $count = $items->count();
-                        foreach ($items as $item) {
-                            //Log::info($item->id . ' - ' . $item->name());
-                            //echo nl2br(trans('main.processed') . " id = " . $item->id . " " . $item->name() . " ".$item->id. PHP_EOL);
-                            // $reverse = true - отнимать, false - прибавлять
-                            // true - с заменой
-                            (new ItemController)->save_info_sets($item, false, true, $relit->id, $role);
-                        }
-                        echo nl2br(trans('main.processed') . " " . $count . " " . $str_records . PHP_EOL);
-                    }
+                echo nl2br(PHP_EOL);
+                // Обработка для вычисляемых полей постоянных основ
+                // Удаление записей из mains
+                // where('bt.is_calculated_lst', '=', false)
+                // Обработка записей текущего проекта
+                foreach ($info_lt_nocalc as $links_body_to_id) {
+                    $link = Link::findOrFail($links_body_to_id['lt_id']);
+                    echo nl2br(trans('main.link') . ": " . $link->child_label() . "." . $link->parent_label() . " - ");
+                    $base = $link->child_base;
+                    $mains = Main::join('items', 'mains.child_item_id', '=', 'items.id')
+                        ->where('items.project_id', $project->id)
+                        ->where('link_id', $link->id);
+                    $count = $mains->count();
+                    $mains->delete();
+                    echo nl2br(trans('main.deleted') . " " . $count . " " . $str_records . PHP_EOL);
                 }
+
+                echo nl2br(PHP_EOL);
+
+                // Еще один вариант, как обрабатывать исходные данные
+                // В цикле "foreach ($items_all as $item)" считать точнее
+//                    // Обработка записей текущего проекта
+//                    foreach ($info_bf as $base_from_id) {
+//                        $base = Base::findOrFail($base_from_id['bf_id']);
+//                        echo nl2br(trans('main.base') . ": " . $base->name() . PHP_EOL);
+//
+//                        $items = Item::where('project_id', $project->id)->where('base_id', $base->id)->get();
+//                        $count = $items->count();
+//                        foreach ($items as $item) {
+//                            //Log::info($item->id . ' - ' . $item->name());
+//                            //echo nl2br(trans('main.processed') . " id = " . $item->id . " " . $item->name() . " ".$item->id. PHP_EOL);
+//                            // $reverse = true - отнимать, false - прибавлять
+//                            // true - с заменой
+//                            // 0 - текущий проект
+//                            (new ItemController)->save_info_sets($item, false, true, 0, $role);
+//                        }
+//                        if ($count > 0) {
+//                            // Обработка записей проектов Дети
+//                            echo nl2br(trans('main.processed') . " " . $count . " " . $str_records
+//                                . " " . trans('main.project') . ": " . $project->name_id() . PHP_EOL);
+//                        }
+//                        $relips = Relip::where('parent_project_id', $project->id)
+//                            ->get();
+//                        foreach ($relips as $relip) {
+//                            $child_proj = Project::find($relip->child_project_id);
+//                            if ($child_proj) {
+//                                $items = Item::where('project_id', $child_proj->id)->where('base_id', $base->id)->get();
+//                                $count = $items->count();
+//                                foreach ($items as $item) {
+//                                    //Log::info($item->id . ' - ' . $item->name());
+//                                    //echo nl2br(trans('main.processed') . " id = " . $item->id . " " . $item->name() . " ".$item->id. PHP_EOL);
+//                                    // $reverse = true - отнимать, false - прибавлять
+//                                    // true - с заменой
+//                                    // 0 - текущий проект
+//                                    (new ItemController)->save_info_sets($item, false, true, 0, $role, $sn_ids);
+//                                }
+//                                if ($count > 0) {
+//                                    echo nl2br(trans('main.processed') . " " . $count . " " . $str_records
+//                                        . " " . trans('main.project') . ": " . $child_proj->name_id() . PHP_EOL);
+//                                }
+//                            }
+//                        }
+//                    }
+//
+                $count = $items_all->count();
+                foreach ($items_all as $item) {
+                    //Log::info($item->id . ' - ' . $item->name());
+                    //echo nl2br(trans('main.processed') . " id = " . $item->id . " " . $item->name() . " ".$item->id. PHP_EOL);
+                    // $reverse = true - отнимать, false - прибавлять
+                    // true - с заменой
+                    // 0 - текущий проект
+                    // нужно передавать $sn_ids,
+                    // чтобы обрабатывались только переданные $sn_ids присваивания
+                    (new ItemController)->save_info_sets($item, false, true, 0, $role, $sn_ids);
+                }
+                echo nl2br(trans('main.processed') . " " . $count . " " . $str_records . PHP_EOL);
+
+                // Сохранить данные после проведения расчета
+                $mains_all_step_second = self::calc_mains_all_step($proj_ids, $bf_ids, $lf_ids)['mains_all_step'];
+
+                // Сравнение 'Изменились ли исходные данные $bf_ids, $lf_ids'
+                //if ($mains_all_step_first->count() != $mains_all_step_second->count()) {
+                if ($mains_all_step_first != $mains_all_step_second) {
+//                    foreach ($mains_all_step_first as $main) {
+//                        echo nl2br($main->id . " " . $main->link_id . " " . $main->child_item_id . " " . $main->parent_item_id . PHP_EOL);
+//                    }
+//                    echo nl2br(PHP_EOL);
+//                    foreach ($mains_all_step_second as $main) {
+//                        echo nl2br($main->id . " " . $main->link_id . " " . $main->child_item_id . " " . $main->parent_item_id . PHP_EOL);
+//                    }
+                    // 'input_data_changed_during_processing' = 'Входные данные изменились в процессе обработки'
+                    throw new Exception(trans('main.input_data_changed_during_processing'));
+                }
+
+
+                //}
 
             }, 3);  // Повторить три раза, прежде чем признать неудачу
             // окончание транзакции
 
         } catch (Exception $exc) {
-            return trans('transaction_not_completed') . ": " . $exc->getMessage();
+            return trans('main.transaction_not_completed') . ": " . $exc->getMessage();
         }
 
         echo '<p class="text-center">
@@ -1464,23 +1896,198 @@ class ProjectController extends Controller
             . '</a>
         </p>';
 
-//        $set_main = Set::select(DB::Raw('sets.*, lt.child_base_id as to_child_base_id, lt.parent_base_id as to_parent_base_id'))
-//            ->join('links as lt', 'sets.link_to_id', '=', 'lt.id')
-//            ->where('lf.child_base_id', '=', $item->base_id)
-//            ->orderBy('sets.serial_number')
-//            ->orderBy('sets.link_from_id')
-//            ->orderBy('sets.link_to_id')->get();
-
-        //$items = Item::joinSub($sets, 'sets', function ($join) {
-        //        $join->on('items.base_id', '=', 'sets.base_id');})->get();
-
-
-//        $users = DB::table('items')
-//            ->joinSub($bases, 'bases', function ($join) {
-//                $join->on('items.id', 1);
-//            })->get();
-
     }
+
+    // Входные данные: посчитать таблицу $items ("whereIn('base_id', $bf_ids)") и значения исходные по link $lf_ids
+    function calc_mains_all_step($proj_ids, $bf_ids, $lf_ids)
+    {
+        $items_all = Item::whereIn('project_id', $proj_ids)
+            ->whereIn('base_id', $bf_ids)
+            ->get();
+
+        $item_ids = array();
+        foreach ($items_all as $item_all) {
+            $item_ids[] = $item_all['id'];
+        }
+        // Использовать 'mains.child_item_id, mains.parent_item_id, mains.link_id' для сравнения
+        // Использовать 'mains.id' не нужно
+        $mains_all_step = Main::select(DB::Raw('mains.child_item_id, mains.parent_item_id, mains.link_id'))
+            ->whereIn('child_item_id', $item_ids)
+            ->whereIn('link_id', $lf_ids)
+            ->get();
+
+        return ['items_all' => $items_all, 'mains_all_step' => $mains_all_step];
+    }
+
+//  Предыдущий вариант
+//// Перерасчет $items по переданным $base, $project, $relit_id, $role
+//    function calculate_all(Base $base, Project $project, Project $relip_proj, $relit_id, Role $role)
+//    {
+//        // "->get()" нужно
+//        $items = Item::where('base_id', $base->id)->where('project_id', $relip_proj->id)
+//            ->get();
+//        $i = 0;
+//        foreach ($items as $item) {
+//            $i = $i + 1;
+//            echo nl2br("№: " . $i . PHP_EOL);
+//            self::calculate_item($relip_proj, $relit_id, $role, $item, false);
+//        }
+//        //return redirect()->back();
+//        return '<p class="text-center">
+//            <a href=' . '"' . route('item.base_index', ['base' => $base, 'project' => $project->id, 'role' => $role, 'relit_id' => $relit_id]) . '" title="' . $base->names() . '">' . $base->names()
+//            . '</a>
+//        </p>';
+//    }
+//
+//// Перерасчет сверху вниз ("от господина к вассалам")
+//    function calculate_item(Project $project, $relit_id, Role $role, Item $item, $is_local)
+//    {
+//        echo nl2br(trans('main.calculation') . ": " . $item->name() . " (id=" . $item->id . ")" . PHP_EOL);
+//
+//        try {
+//            // начало транзакции
+//            DB::transaction(function ($r) use ($item, $relit_id, $role) {
+//                $proj_item = $item->project;
+//                // Схема
+//                // Не нужно "->where('bf.template_id', $proj_item->template_id)"
+//
+//                $bases_body_from_start = Set::select(DB::Raw('bf.id as bf_id, lt.id as lt_id, sets.serial_number as serial_number'))
+//                    ->join('links as lf', 'sets.link_from_id', '=', 'lf.id')
+//                    ->join('links as lt', 'sets.link_to_id', '=', 'lt.id')
+//                    ->join('bases as bf', 'lf.child_base_id', '=', 'bf.id')
+//                    ->join('bases as bt', 'lt.child_base_id', '=', 'bt.id')
+//                    ->where('sets.is_group', '=', false)
+//                    ->where('bt.id', $item->base_id)
+//                    ->where('sets.is_savesets_enabled', '=', true)
+//                    ->where('sets.is_calcsort', '=', false)
+//                    ->distinct();
+//
+////                $bases_body_from_lf_start = Set::select(DB::Raw('lf.id as lf_id, lt.id as lt_id'))
+////                    ->join('links as lf', 'sets.link_from_id', '=', 'lf.id')
+////                    ->join('links as lt', 'sets.link_to_id', '=', 'lt.id')
+////                    ->join('bases as bf', 'lf.child_base_id', '=', 'bf.id')
+////                    ->join('bases as bt', 'lt.child_base_id', '=', 'bt.id')
+////                    ->where('bt.id', $item->base_id)
+////                    ->where('sets.is_savesets_enabled', '=', true)
+////                    ->where('sets.is_group', '=', true)
+////                    ->where('sets.is_calcsort', '=', false)
+////                    ->distinct();
+//
+////                $links_body_from = $bases_body_from_lf_start
+////                    ->select('lf.id as lf_id, lt.id as lt_id')
+////                    ->get();
+//
+////                    ->where('sets.is_group', '=', true)
+//                $links_body_from = Set::select(DB::Raw('lf.id as lf_id, lt.id as lt_id'))
+//                    ->join('links as lf', 'sets.link_from_id', '=', 'lf.id')
+//                    ->join('links as lt', 'sets.link_to_id', '=', 'lt.id')
+//                    ->join('bases as bf', 'lf.child_base_id', '=', 'bf.id')
+//                    ->join('bases as bt', 'lt.child_base_id', '=', 'bt.id')
+//                    ->where('bt.id', $item->base_id)
+//                    ->where('sets.is_group', '=', true)
+//                    ->where('sets.is_savesets_enabled', '=', true)
+//                    ->where('sets.is_calcsort', '=', false)
+//                    ->distinct()
+//                    ->get();
+//
+//                $links_body_to = $bases_body_from_start
+//                    ->select('lt.id as lt_id')
+//                    ->distinct()
+//                    ->get();
+//
+////                $bases_body_from = $bases_body_from_start
+////                    ->select('bf.id as base_id')
+////                    ->distinct();
+//
+//                $bases_body_info_to = $bases_body_from_start
+//                    ->select('bt.id as base_id')
+//                    ->distinct()
+//                    ->get();
+//
+//                $ids = array();
+//                foreach ($bases_body_info_to as $value) {
+//                    $ids[] = $value['base_id'];
+//                }
+//
+//                // Исключить bt.id, чтобы не было удвоения и т.д.,
+//                // т.к. в ItemController::save_sets() вызывается рекурсивно ItemController::save_sets().
+//                // Расчет(рекурсивный вызов функции ItemController::save_sets()) снизу вверх ("от вассалов к господину")
+//                $bases_from = $bases_body_from_start
+//                    ->select('bf.id as base_id')
+//                    ->whereNotIn('bf.id', $ids)
+//                    ->distinct();
+//
+//                $str_records = mb_strtolower(trans('main.records'));
+//
+//                //ItemController::save_info_sets($item, true, false, $relit_id, $role);
+//
+//                if ($item->base->is_calculated_lst == true) {
+//                    $items = Item::where('project_id', $proj_item->id)->where('base_id', $item->base_id);
+//                    $items->delete();
+//                } else {
+//                    // Обработка для вычисляемых полей постоянных основ
+//                    // Например, если несколько классов (у каждого класса свой проект), то количество учеников в классе неправильно считает, т.к. обнуляется количество учеников
+//                    // Удаление записей из mains
+//                    // Обработка записей текущего проекта
+//                    foreach ($links_body_to as $links_body_to_id) {
+//                        $link = Link::findOrFail($links_body_to_id['lt_id']);
+//                        echo nl2br(trans('main.link') . ": " . $link->child_label() . "." . $link->parent_label() . " - ");
+//                        $mains = Main::where('mains.child_item_id', $item->id)
+//                            ->where('link_id', $link->id);
+//                        $count = $mains->count();
+//                        $mains->delete();
+//                        echo nl2br(trans('main.deleted') . " " . $count . " " . $str_records . " (" . GlobalController::trans_lower('main.project') . ": " . $proj_item->name() . ")" . PHP_EOL);
+//                    }
+//                }
+//                if ($links_body_from->count() > 0) {
+//                    foreach ($links_body_from as $links_body_from_id) {
+//                        $lf = Link::findOrFail($links_body_from_id['lf_id']);
+//                        $lt = Link::findOrFail($links_body_from_id['lt_id']);
+//                        echo nl2br(trans('main.link') . ": " . $lf->child_label() . "." . $lf->parent_label() . " - ");
+//                        $i_to = GlobalController::get_parent_item_from_main($item->id, $lt->id);
+//                        if ($i_to) {
+//                            // '->get()' нужно
+//                            $mains = Main::where('mains.parent_item_id', $i_to->id)
+//                                ->where('link_id', $lf->id)->get();
+//                            $count = $mains->count();
+//                            foreach ($mains as $main) {
+//                                (new ItemController)->save_info_sets($main->child_item, false, true, 0, $role);
+//                            }
+//                            echo nl2br(trans('main.processed') . " " . $count . " " . $str_records . PHP_EOL);
+//                        }
+//                    }
+//                } else {
+//                    // Обработка записей текущего проекта
+//                    $bases_from = $bases_from->get();
+//                    foreach ($bases_from as $base_from_id) {
+//                        $base = Base::findOrFail($base_from_id['base_id']);
+//                        echo nl2br(trans('main.base') . ": " . $base->name() . " - ");
+//                        $items = Item::where('project_id', $proj_item->id)->where('base_id', $base->id)->get();
+//                        $count = $items->count();
+//                        foreach ($items as $item) {
+//                            (new ItemController)->save_info_sets($item, false, true, 0, $role);
+//                        }
+//                        echo nl2br(trans('main.processed') . " " . $count . " " . $str_records . PHP_EOL);
+//                    }
+//                }
+//            }, 3);  // Повторить три раза, прежде чем признать неудачу
+//            // окончание транзакции
+//
+//        } catch (Exception $exc) {
+//            return trans('transaction_not_completed') . ": " . $exc->getMessage();
+//        }
+//        if ($is_local) {
+//            echo '<p class="text-center">
+//            <a href=' . '"' . route('project.start', ['project' => $project->id, 'role' => $role]) . '" title="' . trans('main.run') . '">' . $project->name()
+//                . '</a>
+//        </p>';
+//        } else {
+//            echo '<p class="text-center">
+//           <hr>
+//        </p>';
+//        }
+//
+//    }
 
     private
     function get_array_calc(Template $template, Project $project = null)

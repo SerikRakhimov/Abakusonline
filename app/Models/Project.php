@@ -44,14 +44,34 @@ class Project extends Model
 
     function name_id()
     {
-        return $this->name() . " (Id = " . strval($this->id) . ")";
+        return $this->name() . " (id = " . strval($this->id) . ")";
     }
 
-    function is_calculated_base_exist()
-    {
-        $result = Base::where('template_id', $this->template_id)->where('is_calculated_lst', true)->exists();
-        return $result;
-    }
+//    function is_calculated_base_exist()
+//    {
+//        //$result = Base::where('template_id', $this->template_id)->where('is_calculated_lst', true)->exists();
+//        // Если в присваиваниях шпблона проекта есть записи с обработкой внешних взаимосвязанных шаблонов,
+//        // то результат = false
+//        $is_sets = Set::where('sets.template_id', $this->template_id)
+//            ->where('sets.is_savesets_enabled', '=', true)
+//            ->where('sets.relit_to_id', '!=', 0)
+//            ->exists();
+//        // '!$is_sets' используется
+//        $result = !$is_sets;
+//        if ($result) {
+//            $is_sets = Set::where('sets.template_id', $this->template_id)
+//                ->where('sets.is_savesets_enabled', '=', true)
+//                ->where('sets.relit_to_id', '=', 0)
+//                ->exists();
+//            // '$is_sets' используется
+//            $result = $is_sets;
+//        }
+//        // $result = true,
+//        // если есть записи по текущему шаблону,
+//        // и все записи с sets.relit_to_id = 0
+//        //(не содержатся записи с внешними проектами "sets.relit_to_id != 0").
+//        return $result;
+//    }
 
     // Возвращает настройки проекта в виде массива
     function get_items_setup()

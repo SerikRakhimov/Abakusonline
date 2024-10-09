@@ -183,7 +183,8 @@ return [
     'parent_is_numcalc' => 'Calculate value for numeric field, string, logical field, list',
     'parent_is_nc_screencalc' => 'Screen computing',
     'parent_is_nc_viewonly' => 'Calculated value only view',
-    'parent_is_nc_parameter' => 'Parameter for calculated fields',
+    'parent_is_nc_parameter' => 'Is a parameter for calculated fields (for on-screen calculation)',
+    'recalculation' => 'Recalculation',
     'recalculation_codes' => 'Recalculation_codes',
     'verify_number_values' => 'Checking the storage of numbers',
     'verify_table_texts' => 'Vefify table Texts',
@@ -369,6 +370,8 @@ return [
     'deleted' => 'Deleted',
     'records' => 'Records',
     'processed' => 'Processed',
+    'reversal_processed' => 'Reversal processed',
+    'calculated_base_cleared' => 'Calculated base cleared',
     'is_test' => 'Test',
     'is_closed' => 'Closed',
     'is_closed_default_value' => '"Closed" default value',
@@ -502,4 +505,5 @@ return [
     'unit_meas_desc' => 'Unit of measure (for numerical and string fields)',
     'is_enabled_alinks' => 'Included in "All Links" view',
     'is_consider_levels_lst' => 'Consider levels when adding/editing records',
-    ];
+    'input_data_changed_during_processing' => 'Input data changed during processing',
+];

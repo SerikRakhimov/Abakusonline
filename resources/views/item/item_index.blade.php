@@ -69,9 +69,11 @@
     // Нужно
     $link_image = null;
     // Шифровка
+    // Текущий адрес отображаемой страницы
     $saveurl_add = GlobalController::set_url_save(GlobalController::current_path());
     $saveurl_show = $saveurl_add;
     $level_array = $item->base->level_array();
+    $ct = count($tree_array);
     ?>
     @include('layouts.project.show_project_role',['project'=>$project, 'role'=>$role, 'relit_id'=>$relit_id])
     {{--    <h3 class="display-5">--}}
@@ -89,8 +91,8 @@
                             'project'=>$project, 'role'=>$role, 'relit_id'=>$value['relit_id']])}}"
                            title="{{$value['base_names']}}">
                             @endif
-                            {{--                        {{GlobalController::calc_title_name(GlobalController::name_and_end_emoji($value['title_name'], Base::find($value['base_id'])), true, true)}}--}}
-                            {{GlobalController::calc_title_name($value['title_name'], true, true)}}
+                            {{--                        {{GlobalController::calc_title_name(GlobalController::name_and_end_emoji($value['label_name'], Base::find($value['base_id'])), true, true)}}--}}
+                            {{GlobalController::calc_title_name($value['label_name'], true, true)}}
                             @if($value['is_bsmn_base_enable'] == true)
                         </a>
                     @endif
@@ -124,7 +126,7 @@
             </div>
         @endforeach
     </div>
-    @if(count($tree_array)>0)
+    @if($ct>0)
         <hr>
     @endif
     <div class="container-fluid">
@@ -139,12 +141,16 @@
         //            }
         // Нужно так использовать '&&'
         // $v_link используется
-        if (($v_link) && ($item->id == $it_local->id)) {
-            // true - с эмодзи
-            // $v_link используется
-            $title = $v_link->parent_label($emoji_enable);
-        } else {
-            $title = $it_local->base->name($emoji_enable);
+        //        if (($v_link) && ($item->id == $it_local->id)) {
+        //            // true - с эмодзи
+        //            // $v_link используется
+        //            $title = $v_link->parent_label($emoji_enable);
+        //        } else {
+        //            $title = $it_local->base->name($emoji_enable);
+        //        }
+        $title = $it_local->base->name();
+        if ($ct > 0) {
+            $title = $tree_array[$ct - 1]['label_work'];
         }
         $title = mb_strtolower($title);
         ?>
@@ -153,6 +159,7 @@
         {{-- здесь равно true--}}
         {{-- @if(GlobalController::is_base_calcname_check($it_local->base, $base_right))--}}
         @if(GlobalController::is_base_calcname_check($it_local->base))
+{{--                        @if(1==1)--}}
             <div class="col-12 text-center">
                 {{--                    <big>--}}
                 {{--                    <h6>--}}
@@ -183,6 +190,7 @@
         'parent_ret_id' => $view_ret_id])}}"
                            title="{{trans('main.viewing_record')}}:{{$it_local->name(false, false, false, false)}}"
                         >
+                            {{-- Первый параметр nmbr(): $fullname = true/false - вывод полной строки (более 255 символов)--}}
                             @if($base_right['is_list_base_read'] == true)
                                 {{-- @include('layouts.item.empty_name', ['name'=>$it_local->nmbr(true, false, false, false)])--}}
                                 @include('layouts.item.empty_name', ['name'=>$it_local->nmbr(true, false, false, false, false, null, false, true, $relit_id, $role)])
@@ -307,30 +315,54 @@
             {{--        Используется "'heading'=>intval(true)"--}}
             {{--        Используется "'items'=>$items->get()"; два раза, т.к. в заголовке выводится только одна строка, ее на страницы не надо разбивать/сортировать--}}
             {{--        Параметры 'relit_id' и 'view_ret_id' передаются в зависимости от значения $heading--}}
-            @include('list.table',['base'=>$item->base, 'project'=>$project, 'role'=>$role,
-                    'links_info'=>$child_links_info,
-                    'items'=>$items->get(),
-                    'its_page'=>$items->get(),
-                    'base_right'=>$base_right, 'relit_id'=>$relit_heading_id,
-                    'heading'=>intval(true),
-                    'base_index_page'=>$base_index_page, 'body_link_page'=>$body_link_page,'body_all_page'=>$body_all_page,
-                    'view_link'=>$view_link,
-                    'view_ret_id'=>$view_ret_heading_id,
-                     'parent_item'=>$item, 'is_table_body'=>false,
-                        'base_index'=>false, 'item_heading_base'=>true, 'item_body_base'=>false,
-                        'string_link_ids_current' => $string_link_ids_current,
-                        'string_item_ids_current' => $string_item_ids_current,
-                        'string_relit_ids_current' => $string_relit_ids_current,
-                        'string_all_codes_current' => $string_all_codes_current,
-                        'string_current' => $string_current,
-                        'string_link_ids_next'=>GlobalController::set_str_const_null(''),
-                        'string_item_ids_next'=>GlobalController::set_str_const_null(''),
-                        'string_relit_ids_next'=>GlobalController::set_str_const_null(''),
-                        'string_all_codes_next'=>GlobalController::set_str_const_null(''),
-                        'string_next' => $string_next,
-                        'saveurl_show' =>$saveurl_show,
-                        'nolink_id' =>$nolink_id
-            ])
+            {{--            @include('list.table',['base'=>$item->base, 'project'=>$project, 'role'=>$role,--}}
+            {{--                    'links_info'=>$child_links_info,--}}
+            {{--                    'items'=>$items->get(),--}}
+            {{--                    'its_page'=>$items->get(),--}}
+            {{--                    'base_right'=>$base_right, 'relit_id'=>$relit_heading_id,--}}
+            {{--                    'heading'=>intval(true),--}}
+            {{--                    'base_index_page'=>$base_index_page, 'body_link_page'=>$body_link_page,'body_all_page'=>$body_all_page,--}}
+            {{--                    'view_link'=>$view_link,--}}
+            {{--                    'view_ret_id'=>$view_ret_heading_id,--}}
+            {{--                     'parent_item'=>$item, 'is_table_body'=>false,--}}
+            {{--                        'base_index'=>false, 'item_heading_base'=>true, 'item_body_base'=>false,--}}
+            {{--                        'string_link_ids_current' => $string_link_ids_current,--}}
+            {{--                        'string_item_ids_current' => $string_item_ids_current,--}}
+            {{--                        'string_relit_ids_current' => $string_relit_ids_current,--}}
+            {{--                        'string_all_codes_current' => $string_all_codes_current,--}}
+            {{--                        'string_current' => $string_current,--}}
+            {{--                        'string_link_ids_next'=>GlobalController::set_str_const_null(''),--}}
+            {{--                        'string_item_ids_next'=>GlobalController::set_str_const_null(''),--}}
+            {{--                        'string_relit_ids_next'=>GlobalController::set_str_const_null(''),--}}
+            {{--                        'string_all_codes_next'=>GlobalController::set_str_const_null(''),--}}
+            {{--                        'string_next' => $string_next,--}}
+            {{--                        'saveurl_show' =>$saveurl_show,--}}
+            {{--                        'nolink_id' =>$nolink_id--}}
+            {{--            ])--}}
+            @include('list.table',['base'=>$it_local->base, 'project'=>$project, 'role'=>$role,
+        'links_info'=>$child_links_info,
+        'items'=>$items->get(),
+        'its_page'=>$items->get(),
+        'base_right'=>$base_right, 'relit_id'=>$relit_heading_id,
+        'heading'=>intval(true),
+        'base_index_page'=>$base_index_page, 'body_link_page'=>$body_link_page,'body_all_page'=>$body_all_page,
+        'view_link'=>$view_link,
+        'view_ret_id'=>$view_ret_heading_id,
+         'parent_item'=>$it_local, 'is_table_body'=>false,
+            'base_index'=>false, 'item_heading_base'=>true, 'item_body_base'=>false,
+            'string_link_ids_current' => $string_link_ids_current,
+            'string_item_ids_current' => $string_item_ids_current,
+            'string_relit_ids_current' => $string_relit_ids_current,
+            'string_all_codes_current' => $string_all_codes_current,
+            'string_current' => $string_current,
+            'string_link_ids_next'=>GlobalController::set_str_const_null(''),
+            'string_item_ids_next'=>GlobalController::set_str_const_null(''),
+            'string_relit_ids_next'=>GlobalController::set_str_const_null(''),
+            'string_all_codes_next'=>GlobalController::set_str_const_null(''),
+            'string_next' => $string_next,
+            'saveurl_show' =>$saveurl_show,
+            'nolink_id' =>$nolink_id
+])
         @endif
         {{--        @endif--}}
         {{-- @if((($prev_item) ||($next_item)) & ($base_right['is_list_base_create'] == true))--}}

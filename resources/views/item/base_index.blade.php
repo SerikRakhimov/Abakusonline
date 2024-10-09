@@ -147,9 +147,9 @@
                     @if ($base->is_calcname_lst == true)
                         <div class="col-12 text-right">
                             <a href="{{route('item.calculate_names', ['base'=>$base, 'project'=>$relip_project, 'relit_id'=>$relit_id_par, 'role'=>$role])}}"
-                               title="{{trans('main.calculate')}}">
+                               title="{{trans('main.calculate_names')}}">
                                 <img src="{{Storage::url('calculate_names.png')}}" width="15" height="15"
-                                     alt="{{trans('main.calculate')}}">
+                                     alt="{{trans('main.calculate_names')}}">
                             </a>
                         </div>
                     @endif
@@ -181,6 +181,12 @@
                             {{trans('main.verify_table_texts')}}
                         </a>
                     </div>
+{{--                        <div class="col-12 text-right">--}}
+{{--                            <a href="{{route('project.calculate_all', ['base'=>$base, 'project'=>$project, 'relip_proj'=>$relip_project, 'relit_id'=>$relit_id_par, 'role'=>$role])}}"--}}
+{{--                            title="{{trans('main.calculate_all')}}">--}}
+{{--                                {{trans('main.calculate_all')}}--}}
+{{--                            </a>--}}
+{{--                        </div>--}}
                 @endif
             @endauth
         @endif

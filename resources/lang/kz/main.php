@@ -183,7 +183,8 @@ return [
     'parent_is_numcalc' => 'Сандық өріс, жол, логикалық өріс, тізім үшін мәнді есептеу',
     'parent_is_nc_screencalc' => 'Экранды есептеу',
     'parent_is_nc_viewonly' => 'Тек есептелген мәнді көрсету',
-    'parent_is_nc_parameter' => 'Есептелген өрістерге(полей) арналған параметр',
+    'parent_is_nc_parameter' => 'Есептелетін өрістер үшін параметр болып табылады (экрандық есептеу кезінде)',
+    'recalculation' => 'Есептеу',
     'recalculation_codes' => 'Кодтарды қайта есептеу',
     'verify_number_values' => 'Сандардың сақталуын тексеру',
     'verify_table_texts' => 'Мәтіндер кестесін тексеру',
@@ -369,6 +370,8 @@ return [
     'deleted' => 'Жойылған',
     'records' => 'Жазбалар',
     'processed' => 'Өңделген',
+    'reversal_processed' => 'Қайтару өңделді',
+    'calculated_base_cleared' => 'Есептелетін негіз тазартылды',
     'is_test' => 'Тестілік',
     'is_closed' => 'Жабық',
     'is_closed_default_value' => '"Жабық" әдепкі мәні',
@@ -502,4 +505,5 @@ return [
     'unit_meas_desc' => 'Өлшем бірлігі (сандық және жол өрістері үшін)',
     'is_enabled_alinks' => '"Барлық байланыстар" қарауына қосылды',
     'is_consider_levels_lst' => 'Жазбаларды қосу/түзету кезінде деңгейлерді ескеру',
-    ];
+    'input_data_changed_during_processing' => 'Өңдеу барысында кіріс деректері өзгерді',
+];

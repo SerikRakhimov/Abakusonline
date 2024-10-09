@@ -462,6 +462,7 @@ class Base extends Model
         return ['text' => $text, 'icon' => $icon];
     }
 
+    // Используется в шаблоне Рецепты
     function level_array()
     {
         $result = false;
