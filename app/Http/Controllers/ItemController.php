@@ -3875,6 +3875,7 @@ class ItemController extends Controller
                         $item_seek->name_lang_2 = $rs['calc_lang_2'];
                         $item_seek->name_lang_3 = $rs['calc_lang_3'];
                     }
+                    // Нужно
                     // Расчет вычисляемых полей (неэкранное вычисление)
                     GlobalController::item_calc_main($item_seek);
 
