@@ -31,6 +31,7 @@
         <thead>
         <tr>
             <th class="text-center">#</th>
+            <th class="text-center">Id</th>
             <th class="text-left">{{trans('main.link_maxcount')}}</th>
             <th class="text-left">{{trans('main.child')}}_{{trans('main.serial_number')}}</th>
             <th class="text-left">{{trans('main.child')}}_{{trans('main.base')}}</th>
@@ -55,7 +56,10 @@
             <th class="text-left">{{trans('main.parent_is_nc_parameter')}}</th>
             <th class="text-left">{{trans('main.parent_is_numcalc')}}</th>
             <th class="text-left">{{trans('main.parent_is_nc_screencalc')}}</th>
+            <th class="text-left">{{trans('main.parent_is_nc_related')}}</th>
+            <th class="text-left">{{trans('main.parent_nc_related_link_id')}}</th>
             <th class="text-left">{{trans('main.parent_is_nc_viewonly')}}</th>
+            <th class="text-left">{{trans('main.parent_is_sets_calc')}}</th>
             <th class="text-left">{{trans('main.parent_is_twt_link')}}</th>
             <th class="text-left">{{trans('main.parent_is_tst_link')}}</th>
             <th class="text-left">{{trans('main.parent_is_cus_link')}}</th>
@@ -68,7 +72,6 @@
             <th class="text-left">{{trans('main.parent_is_checking_empty')}}</th>
             <th class="text-left">{{trans('main.is_enabled_alinks')}}</th>
             <th class="text-left">{{trans('main.parent_calcname_prefix')}}</th>
-            <th class="text-center">Id</th>
             <th class="text-center"></th>
             <th class="text-center"></th>
             <th class="text-center">{{trans('main.rolis')}}</th>
@@ -87,6 +90,11 @@
                 <td class="text-center">
                     <a href="{{route('link.edit',[$link, $base])}}" title="{{trans('main.edit')}}">
                         {{$i}}
+                    </a>
+                </td>
+                <td class="text-center">
+                    <a href="{{route('link.show',$link)}}">
+                        {{$link->id}}
                     </a>
                 </td>
                 <td class="text-left">
@@ -211,7 +219,22 @@
                 </td>
                 <td class="text-left">
                     <a href="{{route('link.show',$link)}}">
+                        {{$link->parent_is_nc_related}}
+                    </a>
+                </td>
+                <td class="text-left">
+                    <a href="{{route('link.show',$link)}}">
+                        {{$link->parent_nc_related_link_id}}
+                    </a>
+                </td>
+                <td class="text-left">
+                    <a href="{{route('link.show',$link)}}">
                         {{$link->parent_is_nc_viewonly}}
+                    </a>
+                </td>
+                <td class="text-left">
+                    <a href="{{route('link.show',$link)}}">
+                        {{$link->parent_is_sets_calc}}
                     </a>
                 </td>
                 <td class="text-left">
@@ -272,11 +295,6 @@
                 <td class="text-left">
                     <a href="{{route('link.show',$link)}}">
                         {{$link->parent_calcname_prefix()}}
-                    </a>
-                </td>
-                <td class="text-center">
-                    <a href="{{route('link.show',$link)}}">
-                        {{$link->id}}
                     </a>
                 </td>
                 <td class="text-center">

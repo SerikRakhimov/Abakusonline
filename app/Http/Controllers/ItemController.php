@@ -2251,7 +2251,6 @@ class ItemController extends Controller
         if (GlobalController::check_project_item_user($project, null, $role, $usercode) == false) {
             return view('message', ['message' => trans('main.no_access')]);
         }
-
         //        if (GlobalController::check_project_user($project, $role) == false) {
 //            return view('message', ['message' => trans('main.info_user_changed')]);
 //        }
@@ -2547,7 +2546,6 @@ class ItemController extends Controller
 
         // загрузить в $inputs все поля ввода, кроме $excepts, $string_names, $string_codes, array_merge() - функция суммирования двух и более массивов
         $inputs = $request->except(array_merge($excepts, $string_names, $code_names));
-
         $it_texts = null;
         if ($item->base->type_is_text()) {
             $only = array('name_lang_0', 'name_lang_1', 'name_lang_2', 'name_lang_3');
@@ -2766,8 +2764,9 @@ class ItemController extends Controller
             // при типе "логический" проверять на обязательность заполнения не нужно
             $control_required = false;
             // При ссылке '$link->parent_is_base_link == false'
-            // и при 'link->parent_is_numcalc == false' не проверять на обязательность заполнения
-            if ($link->parent_is_base_link == false & $link->parent_is_numcalc == false) {
+            //// и при 'link->parent_is_numcalc == false' не проверять на обязательность заполнения
+            //if ($link->parent_is_base_link == false & $link->parent_is_numcalc == false) {
+            if ($link->parent_is_base_link == false) {
                 // Тип - список
                 if ($work_base->type_is_list()) {
                     // так не использовать
@@ -5621,8 +5620,9 @@ class ItemController extends Controller
             // при типе "логический" проверять на обязательность заполнения не нужно
             $control_required = false;
             // При ссылке '$link->parent_is_base_link == false'
-            // и при 'link->parent_is_numcalc == false' не проверять на обязательность заполнения
-            if ($link->parent_is_base_link == false & $link->parent_is_numcalc == false) {
+            //// и при 'link->parent_is_numcalc == false' не проверять на обязательность заполнения
+            //if ($link->parent_is_base_link == false & $link->parent_is_numcalc == false) {
+            if ($link->parent_is_base_link == false) {
                 // Тип - список
                 if ($work_base->type_is_list()) {
                     // так не использовать

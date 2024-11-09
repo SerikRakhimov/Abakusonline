@@ -15,6 +15,8 @@
     // Нужно для функции date('Y-m-d')
     // установка часового пояса нужно для сохранения времени
     date_default_timezone_set('Asia/Almaty');
+    // Префикс "5_" д.б. одинаков в StepController::steps_javascript_code() и в item\ext_edit.php
+    $prefix_func_button = '5_';
     $update = isset($item);
     //    $saveurl_add = null;
     //    // При добавлении записи
@@ -25,11 +27,12 @@
     $base_right = GlobalController::base_right($base, $role, $relit_id);
     $relip_project = GlobalController::calc_relip_project($relit_id, $project);
     // У $base есть ли считаемые поля (да/нет)
-    // Похожие по смыслу проверки "@if($link->parent_is_numcalc==true && $link->parent_is_nc_screencalc==true && $link->parent_is_nc_viewonly==false)" в этом файле восемь раз
+    // Похожие по смыслу проверки "@if($link->parent_is_numcalc==true & $link->parent_is_nc_screencalc==true & $link->parent_is_nc_viewonly==false & $link->parent_is_nc_related==false)" в этом файле девять раз
     // '->exists()' не использовать, дает сообщение об ошибке
     $allcalc_button = $base->child_links->where('parent_is_numcalc', true)
         ->where('parent_is_nc_screencalc', true)
         ->where('parent_is_nc_viewonly', false)
+        ->where('parent_is_nc_related', false)
         ->first();
     $emoji_enable = true;
     ?>
@@ -756,8 +759,8 @@
                         {{-- 'is_edit_link_read' - 'Чтение Связи в форме'--}}
                         @if($link_is_read == false)
                             {{--                            @if($link->parent_is_numcalc == true)--}}
-                            {{-- Похожие по смыслу проверки "@if($link->parent_is_numcalc==true && $link->parent_is_nc_screencalc==true && $link->parent_is_nc_viewonly==false)" в этом файле восемь раз --}}
-                            @if($link->parent_is_numcalc==true && $link->parent_is_nc_screencalc==true && $link->parent_is_nc_viewonly==false)
+                            {{-- Похожие по смыслу проверки "@if($link->parent_is_numcalc==true & $link->parent_is_nc_screencalc==true & $link->parent_is_nc_viewonly==false & $link->parent_is_nc_related==false)" в этом файле девять раз --}}
+                            @if($link->parent_is_numcalc==true & $link->parent_is_nc_screencalc==true & $link->parent_is_nc_viewonly==false & $link->parent_is_nc_related==false)
                                 <div class="col-sm-1">
                                     {{--                                    Не удалять--}}
                                     {{--                                    <input type="button" value="..." title="{{trans('main.calculate')}}"--}}
@@ -903,8 +906,8 @@
                         </div>
                         {{-- 'is_edit_link_read' - 'Чтение Связи в форме'--}}
                         @if($link_is_read == false)
-                            {{-- Похожие по смыслу проверки "@if($link->parent_is_numcalc==true && $link->parent_is_nc_screencalc==true && $link->parent_is_nc_viewonly==false)" в этом файле восемь раз --}}
-                            @if($link->parent_is_numcalc==true && $link->parent_is_nc_screencalc==true && $link->parent_is_nc_viewonly==false)
+                            {{-- Похожие по смыслу проверки "@if($link->parent_is_numcalc==true & $link->parent_is_nc_screencalc==true & $link->parent_is_nc_viewonly==false & $link->parent_is_nc_related==false)" в этом файле девять раз --}}
+                            @if($link->parent_is_numcalc==true & $link->parent_is_nc_screencalc==true & $link->parent_is_nc_viewonly==false & $link->parent_is_nc_related==false)
                                 <div class="col-sm-1">
                                     <button type="button" title="{{trans('main.calculate')}} {{$result_parent_label}}"
                                             name="button_nc{{$key}}"
@@ -1021,8 +1024,8 @@
                                     </div>
                                     {{--Нужно @if($lang_key == 0)--}}
                                     @if($lang_key == 0)
-                                        {{-- Похожие по смыслу проверки "@if($link->parent_is_numcalc==true && $link->parent_is_nc_screencalc==true && $link->parent_is_nc_viewonly==false)" в этом файле восемь раз --}}
-                                        @if($link->parent_is_numcalc==true && $link->parent_is_nc_screencalc==true && $link->parent_is_nc_viewonly==false)
+                                        {{-- Похожие по смыслу проверки "@if($link->parent_is_numcalc==true & $link->parent_is_nc_screencalc==true & $link->parent_is_nc_viewonly==false & $link->parent_is_nc_related==false)" в этом файле девять раз --}}
+                                        @if($link->parent_is_numcalc==true & $link->parent_is_nc_screencalc==true & $link->parent_is_nc_viewonly==false & $link->parent_is_nc_related==false)
                                             <div class="col-sm-1">
                                                 <button type="button"
                                                         title="{{trans('main.calculate')}} {{$result_parent_label}}"
@@ -1291,8 +1294,8 @@
                         {{-- 'is_edit_link_read' - 'Чтение Связи в форме'--}}
                         @if($link_is_read == false)
                             {{--                            @if($link->parent_is_numcalc == true)--}}
-                            {{-- Похожие по смыслу проверки "@if($link->parent_is_numcalc==true && $link->parent_is_nc_screencalc==true && $link->parent_is_nc_viewonly==false)" в этом файле восемь раз --}}
-                            @if($link->parent_is_numcalc==true && $link->parent_is_nc_screencalc==true && $link->parent_is_nc_viewonly==false)
+                            {{-- Похожие по смыслу проверки "@if($link->parent_is_numcalc==true & $link->parent_is_nc_screencalc==true & $link->parent_is_nc_viewonly==false & $link->parent_is_nc_related==false)" в этом файле девять раз --}}
+                            @if($link->parent_is_numcalc==true & $link->parent_is_nc_screencalc==true & $link->parent_is_nc_viewonly==false & $link->parent_is_nc_related==false)
                                 <div class="col-sm-1">
                                     {{--                                    Не удалять--}}
                                     {{--                                    <input type="button" value="..." title="{{trans('main.calculate')}}"--}}
@@ -1381,6 +1384,7 @@
     $functions = array();
     $functs_numcalc_noviewonly = array();
     $functs_numcalc_viewonly = array();
+
     $functs_change = array();
 
     // В этом массиве хранятся функции, которые выводят наименования вычисляемых полей
@@ -1642,7 +1646,6 @@
                 $functs_change['link' . $link->id] = 1;
                 ?>
                 @endif
-
             </script>
         @endif
 
@@ -1951,14 +1954,23 @@
                 // Не нужно использовать
                 // $functions[] = "link_id_changeOption_" . $prefix . $link->id;
                 // $functs_parent_refer[] = "link_id_changeOption_" . $prefix . $link->id;
+                $rel_links = Link::where('child_base_id', $link->child_base_id)
+                    ->where('parent_nc_related_link_id', $link->id)
+                    ->get();
+                $arr_rlinks = array();
+                foreach ($rel_links as $rel_link) {
+                    // Две одинаковые проверки в этом файле
+                    if (!($rel_link->parent_base->is_code_needed == true & $rel_link->parent_is_enter_refer == true) & $rel_link->parent_is_numcalc == true & $rel_link->parent_is_nc_screencalc == true) {
+                        $arr_rlinks[] = $rel_link->id;
+                    }
+                }
                 ?>
-                function link_id_changeOption_{{$prefix}}{{$link->id}}() {
+                async function link_id_changeOption_{{$prefix}}{{$link->id}}() {
                     @if($link_related_calculated)
                     if (child_base_id{{$prefix}}{{$link->id}}.innerHTML == 0) {
                         @else
                         if (child_base_id{{$prefix}}{{$link->id}}.options[child_base_id{{$prefix}}{{$link->id}}.selectedIndex].value == 0) {
                             @endif
-
                                 parent_base_id{{$prefix}}{{$link->id}}.innerHTML = "{{trans('main.no_information') . '!'}}";
                             parent_related_id{{$prefix}}{{$link->id}}.innerHTML = "0";
                             {{--                                @if(!$update & $link->parent_is_nc_parameter == true)--}}
@@ -1971,9 +1983,11 @@
                             //echo StepController::steps_javascript_code($link, 'link_id_changeOption');
                             ?>
                             @endif
-                            {{--}--}}
+                            @foreach($arr_rlinks as $value)
+                            button_nc_click_{{$prefix_func_button}}{{$value}}();
+                            @endforeach
                         } else {
-                            axios.get('/item/get_parent_item_from_calc_child_item/'
+                            await axios.get('/item/get_parent_item_from_calc_child_item/'
                                 @if($link_related_calculated)
                                 + child_base_id{{$prefix}}{{$link->id}}.innerHTML
                                 @else
@@ -1996,9 +2010,11 @@
                                     //echo StepController::steps_javascript_code($link, 'link_id_changeOption');
                                     ?>
                                     @endif
-                                    {{--}--}}
                                 }
                             );
+                            @foreach($arr_rlinks as $value)
+                            button_nc_click_{{$prefix_func_button}}{{$value}}();
+                            @endforeach
                         }
                         {{--Так не работает--}}
                         {{--on_numcalc_viewonly();--}}
@@ -2159,22 +2175,22 @@
         //$calc_link_relit_id = GlobalController::calc_link_relit_id($link, $role, $relit_id);
         //$base_link_right = GlobalController::base_link_right($link, $role, $calc_link_relit_id);
         $base_link_right = GlobalController::base_link_right($link, $role, $relit_id);
-        // Префикс "5_" д.б. одинаков в StepController::steps_javascript_code() и в item\ext_edit.php
-        $prefix = '5_';
+        $prefix = $prefix_func_button;
         ?>
         {{-- Похожая проверка вверху--}}
         {{-- Кроме ($link->parent_base->is_code_needed==true && $link->parent_is_enter_refer==true)--}}
-        @if(!($link->parent_base->is_code_needed==true && $link->parent_is_enter_refer==true))
+        {{--        @if(!($link->parent_base->is_code_needed==true && $link->parent_is_enter_refer==true))--}}
         {{-- 'is_edit_link_read' - 'Чтение Связи в форме', 'is_edit_link_update' - 'Корректировка Связи в форме' --}}
-        @if($link_is_read == false & $base_link_right['is_edit_link_update'] == true)
-        @if($link->parent_is_numcalc==true && $link->parent_is_nc_screencalc==true)
+        {{--        @if($link_is_read == false & $base_link_right['is_edit_link_update'] == true)--}}
+        {{--        @if($link->parent_is_numcalc==true && $link->parent_is_nc_screencalc==true)--}}
+
+        {{-- Две одинаковые проверки в этом файле--}}
+        @if(!($link->parent_base->is_code_needed==true & $link->parent_is_enter_refer==true) & $link->parent_is_numcalc==true & $link->parent_is_nc_screencalc==true)
         {{--    Не срабатывает--}}
         {{--var numcalc_{{$prefix}}{{$link->id}} = document.getElementById('link{{$link->id}}');--}}
-
-        {{-- Похожие по смыслу проверки "@if($link->parent_is_numcalc==true && $link->parent_is_nc_screencalc==true && $link->parent_is_nc_viewonly==false)" в этом файле восемь раз --}}
-        {{-- Проверка '@if($link->parent_is_numcalc==true && $link->parent_is_nc_screencalc==true)' выше--}}
-        {{--        @if($link->parent_is_numcalc==true && $link->parent_is_nc_viewonly==false)--}}
-        @if($link->parent_is_nc_viewonly == false)
+        {{-- Похожие по смыслу проверки "@if($link->parent_is_numcalc==true & $link->parent_is_nc_screencalc==true & $link->parent_is_nc_viewonly==false & $link->parent_is_nc_related==false)" в этом файле девять раз --}}
+        @if($link->parent_is_numcalc==true & $link->parent_is_nc_screencalc==true & $link->parent_is_nc_viewonly==false & $link->parent_is_nc_related==false)
+        {{-- @if($link->parent_is_nc_viewonly == false)--}}
         var button_nc_{{$prefix}}{{$link->id}} = document.getElementById('button_nc{{$link->id}}');
         var name_{{$prefix}}{{$link->id}} = document.getElementById('name{{$link->id}}');
         @endif
@@ -2241,7 +2257,11 @@
                 v.checked = (x == 1);
             @elseif ($link->parent_base->type_is_list())
             if (isNaN(x)) {
-                x = 0;
+                @if($link->parent_is_nc_related==true)
+                    v.innerHTML = "<option value='0'>" + "{{trans('main.no_information')}}" + "!</option>";
+                @else
+                    v.value = x;
+                @endif
             }
             {{--for (let i = 0; i < numcalc_{{$prefix}}{{$link->id}}.length; i++) {--}}
                 {{--    if (numcalc_{{$prefix}}{{$link->id}}[i].value == x) {--}}
@@ -2251,12 +2271,19 @@
                 {{--}--}}
                 {{--numcalc_{{$prefix}}{{$link->id}}.value = x;--}}
 
+                @if($link->parent_is_nc_related==true)
+                v.innerHTML = x_dop;
+            @else
                 v.value = x;
-
             @endif
+
+
+                @endif
+
                 {{-- Проверка '@if($link->parent_is_numcalc==true && $link->parent_is_nc_screencalc==true)' выше--}}
-                {{-- Похожие по смыслу проверки "@if($link->parent_is_numcalc==true && $link->parent_is_nc_screencalc==true && $link->parent_is_nc_viewonly==false)" в этом файле восемь раз --}}
-                @if($link->parent_is_nc_viewonly == false)
+                {{-- Похожие по смыслу проверки "@if($link->parent_is_numcalc==true & $link->parent_is_nc_screencalc==true & $link->parent_is_nc_viewonly==false & $link->parent_is_nc_related==false)" в этом файле девять раз --}}
+                @if($link->parent_is_numcalc==true & $link->parent_is_nc_screencalc==true & $link->parent_is_nc_viewonly==false & $link->parent_is_nc_related==false)
+                {{--                @if($link->parent_is_nc_viewonly == false)--}}
                 name_{{$prefix}}{{$link->id}}.innerHTML = error_message;
             @endif
             {{-- Нужно для обновления информации--}}
@@ -2268,21 +2295,26 @@
         }
 
         {{-- Проверка '@if($link->parent_is_numcalc==true && $link->parent_is_nc_screencalc==true)' выше--}}
-        {{-- Похожие по смыслу проверки "@if($link->parent_is_numcalc==true && $link->parent_is_nc_screencalc==true && $link->parent_is_nc_viewonly==false)" в этом файле восемь раз --}}
-        @if($link->parent_is_nc_viewonly == false)
+        {{-- Похожие по смыслу проверки "@if($link->parent_is_numcalc==true & $link->parent_is_nc_screencalc==true & $link->parent_is_nc_viewonly==false & $link->parent_is_nc_related==false)" в этом файле девять раз --}}
+        @if($link->parent_is_numcalc==true & $link->parent_is_nc_screencalc==true & $link->parent_is_nc_viewonly==false & $link->parent_is_nc_related==false)
+        {{--@if($link->parent_is_nc_viewonly == false)--}}
         button_nc_{{$prefix}}{{$link->id}}.addEventListener("click", button_nc_click_{{$prefix}}{{$link->id}});
         @endif
 
         <?php
-        if ($link->parent_is_nc_viewonly == true) {
-            $functs_numcalc_viewonly[] = "button_nc_click_" . $prefix . $link->id;
-        } else {
-            $functs_numcalc_noviewonly[] = "button_nc_click_" . $prefix . $link->id;
+        $fn = "button_nc_click_" . $prefix . $link->id;
+        if ($link->parent_is_nc_related == false) {
+            if ($link->parent_is_nc_viewonly == true) {
+                $functs_numcalc_viewonly[] = $fn;
+            } else {
+                $functs_numcalc_noviewonly[] = $fn;
+            }
         }
         ?>
 
-        @endif
-        @endif
+        {{--        @endif--}}
+        {{--        @endif--}}
+        {{--        @endif--}}
         @endif
 
         @endforeach
@@ -2312,7 +2344,7 @@
         {{-- var parent_base_id_work= 0;--}}
 
         function on_numcalc_viewonly() {
-            @foreach($functs_numcalc_viewonly as $value)
+            @foreach($functs_numcalc_viewonly as $key=>$value)
                 {{$value}}();
             @endforeach
         }
@@ -2484,8 +2516,27 @@
             {{-- Нужно, например, для правильного отображения данных при добавлении/корректировке записей в шаблоне "Интернет - магазин"--}}
             {{-- Блок 1 --}}
             @foreach($functs_change as $key=>$value)
+            <?php
+            // В $key может хранится 'code', 'codeXXX', 'linkXXX' (где XXX - $link)
+            $link_result = false;
+            // Проверка на наличие $link
+            $link_key = Link::find(substr($key, 4));
+            if ($link_key) {
+                // Проверка на 'Вычисляется от связанного поля (parent_is_parent_related = true, при экранном вычислении) = false'
+                if ($link_key->parent_is_nc_related == false) {
+                    $link_result = true;
+                }
+            } else {
+                $link_result = true;
+            }
+            ?>
+            @if($link_result)
             document.getElementById('{{$key}}').dispatchEvent(new Event('change'));
+            @endif
             @endforeach
+
+
+
 
             {{-- Нужно--}}
             {{-- on_numcalc_viewonly();--}}

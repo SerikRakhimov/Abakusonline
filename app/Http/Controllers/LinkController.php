@@ -152,7 +152,10 @@ class LinkController extends Controller
         $link->parent_is_left_calcname_lang_3 = isset($request->parent_is_left_calcname_lang_3) ? true : false;
         $link->parent_is_numcalc = isset($request->parent_is_numcalc) ? true : false;
         $link->parent_is_nc_viewonly = isset($request->parent_is_nc_viewonly) ? true : false;
+        $link->parent_is_sets_calc = isset($request->parent_is_sets_calc) ? true : false;
         $link->parent_is_nc_screencalc = isset($request->parent_is_nc_screencalc) ? true : false;
+        $link->parent_is_nc_related = isset($request->parent_is_nc_related) ? true : false;
+        $link->parent_nc_related_link_id = $request->parent_nc_related_link_id >= 0 ? $request->parent_nc_related_link_id : 0;
         $link->parent_is_nc_parameter = isset($request->parent_is_nc_parameter) ? true : false;
         $link->parent_is_hidden_field = isset($request->parent_is_hidden_field) ? true : false;
         $link->parent_is_primary_image = isset($request->parent_is_primary_image) ? true : false;
@@ -354,11 +357,36 @@ class LinkController extends Controller
         // присвоить 'Для вычисляемого наименования' присвоить false
         // (чтобы не было зацикливания при вычислении вычисляемого наименования)
         if ($link->parent_is_base_link == true) {
-            $link->parent_is_calcname  = false;
+            $link->parent_is_calcname = false;
         }
 
         if ($link->parent_is_numcalc == false) {
             $link->parent_is_nc_screencalc = 0;
+            $link->parent_is_nc_related = 0;
+        }
+        // Только при экранном вычислении может $link->parent_is_nc_related = true
+        if ($link->parent_is_nc_screencalc == false) {
+            $link->parent_is_nc_related = 0;
+        }
+        // Обработка полей $link->parent_is_nc_related и $link->parent_nc_related_link_id
+        if ($link->parent_is_nc_related == true) {
+            if ($link->parent_nc_related_link_id != 0) {
+                $link_find = Link::find($link->parent_nc_related_link_id);
+                if (!$link_find) {
+                    $link->parent_is_nc_related = 0;
+                    $link->parent_nc_related_link_id = 0;
+                }
+            }
+        } else {
+            //if ($link->parent_is_nc_related == false) {
+            $link->parent_nc_related_link_id = 0;
+        }
+        // 'Вычисляется от связанного поля (parent_is_parent_related = true, при экранном вычислении)'
+        if($link->parent_is_nc_related == true){
+            // 'Вводить как справочник'
+            $link->parent_is_enter_refer = false;
+            // 'Расчитанное значение только показывать'
+            $link->parent_is_nc_viewonly = true;
         }
         if ($link->parent_is_setup_project_logo_img == true) {
             if (!($link->child_base->is_setup_lst == true && $link->parent_base->type_is_image())) {
@@ -489,7 +517,10 @@ class LinkController extends Controller
         $link->parent_is_left_calcname_lang_3 = isset($request->parent_is_left_calcname_lang_3) ? true : false;
         $link->parent_is_numcalc = isset($request->parent_is_numcalc) ? true : false;
         $link->parent_is_nc_viewonly = isset($request->parent_is_nc_viewonly) ? true : false;
+        $link->parent_is_sets_calc = isset($request->parent_is_sets_calc) ? true : false;
         $link->parent_is_nc_screencalc = isset($request->parent_is_nc_screencalc) ? true : false;
+        $link->parent_is_nc_related = isset($request->parent_is_nc_related) ? true : false;
+        $link->parent_nc_related_link_id = $request->parent_nc_related_link_id >= 0 ? $request->parent_nc_related_link_id : 0;
         $link->parent_is_nc_parameter = isset($request->parent_is_nc_parameter) ? true : false;
         $link->parent_is_hidden_field = isset($request->parent_is_hidden_field) ? true : false;
         $link->parent_is_primary_image = isset($request->parent_is_primary_image) ? true : false;
@@ -691,11 +722,35 @@ class LinkController extends Controller
         // присвоить 'Для вычисляемого наименования' присвоить false
         // (чтобы не было зацикливания при вычислении вычисляемого наименования)
         if ($link->parent_is_base_link == true) {
-            $link->parent_is_calcname  = false;
+            $link->parent_is_calcname = false;
         }
-
         if ($link->parent_is_numcalc == false) {
             $link->parent_is_nc_screencalc = 0;
+            $link->parent_is_nc_related = 0;
+        }
+        // Только при экранном вычислении может $link->parent_is_nc_related = true
+        if ($link->parent_is_nc_screencalc == false) {
+            $link->parent_is_nc_related = 0;
+        }
+        // Обработка полей $link->parent_is_nc_related и $link->parent_nc_related_link_id
+        if ($link->parent_is_nc_related == true) {
+            if ($link->parent_nc_related_link_id != 0) {
+                $link_find = Link::find($link->parent_nc_related_link_id);
+                if (!$link_find) {
+                    $link->parent_is_nc_related = 0;
+                    $link->parent_nc_related_link_id = 0;
+                }
+            }
+        } else {
+            //if ($link->parent_is_nc_related == false) {
+            $link->parent_nc_related_link_id = 0;
+        }
+        // 'Вычисляется от связанного поля (parent_is_parent_related = true, при экранном вычислении)'
+        if($link->parent_is_nc_related == true){
+            // 'Вводить как справочник'
+            $link->parent_is_enter_refer = false;
+            // 'Расчитанное значение только показывать'
+            $link->parent_is_nc_viewonly = true;
         }
         if ($link->parent_is_setup_project_logo_img == true) {
             if (!($link->child_base->is_setup_lst == true && $link->parent_base->type_is_image())) {
@@ -870,7 +925,7 @@ class LinkController extends Controller
             $links = Link::where('child_base_id', $base->id)
                 ->where('parent_is_parent_related', false)
                 ->orderBy('parent_base_number')
-            ->get();
+                ->get();
             // при корректировке записи текущую запись не отображать в списке
             if ($link_current) {
                 $links = $links->where('id', '!=', $link_current->id);

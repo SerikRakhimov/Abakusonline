@@ -579,6 +579,13 @@ class GlobalController extends Controller
             $is_list_link_enable = false;
             $is_list_link_with_seqnum_enable = true;
         }
+        // 'Основа вычисляется присваиваниями'
+        if ($link->parent_is_sets_calc == true) {
+            // 'Чтение Связи в форме'
+            $is_edit_link_read = true;
+            // 'Корректировка Связи в форме'
+            $is_edit_link_update = false;
+        }
         // Блок проверки по rolis, используя переменные $role, $relit_id и $link
         //$roli = Roli::where('role_id', $role->id)->where('relit_id', $base_link_rel_id)->where('link_id', $link->id)->first();
         $roli = Roli::where('role_id', $role->id)->where('relit_id', $relit_id)->where('link_id', $link->id)->first();

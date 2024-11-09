@@ -164,14 +164,20 @@ class StepController extends Controller
 
                                 } elseif ($ln_first->parent_base->type_is_list()) {
                                     if ($ln_first->parent_is_parent_related == true) {
-                                        if ($step->second == "I") {
-                                            // Используется "x = nc_param_id_4_"
-                                            $result = $result . "\n x = nc_param_id_4_" . $step->first
-                                                . ".innerHTML;";
-                                        } else {
-                                            // Используется "x = nc_parameter_4_"
-                                            $result = $result . "\n x = nc_parameter_4_" . $step->first
-                                                . ".innerHTML;";
+                                            if ($step->second == "I") {
+                                                // Используется "x = nc_param_id_4_"
+                                                $result = $result . "\n x = nc_param_id_4_" . $step->first
+                                                    . ".innerHTML;";
+                                            } else {
+                                                // Используется "x = nc_parameter_4_"
+                                                $result = $result . "\n x = nc_parameter_4_" . $step->first
+                                                    . ".innerHTML;";
+                                            }
+                                        if ($link->parent_is_nc_related == true) {
+                                            $result = $result . "\n x_dop = '<option value=" . "'";
+                                            $result = $result . '+ nc_param_id_4_' . $step->first . '.innerHTML+">"
+                                                        + nc_parameter_4_' . $step->first . '.innerHTML
+                                                        + "</option>";';
                                         }
                                     } else {
                                         if ($step->second == "I") {
