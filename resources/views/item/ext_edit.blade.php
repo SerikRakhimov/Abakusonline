@@ -450,6 +450,13 @@
                 if ($link_exists) {
                     $items_default = false;
                 }
+                // Этот блок if-endif использовать здесь
+                if($items_default == true){
+                    // 'Вычисляется от связанного поля (parent_is_parent_related = true, при экранном вычислении)'
+                    if ($link->parent_is_nc_related == true) {
+                        $items_default = false;
+                    }
+                }
             }
             // Пустой список
             $its_no_get = Item::where('id', null);
