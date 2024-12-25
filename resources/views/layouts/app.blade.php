@@ -44,22 +44,26 @@ use \App\Http\Controllers\GlobalController;
     // или false, если произошла ошибка
     function get_dimensions(el) {
         // Браузер с поддержкой naturalWidth/naturalHeight
-        if (el.naturalWidth!=undefined) {
-            return { 'real_width':el.naturalWidth,
-                'real_height':el.naturalHeight,
-                'client_width':el.width,
-                'client_height':el.height };
+        if (el.naturalWidth != undefined) {
+            return {
+                'real_width': el.naturalWidth,
+                'real_height': el.naturalHeight,
+                'client_width': el.width,
+                'client_height': el.height
+            };
         }
         // Устаревший браузер
-        else if (el.tagName.toLowerCase()=='img') {
-            var img=new Image();
-            img.src=el.src;
-            var real_w=img.width;
-            var real_h=img.height;
-            return { 'real_width':real_w,
-                'real_height':real_h,
-                'client_width':el.width,
-                'client_height':el.height };
+        else if (el.tagName.toLowerCase() == 'img') {
+            var img = new Image();
+            img.src = el.src;
+            var real_w = img.width;
+            var real_h = img.height;
+            return {
+                'real_width': real_w,
+                'real_height': real_h,
+                'client_width': el.width,
+                'client_height': el.height
+            };
         }
         // Что-то непонятное
         else {
@@ -67,10 +71,9 @@ use \App\Http\Controllers\GlobalController;
         }
     }
 </script>
-{{--<body background="{{Storage::url('newyear.jpeg')}}">--}}
 {{--<body>--}}
 <body background="{{Storage::url('gray-abstract.jpg')}}"
-      style="
+style="
 background-size: cover;
 background-position: center center;
 background-repeat: no-repeat;

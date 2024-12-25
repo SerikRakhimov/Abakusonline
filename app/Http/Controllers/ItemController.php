@@ -2694,7 +2694,6 @@ class ItemController extends Controller
         foreach ($strings_inputs as $key => $value) {
             $strings_inputs[$key] = ($value != null) ? $value : "";
         }
-
         foreach ($inputs as $key => $value) {
             $link = Link::findOrFail($key);
             if ($link->parent_base->type_is_image() || $link->parent_base->type_is_document()) {
@@ -3689,6 +3688,8 @@ class ItemController extends Controller
 
                         // Нужно, чтобы id было
                         $item_seek->save();
+                        // Вызов этой функции обязателен 'self::ver_item_baselink($item_seek)'
+                        self::ver_item_baselink($item_seek);
                     }
                 } else {
                     // "$create_item_seek = true;" нужно
@@ -3844,8 +3845,11 @@ class ItemController extends Controller
                                 }
                                 // Похожие проверки ItemController->save_sets() и GlobalController->item_calc_main() ('is_required_lst_num_str_txt_img_doc==false') для числовых полей при нулевом значении
                                 // Удалить запись при '(($seek_value == 0) & $value->link_to->parent_base->type_is_number() & ($value->link_to->parent_base->is_required_lst_num_str_txt_img_doc == false))'
-                                if (($seek_value == 0) & $value->link_to->parent_base->type_is_number() & ($value->link_to->parent_base->is_required_lst_num_str_txt_img_doc == false)) {
-                                    $delete_main = true;
+                                // '($value->is_group == false)' эта проверка нужна
+                                if ($value->is_group == false) {
+                                    if (($seek_value == 0) & $value->link_to->parent_base->type_is_number() & ($value->link_to->parent_base->is_required_lst_num_str_txt_img_doc == false)) {
+                                        $delete_main = true;
+                                    }
                                 }
                                 if ($delete_main == true) {
                                     $main->delete();
@@ -4289,8 +4293,10 @@ class ItemController extends Controller
 
         return $result;
     }
-
+// Вызывается из ext_edit.php
 // Функция "Если в присваиваниях группировки "только type_is_list()"
+// Показывать в ext_edit.php только, если все группировки 'where('is_group', true)' type_is_list
+// Т.к. при при полях с типом list известно id выбранного элемента, в отличие от других полей (дата, число, строка, логический, текст)
     static function get_sets_list_group(Base $base, Link $link)
     {
         $result = false;
@@ -8243,14 +8249,18 @@ class ItemController extends Controller
         }
         return redirect()->back();
     }
-
-// Заполнение признака "Ссылка на основу"
-    function verify_baselink(Base $base, Project $project)
+// Алгоритмы в функциях verify_baselink() и ver_item_baselink() похожи
+// Заполнение признака "Ссылка на основу" для списка $items по фильтру 'where('base_id', $base->id)->where('project_id', $project->id)'
+    // static необязательно
+    static function verify_baselink(Base $base, Project $project)
     {
         $items = Item::where('base_id', $base->id)->where('project_id', $project->id)->get();
-        // Т.е. 'child_base_id' = 'parent_base_id'
-        // parent_is_base_link
-        $links = Link::where('child_base_id', $base->id)->where('parent_base_id', $base->id)->get();
+        // Ссылка на само себя 'where('child_base_id', $base->id)->where('parent_base_id', $base->id)'
+        // 'parent_is_base_link' => 'Ссылка на основу (кроме вычисляемых основ - Ребенок_Основа)',
+        $links = Link::where('child_base_id', $base->id)
+            ->where('parent_is_base_link', true)
+            ->where('parent_base_id', $base->id)
+            ->get();
         $i = 0;
         foreach ($items as $item) {
             foreach ($links as $link) {
@@ -8270,6 +8280,33 @@ class ItemController extends Controller
         }
         $result = trans('main.processed') . " " . $i . " " . mb_strtolower(trans('main.records')) . ".";
         return view('message', ['message' => $result]);
+    }
+
+    // Алгоритмы в функциях verify_baselink() и ver_item_baselink() похожи
+    // Заполнение признака "Ссылка на основу" для одного $item
+    // static нужно, чтобы не было ошибки при вызове 'Расчет вычисляемых основ' ProjectController::calculate_bases()
+    static function ver_item_baselink(Item $item)
+    {
+        $base = $item->base;
+        // Ссылка на само себя 'where('child_base_id', $base->id)->where('parent_base_id', $base->id)'
+        // 'parent_is_base_link' => 'Ссылка на основу (кроме вычисляемых основ - Ребенок_Основа)',
+        $links = Link::where('child_base_id', $base->id)
+            ->where('parent_is_base_link', true)
+            ->where('parent_base_id', $base->id)
+            ->get();
+        foreach ($links as $link) {
+            $main = Main::where('child_item_id', $item->id)->where('link_id', $link->id)->first();
+            if (!$main) {
+                // Создание записи в mains "Ссылка на основу"
+                $main = new Main();
+                $main->link_id = $link->id;
+                $main->child_item_id = $item->id;
+                $main->created_user_id = Auth::user()->id;
+            }
+            $main->parent_item_id = $item->id;
+            $main->updated_user_id = Auth::user()->id;
+            $main->save();
+        }
     }
 
 // Проверка хранения чисел
