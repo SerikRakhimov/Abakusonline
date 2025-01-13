@@ -17,6 +17,7 @@ return [
     'kz' => 'kaz',
     'en' => 'eng',
     'qz' => 'qaz',
+    'logotype' => 'Logotype',
     'account' => 'Account',
     'information' => 'Information',
     'view' => 'View',

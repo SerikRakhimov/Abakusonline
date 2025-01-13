@@ -17,6 +17,7 @@ return [
     'kz' => 'каз',
     'en' => 'анг',
     'qz' => 'qaz',
+    'logotype' => 'Логотип',
     'account' => 'Аккаунт',
     'information' => 'Информация',
     'view' => 'Просмотр',
