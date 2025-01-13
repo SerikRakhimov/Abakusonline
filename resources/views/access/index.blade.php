@@ -100,7 +100,7 @@
                 @if(!$is_user)
                     <td class="text-left">
                         <a href="{{route($access_show, $access)}}" title="{{trans('main.show')}}">
-                            {{$access->user->name}}
+                            {{$access->user->name}} @include('layouts.user.show_logotype',['user'=>$access->user])
                         </a>
                     </td>
                 @endif

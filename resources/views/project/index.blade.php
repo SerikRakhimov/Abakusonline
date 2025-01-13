@@ -69,7 +69,6 @@
                 <th class="text-left">{{trans('main.author')}}</th>
             @endif
             <th class="text-left">{{trans('main.name')}}</th>
-            <th class="text-center">{{trans('main.logotype')}}</th>
             <th class="text-left">{{trans('main.is_test')}}</th>
             <th class="text-left">{{trans('main.is_closed')}}</th>
             <th class="text-center">Id</th>
@@ -84,8 +83,6 @@
         @foreach($projects as $project)
             <?php
             $i++;
-            $get_items_setup = $project->get_items_setup();
-            $get_project_logo_item = $get_items_setup['logo_item'];
             ?>
             <tr>
                 <td class="text-center">
@@ -115,13 +112,7 @@
                 <td class="text-left">
                     <a href="{{route($project_show, $project)}}" title="{{trans('main.show')}}">
                         {{$project->name()}}
-                    </a>
-                </td>
-                <td class="text-center">
-                    <a href="{{route($project_show, $project)}}" title="{{trans('main.show')}}">
-                        @if($get_project_logo_item)
-                            @include('view.img',['item'=>$get_project_logo_item, 'size'=>"avatar", 'filenametrue'=>false, 'link'=>false, 'img_fluid'=>false, 'card_img_top'=>false, 'title'=>'empty'])
-                        @endif
+                        @include('layouts.project.show_logotype',['project'=>$project])
                     </a>
                 </td>
                 <td class="text-left">

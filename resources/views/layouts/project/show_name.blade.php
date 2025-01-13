@@ -23,7 +23,8 @@ $is_admin = Auth::user()->isAdmin();
                 @if($is_admin)
                     <a href="{{route('project.show_template', $project)}}" title="{{$project->name()}}">
                         @endif
-                        {{$project->name()}}&nbsp;&nbsp;&nbsp;@include('layouts.project.show_icons',['project'=>$project])
+                        {{$project->name()}}&nbsp;&nbsp;@include('layouts.project.show_logotype',['project'=>$project])
+                        &nbsp;@include('layouts.project.show_icons',['project'=>$project])
                         @if($is_admin)
                     </a>
                 @endif
