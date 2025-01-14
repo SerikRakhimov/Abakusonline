@@ -54,9 +54,17 @@ class ProjectController extends Controller
 //                    ->where('is_author', false);
 //            });
 
+//        $projects = Project::where('is_closed', false)
+//            ->whereHas('template.roles', function ($query) {
+//                $query->where('is_external', true);
+//            });
+
         $projects = Project::where('is_closed', false)
             ->whereHas('template.roles', function ($query) {
                 $query->where('is_external', true);
+            })
+            ->whereHas('template', function ($query) {
+                $query->where('is_test', false);
             });
 
         if (Auth::check()) {
@@ -67,13 +75,26 @@ class ProjectController extends Controller
 //            })->whereHas('template.roles', function ($query) {
 //                $query->where('is_author', false);
 //            });
+
+
+//                $projects = $projects->orwhereHas('accesses', function ($query) {
+//                    $query->where('user_id', GlobalController::glo_user_id())
+//                        ->where('is_access_allowed', true);
+//                })->whereHas('template.roles', function ($query) {
+//                    $query->where('is_author', false)
+//                        ->where('is_external', true);
+//                });
+
             $projects = $projects->orwhereHas('accesses', function ($query) {
                 $query->where('user_id', GlobalController::glo_user_id())
-                    ->where('is_access_allowed', true);
-            })->whereHas('template.roles', function ($query) {
-                $query->where('is_author', false)
-                    ->where('is_external', true);
+                    ->where('is_access_allowed', true)
+                    ->whereHas('role', function ($query) {
+                        $query->where('is_author', false)
+                            ->where('is_external', true);
+                    });
             });
+
+
             // 'orwhereHas' правильно
 //            $projects = $projects->orwhereHas('accesses', function ($query) {
 //                $query->where('user_id', GlobalController::glo_user_id())
@@ -1629,7 +1650,7 @@ class ProjectController extends Controller
     {
         // Основная выборка, вычисляются $sets_ids
         $info_sets = self::calc_info_sets($project);
-        $result = $info_sets->count()>0;
+        $result = $info_sets->count() > 0;
         return $result;
     }
 
