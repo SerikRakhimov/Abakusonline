@@ -65,9 +65,10 @@
             @if(!$is_template)
                 <th class="text-left">{{trans('main.template')}}</th>
             @endif
-            @if(!$is_user)
+{{--            Пользователь - автор проекта выводится на экран--}}
+{{--            @if(!$is_user)--}}
                 <th class="text-left">{{trans('main.author')}}</th>
-            @endif
+{{--            @endif--}}
             <th class="text-left">{{trans('main.name')}}</th>
             <th class="text-left">{{trans('main.is_test')}}</th>
             <th class="text-left">{{trans('main.is_closed')}}</th>
@@ -102,13 +103,14 @@
                         </a>
                     </td>
                 @endif
-                @if(!$is_user)
+{{--                Пользователь - автор проекта выводится на экран--}}
+{{--                @if(!$is_user)--}}
                     <td class="text-left">
                         <a href="{{route($project_show, $project)}}" title="{{trans('main.show')}}">
-                            {{$project->user->name}}
+                            {{$project->user->name}} @include('layouts.user.show_logotype',['user'=>$project->user])
                         </a>
                     </td>
-                @endif
+{{--                @endif--}}
                 <td class="text-left">
                     <a href="{{route($project_show, $project)}}" title="{{trans('main.show')}}">
                         {{$project->name()}}

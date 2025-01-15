@@ -40,6 +40,11 @@ class Template extends Model
         return $this->hasMany(Relit::class, 'child_template_id')->orderBy('serial_number');
     }
 
+    function isTest(): bool
+    {
+        return $this->is_test == true;
+    }
+
     function name()
     {
         $result = "";  // нужно, не удалять
@@ -56,6 +61,15 @@ class Template extends Model
     function name_id()
     {
         return $this->name() . " (Id = " . strval($this->id) . ")";
+    }
+
+    function name_is_test()
+    {
+        $result = $this->name();
+        if ($this->isTest()){
+            $result = $result . " (". mb_strtolower(trans('main.is_test')) . ")";
+        }
+        return $result;
     }
 
     function desc()

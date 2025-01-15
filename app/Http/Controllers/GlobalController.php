@@ -2908,7 +2908,7 @@ class GlobalController extends Controller
         return $path;
     }
 
-    function get_author_roles_projects($project_id)
+    static function get_author_roles_projects($project_id)
     {
         // Проекты, у которых в accesses есть записи для текущего пользователя
         // с ролью Автор
@@ -2936,7 +2936,7 @@ class GlobalController extends Controller
         return $projects;
     }
 
-    function is_author_roles_project($project_id)
+    static function is_author_roles_project($project_id)
     {
         $projects = self::get_author_roles_projects($project_id);
         $project = $projects->first();

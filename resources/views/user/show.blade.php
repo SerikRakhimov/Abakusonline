@@ -4,6 +4,7 @@
 
     <?php
     use App\Http\Controllers\BaseController;
+    use App\Http\Controllers\GlobalController;
     use Illuminate\Support\Facades\Request;
     ?>
     <p>
@@ -14,6 +15,9 @@
 
     <p>{{trans('main.name')}}: <b>{{$user->name}}</b></p>
     <p>{{trans('main.e-mail')}}: <b>{{$user->email}}</b></p>
+    <p>{{trans('main.is_admin')}}: <b>{{GlobalController::name_is_boolean($user->is_admin)}}</b></p>
+    <p>{{trans('main.is_moderator')}}: <b>{{GlobalController::name_is_boolean($user->is_moderator)}}</b></p>
+    <p>{{trans('main.is_tester')}}: <b>{{GlobalController::name_is_boolean($user->is_tester)}}</b></p>
 
     @if ($type_form == 'show')
         <p>

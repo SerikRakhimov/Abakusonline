@@ -53,6 +53,11 @@ class User extends Authenticatable
         return $this->is_moderator == true;
     }
 
+    function isTester(): bool
+    {
+        return $this->is_tester == true;
+    }
+
     function count()
     {
         return $this->count;

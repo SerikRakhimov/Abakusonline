@@ -59,6 +59,7 @@ class ProjectController extends Controller
 //                $query->where('is_external', true);
 //            });
 
+        // Для неавторизованных пользователей, по умолчанию, проекты с тестовыми шаблонами недоступны
         $projects = Project::where('is_closed', false)
             ->whereHas('template.roles', function ($query) {
                 $query->where('is_external', true);
@@ -85,7 +86,16 @@ class ProjectController extends Controller
 //                        ->where('is_external', true);
 //                });
 
+            // Для авторизованных пользователей с признаком "тестировщик" проекты с тестовыми шаблонами становятся доступными
+            if (GlobalController::glo_user()->isTester()) {
+                // Использовать 'orwhereHas()'
+                $projects = $projects->orwhereHas('template', function ($query) {
+                    $query->where('is_test', true);
+                });
+            }
+
             $projects = $projects->orwhereHas('accesses', function ($query) {
+                // Использовать 'orwhereHas()'
                 $query->where('user_id', GlobalController::glo_user_id())
                     ->where('is_access_allowed', true)
                     ->whereHas('role', function ($query) {
@@ -134,10 +144,31 @@ class ProjectController extends Controller
 //        })
 //            ->orderBy('user_id')->orderBy('template_id')->orderBy('created_at');
 
+//        $projects = Project::whereHas('template.roles', function ($query) {
+//            $query->where('is_author', false);
+//        })
+//            ->orderBy('user_id')->orderBy('template_id')->orderBy('created_at');
+
         $projects = Project::whereHas('template.roles', function ($query) {
             $query->where('is_author', false);
-        })
-            ->orderBy('user_id')->orderBy('template_id')->orderBy('created_at');
+        });
+        // Для авторизованных пользователей с признаком "не тестировщик" проекты с тестовыми шаблонами недоступны
+        if (!GlobalController::glo_user()->isTester()) {
+            // Использовать 'whereHas()', 'where('is_test', false)'
+            $projects = $projects->whereHas('template', function ($query) {
+                $query->where('is_test', false);
+            });
+        }
+
+        $projects = $projects->orderBy('user_id')->orderBy('template_id')->orderBy('created_at');
+
+        // Для авторизованных пользователей с признаком "тестировщик" проекты с тестовыми шаблонами становятся доступными
+        if (GlobalController::glo_user()->isTester()) {
+            // Использовать 'orwhereHas()'
+            $projects = $projects->orwhereHas('template', function ($query) {
+                $query->where('is_test', true);
+            });
+        }
 
         $name = "";  // нужно, не удалять
         $index = array_search(App::getLocale(), config('app.locales'));

@@ -328,8 +328,7 @@ class UserController extends Controller
 
     function edit(User $user)
     {
-        if (!
-        Auth::user()->isAdmin()) {
+        if (!Auth::user()->isAdmin()) {
             return redirect()->route('project.all_index');
         }
 
@@ -338,8 +337,10 @@ class UserController extends Controller
 
     function change_password(User $user)
     {
-        if (GlobalController::glo_user_id() != $user->id) {
-            return redirect()->route('project.all_index');
+        if (!Auth::user()->isAdmin()) {
+            if (GlobalController::glo_user_id() != $user->id) {
+                return redirect()->route('project.all_index');
+            }
         }
         return view('user/edit', ['user' => $user, 'change_password' => true]);
     }

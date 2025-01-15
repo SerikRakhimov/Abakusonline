@@ -39,7 +39,21 @@ class AccessController extends Controller
             }
         }
 
-        $accesses = Access::where('project_id', $project->id)
+//        $accesses = Access::where('project_id', $project->id)
+//            ->orderBy('is_subscription_request', 'desc')->orderBy('user_id')->orderBy('role_id');
+
+        $accesses = Access::where('project_id', $project->id);
+
+        // Для пользователей, подписчиков, не авторам - показывать только записи текущего пользователя
+        if (!
+        Auth::user()->isAdmin()) {
+            if ($project->user_id != GlobalController::glo_user_id()) {
+                $accesses = $accesses
+                    ->where('user_id', GlobalController::glo_user_id());
+            }
+        }
+
+        $accesses = $accesses
             ->orderBy('is_subscription_request', 'desc')->orderBy('user_id')->orderBy('role_id');
 
         session(['accesses_previous_url' => request()->url()]);

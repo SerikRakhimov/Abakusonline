@@ -77,7 +77,7 @@
                     </div>
                 </div>
                 <div class="card-block bg-light">
-                    <p class="card-text ml-3"><small class="text-muted">{{$project->template->name()}}</small>
+                    <p class="card-text ml-3"><small class="text-muted">{{$project->template->name_is_test()}}</small>
                     </p>
                 </div>
                 {{-- <div class="elements-body p-0">--}}

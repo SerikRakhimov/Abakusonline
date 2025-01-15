@@ -334,8 +334,8 @@ height: 100%;
                                 </form>
                                 @auth
                                     <a class="dropdown-item" href="{{route('project.index_user', Auth::user())}}"
-                                       title="{{trans('main.setup')}}">
-                                        {{trans('main.setup')}}
+                                       title="{{trans('main.setup_projects')}}">
+                                        {{trans('main.setup_projects')}}
                                     </a>
                                     <?php
                                     // Ссылка на проект Настройки пользователя
