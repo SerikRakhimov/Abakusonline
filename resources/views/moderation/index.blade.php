@@ -58,7 +58,7 @@
                 <td class="text-left">
                     <a href="{{route('moderation.show',$item)}}" title="{{trans('main.show')}}">
                         {{$item->project->name()}}
-                        @include('layouts.project.show_icons',['project'=>$item->project])
+                        @include('layouts.project.show_logotype',['project'=>$item->project])
                     </a>
                 </td>
                 <td class="text-left">
