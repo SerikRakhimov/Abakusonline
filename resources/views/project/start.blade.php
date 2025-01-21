@@ -140,7 +140,9 @@
             {{--        </table>--}}
         @endforeach
     </table>
-    <table>
+    <table class="table table-sm table-hover
+            table-borderless
+            w-auto">
         <tr>
             <td>1</td>
             <td>a</td>
