@@ -101,7 +101,8 @@
                 $base_names = $base->names($base_right, true, true);
                 ?>
                 <tr>
-                    <td class="col-3 text-right">
+{{--                    <td class="col-3 text-right">--}}
+                    <td class="col-3 pl-4">
                         <h5>
                             <a href="{{route('item.base_index',['base'=>$base, 'project' => $project, 'role' => $role, 'relit_id' => $relit_id])}}"
                                title="{{$base_names}}">
@@ -109,7 +110,8 @@
                             </a>
                         </h5>
                     </td>
-                    <td class="col-9 text-left">
+{{--                    <td class="col-9 text-left">--}}
+                    <td class="col-9">
                         <h5>
                             <a
                                 href="{{route('item.base_index',['base'=>$base, 'project' => $project, 'role' => $role, 'relit_id' => $relit_id])}}"
@@ -144,16 +146,16 @@
             table-borderless
             w-auto">
         <tr>
-            <td class="col-3 text-right">1</td>
-            <td class="col-9 text-left">a</td>
+            <td>1</td>
+            <td>a</td>
         </tr>
         <tr>
-            <td class="col-3 text-right">2</td>
-            <td class="col-9 text-left">b</td>
+            <td>2</td>
+            <td>b</td>
         </tr>
         <tr>
-            <td class="col-3 text-right">3</td>
-            <td class="col-9 text-left">ccc333</td>
+            <td>3</td>
+            <td>c</td>
         </tr>
     </table>
 
