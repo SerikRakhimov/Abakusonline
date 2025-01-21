@@ -144,16 +144,16 @@
             table-borderless
             w-auto">
         <tr>
-            <td>1</td>
-            <td>a</td>
+            <td class="col-3 text-right">1</td>
+            <td class="col-9 text-left">a</td>
         </tr>
         <tr>
-            <td>2</td>
-            <td>b</td>
+            <td class="col-3 text-right">2</td>
+            <td class="col-9 text-left">b</td>
         </tr>
         <tr>
-            <td>3</td>
-            <td>c</td>
+            <td class="col-3 text-right">3</td>
+            <td class="col-9 text-left">ccc333</td>
         </tr>
     </table>
 
