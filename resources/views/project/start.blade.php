@@ -98,7 +98,8 @@
                 $base_names = $base->names($base_right, true, true);
                 ?>
                 <tr>
-                    <td class="col-1 text-right">
+{{--                    <td class="col-1 text-right">--}}
+                    <td class="col-1">
                         <h5>
                             <a href="{{route('item.base_index',['base'=>$base, 'project' => $project, 'role' => $role, 'relit_id' => $relit_id])}}"
                                title="{{$base_names}}">
@@ -106,8 +107,9 @@
                             </a>
                         </h5>
                     </td>
-                    <td class="col-11 text-left">
-{{--                        <h5>--}}
+{{--                    <td class="col-11 text-left">--}}
+                    <td class="col-11">
+                        <h5>
                             <a
                                 href="{{route('item.base_index',['base'=>$base, 'project' => $project, 'role' => $role, 'relit_id' => $relit_id])}}"
                                 title="{{$base_names . $message}}">
@@ -130,7 +132,7 @@
                                     ?></span>
                                 {{--                            @endauth--}}
                             </a>
-{{--                        </h5>--}}
+                        </h5>
                     </td>
                 </tr>
             @endforeach
