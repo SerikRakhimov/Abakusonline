@@ -41,10 +41,7 @@
         @endif
     @endauth
     <h3 class="ml-5">{{trans('main.mainmenu')}}</h3>
-{{--    <table class="table">--}}
-        <table class="table table-sm table-hover
-            table-borderless
-            w-auto">
+    <table class="table">
         @foreach($array_relips as $relit_id=>$array_relip)
             {{--        <hr>--}}
             <?php
@@ -142,22 +139,22 @@
             {{--        </table>--}}
         @endforeach
     </table>
-    <table class="table table-sm table-hover
-            table-borderless
-            w-auto">
-        <tr>
-            <td>1</td>
-            <td>a</td>
-        </tr>
-        <tr>
-            <td>2</td>
-            <td>b</td>
-        </tr>
-        <tr>
-            <td>3</td>
-            <td>c</td>
-        </tr>
-    </table>
+{{--    <table class="table table-sm table-hover--}}
+{{--            table-borderless--}}
+{{--            w-auto">--}}
+{{--        <tr>--}}
+{{--            <td>1</td>--}}
+{{--            <td>a</td>--}}
+{{--        </tr>--}}
+{{--        <tr>--}}
+{{--            <td>2</td>--}}
+{{--            <td>b</td>--}}
+{{--        </tr>--}}
+{{--        <tr>--}}
+{{--            <td>3</td>--}}
+{{--            <td>c</td>--}}
+{{--        </tr>--}}
+{{--    </table>--}}
 
     {{--    <h3 class="text-center">Справочники</h3><br>--}}
 
