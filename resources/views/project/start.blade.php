@@ -107,7 +107,7 @@
                         </h5>
                     </td>
                     <td class="col-11 text-left">
-                        <h5>
+{{--                        <h5>--}}
                             <a
                                 href="{{route('item.base_index',['base'=>$base, 'project' => $project, 'role' => $role, 'relit_id' => $relit_id])}}"
                                 title="{{$base_names . $message}}">
@@ -130,7 +130,7 @@
                                     ?></span>
                                 {{--                            @endauth--}}
                             </a>
-                        </h5>
+{{--                        </h5>--}}
                     </td>
                 </tr>
             @endforeach
