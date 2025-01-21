@@ -41,7 +41,10 @@
         @endif
     @endauth
     <h3 class="ml-5">{{trans('main.mainmenu')}}</h3>
-    <table class="table">
+{{--    <table class="table">--}}
+        <table class="table table-sm table-hover
+            table-borderless
+            w-auto">
         @foreach($array_relips as $relit_id=>$array_relip)
             {{--        <hr>--}}
             <?php
@@ -98,8 +101,7 @@
                 $base_names = $base->names($base_right, true, true);
                 ?>
                 <tr>
-{{--                    <td class="col-1 text-right">--}}
-                    <td class="col-1">
+                    <td class="col-3 text-right">
                         <h5>
                             <a href="{{route('item.base_index',['base'=>$base, 'project' => $project, 'role' => $role, 'relit_id' => $relit_id])}}"
                                title="{{$base_names}}">
@@ -107,8 +109,7 @@
                             </a>
                         </h5>
                     </td>
-{{--                    <td class="col-11 text-left">--}}
-                    <td class="col-11">
+                    <td class="col-9 text-left">
                         <h5>
                             <a
                                 href="{{route('item.base_index',['base'=>$base, 'project' => $project, 'role' => $role, 'relit_id' => $relit_id])}}"
