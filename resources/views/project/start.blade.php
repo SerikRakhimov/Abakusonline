@@ -140,6 +140,20 @@
             {{--        </table>--}}
         @endforeach
     </table>
+    <table>
+        <tr>
+            <td>1</td>
+            <td>a</td>
+        </tr>
+        <tr>
+            <td>2</td>
+            <td>b</td>
+        </tr>
+        <tr>
+            <td>3</td>
+            <td>c</td>
+        </tr>
+    </table>
 
     {{--    <h3 class="text-center">Справочники</h3><br>--}}
 
