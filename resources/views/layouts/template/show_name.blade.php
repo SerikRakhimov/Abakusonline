@@ -7,7 +7,7 @@ $is_admin = Auth::user()->isAdmin();
         <div class="col-12 text-center">
             <h4>
                 @if($is_admin)
-                    <a href="{{route('template.index')}}" title="{{trans('main.template')}}" class="text-warning">
+                    <a href="{{route('template.index')}}" title="{{trans('main.templates')}}" class="text-warning">
                         @endif
                         {{trans('main.template')}}
                         @if($is_admin)
