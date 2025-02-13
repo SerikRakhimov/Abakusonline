@@ -1249,7 +1249,7 @@
                                             @if($link->parent_base->is_view_empty_lst)
                                                 @if(!$link->parent_base->is_required_lst_num_str_txt_img_doc)
                                                     @if($base_link_right['is_base_required'] == false)
-                                                <option value='0'>{{GlobalController::option_empty()}}</option>
+                                                <option value='0'>{{GlobalController::option_empty()}}11111111</option>
                                             @else
                                                 <option value='0'>{{trans('main.no_information_on')}}
                                                     "{{$result_parent_label}}"!
@@ -1263,7 +1263,7 @@
                                                 @if($link->parent_base->is_view_empty_lst)
                                                     @if(!$link->parent_base->is_required_lst_num_str_txt_img_doc)
                                                     @if($base_link_right['is_base_required'] == false)
-                                                    <option value='0'>{{GlobalController::option_empty()}}</option>
+                                                    <option value='0'>{{GlobalController::option_empty()}}2222222222222</option>
                                                 @endif
                                                          @endif
                                                     @endif
