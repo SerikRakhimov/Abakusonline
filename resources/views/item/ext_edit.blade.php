@@ -1246,10 +1246,11 @@
                                 @else
                                     @if($its_list)
                                         @if ((count($its_list) == 0))
+{{--                                            Эти проверки все нужны--}}
                                             @if($link->parent_base->is_view_empty_lst)
                                                 @if(!$link->parent_base->is_required_lst_num_str_txt_img_doc)
                                                     @if($base_link_right['is_base_required'] == false)
-                                                <option value='0'>{{GlobalController::option_empty()}}11111111</option>
+                                                <option value='0'>{{GlobalController::option_empty()}}</option>
                                             @else
                                                 <option value='0'>{{trans('main.no_information_on')}}
                                                     "{{$result_parent_label}}"!
@@ -1260,10 +1261,11 @@
                                         @else
                                             {{-- Чтобы не выводить лишний раз ненужное --}}
                                             @if($ing_filter == false)
+                                                {{--                                            Эти проверки все нужны--}}
                                                 @if($link->parent_base->is_view_empty_lst)
                                                     @if(!$link->parent_base->is_required_lst_num_str_txt_img_doc)
                                                     @if($base_link_right['is_base_required'] == false)
-                                                    <option value='0'>{{GlobalController::option_empty()}}2222222222222</option>
+                                                    <option value='0'>{{GlobalController::option_empty()}}</option>
                                                 @endif
                                                          @endif
                                                     @endif
