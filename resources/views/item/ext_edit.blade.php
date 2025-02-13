@@ -1247,22 +1247,26 @@
                                     @if($its_list)
                                         @if ((count($its_list) == 0))
                                             @if($link->parent_base->is_view_empty_lst)
-                                                {{--                                            @if(!$link->parent_base->is_required_lst_num_str_txt_img_doc)--}}
-                                                {{--                                            @if($base_link_right['is_base_required'] == false)--}}
+                                                @if(!$link->parent_base->is_required_lst_num_str_txt_img_doc)
+                                                    @if($base_link_right['is_base_required'] == false)
                                                 <option value='0'>{{GlobalController::option_empty()}}</option>
                                             @else
                                                 <option value='0'>{{trans('main.no_information_on')}}
                                                     "{{$result_parent_label}}"!
                                                 </option>
                                             @endif
+                                         @endif
+                                        @endif
                                         @else
                                             {{-- Чтобы не выводить лишний раз ненужное --}}
                                             @if($ing_filter == false)
                                                 @if($link->parent_base->is_view_empty_lst)
-                                                    {{--                                            @if(!$link->parent_base->is_required_lst_num_str_txt_img_doc)--}}
-                                                    {{--                                            @if($base_link_right['is_base_required'] == false)--}}
+                                                    @if(!$link->parent_base->is_required_lst_num_str_txt_img_doc)
+                                                    @if($base_link_right['is_base_required'] == false)
                                                     <option value='0'>{{GlobalController::option_empty()}}</option>
                                                 @endif
+                                                         @endif
+                                                    @endif
                                             @endif
                                             @foreach ($its_list as $item_work)
                                                 <option value="{{$item_work->id}}"

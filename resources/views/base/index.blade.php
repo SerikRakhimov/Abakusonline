@@ -2,6 +2,7 @@
 
 @section('content')
     <?php
+//        Комментарий
     use App\Models\Item;
     use App\Http\Controllers\GlobalController;
     ?>
