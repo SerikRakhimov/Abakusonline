@@ -3853,6 +3853,7 @@ class GlobalController extends Controller
                 $join->on('mains.child_item_id', '=', 'mains_dop_zs.child_item_id');
             })
             ->whereIn('mains_dop_zs.parent_item_id', $mains_sv)
+            ->distinct()
             ->groupBy('zv_id')
             ->groupBy('zs_id');
 
@@ -3863,8 +3864,9 @@ class GlobalController extends Controller
                 $join->on('mains.child_item_id', '=', 'mains_dop_zs.child_item_id');
             })
             ->whereNotIn('mains_dop_zs.parent_item_id', $mains_sv)
-        ->groupBy('zv_id')
-        ->groupBy('zs_id');
+            ->distinct()
+            ->groupBy('zv_id')
+            ->groupBy('zs_id');
 
         // в $mains_zv.parent_item_id - заявки с количеством совпавших свойств
         $mains_zv = Main::select(DB::Raw('mains.parent_item_id as zv_id, count(*) as count'))
