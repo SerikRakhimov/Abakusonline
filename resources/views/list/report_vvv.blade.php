@@ -114,7 +114,7 @@
                                         $arr_sv_work[$key] = 0;
                                     }
                                     ?>
-                                    {{$j}}. <span class="badge-pill badge-related">{{$item_sv->name()}}</span>
+                                    {{$j}}. {{$key}}.<span class="badge-pill badge-related">{{$item_sv->name()}}</span>
                                     <br>
                                 @endif
                             @endforeach

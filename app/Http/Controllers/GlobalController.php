@@ -3847,14 +3847,15 @@ class GlobalController extends Controller
             ->where('mains.link_id', '=', $link_id4);
 
         // Заявки (zv_id), ЗаявкиСвойства (zs_id) с совпавшими свойствами
-        $mains_zs_in = Main::select(DB::Raw('mains.parent_item_id as zv_id, min(mains_dop_zs.child_item_id) as zs_id'))
+        $mains_zs_in = Main::select(DB::Raw('mains.parent_item_id as zv_id, mains_dop_zs.child_item_id as zs_id'))
             ->where('mains.link_id', '=', $link_id3)
             ->joinSub($mains_dop_zs, 'mains_dop_zs', function ($join) {
                 $join->on('mains.child_item_id', '=', 'mains_dop_zs.child_item_id');
             })
             ->whereIn('mains_dop_zs.parent_item_id', $mains_sv)
             ->distinct()
-            ->groupBy('zv_id');
+            ->groupBy('zv_id')
+            ->groupBy('zs_id');
 
         // Заявки (zv_id), ЗаявкиСвойства (zs_id) с несовпавшими свойствами
         $mains_zs_notin = Main::select(DB::Raw('mains.parent_item_id as zv_id, mains_dop_zs.child_item_id as zs_id'))
