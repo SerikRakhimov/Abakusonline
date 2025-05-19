@@ -108,19 +108,19 @@
                                     $key = array_search($item_sv->id, $arr_sv_work);
                                     // 'if ($key !== false)' так правильно
                                     // 'if ($key != false)' - не использовать, $key может быть равным 0
-                                    $is_zero = false;
+                                    //                                    $is_zero = false;
                                     if ($key !== false) {
                                         //unset($arr_sv_work[$key]);
-                                        $is_zero = $arr_sv_work[$key] = 0;
+//                                        $is_zero = $arr_sv_work[$key] = 0;
                                         $arr_sv_work[$key] = 0;
                                     }
                                     ?>
-                                    @if(!$is_zero)
-                                        <?php
-                                        $j++;
-                                        ?>
-                                        {{$j}}. <span class="badge-pill badge-related">{{$item_sv->name()}}</span>
-                                    @endif
+                                    {{--                                    @if(!$is_zero)--}}
+                                    <?php
+                                    $j++;
+                                    ?>
+                                    {{$j}}. <span class="badge-pill badge-related">{{$item_sv->name()}}</span>
+                                    {{--                                    @endif--}}
                                     <br>
                                 @endif
                             @endforeach
