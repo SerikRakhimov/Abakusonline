@@ -2157,12 +2157,24 @@ class GlobalController extends Controller
     static function get_parent_item_from_main($child_item_id, $link_id)
     {
         $item = null;
-        //$main = Main::all()->where('child_item_id', $child_item_id)->where('link_id', $link_id)->first();
-        //$main = Main::where(['child_item_id'=> $child_item_id, 'link_id'=> $link_id])->first();
-        //$main = $cursor->where('child_item_id', $child_item_id)->where('link_id', $link_id)->first();
-        $main = Main::where('child_item_id', $child_item_id)->where('link_id', $link_id)->first();
-        if ($main) {
-            $item = $main->parent_item;
+        $link = Link::find($link_id);
+        if ($link) {
+            // Выполнить расчет, нужно
+            // Похожие условия в GlobalController::item_calc_links() и в GlobalController::get_parent_item_from_main()
+            if (($link->parent_is_numcalc == true) & ($link->parent_is_nc_screencalc == false)) {
+                $item_find = Item::find($child_item_id);
+                if ($item_find) {
+                    // Расчет, закомментарено
+                    //GlobalController::item_calc_main($item_find);
+                }
+            }
+            //$main = Main::all()->where('child_item_id', $child_item_id)->where('link_id', $link_id)->first();
+            //$main = Main::where(['child_item_id'=> $child_item_id, 'link_id'=> $link_id])->first();
+            //$main = $cursor->where('child_item_id', $child_item_id)->where('link_id', $link_id)->first();
+            $main = Main::where('child_item_id', $child_item_id)->where('link_id', $link_id)->first();
+            if ($main) {
+                $item = $main->parent_item;
+            }
         }
         return $item;
     }
@@ -3666,6 +3678,7 @@ class GlobalController extends Controller
     static function item_calc_links(Item $item)
     {
         // '->get()' нужно
+        // Похожие условия в GlobalController::item_calc_links() и в GlobalController::get_parent_item_from_main()
         $links = Link::where('child_base_id', $item->base_id)
             ->where('parent_is_numcalc', true)
             ->where('parent_is_nc_screencalc', false);
@@ -3796,6 +3809,85 @@ class GlobalController extends Controller
 
         }
 
+    }
+
+    function recycle_link(Item $item, $link_id1, $link_id2, $link_id3, $link_id4, Project $project, Role $role, $usercode)
+    {
+        if (GlobalController::check_project_item_user($project, $item, $role, $usercode) == false) {
+            return view('message', ['message' => trans('main.no_access')]);
+        }
+
+        // в $mains_ks - КвартирыСвойства по переданному $item->id
+        $mains_ks = DB::table('mains')->select('mains.child_item_id as ks_id')
+            ->join('items', 'items.id', '=', 'mains.child_item_id')
+            ->where('items.project_id', '=', $item->project_id)
+            ->where('mains.link_id', '=', $link_id1)
+            ->where('mains.parent_item_id', '=', $item->id)
+            ->distinct();
+
+        // в $mains_sv - совпавшие свойства
+        $mains_sv = DB::table('mains')->select('mains.parent_item_id as sv_id')
+            ->where('mains.link_id', '=', $link_id2)
+            ->whereIn('mains.child_item_id', $mains_ks)
+            ->distinct();
+
+        // Похожие строки используются в запросах ниже (в этой функции):
+        // в $mains_zs - ЗаявкиСвойства по совпавшим свойствам
+        // нужно для запроса $mains_zv (ниже)
+        $mains_zs = DB::table('mains')->select('mains.child_item_id as zs_id')
+            ->join('items', 'items.id', '=', 'mains.child_item_id')
+            ->where('items.project_id', '=', $item->project_id)
+            ->where('mains.link_id', '=', $link_id4)
+            ->whereIn('mains.parent_item_id', $mains_sv)
+            ->distinct();
+
+        $mains_dop_zs = DB::table('mains')->select('mains.*')
+            ->join('items', 'items.id', '=', 'mains.child_item_id')
+            ->where('items.project_id', '=', $item->project_id)
+            ->where('mains.link_id', '=', $link_id4);
+
+        // Заявки (zv_id), ЗаявкиСвойства (zs_id) с совпавшими свойствами
+        $mains_zs_in = Main::select(DB::Raw('mains.parent_item_id as zv_id, mains_dop_zs.child_item_id as zs_id'))
+            ->where('mains.link_id', '=', $link_id3)
+            ->joinSub($mains_dop_zs, 'mains_dop_zs', function ($join) {
+                $join->on('mains.child_item_id', '=', 'mains_dop_zs.child_item_id');
+            })
+            ->whereIn('mains_dop_zs.parent_item_id', $mains_sv)
+            ->groupBy('zv_id')
+            ->groupBy('zs_id');
+
+        // Заявки (zv_id), ЗаявкиСвойства (zs_id) с несовпавшими свойствами
+        $mains_zs_notin = Main::select(DB::Raw('mains.parent_item_id as zv_id, mains_dop_zs.child_item_id as zs_id'))
+            ->where('mains.link_id', '=', $link_id3)
+            ->joinSub($mains_dop_zs, 'mains_dop_zs', function ($join) {
+                $join->on('mains.child_item_id', '=', 'mains_dop_zs.child_item_id');
+            })
+            ->whereNotIn('mains_dop_zs.parent_item_id', $mains_sv)
+        ->groupBy('zv_id')
+        ->groupBy('zs_id');
+
+        // в $mains_zv.parent_item_id - заявки с количеством совпавших свойств
+        $mains_zv = Main::select(DB::Raw('mains.parent_item_id as zv_id, count(*) as count'))
+            ->where('mains.link_id', '=', $link_id3)
+            ->joinSub($mains_zs, 'mains_zs', function ($join) {
+                $join->on('mains.child_item_id', '=', 'mains_zs.zs_id');
+            })
+            ->groupBy('zv_id')
+            ->orderBy('count', 'desc');
+
+        $link3 = Link::find($link_id3);
+
+        return view('list/report_vvv', ['item' => $item,
+            'project' => $project,
+            'role' => $role,
+            'relit_id' => 0,
+            'base_zv' => $link3->parent_base,
+            'mks' => $mains_ks,  // количество свойств у $item
+            'mzs_in' => $mains_zs_in,
+            'mzs_notin' => $mains_zs_notin,
+            'mzv' => $mains_zv, // список заявок, отсортированный по количеству совпадений
+            'link_title_id' => $link_id2,
+            'link_body_id' => $link_id4]);
     }
 
 // https://otus.ru/nest/post/1704/

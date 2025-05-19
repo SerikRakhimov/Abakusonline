@@ -3459,6 +3459,7 @@ class ItemController extends Controller
 //            ->join('bases', 'links.child_base_id', '=', $item->base_id)
 //            ->orderBy('sets.link_from_id')
 //            ->orderBy('sets.link_to_id')->get();
+
         $kf = $reverse == true ? -1 : 1;
         // В этом запросе по сути выбираются данные по текущему шаблону ($item->project->template_id),
         // т.к. в lf.child_base_id (sets.link_from_id) вводятся данные по текущему шаблону при вводе присваиваний
@@ -3595,7 +3596,6 @@ class ItemController extends Controller
                                     $query->where('link_id', $nt);
                                 });
                             }
-
 // Эта проверка сделана, чтобы зря не проходить весь цикл ('foreach ($set_is_group as $key => $value)') до конца
                             $item_first_verify = $items->first();
                             if (!$item_first_verify) {
@@ -4081,6 +4081,21 @@ class ItemController extends Controller
             // base_id вычисляемой таблицы
             $calc_table_base_id = $set->link_to->child_base_id;
             // Не нужно 'where('sets.is_savesets_enabled', '=', false)'
+//            $sets_group = Set::select(DB::Raw('sets.*'))
+//                ->join('links as lf', 'sets.link_from_id', '=', 'lf.id')
+//                ->join('links as lt', 'sets.link_to_id', '=', 'lt.id')
+//                ->where('is_group', true)
+//                ->where('lf.child_base_id', '=', $item->base_id)
+//                ->where('serial_number', '=', $set->serial_number)
+//                ->orderBy('sets.serial_number')
+//                ->orderBy('sets.link_from_id')
+//                ->orderBy('sets.link_to_id')
+//                ->get();
+
+            //                 ->where('lf.id', '!=', 823)
+            //->where('link_from_id', '!=', 823)
+            //                ->where('sets.id', '!=', 235)
+
             $sets_group = Set::select(DB::Raw('sets.*'))
                 ->join('links as lf', 'sets.link_from_id', '=', 'lf.id')
                 ->join('links as lt', 'sets.link_to_id', '=', 'lt.id')
@@ -4093,6 +4108,7 @@ class ItemController extends Controller
                 ->get();
 
             $items = Item::where('base_id', $item->base_id)->where('project_id', $item->project_id);
+
             // При реверсе отключить $item->id при расчете first()/last()
             if ($reverse == true) {
                 $items = $items->where('id', '!=', $item->id);
@@ -4154,6 +4170,7 @@ class ItemController extends Controller
     static function output_calculated_table_firstlast(Base $base, Set $set, Project $project, $items)
     {
         $result_item = null;
+        // Если задано в sets, по каким полям сортировать для первый(), последний();
         $sets_calcsort = self::get_sets_calcsort_firstlast($base, $set);
         // Обработка сортировки
         // Эти проверки нужны
@@ -4179,10 +4196,11 @@ class ItemController extends Controller
                         // Для строковых данных для сортировки берутся первые 50 символов
                         if ($item_find->base->type_is_list() || $item_find->base->type_is_string()) {
                             $str = $str . str_pad(trim($item_find[$name]), 50);
+                        } elseif ($item_find->base->type_is_number()) {
+                            $str = $str . strval($item_find['name_lang_0']);
                         } else {
                             $str = $str . trim($item_find[$name]);
                         }
-
                     }
                 }
                 // В $collection сохраняется в key - $item->id
@@ -4194,7 +4212,7 @@ class ItemController extends Controller
             $items = Item::whereIn('id', $ids)
                 ->orderBy(\DB::raw("FIELD(id, " . implode(',', $ids) . ")"));
         }
-
+        //dd($items->get());
         $item_calc = null;
         // '$is_func = false;' нужно
         $is_func = false;
@@ -4205,7 +4223,9 @@ class ItemController extends Controller
             // '$is_func = true;' используется
             $is_func = true;
             if ($set->is_upd_cl_gr_first == true) {
-                $item_calc = $items->first();
+                //$item_calc = $items->first();
+                // Нужно '->get()'
+                $item_calc = $items->get()->first();
             } elseif ($set->is_upd_cl_gr_last == true) {
                 // Нужно '->get()'
                 $item_calc = $items->get()->last();

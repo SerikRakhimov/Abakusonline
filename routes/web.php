@@ -147,6 +147,10 @@ Route::get('/global/get_links_from_relit_id/{relit_id}/{current_template_id}', [
     ->name('global.get_links_from_relit_id')
     ->middleware('auth');
 
+Route::get('/global/recycle_link/{item}/{link_id1}/{link_id2}/{link_id3}/{link_id4}/{project}/{role}/{usercode}', [GlobalController::class, 'recycle_link'])
+    ->name('global.recycle_link')
+    ->middleware('auth');
+
 Route::post('/home/glo_store', [HomeController::class, 'glo_store'])
     ->name('home.glo_store')
     ->middleware('auth');

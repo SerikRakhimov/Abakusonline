@@ -18,6 +18,7 @@ class StepController extends Controller
     static function steps_javascript_code(Link $link, $block)
     {
         $result = "";
+        // 'parent_is_numcalc' => 'Вычислять значение для числового поля, строки, логического поля, списка'
         // "$link->parent_is_nc_screencalc == true" используется
         if ($link->parent_is_numcalc == true && $link->parent_is_nc_screencalc == true) {
             $steps = Step::where('link_id', $link->id)
@@ -164,15 +165,15 @@ class StepController extends Controller
 
                                 } elseif ($ln_first->parent_base->type_is_list()) {
                                     if ($ln_first->parent_is_parent_related == true) {
-                                            if ($step->second == "I") {
-                                                // Используется "x = nc_param_id_4_"
-                                                $result = $result . "\n x = nc_param_id_4_" . $step->first
-                                                    . ".innerHTML;";
-                                            } else {
-                                                // Используется "x = nc_parameter_4_"
-                                                $result = $result . "\n x = nc_parameter_4_" . $step->first
-                                                    . ".innerHTML;";
-                                            }
+                                        if ($step->second == "I") {
+                                            // Используется "x = nc_param_id_4_"
+                                            $result = $result . "\n x = nc_param_id_4_" . $step->first
+                                                . ".innerHTML;";
+                                        } else {
+                                            // Используется "x = nc_parameter_4_"
+                                            $result = $result . "\n x = nc_parameter_4_" . $step->first
+                                                . ".innerHTML;";
+                                        }
                                         if ($link->parent_is_nc_related == true) {
                                             $result = $result . "\n x_dop = '<option value=" . "'";
                                             $result = $result . '+ nc_param_id_4_' . $step->first . '.innerHTML+">"
@@ -291,6 +292,7 @@ class StepController extends Controller
         $main_array = ['1', '2', '3', '4'];
         // Сохранить текущий язык
         $locale = App::getLocale();
+        // 'parent_is_numcalc' => 'Вычислять значение для числового поля, строки, логического поля, списка'
         // "$link->parent_is_nc_screencalc == false" используется
         if ($link->parent_is_numcalc == true & $link->parent_is_nc_screencalc == false) {
             $steps = Step::where('link_id', $link->id)
@@ -518,5 +520,16 @@ class StepController extends Controller
             $error_message = "steps is null";
         }
         return ['value' => $value, 'error_message' => $error_message];
+    }
+
+    static function steps_recycle_code(Link $link, $block)
+    {
+        $steps = Step::where('link_id', $link->id)
+            ->where('block', $block)
+            ->where('command', 'V')
+            ->orderBy('row')
+            ->get();
+
+        return $steps;
     }
 }

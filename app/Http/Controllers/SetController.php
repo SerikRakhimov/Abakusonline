@@ -217,20 +217,24 @@ class SetController extends Controller
                 // Родительские основы должны быть одинаковыми
                 // Кроме Расчет Средний(), Расчет Количество(), Расчет Сумма()
                 if (!(($request->forwhat == 3) && ($request->updaction >= 7) && ($request->updaction <= 9))) {
-                    if ($link_from) {
-                        if ($link_to) {
-                            // Проверка "Ссылка на Основу" = false
-                            // Для расчета количества нужна эта проверка
-                            if ($link_from->parent_is_base_link == false) {
+                    // Родительские основы должны быть одинаковыми
+                    // Кроме Поля сортировки для первый(), последний()
+                    if (!($request->forwhat == 1)) {
+                        if ($link_from) {
+                            if ($link_to) {
+                                // Проверка "Ссылка на Основу" = false
+                                // Для расчета количества нужна эта проверка
+                                if ($link_from->parent_is_base_link == false) {
 //                                if ($link_from->parent_base_id != $link_to->parent_base_id) {
 //                                    $message = trans('main.parent_bases_must_be_the_same')
-                                if ($link_from->parent_base->type() != $link_to->parent_base->type()) {
-                                    $message = trans('main.parent_host_types_must_be_the_same')
-                                        . ' ("' . $link_from->parent_base->name() . '" ' . mb_strtolower(trans('main.and')) .
-                                        ' "' . $link_to->parent_base->name() . '")!';;
-                                    $array_mess['link_from_id'] = $message;
-                                    $array_mess['link_to_id'] = $message;
-                                    return;
+                                    if ($link_from->parent_base->type() != $link_to->parent_base->type()) {
+                                        $message = trans('main.parent_host_types_must_be_the_same')
+                                            . ' ("' . $link_from->parent_base->name() . '" ' . mb_strtolower(trans('main.and')) .
+                                            ' "' . $link_to->parent_base->name() . '")!';;
+                                        $array_mess['link_from_id'] = $message;
+                                        $array_mess['link_to_id'] = $message;
+                                        return;
+                                    }
                                 }
                             }
                         }

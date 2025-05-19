@@ -11,7 +11,7 @@
     use App\Models\Main;
     use App\Models\Level;
     use \App\Http\Controllers\GlobalController;
-    use \App\Http\Controllers\ItemController;
+    use \App\Http\Controllers\StepController;
     // Не удалять
     //        function objectToarray($data)
     //        {
@@ -159,7 +159,7 @@
         {{-- здесь равно true--}}
         {{-- @if(GlobalController::is_base_calcname_check($it_local->base, $base_right))--}}
         @if(GlobalController::is_base_calcname_check($it_local->base))
-{{--                        @if(1==1)--}}
+            {{--                        @if(1==1)--}}
             <div class="col-12 text-center">
                 {{--                    <big>--}}
                 {{--                    <h6>--}}
@@ -948,6 +948,7 @@
                                 @else
                                     {{-- Выводится $message_mc--}}
                                     {{-- $v_link используется--}}
+                                    {{--                             'view_link'=>$view_link,--}}
                                     <button type="button" class="btn btn-dreamer btn-sm"
                                             title="{{trans('main.add'). " '" . $v_link->child_base->name() . "'" . $message_ln_info}}"
                                             onclick="document.location='{{route('item.ext_create', ['base'=>$v_link->child_base_id,
@@ -959,7 +960,6 @@
                          'base_index_page'=>$base_index_page, 'body_link_page'=>$body_link_page,'body_all_page'=>$body_all_page,
                          'view_link'=>$view_link,
                          'parent_ret_id' => $view_ret_body_id,
-                             'view_link'=>$view_link,
                              'saveurl_add' =>$saveurl_add,
                              'level_id' =>GlobalController::const_null(),
                              'par_link'=>$view_link, 'parent_item'=>$item
@@ -1013,6 +1013,25 @@
                 'nolink_id' =>null
                 ])
                 {{$body_items->links()}}
+                <?php
+                $steps_recycle_code = StepController::steps_recycle_code($v_link, 'stored_procedures');
+                ?>
+                @foreach($steps_recycle_code as $step_rec)
+                    <button type="button" class="btn btn-dreamer btn-sm"
+                            title="{{trans('main.recalculation') . " " . $item->name() . "->" . $v_link->child_base->name()}}"
+                            onclick="document.location='{{route('global.recycle_link', [
+                                    'item'=>$item,
+                                    'link_id1'=>$step_rec->first,
+                                    'link_id2'=>$step_rec->second,
+                                    'link_id3'=>$step_rec->third,
+                                    'link_id4'=>$step_rec->fourth,
+                                    'project'=>$project, 'role'=>$role,
+                                    'usercode' =>GlobalController::usercode_calc(),
+
+                         ])}}'">
+                        <i class="fas fa-recycle d-inline"></i>&nbsp;{{trans('main.recalculation') . " " . $item->name() . "->" . $v_link->child_base->name()}}
+                    </button>
+                @endforeach
             @endif
         @endif
         {{--            Вывод всех записей, с разным link--}}
