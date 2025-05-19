@@ -142,7 +142,7 @@
                                             <?php
                                             $j++;
                                             ?>
-                                            {{$j}}. {{$item_sv->name()}}<br>
+                                            {{$j}}. <s>{{$item_sv->name()}}</s><br>
                                         @endif
                                     @endif
                                 @endfor
