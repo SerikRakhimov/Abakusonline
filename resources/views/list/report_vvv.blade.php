@@ -78,7 +78,7 @@
         'relit_id'=>$relit_id
         ])}}"
                                title="{{$item_zv->name()}}">
-                            {{$item_zv->name()}}
+                                {{$item_zv->name()}}
                             </a>
                         </b>
                     </td>
@@ -105,16 +105,22 @@
                                 ?>
                                 @if($item_sv)
                                     <?php
-                                    $j++;
                                     $key = array_search($item_sv->id, $arr_sv_work);
                                     // 'if ($key !== false)' так правильно
                                     // 'if ($key != false)' - не использовать, $key может быть равным 0
+                                    $is_zero = false;
                                     if ($key !== false) {
                                         //unset($arr_sv_work[$key]);
+                                        $is_zero = $arr_sv_work[$key] = 0;
                                         $arr_sv_work[$key] = 0;
                                     }
                                     ?>
-                                    {{$j}}. {{$key}}.<span class="badge-pill badge-related">{{$item_sv->name()}}</span>
+                                    @if(!$is_zero)
+                                        <?php
+                                        $j++;
+                                        ?>
+                                        {{$j}}. <span class="badge-pill badge-related">{{$item_sv->name()}}</span>
+                                    @endif
                                     <br>
                                 @endif
                             @endforeach
@@ -170,7 +176,7 @@
                                         <?php
                                         $j++;
                                         ?>
-                                            {{$j}}. <span class="badge-pill badge-related">{{$item_sv->name()}}</span>
+                                        {{$j}}. <span class="badge-pill badge-related">{{$item_sv->name()}}</span>
                                         <br>
                                     @endif
                                 @endforeach
