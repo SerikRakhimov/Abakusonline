@@ -103,7 +103,8 @@
                             <summary></summary>
                             @foreach($zs_in_get as $d_value)
                                 <?php
-                                $item_sv = GlobalController::get_parent_item_from_main($d_value->zs_id, $link_body_id);
+                                //$item_sv = GlobalController::get_parent_item_from_main($d_value->zs_id, $link_body_id);
+                                $item_sv = Item::find($d_value->zs_id);
                                 ?>
                                 @if($item_sv)
                                     <?php
@@ -168,6 +169,7 @@
                                 @foreach($zs_notin_get as $d_value)
                                     <?php
                                     $item_sv = GlobalController::get_parent_item_from_main($d_value->zs_id, $link_body_id);
+                                    $item_sv = Item::find($d_value->zs_id);
                                     ?>
                                     @if($item_sv)
                                         <?php
