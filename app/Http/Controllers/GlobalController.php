@@ -3853,7 +3853,7 @@ class GlobalController extends Controller
                 $join->on('mains.child_item_id', '=', 'mains_dop_zs.child_item_id');
             })
             ->whereIn('mains_dop_zs.parent_item_id', $mains_sv)
-            ->distinct()
+//            ->distinct()
             ->groupBy('zv_id')
             ->groupBy('zs_id');
 
@@ -3864,7 +3864,7 @@ class GlobalController extends Controller
                 $join->on('mains.child_item_id', '=', 'mains_dop_zs.child_item_id');
             })
             ->whereNotIn('mains_dop_zs.parent_item_id', $mains_sv)
-//            ->distinct()
+            ->distinct()
             ->groupBy('zv_id')
             ->groupBy('zs_id');
 
