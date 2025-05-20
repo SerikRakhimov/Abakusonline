@@ -83,7 +83,9 @@
                         </b>
                     </td>
                     <td class="text-center">
-                        {{$s_value->count}}/{{$cn_ks}}
+                        {{$s_value->count}}/{{$cn_ks}}<br>
+                        <progress max="{{$cn_ks}}" value="{{$s_value->count}}">
+                        </progress>
                     </td>
                     <td class="text-center">
                         @if($s_value->count == $cn_ks)
