@@ -118,6 +118,7 @@
                                     {{--                                    @if(!$is_zero)--}}
                                     <?php
                                     $j++;
+
                                     ?>
                                     {{$j}}. <span class="badge-pill badge-related">{{$item_sv->name()}}</span>
                                     {{--                                    @endif--}}
