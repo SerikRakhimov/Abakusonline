@@ -9,6 +9,7 @@
     $arr_sv_title = array();
     $arr_sv_count = count($arr_sv_title);
     $arr_sv_work = array();
+    $arr_in = array();
     ?>
     @include('layouts.project.show_project_role',['project'=>$project, 'role'=>$role, 'relit_id'=>$relit_id])
     <h3>{{$item->name()}}</h3>
@@ -97,10 +98,32 @@
                         // Фильтр на заявку, получаем список совпавших свойств
                         $zs_in_get = $mzs_in->get()->where('zv_id', $item_zv->id);
                         $j = 0;
+                        // Очистить массив $arr_in
+                        array_splice($arr_in, 0, count($arr_in));
                         ?>
+                        @foreach($zs_in_get as $d_value)
+                            <?php
+                            $item_sv = GlobalController::get_parent_item_from_main($d_value->zs_id, $link_body_id);
+                            ?>
+                            @if($item_sv)
+                                <?php
+                                $key = array_search($item_sv->id, $arr_in);
+                                //                                    // 'if ($key !== false)' так правильно
+                                //                                    // 'if ($key != false)' - не использовать, $key может быть равным 0
+                                //                                    //                                    $is_zero = false;
+                                if ($key === false) {
+                                $arr_in[$j] = $item_sv->id;
+                                $j++;
+                                }
+                                ?>
+                            @endif
+                        @endforeach
                         <details open
                         >
                             <summary></summary>
+                            <?php
+                            $j = 0;
+                            ?>
                             @foreach($zs_in_get as $d_value)
                                 <?php
                                 $item_sv = GlobalController::get_parent_item_from_main($d_value->zs_id, $link_body_id);
@@ -121,6 +144,26 @@
                                     <br>
                                 @endif
                             @endforeach
+                        </details>
+                        <details open>
+                            <summary></summary>
+                            <?php
+                            $j = 0;
+                            ?>
+                            @for ($t = 0; $t < count($arr_in); $t++)
+                                @if($arr_in[$t] != 0)
+                                    <?php
+                                    $item_sv = Item::find($arr_in[$t]);
+                                    ?>
+                                    @if($item_sv)
+                                        <?php
+                                        $j++;
+                                        ?>
+                                        {{$j}}. <span class="badge-pill badge-related">{{$item_sv->name()}}</span>
+                                        <br>
+                                    @endif
+                                @endif
+                            @endfor
                         </details>
                     </td>
                     <td class="text-left">
