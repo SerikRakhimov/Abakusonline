@@ -112,39 +112,39 @@
                                 //                                    // 'if ($key != false)' - не использовать, $key может быть равным 0
                                 //                                    //                                    $is_zero = false;
                                 if ($key === false) {
-                                $arr_in[$j] = $item_sv->id;
-                                $j++;
+                                    $arr_in[$j] = $item_sv->id;
+                                    $j++;
                                 }
                                 ?>
                             @endif
                         @endforeach
-                        <details open
-                        >
-                            <summary></summary>
-                            <?php
-                            $j = 0;
-                            ?>
-                            @foreach($zs_in_get as $d_value)
-                                <?php
-                                $item_sv = GlobalController::get_parent_item_from_main($d_value->zs_id, $link_body_id);
-                                ?>
-                                @if($item_sv)
-                                    <?php
-                                    $j++;
-                                    $key = array_search($item_sv->id, $arr_sv_work);
-                                    // 'if ($key !== false)' так правильно
-                                    // 'if ($key != false)' - не использовать, $key может быть равным 0
-                                    //                                    $is_zero = false;
-                                    if ($key !== false) {
-                                        //unset($arr_sv_work[$key]);
-                                        $arr_sv_work[$key] = 0;
-                                    }
-                                    ?>
-                                    {{$j}}. <span class="badge-pill badge-related">{{$item_sv->name()}}</span>
-                                    <br>
-                                @endif
-                            @endforeach
-                        </details>
+{{--                        <details open--}}
+{{--                        >--}}
+{{--                            <summary></summary>--}}
+{{--                            <?php--}}
+{{--                            $j = 0;--}}
+{{--                            ?>--}}
+{{--                            @foreach($zs_in_get as $d_value)--}}
+{{--                                <?php--}}
+{{--                                $item_sv = GlobalController::get_parent_item_from_main($d_value->zs_id, $link_body_id);--}}
+{{--                                ?>--}}
+{{--                                @if($item_sv)--}}
+{{--                                    <?php--}}
+{{--                                    $j++;--}}
+{{--                                    $key = array_search($item_sv->id, $arr_sv_work);--}}
+{{--                                    // 'if ($key !== false)' так правильно--}}
+{{--                                    // 'if ($key != false)' - не использовать, $key может быть равным 0--}}
+{{--                                    //                                    $is_zero = false;--}}
+{{--                                    if ($key !== false) {--}}
+{{--                                        //unset($arr_sv_work[$key]);--}}
+{{--                                        $arr_sv_work[$key] = 0;--}}
+{{--                                    }--}}
+{{--                                    ?>--}}
+{{--                                    {{$j}}. <span class="badge-pill badge-related">{{$item_sv->name()}}</span>--}}
+{{--                                    <br>--}}
+{{--                                @endif--}}
+{{--                            @endforeach--}}
+{{--                        </details>--}}
                         <details open>
                             <summary></summary>
                             <?php
@@ -158,6 +158,14 @@
                                     @if($item_sv)
                                         <?php
                                         $j++;
+                                        $key = array_search($item_sv->id, $arr_sv_work);
+                                        // 'if ($key !== false)' так правильно
+                                        // 'if ($key != false)' - не использовать, $key может быть равным 0
+                                        //                                    $is_zero = false;
+                                        if ($key !== false) {
+                                            //unset($arr_sv_work[$key]);
+                                            $arr_sv_work[$key] = 0;
+                                        }
                                         ?>
                                         {{$j}}. <span class="badge-pill badge-related">{{$item_sv->name()}}</span>
                                         <br>
