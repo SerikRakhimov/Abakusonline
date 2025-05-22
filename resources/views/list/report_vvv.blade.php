@@ -10,6 +10,7 @@
     $arr_sv_count = count($arr_sv_title);
     $arr_sv_work = array();
     $arr_in = array();
+    $arr_notin = array();
     ?>
     @include('layouts.project.show_project_role',['project'=>$project, 'role'=>$role, 'relit_id'=>$relit_id])
     <h3>{{$item->name()}}</h3>
@@ -118,6 +119,30 @@
                                 ?>
                             @endif
                         @endforeach
+                            <?php
+                            // Фильтр на заявку, получаем список несовпавших свойств
+                            $zs_notin_get = $mzs_notin->get()->where('zv_id', $item_zv->id);
+                            $j = 0;
+                            // Очистить массив $arr_notin
+                            array_splice($arr_notin, 0, count($arr_notin));
+                            ?>
+                            @foreach($zs_notin_get as $d_value)
+                                <?php
+                                $item_sv = GlobalController::get_parent_item_from_main($d_value->zs_id, $link_body_id);
+                                ?>
+                                @if($item_sv)
+                                    <?php
+                                    $key = array_search($item_sv->id, $arr_notin);
+                                    //                                    // 'if ($key !== false)' так правильно
+                                    //                                    // 'if ($key != false)' - не использовать, $key может быть равным 0
+                                    //                                    //                                    $is_zero = false;
+                                    if ($key === false) {
+                                        $arr_notin[$j] = $item_sv->id;
+                                        $j++;
+                                    }
+                                    ?>
+                                @endif
+                            @endforeach
 {{--                        <details open--}}
 {{--                        >--}}
 {{--                            <summary></summary>--}}
@@ -207,7 +232,7 @@
                     </td>
                     <td class="text-left">
                         <?php
-                        // Фильтр на заявку, получаем список совпавших свойств
+                        // Фильтр на заявку, получаем список несовпавших свойств
                         $zs_notin_get = $mzs_notin->get()->where('zv_id', $item_zv->id);
                         $count_zs_notin_get = count($zs_notin_get);
                         $j = 0;
@@ -229,6 +254,26 @@
                                     @endif
                                 @endforeach
                             </details>
+                                <details open>
+                                    <summary></summary>
+                                    <?php
+                                    $j = 0;
+                                    ?>
+                                    @for ($t = 0; $t < count($arr_notin); $t++)
+                                        @if($arr_notin[$t] != 0)
+                                            <?php
+                                            $item_sv = Item::find($arr_notin[$t]);
+                                            ?>
+                                            @if($item_sv)
+                                                <?php
+                                                $j++;
+                                                ?>
+                                                {{$j}}. <span class="badge-pill badge-related">{{$item_sv->name()}}</span>
+                                                <br>
+                                            @endif
+                                        @endif
+                                    @endfor
+                                </details>
                         @else
                             -
                         @endif
