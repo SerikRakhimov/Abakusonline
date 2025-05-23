@@ -170,7 +170,7 @@
                     </td>
                     <td class="text-center">
                         {{$count_zs_in_get}}/{{$arr_sv_count}}<br>
-                        {{$s_value->count}}/{{$arr_sv_count}}<br>
+{{--                        {{$s_value->count}}/{{$arr_sv_count}}<br>--}}
                         {{--                        <progress max="{{$arr_sv_count}}" value="{{$s_value->count}}">--}}
                         {{--                        </progress>--}}
                     </td>
@@ -178,9 +178,9 @@
                         @if($count_zs_in_get == $arr_sv_count)
                             🏆
                         @endif
-                        @if($s_value->count == $arr_sv_count)
-                            🏆
-                        @endif
+{{--                        @if($s_value->count == $arr_sv_count)--}}
+{{--                            🏆--}}
+{{--                        @endif--}}
                     </td>
                     <td class="text-left">
                         {{--                        <details open--}}
