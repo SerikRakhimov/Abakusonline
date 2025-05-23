@@ -3869,6 +3869,7 @@ class GlobalController extends Controller
             ->groupBy('zs_id');
 
         // в $mains_zv.parent_item_id - заявки с количеством совпавших свойств
+        // группировка по заявке
         $mains_zv = Main::select(DB::Raw('mains.parent_item_id as zv_id, count(*) as count'))
             ->where('mains.link_id', '=', $link_id3)
             ->joinSub($mains_zs, 'mains_zs', function ($join) {
