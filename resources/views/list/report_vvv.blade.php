@@ -2,6 +2,7 @@
 @section('content')
     <?php
     use App\Models\Item;
+    use App\Models\Link;
     use App\Models\Main;
     use App\Http\Controllers\GlobalController;
     $i = 0;
@@ -11,6 +12,13 @@
     $arr_sv_work = array();
     $arr_in = array();
     $arr_notin = array();
+    $link_find = Link::find($link_title_id);
+    $base_name = "";
+    $base_names = "";
+    if($link_find){
+        $base_name = $link_find->parent_base->name();
+        $base_names = $link_find->parent_base->names();
+    }
     ?>
     @include('layouts.project.show_project_role',['project'=>$project, 'role'=>$role, 'relit_id'=>$relit_id])
     <h3>{{$item->name()}}</h3>
@@ -35,7 +43,8 @@
     ?>
     {{--            Вывод этих свойств на экран--}}
     <details open>
-        <summary>Свойства ({{$arr_sv_count}})</summary>
+{{--        <summary>Свойства ({{$arr_sv_count}})</summary>--}}
+        <summary>{{$base_names}} ({{$arr_sv_count}})</summary>
         <?php
         $j = 0;
         ?>
@@ -88,7 +97,8 @@
             </th>
             <th class="text-center align-top" title="">Не найдены
             </th>
-            <th class="text-center align-top" title="">Другие свойства ({{mb_strtolower($base_zv->name())}})
+{{--            <th class="text-center align-top" title="">Другие свойства ({{mb_strtolower($base_zv->name())}})--}}
+            <th class="text-center align-top" title="">Другие {{mb_strtolower($base_names)}} ({{mb_strtolower($base_zv->name())}})
             </th>
         </tr>
         </thead>
@@ -108,7 +118,7 @@
                 <?php
                 // Заполнение массива $arr_in из $zs_in_get
                 // В $zs_in_get хранятся записи КвартирыСвойства,
-                // в $arr_in сохраняются Свойства, выбираются уникальные значения(это нужно)
+                // в $arr_in сохраняются Свойства, выбираются уникальные значения-свойства(это нужно)
                 // Фильтр на заявку, получаем список совпавших свойств
                 $zs_in_get = $mzs_in->get()->where('zv_id', $item_zv->id);
                 $j = 0;
@@ -131,7 +141,7 @@
                 // ************************************************************************
                 // Заполнение массива $arr_notin из $zs_notin_get
                 // В $zs_notin_get хранятся записи КвартирыСвойства,
-                // в $arr_notin сохраняются Свойства, выбираются уникальные значения(это нужно)
+                // в $arr_notin сохраняются Свойства, выбираются уникальные значения-свойства(это нужно)
                 // Фильтр на заявку, получаем список несовпавших свойств
                 $zs_notin_get = $mzs_notin->get()->where('zv_id', $item_zv->id);
                 $j = 0;
