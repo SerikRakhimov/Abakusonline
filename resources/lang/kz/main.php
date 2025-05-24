@@ -517,7 +517,7 @@ return [
     'input_data_changed_during_processing' => 'Өңдеу барысында кіріс деректері өзгерді',
     'other' => 'Басқа',
     'records_in_parental_case' => 'Жазба',
-    'coincidence_in_parental_case' =>'Сәйкестіктер',
+    'coincidence_in_parental_case' =>'Сәйкестік',
     'coincided_in_plural' =>'Сәйкес келді',
     'not_found_in_plural' =>'Табылмады',
 ];
