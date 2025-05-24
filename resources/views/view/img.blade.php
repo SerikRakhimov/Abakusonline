@@ -66,7 +66,7 @@ if ($item) {
                  @if(isset($size))
                  {{--             @if($size == 'avatar')--}}
                  @if($size == 'avatar')
-                 class="circle"
+                                  class="circle"
                  {{--                                    @elseif( == 'medium')--}}
                  {{--                                    class="rectangle"--}}
                  @endif

@@ -14,11 +14,11 @@ if ($link_image) {
 {{$item->name()}}
 {{--            <img src="/storage/79/3/97VFXyS9tdkC5JlXr3DTLrqIyGWgaLH6ObmBrgtS.png"--}}
 {{--                 style="object-fit:cover;"--}}
-{{--                 class="circle"--}}
-{{--                 class="rounded-circle"--}}
-{{--                 height="250px"--}}
+{{--class="rounded-circle"--}}
+{{--                 class="circle shadow-4-strong"--}}
+{{--                 class="img-circle"--}}
+{{--                 height="250px" width="250px"--}}
 {{--                 alt="" title="Автор"--}}
 {{--            >--}}
-
 </span>
 
