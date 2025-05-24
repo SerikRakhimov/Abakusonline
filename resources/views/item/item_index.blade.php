@@ -1017,8 +1017,18 @@
                 $steps_recycle_code = StepController::steps_recycle_code($v_link, 'stored_procedures');
                 ?>
                 @foreach($steps_recycle_code as $step_rec)
+                    <?php
+                    $link3 = Link::find($step_rec->third);
+                    $link4 = Link::find($step_rec->fourth);
+                    $title_text = $item->name();
+                    // "$link3 && $link4" - так использовать проверку
+                    if ($link3 && $link4) {
+                        $title_text = $link4->parent_base->names() . " -> " . $link3->parent_base->names();
+                    }
+                    ?>
                     <button type="button" class="btn btn-dreamer btn-sm"
-                            title="{{trans('main.recalculation') . " " . $item->name() . "->" . $v_link->child_base->name()}}"
+                            {{--                        title="{{trans('main.recalculation') . " " . $item->name() . "->" . $v_link->child_base->name()}}"--}}
+                            title="{{$title_text}}"
                             onclick="document.location='{{route('global.recycle_link', [
                                     'item'=>$item,
                                     'link_id1'=>$step_rec->first,
@@ -1029,7 +1039,9 @@
                                     'usercode' =>GlobalController::usercode_calc(),
 
                          ])}}'">
-                        <i class="fas fa-recycle d-inline"></i>&nbsp;{{trans('main.recalculation') . " " . $item->name() . "->" . $v_link->child_base->name()}}
+                        <i class="fas fa-recycle d-inline"></i>&nbsp
+                        {{--                    {{trans('main.recalculation') . " " . $item->name() . "->" . $v_link->child_base->name()}}--}}
+                        {{$title_text}}
                     </button>
                 @endforeach
             @endif

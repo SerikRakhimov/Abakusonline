@@ -21,6 +21,13 @@
     }
     ?>
     @include('layouts.project.show_project_role',['project'=>$project, 'role'=>$role, 'relit_id'=>$relit_id])
+    <small>
+    <a href="{{route('item.base_index', ['base'=>$item->base,
+                        'project'=>$project, 'role'=>$role, 'relit_id'=>$relit_id])}}"
+       title="{{$item->base->names()}}">
+        {{mb_strtolower($item->base->name())}}
+    </a>
+    </small>
     <h3>{{$item->name()}}</h3>
     <?php
     $k = 0;
@@ -249,8 +256,8 @@
                                             $arr_sv_work[$key] = 0;
                                         }
                                         ?>
-{{-- <span class="text-nowrap"> - не переносить текст на новую строку, при просмотре со смартфонов удобно смотреть с этим свойством--}}
-                                            <span class="text-nowrap">
+                                        {{-- <span class="text-nowrap"> - не переносить текст на новую строку, при просмотре со смартфонов удобно смотреть с этим свойством--}}
+                                        <span class="text-nowrap">
                                         {{$j}}. <span class="badge-pill badge-related">{{$item_sv->name()}}</span>
                                             </span>
                                         <br>
@@ -287,8 +294,8 @@
                                             <?php
                                             $j++;
                                             ?>
-                                                {{-- <span class="text-nowrap"> - не переносить текст на новую строку, при просмотре со смартфонов удобно смотреть с этим свойством--}}
-                                                <span class="text-nowrap">
+                                            {{-- <span class="text-nowrap"> - не переносить текст на новую строку, при просмотре со смартфонов удобно смотреть с этим свойством--}}
+                                            <span class="text-nowrap">
                                                 {{-- <s> - зачеркнутый текст--}}
                                                 {{$j}}. <s>{{$item_sv->name()}}</s><br>
                                                 </span>
@@ -338,9 +345,10 @@
                                             <?php
                                             $j++;
                                             ?>
-                                                {{-- <span class="text-nowrap"> - не переносить текст на новую строку, при просмотре со смартфонов удобно смотреть с этим свойством--}}
-                                                <span class="text-nowrap">
-                                                {{$j}}. <span class="badge-pill badge-related">{{$item_sv->name()}}</span>
+                                            {{-- <span class="text-nowrap"> - не переносить текст на новую строку, при просмотре со смартфонов удобно смотреть с этим свойством--}}
+                                            <span class="text-nowrap">
+                                                {{$j}}. <span
+                                                    class="badge-pill badge-related">{{$item_sv->name()}}</span>
                                                 </span>
                                             <br>
                                         @endif
