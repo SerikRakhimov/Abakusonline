@@ -25,10 +25,13 @@
     <a href="{{route('item.base_index', ['base'=>$item->base,
                         'project'=>$project, 'role'=>$role, 'relit_id'=>$relit_id])}}"
        title="{{$item->base->names()}}">
-        {{mb_strtolower($item->base->name())}}
+        &nbsp&nbsp&nbsp{{mb_strtolower($item->base->name())}}
     </a>
-    </small>
-    <h3>{{$item->name()}}</h3>
+        </small>
+    <h3>
+{{--        {{$item->name()}}--}}
+        @include('layouts.item.name_with_image',['item'=>$item])
+    </h3>
     <?php
     $k = 0;
     $mks_get = $mks->get();
@@ -181,7 +184,8 @@
         'relit_id'=>$relit_id
         ])}}"
                                title="{{$item_zv->name()}}">
-                                {{$item_zv->name()}}
+{{--                                {{$item_zv->name()}}--}}
+                                @include('layouts.item.name_with_image',['item'=>$item_zv])
                             </a>
                         </b>
                     </td>
