@@ -515,4 +515,9 @@ return [
     'is_enabled_alinks' => 'Включено в просмотр "Все связи"',
     'is_consider_levels_lst' => 'Учитывать уровни при добавлении/корректировке записей',
     'input_data_changed_during_processing' => 'Входные данные изменились в процессе обработки',
+    'other' => 'Другой',
+    'records_in_parental_case' => 'Записей',
+    'coincidence_in_parental_case' =>'Совпадений',
+    'coincided_in_plural' =>'Совпали',
+    'not_found_in_plural' =>'Не найдены',
 ];

@@ -515,4 +515,9 @@ return [
     'is_enabled_alinks' => '"Барлық байланыстар" қарауына қосылды',
     'is_consider_levels_lst' => 'Жазбаларды қосу/түзету кезінде деңгейлерді ескеру',
     'input_data_changed_during_processing' => 'Өңдеу барысында кіріс деректері өзгерді',
+    'other' => 'Басқа',
+    'records_in_parental_case' => 'Жазба',
+    'coincidence_in_parental_case' =>'Сәйкестіктер',
+    'coincided_in_plural' =>'Сәйкес келді',
+    'not_found_in_plural' =>'Табылмады',
 ];

@@ -89,16 +89,15 @@
             <th style="width: 5%" class="text-center align-top">#</th>
             <th class="text-left align-top" title="">{{$base_zv->names()}}
             </th>
-            <th class="text-center align-top" title="">Совпадений
+            <th class="text-center align-top" title="">{{trans('main.coincidence_in_parental_case')}}
             </th>
             <th class="text-center align-top" title="">
             </th>
-            <th class="text-center align-top" title="">Совпали
+            <th class="text-center align-top" title="">{{trans('main.coincided_in_plural')}}
             </th>
-            <th class="text-center align-top" title="">Не найдены
+            <th class="text-center align-top" title="">{{trans('main.not_found_in_plural')}}
             </th>
-            {{--            <th class="text-center align-top" title="">Другие свойства ({{mb_strtolower($base_zv->name())}})--}}
-            <th class="text-center align-top" title="">Другие {{mb_strtolower($base_names)}}
+            <th class="text-center align-top" title="">{{trans('main.other')}} {{mb_strtolower($base_names)}}
                 ({{mb_strtolower($base_zv->name())}})
             </th>
         </tr>
@@ -275,7 +274,7 @@
                         {{--                        Цикл проходит по записям, не равным нулю--}}
                         @if($arr_cn_work>0)
                             <details>
-                                <summary>{{$arr_cn_work}} записей</summary>
+                                <summary>{{$arr_cn_work}} {{GlobalController::trans_lower('main.records_in_parental_case')}}</summary>
                                 @for ($t = 0; $t < count($arr_sv_work); $t++)
                                     @if($arr_sv_work[$t] != 0)
                                         <?php
@@ -319,7 +318,7 @@
                             {{--                                @endforeach--}}
                             {{--                            </details>--}}
                             <details>
-                                <summary>{{$count_zs_notin_get}} записей</summary>
+                                <summary>{{$count_zs_notin_get}} {{GlobalController::trans_lower('main.records_in_parental_case')}}</summary>
                                 <?php
                                 $j = 0;
                                 ?>
