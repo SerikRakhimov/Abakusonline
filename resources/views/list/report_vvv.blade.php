@@ -97,7 +97,7 @@
             </th>
             <th class="text-center align-top" title="">{{trans('main.not_found_in_plural')}}
             </th>
-            <th class="text-center align-top" title="">{{trans('main.other')}} {{mb_strtolower($base_names)}}
+            <th class="text-center align-top" title="">{{trans('main.other_in_plural')}} {{mb_strtolower($base_names)}}
                 ({{mb_strtolower($base_zv->name())}})
             </th>
         </tr>
@@ -249,7 +249,10 @@
                                             $arr_sv_work[$key] = 0;
                                         }
                                         ?>
+{{-- <span class="text-nowrap"> - не переносить текст на новую строку, при просмотре со смартфонов удобно смотреть с этим свойством--}}
+                                            <span class="text-nowrap">
                                         {{$j}}. <span class="badge-pill badge-related">{{$item_sv->name()}}</span>
+                                            </span>
                                         <br>
                                     @endif
                                 @endif
@@ -284,7 +287,11 @@
                                             <?php
                                             $j++;
                                             ?>
-                                            {{$j}}. <s>{{$item_sv->name()}}</s><br>
+                                                {{-- <span class="text-nowrap"> - не переносить текст на новую строку, при просмотре со смартфонов удобно смотреть с этим свойством--}}
+                                                <span class="text-nowrap">
+                                                {{-- <s> - зачеркнутый текст--}}
+                                                {{$j}}. <s>{{$item_sv->name()}}</s><br>
+                                                </span>
                                         @endif
                                     @endif
                                 @endfor
@@ -331,7 +338,10 @@
                                             <?php
                                             $j++;
                                             ?>
-                                            {{$j}}. <span class="badge-pill badge-related">{{$item_sv->name()}}</span>
+                                                {{-- <span class="text-nowrap"> - не переносить текст на новую строку, при просмотре со смартфонов удобно смотреть с этим свойством--}}
+                                                <span class="text-nowrap">
+                                                {{$j}}. <span class="badge-pill badge-related">{{$item_sv->name()}}</span>
+                                                </span>
                                             <br>
                                         @endif
                                     @endif

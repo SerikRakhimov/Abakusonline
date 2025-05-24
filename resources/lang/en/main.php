@@ -515,7 +515,7 @@ return [
     'is_enabled_alinks' => 'Included in "All Links" view',
     'is_consider_levels_lst' => 'Consider levels when adding/editing records',
     'input_data_changed_during_processing' => 'Input data changed during processing',
-    'other' => 'Other',
+    'other_in_plural' => 'Other',
     'records_in_parental_case' => 'Records',
     'coincidence_in_parental_case' =>'Coincidence',
     'coincided_in_plural' =>'Coincided',
