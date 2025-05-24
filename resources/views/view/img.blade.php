@@ -64,10 +64,16 @@ if ($item) {
                  class="card-img-top"
                  @endif
                  @if(isset($size))
+                 {{--             @if($size == 'avatar')--}}
                  @if($size == 'avatar')
                  class="circle"
                  {{--                                    @elseif( == 'medium')--}}
                  {{--                                    class="rectangle"--}}
+                 @endif
+                 @if(isset($circle))
+                 @if($circle == true)
+                 class="rounded-circle"
+                 @endif
                  @endif
                  @endif
                  @if($img_fluid == true)

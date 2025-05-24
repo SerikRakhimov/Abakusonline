@@ -30,7 +30,7 @@
         </small>
     <h3>
 {{--        {{$item->name()}}--}}
-        @include('layouts.item.name_with_image',['item'=>$item, 'size'=>"small"])
+        @include('layouts.item.name_with_image',['item'=>$item, 'size'=>"smed", "circle"=>true]])
     </h3>
     <?php
     $k = 0;
@@ -185,7 +185,7 @@
         ])}}"
                                title="{{$item_zv->name()}}">
 {{--                                {{$item_zv->name()}}--}}
-                                @include('layouts.item.name_with_image',['item'=>$item_zv, 'size'=>"small"])
+                                @include('layouts.item.name_with_image',['item'=>$item_zv, 'size'=>"small", "circle"=>true])
                             </a>
                         </b>
                     </td>
