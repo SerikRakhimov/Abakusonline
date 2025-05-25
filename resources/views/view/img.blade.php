@@ -76,13 +76,15 @@ $in_circle = false;
                  ?>
                  @endif
                  @if($in_circle==false)
+{{--                     Если указано $circle (неважно true или false)--}}
                  @if(isset($circle))
                  @if($circle == true)
-{{--                 class="rounded-circle"--}}
-                 class="rounded"
+                 class="rounded-circle"
                  <?php
                  $in_circle = true;
                  ?>
+                 @else
+                 class="rounded"
                  @endif
                  @endif
                  @endif
@@ -107,11 +109,13 @@ $in_circle = false;
                  @else
                  @if(isset($size))
                      height=@include('types.img.height',['size'=>$size])
+                 {{--                     Если указано $circle (неважно true или false)--}}
+                 @if(isset($circle))
                  {{-- Для круга длина картинки равна ширине картинки--}}
-                 @if($in_circle==true)
+{{--                 @if($in_circle==true)--}}
                      width=@include('types.img.height',['size'=>$size])
+{{--                 @endif--}}
                  @endif
-                     width="50px"
                  @endif
                  @endif
                  @endif
