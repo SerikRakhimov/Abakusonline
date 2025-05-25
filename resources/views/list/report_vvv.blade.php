@@ -22,15 +22,16 @@
     ?>
     @include('layouts.project.show_project_role',['project'=>$project, 'role'=>$role, 'relit_id'=>$relit_id])
     <small>
+        &nbsp&nbsp&nbsp
     <a href="{{route('item.base_index', ['base'=>$item->base,
                         'project'=>$project, 'role'=>$role, 'relit_id'=>$relit_id])}}"
        title="{{$item->base->names()}}">
-        &nbsp&nbsp&nbsp{{mb_strtolower($item->base->name())}}
+        {{mb_strtolower($item->base->name())}}
     </a>
         </small>
     <h3>
 {{--        {{$item->name()}}--}}
-        @include('layouts.item.name_with_image',['item'=>$item, 'size'=>"small", "circle"=>true])
+        @include('layouts.item.name_with_image',['item'=>$item, 'size'=>"shundred", "circle"=>true])
     </h3>
     <?php
     $k = 0;
@@ -92,7 +93,7 @@
     </details>
     <br>
     <table class="table table-sm table-hover w-auto">
-        <caption>{{trans('main.select_record_for_work')}}</caption>
+        <caption>{{$limit_mess}}</caption>
         <thead class="bg-transparent">
         <tr>
             {{--        Похожие проверки ниже по тексту--}}
@@ -185,7 +186,7 @@
         ])}}"
                                title="{{$item_zv->name()}}">
 {{--                                {{$item_zv->name()}}--}}
-                                @include('layouts.item.name_with_image',['item'=>$item_zv, 'size'=>"avatar", "circle"=>true])
+                                @include('layouts.item.name_with_image',['item'=>$item_zv, 'size'=>"small", "circle"=>true])
                             </a>
                         </b>
                     </td>

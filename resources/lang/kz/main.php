@@ -520,4 +520,6 @@ return [
     'coincidence_in_parental_case' =>'Сәйкестік',
     'coincided_in_plural' =>'Сәйкес келді',
     'not_found_in_plural' =>'Табылмады',
+    'first_records_displayed_1' =>'Алғашқы',
+    'first_records_displayed_2' =>'жазба шығарылуда',
 ];

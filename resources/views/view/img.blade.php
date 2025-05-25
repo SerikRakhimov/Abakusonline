@@ -40,6 +40,10 @@ if ($item) {
 }
 
 ?>
+<?php
+// Признак вывода картинки в виде круга
+$in_circle = false;
+?>
 @if($url_filename !="")
     @if($link == true)
         <a href="{{Storage::url($url_filename)}}">
@@ -66,13 +70,20 @@ if ($item) {
                  @if(isset($size))
                  {{--             @if($size == 'avatar')--}}
                  @if($size == 'avatar')
-                                  class="circle"
-                 {{--                                    @elseif( == 'medium')--}}
-                 {{--                                    class="rectangle"--}}
+                 class="circle"
+                 <?php
+                 $in_circle = true;
+                 ?>
                  @endif
+                 @if($in_circle==false)
                  @if(isset($circle))
                  @if($circle == true)
-                 class="rounded-circle"
+{{--                 class="rounded-circle"--}}
+                 class="rounded"
+                 <?php
+                 $in_circle = true;
+                 ?>
+                 @endif
                  @endif
                  @endif
                  @endif
@@ -90,10 +101,17 @@ if ($item) {
                  {{--                     height=@include('types.img.height',['size'=>$size])--}}
                  {{--                 @endif--}}
                  @if(isset($width))
+                 @if($in_circle==false)
                  width={{$width}}
+                 @endif
                  @else
                  @if(isset($size))
                      height=@include('types.img.height',['size'=>$size])
+                 {{-- Для круга длина картинки равна ширине картинки--}}
+                 @if($in_circle==true)
+                     width=@include('types.img.height',['size'=>$size])
+                 @endif
+                     width="50px"
                  @endif
                  @endif
                  @endif

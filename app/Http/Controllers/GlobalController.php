@@ -3868,6 +3868,8 @@ class GlobalController extends Controller
             ->groupBy('zv_id')
             ->groupBy('zs_id');
 
+        // Лимит выборки - 1000 записей
+        $limit_cn = 1000;
         // в $mains_zv.parent_item_id - заявки с количеством совпавших свойств
         // группировка по заявке
         $mains_zv = Main::select(DB::Raw('mains.parent_item_id as zv_id, count(*) as count'))
@@ -3877,6 +3879,15 @@ class GlobalController extends Controller
             })
             ->groupBy('zv_id')
             ->orderBy('count', 'desc');
+
+        $limit_mess = "";
+        if(count($mains_zv->get())>$limit_cn){
+            $limit_mess = trans('main.first_records_displayed_1')
+            . ' ' .$limit_cn . ' '
+            . trans('main.first_records_displayed_2');
+        }
+
+        $m = $mains_zv->limit($limit_cn);
 
         $link3 = Link::find($link_id3);
 
@@ -3890,7 +3901,8 @@ class GlobalController extends Controller
             'mzs_notin' => $mains_zs_notin,
             'mzv' => $mains_zv, // список заявок, отсортированный по количеству совпадений
             'link_title_id' => $link_id2,
-            'link_body_id' => $link_id4]);
+            'link_body_id' => $link_id4,
+            'limit_mess' => $limit_mess]);
     }
 
 // https://otus.ru/nest/post/1704/

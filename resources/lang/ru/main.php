@@ -520,4 +520,6 @@ return [
     'coincidence_in_parental_case' =>'Совпадений',
     'coincided_in_plural' =>'Совпали',
     'not_found_in_plural' =>'Не найдены',
+    'first_records_displayed_1' =>'Выводятся первые',
+    'first_records_displayed_2' =>'записей',
 ];

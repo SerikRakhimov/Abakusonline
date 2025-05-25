@@ -520,4 +520,6 @@ return [
     'coincidence_in_parental_case' =>'Coincidence',
     'coincided_in_plural' =>'Coincided',
     'not_found_in_plural' =>'Not found',
+    'first_records_displayed_1' =>'The first',
+    'first_records_displayed_2' =>'records are displayed',
 ];
