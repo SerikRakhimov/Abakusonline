@@ -188,7 +188,7 @@
                                title="{{$item_zv->name()}}">
 {{--                                {{$item_zv->name()}}--}}
 {{--                                @include('layouts.item.name_with_image',['item'=>$item_zv, 'size'=>"small", "circle"=>true])--}}
-                                @include('layouts.item.name_with_image',['item'=>$item_zv, 'size'=>"shundred", "circle"=>false])
+                                @include('layouts.item.name_with_image',['item'=>$item_zv, 'size'=>"shundred", "circle"=>true])
                             </a>
                         </b>
                     </td>
