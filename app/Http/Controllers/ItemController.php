@@ -3296,16 +3296,24 @@ class ItemController extends Controller
         $base = $item->base;
         $result_dop = "";
         if ($base->type_is_number() | $base->type_is_string() | $base->type_is_date() | $base->type_is_boolean()) {
+// Этот вариант не учитывает регистры при сравнении - ?
             $items = Item::where('project_id', '=', $item->project_id)
                 ->where('base_id', '=', $base->id)
                 ->where('name_lang_0', '=', $item->name_lang_0);
+            // Точное сравнение строковых значений с учетом регистра
+//            $items = Item::where('project_id', '=', $item->project_id)
+//                ->where('base_id', '=', $base->id)
+//                ->whereRaw('BINARY name_lang_0 = ?', [$item->name_lang_0]);
             if ($base->type_is_string() & $base->is_one_value_lst_str_txt == false) {
                 $i = 0;
                 $result_dop = '"' . $item->name_lang_0;
                 foreach (config('app.locales') as $lang_key => $lang_value) {
                     // начиная со второго(индекс==1) элемента массива языков учитывать
                     if ($i > 0) {
+                        // Этот вариант не учитывает регистры при сравнении - ?
                         $items = $items->where('name_lang_' . $lang_key, $item['name_lang_' . $lang_key]);
+                        // Точное сравнение строковых значений с учетом регистра
+                        //$items = $items->whereRaw('BINARY name_lang_' . $lang_key . '= ?', [$item['name_lang_' . $lang_key]]);
                         $result_dop = $result_dop . ", " . $item['name_lang_' . $lang_key];
                     }
                     $i = $i + 1;
@@ -3772,6 +3780,9 @@ class ItemController extends Controller
                                         }
                                         $seek_item = true;
                                         $seek_value = $vl + $kf * $ch;
+                                        if ($seek_value == 0) {
+                                            //dd($seek_value);
+                                        }
 //                                        // Удалить запись с нулевым значением при обновлении
 //                                        if ($value->is_upd_delete_record_with_zero_value == true) {
 //                                            if ($seek_value == 0) {
@@ -3847,7 +3858,13 @@ class ItemController extends Controller
                                 // Удалить запись при '(($seek_value == 0) & $value->link_to->parent_base->type_is_number() & ($value->link_to->parent_base->is_required_lst_num_str_txt_img_doc == false))'
                                 // '($value->is_group == false)' эта проверка нужна
                                 if ($value->is_group == false) {
-                                    if (($seek_value == 0) & $value->link_to->parent_base->type_is_number() & ($value->link_to->parent_base->is_required_lst_num_str_txt_img_doc == false)) {
+                                    // Если значение записи равно 0,
+                                    //  и '$value->link_to->parent_base->type_is_number()'
+                                    //  и '($value->link_to->parent_base->is_required_lst_num_str_txt_img_doc == false))'
+                                    // то это запись ($main) удаляется
+                                    if (($seek_value == 0)
+                                        & $value->link_to->parent_base->type_is_number()
+                                        & ($value->link_to->parent_base->is_required_lst_num_str_txt_img_doc == false)) {
                                         $delete_main = true;
                                     }
                                 }
@@ -3930,10 +3947,15 @@ class ItemController extends Controller
     // Расчет вычисляемых полей (неэкранное вычисление) для выбранных links
     static function val_item_seek_calc_func(Item $item)
     {
+//        $mains = Main::select(DB::Raw('mains.parent_item_id as parent_item_id'))
+//            ->join('links', 'mains.link_id', '=', 'links.id')
+//            ->where('mains.child_item_id', $item->id)
+//            ->where('mains.link_id', 675)
+//            ->get();
+
         $mains = Main::select(DB::Raw('mains.parent_item_id as parent_item_id'))
             ->join('links', 'mains.link_id', '=', 'links.id')
             ->where('mains.child_item_id', $item->id)
-            ->where('mains.link_id', 675)
             ->get();
 
         // Эта проверка нужна
@@ -4003,31 +4025,31 @@ class ItemController extends Controller
         }
 
         // При удалении записи, например
-        if ($urepl == false) {
-            if ($result == false) {
-                // "->get()" нужно
-                // Поиск записей "where('links.parent_is_delete_child_base_record_with_zero_value', true)" без $main
-                // Запись $main может быть ранее удалена при замене ($value->is_upd_replace == true) в функции save_sets()
-                // Если такие записи есть, то считать итоговое значение = 0 и удалить запись ($result = true;)
-                $links = Link::select(DB::Raw('links.*'))
-                    ->join('bases', 'links.parent_base_id', '=', 'bases.id')
-                    ->where('links.child_base_id', $item->base_id)
-                    ->where('links.parent_is_delete_child_base_record_with_zero_value', true)
-                    ->where(function ($query) {
-                        $query->where('bases.type_is_number', true)
-                            ->orWhere('bases.type_is_boolean', true);
-                    })
-                    ->get();
-                foreach ($links as $link) {
-                    $main = Main::where('link_id', $link->id)->where('child_item_id', $item->id)->first();
-                    // Если не найдено
-                    if (!$main) {
-                        $result = true;
-                        break;
-                    }
+        //if ($urepl == false) {
+        if ($result == false) {
+            // "->get()" нужно
+            // Поиск записей "where('links.parent_is_delete_child_base_record_with_zero_value', true)" без $main
+            // Запись $main может быть ранее удалена при замене ($value->is_upd_replace == true) в функции save_sets()
+            // Если такие записи есть, то считать итоговое значение = 0 и удалить запись ($result = true;)
+            $links = Link::select(DB::Raw('links.*'))
+                ->join('bases', 'links.parent_base_id', '=', 'bases.id')
+                ->where('links.child_base_id', $item->base_id)
+                ->where('links.parent_is_delete_child_base_record_with_zero_value', true)
+                ->where(function ($query) {
+                    $query->where('bases.type_is_number', true)
+                        ->orWhere('bases.type_is_boolean', true);
+                })
+                ->get();
+            foreach ($links as $link) {
+                $main = Main::where('link_id', $link->id)->where('child_item_id', $item->id)->first();
+                // Если не найдено
+                if (!$main) {
+                    $result = true;
+                    break;
                 }
             }
         }
+        //}
 
         return $result;
     }
@@ -5349,7 +5371,6 @@ class ItemController extends Controller
             $item->name_lang_2 = isset($request->name_lang_2) ? $request->name_lang_2 : "";
             $item->name_lang_3 = isset($request->name_lang_3) ? $request->name_lang_3 : "";
         }
-
         // далее этот блок
         // похожие формула выше (в этой же процедуре)
 
@@ -6521,7 +6542,6 @@ class ItemController extends Controller
                 // Вычисляем массив вложенных $item_id для удаления
                 self::calc_items_ids_for_delete($item, $array_items_ids, false);
             }
-
             if (($this->is_save_sets($item)) || (count($array_items_ids) > 0)) {
                 // Не удалять
 //                try {
@@ -6545,7 +6565,6 @@ class ItemController extends Controller
                 }
 
             } else {
-
                 $item->delete($item);
 
             }

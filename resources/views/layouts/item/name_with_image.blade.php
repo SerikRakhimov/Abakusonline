@@ -27,10 +27,10 @@ if(isset($circle)){
 {{--            >--}}
 {{--        <img src="/storage/79/3/97VFXyS9tdkC5JlXr3DTLrqIyGWgaLH6ObmBrgtS.png"--}}
 {{--             style="object-fit:cover;"--}}
-{{--             class="circle"--}}
-{{--             class="rounded-circle"--}}
-{{--            height="50px"--}}
-{{--             width="50px"--}}
+{{--             class="rounded-circle img-thumbnail img-fluid shadow"--}}
+{{--             class="rounded-circle shadow"--}}
+{{--            height="150px"--}}
+{{--             width="150px"--}}
 {{--             alt="" title="Автор"--}}
 {{--        >--}}
 </span>

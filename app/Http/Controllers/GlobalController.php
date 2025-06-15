@@ -3869,7 +3869,7 @@ class GlobalController extends Controller
             ->groupBy('zs_id');
 
         // Лимит выборки - 1000 записей
-        $limit_cn = 1000;
+        $limit_cn = 100;
         // в $mains_zv.parent_item_id - заявки с количеством совпавших свойств
         // группировка по заявке
         $mains_zv = Main::select(DB::Raw('mains.parent_item_id as zv_id, count(*) as count'))
@@ -3887,7 +3887,7 @@ class GlobalController extends Controller
             . trans('main.first_records_displayed_2');
         }
 
-        $m = $mains_zv->limit($limit_cn);
+        $mains_zv = $mains_zv->limit($limit_cn);
 
         $link3 = Link::find($link_id3);
 
