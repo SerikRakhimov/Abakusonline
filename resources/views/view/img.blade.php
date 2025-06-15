@@ -84,7 +84,7 @@ $in_circle = false;
                  $in_circle = true;
                  ?>
                  @else
-                 class="rounded"
+                 class="rounded img-thumbnail"
                  @endif
                  @endif
                  @endif
