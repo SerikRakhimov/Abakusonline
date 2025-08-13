@@ -53,9 +53,9 @@ $in_circle = false;
                  id="img{{$item->id}}_{{$random}}"
                  @endif
                  @endif
-{{--                 style="object-fit:cover;--}}
+                 style="object-fit:cover;
                  {{--                 style="object-fit:scale-down;--}}
-                                  style="object-fit:contain;
+                 {{--                 style="object-fit:contain;--}}
                  @if(isset($border))
                  @if($border==true)
                      border: solid #bfc7f6;
@@ -182,12 +182,6 @@ $in_circle = false;
             {{$item->title_img()}}</div>
     @endif
 @endif
-<img class="keksblack"
-     style="
-background-color: rgba(242,178,248,0.5);
-object-fit: contain;
-"
-     src="/storage/21/68/4mvRW4LM4lRPXlO5G33Ek0qeSsnjR60G3glKmGrb.png" width="100%" height="100%" alt="Кекс">
 {{--        @if($item->base->type_is_image())--}}
 {{--            @if($item->img_doc_exist())--}}
 {{--                @if($filenametrue == true)--}}
