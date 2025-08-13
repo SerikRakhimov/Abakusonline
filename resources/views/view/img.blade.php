@@ -53,9 +53,9 @@ $in_circle = false;
                  id="img{{$item->id}}_{{$random}}"
                  @endif
                  @endif
-                 style="object-fit:cover;
+{{--                 style="object-fit:cover;--}}
                  {{--                 style="object-fit:scale-down;--}}
-{{--                                  style="object-fit:contain;--}}
+                                  style="object-fit:contain;
                  @if(isset($border))
                  @if($border==true)
                      border: solid #bfc7f6;
