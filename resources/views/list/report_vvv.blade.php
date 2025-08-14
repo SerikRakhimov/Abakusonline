@@ -7,6 +7,7 @@
     use App\Http\Controllers\GlobalController;
     $i = 0;
     $s_get = $mzv->get();
+    dd($s_get);
     $arr_sv_title = array();
     $arr_sv_count = 0;
     $arr_sv_work = array();
@@ -193,7 +194,7 @@
                         </b>
                     </td>
                     <td class="text-center">
-                        {{$count_zs_in_get}}/{{$arr_sv_count}}<h3>{{$s_get->count}}</h3><br>
+                        {{$count_zs_in_get}}/{{$arr_sv_count}}<h3>{{}}</h3><br>
                         {{--                        {{$s_value->count}}/{{$arr_sv_count}}<br>--}}
                         {{--                        <progress max="{{$arr_sv_count}}" value="{{$s_value->count}}">--}}
                         {{--                        </progress>--}}
