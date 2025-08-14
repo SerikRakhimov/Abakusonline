@@ -7,6 +7,7 @@
     use App\Http\Controllers\GlobalController;
     $i = 0;
     $s_get = $mzv->get();
+    dd($s_get);
     $arr_sv_title = array();
     $arr_sv_count = 0;
     $arr_sv_work = array();

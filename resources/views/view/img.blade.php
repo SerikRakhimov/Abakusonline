@@ -4,6 +4,7 @@
 //Похожие алгоритмы:
 //view/doc.php, edit/doc_base.php, edit/doc_link.php,
 //view/img.php, edit/img_base.php, edit/img_link.php.
+// https://htmlacademy.ru/blog/css/objectfit
 use \App\Http\Controllers\GlobalController;
 
 // Нужно "", ниже идет сравнение на ""
