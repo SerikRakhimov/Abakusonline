@@ -710,7 +710,8 @@ if ($v_link) {
                                                     {{-- В этом файле две похожие проверки--}}
                                                     @include('layouts.item.empty_name', ['name'=>$item_find->name(false, false, true, false, $heading)])
                                                 @endif
-                                                @if($heading)
+                                                @include('layouts.item.name_with_image',['item'=>$item_find, 'size'=>"shundred", "circle"=>false])
+                                            @if($heading)
                                                     {{--                                                </mark>--}}
                                                     {{--                                            </small>--}}
                                                 @endif
