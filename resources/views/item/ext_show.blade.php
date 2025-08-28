@@ -479,6 +479,7 @@
                                                 {{-- {{$item_find->name(false, true, true, false, false)}}--}}
                                                 {{$item_find->name(false, true, true, false, true)}}
                                             @endif
+                                            @include('layouts.item.name_with_image',['item'=>$item_find, 'size'=>"avatar", "circle"=>true])
                                             {{--                                            <small><span--}}
                                             {{--                                                    class="text-label">{{$item_find->base->par_label_unit_meas()}}</span></small>--}}
                                             {{--                            </b>--}}
