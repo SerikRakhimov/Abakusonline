@@ -713,7 +713,7 @@ if ($v_link) {
                                                         @include('layouts.item.empty_name', ['name'=>$item_find->name(false, false, true, false, $heading)])
                                                     @endif
                                                 @endif
-                                                @include('layouts.item.name_with_image',['item'=>$item_find, 'size'=>"small", "circle"=>false])
+                                                @include('layouts.item.name_with_image',['item'=>$item_find, 'size'=>"avatar", "circle"=>true])
                                                 @if($heading)
                                                     {{--                                                </mark>--}}
                                                     {{--                                            </small>--}}
