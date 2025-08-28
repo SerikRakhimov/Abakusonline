@@ -698,20 +698,23 @@ if ($v_link) {
                                                 {{--                                            @include('layouts.item.empty_name', ['name'=>$item_find->name(false,false,false,$heading & $emoji_enable)])--}}
                                                 {{--                                                @endif--}}
                                                 {{--                                        @if($heading & $link->parent_base->type_is_text() & $base_link_right['is_list_base_read'] == true)--}}
-                                                @if($link->parent_base->type_is_text() & $base_link_right['is_list_base_read'] == true)
-                                                    {{--                                                @include('layouts.item.empty_name', ['name'=>GlobalController::it_txnm_n2b($item_find,$heading & $emoji_enable)])--}}
-                                                    @include('layouts.item.empty_name', ['name'=>GlobalController::it_txnm_n2b($item_find, false)])
-                                                @else
-                                                    {{--                                                @include('layouts.item.empty_name', ['name'=>$item_find->name(false,false,false,$heading & $emoji_enable)])--}}
-                                                    {{--                                                @include('layouts.item.empty_name', ['name'=>$item_find->name(false, false, false, false, false)])--}}
-                                                    {{--                                                @include('layouts.item.empty_name', ['name'=>$item_find->name(false, false, true, false, false)])--}}
-                                                    {{-- При $heading=true выводить единицу измерения в ячейке таблицы <td>, в "шапке" таблицы не выводить--}}
-                                                    {{-- При $heading=false не выводить единицу измерения в ячейке таблицы <td>, в "шапке" таблицы выводить--}}
-                                                    {{-- В этом файле две похожие проверки--}}
-                                                    @include('layouts.item.empty_name', ['name'=>$item_find->name(false, false, true, false, $heading)])
+                                                {{-- Не удалять блок @if(1==2)--}}
+                                                @if(1==2)
+                                                    @if($link->parent_base->type_is_text() & $base_link_right['is_list_base_read'] == true)
+                                                        {{--                                                @include('layouts.item.empty_name', ['name'=>GlobalController::it_txnm_n2b($item_find,$heading & $emoji_enable)])--}}
+                                                        @include('layouts.item.empty_name', ['name'=>GlobalController::it_txnm_n2b($item_find, false)])
+                                                    @else
+                                                        {{--                                                @include('layouts.item.empty_name', ['name'=>$item_find->name(false,false,false,$heading & $emoji_enable)])--}}
+                                                        {{--                                                @include('layouts.item.empty_name', ['name'=>$item_find->name(false, false, false, false, false)])--}}
+                                                        {{--                                                @include('layouts.item.empty_name', ['name'=>$item_find->name(false, false, true, false, false)])--}}
+                                                        {{-- При $heading=true выводить единицу измерения в ячейке таблицы <td>, в "шапке" таблицы не выводить--}}
+                                                        {{-- При $heading=false не выводить единицу измерения в ячейке таблицы <td>, в "шапке" таблицы выводить--}}
+                                                        {{-- В этом файле две похожие проверки--}}
+                                                        @include('layouts.item.empty_name', ['name'=>$item_find->name(false, false, true, false, $heading)])
+                                                    @endif
                                                 @endif
-                                                @include('layouts.item.name_with_image',['item'=>$item_find, 'size'=>"small", "circle"=>false])
-                                            @if($heading)
+                                                @include('layouts.item.name_with_image',['item'=>$item_find, 'size'=>"small", "circle"=>true])
+                                                @if($heading)
                                                     {{--                                                </mark>--}}
                                                     {{--                                            </small>--}}
                                                 @endif
