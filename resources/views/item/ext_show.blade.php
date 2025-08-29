@@ -127,6 +127,7 @@
                         <br><br>
                     @endif
                     <big><big>
+                    {{-- ссылка на item_index.htm--}}
                             <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,
                                        'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id])}}"
                                title="">
@@ -136,8 +137,8 @@
                                 // Исключить $view_link при расчете вычисляемого наименования
                                 // 'set_un_all_par_link_null()' используется, при приведения к типу Link
                                 // Чтобы в функцию передалось как Link, а не как число $link->id (так передается (почему, не понятно) из list\elements\info.php)
-                                //echo $item->nmbr(true, true, false, $emoji_enable, false, GlobalController::set_un_all_par_null($view_link), true, true, $relit_id, $role);
-                                // echo $item->nmbr(true, true, false, $emoji_enable, false, GlobalController::set_un_all_par_link_null($view_link), true, true, $relit_id, $role);
+                                //// echo $item->nmbr(true, true, false, $emoji_enable, false, GlobalController::set_un_all_par_null($view_link), true, true, $relit_id, $role);
+                                 echo $item->nmbr(true, true, false, $emoji_enable, false, GlobalController::set_un_all_par_link_null($view_link), true, true, $relit_id, $role);
                                 ?>
                             </a>
                             {{-- Вывод наименования с картинкой--}}
