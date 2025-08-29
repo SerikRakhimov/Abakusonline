@@ -118,6 +118,8 @@
                             ?>
                         </big></big>
                 @else
+                    {{-- Вывод наименования с картинкой--}}
+                    @include('layouts.item.name_with_image',['item'=>$item, 'size'=>"medium", "circle"=>false])
                     <?php
                     $item_image = GlobalController::item_image($item);
                     $link_image = $item_image['link'];
