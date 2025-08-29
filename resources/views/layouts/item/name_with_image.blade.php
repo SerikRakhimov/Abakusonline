@@ -14,7 +14,7 @@ if(isset($circle)){
 {{--    "@if($link_image)" использовать--}}
 @if($link_image)
 {{--    @include('view.img',['item'=>$item_find, 'size'=>"avatar", 'filenametrue'=>false, 'border'=>true, 'link'=>false, 'img_fluid'=>false, 'card_img_top'=>false, 'title'=>trans('main.author')])--}}
-        @include('view.img',['item'=>$item_find, 'size'=>$size, 'circle'=>$circ_para, 'noimg_def'=>true, 'filenametrue'=>false, 'link'=>true, 'img_fluid'=>false, 'card_img_top'=>false, 'title'=>trans('main.author')])
+        @include('view.img',['item'=>$item_find, 'size'=>$size, 'circle'=>$circ_para, 'noimg_def'=>true, 'filenametrue'=>false, 'link'=>false, 'img_fluid'=>false, 'card_img_top'=>false, 'title'=>trans('main.author')])
     @endif
 {{$item->name()}}
 {{--            <img src="/storage/79/3/97VFXyS9tdkC5JlXr3DTLrqIyGWgaLH6ObmBrgtS.png"--}}
