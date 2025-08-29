@@ -140,10 +140,9 @@
                                 //echo $item->nmbr(true, true, false, $emoji_enable, false, GlobalController::set_un_all_par_null($view_link), true, true, $relit_id, $role);
                                 echo $item->nmbr(true, true, false, $emoji_enable, false, GlobalController::set_un_all_par_link_null($view_link), true, true, $relit_id, $role);
                                 ?>
-                                {{-- Вывод наименования с картинкой--}}
-                                @include('layouts.item.name_with_image',['item'=>$item, 'size'=>"big", "circle"=>false])
                             </a>
-                        </big></big>
+                            {{-- Вывод наименования с картинкой--}}
+                            @include('layouts.item.name_with_image',['item'=>$item, 'size'=>"big", "circle"=>true])                        </big></big>
                     <br><br>
                 @endif
                 {{--                </span>--}}
