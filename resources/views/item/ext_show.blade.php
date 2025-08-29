@@ -142,7 +142,7 @@
                                 ?>
                             </a>
                             {{-- Вывод наименования с картинкой--}}
-                            @include('layouts.item.name_with_image',['item'=>$item, 'size'=>"big", "circle"=>true])                        </big></big>
+                            @include('layouts.item.name_with_image',['item'=>$item, 'size'=>"medium", "circle"=>true])                        </big></big>
                     <br><br>
                 @endif
                 {{--                </span>--}}
