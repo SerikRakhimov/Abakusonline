@@ -118,8 +118,6 @@
                             ?>
                         </big></big>
                 @else
-                    {{-- Вывод наименования с картинкой--}}
-                    @include('layouts.item.name_with_image',['item'=>$item, 'size'=>"medium", "circle"=>false])
                     <?php
                     $item_image = GlobalController::item_image($item);
                     $link_image = $item_image['link'];
@@ -142,6 +140,8 @@
                                 //echo $item->nmbr(true, true, false, $emoji_enable, false, GlobalController::set_un_all_par_null($view_link), true, true, $relit_id, $role);
                                 echo $item->nmbr(true, true, false, $emoji_enable, false, GlobalController::set_un_all_par_link_null($view_link), true, true, $relit_id, $role);
                                 ?>
+                                {{-- Вывод наименования с картинкой--}}
+                                @include('layouts.item.name_with_image',['item'=>$item, 'size'=>"medium", "circle"=>false])
                             </a>
                         </big></big>
                     <br><br>
