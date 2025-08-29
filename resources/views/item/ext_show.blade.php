@@ -123,7 +123,7 @@
                     $link_image = $item_image['link'];
                     ?>
                     @if($item_image['item'])
-                    {{-- @include('view.img',['item'=>$item_image['item'], 'size'=>"medium", 'border'=>false, 'filenametrue'=>false, 'link'=>true, 'img_fluid'=>true, 'card_img_top'=>false, 'title'=>$link_image->parent_label()])--}}
+                     @include('view.img',['item'=>$item_image['item'], 'size'=>"medium", 'border'=>false, 'filenametrue'=>false, 'link'=>true, 'img_fluid'=>true, 'card_img_top'=>false, 'title'=>$link_image->parent_label()])
                         <br><br>
                     @endif
                     <big><big>
@@ -138,11 +138,11 @@
                                 // 'set_un_all_par_link_null()' используется, при приведения к типу Link
                                 // Чтобы в функцию передалось как Link, а не как число $link->id (так передается (почему, не понятно) из list\elements\info.php)
                                 //// echo $item->nmbr(true, true, false, $emoji_enable, false, GlobalController::set_un_all_par_null($view_link), true, true, $relit_id, $role);
-                                 //echo $item->nmbr(true, true, false, $emoji_enable, false, GlobalController::set_un_all_par_link_null($view_link), true, true, $relit_id, $role);
+                                 echo $item->nmbr(true, true, false, $emoji_enable, false, GlobalController::set_un_all_par_link_null($view_link), true, true, $relit_id, $role);
                                 ?>
                             </a>
                             {{-- Вывод наименования с картинкой--}}
-                            @include('layouts.item.name_with_image',['item'=>$item, 'size'=>"medium", "circle"=>false])                        </big></big>
+                            {{-- @include('layouts.item.name_with_image',['item'=>$item, 'size'=>"medium", "circle"=>false])                        </big></big>--}}
                     <br><br>
                 @endif
                 {{--                </span>--}}
