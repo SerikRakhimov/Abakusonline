@@ -712,7 +712,7 @@
                             </div>
                         @endif
                         <details>
-                            <summary>mb_strtolower(trans('main.select'))</summary>
+                            <summary>{{trans('main.select')}}</summary>
                         @foreach($next_all_links as $key=>$value)
                             <?php
                             // $view_ret_id нужно передавать в параметрах
