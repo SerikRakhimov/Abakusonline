@@ -744,7 +744,7 @@
                                     {{--                                        @endif--}}
                                 >
                                 {{$child_labels}}
-                                    <span class="badge badge-related" title="{{$menu_type_name['text']}}"><?php
+                                    <span title="{{$menu_type_name['text']}}"><?php
                                         echo $menu_type_name['icon'];
                                         ?>
                                     </span>
