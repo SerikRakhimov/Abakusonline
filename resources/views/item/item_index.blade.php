@@ -744,9 +744,10 @@
                                     {{--                                        @endif--}}
                                 >
                                 {{$child_labels}}
-                                    <?php
-                                    echo $menu_type_name['icon'];
-                                    ?>
+                                    <span class="badge badge-related" title="{{$menu_type_name['text']}}"><?php
+                                        echo $menu_type_name['icon'];
+                                        ?>
+                                    </span>
                                 </span>
                                     {{-- $v_link используется--}}
                                     @if(isset($v_link))
