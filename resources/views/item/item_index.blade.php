@@ -554,6 +554,8 @@
                 {{--            </div>--}}
             </div>
         @endif
+        <details>
+            <summary>{{trans('main.select')}}</summary>
         {{-- Связи--}}
         {{-- Взаимосвязанные шаблоны--}}
         {{-- "count($array_relips) > 1" - т.е. есть взаимосвязанные шаблоны--}}
@@ -711,8 +713,6 @@
                                 </button>
                             </div>
                         @endif
-                        <details>
-                            <summary>{{trans('main.select')}}</summary>
                         @foreach($next_all_links as $key=>$value)
                             <?php
                             // $view_ret_id нужно передавать в параметрах
@@ -767,12 +767,12 @@
                                 </button>
                             </div>
                         @endforeach
-                        </details>
                     </div>
                 </div>
             @endif
         @endif
     </div>
+    </details>
     {{--    <hr align="center" width="100%" size="2" color="#ff0000"/>--}}
     {{--        &#8595;	&#8195; &#8595;	&#8195; &#8595;	&#8195; &#8595;	&#8195; &#8595;	&#8195; &#8595;	&#8195; &#8595;	&#8195; &#8595;	&#8195; &#8595;	&#8195; &#8595;	&#8195; &#8595;	&#8195;--}}
     {{--        <hr>--}}
