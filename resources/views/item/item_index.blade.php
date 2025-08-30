@@ -755,8 +755,10 @@
                                     @if(isset($v_link))
                                         {{-- $v_link используется--}}
                                         @if($value->id == $v_link->id)
+                                            <span class="text-danger">
                                             {{--                                            Этот символ используется в двух местах--}}
                                             &#10003;
+                                                </span>
                                         @endif
                                     @endif
                                     @if(isset($array["\x00*\x00items"][$value->id]))
