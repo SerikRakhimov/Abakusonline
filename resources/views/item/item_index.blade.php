@@ -711,6 +711,8 @@
                                 </button>
                             </div>
                         @endif
+                        <details>
+                            <summary>Раскрыть</summary>
                         @foreach($next_all_links as $key=>$value)
                             <?php
                             // $view_ret_id нужно передавать в параметрах
@@ -763,6 +765,7 @@
                                 </button>
                             </div>
                         @endforeach
+                        </details>
                     </div>
                 </div>
             @endif
