@@ -755,10 +755,10 @@
                                         @if(isset($v_link))
                                             {{-- $v_link используется--}}
                                             @if($value->id == $v_link->id)
-                                                <span class="text-danger-bold">
+                                                <span class="text-danger font-weight-bold">
                                             {{--                                            Этот символ используется в двух местах--}}
                                             &#10003;
-                                                </span>
+                                                555</span>
                                             @endif
                                         @endif
                                         @if(isset($array["\x00*\x00items"][$value->id]))
@@ -774,10 +774,6 @@
             {{--            <hr>--}}
         </details>
     </div>
-    <p class="font-weight-bold">Жирный текст.</p>
-    <p class="font-weight-normal">Нормальный текст.</p>
-    <p class="font-weight-light">Легкий текст.</p>
-    <p class="font-italic">Курсивный текст.</p>
     {{--    <hr align="center" width="100%" size="2" color="#ff0000"/>--}}
     {{--        &#8595;	&#8195; &#8595;	&#8195; &#8595;	&#8195; &#8595;	&#8195; &#8595;	&#8195; &#8595;	&#8195; &#8595;	&#8195; &#8595;	&#8195; &#8595;	&#8195; &#8595;	&#8195; &#8595;	&#8195;--}}
     {{--        <hr>--}}
