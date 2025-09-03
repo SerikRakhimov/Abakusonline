@@ -777,6 +777,7 @@
     {{--        <hr>--}}
     {{--        <div class="text-center">&#8595;</div>--}}
     <hr>
+    111
     </details>
     {{--Похожие команды в ItemController::calc_tree_array() и item_index.php--}}
     @if($view_link)
