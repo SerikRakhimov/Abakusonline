@@ -37,8 +37,8 @@ class Link extends Model
         return $result;
     }
 
-    //function child_labels($base_right = null, $emoji_enable = false, $tb_enable = false)
-    function child_labels($emoji_enable = false, $base_right = null)
+    //function child_labels($base_right = null, $emoji_enable = false)
+    function child_labels($emoji_enable = false, $base_right = null, $tb_enable = false)
     {
         $result = "";  // нужно, не удалять
         $index = array_search(App::getLocale(), config('app.locales'));
