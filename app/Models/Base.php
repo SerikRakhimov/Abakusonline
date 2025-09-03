@@ -98,6 +98,7 @@ class Base extends Model
 //          $result = (new GlobalController)->name_and_brackets_emoji($result, $this);
             $result = GlobalController::name_and_end_emoji($result, $this);
         }
+        $result = $result . $this->menu_tb_name();
         return $result;
     }
 
@@ -460,6 +461,18 @@ class Base extends Model
             $icon = $icon . '<i class="fas fa-tags"></i>';
         }
         return ['text' => $text, 'icon' => $icon];
+    }
+
+    function menu_tb_name()
+    {
+        $result = "";
+        if ($this->is_calculated_lst == true) {
+            $result = $result . trans('main.is_calculated_lst');
+        }
+        if ($this->is_setup_lst == true) {
+            $result = $result . trans('main.is_setup_lst');
+        }
+        return $result;
     }
 
     // Используется в шаблоне Рецепты
