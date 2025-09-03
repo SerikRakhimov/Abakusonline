@@ -771,7 +771,7 @@
                     </div>
                 @endif
             @endif
-            <hr>
+{{--            <hr>--}}
         </details>
     </div>
     {{--    <hr align="center" width="100%" size="2" color="#ff0000"/>--}}
