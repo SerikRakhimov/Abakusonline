@@ -723,7 +723,7 @@
                                 //$base_link_right = GlobalController::base_right($value->child_base, $role, $view_ret_id);
                                 // Не нужно (т.е. высвечивается связь, $relit_id вычисляется отдельно и после(вывода на экран кнопок связей))
                                 //$child_labels = $value->child_labels($base_link_right);
-                                $child_labels = $value->child_labels($emoji_enable);
+                                $child_labels = $value->child_labels($emoji_enable,null,true);
                                 ?>
                                 <div class="btn-group btn-group-sm" role="group" aria-label="Links">
                                     <button type="button" class="btn btn-icon"

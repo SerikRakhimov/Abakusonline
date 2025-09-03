@@ -37,7 +37,7 @@ class Link extends Model
         return $result;
     }
 
-    //function child_labels($base_right = null, $emoji_enable = false)
+    //function child_labels($base_right = null, $emoji_enable = false, $tb_enable = false)
     function child_labels($emoji_enable = false, $base_right = null)
     {
         $result = "";  // нужно, не удалять
@@ -54,6 +54,9 @@ class Link extends Model
         if ($emoji_enable) {
             //Использовать name_and_end_emoji()
             $result = GlobalController::name_and_end_emoji($result, $this->child_base);
+        }
+        if ($tb_enable == true) {
+            $result = $result . $this->child_base->menu_tb_name();
         }
         return $result;
     }
