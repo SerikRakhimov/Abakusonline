@@ -201,6 +201,10 @@ if ($v_link) {
                 <caption>{{trans('main.select_record_for_work')}}</caption>
             @endif
             <thead class="bg-transparent">
+            <?php
+            // Присваивать "$view_calcname= false" нужно
+            $view_calcname = false;
+            ?>
             <tr>
                 {{--        Похожие проверки ниже по тексту--}}
                 @if(!$heading)
@@ -232,6 +236,9 @@ if ($v_link) {
                         {{--                        @if(GlobalController::is_bs_calcname_check($base))--}}
                         {{-- Одинаковые проверки в ItemController::links_info() и в table.php--}}
                         @if(GlobalController::is_base_calcname_check($base))
+                            <?php
+                            $view_calcname = true;
+                            ?>
                             {{--                        @if($base_index & GlobalController::is_base_calcname_check($base))--}}
                             <th rowspan="{{$rows + 1 - 1}}" @include('layouts.class_from_base',['base'=>$base, 'align_top'=>true])>
                                 {{--                        {{trans('main.name')}}--}}
@@ -246,79 +253,81 @@ if ($v_link) {
             @endif
             @endif
             @endif
-            @if($rows > 0)
-                @for($x = ($rows-1); $x >= 0; $x--)
-                    @if($x != ($rows-1))
-                        <tr>
-                            @endif
-                            @for($y=0; $y<$cols;$y++)
-                                <?php
-                                $link = Link::findOrFail($matrix[$x][$y]["link_id"]);
-                                ?>
-                                {{--    Основное изображение второй раз не выводится--}}
-                                @if($link_image)
-                                    @if($link->id == $link_image->id)
-                                        @continue
-                                    @endif
+            @if($view_calcname == false)
+                @if($rows > 0)
+                    @for($x = ($rows-1); $x >= 0; $x--)
+                        @if($x != ($rows-1))
+                            <tr>
                                 @endif
-                                @if($matrix[$x][$y]["view_field"] != null)
-                                    <th rowspan="{{$matrix[$x][$y]["rowspan"]}}"
-                                        colspan="{{$matrix[$x][$y]["colspan"]}}"
-                                        @if($x == 0)
-                                        @if($heading)
-                                        @if($link->parent_base->type_is_text())
-                                        class="text-left"
-                                        @else
-                                        class="text-center align-top"
-                                @endif
-                                @else  // no ($heading)
-                                @include('layouts.class_from_base',['base'=>$link->parent_base, 'align_top'=>true])
-                                @endif
-                                @else  // no ($x == 0)
-                                class="text-center align-top"
-                                @endif
-                                >
-                                @if($heading)
-                                    <small>
+                                @for($y=0; $y<$cols;$y++)
+                                    <?php
+                                    $link = Link::findOrFail($matrix[$x][$y]["link_id"]);
+                                    ?>
+                                    {{--    Основное изображение второй раз не выводится--}}
+                                    @if($link_image)
+                                        @if($link->id == $link_image->id)
+                                            @continue
                                         @endif
-                                        @if($item_heading_base && $matrix[$x][$y]["fin_link"] == true)
-                                            {{--                                                <a href="{{route('item.base_index',['base'=>$link->parent_base_id, 'project'=>$project, 'role'=>$role, 'relit_id' => $relit_id])}}"--}}
-                                            {{--                                                   title="{{$link->parent_base->names()}}">--}}
-                                            {{--                                                    {{GlobalController::calc_title_name($matrix[$x][$y]["view_name"], $heading, $heading)}}--}}
-                                            {{--                                                </a>--}}
-                                            <a href="{{route('item.base_index',['base'=>$link->parent_base_id, 'project'=>$project, 'role'=>$role, 'relit_id' => $link->parent_relit_id])}}"
-                                               title="{{$link->parent_base->names()}}">
-                                                {{--                                            {{GlobalController::calc_title_name($matrix[$x][$y]["view_name"])}}--}}
+                                    @endif
+                                    @if($matrix[$x][$y]["view_field"] != null)
+                                        <th rowspan="{{$matrix[$x][$y]["rowspan"]}}"
+                                            colspan="{{$matrix[$x][$y]["colspan"]}}"
+                                            @if($x == 0)
+                                            @if($heading)
+                                            @if($link->parent_base->type_is_text())
+                                            class="text-left"
+                                            @else
+                                            class="text-center align-top"
+                                    @endif
+                                    @else  // no ($heading)
+                                    @include('layouts.class_from_base',['base'=>$link->parent_base, 'align_top'=>true])
+                                    @endif
+                                    @else  // no ($x == 0)
+                                    class="text-center align-top"
+                                    @endif
+                                    >
+                                    @if($heading)
+                                        <small>
+                                            @endif
+                                            @if($item_heading_base && $matrix[$x][$y]["fin_link"] == true)
+                                                {{--                                                <a href="{{route('item.base_index',['base'=>$link->parent_base_id, 'project'=>$project, 'role'=>$role, 'relit_id' => $relit_id])}}"--}}
+                                                {{--                                                   title="{{$link->parent_base->names()}}">--}}
+                                                {{--                                                    {{GlobalController::calc_title_name($matrix[$x][$y]["view_name"], $heading, $heading)}}--}}
+                                                {{--                                                </a>--}}
+                                                <a href="{{route('item.base_index',['base'=>$link->parent_base_id, 'project'=>$project, 'role'=>$role, 'relit_id' => $link->parent_relit_id])}}"
+                                                   title="{{$link->parent_base->names()}}">
+                                                    {{--                                            {{GlobalController::calc_title_name($matrix[$x][$y]["view_name"])}}--}}
+                                                    {{GlobalController::calc_title_name(GlobalController::name_and_end_emoji($matrix[$x][$y]["view_name"], $link->parent_base), false, $heading)}}
+                                                </a>
+                                            @else
+                                                {{--                                        {{GlobalController::calc_title_name($matrix[$x][$y]["view_name"],false, $heading)}}--}}
                                                 {{GlobalController::calc_title_name(GlobalController::name_and_end_emoji($matrix[$x][$y]["view_name"], $link->parent_base), false, $heading)}}
-                                            </a>
-                                        @else
-                                            {{--                                        {{GlobalController::calc_title_name($matrix[$x][$y]["view_name"],false, $heading)}}--}}
-                                            {{GlobalController::calc_title_name(GlobalController::name_and_end_emoji($matrix[$x][$y]["view_name"], $link->parent_base), false, $heading)}}
+                                            @endif
+                                            {{--                                @if($item_heading_base && $matrix[$x][$y]["work_link"] == true)--}}
+                                            {{--                                    @if($matrix[$x][$y]["work_link"] == true)--}}
+                                            {{-- При $heading=true выводить единицу измерения в ячейке таблицы <td>, в "шапке" таблицы не выводить--}}
+                                            {{-- При $heading=false не выводить единицу измерения в ячейке таблицы <td>, в "шапке" таблицы выводить--}}
+                                            {{-- В этом файле две похожие проверки--}}
+                                            @if($matrix[$x][$y]["work_link"] == true & !$heading)
+                                                <br><small><span
+                                                        class="text-label">{{$link->parent_base->par_label_unit_meas()}}</span></small>
+                                            @endif
+                                            @if($heading)
+                                        </small>
                                         @endif
-                                        {{--                                @if($item_heading_base && $matrix[$x][$y]["work_link"] == true)--}}
-                                        {{--                                    @if($matrix[$x][$y]["work_link"] == true)--}}
-                                        {{-- При $heading=true выводить единицу измерения в ячейке таблицы <td>, в "шапке" таблицы не выводить--}}
-                                        {{-- При $heading=false не выводить единицу измерения в ячейке таблицы <td>, в "шапке" таблицы выводить--}}
-                                        {{-- В этом файле две похожие проверки--}}
-                                        @if($matrix[$x][$y]["work_link"] == true & !$heading)
-                                            <br><small><span
-                                                    class="text-label">{{$link->parent_base->par_label_unit_meas()}}</span></small>
-                                        @endif
-                                        @if($heading)
-                                    </small>
+                                        </th>
+                                        {{--                    {{$x}} {{$y}}  rowspan = {{$matrix[$x][$y]["rowspan"]}} colspan = {{$matrix[$x][$y]["colspan"]}} view_level_id = {{$matrix[$x][$y]["view_level_id"]}} view_level_name = {{$matrix[$x][$y]["view_level_name"]}}--}}
+                                        {{--                    <br>--}}
                                     @endif
-                                    </th>
-                                    {{--                    {{$x}} {{$y}}  rowspan = {{$matrix[$x][$y]["rowspan"]}} colspan = {{$matrix[$x][$y]["colspan"]}} view_level_id = {{$matrix[$x][$y]["view_level_id"]}} view_level_name = {{$matrix[$x][$y]["view_level_name"]}}--}}
-                                    {{--                    <br>--}}
-                                @endif
+                                @endfor
+                                {{--                </tr>--}}
+                                @if($x != ($rows-1))
+                            </tr>
+                            @endif
                             @endfor
-                            {{--                </tr>--}}
-                            @if($x != ($rows-1))
-                        </tr>
+                            </tr>
                         @endif
-                        @endfor
-                        </tr>
-                    @endif
+                        @endif
             </thead>
             <tbody>
             @foreach($its_page as $item)
