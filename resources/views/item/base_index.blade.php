@@ -51,11 +51,11 @@
                     @if($message_bs_info != '')
                         <a href="#" title="{{$message_bs_info}}">
                             {{-- Использовать так "$base->names($base_right, true)", "true" - вызов из base_index.php--}}
-                            {{$base->names($base_right, true, $emoji_enable)}}
+                            {{$base->names($base_right, true, $emoji_enable, true)}}
                         </a>
                     @else
                         {{-- Использовать так "$base->names($base_right, true)", "true" - вызов из base_index.php--}}
-                        {{$base->names($base_right, true, $emoji_enable)}}
+                        {{$base->names($base_right, true, $emoji_enable, true)}}
                     @endif
                 </h3>
                 @include('layouts.project.show_relip_info',['calc_relip_info'=>$calc_relip_info])
