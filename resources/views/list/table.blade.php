@@ -325,9 +325,11 @@ if ($v_link) {
                             </tr>
                             @endif
                             @endfor
+                            {{-- Не удалять, предыдущий вариант--}}
+                            {{-- </tr>--}}
+                            @endif
+                            @endif
                             </tr>
-                        @endif
-                        @endif
             </thead>
             <tbody>
             @foreach($its_page as $item)
