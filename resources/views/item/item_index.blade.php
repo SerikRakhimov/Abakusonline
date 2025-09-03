@@ -865,7 +865,7 @@
                                    title="{{$v_link->child_base->names($base_body_right) . $message_ln_info}}">
                                     @endif
                                     {{-- $v_link используется--}}
-                                    {{$v_link->child_labels($emoji_enable, $base_body_right, true)}}
+                                    {{$v_link->child_labels($emoji_enable, $base_body_right, true)}}2222222222
                                     @if($base_body_right['is_bsmn_base_enable'] == true)
                                 </a>
                             @endif
