@@ -758,7 +758,7 @@
                                                 <span class="text-danger font-weight-bold">
                                             {{--                                            Этот символ используется в двух местах--}}
                                             &#10003;
-                                                555</span>
+                                                555</span>555
                                             @endif
                                         @endif
                                         @if(isset($array["\x00*\x00items"][$value->id]))
