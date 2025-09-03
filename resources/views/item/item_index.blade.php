@@ -609,6 +609,7 @@
                                             {{-- Этот символ используется в нескольких местах--}}
                                             &#10003;
                                             </span>
+                                            @include('view.elements.mark')
                                         @endif
                                     @endif
                                 </button>
