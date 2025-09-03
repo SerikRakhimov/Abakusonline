@@ -605,8 +605,10 @@
                                     {{--                                    - {{$relit_key_id}}- {{$relip_select_body_project->id}}--}}
                                     @if(isset($view_ret_id))
                                         @if($relit_key_id == $view_ret_id)
-                                            {{-- Этот символ используется в двух местах--}}
+                                            <span class="text-danger font-weight-bold">
+                                            {{-- Этот символ используется в нескольких местах--}}
                                             &#10003;
+                                            </span>
                                         @endif
                                     @endif
                                 </button>
@@ -652,7 +654,7 @@
                             {{--                                        --}}{{--                                        'string_all_codes_current'=>$string_all_codes_current,--}}
                             {{--                                        {{GlobalController::option_all()}}--}}
                             {{--                                        @if($view_link == null)--}}
-                            {{--                                            --}}{{--                                        Этот символ используется в двух местах--}}
+                            {{--                                            --}}{{-- Этот символ используется в нескольких местах--}}
                             {{--                                            &#10003;--}}
                             {{--                                        @endif--}}
                             {{--                                    </a>--}}
@@ -675,7 +677,7 @@
                             {{--                                        {{$value->child_labels()}}--}}
                             {{--                                        @if(isset($view_link))--}}
                             {{--                                            @if($value->id == $view_link->id)--}}
-                            {{--                                                --}}{{--                                        Этот символ используется в двух местах--}}
+                            {{--                                                --}}{{-- Этот символ используется в нескольких местах--}}
                             {{--                                                &#10003;--}}
                             {{--                                            @endif--}}
                             {{--                                        @endif--}}
@@ -707,8 +709,10 @@
                                 {{GlobalController::option_all_links()}}
                                 </span>
                                         @if($view_link == null)
-                                            {{--                                                                                                                    Этот символ используется в двух местах--}}
+                                            <span class="text-danger font-weight-bold">
+                                            {{-- Этот символ используется в нескольких местах--}}
                                             &#10003;
+                                            </span>
                                         @endif
                                     </button>
                                 </div>
@@ -756,9 +760,9 @@
                                             {{-- $v_link используется--}}
                                             @if($value->id == $v_link->id)
                                                 <span class="text-danger font-weight-bold">
-                                            {{--                                            Этот символ используется в двух местах--}}
+                                            {{-- Этот символ используется в нескольких местах--}}
                                             &#10003;
-                                                555</span>555
+                                                </span>
                                             @endif
                                         @endif
                                         @if(isset($array["\x00*\x00items"][$value->id]))
