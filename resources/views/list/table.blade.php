@@ -506,16 +506,10 @@ if ($v_link) {
                                                {{--                                           title="{{$item->name()}}"--}}
                                                title=""
                                             >
-                                                {{--                                        'string_link_ids_current'=>$string_link_ids_next,--}}
-                                                {{--                                        'string_item_ids_current'=>$string_item_ids_next,--}}
-                                                {{--                                        'string_all_codes_current'=>$string_all_codes_next,--}}
                                                 @endif
-                                                {{--                                            @include('layouts.item.empty_name', ['name'=>$item->name()])--}}
-                                                {{--                                            @include('layouts.item.empty_name', ['name'=>$item->nmbr()])--}}
-                                                {{--                                            "$item->name()" чтобы быстрее выводилось на экран--}}
-                                                {{-- @include('layouts.item.empty_name', ['name'=>$item->name()])--}}
                                                 {{-- nmbr(true): $fullname = true/false - вывод полной строки (более 255 символов), исключить $view_link при расчете вычисляемого наименования--}}
                                                 @include('layouts.item.empty_name', ['name'=>$item->nmbr(true, false, false, false, false, GlobalController::set_un_all_par_link_null($i_par_link), false, true, $relit_id, $role)])
+                                                @include('layouts.item.name_with_image',['item'=>$item, 'size'=>"shundred", "circle"=>false])
                                                 @if ($item_index_view)
                                             </a>
                                         @endif
