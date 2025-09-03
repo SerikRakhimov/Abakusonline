@@ -120,18 +120,18 @@
                                 {{--                                    {{GlobalController::items_right($base, $project, $role)['view_count']}}--}}
                                 {{--                                </span>--}}
                             </a>
-                            <?php
-                            // Вывести иконки для вычисляемых основ и настроек
-                            $menu_type_name = $base->menu_type_name();
-                            ?>
-                            <a
-                                href="{{route('item.base_index',['base'=>$base, 'project' => $project, 'role' => $role, 'relit_id' => $relit_id])}}"
-                                title="{{$menu_type_name['text']}}">
-                                <span class="badge badge-related"><?php
-                                    echo $menu_type_name['icon'];
-                                    ?></span>
-                                {{--                            @endauth--}}
-                            </a>
+{{--                            <?php--}}
+{{--                            // Вывести иконки для вычисляемых основ и настроек--}}
+{{--                            $menu_type_name = $base->menu_type_name();--}}
+{{--                            ?>--}}
+{{--                            <a--}}
+{{--                                href="{{route('item.base_index',['base'=>$base, 'project' => $project, 'role' => $role, 'relit_id' => $relit_id])}}"--}}
+{{--                                title="{{$menu_type_name['text']}}">--}}
+{{--                                <span class="badge badge-related"><?php--}}
+{{--                                    echo $menu_type_name['icon'];--}}
+{{--                                    ?></span>--}}
+{{--                                --}}{{--                            @endauth--}}
+{{--                            </a>--}}
                         </h5>
                     </td>
                 </tr>

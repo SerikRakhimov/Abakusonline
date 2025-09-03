@@ -724,8 +724,6 @@
                                 // Не нужно (т.е. высвечивается связь, $relit_id вычисляется отдельно и после(вывода на экран кнопок связей))
                                 //$child_labels = $value->child_labels($base_link_right);
                                 $child_labels = $value->child_labels($emoji_enable);
-                                // Вывести иконки для вычисляемых основ и настроек
-                                $menu_type_name = $value->child_base->menu_type_name();
                                 ?>
                                 <div class="btn-group btn-group-sm" role="group" aria-label="Links">
                                     <button type="button" class="btn btn-icon"
@@ -750,10 +748,6 @@
                                     {{--                                        @endif--}}
                                 >
                                 {{$child_labels}}
-                                    <span title="{{$menu_type_name['text']}}"><?php
-                                        echo $menu_type_name['icon'];
-                                        ?>
-                                    </span>
                                 </span>
                                         {{-- $v_link используется--}}
                                         @if(isset($v_link))
