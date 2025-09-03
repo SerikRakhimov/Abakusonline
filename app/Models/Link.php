@@ -56,7 +56,7 @@ class Link extends Model
             $result = GlobalController::name_and_end_emoji($result, $this->child_base);
         }
         if ($tb_enable == true) {
-            $result = $result . $this->child_base->menu_tb_name();
+            $result = $result . $this->child_base->name();
         }
         return $result;
     }
