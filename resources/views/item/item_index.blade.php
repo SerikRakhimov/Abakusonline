@@ -609,7 +609,6 @@
                                             {{-- Этот символ используется в нескольких местах--}}
                                             &#10003;
                                             </span>
-                                            @include('view.elements.mark')
                                         @endif
                                     @endif
                                 </button>
@@ -758,6 +757,7 @@
                                             {{-- Этот символ используется в нескольких местах--}}
                                             &#10003;
                                                 </span>
+                                                @include('view.elements.mark')
                                             @endif
                                         @endif
                                         @if(isset($array["\x00*\x00items"][$value->id]))
