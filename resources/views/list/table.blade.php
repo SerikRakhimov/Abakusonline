@@ -202,6 +202,9 @@ if ($v_link) {
             @endif
             <thead class="bg-transparent">
             <?php
+                // В этом файле переменная $view_calcname используется для вывода "шапки" таблицы и для вывода полей
+                // Условия применения одинаковые для обоих случаев:
+                // @if(GlobalController::is_base_calcname_check($base))...$view_calcname = true;
             // Присваивать "$view_calcname= false" нужно
             $view_calcname = false;
             ?>
