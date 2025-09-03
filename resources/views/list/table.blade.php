@@ -507,9 +507,11 @@ if ($v_link) {
                                                title=""
                                             >
                                                 @endif
+                                                {{-- Не удалять: предыдущий вариант--}}
                                                 {{-- nmbr(true): $fullname = true/false - вывод полной строки (более 255 символов), исключить $view_link при расчете вычисляемого наименования--}}
-                                                @include('layouts.item.empty_name', ['name'=>$item->nmbr(true, false, false, false, false, GlobalController::set_un_all_par_link_null($i_par_link), false, true, $relit_id, $role)])
-                                                @include('layouts.item.name_with_image',['item'=>$item, 'size'=>"shundred", "circle"=>false])
+                                                {{-- @include('layouts.item.empty_name', ['name'=>$item->nmbr(true, false, false, false, false, GlobalController::set_un_all_par_link_null($i_par_link), false, true, $relit_id, $role)])--}}
+                                                @include('layouts.item.name_with_image',['item'=>$item, 'size'=>"small", "circle"=>true])
+                                                @include('layouts.item.name_with_image',['item'=>$item, 'size'=>"avatar", "circle"=>true])
                                                 @if ($item_index_view)
                                             </a>
                                         @endif
