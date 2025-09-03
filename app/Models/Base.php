@@ -468,11 +468,13 @@ class Base extends Model
         $result = "";
         if ($this->is_calculated_lst == true) {
             // $result = $result . trans('main.is_calculated_lst');
-            $result = $result . "◍∑⁂";
+            // Пробел обязательно добавлять
+            $result = $result . " " . "∑";
         }
         if ($this->is_setup_lst == true) {
             // $result = $result . trans('main.is_setup_lst');
-            $result = $result . trans('main.is_setup_lst');
+            // Пробел обязательно добавлять
+            $result = $result . " " . "§";
         }
         return $result;
     }
