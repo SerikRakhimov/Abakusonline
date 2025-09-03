@@ -55,7 +55,7 @@ class Base extends Model
     }
 
     // Используется "names"
-    function names($base_right = null, $for_base_index = false, $emoji_enable = false)
+    function names($base_right = null, $for_base_index = false, $emoji_enable = false, $tb_enable = false)
     {
         $result = "";  // нужно, не удалять
         // В единственном числе выводить наименование
@@ -98,7 +98,9 @@ class Base extends Model
 //          $result = (new GlobalController)->name_and_brackets_emoji($result, $this);
             $result = GlobalController::name_and_end_emoji($result, $this);
         }
-        $result = $result . $this->menu_tb_name();
+        if ($tb_enable == true) {
+            $result = $result . $this->menu_tb_name();
+        }
         return $result;
     }
 
