@@ -605,10 +605,8 @@
                                     {{--                                    - {{$relit_key_id}}- {{$relip_select_body_project->id}}--}}
                                     @if(isset($view_ret_id))
                                         @if($relit_key_id == $view_ret_id)
-                                            <span class="text-danger font-weight-bold">
-                                            {{-- Этот символ используется в нескольких местах--}}
-                                            &#10003;
-                                            </span>
+                                            {{-- Вывод символа отметки, используется в нескольких местах--}}
+                                            @include('view.elements.mark')
                                         @endif
                                     @endif
                                 </button>
@@ -709,10 +707,8 @@
                                 {{GlobalController::option_all_links()}}
                                 </span>
                                         @if($view_link == null)
-                                            <span class="text-danger font-weight-bold">
-                                            {{-- Этот символ используется в нескольких местах--}}
-                                            &#10003;
-                                            </span>
+                                            {{-- Вывод символа отметки, используется в нескольких местах--}}
+                                            @include('view.elements.mark')
                                         @endif
                                     </button>
                                 </div>
@@ -723,7 +719,7 @@
                                 //$base_link_right = GlobalController::base_right($value->child_base, $role, $view_ret_id);
                                 // Не нужно (т.е. высвечивается связь, $relit_id вычисляется отдельно и после(вывода на экран кнопок связей))
                                 //$child_labels = $value->child_labels($base_link_right);
-                                $child_labels = $value->child_labels($emoji_enable,null,true);
+                                $child_labels = $value->child_labels($emoji_enable, null, true);
                                 ?>
                                 <div class="btn-group btn-group-sm" role="group" aria-label="Links">
                                     <button type="button" class="btn btn-icon"
@@ -753,10 +749,7 @@
                                         @if(isset($v_link))
                                             {{-- $v_link используется--}}
                                             @if($value->id == $v_link->id)
-                                                <span class="text-danger font-weight-bold">
-                                            {{-- Этот символ используется в нескольких местах--}}
-                                            &#10003;
-                                                </span>
+                                                {{-- Вывод символа отметки, используется в нескольких местах--}}
                                                 @include('view.elements.mark')
                                             @endif
                                         @endif
