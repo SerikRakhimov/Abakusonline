@@ -313,8 +313,6 @@
                 </center>
             @endif
         @endif
-        ==={{$base_right['is_list_base_read']}}===
-        ==={{$nolink_id}}===
         {{--    @if((count($child_links) != 0) && ($base_right['is_show_head_attr_enable'] == true))--}}
         @if(count($child_links) != 0)
             <br>
