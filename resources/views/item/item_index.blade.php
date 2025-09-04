@@ -204,6 +204,10 @@
                         echo $it_local->nmbr(false, false, false, false, false, null, false, true, $relit_id, $role);
                         ?>
                     @endif
+                    @include('layouts.item.name_with_image',['item'=>$it_local, 'size'=>"small", "circle"=>true])
+                    @include('layouts.item.name_with_image',['item'=>$it_local, 'size'=>"small", "circle"=>false])
+                    @include('layouts.item.name_with_image',['item'=>$it_local, 'size'=>"shundred", "circle"=>true])
+                    @include('layouts.item.name_with_image',['item'=>$it_local, 'size'=>"shundred", "circle"=>false])
                 </div>
                 <br>
                 @if($it_local->base->is_code_needed == true)
