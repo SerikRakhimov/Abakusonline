@@ -317,7 +317,7 @@
         ==={{$nolink_id}}===
         {{--    @if((count($child_links) != 0) && ($base_right['is_show_head_attr_enable'] == true))--}}
         @if(count($child_links) != 0)
-            <br>10000
+            <br>
             {{--        Выводится одна запись в шапке(все родительские links - столбы)--}}
             {{--        Используется "'heading'=>intval(true)"--}}
             {{--        Используется "'items'=>$items->get()"; два раза, т.к. в заголовке выводится только одна строка, ее на страницы не надо разбивать/сортировать--}}
@@ -371,8 +371,6 @@
             'nolink_id' =>$nolink_id
 ])
         @endif
-
-        2000
         {{--        @endif--}}
         {{-- @if((($prev_item) ||($next_item)) & ($base_right['is_list_base_create'] == true))--}}
         {{-- "@if((($prev_item) | ($next_item)) | ($base_right['is_list_base_create'] == true))" - так не использовать--}}

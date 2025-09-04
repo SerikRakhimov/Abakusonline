@@ -155,9 +155,11 @@ if ($v_link) {
             $link = Link::findOrFail($value);
             $base_link_right = $link_base_right_array[$link->id];
             ?>
+            ---{{$link->id}}---
             {{-- Не выводить основное изображение повторно--}}
             @if($nolink_id)
                 @if($link->id == $nolink_id)
+                    ---{{$nolink_id}}---222
                     @continue
                 @endif
             @endif
