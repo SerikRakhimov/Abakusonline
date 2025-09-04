@@ -169,7 +169,8 @@
                        title="{{$it_local->base->names($base_right) . $message_bs_info}}">
                         @endif
                         {{$title}}:
-                        <br>
+                        {{-- Не удалять, предыдущий вариант--}}
+                        {{-- <br>--}}
                         @if ($base_right['is_bsmn_base_enable'] == true)
                     </a>
                 @endif
