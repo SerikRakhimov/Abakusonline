@@ -169,14 +169,13 @@
                        title="{{$it_local->base->names($base_right) . $message_bs_info}}">
                         @endif
                         {{$title}}:
-                        777777777777
                         {{-- Не удалять, предыдущий вариант--}}
                         {{-- <br>--}}
                         @if ($base_right['is_bsmn_base_enable'] == true)
                     </a>
                 @endif
                 {{--                        <big/>--}}
-                <div style="font-size:large">
+                <span style="font-size:large">
                     {{-- Одинаковые строки рядом (route('item.ext_show'))--}}
                     @if ($base_right['is_list_base_calc'] == true)
                         {{--              Использовать "'heading' => intval(true)", проверяется в окончании функции ItemController:ext_delete()--}}
@@ -210,7 +209,7 @@
                         // ?>
                         @include('layouts.item.name_with_image',['item'=>$it_local, 'size'=>"small", "circle"=>true])
                     @endif
-                </div>
+                </span>
                 <br>
                 @if($it_local->base->is_code_needed == true)
                     {{trans('main.code')}}: <strong>{{$it_local->code}}</strong>
