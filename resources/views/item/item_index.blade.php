@@ -190,24 +190,24 @@
         'parent_ret_id' => $view_ret_id])}}"
                            title="{{trans('main.viewing_record')}}:{{$it_local->name(false, false, false, false)}}"
                         >
+{{--                            Не удалять, предыдущий вариант--}}
                             {{-- Первый параметр nmbr(): $fullname = true/false - вывод полной строки (более 255 символов)--}}
-                            @if($base_right['is_list_base_read'] == true)
-                                {{-- @include('layouts.item.empty_name', ['name'=>$it_local->nmbr(true, false, false, false)])--}}
-                                @include('layouts.item.empty_name', ['name'=>$it_local->nmbr(true, false, false, false, false, null, false, true, $relit_id, $role)])
-                            @else
-                                @include('layouts.item.empty_name', ['name'=>$it_local->name(false, false, false, false, false, null, false, true, $relit_id, $role)])
-                            @endif
+{{--                            @if($base_right['is_list_base_read'] == true)--}}
+{{--                                --}}{{-- @include('layouts.item.empty_name', ['name'=>$it_local->nmbr(true, false, false, false)])--}}
+{{--                                @include('layouts.item.empty_name', ['name'=>$it_local->nmbr(true, false, false, false, false, null, false, true, $relit_id, $role)])--}}
+{{--                            @else--}}
+{{--                                @include('layouts.item.empty_name', ['name'=>$it_local->name(false, false, false, false, false, null, false, true, $relit_id, $role)])--}}
+{{--                            @endif--}}
+                            @include('layouts.item.name_with_image',['item'=>$it_local, 'size'=>"small", "circle"=>true])
                         </a>
                     @else
                         <?php
-                        //                                    emoji не показывать
-                        echo $it_local->nmbr(false, false, false, false, false, null, false, true, $relit_id, $role);
+                        // Не удалять, предыдущий вариант
+                        // emoji не показывать
+                        //echo $it_local->nmbr(false, false, false, false, false, null, false, true, $relit_id, $role);
+                        @include('layouts.item.name_with_image',['item'=>$it_local, 'size'=>"small", "circle"=>true])
                         ?>
                     @endif
-                    @include('layouts.item.name_with_image',['item'=>$it_local, 'size'=>"small", "circle"=>true])
-                    @include('layouts.item.name_with_image',['item'=>$it_local, 'size'=>"small", "circle"=>false])
-                    @include('layouts.item.name_with_image',['item'=>$it_local, 'size'=>"shundred", "circle"=>true])
-                    @include('layouts.item.name_with_image',['item'=>$it_local, 'size'=>"shundred", "circle"=>false])
                 </div>
                 <br>
                 @if($it_local->base->is_code_needed == true)
