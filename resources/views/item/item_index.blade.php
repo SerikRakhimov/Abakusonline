@@ -295,10 +295,10 @@
         <?php
         $nolink_id = null;
         // Проверка должна быть одинакова "$base_right['is_list_base_read'] == true" ItemController::item_index() и Base::tile_view()
-        if ($base_right['is_list_base_read'] == true) {
+        // if ($base_right['is_list_base_read'] == true) {
             $item_image = GlobalController::item_image($item);
             $link_image = $item_image['link'];
-        }
+        // }
         ?>
         {{--        Показывать основное изображение при "$base_right['is_list_base_read'] == true"--}}
         @if(isset($item_image['item']))
@@ -313,6 +313,7 @@
                 </center>
             @endif
         @endif
+        ==={{$base_right['is_list_base_read']}}===
         ==={{$nolink_id}}===
         {{--    @if((count($child_links) != 0) && ($base_right['is_show_head_attr_enable'] == true))--}}
         @if(count($child_links) != 0)
