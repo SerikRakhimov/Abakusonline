@@ -158,6 +158,14 @@
         {{-- Одинаковые проверки должны быть в ItemController::item_index() и в item_index.php--}}
         {{-- здесь равно true--}}
         {{-- @if(GlobalController::is_base_calcname_check($it_local->base, $base_right))--}}
+        <div class="row">
+            <div class="col-6 text-right">
+                ооооооооо
+            </div>
+            <div class="col-6 text-left">
+                55555555555555
+            </div>
+        </div>
         @if(GlobalController::is_base_calcname_check($it_local->base))
             {{--                        @if(1==1)--}}
             <div class="col-12 text-center">
@@ -170,7 +178,7 @@
                         @endif
                         {{$title}}:
                         {{-- Не удалять, предыдущий вариант--}}
-                         <br>
+                        <br>
                         @if ($base_right['is_bsmn_base_enable'] == true)
                     </a>
                 @endif
