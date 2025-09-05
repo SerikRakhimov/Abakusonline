@@ -199,7 +199,7 @@
                             {{--                            @else--}}
                             {{--                                @include('layouts.item.empty_name', ['name'=>$it_local->name(false, false, false, false, false, null, false, true, $relit_id, $role)])--}}
                             {{--                            @endif--}}
-                            @include('layouts.item.name_with_image',['item'=>$it_local, 'size'=>"small", "circle"=>false])
+                            @include('layouts.item.name_with_image',['item'=>$it_local, 'size'=>"shundred", "circle"=>false])
                         </a>
                     @else
                         // <?php
@@ -207,7 +207,7 @@
                         // emoji не показывать
                         //echo $it_local->nmbr(false, false, false, false, false, null, false, true, $relit_id, $role);
                         // ?>
-                        @include('layouts.item.name_with_image',['item'=>$it_local, 'size'=>"small", "circle"=>false])
+                        @include('layouts.item.name_with_image',['item'=>$it_local, 'size'=>"shundred", "circle"=>false])
                     @endif
                 </span>
                 <br>
