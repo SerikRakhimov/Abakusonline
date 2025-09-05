@@ -543,6 +543,7 @@ class ItemController extends Controller
 
         //$child_links = $item->base->child_links->sortBy('parent_base_number');
         $child_links = $it_local->base->child_links->sortBy('parent_base_number');
+        dd($child_links);
 
 //      $child_mains_link_is_calcname = self::mains_link_is_calcname($item, $role, $relit_id, $tree_array);
         $child_mains_link_is_calcname = self::mains_link_is_calcname($it_local, $role, $relit_id, $tree_array);
