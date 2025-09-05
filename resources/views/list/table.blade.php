@@ -155,12 +155,14 @@ if ($v_link) {
             $link = Link::findOrFail($value);
             $base_link_right = $link_base_right_array[$link->id];
             ?>
+            ---1---{{$link->id}}
             {{-- Не выводить основное изображение повторно--}}
             @if($nolink_id)
                 @if($link->id == $nolink_id)
                     @continue
                 @endif
             @endif
+            ---2---{{$link->id}}
             <?php
             // Нужны все параметры GlobalController::view_info($item->id, $link->id, $role, $relit_id, false)
             //$item_find = GlobalController::view_info($item->id, $link->id, $role, $relit_id, false);

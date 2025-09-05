@@ -561,7 +561,6 @@ class ItemController extends Controller
         //    $item, null, null, true, $tree_array, $para_child_mains_link_is_calcname);
         $child_links_info = self::links_info($it_local->base, $role, $relit_id,
             $it_local, null, null, true, $tree_array, $para_child_mains_link_is_calcname);
-        dd($child_links_info);
         // Похожие строки в ItemController::item_index() и ItemController::ext_update()
         // Используется последний элемент массива $tree_array
         $tree_array_last_link_id = null;
