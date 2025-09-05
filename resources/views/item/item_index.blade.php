@@ -560,7 +560,7 @@
             </div>
         @endif
         <details>
-            <summary>{{trans('main.select')}}</summary>
+{{--            <summary>{{trans('main.select')}}</summary>--}}
             {{-- Связи--}}
             {{-- Взаимосвязанные шаблоны--}}
             {{-- "count($array_relips) > 1" - т.е. есть взаимосвязанные шаблоны--}}
