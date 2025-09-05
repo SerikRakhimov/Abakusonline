@@ -543,7 +543,6 @@ class ItemController extends Controller
 
         //$child_links = $item->base->child_links->sortBy('parent_base_number');
         $child_links = $it_local->base->child_links->sortBy('parent_base_number');
-        dd($child_links);
 
 //      $child_mains_link_is_calcname = self::mains_link_is_calcname($item, $role, $relit_id, $tree_array);
         $child_mains_link_is_calcname = self::mains_link_is_calcname($it_local, $role, $relit_id, $tree_array);
@@ -562,7 +561,7 @@ class ItemController extends Controller
         //    $item, null, null, true, $tree_array, $para_child_mains_link_is_calcname);
         $child_links_info = self::links_info($it_local->base, $role, $relit_id,
             $it_local, null, null, true, $tree_array, $para_child_mains_link_is_calcname);
-
+        dd($child_links_info);
         // Похожие строки в ItemController::item_index() и ItemController::ext_update()
         // Используется последний элемент массива $tree_array
         $tree_array_last_link_id = null;
