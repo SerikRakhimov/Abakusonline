@@ -158,8 +158,8 @@
         {{-- Одинаковые проверки должны быть в ItemController::item_index() и в item_index.php--}}
         {{-- здесь равно true--}}
         {{-- @if(GlobalController::is_base_calcname_check($it_local->base, $base_right))--}}
-        <div class="row">
-            <div class="col-6 text-right  align-middle">
+        <div class="row align-items-center">
+            <div class="col-6 text-right">
                 {{$title}}:
             </div>
             <div class="col-6 text-left">
