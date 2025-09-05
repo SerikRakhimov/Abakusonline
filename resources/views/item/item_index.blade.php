@@ -170,7 +170,7 @@
                         @endif
                         {{$title}}:
                         {{-- Не удалять, предыдущий вариант--}}
-                        {{-- <br>--}}
+                         <br>
                         @if ($base_right['is_bsmn_base_enable'] == true)
                     </a>
                 @endif
