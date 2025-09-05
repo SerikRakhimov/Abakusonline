@@ -160,7 +160,7 @@
         {{-- @if(GlobalController::is_base_calcname_check($it_local->base, $base_right))--}}
         <div class="row align-items-center">
             <div class="col-6 text-right">
-                {{$title}}:
+                111:
             </div>
             <div class="col-6 text-left">
                 @include('layouts.item.name_with_image',['item'=>$it_local, 'size'=>"shundred", "circle"=>false])
