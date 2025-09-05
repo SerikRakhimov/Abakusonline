@@ -368,7 +368,9 @@ class Base extends Model
     {
         // Нужно
         $result = false;
-        $link = null;
+        // Не удалять, предыдущий вариант
+        //$link = null;
+        $link = $this->get_link_primary_image();
         // Не удалять, предыдущий вариант
         // Для роли Автор и текущего (не взаимосвязанного шаблона) просмотр в виде стандартной таблицы, не удалять
 //        if (!($role->is_author() & $relit_id == 0)) {
@@ -381,7 +383,8 @@ class Base extends Model
             if ($result == true) {
                 // Одинаковое условие 'if ($base_right['is_list_base_upd_del'])' в GlobalController::is_base_calcname_check() и Base::tile_view()
                 if ($base_right['is_list_base_upd_del'] == false) {
-                    $link = $this->get_link_primary_image();
+                    // Не удалять, предыдущий вариант
+                    //$link = $this->get_link_primary_image();
                     // Эту проверку 'if ($link)' не использовать
 //            if ($link) {
 //                //if ($link->parent_base->type_is_image()) {
