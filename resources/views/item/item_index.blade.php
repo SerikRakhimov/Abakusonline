@@ -159,7 +159,7 @@
         {{-- здесь равно true--}}
         {{-- @if(GlobalController::is_base_calcname_check($it_local->base, $base_right))--}}
         <div class="row">
-            <div class="col-6 text-right">
+            <div class="col-6 text-right align-middle">
                 {{$title}}:
             </div>
             <div class="col-6 text-left">
