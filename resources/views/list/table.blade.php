@@ -43,8 +43,6 @@ if ($v_link) {
     $v_label = $base->name();
 }
 ?>
-{{$base->name()}}
-000 - {{$link_image}}
 {{--<table class="table table-sm table-bordered table-hover">--}}
 {{--<table class="table table-sm table-borderless table-hover">--}}
 {{--<table class="table table-sm table-hover--}}
@@ -157,14 +155,12 @@ if ($v_link) {
             $link = Link::findOrFail($value);
             $base_link_right = $link_base_right_array[$link->id];
             ?>
-            ---1---{{$link->id}}
             {{-- Не выводить основное изображение повторно--}}
             @if($nolink_id)
                 @if($link->id == $nolink_id)
                     @continue
                 @endif
             @endif
-            ---2---{{$link->id}}
             <?php
             // Нужны все параметры GlobalController::view_info($item->id, $link->id, $role, $relit_id, false)
             //$item_find = GlobalController::view_info($item->id, $link->id, $role, $relit_id, false);
@@ -550,14 +546,12 @@ if ($v_link) {
                             $link = Link::findOrFail($value);
                             $base_link_right = $link_base_right_array[$link->id];
                             ?>
-                                ---1l---{{$link->id}}
                             {{--    Основное изображение второй раз не выводится--}}
                             @if($link_image)
                                 @if($link->id == $link_image->id)
                                     @continue
                                 @endif
                             @endif
-                                ---2l---{{$link->id}}
                             <td
                                 @if($heading)
                                 @if($link->parent_base->type_is_text())
