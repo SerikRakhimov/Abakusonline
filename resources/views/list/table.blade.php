@@ -548,12 +548,14 @@ if ($v_link) {
                             $link = Link::findOrFail($value);
                             $base_link_right = $link_base_right_array[$link->id];
                             ?>
+                                ---1l---{{$link->id}}
                             {{--    Основное изображение второй раз не выводится--}}
                             @if($link_image)
                                 @if($link->id == $link_image->id)
                                     @continue
                                 @endif
                             @endif
+                                ---2l---{{$link->id}}
                             <td
                                 @if($heading)
                                 @if($link->parent_base->type_is_text())
