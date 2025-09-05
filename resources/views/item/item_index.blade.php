@@ -160,10 +160,10 @@
         {{-- @if(GlobalController::is_base_calcname_check($it_local->base, $base_right))--}}
         <div class="row">
             <div class="col-6 text-right">
-                ооооооооо
+                {{$title}}:
             </div>
             <div class="col-6 text-left">
-                55555555555555
+                @include('layouts.item.name_with_image',['item'=>$it_local, 'size'=>"shundred", "circle"=>false])
             </div>
         </div>
         @if(GlobalController::is_base_calcname_check($it_local->base))
