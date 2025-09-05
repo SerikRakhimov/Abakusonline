@@ -43,6 +43,7 @@ if ($v_link) {
     $v_label = $base->name();
 }
 ?>
+000 - {{$link_image}}
 {{--<table class="table table-sm table-bordered table-hover">--}}
 {{--<table class="table table-sm table-borderless table-hover">--}}
 {{--<table class="table table-sm table-hover--}}
