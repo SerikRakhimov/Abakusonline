@@ -158,7 +158,7 @@
         {{-- Одинаковые проверки должны быть в ItemController::item_index() и в item_index.php--}}
         {{-- здесь равно true--}}
         {{-- @if(GlobalController::is_base_calcname_check($it_local->base, $base_right))--}}
-    </div>
+        {{--    </div>--}}
     </div>
     @if(GlobalController::is_base_calcname_check($it_local->base))
         {{--            <div class="col-12 text-center">--}}
