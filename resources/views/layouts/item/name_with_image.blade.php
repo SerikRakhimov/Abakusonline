@@ -38,7 +38,9 @@ $my_color2 = "#". $hex_string_md5;
             @if($link_image)
                 {{--    @include('view.img',['item'=>$item_find, 'size'=>"avatar", 'filenametrue'=>false, 'border'=>true, 'link'=>false, 'img_fluid'=>false, 'card_img_top'=>false, 'title'=>trans('main.author')])--}}
                 @include('view.img',['item'=>$item_find, 'size'=>$size, 'circle'=>$circ_para, 'noimg_def'=>true, 'filenametrue'=>false, 'link'=>false, 'img_fluid'=>false, 'card_img_top'=>false, 'title'=>trans('main.author')])
-            @endif
+        @else
+                NoImage
+        @endif
                 {{$item->name()}}
         @else
 {{--            <span class="rounded-circle d-flex align-items-center justify-content-center font-weight-bold" style="width: 30px; height: 30px; color: {{$my_color1}}; background-color: {{$my_color2}};" >--}}
