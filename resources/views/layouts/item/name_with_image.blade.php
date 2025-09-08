@@ -50,7 +50,8 @@ $my_color2 = "#" . $hex_string_md5;
                 <span class="rounded-circle d-flex align-items-center justify-content-center font-weight-bold"
                       style="width: 30px; height: 30px; color: {{$my_color1}}; background-color: {{$my_color2}};">
 {{--  https://ru.stackoverflow.com/questions/197952/%D0%9F%D0%B5%D1%80%D0%B2%D1%8B%D0%B9-%D1%81%D0%B8%D0%BC%D0%B2%D0%BE%D0%BB-%D1%81%D1%82%D1%80%D0%BE%D0%BA%D0%B8#comment197968_197959--}}
-                    {{--            {{mb_strtoupper(mb_substr($item->name(), 0, 1))}}--}}
+                                {{mb_strtoupper(mb_substr($item->name(), 0, 1))}}.
+                    {{mb_substr($item->name(), 0, 1)}}
             </span>
             @endif
                 <span class="d-flex align-items-center">
