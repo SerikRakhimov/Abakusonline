@@ -240,7 +240,7 @@ if ($v_link) {
                         {{-- Одинаковые проверки в ItemController::links_info() и в table.php--}}
                         @if(GlobalController::is_base_calcname_check($base))
                             <?php
-                            $view_calcname = true;
+                            // $view_calcname = true;
                             ?>
                             {{--                        @if($base_index & GlobalController::is_base_calcname_check($base))--}}
                             <th rowspan="{{$rows + 1 - 1}}" @include('layouts.class_from_base',['base'=>$base, 'align_top'=>true])>
@@ -455,7 +455,7 @@ if ($v_link) {
                             {{-- Одинаковые проверки в ItemController::links_info() и в table.php--}}
                             @if(GlobalController::is_base_calcname_check($base))
                                 <?php
-                                $view_calcname = true;
+                                // $view_calcname = true;
                                 ?>
                                 {{--                            @if($base_index & GlobalController::is_base_calcname_check($base))--}}
                                 <td @include('layouts.class_from_base',['base'=>$base])>
