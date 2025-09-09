@@ -1800,22 +1800,27 @@ class GlobalController extends Controller
 
     //
 // Алгоритмы одинаковые в types.img.height.blade.php и GlobalController::types_img_height()
-//
-    static function types_img_height($size)
+// $quotes - двойные кавычки (да/нет)
+    static function types_img_height($size, $quotes)
     {
         $result = '';
         if ($size == "avatar") {
-            $result = '"30"';
+            $result = '30';
         } elseif ($size == "small") {
-            $result = '"50"';
+            $result = '50';
         } elseif ($size == "shundred") {
-            $result = '"100"';
+            $result = '100';
         } elseif ($size == "smed") {
-            $result = '"125"';
+            $result = '125';
         } elseif ($size == "medium") {
-            $result = '"250"';
+            $result = '250';
         } elseif ($size == "big") {
-            $result = '"450"';
+            $result = '450';
+        }
+        if (mb_strlen($result) > 0) {
+            if ($quotes == true) {
+                $result = '"' . $result . '"';
+            }
         }
         return $result;
     }
@@ -1840,7 +1845,8 @@ class GlobalController extends Controller
                     $result = $result . 'class="img-fluid"';
                 }
                 $result = $result . 'src="' . Storage::url($item->filename()) . '"';
-                $result = $result . 'height=' . GlobalController::types_img_height($size)
+                // true - с двойными кавычками
+                $result = $result . 'height=' . GlobalController::types_img_height($size, true)
                     . 'alt="" title=';
                 if ($title == "") {
                     $result = $result . '"' . $item->title_img() . '"';
@@ -3881,10 +3887,10 @@ class GlobalController extends Controller
             ->orderBy('count', 'desc');
 
         $limit_mess = "";
-        if(count($mains_zv->get())>$limit_cn){
+        if (count($mains_zv->get()) > $limit_cn) {
             $limit_mess = trans('main.first_records_displayed_1')
-            . ' ' .$limit_cn . ' '
-            . trans('main.first_records_displayed_2');
+                . ' ' . $limit_cn . ' '
+                . trans('main.first_records_displayed_2');
         }
 
         $mains_zv = $mains_zv->limit($limit_cn);
