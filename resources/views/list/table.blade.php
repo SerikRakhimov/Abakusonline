@@ -269,7 +269,7 @@ if ($v_link) {
                                     {{--    Основное изображение второй раз не выводится--}}
                                     @if($link_image)
                                         @if($link->id == $link_image->id)
-                                            @continue
+{{--                                            @continue--}}
                                         @endif
                                     @endif
                                     @if($matrix[$x][$y]["view_field"] != null)
@@ -549,7 +549,7 @@ if ($v_link) {
                             {{--    Основное изображение второй раз не выводится--}}
                             @if($link_image)
                                 @if($link->id == $link_image->id)
-                                    @continue
+{{--                                    @continue--}}
                                 @endif
                             @endif
                             <td
