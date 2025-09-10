@@ -80,7 +80,7 @@ $my_bg_color = "#" . $hex_string;
                 @include('layouts.item.name_with_image',['item'=>$item, 'size'=>"avatar", "circle"=>false])
                 ---111---
                 <span style="color: {{$my_color}}; background-color: {{$my_bg_color}};">
-                                {{$item->name()}}
+                                {{$item->name()}}---101---
             </span>
                 ---222---
                 <small><i>{{GlobalController::calc_title_name($label_name,true,false)}}</i></small>
