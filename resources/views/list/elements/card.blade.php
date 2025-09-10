@@ -2,9 +2,8 @@
 
 use \App\Http\Controllers\GlobalController;
 
-//$random_string = md5($item->id);
-//$hex_string = substr($random_string, 0, 6); // Получаем 10-значную шестнадцатеричную строку
-$hex_string = "a5f7g9";
+$random_string = md5($item->id);
+$hex_string = substr($random_string, 0, 6); // Получаем 10-значную шестнадцатеричную строку
 $my_color = "#FFFFFF";
 // Цвет фона
 $my_bg_color = "#" . $hex_string;
