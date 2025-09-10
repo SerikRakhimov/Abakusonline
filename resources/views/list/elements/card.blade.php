@@ -1,5 +1,12 @@
 <?php
 use \App\Http\Controllers\GlobalController;
+
+$random_string = md5($item->id);
+$hex_string = substr($random_string, 0, 6); // Получаем 10-значную шестнадцатеричную строку
+$my_color = "#FFFFFF";
+// Цвет фона
+$my_bg_color = "#" . $hex_string;
+
 ?>
 <div class="card shadow m-2">
     <div class="card-header text-center text-title">
@@ -69,7 +76,11 @@ use \App\Http\Controllers\GlobalController;
 {{--                // echo $item->nmbr(true, false, false, false, false, GlobalController::set_un_all_par_null($view_link), true, true, $relit_id, $role);--}}
 {{--                echo $item->nmbr(true, false, false, false, false, GlobalController::set_un_all_par_link_null($view_link), true, true, $relit_id, $role);--}}
 {{--                ?>--}}
-                @include('layouts.item.name_with_image',['item'=>$item, 'size'=>"avatar", "circle"=>false])                        </big></big>
+                @include('layouts.item.name_with_image',['item'=>$item, 'size'=>"avatar", "circle"=>false])
+                <span style="color: {{$my_color}}; background-color: {{$my_bg_color}};">
+                                {{$item->name()}}
+            </span>
+</big></big>
                 <small><i>{{GlobalController::calc_title_name($label_name,true,false)}}</i></small>
             </a>
         </div>
