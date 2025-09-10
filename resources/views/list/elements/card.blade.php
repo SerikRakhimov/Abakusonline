@@ -87,6 +87,11 @@ $my_bg_color = "#" . $hex_string;
                 <span class="font-weight-light" style="color: {{$my_bg_color}}; background-color: {{$my_color}};">
                 {{$item->name()}}
                             </span>
+                <p class="font-size-1">Пример текста размера 1</p>
+                <p class="font-size-2">Пример текста размера 2</p>
+                <p class="font-size-3">Пример текста размера 3</p>
+                <p class="font-size-4">Пример текста размера 4</p>
+                <p class="font-size-5">Пример текста размера 5</p>
                 <small><i>{{GlobalController::calc_title_name($label_name,true,false)}}</i></small>
             </a>
         </div>
