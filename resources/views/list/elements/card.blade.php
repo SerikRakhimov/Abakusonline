@@ -83,7 +83,7 @@ $my_bg_color = "#" . $hex_string;
                 {{--                <span style="color: {{$my_color}}; background-color: {{$my_bg_color}};">--}}
                 {{$item->name()}}---101---
                 {{--            </span>--}}
-                                <span style="color: {{$my_color}}; background-color:#efeffd;">
+                                <span style="color: {{$my_color}}; background-color: {{$my_bg_color}};">
                 {{$item->name()}}---100---
                             </span>
                 ---222---
