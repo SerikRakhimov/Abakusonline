@@ -78,20 +78,9 @@ $my_bg_color = "#" . $hex_string;
                 {{--                echo $item->nmbr(true, false, false, false, false, GlobalController::set_un_all_par_link_null($view_link), true, true, $relit_id, $role);--}}
                 {{--                ?>--}}
 {{--                @include('layouts.item.name_with_image',['item'=>$item, 'size'=>"avatar", "circle"=>false])--}}
-                                <span class="font-weight-bold" style="color: {{$my_bg_color}}; background-color: {{$my_color}};">
+                                <span style="color: {{$my_bg_color}}; background-color: {{$my_color}};">
                 {{$item->name()}}
                             </span>
-                <span class="font-weight-normal" style="color: {{$my_bg_color}}; background-color: {{$my_color}};">
-                {{$item->name()}}
-                            </span>
-                <span class="font-weight-light" style="color: {{$my_bg_color}}; background-color: {{$my_color}};">
-                {{$item->name()}}
-                            </span>
-                <p class="font-size-1">Пример текста размера 1</p>
-                <p class="font-size-2">Пример текста размера 2</p>
-                <p class="font-size-3">Пример текста размера 3</p>
-                <p class="font-size-4">Пример текста размера 4</p>
-                <p class="font-size-5">Пример текста размера 5</p>
                 <small><i>{{GlobalController::calc_title_name($label_name,true,false)}}</i></small>
             </a>
         </div>
