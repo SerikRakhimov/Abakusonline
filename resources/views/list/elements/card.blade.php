@@ -81,6 +81,9 @@ $my_bg_color = "#" . $hex_string;
                                 <span class="font-weight-bold" style="color: {{$my_bg_color}}; background-color: {{$my_color}};">
                 {{$item->name()}}
                             </span>
+                <span class="font-weight-normal" style="color: {{$my_bg_color}}; background-color: {{$my_color}};">
+                {{$item->name()}}
+                            </span>
                 <span class="font-weight-light" style="color: {{$my_bg_color}}; background-color: {{$my_color}};">
                 {{$item->name()}}
                             </span>
