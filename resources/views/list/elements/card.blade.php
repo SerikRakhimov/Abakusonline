@@ -83,6 +83,9 @@ $my_bg_color = "#" . $hex_string;
                 {{--                <span style="color: {{$my_color}}; background-color: {{$my_bg_color}};">--}}
                 {{$item->name()}}---101---
                 {{--            </span>--}}
+                                <span style="color: #0000ff; background-color:#efeffd;">
+                {{$item->name()}}---100---
+                            </span>
                 ---222---
                 <small><i>{{GlobalController::calc_title_name($label_name,true,false)}}</i></small>
             </a>
