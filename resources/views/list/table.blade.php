@@ -714,7 +714,7 @@ if ($v_link) {
                                                     {{--                                                @endif--}}
                                                     {{--                                        @if($heading & $link->parent_base->type_is_text() & $base_link_right['is_list_base_read'] == true)--}}
                                                     {{-- Не удалять блок @if(1==2)--}}
-                                                    @if(1==2)
+                                                    @if(1==1)
                                                         @if($link->parent_base->type_is_text() & $base_link_right['is_list_base_read'] == true)
                                                             {{--                                                @include('layouts.item.empty_name', ['name'=>GlobalController::it_txnm_n2b($item_find,$heading & $emoji_enable)])--}}
                                                             @include('layouts.item.empty_name', ['name'=>GlobalController::it_txnm_n2b($item_find, false)])
@@ -729,7 +729,7 @@ if ($v_link) {
                                                         @endif
                                                     @endif
                                                     {{-- Вывод наименования с картинкой--}}
-                                                    @include('layouts.item.name_with_image',['item'=>$item_find, 'size'=>"avatar", "circle"=>true])
+{{--                                                    @include('layouts.item.name_with_image',['item'=>$item_find, 'size'=>"avatar", "circle"=>true])--}}
                                                     @if($heading)
                                                         {{--                                                </mark>--}}
                                                         {{--                                            </small>--}}
