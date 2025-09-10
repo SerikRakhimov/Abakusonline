@@ -1,4 +1,5 @@
 <?php
+
 use \App\Http\Controllers\GlobalController;
 
 //$random_string = md5($item->id);
@@ -70,18 +71,18 @@ $my_bg_color = "#" . $hex_string;
         'prev_body_all_page'=>$body_all_page,
         ])}}"
                class="card-link" title="{{$item->name()}}">
-{{--                Не удалять, предыдущий вариант--}}
-{{--<?php--}}
-{{--                // echo $item->nmbr();--}}
-{{--                // Исключить $view_link при расчете вычисляемого наименования--}}
-{{--                // echo $item->nmbr(true, false, false, false, false, GlobalController::set_un_all_par_null($view_link), true, true, $relit_id, $role);--}}
-{{--                echo $item->nmbr(true, false, false, false, false, GlobalController::set_un_all_par_link_null($view_link), true, true, $relit_id, $role);--}}
-{{--                ?>--}}
+                {{--                Не удалять, предыдущий вариант--}}
+                {{--<?php--}}
+                {{--                // echo $item->nmbr();--}}
+                {{--                // Исключить $view_link при расчете вычисляемого наименования--}}
+                {{--                // echo $item->nmbr(true, false, false, false, false, GlobalController::set_un_all_par_null($view_link), true, true, $relit_id, $role);--}}
+                {{--                echo $item->nmbr(true, false, false, false, false, GlobalController::set_un_all_par_link_null($view_link), true, true, $relit_id, $role);--}}
+                {{--                ?>--}}
                 @include('layouts.item.name_with_image',['item'=>$item, 'size'=>"avatar", "circle"=>false])
                 ---111---
-                <span style="color: {{$my_color}}; background-color: {{$my_bg_color}};">
-                                {{$item->name()}}---101---
-            </span>
+                {{--                <span style="color: {{$my_color}}; background-color: {{$my_bg_color}};">--}}
+                {{$item->name()}}---101---
+                {{--            </span>--}}
                 ---222---
                 <small><i>{{GlobalController::calc_title_name($label_name,true,false)}}</i></small>
             </a>
