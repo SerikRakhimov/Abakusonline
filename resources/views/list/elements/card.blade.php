@@ -68,7 +68,8 @@ use \App\Http\Controllers\GlobalController;
                 // echo $item->nmbr(true, false, false, false, false, GlobalController::set_un_all_par_null($view_link), true, true, $relit_id, $role);
                 echo $item->nmbr(true, false, false, false, false, GlobalController::set_un_all_par_link_null($view_link), true, true, $relit_id, $role);
                 ?>
-                <small><i>{{GlobalController::calc_title_name($label_name,true,false)}}</i></small>
+                @include('layouts.item.name_with_image',['item'=>$item, 'size'=>"avatar", "circle"=>false])                        </big></big>
+                <small><i>{{GlobalController::calc_title_name($label_name,true,false)}}---</i></small>
             </a>
         </div>
     </div>
