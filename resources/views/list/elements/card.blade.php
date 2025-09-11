@@ -81,7 +81,7 @@ $my_bg_color = "#" . $hex_string;
 {{--                                <span style="color: {{$my_bg_color}}; background-color: {{$my_color}};">--}}
 {{--                                    <span>--}}
                 {{-- Сократить строку при выводе на экран--}}
-                <small>{{GlobalController::itnm_left($item->name(),50)}}</small>
+                {{GlobalController::itnm_left($item->name(),50)}}
 {{--                            </span>--}}
                 <small><i>{{GlobalController::calc_title_name($label_name,true,false)}}</i></small>
             </a>
