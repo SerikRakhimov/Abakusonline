@@ -79,7 +79,8 @@ $my_bg_color = "#" . $hex_string;
                 {{--                ?>--}}
 {{--                @include('layouts.item.name_with_image',['item'=>$item, 'size'=>"avatar", "circle"=>false])--}}
                                 <span style="color: {{$my_bg_color}}; background-color: {{$my_color}};">
-                {{$item->name()}}
+                {{-- Сократить строку при выводе на экран--}}
+                {{GlobalController::itnm_left($item->name(),25)}}
                             </span>
                 <small><i>{{GlobalController::calc_title_name($label_name,true,false)}}</i></small>
             </a>

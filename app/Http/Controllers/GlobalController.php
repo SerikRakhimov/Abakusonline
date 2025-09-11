@@ -1687,7 +1687,8 @@ class GlobalController extends Controller
     }
 
 // Возвращает первые 255 символов переданной строки
-    static function itnm_left($str)
+    //ограниченные 255 - размером полей хранятся в $item->name_lang_0 - $item->name_lang_3
+    static function itnm_left($str, $maxlen = 255)
     {
         // Убрать HTML-теги
         $str = strip_tags($str);
@@ -1695,7 +1696,8 @@ class GlobalController extends Controller
         //$str = str_replace(array("\r\n", "\r", "\n"), '', $str);
         $str = str_replace(array("\r\n", "\r", "\n"), '\~', $str);
         //ограниченные 255 - размером полей хранятся в $item->name_lang_0 - $item->name_lang_3
-        $maxlen = 255;
+        // Не удалять предыдущий вариант
+        //$maxlen = 255;
         $result = "";
         // похожи GlobalController::itnm_left() и Item.php ("...")
         if (mb_strlen($str) > $maxlen) {
