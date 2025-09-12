@@ -41,15 +41,6 @@ $height = GlobalController::types_img_height($size, false);
                 <span class="d-flex align-items-center">
                      &nbsp;{{$item->name()}}
             </span>
-    <p class="text-muted">Этот текст будет бледным.                <span class="rounded-circle d-flex align-items-center justify-content-center font-weight-bold"
-                                                                         style="width: {{$height}}px; height: {{$height}}px; color: {{$my_color}}; background-color: {{$my_bg_color}};">
-                                {{mb_strtoupper(mb_substr($item->name(), 0, 1))}}
-            </span></p>
-    <p class="text-secondary">Еще один вариант бледного текста с использованием вторичного цвета.
-                    <span class="rounded-circle d-flex align-items-center justify-content-center font-weight-bold"
-                          style="width: {{$height}}px; height: {{$height}}px; color: {{$my_color}}; background-color: {{$my_bg_color}};">
-                                {{mb_strtoupper(mb_substr($item->name(), 0, 1))}}
-            </span></p>
         </span>
     @endif
 </span>
