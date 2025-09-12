@@ -41,6 +41,11 @@ $height = GlobalController::types_img_height($size, false);
                 <span class="d-flex align-items-center">
                      &nbsp;{{$item->name()}}
             </span>
+              <div class="container mt-4">
+    <p>Это обычный текст.</p>
+    <p class="text-muted">Этот текст будет бледным.</p>
+    <p class="text-secondary">Еще один вариант бледного текста с использованием вторичного цвета.</p>
+  </div>
         </span>
     @endif
 </span>
