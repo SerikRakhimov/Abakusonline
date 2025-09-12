@@ -725,11 +725,11 @@ if ($v_link) {
                                                             {{-- При $heading=true выводить единицу измерения в ячейке таблицы <td>, в "шапке" таблицы не выводить--}}
                                                             {{-- При $heading=false не выводить единицу измерения в ячейке таблицы <td>, в "шапке" таблицы выводить--}}
                                                             {{-- В этом файле две похожие проверки--}}
-                                                            @include('layouts.item.empty_name', ['name'=>$item_find->name(false, false, true, false, $heading)])
+{{--                                                            @include('layouts.item.empty_name', ['name'=>$item_find->name(false, false, true, false, $heading)])--}}
                                                         @endif
                                                     @endif
                                                     {{-- Вывод наименования с картинкой--}}
-{{--                                                    @include('layouts.item.name_with_image',['item'=>$item_find, 'size'=>"avatar", "circle"=>true])--}}
+                                                    @include('layouts.item.name_with_image',['item'=>$item_find, 'size'=>"avatar", "circle"=>true])
                                                     @if($heading)
                                                         {{--                                                </mark>--}}
                                                         {{--                                            </small>--}}
