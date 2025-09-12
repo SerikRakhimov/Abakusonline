@@ -42,7 +42,7 @@ $height = GlobalController::types_img_height($size, false);
 {{--                     &nbsp;{{$item->name()}}--}}
 {{--            </span>--}}
                             <span class="d-flex align-items-center">
-                     &nbsp;{{mb_substr($item->name(),1)}}
+                     {{mb_substr($item->name(),1)}}
             </span>
         </span>
     @endif
