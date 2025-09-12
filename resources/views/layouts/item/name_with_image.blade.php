@@ -38,11 +38,8 @@ $height = GlobalController::types_img_height($size, false);
                                 {{mb_strtoupper(mb_substr($item->name(), 0, 1))}}
             </span>
             @endif
-{{--                <span class="d-flex align-items-center">--}}
-{{--                     &nbsp;{{$item->name()}}--}}
-{{--            </span>--}}
-                            <span class="d-flex align-items-center">
-                     &nbsp;{{mb_substr($item->name(),1)}}
+                <span class="d-flex align-items-center">
+                     &nbsp;{{$item->name()}}
             </span>
         </span>
     @endif
