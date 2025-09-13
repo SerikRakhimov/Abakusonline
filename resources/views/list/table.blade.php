@@ -202,9 +202,9 @@ if ($v_link) {
             @endif
             <thead class="bg-transparent">
             <?php
-                // В этом файле переменная $view_calcname используется для вывода "шапки" таблицы и для вывода полей
-                // Условия применения одинаковые для обоих случаев:
-                // @if(GlobalController::is_base_calcname_check($base))...$view_calcname = true;
+            // В этом файле переменная $view_calcname используется для вывода "шапки" таблицы и для вывода полей
+            // Условия применения одинаковые для обоих случаев:
+            // @if(GlobalController::is_base_calcname_check($base))...$view_calcname = true;
             // Присваивать "$view_calcname= false" нужно
             $view_calcname = false;
             ?>
@@ -269,7 +269,7 @@ if ($v_link) {
                                     {{--    Основное изображение второй раз не выводится--}}
                                     @if($link_image)
                                         @if($link->id == $link_image->id)
-{{--                                            @continue--}}
+                                            {{--                                            @continue--}}
                                         @endif
                                     @endif
                                     @if($matrix[$x][$y]["view_field"] != null)
@@ -528,8 +528,8 @@ if ($v_link) {
                                                 @endif
                                                 {{-- Не удалять: предыдущий вариант--}}
                                                 {{-- nmbr(true): $fullname = true/false - вывод полной строки (более 255 символов), исключить $view_link при расчете вычисляемого наименования--}}
-{{--                                                @include('layouts.item.empty_name', ['name'=>$item->nmbr(true, false, false, false, false, GlobalController::set_un_all_par_link_null($i_par_link), false, true, $relit_id, $role)])--}}
-                                            @include('layouts.item.name_with_image',['item'=>$item, 'size'=>"avatar", "circle"=>true])
+                                                {{--                                                @include('layouts.item.empty_name', ['name'=>$item->nmbr(true, false, false, false, false, GlobalController::set_un_all_par_link_null($i_par_link), false, true, $relit_id, $role)])--}}
+                                                @include('layouts.item.name_with_image',['item'=>$item, 'size'=>"avatar", "circle"=>true])
                                                 @if ($item_index_view)
                                             </a>
                                         @endif
@@ -549,7 +549,7 @@ if ($v_link) {
                             {{--    Основное изображение второй раз не выводится--}}
                             @if($link_image)
                                 @if($link->id == $link_image->id)
-{{--                                    @continue--}}
+                                    {{--                                    @continue--}}
                                 @endif
                             @endif
                             <td
@@ -725,11 +725,15 @@ if ($v_link) {
                                                             {{-- При $heading=true выводить единицу измерения в ячейке таблицы <td>, в "шапке" таблицы не выводить--}}
                                                             {{-- При $heading=false не выводить единицу измерения в ячейке таблицы <td>, в "шапке" таблицы выводить--}}
                                                             {{-- В этом файле две похожие проверки--}}
-{{--                                                            @include('layouts.item.empty_name', ['name'=>$item_find->name(false, false, true, false, $heading)])--}}
+                                                            @if($item_find->base_id !=603)
+                                                                @include('layouts.item.empty_name', ['name'=>$item_find->name(false, false, true, false, $heading)])
+                                                            @endif
                                                         @endif
                                                     @endif
-                                                    {{-- Вывод наименования с картинкой--}}
-                                                    @include('layouts.item.name_with_image',['item'=>$item_find, 'size'=>"avatar", "circle"=>true])
+                                                    @if($item_find->base_id ==603)
+                                                        {{-- Вывод наименования с картинкой--}}
+                                                        @include('layouts.item.name_with_image',['item'=>$item_find, 'size'=>"avatar", "circle"=>true])
+                                                    @endif
                                                     @if($heading)
                                                         {{--                                                </mark>--}}
                                                         {{--                                            </small>--}}
