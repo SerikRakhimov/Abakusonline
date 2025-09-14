@@ -294,7 +294,8 @@
                                     class="form-control @error('name_lang_' . $key) is-invalid @enderror"
                                     placeholder=""
                                     maxlength="10000">
-                                       {{ old('name_lang_' . $key) ?? ($item->text['name_lang_' . $key] ?? '') }}
+{{--                                       {{ old('name_lang_' . $key) ?? ($item->text['name_lang_' . $key] ?? '') }}--}}
+                                    {{(old('name_lang_' . $key) & isset($item->text['name_lang_' . $key])) ?? ($item->text['name_lang_' . $key] ?? '') }}
                                 </textarea>
                                 {{--                            <div class="invalid-feedback">--}}
                                 {{--                                Не заполнена строка!--}}
@@ -1108,7 +1109,8 @@
                                                       class="form-control @error($input_name) is-invalid @enderror"
                                                       placeholder=""
                                                       maxlength="10000">
-                                                   {{(old($input_name)) ?? (($value != null) ? Item::find($value)->text['name_lang_'.$lang_key] : '')}}
+{{--                                                   {{(old($input_name)) ?? (($value != null) ? Item::find($value)->text['name_lang_'.$lang_key] : '')}}--}}
+                                                {{(old($input_name)) ?? (($value != null & isset(Item::find($value)->text['name_lang_'.$lang_key])) ? Item::find($value)->text['name_lang_'.$lang_key] : '')}}
                                             </textarea>
                                         @error($input_name)
                                         <div class="invalid-feedback">
