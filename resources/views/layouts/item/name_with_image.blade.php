@@ -22,6 +22,7 @@ $my_color = "#FFFFFF";
 // Цвет фона
 $my_bg_color = "#" . $hex_string;
 $height = GlobalController::types_img_height($size, false);
+$it_nm = GlobalController::itnm_left($item->name(),25);
 ?>
 <span class="text-nowrap">
     @if($item_find)
@@ -29,7 +30,7 @@ $height = GlobalController::types_img_height($size, false);
             {{--    @include('view.img',['item'=>$item_find, 'size'=>"avatar", 'filenametrue'=>false, 'border'=>true, 'link'=>false, 'img_fluid'=>false, 'card_img_top'=>false, 'title'=>trans('main.author')])--}}
             @include('view.img',['item'=>$item_find, 'size'=>$size, 'circle'=>$circ_para, 'noimg_def'=>true, 'filenametrue'=>false, 'link'=>false, 'img_fluid'=>false, 'card_img_top'=>false, 'title'=>trans('main.author')])
         @endif
-        {{$item->name()}}
+        {{$it_nm}}
     @else
         <span class="d-flex flex-nowrap">
         @if($link_image)
@@ -39,7 +40,7 @@ $height = GlobalController::types_img_height($size, false);
             </span>
             @endif
                 <span class="d-flex align-items-center">
-                     &nbsp;{{$item->name()}}
+                     &nbsp;{{$it_nm}}
             </span>
         </span>
     @endif
