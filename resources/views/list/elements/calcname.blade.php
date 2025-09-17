@@ -50,7 +50,7 @@ use \App\Http\Controllers\GlobalController;
             //            // echo $item->nmbr(true, true, false, false, false, GlobalController::set_un_all_par_null($view_link), false, true, $relit_id, $role);
             //            echo $item->nmbr(true, true, false, false, false, GlobalController::set_un_all_par_link_null($view_link), false, true, $relit_id, $role);
             //            ?>
-            @include('layouts.item.name_with_image',['item'=>$item, 'size'=>"small", "circle"=>true])
+            @include('layouts.item.name_with_image',['item'=>$item, 'size'=>"avatar", "circle"=>true])
 {{--            </span>--}}
     {{-- 'Показывать признак "В истории" при просмотре списков'--}}
     @if($base_right['is_list_hist_attr_enable'] == true)
