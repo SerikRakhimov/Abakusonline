@@ -54,9 +54,8 @@ if ($v_link) {
 {{--    ">--}}
 {{--Т.е. кроме вывода в заголовке @if($heading==false)--}}
 @if(($base_index==true || $item_body_base==true) & $tile_view['result'] == true)
-    {{-- 1.Вывод списка--}}
+    {{-- 1.Вывод списка с вычисляемым наименованием и фото на весь экран--}}
     @if($base_right['is_view_list'])
-        {{-- II.Вывод списка с вычисляемым наименованием и фото на весь экран--}}
         @foreach($its_page as $item)
             <?php
             $item_find = null;
