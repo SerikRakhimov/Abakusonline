@@ -106,7 +106,9 @@ class GlobalController extends Controller
         $is_list_base_byuser = $role->is_list_base_byuser;
         $is_list_base_user_id = false;
         $is_heading = false;
+        $is_view_list = $base->is_default_view_list;
         $is_view_cards = $base->is_default_view_cards;
+        $is_view_newspaper = $base->is_default_view_newspaper;
         $is_view_sortdate = $base->is_default_allsort_datecreate;
         $is_edit_base_read = $role->is_edit_base_read;
         $is_edit_base_update = $role->is_edit_base_update;
@@ -406,7 +408,9 @@ class GlobalController extends Controller
             'is_list_base_byuser' => $is_list_base_byuser,
             'is_list_base_user_id' => $is_list_base_user_id,
             'is_heading' => $is_heading,
+            'is_view_list' => $is_view_list,
             'is_view_cards' => $is_view_cards,
+            'is_view_newspaper' => $is_view_newspaper,
             'is_view_sortdate' => $is_view_sortdate,
             'is_edit_base_enable' => $is_edit_base_enable,
             'is_edit_base_read' => $is_edit_base_read,
@@ -481,7 +485,9 @@ class GlobalController extends Controller
         $is_list_base_byuser = $base_right['is_list_base_byuser'];
         $is_list_base_user_id = $base_right['is_list_base_user_id'];
         $is_heading = $base_right['is_heading'];
+        $is_view_list = $base_right['is_view_list'];
         $is_view_cards = $base_right['is_view_cards'];
+        $is_view_newspaper = $base_right['is_view_newspaper'];
         $is_view_sortdate = $base_right['is_view_sortdate'];
         $is_edit_base_enable = $base_right['is_edit_base_enable'];
         $is_edit_base_read = $base_right['is_edit_base_read'];
@@ -635,7 +641,9 @@ class GlobalController extends Controller
             'is_list_base_byuser' => $is_list_base_byuser,
             'is_list_base_user_id' => $is_list_base_user_id,
             'is_heading' => $is_heading,
+            'is_view_list' => $is_view_list,
             'is_view_cards' => $is_view_cards,
+            'is_view_newspaper' => $is_view_newspaper,
             'is_view_sortdate' => $is_view_sortdate,
             'is_edit_base_enable' => $is_edit_base_enable,
             'is_edit_base_read' => $is_edit_base_read,

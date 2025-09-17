@@ -54,8 +54,32 @@ if ($v_link) {
 {{--    ">--}}
 {{--Т.е. кроме вывода в заголовке @if($heading==false)--}}
 @if(($base_index==true || $item_body_base==true) & $tile_view['result'] == true)
-    {{-- I.Вывод карт--}}
-    @if($base_right['is_view_cards'] == true)
+    {{-- 1.Вывод списка--}}
+    @if($base_right['is_view_list'])
+        {{-- II.Вывод списка с вычисляемым наименованием и фото на весь экран--}}
+        @foreach($its_page as $item)
+            <?php
+            $item_find = null;
+            if ($link_image) {
+                $item_find = GlobalController::view_info($item->id, $link_image->id, $role, $relit_id, true);
+            }
+            $i++;
+            ?>
+            @include('list.elements.calcname',
+['project'=>$project, 'item'=>$item, 'item_find'=>$item_find, 'role'=>$role,
+'i'=>$i,
+'label_name'=>"",
+'relit_id'=>$relit_id,
+'called_from_button'=>0,
+'view_link'=>$i_par_link,
+'view_ret_id'=>$view_ret_id,
+'string_current'=>$string_next,
+'prev_base_index_page'=>$base_index_page,
+'prev_body_link_page'=>$body_link_page,
+'prev_body_all_page'=>$body_all_page])
+        @endforeach
+        {{-- I.Вывод карт--}}
+    @elseif($base_right['is_view_cards'] == true)
         <div class="card-deck">
         {{--        $its_page используется--}}
         @foreach($its_page as $item)
@@ -725,11 +749,11 @@ if ($v_link) {
                                                             {{-- При $heading=true выводить единицу измерения в ячейке таблицы <td>, в "шапке" таблицы не выводить--}}
                                                             {{-- При $heading=false не выводить единицу измерения в ячейке таблицы <td>, в "шапке" таблицы выводить--}}
                                                             {{-- В этом файле две похожие проверки--}}
-                                                                @include('layouts.item.empty_name', ['name'=>$item_find->name(false, false, true, false, $heading)])
+                                                            @include('layouts.item.empty_name', ['name'=>$item_find->name(false, false, true, false, $heading)])
                                                         @endif
                                                     @endif
-                                                        {{-- Вывод наименования с картинкой--}}
-{{--                                                    @include('layouts.item.name_with_image',['item'=>$item_find, 'size'=>"avatar", "circle"=>true])--}}
+                                                    {{-- Вывод наименования с картинкой--}}
+                                                    {{--                                                    @include('layouts.item.name_with_image',['item'=>$item_find, 'size'=>"avatar", "circle"=>true])--}}
                                                     @if($heading)
                                                         {{--                                                </mark>--}}
                                                         {{--                                            </small>--}}

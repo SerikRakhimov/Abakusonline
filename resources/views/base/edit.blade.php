@@ -754,6 +754,32 @@
             </div>
         </div>
 
+        <div class="form-group row" id="is_default_view_list_form_group">
+            <div class="col-sm-3 text-right">
+                <label class="form-label"
+                       for="is_default_view_list">{{trans('main.is_default_view_list')}}</label>
+            </div>
+            <div class="col-sm-7">
+                <input class="@error('is_default_view_list') is-invalid @enderror"
+                       type="checkbox"
+                       name="is_default_view_list"
+                       id="linkis_default_view_list"
+                       placeholder=""
+                       {{--                       Значение по умолчанию false--}}
+                       @if ((old('is_default_view_list') ?? ($base->is_default_view_list ?? false)) ==  true)
+                       checked
+                    @endif
+                >
+                @error('is_default_view_list')
+                <div class="invalid-feedback">
+                    {{$message}}
+                </div>
+                @enderror
+            </div>
+            <div class="col-sm-2">
+            </div>
+        </div>
+
         <div class="form-group row" id="is_default_view_cards_form_group">
             <div class="col-sm-3 text-right">
                 <label class="form-label"
@@ -771,6 +797,32 @@
                     @endif
                 >
                 @error('is_default_view_cards')
+                <div class="invalid-feedback">
+                    {{$message}}
+                </div>
+                @enderror
+            </div>
+            <div class="col-sm-2">
+            </div>
+        </div>
+
+        <div class="form-group row" id="is_default_view_newspaper_form_group">
+            <div class="col-sm-3 text-right">
+                <label class="form-label"
+                       for="is_default_view_newspaper">{{trans('main.is_default_view_newspaper')}}</label>
+            </div>
+            <div class="col-sm-7">
+                <input class="@error('is_default_view_newspaper') is-invalid @enderror"
+                       type="checkbox"
+                       name="is_default_view_newspaper"
+                       id="linkis_default_view_newspaper"
+                       placeholder=""
+                       {{--                       Значение по умолчанию false--}}
+                       @if ((old('is_default_view_newspaper') ?? ($base->is_default_view_newspaper ?? false)) ==  true)
+                       checked
+                    @endif
+                >
+                @error('is_default_view_newspaper')
                 <div class="invalid-feedback">
                     {{$message}}
                 </div>
@@ -1225,7 +1277,9 @@
         var is_userid = document.getElementById('is_default_list_base_user_id_form_group');
         var is_byuser = document.getElementById('is_default_list_base_byuser_form_group');
         var is_heading = document.getElementById('is_default_heading_form_group');
+        var is_list = document.getElementById('is_default_view_list_form_group');
         var is_cards = document.getElementById('is_default_view_cards_form_group');
+        var is_newspaper = document.getElementById('is_default_view_newspaper_form_group');
         var is_dt_create = document.getElementById('is_default_allsort_datecreate_form_group');
         var ent_min = document.getElementById('entry_minutes_form_group');
         var en_min_ds = document.getElementById('en_min_desc_form_group');
@@ -1294,6 +1348,8 @@
             val_is_byuser = "hidden";
             val_is_heading = "hidden";
             val_is_cards = "hidden";
+            val_is_list = "hidden";
+            val_is_newspaper = "hidden";
             val_is_dt_create = "hidden";
             val_en_min = "hidden";
             val_lt_min = "hidden";
@@ -1339,7 +1395,9 @@
                     val_is_userid = "visible";
                     val_is_byuser = "visible";
                     val_is_heading = "visible";
+                    val_is_list = "visible";
                     val_is_cards = "visible";
+                    val_is_newspaper = "visible";
                     val_is_dt_create = "visible";
                     val_en_min = "visible";
                     val_lt_min = "visible";
@@ -1415,7 +1473,9 @@
             is_userid.style.visibility = val_is_userid;
             is_byuser.style.visibility = val_is_byuser;
             is_heading.style.visibility = val_is_heading;
+            is_list.style.visibility = val_is_list;
             is_cards.style.visibility = val_is_cards;
+            is_newspaper.style.visibility = val_is_newspaper;
             is_dt_create.style.visibility = val_is_dt_create;
             ent_min.style.visibility = val_en_min;
             lt_min.style.visibility = val_lt_min;

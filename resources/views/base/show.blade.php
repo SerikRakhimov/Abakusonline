@@ -55,7 +55,9 @@
     <p>{{trans('main.is_default_list_base_user_id')}}: <b>{{GlobalController::name_is_boolean($base->is_default_list_base_user_id)}}</b></p>
     <p>{{trans('main.is_default_list_base_byuser')}}: <b>{{GlobalController::name_is_boolean($base->is_default_list_base_byuser)}}</b></p>
     <p>{{trans('main.is_default_heading')}}: <b>{{GlobalController::name_is_boolean($base->is_default_heading)}}</b></p>
+    <p>{{trans('main.is_default_view_list')}}: <b>{{GlobalController::name_is_boolean($base->is_default_view_list)}}</b></p>
     <p>{{trans('main.is_default_view_cards')}}: <b>{{GlobalController::name_is_boolean($base->is_default_view_cards)}}</b></p>
+    <p>{{trans('main.is_default_view_newspaper')}}: <b>{{GlobalController::name_is_boolean($base->is_default_view_newspaper)}}</b></p>
     <p>{{trans('main.is_default_allsort_datecreate')}}: <b>{{GlobalController::name_is_boolean($base->is_default_allsort_datecreate)}}</b></p>
     <p>{{trans('main.digits_num')}}: <b>{{$base->digits_num}}</b></p>
     <p>{{trans('main.is_one_value_lst_str_txt')}}: <b>{{GlobalController::name_is_boolean($base->is_one_value_lst_str_txt)}}</b></p>

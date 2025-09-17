@@ -22,27 +22,31 @@ $my_color = "#FFFFFF";
 // Цвет фона
 $my_bg_color = "#" . $hex_string;
 $height = GlobalController::types_img_height($size, false);
-$it_nm = GlobalController::itnm_left($item->name(),25);
+//$it_nm = GlobalController::itnm_left($item->name(),25);
+$it_nm = $item->name();
 ?>
-<span class="text-nowrap">
+<span class="d-flex flex-nowrap align-items-center">
     @if($item_find)
         @if($link_image)
+                    <span class="d-flex">
             {{--    @include('view.img',['item'=>$item_find, 'size'=>"avatar", 'filenametrue'=>false, 'border'=>true, 'link'=>false, 'img_fluid'=>false, 'card_img_top'=>false, 'title'=>trans('main.author')])--}}
             @include('view.img',['item'=>$item_find, 'size'=>$size, 'circle'=>$circ_para, 'noimg_def'=>true, 'filenametrue'=>false, 'link'=>false, 'img_fluid'=>false, 'card_img_top'=>false, 'title'=>trans('main.author')])
-        @endif
+                    </span>&nbsp;
+                        @endif
         {{$it_nm}}
     @else
-        <span class="d-flex flex-nowrap">
+{{--        <span class="d-flex flex-nowrap">--}}
         @if($link_image)
-                <span class="rounded-circle d-flex align-items-center justify-content-center font-weight-bold"
+            <span class="rounded-circle d-flex align-items-center justify-content-center"
+{{--                <span class="rounded-circle d-flex align-items-center justify-content-center font-weight-bold"--}}
                       style="width: {{$height}}px; height: {{$height}}px; color: {{$my_color}}; background-color: {{$my_bg_color}};">
-                                {{mb_strtoupper(mb_substr($item->name(), 0, 1))}}
-            </span>
+                                {{mb_strtoupper(mb_substr($it_nm, 0, 1))}}
+                </span>&nbsp;
             @endif
                 <span class="d-flex align-items-center">
                      &nbsp;{{$it_nm}}
-            </span>
-        </span>
+                </span>
+{{--        </span>--}}
     @endif
 </span>
 
