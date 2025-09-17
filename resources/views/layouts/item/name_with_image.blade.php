@@ -38,8 +38,8 @@ $it_nm = $item->name();
 {{--        <span class="d-flex flex-nowrap">--}}
         @if($link_image)
 {{--            <span class="rounded-circle d-flex align-items-center justify-content-center"--}}
-            <span class="d-flex align-items-center justify-content-center"
-{{--                <span class="rounded-circle d-flex align-items-center justify-content-center font-weight-bold"--}}
+{{--            <span class="d-flex align-items-center justify-content-center"--}}
+                <span class="rounded-circle d-flex align-items-center justify-content-center font-weight-bold"
                       style="width: {{$height}}px; height: {{$height}}px; color: {{$my_color}}; background-color: {{$my_bg_color}};">
                                 {{mb_strtoupper(mb_substr($it_nm, 0, 1))}}
                 </span>&nbsp;
