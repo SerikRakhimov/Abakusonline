@@ -77,8 +77,6 @@ $my_bg_color = "#" . $hex_string;
                 {{--                // echo $item->nmbr(true, false, false, false, false, GlobalController::set_un_all_par_null($view_link), true, true, $relit_id, $role);--}}
                 {{--                echo $item->nmbr(true, false, false, false, false, GlobalController::set_un_all_par_link_null($view_link), true, true, $relit_id, $role);--}}
                 {{--                ?>--}}
-{{--                @include('layouts.item.name_with_image',['item'=>$item, 'size'=>"avatar", "circle"=>false])--}}
-{{--                                <span style="color: {{$my_bg_color}}; background-color: {{$my_color}};">--}}
 {{--                                    <span>--}}
                 {{-- Сократить строку при выводе на экран--}}
                 {{GlobalController::itnm_left($item->name(),50)}}

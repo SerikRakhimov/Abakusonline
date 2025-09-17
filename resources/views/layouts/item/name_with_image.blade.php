@@ -11,43 +11,40 @@ $circ_para = false;
 if (isset($circle)) {
     $circ_para = $circle;
 }
-$random_string = md5($item->id);
-$hex_string = substr($random_string, 0, 6); // Получаем 10-значную шестнадцатеричную строку
-// Пример использования dechex()
-// 16 в шестой степени равно 16 777 216
-//$random_decimal1 = mt_rand(0, 16777216); // Генерируем случайное десятичное число
-//$hex_string_md1 = dechex($random_decimal1); // Преобразуем его в шестнадцатеричную строку
-// Цвет текста: "#FFFFFF" - белый цвет
-$my_color = "#FFFFFF";
-// Цвет фона
-$my_bg_color = "#" . $hex_string;
+
 $height = GlobalController::types_img_height($size, false);
+$rnd_colors = GlobalController::rnd_colors($item->id);
+// Цвет текста: "#FFFFFF" - белый цвет
+$my_color = $rnd_colors['my_color'];
+// Цвет фона
+$my_bg_color = $rnd_colors['my_bg_color'];
+
 //$it_nm = GlobalController::itnm_left($item->name(),25);
 $it_nm = $item->name();
 ?>
 <span class="d-flex flex-nowrap align-items-center">
     @if($item_find)
         @if($link_image)
-                    <span class="d-flex">
+            <span class="d-flex">
             {{--    @include('view.img',['item'=>$item_find, 'size'=>"avatar", 'filenametrue'=>false, 'border'=>true, 'link'=>false, 'img_fluid'=>false, 'card_img_top'=>false, 'title'=>trans('main.author')])--}}
-            @include('view.img',['item'=>$item_find, 'size'=>$size, 'circle'=>$circ_para, 'noimg_def'=>true, 'filenametrue'=>false, 'link'=>false, 'img_fluid'=>false, 'card_img_top'=>false, 'title'=>trans('main.author')])
+                @include('view.img',['item'=>$item_find, 'size'=>$size, 'circle'=>$circ_para, 'noimg_def'=>true, 'filenametrue'=>false, 'link'=>false, 'img_fluid'=>false, 'card_img_top'=>false, 'title'=>trans('main.author')])
                     </span>&nbsp;
-                        @endif
+        @endif
         {{$it_nm}}
     @else
-{{--        <span class="d-flex flex-nowrap">--}}
+        {{--        <span class="d-flex flex-nowrap">--}}
         @if($link_image)
-{{--            <span class="rounded-circle d-flex align-items-center justify-content-center"--}}
-{{--            <span class="d-flex align-items-center justify-content-center"--}}
-                <span class="rounded-circle d-flex align-items-center justify-content-center font-weight-bold"
-                      style="width: {{$height}}px; height: {{$height}}px; color: {{$my_color}}; background-color: {{$my_bg_color}};">
+            {{--            <span class="rounded-circle d-flex align-items-center justify-content-center"--}}
+            {{--            <span class="d-flex align-items-center justify-content-center"--}}
+            <span class="rounded-circle d-flex align-items-center justify-content-center font-weight-bold"
+                  style="width: {{$height}}px; height: {{$height}}px; color: {{$my_color}}; background-color: {{$my_bg_color}};">
                                 {{mb_strtoupper(mb_substr($it_nm, 0, 1))}}
                 </span>&nbsp;
-            @endif
-                <span class="d-flex align-items-center">
+        @endif
+        <span class="d-flex align-items-center">
                      &nbsp;{{$it_nm}}
                 </span>
-{{--        </span>--}}
+        {{--        </span>--}}
     @endif
 </span>
 

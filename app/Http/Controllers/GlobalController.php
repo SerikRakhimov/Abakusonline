@@ -1835,6 +1835,22 @@ class GlobalController extends Controller
         return $result;
     }
 
+    // Возвращает случайный цвет для фона, цвет текста белый
+    static function rnd_colors($item_id)
+    {
+        $random_string = md5($item_id);
+        $hex_string = substr($random_string, 0, 6); // Получаем 10-значную шестнадцатеричную строку
+// Пример использования dechex()
+// 16 в шестой степени равно 16 777 216
+//$random_decimal1 = mt_rand(0, 16777216); // Генерируем случайное десятичное число
+//$hex_string_md1 = dechex($random_decimal1); // Преобразуем его в шестнадцатеричную строку
+// Цвет текста: "#FFFFFF" - белый цвет
+        $my_color = "#FFFFFF";
+// Цвет фона
+        $my_bg_color = "#" . $hex_string;
+        return ['my_color'=>$my_color, 'my_bg_color'=>$my_bg_color];
+    }
+
 // Алгоритмы одинаковые в view.img.blade.php и GlobalController::view_img()
     static function view_img(Item $item, $size, $filenametrue, $link, $img_fluid, $title)
     {
