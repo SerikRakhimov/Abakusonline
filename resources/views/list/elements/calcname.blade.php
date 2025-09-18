@@ -58,7 +58,7 @@ use \App\Http\Controllers\GlobalController;
     @endif
     {{-- 'Показывать дату создания'--}}
     @if($base_right['is_list_base_sort_creation_date_desc'] == true)
-        <small><span class="text-label">({{$item->created_date()}})</span></small>
+        <small><span class="d-flex text-label">({{$item->created_date()}})</span></small>
     @endif
 </a>
 </span>
