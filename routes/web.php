@@ -92,11 +92,17 @@ Route::get('/', function () {
     if (env('MAIL_ENABLED') == 'yes') {
         $appname = config('app.name', 'Abakus');
         try {
+//            Mail::send(['html' => 'mail/login_site'], ['remote_addr' => $_SERVER['REMOTE_ADDR'],
+//                'http_user_agent' => $_SERVER['HTTP_USER_AGENT'], 'appname' => $appname],
+//                function ($message) use ($appname) {
+//                    $message->to(env('MAIL_TO_ADDRESS_LOG', 'log@rsb0807.kz'), '')->subject("Вход на сайт '" . $appname . "'");
+//                    $message->from(env('MAIL_FROM_ADDRESS', 'support@rsb0807.kz'), $appname);
+//                });
             Mail::send(['html' => 'mail/login_site'], ['remote_addr' => $_SERVER['REMOTE_ADDR'],
                 'http_user_agent' => $_SERVER['HTTP_USER_AGENT'], 'appname' => $appname],
                 function ($message) use ($appname) {
-                    $message->to(env('MAIL_TO_ADDRESS_LOG', 'log@rsb0807.kz'), '')->subject("Вход на сайт '" . $appname . "'");
-                    $message->from(env('MAIL_FROM_ADDRESS', 'support@rsb0807.kz'), $appname);
+                    $message->to(env('MAIL_TO_ADDRESS_LOG', 'serik_rahimov@icloud.com'), '')->subject("Вход на сайт '" . $appname . "'");
+                    $message->from(env('MAIL_FROM_ADDRESS', 'serik_rahimov@icloud.com'), $appname);
                 });
         } catch (Exception $exc) {
             return trans('error_sending_email') . ": " . $exc->getMessage();
@@ -825,7 +831,7 @@ Route::get('/item/base_index/{base}/{project}/{role}/{relit_id}', [ItemControlle
 // "->middleware('auth')" не использовать
 Route::get('/item/item_index/{project}/{item}/{role}/{usercode}/{relit_id}/{called_from_button?}/{view_link?}/{string_current?}/{prev_base_index_page?}/{prev_body_link_page?}/{prev_body_all_page?}/{view_ret_id?}', [ItemController::class, 'item_index'])
     ->name('item.item_index');
-   // ->middleware('auth');
+// ->middleware('auth');
 
 Route::get('/item/show/{item}', [ItemController::class, 'show'])
     ->name('item.show')
