@@ -98,15 +98,14 @@ Route::get('/', function () {
 //                    $message->to(env('MAIL_TO_ADDRESS_LOG', 'log@rsb0807.kz'), '')->subject("Вход на сайт '" . $appname . "'");
 //                    $message->from(env('MAIL_FROM_ADDRESS', 'support@rsb0807.kz'), $appname);
 //                });
-            Mail::send(['html' => 'mail/login_site'], ['remote_addr' => $_SERVER['REMOTE_ADDR'],
-                'http_user_agent' => $_SERVER['HTTP_USER_AGENT'], 'appname' => $appname],
-                function ($message) use ($appname) {
-                    $message->to(env('MAIL_TO_ADDRESS_LOG', 'serik_rahimov@icloud.com'), '')->subject("Вход на сайт '" . $appname . "'");
-                    $message->from(env('MAIL_FROM_ADDRESS', 'serik_rahimov@icloud.com'), $appname);
-                });
+//            Mail::send(['html' => 'mail/login_site'], ['remote_addr' => $_SERVER['REMOTE_ADDR'],
+//                'http_user_agent' => $_SERVER['HTTP_USER_AGENT'], 'appname' => $appname],
+//                function ($message) use ($appname) {
+//                    $message->to(env('MAIL_TO_ADDRESS_LOG', 'serik_rahimov@icloud.com'), '')->subject("Вход на сайт '" . $appname . "'");
+//                    $message->from(env('MAIL_FROM_ADDRESS', 'serik_rahimov@icloud.com'), $appname);
+//                });
         } catch (Exception $exc) {
             return trans('error_sending_email') . ": " . $exc->getMessage();
-            dd(1111);
         }
     }
 
