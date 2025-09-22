@@ -106,6 +106,7 @@ Route::get('/', function () {
                 });
         } catch (Exception $exc) {
             return trans('error_sending_email') . ": " . $exc->getMessage();
+            dd(1111);
         }
     }
 
