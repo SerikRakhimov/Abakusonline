@@ -76,8 +76,8 @@
                 {{--                    </div>--}}
                 <tr>
                     <td colspan="2" class="pl-5">
-                        <br>
-                        @include('layouts.project.show_relip_info',['calc_relip_info'=>$calc_relip_info])
+                        {{--                        <br>--}}
+                        @include('layouts.project.show_relip_info',['calc_relip_info'=>$calc_relip_info]):
                     </td>
                 </tr>
             @endif
@@ -98,18 +98,21 @@
                 $base_names = $base->names($base_right, true, true, true);
                 ?>
                 <tr>
-{{--                    <td class="col-3 text-right">--}}
-                    <td class="col-3 pl-4">
-                        <h5>
+                    {{--                    <td class="col-3 text-right">--}}
+                    <td class="col-2 pl-4 text-center">
+                        {{--                        <h5>--}}
+                        <big>
                             <a href="{{route('item.base_index',['base'=>$base, 'project' => $project, 'role' => $role, 'relit_id' => $relit_id])}}"
                                title="{{$base_names}}">
                                 {{$i}}
                             </a>
-                        </h5>
+                        </big>
+                        {{--                        </h5>--}}
                     </td>
-{{--                    <td class="col-9 text-left">--}}
-                    <td class="col-9">
-                        <h5>
+                    {{--                    <td class="col-9 text-left">--}}
+                    <td class="col-10 text-left">
+                        {{--                        <h5>--}}
+                        <big>
                             <a
                                 href="{{route('item.base_index',['base'=>$base, 'project' => $project, 'role' => $role, 'relit_id' => $relit_id])}}"
                                 title="{{$base_names . $message}}">
@@ -120,41 +123,42 @@
                                 {{--                                    {{GlobalController::items_right($base, $project, $role)['view_count']}}--}}
                                 {{--                                </span>--}}
                             </a>
-{{--                            <?php--}}
-{{--                            // Вывести иконки для вычисляемых основ и настроек--}}
-{{--                            $menu_type_name = $base->menu_type_name();--}}
-{{--                            ?>--}}
-{{--                            <a--}}
-{{--                                href="{{route('item.base_index',['base'=>$base, 'project' => $project, 'role' => $role, 'relit_id' => $relit_id])}}"--}}
-{{--                                title="{{$menu_type_name['text']}}">--}}
-{{--                                <span class="badge badge-related"><?php--}}
-{{--                                    echo $menu_type_name['icon'];--}}
-{{--                                    ?></span>--}}
-{{--                                --}}{{--                            @endauth--}}
-{{--                            </a>--}}
-                        </h5>
+                        </big>
+                        {{--                            <?php--}}
+                        {{--                            // Вывести иконки для вычисляемых основ и настроек--}}
+                        {{--                            $menu_type_name = $base->menu_type_name();--}}
+                        {{--                            ?>--}}
+                        {{--                            <a--}}
+                        {{--                                href="{{route('item.base_index',['base'=>$base, 'project' => $project, 'role' => $role, 'relit_id' => $relit_id])}}"--}}
+                        {{--                                title="{{$menu_type_name['text']}}">--}}
+                        {{--                                <span class="badge badge-related"><?php--}}
+                        {{--                                    echo $menu_type_name['icon'];--}}
+                        {{--                                    ?></span>--}}
+                        {{--                                --}}{{--                            @endauth--}}
+                        {{--                            </a>--}}
+                        {{--                        </h5>--}}
                     </td>
                 </tr>
             @endforeach
             {{--        </table>--}}
         @endforeach
     </table>
-{{--    <table class="table table-sm table-hover--}}
-{{--            table-borderless--}}
-{{--            w-auto">--}}
-{{--        <tr>--}}
-{{--            <td>1</td>--}}
-{{--            <td>a</td>--}}
-{{--        </tr>--}}
-{{--        <tr>--}}
-{{--            <td>2</td>--}}
-{{--            <td>b</td>--}}
-{{--        </tr>--}}
-{{--        <tr>--}}
-{{--            <td>3</td>--}}
-{{--            <td>c</td>--}}
-{{--        </tr>--}}
-{{--    </table>--}}
+    {{--    <table class="table table-sm table-hover--}}
+    {{--            table-borderless--}}
+    {{--            w-auto">--}}
+    {{--        <tr>--}}
+    {{--            <td>1</td>--}}
+    {{--            <td>a</td>--}}
+    {{--        </tr>--}}
+    {{--        <tr>--}}
+    {{--            <td>2</td>--}}
+    {{--            <td>b</td>--}}
+    {{--        </tr>--}}
+    {{--        <tr>--}}
+    {{--            <td>3</td>--}}
+    {{--            <td>c</td>--}}
+    {{--        </tr>--}}
+    {{--    </table>--}}
 
     {{--    <h3 class="text-center">Справочники</h3><br>--}}
 

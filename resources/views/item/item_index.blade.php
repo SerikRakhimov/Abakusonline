@@ -306,6 +306,7 @@
         $link_image = $item_image['link'];
         // }
         ?>
+{{--        11111111111111111111111111111--}}
         {{--        Показывать основное изображение при "$base_right['is_list_base_read'] == true"--}}
         @if(isset($item_image['item']))
             @if($item_image['item'])

@@ -8816,8 +8816,6 @@ class ItemController extends Controller
                             // Используется $relip_proj
                             $items = self::get_items_list_main($base, $project, $relip_proj, $link);
                         }
-
-
                     }
                     // Такая же проверка и в GlobalController (function items_right(), items_check_right()),
                     // в ItemController (function next_all_links_mains_calc(), browser(), get_items_for_link(), get_items_ext_edit_for_link())
@@ -8825,10 +8823,14 @@ class ItemController extends Controller
                         $items = GlobalController::get_items_user_id($items);
                     }
                     if ($base_right['is_list_base_byuser'] == true) {
-                        $items = $items->where('created_user_id', GlobalController::glo_user_id());
+                        if ($items) {
+                            $items = $items->where('created_user_id', GlobalController::glo_user_id());
+                        }
                     }
                     if ($enable_hist_records == false) {
-                        $items = $items->where('is_history', false);
+                        if ($items) {
+                            $items = $items->where('is_history', false);
+                        }
                     }
 
                     // Одинаковые строки GlobalController::items_right(), GlobalController::items_check_right() и ItemController::get_items_main()

@@ -223,7 +223,6 @@ class GlobalController extends Controller
         if (($is_list_base_byuser == false) && ($base->is_default_list_base_byuser == true)) {
             $is_list_base_byuser = true;
         }
-
         //      По умолчанию основа-заголовок
         if ($base->is_default_heading == true) {
             $is_heading = true;
@@ -1230,25 +1229,27 @@ class GlobalController extends Controller
     // Похожие строки в ItemController::next_all_links_mains_calc(), GlobalController::get_items_user_id(), GlobalController::base_user_id_maxcount_validate()
     static function get_items_user_id($items)
     {
-        // Устанавливает фильтр для Пользователи по текущему пользователю
-        // Сравнение на равенство по наименованию/логину
-        // Подразумевается, что наименование/логин имеет уникальное значение по base Пользователи
-        $usersetup_project_id = env('USERSETUP_PROJECT_ID');
-        $usersetup_base_id = env('USERSETUP_BASE_ID');
-        $usersetup_name_link_id = env('USERSETUP_NAME_LINK_ID');
-        $username = GlobalController::glo_user()->name();
-        //if (Auth::check()) {
-        if ($usersetup_project_id != '' && $usersetup_base_id != '' && $usersetup_name_link_id != '') {
-            $items = $items->where('project_id', $usersetup_project_id)
-                ->where('base_id', $usersetup_base_id)
-                ->whereHas('child_mains', function ($query) use ($usersetup_name_link_id, $username) {
-                    $query->where('link_id', $usersetup_name_link_id)
-                        ->whereHas('parent_item', function ($query) use ($username) {
-                            $query->where('name_lang_0', '=', $username);
-                        });
-                });
+        if ($items) {
+            // Устанавливает фильтр для Пользователи по текущему пользователю
+            // Сравнение на равенство по наименованию/логину
+            // Подразумевается, что наименование/логин имеет уникальное значение по base Пользователи
+            $usersetup_project_id = env('USERSETUP_PROJECT_ID');
+            $usersetup_base_id = env('USERSETUP_BASE_ID');
+            $usersetup_name_link_id = env('USERSETUP_NAME_LINK_ID');
+            $username = GlobalController::glo_user()->name();
+            //if (Auth::check()) {
+            if ($usersetup_project_id != '' && $usersetup_base_id != '' && $usersetup_name_link_id != '') {
+                $items = $items->where('project_id', $usersetup_project_id)
+                    ->where('base_id', $usersetup_base_id)
+                    ->whereHas('child_mains', function ($query) use ($usersetup_name_link_id, $username) {
+                        $query->where('link_id', $usersetup_name_link_id)
+                            ->whereHas('parent_item', function ($query) use ($username) {
+                                $query->where('name_lang_0', '=', $username);
+                            });
+                    });
+            }
+            //}
         }
-        //}
         return $items;
     }
 
@@ -1848,7 +1849,7 @@ class GlobalController extends Controller
         $my_color = "#FFFFFF";
 // Цвет фона
         $my_bg_color = "#" . $hex_string;
-        return ['my_color'=>$my_color, 'my_bg_color'=>$my_bg_color];
+        return ['my_color' => $my_color, 'my_bg_color' => $my_bg_color];
     }
 
 // Алгоритмы одинаковые в view.img.blade.php и GlobalController::view_img()

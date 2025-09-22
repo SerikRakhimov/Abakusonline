@@ -27,8 +27,8 @@ if ($circle) {
     $circle_rounded = "rounded-circle";
 }
 ?>
-<div class="d-flex flex-row align-items-stretch">
-    <div class="pt-0 ">
+<span class="d-flex flex-row align-items-stretch">
+    <span class="pt-0">
         {{--<span class="d-flex flex-nowrap align-items-center">--}}
         @if($item_find)
         @if($link_image)
@@ -54,8 +54,8 @@ if ($circle) {
             {{--            </span>--}}
         @endif
         {{--</span>--}}
-    </div>
-    <div class="p-1">
+    </span>
+    <span class="p-1">
         @include('layouts.item.empty_name', ['name'=>$item->nmbr(true, false, false, false, false, null, false, true, $relit_id, $role)])
         {{--<img src="/storage/logotype.png" width="30" height="30"--}}
         {{--     style="float: left; margin: 3px">content2222</img>--}}
@@ -70,5 +70,5 @@ if ($circle) {
         {{--    JJJJJJJJJJJJJJJJJJJJJJJ--}}
         {{--    UUUUUUUUUUUUUUUUUUUUUUUU--}}
         {{--</p>--}}
-    </div>
-</div>
+    </span>
+</span>

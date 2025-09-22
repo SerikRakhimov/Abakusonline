@@ -121,13 +121,17 @@
                     <?php
                     $item_image = GlobalController::item_image($item);
                     $link_image = $item_image['link'];
+                    // Вызов GlobalController::view_info() обязательно нужен для проверки, есть доступ к item или нет
+                    $it_img = GlobalController::view_info($item->id, $link_image->id, $role, $relit_id, false);
                     ?>
-                    @if($item_image['item'])
-                     @include('view.img',['item'=>$item_image['item'], 'size'=>"medium", 'border'=>false, 'filenametrue'=>false, 'link'=>true, 'img_fluid'=>true, 'card_img_top'=>false, 'title'=>$link_image->parent_label()])
+                    @if($it_img)
+                        {{--                        @if($item_image['item'])--}}
+                        @include('view.img',['item'=>$item_image['item'], 'size'=>"medium", 'border'=>false, 'filenametrue'=>false, 'link'=>true, 'img_fluid'=>true, 'card_img_top'=>false, 'title'=>$link_image->parent_label()])
                         <br><br>
+                        {{--                        @endif--}}
                     @endif
                     <big><big>
-                    {{-- ссылка на item_index.htm--}}
+                            {{-- ссылка на item_index.htm--}}
                             <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,
                                        'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id])}}"
                                title="">
@@ -138,12 +142,12 @@
                                 // 'set_un_all_par_link_null()' используется, при приведения к типу Link
                                 // Чтобы в функцию передалось как Link, а не как число $link->id (так передается (почему, не понятно) из list\elements\info.php)
                                 //// echo $item->nmbr(true, true, false, $emoji_enable, false, GlobalController::set_un_all_par_null($view_link), true, true, $relit_id, $role);
-                                 echo $item->nmbr(true, true, false, $emoji_enable, false, GlobalController::set_un_all_par_link_null($view_link), true, true, $relit_id, $role);
+                                echo $item->nmbr(true, true, false, $emoji_enable, false, GlobalController::set_un_all_par_link_null($view_link), true, true, $relit_id, $role);
                                 ?>
                             </a>
                             {{-- Вывод наименования с картинкой--}}
-{{--                             @include('layouts.item.name_with_image',['item'=>$item, 'size'=>"small", "circle"=>false])                        </big></big>--}}
-                    <br><br>
+                            {{--                             @include('layouts.item.name_with_image',['item'=>$item, 'size'=>"small", "circle"=>false])                        </big></big>--}}
+                            <br><br>
                 @endif
                 {{--                </span>--}}
                 {{--                                        </b>--}}
@@ -560,7 +564,7 @@
                 </button>
     @endif
     @if($is_en_limit_minutes['is_entry_minutes'] == true & $is_checking_history['result_entry_history'] == true & $is_checking_empty['result_entry_empty'] == true)
-        @if($item->is_history() == false)
+            @if($item->is_history() == false)
             {{--Похожая проверка в ItemController::ext_edit() и ext_show.php--}}
             @if($base_right['is_list_base_update'] == true)
                 <?php
