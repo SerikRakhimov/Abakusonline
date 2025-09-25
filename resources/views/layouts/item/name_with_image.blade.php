@@ -18,7 +18,7 @@ if ($circle) {
 }
 ?>
 <span class="d-flex flex-row align-items-stretch">
-    <span class="pt-0">
+    <span class="pl-1 pt-1">
         {{-- Использовать на двух строках проверку "@if($link_image) @if($item_find)" --}}
         @if($link_image)
             @if($item_find)
@@ -48,14 +48,16 @@ if ($circle) {
                 // Цвет фона
                 $my_bg_color = $rnd_colors['my_bg_color'];
                 ?>
+                {{-- <span class="{{$circle_rounded}} d-flex align-items-center justify-content-center font-weight-bold"--}}
+                {{-- style="width: {{$h_text}}px; height: {{$h_text}}px; color: {{$my_color}}; background-color: {{$my_bg_color}}; float: left; margin-top: 1px;">--}}
                 <span class="{{$circle_rounded}} d-flex align-items-center justify-content-center font-weight-bold"
-                      style="width: {{$h_text}}px; height: {{$h_text}}px; color: {{$my_color}}; background-color: {{$my_bg_color}}; float: left; margin: 3px;">
+                      style="width: {{$h_text}}px; height: {{$h_text}}px; color: {{$my_color}}; background-color: {{$my_bg_color}}; float: left;">
                                 {{mb_strtoupper(mb_substr($it_nm, 0, 1))}}
             </span>
             @endif
         @endif
     </span>
-    <span class="p-1">
+    <span class="pl-2 pt-1">
         {{-- Вывод наименования--}}
         @include('layouts.item.empty_name', ['name'=>$item->nmbr(true, false, false, false, false, null, false, true, $relit_id, $role)])
     </span>
