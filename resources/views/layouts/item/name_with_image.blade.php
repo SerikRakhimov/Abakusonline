@@ -11,8 +11,6 @@ $circ_para = false;
 if (isset($circle)) {
     $circ_para = $circle;
 }
-
-//$it_nm = GlobalController::itnm_left($item->name(),25);
 $it_nm = $item->name();
 $circle_rounded = "";
 if ($circle) {
@@ -56,7 +54,6 @@ if ($circle) {
             </span>
             @endif
         @endif
-        {{$relit_id}}
     </span>
     <span class="p-1">
         {{-- Вывод наименования--}}
