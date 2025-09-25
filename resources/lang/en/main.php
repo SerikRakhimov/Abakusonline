@@ -381,7 +381,7 @@ return [
     'processed' => 'Processed',
     'reversal_processed' => 'Reversal processed',
     'calculated_base_cleared' => 'Calculated base cleared',
-    'is_test' => 'Test',
+    'is_test' => 'Test (access only for users with the Tester characteristic)',
     'is_closed' => 'Closed',
     'is_closed_default_value' => '"Closed" default value',
     'is_closed_default_value_fixed' => 'The default value "Closed" is fixed',

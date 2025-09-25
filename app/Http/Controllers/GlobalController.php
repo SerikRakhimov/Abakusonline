@@ -2187,6 +2187,19 @@ class GlobalController extends Controller
         return $result;
     }
 
+    static function get_child_item_from_main($parent_item_id, $link_id)
+    {
+        $item = null;
+        $link = Link::find($link_id);
+        if ($link) {
+            $main = Main::where('parent_item_id', $parent_item_id)->where('link_id', $link_id)->first();
+            if ($main) {
+                $item = $main->child_item;
+            }
+        }
+        return $item;
+    }
+
     static function get_parent_item_from_main($child_item_id, $link_id)
     {
         $item = null;
@@ -3335,13 +3348,15 @@ class GlobalController extends Controller
         return '🔢';
     }
 
-    static function item_image($item)
+    static function item_image($item_main)
     {
         $result = null;
-        $link = $item->base->child_links->where('parent_is_primary_image', true)->first();
+        $link = $item_main->base->child_links->where('parent_is_primary_image', true)->first();
         if ($link) {
-            $result = GlobalController::view_info($item->id, $link->id);
+            $result = GlobalController::view_info($item_main->id, $link->id);
         }
+        // $item - $item основного изображения
+        // $link - $link основного изображения
         return ['item' => $result, 'link' => $link];
     }
 

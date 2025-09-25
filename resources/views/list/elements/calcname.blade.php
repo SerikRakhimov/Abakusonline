@@ -57,11 +57,13 @@ use \App\Http\Controllers\GlobalController;
     {{--            </span>--}}
     {{-- 'Показывать признак "В истории" при просмотре списков'--}}
     @if($base_right['is_list_hist_attr_enable'] == true)
+        <span class="text-label ml-auto">
         @include('layouts.item.show_history',['item'=>$item])
+        </span>
     @endif
     {{-- 'Показывать дату создания'--}}
     @if($base_right['is_list_base_sort_creation_date_desc'] == true)
-        <small class="text-label">({{$item->created_date()}})</small>&nbsp;
+        <small class="text-label ml-auto">({{$item->created_date()}})</small>&nbsp
     @endif
     {{--    </span>--}}
 </span>

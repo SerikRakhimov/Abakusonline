@@ -381,7 +381,7 @@ return [
     'processed' => 'Өңделген',
     'reversal_processed' => 'Қайтару өңделді',
     'calculated_base_cleared' => 'Есептелетін негіз тазартылды',
-    'is_test' => 'Тестілік',
+    'is_test' => 'Тестілік (тек Тестілеуші белгісі бар пайдаланушылар үшін)',
     'is_closed' => 'Жабық',
     'is_closed_default_value' => '"Жабық" әдепкі мәні',
     'is_closed_default_value_fixed' => '"Жабық" әдепкі мәні тіркелген',
