@@ -121,8 +121,11 @@
                     <?php
                     $item_image = GlobalController::item_image($item);
                     $link_image = $item_image['link'];
-                    // Вызов GlobalController::view_info() обязательно нужен для проверки, есть доступ к item или нет
-                    $it_img = GlobalController::view_info($item->id, $link_image->id, $role, $relit_id, false);
+                    $it_img = null;
+                    if ($link_image) {
+                        // Вызов GlobalController::view_info() обязательно нужен для проверки, есть доступ к item или нет
+                        $it_img = GlobalController::view_info($item->id, $link_image->id, $role, $relit_id, false);
+                    }
                     ?>
                     @if($it_img)
                         {{--                        @if($item_image['item'])--}}
@@ -564,7 +567,7 @@
                 </button>
     @endif
     @if($is_en_limit_minutes['is_entry_minutes'] == true & $is_checking_history['result_entry_history'] == true & $is_checking_empty['result_entry_empty'] == true)
-            @if($item->is_history() == false)
+        @if($item->is_history() == false)
             {{--Похожая проверка в ItemController::ext_edit() и ext_show.php--}}
             @if($base_right['is_list_base_update'] == true)
                 <?php
