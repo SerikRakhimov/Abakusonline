@@ -21,6 +21,7 @@ if ($circle) {
 ?>
 <span class="d-flex flex-row align-items-stretch">
     <span class="pt-0">
+        {{-- Использовать на двух строках проверку "@if($link_image) @if($item_find)" --}}
         @if($link_image)
             @if($item_find)
                 {{--        <span class="d-flex">--}}
