@@ -57,7 +57,7 @@ if ($circle) {
             @endif
         @endif
     </span>
-    <span class="pl-2 pt-1">
+    <span class="pl-1 pt-1">
         {{-- Вывод наименования--}}
         @include('layouts.item.empty_name', ['name'=>$item->nmbr(true, false, false, false, false, null, false, true, $relit_id, $role)])
     </span>
