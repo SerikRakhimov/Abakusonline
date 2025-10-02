@@ -292,7 +292,7 @@ if ($v_link) {
                                     {{--    Основное изображение второй раз не выводится--}}
                                     @if($link_image)
                                         @if($link->id == $link_image->id)
-                                            {{--                                            @continue--}}
+                                            @continue
                                         @endif
                                     @endif
                                     @if($matrix[$x][$y]["view_field"] != null)
@@ -551,10 +551,10 @@ if ($v_link) {
                                                 @endif
                                                 {{-- Не удалять: предыдущий вариант--}}
                                                 {{-- nmbr(true): $fullname = true/false - вывод полной строки (более 255 символов), исключить $view_link при расчете вычисляемого наименования--}}
-{{--                                                 @include('layouts.item.empty_name', ['name'=>$item->nmbr(true, false, false, false, false, GlobalController::set_un_all_par_link_null($i_par_link), false, true, $relit_id, $role)])--}}
-                                                <span class="text-label">
-                                                @include('layouts.item.name_with_image',['item'=>$item, 'size'=>"avatar", "circle"=>true, "max_length"=>150])
-                                                </span>
+                                                @include('layouts.item.empty_name', ['name'=>$item->nmbr(true, false, false, false, false, GlobalController::set_un_all_par_link_null($i_par_link), false, true, $relit_id, $role)])
+                                                {{--                                                <span class="text-label">--}}
+                                                {{--                                                @include('layouts.item.name_with_image',['item'=>$item, 'size'=>"avatar", "circle"=>true, "max_length"=>150])--}}
+                                                {{--                                                </span>--}}
                                                 @if ($item_index_view)
                                             </a>
                                         @endif
@@ -574,9 +574,14 @@ if ($v_link) {
                             {{--    Основное изображение второй раз не выводится--}}
                             @if($link_image)
                                 @if($link->id == $link_image->id)
-                                    {{--                                    @continue--}}
+                                    @continue
                                 @endif
                             @endif
+                            {{--                            @if($nolink_id)--}}
+                            {{--                                @if($link->id == $nolink_id)--}}
+                            {{--                                    @continue--}}
+                            {{--                                @endif--}}
+                            {{--                            @endif--}}
                             <td
                                 @if($heading)
                                 @if($link->parent_base->type_is_text())
@@ -751,11 +756,11 @@ if ($v_link) {
                                                             {{-- При $heading=false не выводить единицу измерения в ячейке таблицы <td>, в "шапке" таблицы выводить--}}
                                                             {{-- В этом файле две похожие проверки--}}
                                                             {{-- Не удалять, предыдущий вариант--}}
-                                                             @include('layouts.item.empty_name', ['name'=>$item_find->name(false, false, true, false, $heading)])
+                                                            @include('layouts.item.empty_name', ['name'=>$item_find->name(false, false, true, false, $heading)])
                                                         @endif
                                                     @endif
                                                     {{-- Вывод наименования с картинкой--}}
-{{--                                                                                                        @include('layouts.item.name_with_image',['item'=>$item_find, 'size'=>"avatar", "circle"=>true])--}}
+                                                    {{--                                                                                                        @include('layouts.item.name_with_image',['item'=>$item_find, 'size'=>"avatar", "circle"=>true])--}}
                                                     @if($heading)
                                                         {{--                                                </mark>--}}
                                                         {{--                                            </small>--}}
