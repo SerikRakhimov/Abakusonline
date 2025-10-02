@@ -66,7 +66,8 @@ if ($circle) {
         // Если передан параметр $max_length
         // if ($max_length) {
         if (isset($max_length)) {
-            $name = mb_substr($name, 0, $max_length);
+          $name = mb_substr($name, 0, $max_length);
+//        $name = GlobalController::itnm_left($name, $max_length);
         }
         ?>
         @include('layouts.item.empty_name', ['name'=>$name])
