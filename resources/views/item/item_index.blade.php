@@ -162,7 +162,7 @@
             <div class="row align-items-center">
                 {{--                        @if(1==1)--}}
                 {{--                <div class="col-12 text-center">--}}
-                <div class="col-5 text-right">
+                <div class="col-6 text-right">
                     {{--                    <big>--}}
                     {{--                    <h6>--}}
                     @if($base_right['is_bsmn_base_enable'] == true)
@@ -178,7 +178,7 @@
                     @endif
                 </div>
                 {{--                        <big/>--}}
-                <div class="col-7 text-left">
+                <div class="col-6 text-left">
                     <span style="font-size:large">
                     {{-- Одинаковые строки рядом (route('item.ext_show'))--}}
                         @if ($base_right['is_list_base_calc'] == true)
