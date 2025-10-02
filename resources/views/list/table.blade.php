@@ -273,7 +273,7 @@ if ($v_link) {
                                 {{--                                @else--}}
                                 {{--                                    {{$base->name(false)}}--}}
                                 {{--                                @endif--}}
-                                <span><b>{{$v_label}}</b></span>
+                                <span class="text-label">{{$v_label}}</span>
                                 <br><small><span class="text-label">{{$base->par_label_unit_meas()}}</span></small>
                             </th>
             @endif
