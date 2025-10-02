@@ -311,7 +311,7 @@
             @if($item_image['item'])
                 {{--            В table.php идет проверка на $link_image (вычисляется вначале table.php командой "$link_image = $tile_view['link'];")--}}
                 <div class="col-12 text-center pt-2">
-                        @include('view.img',['item'=>$item_image['item'], 'width'=>"20%", 'border'=>true, 'filenametrue'=>false, 'link'=>true, 'img_fluid'=>true, 'card_img_top'=>false, 'title'=>$link_image->parent_label()])
+                    @include('view.img',['item'=>$item_image['item'], 'width'=>"20%", 'border'=>true, 'filenametrue'=>false, 'link'=>true, 'img_fluid'=>true, 'card_img_top'=>false, 'title'=>$link_image->parent_label()])
                     <?php
                     $nolink_id = $link_image->id;
                     ?>
@@ -564,8 +564,21 @@
                 {{--            </div>--}}
             </div>
         @endif
-        {{-- Такие же проверки есть ниже--}}
-        @if((count($array_relips) > 1) | (count($next_all_links)>0))
+        <?php
+        // Такие же проверки есть ниже
+        $details = false;
+        if (count($array_relips) > 1) {
+            $details = true;
+        } else {
+            if (count($next_all_links) > 0) {
+                if (!($view_link && count($next_all_links) == 1)) {
+                    $details = true;
+                }
+            }
+        }
+        ?>
+        {{--        @if((count($array_relips) > 1) | (count($next_all_links)>0))--}}
+        @if($details == true)
             <details>
                 <summary>{{trans('main.select')}}</summary>
                 {{-- Связи--}}
@@ -635,7 +648,8 @@
                     {{--                Не высвечивать кнопку "Связи", если одна связь и $next_all_is_enable=false--}}
                     {{--                    @if(($next_all_is_enable) || (count($next_all_links)>1))--}}
                     {{--                Не высвечивать кнопку "Связи", если одна связь и $view_link!=false--}}
-                    {{-- Похожая проверка по смыслу 'count($next_all_links) == 1' в ItemController::item_index() и item_index.php--}}
+                    {{-- Похожая проверка выше используется, "!($view_link && count($next_all_links) == 1)"--}}
+                    {{-- Также похожая проверка по смыслу 'count($next_all_links) == 1' в ItemController::item_index() и item_index.php--}}
                     @if(!($view_link && count($next_all_links) == 1))
                         <div class="row">
                             <div class="col-12 text-center">
