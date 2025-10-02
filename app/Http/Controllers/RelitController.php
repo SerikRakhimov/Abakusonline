@@ -126,6 +126,7 @@ class RelitController extends Controller
 
     function check(Request $request, &$array_mess)
     {
+        // 'is_use_current_project' => 'Использовать текущий проект'
         if ($request->child_template_id != $request->parent_template_id
             & $request->parent_is_use_current_project == true) {
             $array_mess['parent_is_use_current_project'] = trans('main.is_equality_not_equal') . '!';

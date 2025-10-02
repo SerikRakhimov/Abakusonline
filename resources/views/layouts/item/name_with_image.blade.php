@@ -53,12 +53,22 @@ if ($circle) {
                 <span class="{{$circle_rounded}} d-flex align-items-center justify-content-center font-weight-bold"
                       style="width: {{$h_text}}px; height: {{$h_text}}px; color: {{$my_color}}; background-color: {{$my_bg_color}}; float: left;">
                                 {{mb_strtoupper(mb_substr($it_nm, 0, 1))}}
+{{--                    {{$item->base->em_str()}}--}}
             </span>
             @endif
         @endif
     </span>
     <span class="pl-1 pt-1">
         {{-- Вывод наименования--}}
-        @include('layouts.item.empty_name', ['name'=>$item->nmbr(true, false, false, false, false, null, false, true, $relit_id, $role)])
+        {{--        @include('layouts.item.empty_name', ['name'=>$item->nmbr(true, false, false, false, false, null, false, true, $relit_id, $role)])--}}
+        <?php
+        $name = $item->nmbr(true, false, false, false, false, null, false, true, $relit_id, $role);
+        // Если передан параметр $max_length
+        // if ($max_length) {
+        if (isset($max_length)) {
+            $name = mb_substr($name, 0, $max_length);
+        }
+        ?>
+        @include('layouts.item.empty_name', ['name'=>$name])
     </span>
 </span>

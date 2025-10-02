@@ -2197,7 +2197,7 @@ class ProjectController extends Controller
                 if (count($projects) > 0) {
                     $array_projects[$parent_template->id] = $projects;
                 } else {
-                    if ($relit->parent_is_required == true) {
+                    if ($relit->parent_is_required == true & $relit->parent_is_use_current_project == false) {
                         $error_message = '"' . $parent_template->name() . '" - ' . trans('main.no_projects_found_with_this_template') . '!';
                         break;
                     }
