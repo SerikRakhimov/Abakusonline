@@ -50,9 +50,11 @@ $my_bg_color = "#" . $hex_string;
         'prev_body_all_page'=>$body_all_page,
         ])}}"
                class="card-link" title="{{$item->name()}}">
-                @if($item_find)
-                    @include('view.img',['item'=>$item_find, 'noimg_def'=>false, 'filenametrue'=>false,'filenametrue'=>false, 'link'=>false, 'img_fluid'=>true, 'card_img_top'=>true, 'title'=>$item->name()])
-                @endif
+                {{-- Параметр "'noimg_def'=>true" нужно передавать, чтобы выводилось изображение "noimage.png", если изображение не загружено--}}
+                {{-- Проверка "@if($item_find)" не нужна--}}
+                {{-- @if($item_find)--}}
+                @include('view.img',['item'=>$item_find, 'noimg_def'=>true, 'filenametrue'=>false,'filenametrue'=>false, 'link'=>false, 'img_fluid'=>true, 'card_img_top'=>true, 'title'=>$item->name()])
+                {{-- @endif--}}
             </a>
         </div>
     </div>
@@ -71,16 +73,17 @@ $my_bg_color = "#" . $hex_string;
         ])}}"
                class="card-link" title="{{$item->name()}}">
                 {{--                Не удалять, предыдущий вариант--}}
-                {{--<?php--}}
-                {{--                // echo $item->nmbr();--}}
-                {{--                // Исключить $view_link при расчете вычисляемого наименования--}}
-                {{--                // echo $item->nmbr(true, false, false, false, false, GlobalController::set_un_all_par_null($view_link), true, true, $relit_id, $role);--}}
-                {{--                echo $item->nmbr(true, false, false, false, false, GlobalController::set_un_all_par_link_null($view_link), true, true, $relit_id, $role);--}}
-                {{--                ?>--}}
-{{--                                    <span>--}}
+                <?php
+                // echo $item->nmbr();
+                // Исключить $view_link при расчете вычисляемого наименования
+                $name = $item->nmbr(true, false, false, false, false, GlobalController::set_un_all_par_link_null($view_link), true, true, $relit_id, $role);
+                // Сократить строку при выводе на экран
+                echo mb_substr($name, 0, 50);
+                ?>
+                {{--                                    <span>--}}
                 {{-- Сократить строку при выводе на экран--}}
-                {{GlobalController::itnm_left($item->name(),50)}}
-{{--                            </span>--}}
+                {{--                {{GlobalController::itnm_left($item->name(),50)}}--}}
+                {{--                            </span>--}}
                 <small><i>{{GlobalController::calc_title_name($label_name,true,false)}}</i></small>
             </a>
         </div>

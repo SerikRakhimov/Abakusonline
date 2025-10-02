@@ -25,9 +25,12 @@ if ($item) {
         }
     }
 } else {
+    // если изображение не загружено
     if (isset($noimg_def)) {
         if ($noimg_def == true) {
+            // По умолчанию, выводить изображение "noimage.png"
             $url_filename = "noimage.png";
+            // Выводить логотип проекта
 //            if (isset($project)) {
 //                if ($project) {
 //                    $get_project_logo_item = $project->get_items_setup()['logo_item'];

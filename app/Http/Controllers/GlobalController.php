@@ -3353,7 +3353,9 @@ class GlobalController extends Controller
         $result = null;
         $link = $item_main->base->child_links->where('parent_is_primary_image', true)->first();
         if ($link) {
-            $result = GlobalController::view_info($item_main->id, $link->id);
+//          $result = GlobalController::view_info($item_main->id, $link->id);
+            // С проверкой на доступ
+            $result = GlobalController::view_info($item_main->id, $link->id,null,null,true);
         }
         // $item - $item основного изображения
         // $link - $link основного изображения

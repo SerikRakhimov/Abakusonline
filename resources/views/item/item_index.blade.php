@@ -162,7 +162,7 @@
             <div class="row align-items-center">
                 {{--                        @if(1==1)--}}
                 {{--                <div class="col-12 text-center">--}}
-                <div class="col-5 text-right">
+                <div class="col-6 text-right">
                     {{--                    <big>--}}
                     {{--                    <h6>--}}
                     @if($base_right['is_bsmn_base_enable'] == true)
@@ -178,7 +178,7 @@
                     @endif
                 </div>
                 {{--                        <big/>--}}
-                <div class="col-7 text-left">
+                <div class="col-6 text-left">
                     <span style="font-size:large">
                     {{-- Одинаковые строки рядом (route('item.ext_show'))--}}
                         @if ($base_right['is_list_base_calc'] == true)
@@ -197,21 +197,21 @@
                             >
                             {{--                            Не удалять, предыдущий вариант--}}
                                 {{-- Первый параметр nmbr(): $fullname = true/false - вывод полной строки (более 255 символов)--}}
-                                {{--                            @if($base_right['is_list_base_read'] == true)--}}
-                                {{--                                --}}{{-- @include('layouts.item.empty_name', ['name'=>$it_local->nmbr(true, false, false, false)])--}}
-                                {{--                                @include('layouts.item.empty_name', ['name'=>$it_local->nmbr(true, false, false, false, false, null, false, true, $relit_id, $role)])--}}
-                                {{--                            @else--}}
-                                {{--                                @include('layouts.item.empty_name', ['name'=>$it_local->name(false, false, false, false, false, null, false, true, $relit_id, $role)])--}}
-                                {{--                            @endif--}}
-                                @include('layouts.item.name_with_image',['item'=>$it_local, 'size'=>"shundred", "circle"=>false])
+                                @if($base_right['is_list_base_read'] == true)
+                                    {{--                                @include('layouts.item.empty_name', ['name'=>$it_local->nmbr(true, false, false, false)])--}}
+                                    @include('layouts.item.empty_name', ['name'=>$it_local->nmbr(true, false, false, false, false, null, false, true, $relit_id, $role)])
+                                @else
+                                    @include('layouts.item.empty_name', ['name'=>$it_local->name(false, false, false, false, false, null, false, true, $relit_id, $role)])
+                                @endif
+                                {{--                                @include('layouts.item.name_with_image',['item'=>$it_local, 'size'=>"shundred", "circle"=>false])--}}
                         </a>
                         @else
-                            // <?php
+                            <?php
                             // Не удалять, предыдущий вариант
                             // emoji не показывать
-                            //echo $it_local->nmbr(false, false, false, false, false, null, false, true, $relit_id, $role);
-                            // ?>
-                            @include('layouts.item.name_with_image',['item'=>$it_local, 'size'=>"shundred", "circle"=>false])
+                            echo $it_local->nmbr(false, false, false, false, false, null, false, true, $relit_id, $role);
+                            ?>
+                            {{--                            @include('layouts.item.name_with_image',['item'=>$it_local, 'size'=>"shundred", "circle"=>false])--}}
                         @endif
                 </span>
                     <br>
@@ -306,18 +306,16 @@
         $link_image = $item_image['link'];
         // }
         ?>
-{{--        11111111111111111111111111111--}}
         {{--        Показывать основное изображение при "$base_right['is_list_base_read'] == true"--}}
         @if(isset($item_image['item']))
             @if($item_image['item'])
                 {{--            В table.php идет проверка на $link_image (вычисляется вначале table.php командой "$link_image = $tile_view['link'];")--}}
-                <center>
-                    {{-- Не удалять, предыдущий вариант--}}
-                    {{-- @include('view.img',['item'=>$item_image['item'], 'width'=>"25%", 'border'=>true, 'filenametrue'=>false, 'link'=>true, 'img_fluid'=>true, 'card_img_top'=>false, 'title'=>$link_image->parent_label()])--}}
+                <div class="col-12 text-center pt-2">
+                        @include('view.img',['item'=>$item_image['item'], 'width'=>"20%", 'border'=>true, 'filenametrue'=>false, 'link'=>true, 'img_fluid'=>true, 'card_img_top'=>false, 'title'=>$link_image->parent_label()])
                     <?php
                     $nolink_id = $link_image->id;
                     ?>
-                </center>
+                </div>
             @endif
         @endif
         {{--    @if((count($child_links) != 0) && ($base_right['is_show_head_attr_enable'] == true))--}}

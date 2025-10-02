@@ -17,14 +17,16 @@ if ($circle) {
     $circle_rounded = "rounded-circle";
 }
 ?>
-<span class="d-flex flex-row align-items-stretch">
-    <span class="pl-1 pt-1">
+{{--<span class="d-flex flex-row align-items-stretch">--}}
+    <span class="d-flex flex-row">
+{{--    <span class="pl-1 pt-1">--}}
+        <span class="pl-1 pt-0">
         {{-- Использовать на двух строках проверку "@if($link_image) @if($item_find)" --}}
         @if($link_image)
             @if($item_find)
                 {{--        <span class="d-flex">--}}
                 {{--    @include('view.img',['item'=>$item_find, 'size'=>"avatar", 'filenametrue'=>false, 'border'=>true, 'link'=>false, 'img_fluid'=>false, 'card_img_top'=>false, 'title'=>trans('main.author')])--}}
-                @include('view.img',['item'=>$item_find, 'size'=>$size, 'circle'=>$circ_para, 'noimg_def'=>true, 'filenametrue'=>false, 'link'=>false, 'img_fluid'=>false, 'card_img_top'=>false, 'title'=>trans('main.author')])
+                @include('view.img',['item'=>$item_find, 'size'=>$size, 'circle'=>$circ_para, 'noimg_def'=>false, 'filenametrue'=>false, 'link'=>false, 'img_fluid'=>false, 'card_img_top'=>false, 'title'=>trans('main.author')])
                 {{--                    </span>--}}
             @else
                 {{--        <span class="d-flex flex-nowrap">--}}
@@ -58,7 +60,8 @@ if ($circle) {
             @endif
         @endif
     </span>
-    <span class="pl-1 pt-1">
+{{--    <span class="pl-1 pt-1">--}}
+        <span class="pl-1">
         {{-- Вывод наименования--}}
         {{--        @include('layouts.item.empty_name', ['name'=>$item->nmbr(true, false, false, false, false, null, false, true, $relit_id, $role)])--}}
         <?php
