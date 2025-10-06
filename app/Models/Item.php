@@ -232,7 +232,8 @@ class Item extends Model
     {
         //$result = self::name_start(true, false);
         $result = self::name_start($fullname, $numcat, $rightnull, $unitmeas, $nolink, $is_full_left, $for_view, $relit_id, $role);
-        $result = str_replace('\~', '<br>', $result);
+        // Предыдущий вариант, не удалять
+        //      $result = str_replace('\~', '<br>', $result);
         // Не нужна эта строка
         // $result = str_replace('\t', '&emsp;&emsp;', $result);
         if ($emoji_enable == true) {
@@ -241,9 +242,10 @@ class Item extends Model
         }
         if($with_code){
             if ($this->base->is_code_needed == true) {
-                $result = $this->code . ', ' . $result;
+                $result = trans('main.code') . "=". $this->code . ', \~' . $result;
             }
         }
+        $result = str_replace('\~', '<br>', $result);
         return $result;
     }
 
