@@ -76,7 +76,8 @@ $my_bg_color = "#" . $hex_string;
                 <?php
                 // echo $item->nmbr();
                 // Исключить $view_link при расчете вычисляемого наименования
-                $name = $item->nmbr(true, false, false, false, false, GlobalController::set_un_all_par_link_null($view_link), true, true, $relit_id, $role);
+                // параметр with_code = true
+                $name = $item->nmbr(true, false, false, false, false, GlobalController::set_un_all_par_link_null($view_link), true, true, $relit_id, $role, true);
                 // Сократить строку при выводе на экран
                 echo mb_substr($name, 0, 50);
                 ?>

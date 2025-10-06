@@ -791,7 +791,7 @@ class GlobalController extends Controller
             // Выборка из items
         } else {
             $base_right = self::base_right($base, $role, $relit_id);
-            // Обязательно фильтр на два запроса:
+            // Обязательно фильтр на два условия:
             // where('base_id', $base->id)->where('project_id', $project->id)
             $items = Item::where('base_id', $base->id)->where('project_id', $project->id);
             // 'Древовидная структура (main->parent_item = null, для base_index.php)'

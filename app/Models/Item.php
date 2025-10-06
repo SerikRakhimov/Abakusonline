@@ -227,7 +227,8 @@ class Item extends Model
     // $is_full_left = true - рассчитать вычисляемое наименование и обрезать до 255 символов
     // $for_view = true - вычислить вычисляемое наименование для просмотра на экране,
     // $for_view = false - вычислить вычисляемое наименование для дальнейшего сохранения в $item->name_lang_x и для правильной сортировки при выводе списка all_links в item_index.php
-    function nmbr($fullname = false, $numcat = false, $rightnull = false, $emoji_enable = false, $unitmeas = false, Link $nolink = null, $is_full_left = false, $for_view = false, $relit_id = null, Role $role = null)
+    // $with_code = false - выводить код (при $this->base->is_code_needed == true)
+    function nmbr($fullname = false, $numcat = false, $rightnull = false, $emoji_enable = false, $unitmeas = false, Link $nolink = null, $is_full_left = false, $for_view = false, $relit_id = null, Role $role = null, $with_code = false)
     {
         //$result = self::name_start(true, false);
         $result = self::name_start($fullname, $numcat, $rightnull, $unitmeas, $nolink, $is_full_left, $for_view, $relit_id, $role);
@@ -237,6 +238,11 @@ class Item extends Model
         if ($emoji_enable == true) {
 //          $result = GlobalController::name_and_first_emoji($result, $this->base, $numcat);
             $result = GlobalController::name_and_emoji($result, $this->base, $numcat);
+        }
+        if($with_code){
+            if ($this->base->is_code_needed == true) {
+                $result = $this->code . ', ' . $result;
+            }
         }
         return $result;
     }
