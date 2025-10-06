@@ -1794,7 +1794,7 @@ class ItemController extends Controller
     }
 
 // Заполнение массива $relit_id и соответствующими проектами
-    function calc_array_link_relips(Project $project)
+    static function  calc_array_link_relips(Project $project)
     {
         $array_link_relips = [];
         // Текущий проект
