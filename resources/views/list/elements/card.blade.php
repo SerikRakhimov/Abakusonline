@@ -11,7 +11,7 @@ $my_bg_color = "#" . $hex_string;
 ?>
 <div class="card shadow m-2">
     <div class="card-header text-center text-title">
-        <div style="float:left;width:50%;" class="text-left">
+        <div style="float:left;width:40%;" class="text-left">
             <small>
                 <a href="{{route('item.ext_show', ['item'=>$item, 'project'=>$project, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id,
                                                             'heading' => $heading,'base_index_page'=>$base_index_page, 'body_link_page'=>$body_link_page,'body_all_page'=>$body_all_page,
@@ -29,7 +29,7 @@ $my_bg_color = "#" . $hex_string;
             </small>
         </div>
         {{-- Нужно 'class="text-right"'--}}
-        <div style="float:right;width:50%;" class="text-right">
+        <div style="float:right;width:60%;" class="text-right">
             <small class="text-title">
                 {{$item->created_at->Format(trans('main.format_date'))}}
             </small>
