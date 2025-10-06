@@ -53,7 +53,6 @@ if ($v_link) {
 {{--@endif--}}
 {{--    ">--}}
 {{--Т.е. кроме вывода в заголовке @if($heading==false)--}}
----{{$tile_view['result']}}---
 @if(($base_index==true || $item_body_base==true) & $tile_view['result'] == true)
     {{-- 1.Вывод списка с вычисляемым наименованием и фото на весь экран--}}
     @if($base_right['is_view_list'])
