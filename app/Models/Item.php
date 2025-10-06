@@ -243,7 +243,8 @@ class Item extends Model
         if($with_code){
             if ($this->base->is_code_needed == true) {
 //                $result = trans('main.code') . " ". $this->code . ', \~' . $result;
-                $result = "<big>⩨". $this->code . '</big>, ' . $result;
+//                $result = "<big>⩨". $this->code . '</big>, ' . $result;
+                $result = "<font class = 'text-info'>⩨". $this->code . '</font>, ' . $result;
             }
         }
         $result = str_replace('\~', '<br>', $result);
