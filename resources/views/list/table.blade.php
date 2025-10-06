@@ -53,7 +53,9 @@ if ($v_link) {
 {{--@endif--}}
 {{--    ">--}}
 {{--Т.е. кроме вывода в заголовке @if($heading==false)--}}
+1000
 @if(($base_index==true || $item_body_base==true) & $tile_view['result'] == true)
+    2222
     {{-- 1.Вывод списка с вычисляемым наименованием и фото на весь экран--}}
     @if($base_right['is_view_list'])
         @foreach($its_page as $item)
@@ -160,6 +162,7 @@ if ($v_link) {
         @endforeach
     @endif
 @else
+    aaaaaaaaaaaaaa
     {{-- при $heading = true и $base_right['is_list_base_read'] = true--}}
     @if($heading == true & $base_right['is_list_base_read'] == true)
         {{-- III.Вывод информации на весь экран в $heading--}}
