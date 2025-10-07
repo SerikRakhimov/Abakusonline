@@ -165,7 +165,10 @@ class Item extends Model
 //                        }
 //                    }
                     if ($fullname == true & $base->is_calcname_lst == true) {
-                        dd($this);
+                        if ($this->id == 8856){
+                            $result1 = ItemController::calc_value_func($this, 0, true, $nolink, $for_view, $relit_id, $role);
+                        dd($result1);
+                        }
                         $result = ItemController::calc_value_func($this, 0, true, $nolink, $for_view, $relit_id, $role)[($is_full_left ? 'calc_lang_' : 'calc_full_lang_') . $index];
                     }
                 }
