@@ -158,7 +158,9 @@
         {{-- Одинаковые проверки должны быть в ItemController::item_index() и в item_index.php--}}
         {{-- здесь равно true--}}
         {{-- @if(GlobalController::is_base_calcname_check($it_local->base, $base_right))--}}
+        111
         @if(GlobalController::is_base_calcname_check($it_local->base))
+            2222
             <div class="row align-items-center">
                 {{--                        @if(1==1)--}}
                 {{--                <div class="col-12 text-center">--}}
@@ -229,6 +231,7 @@
                 {{--                </div>--}}
             </div>
         @else
+            333
             <div class="col-12 text-left">
                 <big><big>
                         {{--                                <h6>--}}

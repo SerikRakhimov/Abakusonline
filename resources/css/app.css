@@ -366,6 +366,10 @@ mark {
     color: #d7d1fd;
 }
 
+.text-code {
+    color: #308c41;
+}
+
 .text-project {
     /*background-color: white;*/
     color: #1c5145;
