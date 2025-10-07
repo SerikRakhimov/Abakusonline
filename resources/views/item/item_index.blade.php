@@ -158,9 +158,7 @@
         {{-- Одинаковые проверки должны быть в ItemController::item_index() и в item_index.php--}}
         {{-- здесь равно true--}}
         {{-- @if(GlobalController::is_base_calcname_check($it_local->base, $base_right))--}}
-        111
         @if(GlobalController::is_base_calcname_check($it_local->base))
-            2222
             <div class="row align-items-center">
                 {{--                        @if(1==1)--}}
                 {{--                <div class="col-12 text-center">--}}
@@ -184,6 +182,7 @@
                     <span style="font-size:large">
                     {{-- Одинаковые строки рядом (route('item.ext_show'))--}}
                         @if ($base_right['is_list_base_calc'] == true)
+                            11111111111111
                             {{--              Использовать "'heading' => intval(true)", проверяется в окончании функции ItemController:ext_delete()--}}
                             <a href="{{route('item.ext_show', ['item'=>$it_local, 'project'=>$project, 'role'=>$role,
                                         'usercode' =>GlobalController::usercode_calc(),
@@ -208,6 +207,7 @@
                                 {{--                                @include('layouts.item.name_with_image',['item'=>$it_local, 'size'=>"shundred", "circle"=>false])--}}
                         </a>
                         @else
+                            22222222222222222222
                             <?php
                             // Не удалять, предыдущий вариант
                             // emoji не показывать
@@ -231,7 +231,6 @@
                 {{--                </div>--}}
             </div>
         @else
-            333
             <div class="col-12 text-left">
                 <big><big>
                         {{--                                <h6>--}}
