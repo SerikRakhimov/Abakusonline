@@ -198,12 +198,12 @@
                             {{--                            Не удалять, предыдущий вариант--}}
                                 {{-- Первый параметр nmbr(): $fullname = true/false - вывод полной строки (более 255 символов)--}}
                                 @if($base_right['is_list_base_read'] == true)
-                                    101010
+{{--                                    101010--}}
                                     {{--                                @include('layouts.item.empty_name', ['name'=>$it_local->nmbr(true, false, false, false)])--}}
 {{--                                    @include('layouts.item.empty_name', ['name'=>$it_local->nmbr(true, false, false, false, false, null, false, true, $relit_id, $role)])--}}
                                     @include('layouts.item.empty_name', ['name'=>$it_local->nmbr(true, false, false, false, false, null, false, true, $relit_id, $role)])
                                 @else
-                                    202020
+{{--                                    202020--}}
                                     @include('layouts.item.empty_name', ['name'=>$it_local->name(false, false, false, false, false, null, false, true, $relit_id, $role)])
                                 @endif
                                 {{--                                @include('layouts.item.name_with_image',['item'=>$it_local, 'size'=>"shundred", "circle"=>false])--}}

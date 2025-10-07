@@ -7873,9 +7873,9 @@ class ItemController extends Controller
         // При первой итерации цикла равно "", в последующих итерациях равно " "
         $space = "";
         // по циклу значений mains
-        if ($item->id == 8856){
-            dd($array_calc);
-        }
+//        if ($item->id == 8856){
+//            dd($array_calc);
+//        }
         foreach ($array_calc as $key => $value) {
             $next = false;
             $link = Link::find($key);
