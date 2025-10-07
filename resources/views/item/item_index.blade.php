@@ -182,7 +182,6 @@
                     <span style="font-size:large">
                     {{-- Одинаковые строки рядом (route('item.ext_show'))--}}
                         @if ($base_right['is_list_base_calc'] == true)
-                            11111111111111
                             {{--              Использовать "'heading' => intval(true)", проверяется в окончании функции ItemController:ext_delete()--}}
                             <a href="{{route('item.ext_show', ['item'=>$it_local, 'project'=>$project, 'role'=>$role,
                                         'usercode' =>GlobalController::usercode_calc(),
@@ -199,15 +198,16 @@
                             {{--                            Не удалять, предыдущий вариант--}}
                                 {{-- Первый параметр nmbr(): $fullname = true/false - вывод полной строки (более 255 символов)--}}
                                 @if($base_right['is_list_base_read'] == true)
+                                    101010
                                     {{--                                @include('layouts.item.empty_name', ['name'=>$it_local->nmbr(true, false, false, false)])--}}
                                     @include('layouts.item.empty_name', ['name'=>$it_local->nmbr(true, false, false, false, false, null, false, true, $relit_id, $role)])
                                 @else
+                                    202020
                                     @include('layouts.item.empty_name', ['name'=>$it_local->name(false, false, false, false, false, null, false, true, $relit_id, $role)])
                                 @endif
                                 {{--                                @include('layouts.item.name_with_image',['item'=>$it_local, 'size'=>"shundred", "circle"=>false])--}}
                         </a>
                         @else
-                            22222222222222222222
                             <?php
                             // Не удалять, предыдущий вариант
                             // emoji не показывать
