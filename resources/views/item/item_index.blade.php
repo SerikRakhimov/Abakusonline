@@ -199,10 +199,9 @@
                                 {{-- Первый параметр nmbr(): $fullname = true/false - вывод полной строки (более 255 символов)--}}
                                 @if($base_right['is_list_base_read'] == true)
                                     101010
-                                {{$it_local->name()}}
                                     {{--                                @include('layouts.item.empty_name', ['name'=>$it_local->nmbr(true, false, false, false)])--}}
 {{--                                    @include('layouts.item.empty_name', ['name'=>$it_local->nmbr(true, false, false, false, false, null, false, true, $relit_id, $role)])--}}
-                                    @include('layouts.item.empty_name', ['name'=>$it_local->nmbr(false, false, false, false, false, null, false, true, $relit_id, $role)])
+                                    @include('layouts.item.empty_name', ['name'=>$it_local->nmbr(true, false, false, false, false, null, false, true, $relit_id, $role)])
                                 @else
                                     202020
                                     @include('layouts.item.empty_name', ['name'=>$it_local->name(false, false, false, false, false, null, false, true, $relit_id, $role)])

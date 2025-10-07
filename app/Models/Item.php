@@ -164,9 +164,9 @@ class Item extends Model
 //                            }
 //                        }
 //                    }
-                    if ($fullname == true & $base->is_calcname_lst == true) {
+                    //if ($fullname == true & $base->is_calcname_lst == true) {
                         $result = ItemController::calc_value_func($this, 0, true, $nolink, $for_view, $relit_id, $role)[($is_full_left ? 'calc_lang_' : 'calc_full_lang_') . $index];
-                    }
+                    //}
                 }
             }
         }
