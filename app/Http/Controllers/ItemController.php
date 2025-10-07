@@ -7865,7 +7865,7 @@ class ItemController extends Controller
         $item_find = null;
         $item_result = null;
         $result_func = null;
-        $calc_lang_0 = "1111111";
+        $calc_lang_0 = "";
         $calc_lang_1 = "";
         $calc_lang_2 = "";
         $calc_lang_3 = "";
@@ -7873,6 +7873,9 @@ class ItemController extends Controller
         // При первой итерации цикла равно "", в последующих итерациях равно " "
         $space = "";
         // по циклу значений mains
+        if ($item->id == 8856){
+            dd($array_calc);
+        }
         foreach ($array_calc as $key => $value) {
             $next = false;
             $link = Link::find($key);
