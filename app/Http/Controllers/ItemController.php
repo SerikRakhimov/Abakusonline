@@ -7865,7 +7865,7 @@ class ItemController extends Controller
         $item_find = null;
         $item_result = null;
         $result_func = null;
-        $calc_lang_0 = "";
+        $calc_lang_0 = "1111111";
         $calc_lang_1 = "";
         $calc_lang_2 = "";
         $calc_lang_3 = "";
