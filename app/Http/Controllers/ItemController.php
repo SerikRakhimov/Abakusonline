@@ -7900,7 +7900,7 @@ class ItemController extends Controller
                         $base_link_right = GlobalController::base_link_right($link, $role, $relit_id);
                         //$cn_link = $base_link_right['is_list_link_enable'] == true;
                                 if ($item->id == 8856){
-            dd($link);
+            dd($relit_id);
         }
 //                        }
                     }
