@@ -7873,9 +7873,6 @@ class ItemController extends Controller
         // При первой итерации цикла равно "", в последующих итерациях равно " "
         $space = "";
         // по циклу значений mains
-//        if ($item->id == 8856){
-//            dd($array_calc);
-//        }
         foreach ($array_calc as $key => $value) {
             $next = false;
             $link = Link::find($key);
@@ -7902,6 +7899,9 @@ class ItemController extends Controller
 //                        if ($role) {
                         $base_link_right = GlobalController::base_link_right($link, $role, $relit_id);
                         //$cn_link = $base_link_right['is_list_link_enable'] == true;
+                                if ($item->id == 8856){
+            dd($link);
+        }
 //                        }
                     }
                 }
