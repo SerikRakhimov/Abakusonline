@@ -525,9 +525,6 @@ class GlobalController extends Controller
         // 'true' - значение по умолчанию
         $is_parent_full_sort_asc = true;
         $is_parent_page_sort_asc = true;
-        if($link->id == 298){
-            dd($is_list_link_enable);
-        }
         //  Проверка Показывать Связь с признаком "Ссылка на основу"
 //      if ($role->is_list_link_baselink == false && $link->parent_is_base_link == true) {
         if ($role->is_list_link_baselink == false & $link->parent_is_base_link == true) {
@@ -573,7 +570,9 @@ class GlobalController extends Controller
 //        if ($link->parent_is_cus_link == true & $is_cus_enable == true) {
 //            $is_list_link_enable = false;
 //        }
-
+        if($link->id == 298){
+            dd($is_list_link_enable);
+        }
         // По полю с признаком Порядковый номер сортировка по умолчанию проходит всегда ("$is_list_link_with_seqnum_enable = true;")
         // Чтобы убрать сортировку по Порядковому номеру нужно присвоить links.parent_is_sorting = false
         // Чтобы показывать/не показывать поле Порядковый номер - нужно регулировать в rolis строкой на свойство 'is_list_link_enable'
