@@ -595,12 +595,12 @@ class GlobalController extends Controller
         $roli = Roli::where('role_id', $role->id)->where('relit_id', $relit_id)->where('link_id', $link->id)->first();
         $is_roli_list_link_enable = false;
         $is_roli_body_link_enable = false;
-        if($link->id == 298){
-            dd($is_list_link_enable);
-        }
         if ($roli != null) {
             //$is_roli_list_link_enable = $roli->is_list_link_enable;
             $is_list_link_enable = $roli->is_list_link_enable;
+            if($link->id == 298){
+                dd($is_list_link_enable);
+            }
             $is_roli_body_link_enable = $roli->is_body_link_enable;
             $is_body_link_enable = $is_roli_body_link_enable;
             $is_show_link_enable = $roli->is_show_link_enable;
