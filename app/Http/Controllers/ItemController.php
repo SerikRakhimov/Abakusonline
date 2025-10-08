@@ -7891,7 +7891,7 @@ class ItemController extends Controller
                 if ($cn_link) {
                     // Для расчета вычисляемого наименования для сохранения в $item
                     if ($for_view == false) {
-                        // Проверка на 'Используется в сортировке'
+                        // Проверка на 'Используется в сортировке' -???
                         $cn_link = $link->parent_is_sorting == true;
                     }
                 }
@@ -7901,11 +7901,10 @@ class ItemController extends Controller
                     if ($for_view == true) {
 //                        if ($role) {
                         $base_link_right = GlobalController::base_link_right($link, $role, $relit_id);
-                        $cn_link = $base_link_right['is_list_link_enable'] == true;
+                        //$cn_link = $base_link_right['is_list_link_enable'] == true;
 //                        }
                     }
                 }
-                $cn_link = true;
                 if ($cn_link) {
                     // если поле входит в состав вычисляемого составного поля / Для вычисляемого наименования
                     if ($link->parent_is_calcname == true) {
