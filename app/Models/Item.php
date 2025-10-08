@@ -244,7 +244,7 @@ class Item extends Model
             if ($this->base->is_code_needed == true) {
 //                $result = trans('main.code') . " ". $this->code . ', \~' . $result;
 //                $result = "<big>⩨". $this->code . '</big>, ' . $result;
-                $result = "<span class = 'text-code'>⩨". $this->code . '</span>, ' . $result;
+                $result = "<span class = 'text-code'>". Globalcontroller::const_label_code(). $this->code . '</span>, ' . $result;
             }
         }
         $result = str_replace('\~', '<br>', $result);

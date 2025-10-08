@@ -3346,6 +3346,11 @@ class GlobalController extends Controller
         return '🔢';
     }
 
+    static function const_label_code()
+    {
+        return '⩨';
+    }
+
     static function item_image($item_main)
     {
         $result = null;
