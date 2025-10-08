@@ -525,6 +525,9 @@ class GlobalController extends Controller
         // 'true' - значение по умолчанию
         $is_parent_full_sort_asc = true;
         $is_parent_page_sort_asc = true;
+        if($link->id == 298){
+            dd($is_list_link_enable);
+        }
         //  Проверка Показывать Связь с признаком "Ссылка на основу"
 //      if ($role->is_list_link_baselink == false && $link->parent_is_base_link == true) {
         if ($role->is_list_link_baselink == false & $link->parent_is_base_link == true) {
@@ -618,9 +621,6 @@ class GlobalController extends Controller
             $is_parent_page_sort_asc = $roli->is_parent_page_sort_asc;
         }
         $is_edit_link_enable = $is_edit_link_read || $is_edit_link_update;
-        if($link->id == 298){
-            dd($is_list_link_enable);
-        }
         return ['link_id' => $link->id,
             'base_rel_id' => $base_rel_id,
             'is_list_base_calc' => $is_list_base_calc,
