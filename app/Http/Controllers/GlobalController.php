@@ -570,9 +570,6 @@ class GlobalController extends Controller
 //        if ($link->parent_is_cus_link == true & $is_cus_enable == true) {
 //            $is_list_link_enable = false;
 //        }
-        if($link->id == 298){
-            dd($is_list_link_enable);
-        }
         // По полю с признаком Порядковый номер сортировка по умолчанию проходит всегда ("$is_list_link_with_seqnum_enable = true;")
         // Чтобы убрать сортировку по Порядковому номеру нужно присвоить links.parent_is_sorting = false
         // Чтобы показывать/не показывать поле Порядковый номер - нужно регулировать в rolis строкой на свойство 'is_list_link_enable'
@@ -598,6 +595,9 @@ class GlobalController extends Controller
         $roli = Roli::where('role_id', $role->id)->where('relit_id', $relit_id)->where('link_id', $link->id)->first();
         $is_roli_list_link_enable = false;
         $is_roli_body_link_enable = false;
+        if($link->id == 298){
+            dd($is_list_link_enable);
+        }
         if ($roli != null) {
             //$is_roli_list_link_enable = $roli->is_list_link_enable;
             $is_list_link_enable = $roli->is_list_link_enable;
