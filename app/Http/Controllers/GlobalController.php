@@ -598,10 +598,6 @@ class GlobalController extends Controller
         if ($roli != null) {
             //$is_roli_list_link_enable = $roli->is_list_link_enable;
             $is_list_link_enable = $roli->is_list_link_enable;
-            if($link->id == 298){
-                dd($roli);
-//                dd($is_list_link_enable);
-            }
             $is_roli_body_link_enable = $roli->is_body_link_enable;
             $is_body_link_enable = $is_roli_body_link_enable;
             $is_show_link_enable = $roli->is_show_link_enable;

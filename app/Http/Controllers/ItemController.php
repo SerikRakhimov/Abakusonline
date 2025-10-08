@@ -1794,7 +1794,7 @@ class ItemController extends Controller
     }
 
 // Заполнение массива $relit_id и соответствующими проектами
-    static function  calc_array_link_relips(Project $project)
+    static function calc_array_link_relips(Project $project)
     {
         $array_link_relips = [];
         // Текущий проект
@@ -7873,6 +7873,9 @@ class ItemController extends Controller
         // При первой итерации цикла равно "", в последующих итерациях равно " "
         $space = "";
         // по циклу значений mains
+//        if ($item->id == 8856){
+//            dd($array_calc);
+//        }
         foreach ($array_calc as $key => $value) {
             $next = false;
             $link = Link::find($key);
@@ -7888,21 +7891,19 @@ class ItemController extends Controller
                 if ($cn_link) {
                     // Для расчета вычисляемого наименования для сохранения в $item
                     if ($for_view == false) {
-                        // Проверка на 'Используется в сортировке' -???
+                        // Проверка на 'Используется в сортировке' - ???
                         $cn_link = $link->parent_is_sorting == true;
                     }
                 }
                 // Нужно "if($cn_link)"
+                // Свойство "$base_link_right['is_list_link_enable']" должно быть true
                 if ($cn_link) {
                     // Для расчета вычисляемого наименования для просмотра
                     if ($for_view == true) {
-//                        if ($role) {
-                        $base_link_right = GlobalController::base_link_right($link, $role, $relit_id);
-                        //$cn_link = $base_link_right['is_list_link_enable'] == true;
-                                if ($item->id == 8856){
-            dd($role);
-        }
-//                        }
+                        if ($role) {
+                            $base_link_right = GlobalController::base_link_right($link, $role, $relit_id);
+                            $cn_link = $base_link_right['is_list_link_enable'] == true;
+                        }
                     }
                 }
                 if ($cn_link) {
