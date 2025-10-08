@@ -7905,6 +7905,7 @@ class ItemController extends Controller
 //                        }
                     }
                 }
+                $cn_link = true;
                 if ($cn_link) {
                     // если поле входит в состав вычисляемого составного поля / Для вычисляемого наименования
                     if ($link->parent_is_calcname == true) {
