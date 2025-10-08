@@ -466,6 +466,9 @@ class GlobalController extends Controller
         }
 
         $base_right = self::base_right($base, $role, $base_rel_id);
+        if($link->id == 298){
+            dd($base_right);
+        }
         $is_list_base_calc = $base_right['is_list_base_calc'];
         $is_all_base_calcname_enable = $base_right['is_all_base_calcname_enable'];
         $is_list_base_sort_creation_date_desc = $base_right['is_list_base_sort_creation_date_desc'];
