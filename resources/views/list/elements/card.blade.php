@@ -79,7 +79,7 @@ $my_bg_color = "#" . $hex_string;
                 // параметр with_code = true
                 $name = $item->nmbr(true, false, false, false, false, GlobalController::set_un_all_par_link_null($view_link), true, true, $relit_id, $role, true);
                 // Сократить строку при выводе на экран
-                echo mb_substr($name, 0, 50);
+                echo mb_substr($name, 0, 150);
                 ?>
                 {{--                                    <span>--}}
                 {{-- Сократить строку при выводе на экран--}}
