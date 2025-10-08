@@ -193,7 +193,7 @@
         'saveurl_show' =>$saveurl_show,
         'par_link'=>$tree_array_last_link_id, 'parent_item'=>$tree_array_last_item_id,
         'parent_ret_id' => $view_ret_id])}}"
-                               title="{{trans('main.viewing_record')}}:{{$it_local->name(false, false, false, false)}}"
+                               title="{{trans('main.viewing_record')}}: {{$it_local->name(false, false, false, false)}}"
                             >
                             {{--                            Не удалять, предыдущий вариант--}}
                                 {{-- Первый параметр nmbr(): $fullname = true/false - вывод полной строки (более 255 символов)--}}
