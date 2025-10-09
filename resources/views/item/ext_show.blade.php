@@ -487,6 +487,7 @@
                                                 {{--                                                {{$item_find->name(false, true, true, false, true)}}--}}
                                                 @include('layouts.item.name_with_image',['item'=>$item_find, 'size'=>"avatar", "circle"=>true])
                                             @endif
+                                            {{$item_find->name(false, true, true, false, true)}}
                                             {{--                                            <small><span--}}
                                             {{--                                                    class="text-label">{{$item_find->base->par_label_unit_meas()}}</span></small>--}}
                                             {{--                            </b>--}}
