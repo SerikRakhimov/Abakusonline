@@ -165,7 +165,7 @@
                 <div class="form-group row">
                     <div class="col-sm-3 text-right">
                         <label for="code" class="col-form-label">{{trans('main.code')}}
-{{--                            ({{GlobalController::const_label_code()}})--}}
+                            ({{GlobalController::const_label_code()}})
                             <span
                                 class="text-danger">{{GlobalController::label_is_required($base)}}</span></label>
                     </div>

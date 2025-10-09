@@ -162,23 +162,36 @@
             <div class="row align-items-center">
                 {{--                        @if(1==1)--}}
                 {{--                <div class="col-12 text-center">--}}
-                <div class="col-6 text-right">
-                    {{--                    <big>--}}
-                    {{--                    <h6>--}}
+                @if(1==2)
+                    <div class="col-6 text-right">
+                        {{--                    <big>--}}
+                        {{--                    <h6>--}}
+                        @if($base_right['is_bsmn_base_enable'] == true)
+                            <a href="{{route('item.base_index', ['base'=>$it_local->base,
+                        'project'=>$project, 'role'=>$role, 'relit_id'=>$relit_id])}}"
+                               title="{{$it_local->base->names($base_right) . $message_bs_info}}">
+                                @endif
+                                {{$title}}:
+                                {{-- Не удалять, предыдущий вариант--}}
+                                <br>
+                                @if ($base_right['is_bsmn_base_enable'] == true)
+                            </a>
+                        @endif
+                    </div>
+                @endif
+                {{--                        <big/>--}}
+{{--                <div class="col-6 text-left">--}}
+                <div class="col-12 text-left">
                     @if($base_right['is_bsmn_base_enable'] == true)
                         <a href="{{route('item.base_index', ['base'=>$it_local->base,
                         'project'=>$project, 'role'=>$role, 'relit_id'=>$relit_id])}}"
                            title="{{$it_local->base->names($base_right) . $message_bs_info}}">
                             @endif
                             {{$title}}:
-                            {{-- Не удалять, предыдущий вариант--}}
                             <br>
                             @if ($base_right['is_bsmn_base_enable'] == true)
                         </a>
                     @endif
-                </div>
-                {{--                        <big/>--}}
-                <div class="col-6 text-left">
                     <span style="font-size:large">
                     {{-- Одинаковые строки рядом (route('item.ext_show'))--}}
                         @if ($base_right['is_list_base_calc'] == true)
@@ -198,12 +211,10 @@
                             {{--                            Не удалять, предыдущий вариант--}}
                                 {{-- Первый параметр nmbr(): $fullname = true/false - вывод полной строки (более 255 символов)--}}
                                 @if($base_right['is_list_base_read'] == true)
-{{--                                    101010--}}
                                     {{--                                @include('layouts.item.empty_name', ['name'=>$it_local->nmbr(true, false, false, false)])--}}
-{{--                                    @include('layouts.item.empty_name', ['name'=>$it_local->nmbr(true, false, false, false, false, null, false, true, $relit_id, $role)])--}}
+                                    {{--                                    @include('layouts.item.empty_name', ['name'=>$it_local->nmbr(true, false, false, false, false, null, false, true, $relit_id, $role)])--}}
                                     @include('layouts.item.empty_name', ['name'=>$it_local->nmbr(true, false, false, false, false, null, false, true, $relit_id, $role)])
                                 @else
-{{--                                    202020--}}
                                     @include('layouts.item.empty_name', ['name'=>$it_local->name(false, false, false, false, false, null, false, true, $relit_id, $role)])
                                 @endif
                                 {{--                                @include('layouts.item.name_with_image',['item'=>$it_local, 'size'=>"shundred", "circle"=>false])--}}
@@ -314,6 +325,7 @@
             @if($item_image['item'])
                 {{--            В table.php идет проверка на $link_image (вычисляется вначале table.php командой "$link_image = $tile_view['link'];")--}}
                 <div class="col-12 text-center pt-2">
+{{--                    <div class="col-12 text-left pt-2">--}}
                     @include('view.img',['item'=>$item_image['item'], 'width'=>"20%", 'border'=>true, 'filenametrue'=>false, 'link'=>true, 'img_fluid'=>true, 'card_img_top'=>false, 'title'=>$link_image->parent_label()])
                     <?php
                     $nolink_id = $link_image->id;
