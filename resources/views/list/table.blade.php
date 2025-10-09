@@ -757,7 +757,7 @@ if ($v_link) {
                                                             {{-- При $heading=false не выводить единицу измерения в ячейке таблицы <td>, в "шапке" таблицы выводить--}}
                                                             {{-- В этом файле две похожие проверки--}}
                                                             {{-- Не удалять, предыдущий вариант--}}
-{{--                                                            @include('layouts.item.empty_name', ['name'=>$item_find->name(false, false, true, false, $heading)])--}}
+                                                            @include('layouts.item.empty_name', ['name'=>$item_find->name(false, false, true, false, $heading)])
                                                             {{-- Вывод наименования с картинкой--}}
                                                             @include('layouts.item.name_with_image',['item'=>$item_find, 'size'=>"avatar", "circle"=>true])
                                                         @endif
