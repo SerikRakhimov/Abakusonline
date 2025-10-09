@@ -160,8 +160,7 @@
         {{-- @if(GlobalController::is_base_calcname_check($it_local->base, $base_right))--}}
         @if(GlobalController::is_base_calcname_check($it_local->base))
             <div class="row align-items-center">
-                {{--                        @if(1==1)--}}
-                {{--                <div class="col-12 text-center">--}}
+                {{-- Закоментарено, предыдущий вариант--}}
                 @if(1==2)
                     <div class="col-6 text-right">
                         {{--                    <big>--}}
@@ -179,8 +178,7 @@
                         @endif
                     </div>
                 @endif
-                {{--                        <big/>--}}
-{{--                <div class="col-6 text-left">--}}
+                {{--                <div class="col-6 text-left">--}}
                 <div class="col-12 text-left">
                     @if($base_right['is_bsmn_base_enable'] == true)
                         <a href="{{route('item.base_index', ['base'=>$it_local->base,
@@ -240,7 +238,6 @@
                     {{--                    </h6>--}}
                     @include('layouts.project.show_relip_info',['calc_relip_info'=>$calc_relip_info])
                 </div>
-                {{--                </div>--}}
             </div>
         @else
             <div class="col-12 text-left">
@@ -324,8 +321,8 @@
         @if(isset($item_image['item']))
             @if($item_image['item'])
                 {{--            В table.php идет проверка на $link_image (вычисляется вначале table.php командой "$link_image = $tile_view['link'];")--}}
-{{--                <div class="col-12 text-center pt-2">--}}
-                    <div class="col-12 text-left pt-2 pl-0">
+                {{--                <div class="col-12 text-center pt-2">--}}
+                <div class="col-12 text-left pt-2 pl-0">
                     @include('view.img',['item'=>$item_image['item'], 'width'=>"20%", 'border'=>true, 'filenametrue'=>false, 'link'=>true, 'img_fluid'=>true, 'card_img_top'=>false, 'title'=>$link_image->parent_label()])
                     <?php
                     $nolink_id = $link_image->id;
