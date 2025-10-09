@@ -324,8 +324,8 @@
         @if(isset($item_image['item']))
             @if($item_image['item'])
                 {{--            В table.php идет проверка на $link_image (вычисляется вначале table.php командой "$link_image = $tile_view['link'];")--}}
-                <div class="col-12 text-center pt-2">
-{{--                    <div class="col-12 text-left pt-2">--}}
+{{--                <div class="col-12 text-center pt-2">--}}
+                    <div class="col-12 text-left pt-2 pl-0">
                     @include('view.img',['item'=>$item_image['item'], 'width'=>"20%", 'border'=>true, 'filenametrue'=>false, 'link'=>true, 'img_fluid'=>true, 'card_img_top'=>false, 'title'=>$link_image->parent_label()])
                     <?php
                     $nolink_id = $link_image->id;
