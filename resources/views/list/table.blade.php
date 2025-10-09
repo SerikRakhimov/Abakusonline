@@ -764,7 +764,7 @@ if ($v_link) {
                                                             @if($item_find->base->type_is_list())
                                                                 @include('layouts.item.name_with_image',['item'=>$item_find, 'size'=>"avatar", "circle"=>true])
                                                             @else
-                                                                @include('layouts.item.empty_name', ['name'=>$item_find->name(false, false, true, false, $heading)])
+                                                                @include('layouts.item.empty_name', ['name'=>$item_find->name(false, false, false, false, $heading)])
                                                             @endif
                                                         @endif
                                                     @endif
