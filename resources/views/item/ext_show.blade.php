@@ -480,14 +480,15 @@
                                                                 'called_from_button'=>0,
                                                                 'view_link'=>GlobalController::const_null()])}}"
                                                    title="">
+                                                    {{-- Не удалять, предыдущий вариант--}}
                                                     {{--                                                    {{$item_find->name(false, true, true, false, true)}}--}}
                                                     @include('layouts.item.name_with_image',['item'=>$item_find, 'size'=>"avatar", "circle"=>true])
                                                 </a>
                                             @else
+                                                {{-- Не удалять, предыдущий вариант--}}
                                                 {{--                                                {{$item_find->name(false, true, true, false, true)}}--}}
                                                 @include('layouts.item.name_with_image',['item'=>$item_find, 'size'=>"avatar", "circle"=>true])
                                             @endif
-                                            {{$item_find->name(false, true, true, false, true)}}
                                             {{--                                            <small><span--}}
                                             {{--                                                    class="text-label">{{$item_find->base->par_label_unit_meas()}}</span></small>--}}
                                             {{--                            </b>--}}
