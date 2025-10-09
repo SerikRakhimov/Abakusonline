@@ -65,7 +65,8 @@ if ($circle) {
         {{-- Вывод наименования--}}
         {{--        @include('layouts.item.empty_name', ['name'=>$item->nmbr(true, false, false, false, false, null, false, true, $relit_id, $role)])--}}
         <?php
-        $name = $item->nmbr(true, false, false, false, false, null, false, true, $relit_id, $role);
+            // $name = $item->nmbr(true, false, false, false, false, null, false, true, $relit_id, $role);
+        $name = $item->nmbr(true, true, false, false, false, null, false, true, $relit_id, $role);
         // Если передан параметр $max_length
         // if ($max_length) {
         if (isset($max_length)) {
