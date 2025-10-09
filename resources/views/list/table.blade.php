@@ -759,7 +759,8 @@ if ($v_link) {
                                                             {{-- Не удалять, предыдущий вариант--}}
                                                             @include('layouts.item.empty_name', ['name'=>$item_find->name(false, false, true, false, $heading)])
                                                             {{-- Вывод наименования с картинкой--}}
-                                                            @include('layouts.item.name_with_image',['item'=>$item_find, 'size'=>"avatar", "circle"=>true])
+{{--                                                            @include('layouts.item.name_with_image',['item'=>$item_find, 'size'=>"avatar", "circle"=>true])--}}
+                                                        {{$item_find->base->type_name()}}
                                                         @endif
                                                     @endif
                                                     @if($heading)
