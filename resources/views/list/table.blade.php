@@ -549,11 +549,12 @@ if ($v_link) {
                                                title=""
                                             >
                                                 @endif
+                                                {{-- Вычисляемое наименование,вывод в таблице--}}
                                                 {{-- Не удалять: предыдущий вариант--}}
                                                 {{-- nmbr(true): $fullname = true/false - вывод полной строки (более 255 символов), исключить $view_link при расчете вычисляемого наименования--}}
                                                 @include('layouts.item.empty_name', ['name'=>$item->nmbr(true, false, false, false, false, GlobalController::set_un_all_par_link_null($i_par_link), false, true, $relit_id, $role)])
                                                 {{--                                                <span class="text-label">--}}
-                                                {{--                                                @include('layouts.item.name_with_image',['item'=>$item, 'size'=>"avatar", "circle"=>true, "max_length"=>150])--}}
+{{--                                                                                                @include('layouts.item.name_with_image',['item'=>$item, 'size'=>"avatar", "circle"=>true, "max_length"=>150])--}}
                                                 {{--                                                </span>--}}
                                                 @if ($item_index_view)
                                             </a>
@@ -756,11 +757,11 @@ if ($v_link) {
                                                             {{-- При $heading=false не выводить единицу измерения в ячейке таблицы <td>, в "шапке" таблицы выводить--}}
                                                             {{-- В этом файле две похожие проверки--}}
                                                             {{-- Не удалять, предыдущий вариант--}}
-                                                            @include('layouts.item.empty_name', ['name'=>$item_find->name(false, false, true, false, $heading)])
+{{--                                                            @include('layouts.item.empty_name', ['name'=>$item_find->name(false, false, true, false, $heading)])--}}
+                                                            {{-- Вывод наименования с картинкой--}}
+                                                            @include('layouts.item.name_with_image',['item'=>$item_find, 'size'=>"avatar", "circle"=>true])
                                                         @endif
                                                     @endif
-                                                    {{-- Вывод наименования с картинкой--}}
-                                                    {{--                                                                                                        @include('layouts.item.name_with_image',['item'=>$item_find, 'size'=>"avatar", "circle"=>true])--}}
                                                     @if($heading)
                                                         {{--                                                </mark>--}}
                                                         {{--                                            </small>--}}
