@@ -65,11 +65,11 @@
             @if(!$is_template)
                 <th class="text-left">{{trans('main.template')}}</th>
             @endif
-{{--            Пользователь - автор проекта выводится на экран--}}
-{{--            @if(!$is_user)--}}
-                <th class="text-left">{{trans('main.author')}}</th>
-{{--            @endif--}}
             <th class="text-left">{{trans('main.name')}}</th>
+            {{--            Пользователь - автор проекта выводится на экран--}}
+            {{--            @if(!$is_user)--}}
+            <th class="text-left">{{trans('main.author')}}</th>
+            {{--            @endif--}}
             <th class="text-left">{{trans('main.is_test')}}</th>
             <th class="text-left">{{trans('main.is_closed')}}</th>
             <th class="text-center">Id</th>
@@ -103,20 +103,20 @@
                         </a>
                     </td>
                 @endif
-{{--                Пользователь - автор проекта выводится на экран--}}
-{{--                @if(!$is_user)--}}
-                    <td class="text-left">
-                        <a href="{{route($project_show, $project)}}" title="{{trans('main.show')}}">
-                            {{$project->user->name}} @include('layouts.user.show_logotype',['user'=>$project->user])
-                        </a>
-                    </td>
-{{--                @endif--}}
                 <td class="text-left">
                     <a href="{{route($project_show, $project)}}" title="{{trans('main.show')}}">
                         {{$project->name()}}
                         @include('layouts.project.show_logotype',['project'=>$project])
                     </a>
                 </td>
+                {{--                Пользователь - автор проекта выводится на экран--}}
+                {{--                @if(!$is_user)--}}
+                <td class="text-left">
+                    <a href="{{route($project_show, $project)}}" title="{{trans('main.show')}}">
+                        {{$project->user->name}} @include('layouts.user.show_logotype',['user'=>$project->user])
+                    </a>
+                </td>
+                {{--                @endif--}}
                 <td class="text-left">
                     <a href="{{route($project_show, $project)}}" title="{{trans('main.show')}}">
                         {{GlobalController::name_is_boolean($project->is_test)}}
