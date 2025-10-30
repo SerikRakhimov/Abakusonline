@@ -1,3 +1,4 @@
+{{--Для вывода "шапки" в item_index.htm с правами просмотра записи--}}
 <?php
 use \App\Http\Controllers\GlobalController;
 // Показывать emoji - да/нет
