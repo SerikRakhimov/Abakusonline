@@ -80,7 +80,6 @@ background-repeat: no-repeat;
 height: 100%;
 "
 >
-RSB
 {{--    <div id="app">--}}
 {{--        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">--}}
 {{--            <div class="container">--}}
@@ -173,7 +172,8 @@ RSB
             </a>
             <?php
             // Подсчет количества посетителей на сайте онлайн
-            $visitors_count = \App\Http\Controllers\VisitorController::visitors_count();
+            //$visitors_count = \App\Http\Controllers\VisitorController::visitors_count();
+            $visitors_count = 0;
             ?>
             <a class="navbar-brand" href="#"
                title="{{trans('main.online_now') . ": " . $visitors_count . ' ' . mb_strtolower(trans('main.visitors_info'))}}">
