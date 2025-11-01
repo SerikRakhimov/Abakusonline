@@ -172,8 +172,7 @@ height: 100%;
             </a>
             <?php
             // Подсчет количества посетителей на сайте онлайн
-            //$visitors_count = \App\Http\Controllers\VisitorController::visitors_count();
-            $visitors_count = 0;
+            $visitors_count = \App\Http\Controllers\VisitorController::visitors_count();
             ?>
             <a class="navbar-brand" href="#"
                title="{{trans('main.online_now') . ": " . $visitors_count . ' ' . mb_strtolower(trans('main.visitors_info'))}}">
