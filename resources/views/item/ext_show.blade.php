@@ -87,7 +87,7 @@
     {{--                    <img src="{{Storage::url($item->filename())}}" height="250"--}}
     {{--                         alt="" title="{{$item->title_img()}}">--}}
     {{--                </a>--}}
-    </li>--}}
+    {{--</li>--}}
     <hr class="hr_ext_show">
     @elseif($base->type_is_document)
         {{--                            <li>--}}
@@ -393,7 +393,6 @@
         {{--        Вывод связей--}}
         @foreach($array_calc as $key=>$value)
             <?php
-            //                dd($array_calc);
             $link = Link::find($key);
             // Нужны все параметры GlobalController::view_info($item->id, $link->id, $role, $relit_id, false)
             $item_find = GlobalController::view_info($item->id, $key, $role, $relit_id, false);
@@ -789,9 +788,17 @@
     {{--                {{trans('main.return')}}--}}
     {{--            </button>--}}
 
+{{--    Не удалять--}}
+{{--    <button type="button" class="btn btn-dreamer d-inline" title="{{trans('main.cancel')}}"--}}
+{{--            --}}{{-- @include('layouts.item.base_index.previous_url')--}}
+{{--            onclick="document.location='{{GlobalController::set_un_url_save($saveurl_show)}}'"--}}
+{{--    >--}}
+{{--        <i class="fas fa-arrow-left d-inline"></i>--}}
+{{--        {{trans('main.cancel')}}--}}
+{{--    </button>--}}
     <button type="button" class="btn btn-dreamer d-inline" title="{{trans('main.cancel')}}"
             {{-- @include('layouts.item.base_index.previous_url')--}}
-            onclick="document.location='{{GlobalController::set_un_url_save($saveurl_show)}}'"
+            onclick="javascript:history.back();"
     >
         <i class="fas fa-arrow-left d-inline"></i>
         {{trans('main.cancel')}}

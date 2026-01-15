@@ -279,7 +279,7 @@ if ($v_link) {
                                     <span class="text-label">{{$v_label}}</span>
                                     <br><small><span class="text-label">{{$base->par_label_unit_meas()}}</span></small>
                                 </th>
-            @endif
+                            @endif
             @endif
             @endif
             @endif
