@@ -54,7 +54,7 @@ $my_bg_color = "#" . $hex_string;
                 {{-- Проверка "@if($item_find)" не нужна--}}
                 {{-- @if($item_find)--}}
                 {{--                @include('view.img',['item'=>$item_find, 'noimg_def'=>true, 'filenametrue'=>false,'filenametrue'=>false, 'link'=>false, 'img_fluid'=>true, 'card_img_top'=>true, 'title'=>$item->name()])--}}
-                @include('view.img',['item'=>$item_find, 'size'=>"medium", 'noimg_def'=>true, 'filenametrue'=>false,'filenametrue'=>false, 'link'=>false, 'img_fluid'=>true, 'card_img_top'=>true, 'title'=>$item->name()])
+                @include('view.img',['item'=>$item_find, 'size'=>"mem", 'noimg_def'=>true, 'filenametrue'=>false,'filenametrue'=>false, 'link'=>false, 'img_fluid'=>true, 'card_img_top'=>true, 'title'=>$item->name()])
                 {{-- @endif--}}
             </a>
         </div>
