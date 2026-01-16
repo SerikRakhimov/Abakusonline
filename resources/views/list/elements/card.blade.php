@@ -38,7 +38,7 @@ $my_bg_color = "#" . $hex_string;
     {{--                    https://sky.pro/wiki/html/odnorodnaya-vysota-kartochek-v-bootstrap-reshenie-bez-css/--}}
     <div class="card-body bg-light p-2 d-flex flex-wrap align-items-center">
         <div class="text-center">
-            {{$item->base->name()}}
+            101010
             <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,
         'usercode' =>GlobalController::usercode_calc(),
         'relit_id'=>$relit_id,
