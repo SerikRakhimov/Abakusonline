@@ -58,8 +58,8 @@ $in_circle = false;
                  @endif
                  @endif
                  style="object-fit:cover;
-                 {{--                 style="object-fit:scale-down;--}}
-                 {{--                 style="object-fit:contain;--}}
+                 {{--style="object-fit:scale-down;--}}
+                 {{--                                  style="object-fit:contain;--}}
                  @if(isset($border))
                  @if($border==true)
                      border: solid #bfc7f6;
@@ -115,9 +115,9 @@ $in_circle = false;
                  {{-- Если указано $circle (неважно true или false)--}}
                  @if(isset($circle))
                  {{-- Для круга длина картинки равна ширине картинки--}}
-{{--                 @if($in_circle==true)--}}
+                 {{--                 @if($in_circle==true)--}}
                      width=@include('types.img.height',['size'=>$size])
-{{--                 @endif--}}
+                 {{--                 @endif--}}
                  @endif
                  @endif
                  @endif

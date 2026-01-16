@@ -38,6 +38,9 @@ $my_bg_color = "#" . $hex_string;
     {{--                    https://sky.pro/wiki/html/odnorodnaya-vysota-kartochek-v-bootstrap-reshenie-bez-css/--}}
     <div class="card-body bg-light p-2 d-flex flex-wrap align-items-center">
         <div class="text-center">
+            <div class="pb-2">
+                <small><i>{{GlobalController::calc_title_name($label_name,true,false)}}</i></small>
+                </div>
             <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,
         'usercode' =>GlobalController::usercode_calc(),
         'relit_id'=>$relit_id,
@@ -53,7 +56,8 @@ $my_bg_color = "#" . $hex_string;
                 {{-- Параметр "'noimg_def'=>true" нужно передавать, чтобы выводилось изображение "noimage.png", если изображение не загружено--}}
                 {{-- Проверка "@if($item_find)" не нужна--}}
                 {{-- @if($item_find)--}}
-                @include('view.img',['item'=>$item_find, 'noimg_def'=>true, 'filenametrue'=>false,'filenametrue'=>false, 'link'=>false, 'img_fluid'=>true, 'card_img_top'=>true, 'title'=>$item->name()])
+                {{--                @include('view.img',['item'=>$item_find, 'noimg_def'=>true, 'filenametrue'=>false,'filenametrue'=>false, 'link'=>false, 'img_fluid'=>true, 'card_img_top'=>true, 'title'=>$item->name()])--}}
+                @include('view.img',['item'=>$item_find, 'size'=>"mem", 'noimg_def'=>true, 'filenametrue'=>false,'filenametrue'=>false, 'link'=>false, 'img_fluid'=>true, 'card_img_top'=>true, 'title'=>$item->name()])
                 {{-- @endif--}}
             </a>
         </div>
@@ -79,13 +83,15 @@ $my_bg_color = "#" . $hex_string;
                 // параметр with_code = true
                 $name = $item->nmbr(true, false, false, false, false, GlobalController::set_un_all_par_link_null($view_link), true, true, $relit_id, $role, true);
                 // Сократить строку при выводе на экран
-                echo mb_substr($name, 0, 150);
+                //                echo mb_substr($name, 0, 150);
+                echo GlobalController::itnm_left($name, 50);
                 ?>
                 {{--                                    <span>--}}
                 {{-- Сократить строку при выводе на экран--}}
                 {{--                {{GlobalController::itnm_left($item->name(),50)}}--}}
                 {{--                            </span>--}}
-                <small><i>{{GlobalController::calc_title_name($label_name,true,false)}}</i></small>
+                {{--                Не удалять--}}
+                {{--                <small><i>{{GlobalController::calc_title_name($label_name,true,false)}}</i></small>--}}
             </a>
         </div>
     </div>
