@@ -39,8 +39,8 @@ $my_bg_color = "#" . $hex_string;
     <div class="card-body bg-light p-2 d-flex flex-wrap align-items-center">
         <div class="text-center">
             <div class="pb-2">
-                <small><i>{{GlobalController::calc_title_name($label_name,true,false)}}</i></small>
-                </div>
+                <small><i>{{$item->base->name()}}:</i></small>
+            </div>
             <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,
         'usercode' =>GlobalController::usercode_calc(),
         'relit_id'=>$relit_id,
@@ -91,7 +91,7 @@ $my_bg_color = "#" . $hex_string;
                 {{--                {{GlobalController::itnm_left($item->name(),50)}}--}}
                 {{--                            </span>--}}
                 {{--                Не удалять--}}
-                {{--                <small><i>{{GlobalController::calc_title_name($label_name,true,false)}}</i></small>--}}
+                <small><i>{{GlobalController::calc_title_name($label_name,true,false)}}</i></small>
             </a>
         </div>
     </div>
