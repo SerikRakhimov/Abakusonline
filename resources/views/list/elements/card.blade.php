@@ -37,8 +37,7 @@ $my_bg_color = "#" . $hex_string;
     </div>
     {{--                    https://sky.pro/wiki/html/odnorodnaya-vysota-kartochek-v-bootstrap-reshenie-bez-css/--}}
     <div class="card-body bg-light p-2 d-flex flex-wrap align-items-center">
-        <div class="text-center">
-            101010
+        <div class="align-content-center">
             <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,
         'usercode' =>GlobalController::usercode_calc(),
         'relit_id'=>$relit_id,
@@ -55,7 +54,7 @@ $my_bg_color = "#" . $hex_string;
                 {{-- Проверка "@if($item_find)" не нужна--}}
                 {{-- @if($item_find)--}}
                 {{--                @include('view.img',['item'=>$item_find, 'noimg_def'=>true, 'filenametrue'=>false,'filenametrue'=>false, 'link'=>false, 'img_fluid'=>true, 'card_img_top'=>true, 'title'=>$item->name()])--}}
-                @include('view.img',['item'=>$item_find, 'size'=>"mem", 'noimg_def'=>true, 'filenametrue'=>false,'filenametrue'=>false, 'link'=>false, 'img_fluid'=>true, 'card_img_top'=>true, 'title'=>$item->name()])
+                @include('view.img',['item'=>$item_find, 'size'=>"medium", 'noimg_def'=>true, 'filenametrue'=>false,'filenametrue'=>false, 'link'=>false, 'img_fluid'=>true, 'card_img_top'=>true, 'title'=>$item->name()])
                 {{-- @endif--}}
             </a>
         </div>
