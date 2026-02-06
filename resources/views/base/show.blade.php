@@ -99,11 +99,11 @@
     ?>
 
     @if ($type_form == 'show')
-        <button type="button" class="btn btn-dreamer" title="{{trans('main.return')}}"
+        <button type="button" class="btn btn-dreamer" title="{{trans('main.back')}}"
             @include('layouts.base.previous_url')
         >
             {{--                    <i class="fas fa-arrow-left"></i>--}}
-            {{trans('main.return')}}
+            {{trans('main.back')}}
         </button>
     @elseif($type_form == 'delete_question')
         <form action="{{route('base.delete', $base)}}" method="POST" id='delete-form'>

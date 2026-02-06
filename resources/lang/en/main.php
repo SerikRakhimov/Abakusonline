@@ -40,7 +40,7 @@ return [
     'recs_genitive_case' => 'Records',
     'select' => 'Select',
     'select_record_for_work' => 'Select an entry to work with',
-    'return' => 'Return',
+    'back' => 'Back',
     'cancel' => 'Cancel',
     'details' => 'Details',
     'search' => 'Search',

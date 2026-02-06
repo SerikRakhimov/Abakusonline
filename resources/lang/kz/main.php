@@ -40,7 +40,7 @@ return [
     'recs_genitive_case' => 'Жазба',
     'select' => 'Таңдаңыз',
     'select_record_for_work' => 'Жұмыс үшін жазбаны таңдаңыз',
-    'return' => 'Артқа',
+    'back' => 'Артқа',
     'cancel' => 'Болдырмау',
     'details' => 'Бөлшектер',
     'search' => 'Іздеу',

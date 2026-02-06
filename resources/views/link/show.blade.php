@@ -50,7 +50,7 @@
         <div class="mb-3 btn-group btn-group-sm">
             <a class="btn btn-primary" href="{{ route('link.base_index',
  ['base' => $link->child_base, 'links' => Link::where('child_base_id', $link->child_base_id)->orderBy('parent_base_number')->get()]) }}">
-                {{trans('main.return')}}</a>
+                {{trans('main.back')}}</a>
         </div>
     @elseif($type_form == 'delete_question')
         <form action="{{route('link.delete', $link)}}" method="POST" id='delete-form'>

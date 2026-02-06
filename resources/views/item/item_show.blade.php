@@ -33,7 +33,7 @@
 
     @if ($type_form == 'show')
         <div class="mb-3 btn-group btn-group-sm">
-            <a class="btn btn-primary" href="{{session('links')}}">{{trans('main.return')}}</a>
+            <a class="btn btn-primary" href="{{session('links')}}">{{trans('main.back')}}</a>
         </div>
     @elseif($type_form == 'delete_question')
         <form action="{{route('item.item_delete', ['parent_item'=>$parent_item, 'item'=>$item])}}" method="POST"

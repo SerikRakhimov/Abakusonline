@@ -30,19 +30,32 @@ use \App\Http\Controllers\GlobalController;
         </small>
         <br>
     @endif
-    <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,
+{{--    <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,--}}
+{{--        'usercode' =>GlobalController::usercode_calc(),--}}
+{{--        'relit_id'=>$relit_id,--}}
+{{--        'called_from_button'=>0,--}}
+{{--        'view_link'=>GlobalController::set_par_null($view_link),--}}
+{{--        'view_ret_id'=>$view_ret_id,--}}
+{{--        'string_current'=>$string_next,--}}
+{{--        'prev_base_index_page'=>$base_index_page,--}}
+{{--        'prev_body_link_page'=>$body_link_page,--}}
+{{--        'prev_body_all_page'=>$body_all_page,--}}
+{{--        ])}}"--}}
+{{--       class="card-link"--}}
+{{--       title="{{$item->name()}}">--}}
+            <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,
         'usercode' =>GlobalController::usercode_calc(),
         'relit_id'=>$relit_id,
         'called_from_button'=>0,
         'view_link'=>GlobalController::set_par_null($view_link),
         'view_ret_id'=>$view_ret_id,
-        'string_current'=>$string_next,
+        'string_current'=>$string_current,
         'prev_base_index_page'=>$base_index_page,
         'prev_body_link_page'=>$body_link_page,
         'prev_body_all_page'=>$body_all_page,
         ])}}"
-       class="card-link"
-       title="{{$item->name()}}">
+               class="card-link"
+               title="{{$item->name()}}">
         <span style="font-size:medium">
         <?php
             // echo $item->nmbr(true, true, false);

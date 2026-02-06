@@ -39,15 +39,15 @@
                 {{trans('main.delete_record_question')}}?
             @endif
         @endif
-        <span class="text-label">-</span>
+{{--        <span class="text-label">-</span>--}}
         <span class="text-title">
                 @if($base_right['is_bsmn_base_enable'] == true)
                 <a href="{{route('item.base_index',['base'=>$item->base_id, 'project'=>$project, 'role'=>$role, 'relit_id'=>$relit_id])}}"
                    title="{{$item->base->names($base_right)}}">
-                                {{$item->base->name($emoji_enable)}}
+                                ({{mb_strtolower($item->base->name($emoji_enable))}})
                             </a>
             @else
-                {{$item->base->name($emoji_enable)}}
+                ({{mb_strtolower($item->base->name($emoji_enable))}})
             @endif
             </span>
         {{--        'Показывать признак "В истории" при просмотре записи'--}}
@@ -474,13 +474,21 @@
                                             {{--                        @if($base_link_right['is_list_base_calc'] == true && $base_link_right['is_bsmn_base_enable'] == true)--}}
                                             {{--                    Если $par_link == $link, то не показывать ссылку--}}
                                             @if($result_par_link ==false & $base_link_right['is_list_base_calc'] == true)
-                                                <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item_find, 'role'=>$role,
-                                                                'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$link->parent_relit_id,
-                                                                'called_from_button'=>0,
-                                                                'view_link'=>GlobalController::const_null()])}}"
-                                                   title="">
-                                                    {{-- Не удалять, предыдущий вариант--}}
-                                                    {{--                                                    {{$item_find->name(false, true, true, false, true)}}--}}
+                                                {{-- Не удалять, предыдущий вариант--}}
+{{--                                                <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item_find, 'role'=>$role,--}}
+                                                {{--                                                                'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$link->parent_relit_id,--}}
+                                                {{--                                                                'called_from_button'=>0,--}}
+                                                {{--                                                                'view_link'=>GlobalController::const_null()])}}"--}}
+                                                {{--                                                   title="">--}}
+                                                {{--                                                    --}}{{-- Не удалять, предыдущий вариант--}}
+                                                {{--                                                    --}}{{--                                                    {{$item_find->name(false, true, true, false, true)}}--}}
+                                                {{--                                                    @include('layouts.item.name_with_image',['item'=>$item_find, 'size'=>"avatar", "circle"=>true])--}}
+                                                {{--                                                </a>--}}
+                                                <a href="{{route('item.ext_show', ['item'=>$item_find, 'project'=>$project, 'role'=>$role,
+    'usercode' =>GlobalController::usercode_calc(),
+    'relit_id'=>$link->parent_relit_id
+    ])}}"
+                                                   title="{{trans('main.viewing_record') . ' (id = ' . $item->id . ')'}}">
                                                     @include('layouts.item.name_with_image',['item'=>$item_find, 'size'=>"avatar", "circle"=>true])
                                                 </a>
                                             @else
@@ -766,9 +774,9 @@
     {{--            'parent_ret_id' => $parent_ret_id,--}}
     {{--            'view_link' => $view_link,--}}
     {{--            'par_link' => $par_link, 'parent_item' => $parent_item])}}"'--}}
-    {{--                    title="{{trans('main.return')}}" @include('layouts.item.base_index.previous_url')>--}}
+    {{--                    title="{{trans('main.back')}}" @include('layouts.item.base_index.previous_url')>--}}
     {{--                <i class="fas fa-arrow-left"></i>--}}
-    {{--                {{trans('main.return')}}--}}
+    {{--                {{trans('main.back')}}--}}
     {{--            </button>--}}
 
     {{--            <button type="button" class="btn btn-dreamer"--}}
@@ -782,31 +790,31 @@
     {{--            'view_link' => $view_link,--}}
     {{--            'saveurl_ret' => $saveurl_show_ret,--}}
     {{--            'par_link' => $par_link, 'parent_item' => $parent_item])}}"'--}}
-    {{--                    title="{{trans('main.return')}}"--}}
+    {{--                    title="{{trans('main.back')}}"--}}
     {{--            >--}}
     {{--                <i class="fas fa-arrow-left"></i>--}}
-    {{--                {{trans('main.return')}}--}}
+    {{--                {{trans('main.back')}}--}}
     {{--            </button>--}}
 
 {{--    Не удалять--}}
-{{--    <button type="button" class="btn btn-dreamer d-inline" title="{{trans('main.cancel')}}"--}}
+{{--    <button type="button" class="btn btn-dreamer d-inline" title="{{trans('main.back')}}"--}}
 {{--            --}}{{-- @include('layouts.item.base_index.previous_url')--}}
 {{--            onclick="document.location='{{GlobalController::set_un_url_save($saveurl_show)}}'"--}}
 {{--    >--}}
 {{--        <i class="fas fa-arrow-left d-inline"></i>--}}
-{{--        {{trans('main.cancel')}}--}}
+{{--        {{trans('main.back')}}--}}
 {{--    </button>--}}
-    <button type="button" class="btn btn-dreamer d-inline" title="{{trans('main.cancel')}}"
+    <button type="button" class="btn btn-dreamer d-inline" title="{{trans('main.back')}}"
             {{-- @include('layouts.item.base_index.previous_url')--}}
             onclick="javascript:history.back();"
     >
         <i class="fas fa-arrow-left d-inline"></i>
-        {{trans('main.cancel')}}
+        {{trans('main.back')}}
     </button>
     {{--            <button type="button" class="btn btn-dreamer"--}}
-    {{--                    title="{{trans('main.return')}}" onclick="javascript:history.back();">--}}
+    {{--                    title="{{trans('main.back')}}" onclick="javascript:history.back();">--}}
     {{--                <i class="fas fa-arrow-left"></i>--}}
-    {{--                {{trans('main.return')}}--}}
+    {{--                {{trans('main.back')}}--}}
     {{--            </button>--}}
     </p>
     @elseif($type_form == 'delete_question')
@@ -865,23 +873,23 @@
                 {{--            'view_link' => $view_link,--}}
                 {{--            'saveurl_ret' => $saveurl_question_ret,--}}
                 {{--            'par_link' => $par_link, 'parent_item' => $parent_item])}}"'--}}
-                {{--                        title="{{trans('main.return')}}"--}}
+                {{--                        title="{{trans('main.back')}}"--}}
                 {{--                >--}}
                 {{--                    <i class="fas fa-arrow-left"></i>--}}
-                {{--                    {{trans('main.return')}}--}}
+                {{--                    {{trans('main.back')}}--}}
                 {{--                </button>--}}
-                <button type="button" class="btn btn-dreamer d-inline" title="{{trans('main.cancel')}}"
+                <button type="button" class="btn btn-dreamer d-inline" title="{{trans('main.back')}}"
                         {{-- @include('layouts.item.base_index.previous_url')--}}
                         onclick="document.location='{{GlobalController::set_un_url_save($saveurl_show)}}'"
                 >
                     <i class="fas fa-arrow-left d-inline"></i>
-                    {{trans('main.cancel')}}
+                    {{trans('main.back')}}
                 </button>
                 {{--                <button type="button" class="btn btn-dreamer"--}}
-                {{--                        title="{{trans('main.return')}}"--}}
+                {{--                        title="{{trans('main.back')}}"--}}
                 {{--                    @include('layouts.item.base_index.previous_url')>--}}
                 {{--                    <i class="fas fa-arrow-left"></i>--}}
-                {{--                    {{trans('main.return')}}--}}
+                {{--                    {{trans('main.back')}}--}}
                 {{--                </button>--}}
             </p>
         </form>

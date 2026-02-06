@@ -40,7 +40,7 @@ return [
     'recs_genitive_case' => 'Записей',
     'select' => 'Выбрать',
     'select_record_for_work' => 'Выберите запись для работы',
-    'return' => 'Назад',
+    'back' => 'Назад',
     'cancel' => 'Отмена',
     'details' => 'Детали',
     'search' => 'Поиск',
