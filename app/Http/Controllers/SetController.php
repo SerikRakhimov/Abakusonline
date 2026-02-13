@@ -194,7 +194,7 @@ class SetController extends Controller
                 }
             }
         }
-        if (1 == 1) {
+        if (1 == 2) {
             // Не равен "Сортировка"
             if ($request->forwhat != 1) {
                 // Детские основы не должны быть одинаковыми
