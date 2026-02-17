@@ -709,82 +709,80 @@
     {{--        <tr><td  >08.10.2023</td><td  >10</td></tr>--}}
     {{--    </table>--}}
 
-    Предки:
-    <ul>
-        <li>
-            <details>
-                <summary>Мейрам сопы
-                </summary>
-                <ul>
-                    <li>
-                        <details>
-                            <summary>Арғын
-                            </summary>
-                            <ul>
-                                <li>
-                                    Орта жүз
-                                </li>
-                            </ul>
-                        </details>
-                    </li>
-                </ul>
-            </details>
-        </li>
-    </ul>
-    <hr>
-    <details>
-        <summary>Мейрам сопы
-        </summary>
-        <details>
-            <summary>Арғын
-            </summary>
-            Орта жүз
-        </details>
-    </details>
-    <hr>
-    <details>
-        <summary>Орта жүз
-        </summary>
-        <details>
-            <summary>Арғын
-            </summary>
-            Мейрам сопы
-        </details>
-    </details>
-    <hr>
+{{--    Предки:--}}
+{{--    <ul>--}}
+{{--        <li>--}}
+{{--            <details>--}}
+{{--                <summary>Мейрам сопы--}}
+{{--                </summary>--}}
+{{--                <ul>--}}
+{{--                    <li>--}}
+{{--                        <details>--}}
+{{--                            <summary>Арғын--}}
+{{--                            </summary>--}}
+{{--                            <ul>--}}
+{{--                                <li>--}}
+{{--                                    Орта жүз--}}
+{{--                                </li>--}}
+{{--                            </ul>--}}
+{{--                        </details>--}}
+{{--                    </li>--}}
+{{--                </ul>--}}
+{{--            </details>--}}
+{{--        </li>--}}
+{{--    </ul>--}}
+{{--    <hr>--}}
+{{--    <details>--}}
+{{--        <summary>Мейрам сопы--}}
+{{--        </summary>--}}
+{{--        <details>--}}
+{{--            <summary>Арғын--}}
+{{--            </summary>--}}
+{{--            Орта жүз--}}
+{{--        </details>--}}
+{{--    </details>--}}
+{{--    <hr>--}}
+{{--    <details>--}}
+{{--        <summary>Орта жүз--}}
+{{--        </summary>--}}
+{{--        <details>--}}
+{{--            <summary>Арғын--}}
+{{--            </summary>--}}
+{{--            Мейрам сопы--}}
+{{--        </details>--}}
+{{--    </details>--}}
+{{--    <hr>--}}
 
-    <ul style="list-style-type: none;">
-        <li>
-            <details>
-                <summary>Орта жүз2
-                </summary>
-                <ul style="list-style-type: none;">
-                    <li>
-                        <details>
-                            <summary>Арғын2
-                            </summary>
-                            <ul style="list-style-type: none;">
-                                <li>Мейрам сопы2
-                                </li>
-                            </ul>
-                        </details>
-                    </li>
-                </ul>
-            </details>
-        </li>
-    </ul>
-    <hr>
-    <details>
-        <summary>Орта жүз3
-        </summary>
-        <details>
-            <summary>Арғын3
-            </summary>
-            Мейрам сопы
-        </details>
-    </details>
-    <hr>
-
+{{--    <ul style="list-style-type: none;">--}}
+{{--        <li>--}}
+{{--            <details>--}}
+{{--                <summary>Орта жүз2--}}
+{{--                </summary>--}}
+{{--                <ul style="list-style-type: none;">--}}
+{{--                    <li>--}}
+{{--                        <details>--}}
+{{--                            <summary>Арғын2--}}
+{{--                            </summary>--}}
+{{--                            <ul style="list-style-type: none;">--}}
+{{--                                <li>Мейрам сопы2--}}
+{{--                                </li>--}}
+{{--                            </ul>--}}
+{{--                        </details>--}}
+{{--                    </li>--}}
+{{--                </ul>--}}
+{{--            </details>--}}
+{{--        </li>--}}
+{{--    </ul>--}}
+{{--    <hr>--}}
+{{--    <details>--}}
+{{--        <summary>Орта жүз3--}}
+{{--        </summary>--}}
+{{--        <details>--}}
+{{--            <summary>Арғын3--}}
+{{--            </summary>--}}
+{{--            Мейрам сопы--}}
+{{--        </details>--}}
+{{--    </details>--}}
 
 @endsection
 
