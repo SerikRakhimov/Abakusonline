@@ -105,6 +105,30 @@ class Link extends Model
         return $result;
     }
 
+    //function parent_labels($base_right = null, $emoji_enable = false)
+    function parent_labels($emoji_enable = false, $base_right = null, $tb_enable = false)
+    {
+        $result = "";  // нужно, не удалять
+        $index = array_search(App::getLocale(), config('app.locales'));
+        if ($index !== false) {   // '!==' использовать, '!=' не использовать
+            $result = $this['parent_labels_lang_' . $index];
+        }
+//        if ($result == "") {
+//            $result = $this->parent_labels_lang_0;
+//        }
+        if ($base_right) {
+            $result = $result . GlobalController::my_info($base_right);
+        }
+        if ($emoji_enable) {
+            //Использовать name_and_end_emoji()
+            $result = GlobalController::name_and_end_emoji($result, $this->parent_base);
+        }
+        if ($tb_enable == true) {
+            $result = $result . $this->parent_base->menu_tb_name();
+        }
+        return $result;
+    }
+
     // Возвращает true/false
     function is_level()
     {
