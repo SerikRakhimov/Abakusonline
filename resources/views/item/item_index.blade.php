@@ -460,32 +460,34 @@
                         </ul>
                     @endif
                 </div>
-                <div class="col-6 text-right">
-                @if ($base_right['is_list_base_create'] == true)
-                    @if($message_bs_validate == "")
-                        <!--                        --><?php
-                            //                        $heading = 1;
-                            //                        $relit_id_par = null;
-                            //                        $parent_ret_id_par = null;
-                            //                        if ($heading == 1) {
-                            //                            $relit_id_par = $relit_id;
-                            //                            $parent_ret_id_par = $view_ret_id;
-                            //                        } else {
-                            //                            $relit_id_par = $view_ret_id;
-                            //                            $parent_ret_id_par = $relit_id;
-                            //                        }
-                            //                        ?>
-                            @if($level_array['result'] == true)
-                                <div class="dropdown d-inline">
-                                    <button type="button" class="btn btn-dreamer btn-sm dropdown-toggle"
-                                            data-toggle="dropdown"
-                                            title="{{trans('main.add')}}">
-                                        <i class="fas fa-plus  d-inline"></i>
-                                        {{trans('main.add')}}
-                                    </button>
-                                    <div class="dropdown-menu">
-                                        {{-- Корректировать все поля формы--}}
-                                        <a class="dropdown-item" href="{{route('item.ext_create', ['base'=>$item->base,
+{{--                Не удалять, кнопка Add закомментировпно--}}
+                @if(1==2)
+                    <div class="col-6 text-right">
+                    @if ($base_right['is_list_base_create'] == true)
+                        @if($message_bs_validate == "")
+                            <!--                        --><?php
+                                //                        $heading = 1;
+                                //                        $relit_id_par = null;
+                                //                        $parent_ret_id_par = null;
+                                //                        if ($heading == 1) {
+                                //                            $relit_id_par = $relit_id;
+                                //                            $parent_ret_id_par = $view_ret_id;
+                                //                        } else {
+                                //                            $relit_id_par = $view_ret_id;
+                                //                            $parent_ret_id_par = $relit_id;
+                                //                        }
+                                //                        ?>
+                                @if($level_array['result'] == true)
+                                    <div class="dropdown d-inline">
+                                        <button type="button" class="btn btn-dreamer btn-sm dropdown-toggle"
+                                                data-toggle="dropdown"
+                                                title="{{trans('main.add')}}">
+                                            <i class="fas fa-plus  d-inline"></i>
+                                            {{trans('main.add')}}
+                                        </button>
+                                        <div class="dropdown-menu">
+                                            {{-- Корректировать все поля формы--}}
+                                            <a class="dropdown-item" href="{{route('item.ext_create', ['base'=>$item->base,
                                          'project'=>$project, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(),
                                          'relit_id' => $relit_heading_id,
                                          'string_current'=>$string_current,
@@ -498,20 +500,20 @@
                              'level_id'=>GlobalController::const_null(),
                              'par_link'=>$tree_array_last_link_id, 'parent_item'=>$tree_array_last_item_id
                                          ])}}"
-                                           title="{{trans('main.add') . ' '.GlobalController::alf_text()}}">
-                                            {{--                                                    'string_all_codes_current' => $string_all_codes_current,--}}
-                                            {{--                                                    'string_link_ids_current' => $string_link_ids_current,--}}
-                                            {{--                                                    'string_item_ids_current' => $string_item_ids_current,--}}
-                                            {{trans('main.add')}} {{GlobalController::alf_text()}}
-                                        </a>
-                                        {{-- Цикл по массиву--}}
-                                        @foreach($level_array['l_arr'] as $level_id)
-                                            <?php
-                                            $level = Level::find($level_id);
-                                            $level_name = '(' . mb_strtolower($level->name()) . ')';
-                                            ?>
-                                            @if($level)
-                                                <a class="dropdown-item" href="{{route('item.ext_create', ['base'=>$item->base,
+                                               title="{{trans('main.add') . ' '.GlobalController::alf_text()}}">
+                                                {{--                                                    'string_all_codes_current' => $string_all_codes_current,--}}
+                                                {{--                                                    'string_link_ids_current' => $string_link_ids_current,--}}
+                                                {{--                                                    'string_item_ids_current' => $string_item_ids_current,--}}
+                                                {{trans('main.add')}} {{GlobalController::alf_text()}}
+                                            </a>
+                                            {{-- Цикл по массиву--}}
+                                            @foreach($level_array['l_arr'] as $level_id)
+                                                <?php
+                                                $level = Level::find($level_id);
+                                                $level_name = '(' . mb_strtolower($level->name()) . ')';
+                                                ?>
+                                                @if($level)
+                                                    <a class="dropdown-item" href="{{route('item.ext_create', ['base'=>$item->base,
                                          'project'=>$project, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(),
                                          'relit_id' => $relit_heading_id,
                                          'string_current'=>$string_current,
@@ -525,20 +527,20 @@
                              'par_link'=>$tree_array_last_link_id, 'parent_item'=>$tree_array_last_item_id,
                              'level_id' => $level_id
                              ])}}"
-                                                   title="{{trans('main.add')}} {{$level_name}}">
-                                                    {{--                                                    'string_all_codes_current' => $string_all_codes_current,--}}
-                                                    {{--                                                    'string_link_ids_current' => $string_link_ids_current,--}}
-                                                    {{--                                                    'string_item_ids_current' => $string_item_ids_current,--}}
-                                                    {{trans('main.add')}} {{$level_name}}
-                                                </a>
-                                            @endif
-                                        @endforeach
+                                                       title="{{trans('main.add')}} {{$level_name}}">
+                                                        {{--                                                    'string_all_codes_current' => $string_all_codes_current,--}}
+                                                        {{--                                                    'string_link_ids_current' => $string_link_ids_current,--}}
+                                                        {{--                                                    'string_item_ids_current' => $string_item_ids_current,--}}
+                                                        {{trans('main.add')}} {{$level_name}}
+                                                    </a>
+                                                @endif
+                                            @endforeach
+                                        </div>
                                     </div>
-                                </div>
-                            @else
-                                <button type="button" class="btn btn-dreamer btn-sm"
-                                        title="{{trans('main.add') . " '". $item->base->name() . "' " . $message_bs_info}}"
-                                        onclick="document.location='{{route('item.ext_create', ['base'=>$item->base,
+                                @else
+                                    <button type="button" class="btn btn-dreamer btn-sm"
+                                            title="{{trans('main.add') . " '". $item->base->name() . "' " . $message_bs_info}}"
+                                            onclick="document.location='{{route('item.ext_create', ['base'=>$item->base,
                                          'project'=>$project, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(),
                                          'relit_id' => $relit_heading_id,
                                          'string_current'=>$string_current,
@@ -551,15 +553,16 @@
                              'level_id'=>GlobalController::const_null(),
                              'par_link'=>$tree_array_last_link_id, 'parent_item'=>$tree_array_last_item_id
                                          ])}}'">
-                                    {{--                                             'string_link_ids_current'=>$string_link_ids_current,--}}
-                                    {{--                                             'string_item_ids_current'=>$string_item_ids_current,--}}
-                                    {{--                                             'string_all_codes_current'=>$string_all_codes_current,--}}
-                                    <i class="fas fa-plus d-inline"></i>&nbsp;{{trans('main.add')}}
-                                </button>
+                                        {{--                                             'string_link_ids_current'=>$string_link_ids_current,--}}
+                                        {{--                                             'string_item_ids_current'=>$string_item_ids_current,--}}
+                                        {{--                                             'string_all_codes_current'=>$string_all_codes_current,--}}
+                                        <i class="fas fa-plus d-inline"></i>&nbsp;{{trans('main.add')}}
+                                    </button>
+                                @endif
                             @endif
                         @endif
-                    @endif
-                </div>
+                    </div>
+                @endif
                 {{--            <div class="col-1 text-center">--}}
                 {{--                <a href="{{route('item.ext_show', ['item'=>$item, 'role'=>$role])}}"--}}
                 {{--                   title="{{trans('main.view')}}{{$item->base->is_code_needed?" (".trans('main.code')." = ".$item->code.")":""}}">--}}
