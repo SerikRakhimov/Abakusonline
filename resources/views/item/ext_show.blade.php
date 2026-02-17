@@ -29,7 +29,8 @@
     }
     ?>
     @include('layouts.project.show_project_role',['project'=>$project, 'role'=>$role, 'relit_id'=>$relit_id])
-    <h4 class="display-5">
+{{--    <h4 class="display-5">--}}
+    <div class="display-5">
         @if ($type_form == 'show')
             {{trans('main.viewing_record')}}
         @elseif($type_form == 'delete_question')
@@ -65,7 +66,7 @@
             <span class="badge badge-pill badge"
                   title="{{trans('main.title_lt_min')}}">{{GlobalController::remaining_lt_minutes($item)}}</span>
         @endif
-    </h4>
+    </div>
     <br>
     <?php
     if ($base_right['is_hier_base_enable'] == true) {
