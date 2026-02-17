@@ -73,6 +73,7 @@
     $saveurl_add = GlobalController::set_url_save(GlobalController::current_path());
     $saveurl_show = $saveurl_add;
     $level_array = $item->base->level_array();
+    // $ct - количество записей $tree_array
     $ct = count($tree_array);
     ?>
     @include('layouts.project.show_project_role',['project'=>$project, 'role'=>$role, 'relit_id'=>$relit_id])
@@ -126,6 +127,7 @@
             </div>
         @endforeach
     </div>
+    {{--    $ct - количество записей $tree_array--}}
     @if($ct>0)
         <hr>
     @endif
@@ -149,9 +151,11 @@
         //            $title = $it_local->base->name($emoji_enable);
         //        }
         $title = $it_local->base->name();
-        if ($ct > 0) {
-            $title = $tree_array[$ct - 1]['label_work'];
-        }
+        // Не удалять, предыдущий вариант
+        //        $ct - количество записей $tree_array--}}
+        //        if ($ct > 0) {
+        //            $title = $tree_array[$ct - 1]['label_work'];
+        //        }
         $title = mb_strtolower($title);
         ?>
         {{--                    Выводить вычисляемое наименование--}}
@@ -191,10 +195,11 @@
                         </a>
                     @endif
                     <span style="font-size:large">
+                        <mark class="text-project">
                     {{-- Одинаковые строки рядом (route('item.ext_show'))--}}
-                        @if ($base_right['is_list_base_calc'] == true)
-                            {{--              Использовать "'heading' => intval(true)", проверяется в окончании функции ItemController:ext_delete()--}}
-                            <a href="{{route('item.ext_show', ['item'=>$it_local, 'project'=>$project, 'role'=>$role,
+                            @if ($base_right['is_list_base_calc'] == true)
+                                {{--              Использовать "'heading' => intval(true)", проверяется в окончании функции ItemController:ext_delete()--}}
+                                <a href="{{route('item.ext_show', ['item'=>$it_local, 'project'=>$project, 'role'=>$role,
                                         'usercode' =>GlobalController::usercode_calc(),
                                         'relit_id'=>$relit_id,
                                         'string_current' => $string_current,
@@ -204,28 +209,29 @@
         'saveurl_show' =>$saveurl_show,
         'par_link'=>$tree_array_last_link_id, 'parent_item'=>$tree_array_last_item_id,
         'parent_ret_id' => $view_ret_id])}}"
-                               title="{{trans('main.viewing_record')}}: {{$it_local->name(false, false, false, false)}}"
-                            >
+                                   title="{{trans('main.viewing_record')}}: {{$it_local->name(false, false, false, false)}}"
+                                >
                             {{--                            Не удалять, предыдущий вариант--}}
-                                {{-- Первый параметр nmbr(): $fullname = true/false - вывод полной строки (более 255 символов)--}}
-                                @if($base_right['is_list_base_read'] == true)
-                                    {{--                                @include('layouts.item.empty_name', ['name'=>$it_local->nmbr(true, false, false, false)])--}}
-                                    {{--                                    @include('layouts.item.empty_name', ['name'=>$it_local->nmbr(true, false, false, false, false, null, false, true, $relit_id, $role)])--}}
-                                    @include('layouts.item.empty_name', ['name'=>$it_local->nmbr(true, false, false, false, false, null, false, true, $relit_id, $role)])
-                                @else
-                                    @include('layouts.item.empty_name', ['name'=>$it_local->name(false, false, false, false, false, null, false, true, $relit_id, $role)])
-                                @endif
-                                {{--                                @include('layouts.item.name_with_image',['item'=>$it_local, 'size'=>"shundred", "circle"=>false])--}}
+                                    {{-- Первый параметр nmbr(): $fullname = true/false - вывод полной строки (более 255 символов)--}}
+                                    @if($base_right['is_list_base_read'] == true)
+                                        {{--                                @include('layouts.item.empty_name', ['name'=>$it_local->nmbr(true, false, false, false)])--}}
+                                        {{--                                    @include('layouts.item.empty_name', ['name'=>$it_local->nmbr(true, false, false, false, false, null, false, true, $relit_id, $role)])--}}
+                                        @include('layouts.item.empty_name', ['name'=>$it_local->nmbr(true, false, false, false, false, null, false, true, $relit_id, $role)])
+                                    @else
+                                        @include('layouts.item.empty_name', ['name'=>$it_local->name(false, false, false, false, false, null, false, true, $relit_id, $role)])
+                                    @endif
+                                    {{--                                @include('layouts.item.name_with_image',['item'=>$it_local, 'size'=>"shundred", "circle"=>false])--}}
                         </a>
-                        @else
-                            <?php
-                            // Не удалять, предыдущий вариант
-                            // emoji не показывать
-                            echo $it_local->nmbr(false, false, false, false, false, null, false, true, $relit_id, $role);
-                            ?>
-                            {{--                            @include('layouts.item.name_with_image',['item'=>$it_local, 'size'=>"shundred", "circle"=>false])--}}
-                        @endif
-                </span>
+                            @else
+                                <?php
+                                // Не удалять, предыдущий вариант
+                                // emoji не показывать
+                                echo $it_local->nmbr(false, false, false, false, false, null, false, true, $relit_id, $role);
+                                ?>
+                                {{--                            @include('layouts.item.name_with_image',['item'=>$it_local, 'size'=>"shundred", "circle"=>false])--}}
+                            @endif
+                    </mark>
+                        </span>
                     <br>
                     @if($it_local->base->is_code_needed == true)
                         {{trans('main.code')}}: <strong>{{$it_local->code}}</strong>
