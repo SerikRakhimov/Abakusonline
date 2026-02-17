@@ -1030,7 +1030,7 @@ class ItemController extends Controller
                                         }
                                         //$result[$i]['info_name'] = $result[$i]['item_name'] . ' (' . mb_strtolower($info) . ')';
                                         $result[$i]['info_name'] = '(' . mb_strtolower($info) . ')';
-                                        $result[$i]['label_work'] = $label_work;
+                                        $result[$i]['label_work'] = $label_work . ' -+-+-+- ' . $info;
                                         if ($i > 0) {
                                             $result[$i]['label_name'] = $result[$i - 1]['label_work'];
                                         }
