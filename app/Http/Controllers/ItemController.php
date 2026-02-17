@@ -1023,14 +1023,13 @@ class ItemController extends Controller
                                             // Проверка на правильность поиска $link_id выше
                                             $link = Link::findOrFail($result[$i]['link_id']);
                                             // Не удалять, предыдущий вариант
-//                                            $info = $link->child_labels();
+                                            $info = $link->child_labels();
 //                                            $label_work = $link->child_label();
-                                            $info = $link->parent_labels();
                                             $label_work = $link->parent_label();
                                         }
                                         //$result[$i]['info_name'] = $result[$i]['item_name'] . ' (' . mb_strtolower($info) . ')';
                                         $result[$i]['info_name'] = '(' . mb_strtolower($info) . ')';
-                                        $result[$i]['label_work'] = $label_work . ' -+-+-+- ' . $info;
+                                        $result[$i]['label_work'] = $label_work;
                                         if ($i > 0) {
                                             $result[$i]['label_name'] = $result[$i - 1]['label_work'];
                                         }
