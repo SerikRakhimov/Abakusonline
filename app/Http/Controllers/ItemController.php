@@ -1022,8 +1022,11 @@ class ItemController extends Controller
                                         } else {
                                             // Проверка на правильность поиска $link_id выше
                                             $link = Link::findOrFail($result[$i]['link_id']);
-                                            $info = $link->child_labels();
-                                            $label_work = $link->child_label();
+                                            // Не удалять, предыдущий вариант
+//                                            $info = $link->child_labels();
+//                                            $label_work = $link->child_label();
+                                            $info = $link->parent_labels();
+                                            $label_work = $link->parent_label();
                                         }
                                         //$result[$i]['info_name'] = $result[$i]['item_name'] . ' (' . mb_strtolower($info) . ')';
                                         $result[$i]['info_name'] = '(' . mb_strtolower($info) . ')';
