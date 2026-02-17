@@ -181,12 +181,12 @@
                             {{trans('main.verify_table_texts')}}
                         </a>
                     </div>
-{{--                        <div class="col-12 text-right">--}}
-{{--                            <a href="{{route('project.calculate_all', ['base'=>$base, 'project'=>$project, 'relip_proj'=>$relip_project, 'relit_id'=>$relit_id_par, 'role'=>$role])}}"--}}
-{{--                            title="{{trans('main.calculate_all')}}">--}}
-{{--                                {{trans('main.calculate_all')}}--}}
-{{--                            </a>--}}
-{{--                        </div>--}}
+                    {{--                        <div class="col-12 text-right">--}}
+                    {{--                            <a href="{{route('project.calculate_all', ['base'=>$base, 'project'=>$project, 'relip_proj'=>$relip_project, 'relit_id'=>$relit_id_par, 'role'=>$role])}}"--}}
+                    {{--                            title="{{trans('main.calculate_all')}}">--}}
+                    {{--                                {{trans('main.calculate_all')}}--}}
+                    {{--                            </a>--}}
+                    {{--                        </div>--}}
                 @endif
             @endauth
         @endif
@@ -708,6 +708,84 @@
     {{--        <tr><td  >07.10.2023</td><td  >10</td><td  >Ноутбук</td></tr>--}}
     {{--        <tr><td  >08.10.2023</td><td  >10</td></tr>--}}
     {{--    </table>--}}
+
+    Предки:
+    <ul>
+        <li>
+            <details>
+                <summary>Мейрам сопы
+                </summary>
+                <ul>
+                    <li>
+                        <details>
+                            <summary>Арғын
+                            </summary>
+                            <ul>
+                                <li>
+                                    Орта жүз
+                                </li>
+                            </ul>
+                        </details>
+                    </li>
+                </ul>
+            </details>
+        </li>
+    </ul>
+    <hr>
+    <details>
+        <summary>Мейрам сопы
+        </summary>
+        <details>
+            <summary>Арғын
+            </summary>
+            Орта жүз
+        </details>
+    </details>
+    <hr>
+    <details>
+        <summary>Орта жүз
+        </summary>
+        <details>
+            <summary>Арғын
+            </summary>
+            Мейрам сопы
+        </details>
+    </details>
+    <hr>
+
+    <ul style="list-style-type: none;">
+        <li>
+            <details>
+                <summary>Орта жүз2
+                </summary>
+                <ul style="list-style-type: none;">
+                    <li>
+                        <details>
+                            <summary>Арғын2
+                            </summary>
+                            <ul style="list-style-type: none;">
+                                <li>Мейрам сопы2
+                                </li>
+                            </ul>
+                        </details>
+                    </li>
+                </ul>
+            </details>
+        </li>
+    </ul>
+    <hr>
+    <details>
+        <summary>Орта жүз3
+        </summary>
+        <details>
+            <summary>Арғын3
+            </summary>
+            Мейрам сопы
+        </details>
+    </details>
+    <hr>
+
+
 @endsection
 
 

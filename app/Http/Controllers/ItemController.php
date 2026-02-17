@@ -953,12 +953,13 @@ class ItemController extends Controller
                                         $result[$i]['string_link_ids'] = $str;
                                         $link = link::find($link_id);
 
-//                                        if ($link) {
-//                                            $result[$i]['label_name'] = $link->parent_label();
-//                                        } else {
-//                                            $result[$i]['label_name'] = "";
-//                                        }
+                                        // Не удалять, как вариант
 
+                                        if ($link) {
+                                            $result[$i]['label_name'] = $link->parent_label();
+                                        } else {
+                                            $result[$i]['label_name'] = "";
+                                        }
                                         $i = $i + 1;
 
                                     }
@@ -996,7 +997,8 @@ class ItemController extends Controller
                                         $result[$i]['base_id'] = $item->base_id;
                                         $result[$i]['base_names'] = $item->base->names($base_right);
 
-                                        $result[$i]['label_name'] = $item->base->name();
+                                        // Не удалять, как вариант
+                                        // $result[$i]['label_name'] = $item->base->name();
 
                                         $result[$i]['item_name'] = $item->name();
                                         // Для вызова 'item.base_index' нужно
