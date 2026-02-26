@@ -2969,13 +2969,14 @@ class GlobalController extends Controller
         // Проекты, у которых в accesses есть записи для текущего пользователя
         // с ролью Автор
         $projects = null;
-        $projects = Project::where('id', $project_id)
-            ->whereHas('accesses', function ($query) use ($project_id) {
-                $query->where('user_id', GlobalController::glo_user_id())
-                    ->where('project_id', $project_id);
-            })->whereHas('template.roles', function ($query) {
-                $query->where('is_author', true);
-            });
+        // Не удалять, первоначальный вариант
+//        $projects = Project::where('id', $project_id)
+//            ->whereHas('accesses', function ($query) use ($project_id) {
+//                $query->where('user_id', GlobalController::glo_user_id())
+//                    ->where('project_id', $project_id);
+//            })->whereHas('template.roles', function ($query) {
+//                $query->where('is_author', true);
+//            });
 
         $projects = Project::whereHas('accesses', function ($query) use ($project_id) {
             $query->where('user_id', GlobalController::glo_user_id())
@@ -2996,7 +2997,7 @@ class GlobalController extends Controller
         // с ролью Автор
         $projects = null;
 
-        // Предыдущий вариант
+        // Не удалять, первоначальный вариант
 //        $projects = Project::whereHas('accesses', function ($query) use ($user_id) {
 //            $query->where('user_id', $user_id);
 //        })->whereHas('template.roles', function ($query) {
