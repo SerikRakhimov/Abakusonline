@@ -2989,6 +2989,36 @@ class GlobalController extends Controller
         })->whereHas('template.roles', function ($query) {
             $query->where('is_author', true);
         });
+
+//        $accesses = Access::where('project_id', $project->id)
+//            ->where('user_id', GlobalController::glo_user_id())
+//            ->whereHas('role', function ($query) {
+//                $query->where('is_author', true)
+//                    ->orderBy('serial_number');
+//            })
+//            ->where('is_subscription_request', true)
+//            ->where('is_access_allowed', false)
+//            ->get();
+
+//        $projects = Project::whereHas('accesses', function ($query) use ($user_id) {
+//            $query->where('user_id', $user_id)
+//                ->whereHas('role', function ($query) {
+//                    $query->where('is_author', true);
+//                })
+//                ->where('is_subscription_request', true)
+//                ->where('is_access_allowed', false);
+//        });
+
+        $projects = Project::whereHas('accesses', function ($query) use ($user_id) {
+            $query->where('user_id', $user_id)
+                ->whereHas('role', function ($query) {
+                    $query->where('is_author', true);
+                })
+                ->where('is_subscription_request', false)
+                ->where('is_access_allowed', true);
+        });
+
+
         return $projects;
     }
 
