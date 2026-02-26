@@ -2977,7 +2977,7 @@ class GlobalController extends Controller
                 $query->where('is_author', true);
             });
 
-        $projects = Project::whereHas('accesses', function ($query) use ($user_id) {
+        $projects = Project::whereHas('accesses', function ($query) use ($project_id) {
             $query->where('user_id', GlobalController::glo_user_id())
                 ->whereHas('role', function ($query) {
                     $query->where('is_author', true);
