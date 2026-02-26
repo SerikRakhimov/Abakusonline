@@ -2980,10 +2980,10 @@ class GlobalController extends Controller
 
         $projects = Project::whereHas('accesses', function ($query) use ($project_id) {
             $query->where('user_id', GlobalController::glo_user_id())
+                ->where('project_id', $project_id)
                 ->whereHas('role', function ($query) {
                     $query->where('is_author', true);
                 })
-                ->where('project_id', $project_id)
                 ->where('is_subscription_request', false)
                 ->where('is_access_allowed', true);
         });
