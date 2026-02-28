@@ -1025,13 +1025,13 @@ class ItemController extends Controller
                                             // Не удалять, предыдущий вариант
                                             $info = $link->child_labels();
 //                                            $label_work = $link->child_label();
-                                            $label_work = $link->parent_label();
+                                            $label_work = $link->parent_label() . ' ' . $link->id;
                                         }
                                         //$result[$i]['info_name'] = $result[$i]['item_name'] . ' (' . mb_strtolower($info) . ')';
-                                        $result[$i]['info_name'] = '(' . mb_strtolower($info) . ')';
-                                        $result[$i]['label_work'] = $label_work;
+                                        $result[$i]['info_name'] = '(' . mb_strtolower($info) . ')' . ' info_name';
+                                        $result[$i]['label_work'] = $label_work . ' label_work';
                                         if ($i > 0) {
-                                            $result[$i]['label_name'] = $result[$i - 1]['label_work'];
+                                            $result[$i]['label_name'] = $result[$i - 1]['label_work'] . ' label_name';
                                         }
                                         $i = $i + 1;
                                     }

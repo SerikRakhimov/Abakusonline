@@ -165,23 +165,23 @@
         @if(GlobalController::is_base_calcname_check($it_local->base))
             <div class="row align-items-center">
                 {{-- Закоментарено, предыдущий вариант--}}
-                @if(1==2)
-                    <div class="col-6 text-right">
-                        {{--                    <big>--}}
-                        {{--                    <h6>--}}
-                        @if($base_right['is_bsmn_base_enable'] == true)
-                            <a href="{{route('item.base_index', ['base'=>$it_local->base,
-                        'project'=>$project, 'role'=>$role, 'relit_id'=>$relit_id])}}"
-                               title="{{$it_local->base->names($base_right) . $message_bs_info}}">
-                                @endif
-                                {{$title}}:
-                                {{-- Не удалять, предыдущий вариант--}}
-                                <br>
-                                @if ($base_right['is_bsmn_base_enable'] == true)
-                            </a>
-                        @endif
-                    </div>
-                @endif
+{{--                @if(1==2)--}}
+{{--                    <div class="col-6 text-right">--}}
+{{--                        --}}{{--                    <big>--}}
+{{--                        --}}{{--                    <h6>--}}
+{{--                        @if($base_right['is_bsmn_base_enable'] == true)--}}
+{{--                            <a href="{{route('item.base_index', ['base'=>$it_local->base,--}}
+{{--                        'project'=>$project, 'role'=>$role, 'relit_id'=>$relit_id])}}"--}}
+{{--                               title="{{$it_local->base->names($base_right) . $message_bs_info}}">--}}
+{{--                                @endif--}}
+{{--                                {{$title}}:--}}
+{{--                                --}}{{-- Не удалять, предыдущий вариант--}}
+{{--                                <br>--}}
+{{--                                @if ($base_right['is_bsmn_base_enable'] == true)--}}
+{{--                            </a>--}}
+{{--                        @endif--}}
+{{--                    </div>--}}
+{{--                @endif--}}
                 {{--                <div class="col-6 text-left">--}}
                 <div class="col-12 text-left">
                     @if($base_right['is_bsmn_base_enable'] == true)
