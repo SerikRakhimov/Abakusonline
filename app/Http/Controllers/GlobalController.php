@@ -3964,7 +3964,7 @@ class GlobalController extends Controller
                 $join->on('mains.child_item_id', '=', 'mains_zs.zs_id');
             })
             ->groupBy('zv_id')
-            ->groupBy('zs_id')
+            ->groupBy('mains.child_item_id')
             ->orderBy('count', 'desc');
 
         $limit_mess = "";
