@@ -1085,7 +1085,7 @@
                     ?>
                     <button type="button" class="btn btn-dreamer btn-sm"
                             {{--                        title="{{trans('main.recalculation') . " " . $item->name() . "->" . $v_link->child_base->name()}}"--}}
-                            title="{{$title_text}}"
+                            title="{{trans('main.recalculation')}}"
                             onclick="document.location='{{route('global.recycle_link', [
                                     'item'=>$item,
                                     'link_id1'=>$step_rec->first,
