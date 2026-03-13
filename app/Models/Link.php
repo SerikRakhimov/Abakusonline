@@ -86,6 +86,7 @@ class Link extends Model
         $index = array_search(App::getLocale(), config('app.locales'));
         if ($index !== false) {   // '!==' использовать, '!=' не использовать
             $result = $this['parent_label_lang_' . $index];
+            // Выводить единицу измеренения
             if ($unitmeas) {
                 $result = $result . $this->parent_base->par_label_unit_meas();
             }

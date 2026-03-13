@@ -1101,8 +1101,10 @@
                         {{--                        {{$title_text}}--}}
                         {{--                        "$link1 && $link2 && $link3 && $link4" - так использовать проверку--}}
                         @if ($link1 && $link2 && $link3 && $link4)
-                            {{$link1->parent_label()}} ({{$link1->child_labels()}}: {{$link2->parent_label()}})--><br>
-                            {{$link3->parent_base->names()}} ({{$link3->child_labels()}}: {{$link4->parent_label()}})
+                            {{$link1->parent_label()}} ({{mb_strtolower($link1->child_labels())}}
+                            : {{mb_strtolower($link2->parent_label())}})<br>
+                            -->{{$link3->parent_base->names()}} ({{mb_strtolower($link3->child_labels())}}
+                            : {{mb_strtolower($link4->parent_label())}})
                         @endif
                     </button>
                 @endforeach
