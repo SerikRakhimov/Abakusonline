@@ -1083,6 +1083,7 @@
                     //                        $title_text = $link4->parent_base->names() . " -> " . $link3->parent_base->names();
                     //                    }
                     ?>
+                    <br>
                     <button type="button" class="btn btn-dreamer btn-sm"
                             {{--                        title="{{trans('main.recalculation') . " " . $item->name() . "->" . $v_link->child_base->name()}}"--}}
                             title="{{trans('main.recalculation')}}"
