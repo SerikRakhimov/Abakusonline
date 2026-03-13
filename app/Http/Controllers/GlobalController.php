@@ -3945,9 +3945,18 @@ class GlobalController extends Controller
             ->groupBy('zv_id')
             ->groupBy('zs_id');
 
-        // Лимит выборки - 1000 записей
+        // Лимит выборки - 100 записей
         $limit_cn = 100;
         // в $mains_zv.parent_item_id - заявки с количеством совпавших свойств
+//        // группировка по заявке
+//        $mains_zv = Main::select(DB::Raw('mains.parent_item_id as zv_id, count(*) as count'))
+//            ->where('mains.link_id', '=', $link_id3)
+//            ->joinSub($mains_zs, 'mains_zs', function ($join) {
+//                $join->on('mains.child_item_id', '=', 'mains_zs.zs_id');
+//            })
+//            ->groupBy('zv_id')
+//            ->orderBy('count', 'desc');
+
         // группировка по заявке
         $mains_zv = Main::select(DB::Raw('mains.parent_item_id as zv_id, count(*) as count'))
             ->where('mains.link_id', '=', $link_id3)
@@ -3955,6 +3964,7 @@ class GlobalController extends Controller
                 $join->on('mains.child_item_id', '=', 'mains_zs.zs_id');
             })
             ->groupBy('zv_id')
+            ->groupBy('zs_id')
             ->orderBy('count', 'desc');
 
         $limit_mess = "";
