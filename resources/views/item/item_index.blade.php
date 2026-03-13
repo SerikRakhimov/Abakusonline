@@ -165,23 +165,23 @@
         @if(GlobalController::is_base_calcname_check($it_local->base))
             <div class="row align-items-center">
                 {{-- Закоментарено, предыдущий вариант--}}
-{{--                @if(1==2)--}}
-{{--                    <div class="col-6 text-right">--}}
-{{--                        --}}{{--                    <big>--}}
-{{--                        --}}{{--                    <h6>--}}
-{{--                        @if($base_right['is_bsmn_base_enable'] == true)--}}
-{{--                            <a href="{{route('item.base_index', ['base'=>$it_local->base,--}}
-{{--                        'project'=>$project, 'role'=>$role, 'relit_id'=>$relit_id])}}"--}}
-{{--                               title="{{$it_local->base->names($base_right) . $message_bs_info}}">--}}
-{{--                                @endif--}}
-{{--                                {{$title}}:--}}
-{{--                                --}}{{-- Не удалять, предыдущий вариант--}}
-{{--                                <br>--}}
-{{--                                @if ($base_right['is_bsmn_base_enable'] == true)--}}
-{{--                            </a>--}}
-{{--                        @endif--}}
-{{--                    </div>--}}
-{{--                @endif--}}
+                {{--                @if(1==2)--}}
+                {{--                    <div class="col-6 text-right">--}}
+                {{--                        --}}{{--                    <big>--}}
+                {{--                        --}}{{--                    <h6>--}}
+                {{--                        @if($base_right['is_bsmn_base_enable'] == true)--}}
+                {{--                            <a href="{{route('item.base_index', ['base'=>$it_local->base,--}}
+                {{--                        'project'=>$project, 'role'=>$role, 'relit_id'=>$relit_id])}}"--}}
+                {{--                               title="{{$it_local->base->names($base_right) . $message_bs_info}}">--}}
+                {{--                                @endif--}}
+                {{--                                {{$title}}:--}}
+                {{--                                --}}{{-- Не удалять, предыдущий вариант--}}
+                {{--                                <br>--}}
+                {{--                                @if ($base_right['is_bsmn_base_enable'] == true)--}}
+                {{--                            </a>--}}
+                {{--                        @endif--}}
+                {{--                    </div>--}}
+                {{--                @endif--}}
                 {{--                <div class="col-6 text-left">--}}
                 <div class="col-12 text-left">
                     @if($base_right['is_bsmn_base_enable'] == true)
@@ -460,7 +460,7 @@
                         </ul>
                     @endif
                 </div>
-{{--                Не удалять, кнопка Add закомментировпно--}}
+                {{--                Не удалять, кнопка Add закомментировпно--}}
                 @if(1==2)
                     <div class="col-6 text-right">
                     @if ($base_right['is_list_base_create'] == true)
@@ -1073,13 +1073,15 @@
                 ?>
                 @foreach($steps_recycle_code as $step_rec)
                     <?php
+                    $link1 = Link::find($step_rec->first);
+                    $link2 = Link::find($step_rec->second);
                     $link3 = Link::find($step_rec->third);
                     $link4 = Link::find($step_rec->fourth);
-                    $title_text = $item->name();
-                    // "$link3 && $link4" - так использовать проверку
-                    if ($link3 && $link4) {
-                        $title_text = $link4->parent_base->names() . " -> " . $link3->parent_base->names();
-                    }
+                    //                    $title_text = $item->name();
+                    //                    // "$link3 && $link4" - так использовать проверку
+                    //                    if ($link3 && $link4) {
+                    //                        $title_text = $link4->parent_base->names() . " -> " . $link3->parent_base->names();
+                    //                    }
                     ?>
                     <button type="button" class="btn btn-dreamer btn-sm"
                             {{--                        title="{{trans('main.recalculation') . " " . $item->name() . "->" . $v_link->child_base->name()}}"--}}
@@ -1096,7 +1098,12 @@
                          ])}}'">
                         <i class="fas fa-recycle d-inline"></i>&nbsp
                         {{--                    {{trans('main.recalculation') . " " . $item->name() . "->" . $v_link->child_base->name()}}--}}
-                        {{$title_text}}
+                        {{--                        {{$title_text}}--}}
+                        {{--                        "$link1 && $link2 && $link3 && $link4" - так использовать проверку--}}
+                        @if ($link1 && $link2 && $link3 && $link4)
+                            {{$link1->parent_label()}} ({{$link1->child_labels()}}: {{$link2->parent_label()}})--><br>
+                            {{$link3->parent_base->names()}} ({{$link3->child_labels()}}: {{$link4->parent_label()}})
+                        @endif
                     </button>
                 @endforeach
             @endif
