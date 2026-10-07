@@ -3416,7 +3416,9 @@ class GlobalController extends Controller
     static function get_number_of_columns_info()
     {
         // При выводе cards-информация количество столбцов в строке таблицы
-        $result = 5;
+        // Предыдущий вариант
+//      $result = 5;
+        $result = 4;
         return $result;
     }
 
