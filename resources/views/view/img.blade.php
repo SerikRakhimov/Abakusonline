@@ -57,7 +57,9 @@ $in_circle = false;
         <a href="{{Storage::url($url_filename)}}">
             @endif
             @if($is_view_card)
-                <img src="{{Storage::url($url_filename)}}" class="img-fluid" style="height: 180px; width: 100%; object-fit: cover; object-position: top center;"
+{{--                <img src="{{Storage::url($url_filename)}}" class="img-fluid" style="height: 180px; width: 100%; object-fit: cover; object-position: top center;"--}}
+{{--                     alt="" title="{{$item->title_img()}}">--}}
+                <img src="{{Storage::url($url_filename)}}" class="img-fluid" style="height: 180px; width: 100%; object-fit: cover; object-position: 50% 20%;"
                      alt="" title="{{$item->title_img()}}">
             @else
                 <img src="{{Storage::url($url_filename)}}"
