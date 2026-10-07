@@ -934,379 +934,192 @@
     {{--        <path stroke-linecap="round" stroke-linejoin="round" d="M3 12l9-9 9 9M5 10v10a1 1 0 001 1h3a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1h3a1 1 0 001-1V10" />--}}
     {{--    </svg>--}}
 
-    <div class="row">
-
-    <!-- Первая карточка -->
-    <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4">
-    <div class="card shadow-sm h-100 d-flex flex-column" style="background-color: #f7f5f0; border: 1px solid #eae5dc; border-radius: 12px; overflow: hidden; transition: all 0.3s ease; cursor: pointer;" onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 1rem 3rem rgba(0,0,0,.15)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 .125rem .25rem rgba(0,0,0,.075)';">
-    <div class="card-header border-bottom-0 d-flex justify-content-between align-items-center py-2 px-3" style="background-color: transparent;">
-    <small>
-    <a href="http://abakusonline/item/ext_show/22186/59/49/18/0/null;null;null;null;null/0/1/0/0/0/text_base_null/http:**abakusonline*item*base_index*135*59*49*0" title="Просмотр записи" class="text-decoration-none">
-    <span class="badge badge-pill badge-secondary px-2 py-1">1</span>
-    </a>
-    </small>
-    <small class="text-muted font-weight-bold">
-    22.01.2025
-    </small>
-    </div>
-    <div class="card-body p-2 d-flex align-items-center justify-content-center" style="background-color: transparent; height: 200px; overflow: hidden;">
-    <a href="http://abakusonline/item/item_index/59/22186/49/18/0/0/text_base_null/null;null;null;null;null/1/0/0/0" class="card-link text-center w-100 h-100 d-flex align-items-center justify-content-center" title="Пост 3 - другой">
-    <img src="/storage/59/3/8EjEjEabzGR0CYEnraLtTy7h0OcAm13omXYGSg6d.jpg" class="img-fluid" style="height: 180px; width: 100%; object-fit: contain;" alt="Пост 3 - другой" title="Пост 3 - другой">
-    </a>
-    </div>
-    <div class="card-footer border-top-0 text-center py-3 mt-auto d-flex align-items-center justify-content-center" style="background-color: transparent;">
-    <a href="http://abakusonline/item/item_index/59/22186/49/18/0/0/text_base_null/null;null;null;null;null/1/0/0/0" class="card-link font-weight-bold text-decoration-none" style="color: #555555; font-size: 0.85rem; line-height: 1.3em;" onmouseover="this.style.color='#111111';" onmouseout="this.style.color='#555555';">
-    Пост 3 - другой с очень длинным текстом, который красиво перенесется
-    </a>
-    </div>
-    </div>
-    </div>
-
-    <!-- Вторая карточка -->
-    <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4">
-    <div class="card shadow-sm h-100 d-flex flex-column" style="background-color: #f7f5f0; border: 1px solid #eae5dc; border-radius: 12px; overflow: hidden; transition: all 0.3s ease; cursor: pointer;" onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 1rem 3rem rgba(0,0,0,.15)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 .125rem .25rem rgba(0,0,0,.075)';">
-    <div class="card-header border-bottom-0 d-flex justify-content-between align-items-center py-2 px-3" style="background-color: transparent;">
-    <small>
-    <a href="http://abakusonline/item/ext_show/8562/59/49/18/0/null;null;null;null;null/0/1/0/0/0/text_base_null/http:**abakusonline*item*base_index*135*59*49*0" title="Просмотр записи" class="text-decoration-none">
-    <span class="badge badge-pill badge-secondary px-2 py-1">2</span>
-    </a>
-    </small>
-    <small class="text-muted font-weight-bold">
-    18.05.2024
-    </small>
-    </div>
-    <div class="card-body p-2 d-flex align-items-center justify-content-center" style="background-color: transparent; height: 200px; overflow: hidden;">
-    <a href="http://abakusonline/item/item_index/59/8562/49/18/0/0/text_base_null/null;null;null;null;null/1/0/0/0" class="card-link text-center w-100 h-100 d-flex align-items-center justify-content-center" title="Пост - другой 2">
-    <img src="/storage/59/3/kqMUtQWXjUSU5jIyc8zvPjXAOSebifmHfknF7rxA.jpg" class="img-fluid" style="height: 180px; width: 100%; object-fit: contain;" alt="Пост - другой 2" title="Пост - другой 2">
-    </a>
-    </div>
-    <div class="card-footer border-top-0 text-center py-3 mt-auto d-flex align-items-center justify-content-center" style="background-color: transparent;">
-    <a href="http://abakusonline/item/item_index/59/8562/49/18/0/0/text_base_null/null;null;null;null;null/1/0/0/0" class="card-link font-weight-bold text-decoration-none" style="color: #555555; font-size: 0.75rem; line-height: 1.3em;" onmouseover="this.style.color='#111111';" onmouseout="this.style.color='#555555';">
-    Пост - другой 2
-    </a>
-    </div>
-    </div>
-    </div>
-
-    <!-- Третья карточка -->
-    <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4">
-    <div class="card shadow-sm h-100 d-flex flex-column" style="background-color: #f7f5f0; border: 1px solid #eae5dc; border-radius: 12px; overflow: hidden; transition: all 0.3s ease; cursor: pointer;" onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 1rem 3rem rgba(0,0,0,.15)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 .125rem .25rem rgba(0,0,0,.075)';">
-    <div class="card-header border-bottom-0 d-flex justify-content-between align-items-center py-2 px-3" style="background-color: transparent;">
-    <small>
-    <a href="http://abakusonline/item/ext_show/8553/59/49/18/0/null;null;null;null;null/0/1/0/0/0/text_base_null/http:**abakusonline*item*base_index*135*59*49*0" title="Просмотр записи" class="text-decoration-none">
-    <span class="badge badge-pill badge-secondary px-2 py-1">3</span>
-    </a>
-    </small>
-    <small class="text-muted font-weight-bold">
-    18.05.2024
-    </small>
-    </div>
-    <div class="card-body p-2 d-flex align-items-center justify-content-center" style="background-color: transparent; height: 200px; overflow: hidden;">
-    <a href="http://abakusonline/item/item_index/59/8553/49/18/0/0/text_base_null/null;null;null;null;null/1/0/0/0" class="card-link text-center w-100 h-100 d-flex align-items-center justify-content-center" title="Описание другой1">
-    <img src="/storage/59/3/mUzU38qz1Q2gdZt3jy5Pg2DEn08J73TkdH6xMhwK.jpg" class="img-fluid" style="height: 180px; width: 100%; object-fit: contain;" alt="Описание другой1" title="Описание другой1">
-    </a>
-    </div>
-    <div class="card-footer border-top-0 text-center py-3 mt-auto d-flex align-items-center justify-content-center" style="background-color: transparent;">
-    <a href="http://abakusonline/item/item_index/59/8553/49/18/0/0/text_base_null/null;null;null;null;null/1/0/0/0" class="card-link font-weight-bold text-decoration-none" style="color: #555555; font-size: 0.85rem; line-height: 1.3em;" onmouseover="this.style.color='#111111';" onmouseout="this.style.color='#555555';">
-    Описание другой3
-    </a>
-    </div>
-    </div>
-    </div>
-
-    <!-- Четвертая карточка -->
-    <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4">
-    <div class="card shadow-sm h-100 d-flex flex-column" style="background-color: #f7f5f0; border: 1px solid #eae5dc; border-radius: 12px; overflow: hidden; transition: all 0.3s ease; cursor: pointer;" onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 1rem 3rem rgba(0,0,0,.15)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 .125rem .25rem rgba(0,0,0,.075)';">
-    <div class="card-header border-bottom-0 d-flex justify-content-between align-items-center py-2 px-3" style="background-color: transparent;">
-    <small>
-    <a href="http://abakusonline/item/ext_show/8553/59/49/18/0/null;null;null;null;null/0/1/0/0/0/text_base_null/http:**abakusonline*item*base_index*135*59*49*0" title="Просмотр записи" class="text-decoration-none">
-    <span class="badge badge-pill badge-secondary px-2 py-1">3</span>
-    </a>
-    </small>
-    <small class="text-muted font-weight-bold">
-    18.05.2024
-    </small>
-    </div>
-    <div class="card-body p-2 d-flex align-items-center justify-content-center" style="background-color: transparent; height: 200px; overflow: hidden;">
-    <a href="http://abakusonline/item/item_index/59/8553/49/18/0/0/text_base_null/null;null;null;null;null/1/0/0/0" class="card-link text-center w-100 h-100 d-flex align-items-center justify-content-center" title="Описание другой1">
-    <img src="/storage/59/3/mUzU38qz1Q2gdZt3jy5Pg2DEn08J73TkdH6xMhwK.jpg" class="img-fluid" style="height: 180px; width: 100%; object-fit: contain;" alt="Описание другой1" title="Описание другой1">
-    </a>
-    </div>
-    <div class="card-footer border-top-0 text-center py-3 mt-auto d-flex align-items-center justify-content-center" style="background-color: transparent;">
-    <a href="http://abakusonline/item/item_index/59/8553/49/18/0/0/text_base_null/null;null;null;null;null/1/0/0/0" class="card-link font-weight-bold text-decoration-none" style="color: #555555; font-size: 0.85rem; line-height: 1.3em;" onmouseover="this.style.color='#111111';" onmouseout="this.style.color='#555555';">
-    Описание другой4
-    </a>
-    </div>
-    </div>
-    </div>
-
-    <!-- Пятая карточка -->
-    <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4">
-    <div class="card shadow-sm h-100 d-flex flex-column" style="background-color: #f7f5f0; border: 1px solid #eae5dc; border-radius: 12px; overflow: hidden; transition: all 0.3s ease; cursor: pointer;" onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 1rem 3rem rgba(0,0,0,.15)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 .125rem .25rem rgba(0,0,0,.075)';">
-    <div class="card-header border-bottom-0 d-flex justify-content-between align-items-center py-2 px-3" style="background-color: transparent;">
-    <small>
-    <a href="http://abakusonline/item/ext_show/8553/59/49/18/0/null;null;null;null;null/0/1/0/0/0/text_base_null/http:**abakusonline*item*base_index*135*59*49*0" title="Просмотр записи" class="text-decoration-none">
-    <span class="badge badge-pill badge-secondary px-2 py-1">3</span>
-    </a>
-    </small>
-    <small class="text-muted font-weight-bold">
-    18.05.2024
-    </small>
-    </div>
-    <div class="card-body p-2 d-flex align-items-center justify-content-center" style="background-color: transparent; height: 200px; overflow: hidden;">
-    <a href="http://abakusonline/item/item_index/59/8553/49/18/0/0/text_base_null/null;null;null;null;null/1/0/0/0" class="card-link text-center w-100 h-100 d-flex align-items-center justify-content-center" title="Описание другой1">
-    <img src="/storage/59/3/mUzU38qz1Q2gdZt3jy5Pg2DEn08J73TkdH6xMhwK.jpg" class="img-fluid" style="height: 180px; width: 100%; object-fit: cover; object-position: top center;" alt="Описание другой1" title="Описание другой1">
-    </a>
-    </div>
-    <div class="card-footer border-top-0 text-center py-3 mt-auto d-flex align-items-center justify-content-center" style="background-color: transparent;">
-    <a href="http://abakusonline/item/item_index/59/8553/49/18/0/0/text_base_null/null;null;null;null;null/1/0/0/0" class="card-link font-weight-bold text-decoration-none" style="color: #555555; font-size: 0.85rem; line-height: 1.3em;" onmouseover="this.style.color='#111111';" onmouseout="this.style.color='#555555';">
-    Описание другой5
-    </a>
-    </div>
-    </div>
-    </div>
-
-    <!-- Шестая карточка -->
-    <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4">
-    <div class="card shadow-sm h-100 d-flex flex-column" style="background-color: #f7f5f0; border: 1px solid #eae5dc; border-radius: 12px; overflow: hidden; transition: all 0.3s ease; cursor: pointer;" onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 1rem 3rem rgba(0,0,0,.15)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 .125rem .25rem rgba(0,0,0,.075)';">
-    <div class="card-header border-bottom-0 d-flex justify-content-between align-items-center py-2 px-3" style="background-color: transparent;">
-    <small>
-    <a href="http://abakusonline/item/ext_show/8562/59/49/18/0/null;null;null;null;null/0/1/0/0/0/text_base_null/http:**abakusonline*item*base_index*135*59*49*0" title="Просмотр записи" class="text-decoration-none">
-    <span class="badge badge-pill badge-secondary px-2 py-1">2</span>
-    </a>
-    </small>
-    <small class="text-muted font-weight-bold">
-    18.05.2024
-    </small>
-    </div>
-    <div class="card-body p-2 d-flex align-items-center justify-content-center" style="background-color: transparent; height: 200px; overflow: hidden;">
-    <a href="http://abakusonline/item/item_index/59/8562/49/18/0/0/text_base_null/null;null;null;null;null/1/0/0/0" class="card-link text-center w-100 h-100 d-flex align-items-center justify-content-center" title="Пост - другой 2">
-    <img src="/storage/59/3/kqMUtQWXjUSU5jIyc8zvPjXAOSebifmHfknF7rxA.jpg" class="img-fluid" style="height: 180px; width: 100%; object-fit: contain;" alt="Пост - другой 2" title="Пост - другой 2">
-    </a>
-    </div>
-    <div class="card-footer border-top-0 text-center py-3 mt-auto d-flex align-items-center justify-content-center" style="background-color: transparent;">
-    <a href="http://abakusonline/item/item_index/59/8562/49/18/0/0/text_base_null/null;null;null;null;null/1/0/0/0" class="card-link font-weight-bold text-decoration-none" style="color: #555555; font-size: 0.85rem; line-height: 1.3em;" onmouseover="this.style.color='#111111';" onmouseout="this.style.color='#555555';">
-    Пост - другой 6
-    </a>
-    </div>
-    </div>
-    </div>
-
-    <!-- Седьмая карточка -->
-    <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4">
-    <div class="card shadow-sm h-100 d-flex flex-column" style="background-color: #f7f5f0; border: 1px solid #eae5dc; border-radius: 12px; overflow: hidden; transition: all 0.3s ease; cursor: pointer;" onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 1rem 3rem rgba(0,0,0,.15)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 .125rem .25rem rgba(0,0,0,.075)';">
-    <div class="card-header border-bottom-0 d-flex justify-content-between align-items-center py-2 px-3" style="background-color: transparent;">
-    <small>
-    <a href="http://abakusonline/item/ext_show/8562/59/49/18/0/null;null;null;null;null/0/1/0/0/0/text_base_null/http:**abakusonline*item*base_index*135*59*49*0" title="Просмотр записи" class="text-decoration-none">
-    <span class="badge badge-pill badge-secondary px-2 py-1">2</span>
-    </a>
-    </small>
-    <small class="text-muted font-weight-bold">
-    18.05.2024
-    </small>
-    </div>
-    <div class="card-body p-2 d-flex align-items-center justify-content-center" style="background-color: transparent; height: 200px; overflow: hidden;">
-    <a href="http://abakusonline/item/item_index/59/8562/49/18/0/0/text_base_null/null;null;null;null;null/1/0/0/0" class="card-link text-center w-100 h-100 d-flex align-items-center justify-content-center" title="Пост - другой 2">
-    <img src="/storage/59/3/kqMUtQWXjUSU5jIyc8zvPjXAOSebifmHfknF7rxA.jpg" class="img-fluid" style="height: 180px; width: 100%;object-fit: cover; object-position: top center;" alt="Пост - другой 2" title="Пост - другой 2">
-    </a>
-    </div>
-    <div class="card-footer border-top-0 text-center py-3 mt-auto d-flex align-items-center justify-content-center" style="background-color: transparent;">
-    <a href="http://abakusonline/item/item_index/59/8562/49/18/0/0/text_base_null/null;null;null;null;null/1/0/0/0" class="card-link font-weight-bold text-decoration-none" style="color: #555555; font-size: 0.85rem; line-height: 1.3em;" onmouseover="this.style.color='#111111';" onmouseout="this.style.color='#555555';">
-    Пост - другой 7
-    </a>
-    </div>
-    </div>
-    </div>
-    </div>
+{{--    --------------------------------------------------------------------------}}
+{{--    <div class="row">--}}
 
 
-
-    ------------------------------------------------------------------------
-    <div class="row">
-
-
-    <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4">
-    <div class="card shadow-sm h-100 d-flex flex-column" style="background-color: #f7f5f0; border: 1px solid #eae5dc; border-radius: 12px; overflow: hidden; transition: all 0.3s ease; cursor: pointer;" onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 1rem 3rem rgba(0,0,0,.15)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 .125rem .25rem rgba(0,0,0,.075)';">
-    <div class="card-header border-bottom-0 d-flex justify-content-between align-items-center py-2 px-3" style="background-color: transparent;">
-    <small>
-    <a href="http://abakusonline/item/ext_show/22186/59/49/18/0/null;null;null;null;null/0/1/0/0/0/text_base_null/http:**abakusonline*item*base_index*135*59*49*0" title="Просмотр записи" class="text-decoration-none">
-    <span class="badge badge-pill badge-secondary px-2 py-1">1</span>
-    </a>
-    </small>
-    <small class="text-muted font-weight-bold">
-    22.01.2025
-    </small>
-    </div>
-    <div class="card-body p-2 d-flex align-items-center justify-content-center" style="background-color: transparent; height: 200px; overflow: hidden;">
-    <a href="http://abakusonline/item/item_index/59/22186/49/18/0/0/text_base_null/null;null;null;null;null/1/0/0/0" class="card-link text-center w-100 h-100 d-flex align-items-center justify-content-center" title="Пост 3 - другой">
-    <img src="/storage/59/3/8EjEjEabzGR0CYEnraLtTy7h0OcAm13omXYGSg6d.jpg" class="img-fluid" style="height: 180px; width: 100%; object-fit: cover; object-position: top center;" alt="Пост 3 - другой" title="Пост 3 - другой">
-    </a>
-    </div>
-    <div class="card-footer border-top-0 text-center py-3 mt-auto d-flex align-items-center justify-content-center" style="background-color: transparent;">
-    <a href="http://abakusonline/item/item_index/59/22186/49/18/0/0/text_base_null/null;null;null;null;null/1/0/0/0" class="card-link font-weight-bold text-decoration-none" style="color: #555555; font-size: 0.85rem; line-height: 1.3em;" onmouseover="this.style.color='#111111';" onmouseout="this.style.color='#555555';">
-    Пост 3 - другой с очень длинным текстом, который красиво перенесется
-    </a>
-    </div>
-    </div>
-    </div>
+{{--    <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4">--}}
+{{--    <div class="card shadow-sm h-100 d-flex flex-column" style="background-color: #f7f5f0; border: 1px solid #eae5dc; border-radius: 12px; overflow: hidden; transition: all 0.3s ease; cursor: pointer;" onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 1rem 3rem rgba(0,0,0,.15)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 .125rem .25rem rgba(0,0,0,.075)';">--}}
+{{--    <div class="card-header border-bottom-0 d-flex justify-content-between align-items-center py-2 px-3" style="background-color: transparent;">--}}
+{{--    <small>--}}
+{{--    <a href="http://abakusonline/item/ext_show/22186/59/49/18/0/null;null;null;null;null/0/1/0/0/0/text_base_null/http:**abakusonline*item*base_index*135*59*49*0" title="Просмотр записи" class="text-decoration-none">--}}
+{{--    <span class="badge badge-pill badge-secondary px-2 py-1">1</span>--}}
+{{--    </a>--}}
+{{--    </small>--}}
+{{--    <small class="text-muted font-weight-bold">--}}
+{{--    22.01.2025--}}
+{{--    </small>--}}
+{{--    </div>--}}
+{{--    <div class="card-body p-2 d-flex align-items-center justify-content-center" style="background-color: transparent; height: 200px; overflow: hidden;">--}}
+{{--    <a href="http://abakusonline/item/item_index/59/22186/49/18/0/0/text_base_null/null;null;null;null;null/1/0/0/0" class="card-link text-center w-100 h-100 d-flex align-items-center justify-content-center" title="Пост 3 - другой">--}}
+{{--    <img src="/storage/59/3/8EjEjEabzGR0CYEnraLtTy7h0OcAm13omXYGSg6d.jpg" class="img-fluid" style="height: 180px; width: 100%; object-fit: cover; object-position: top center;" alt="Пост 3 - другой" title="Пост 3 - другой">--}}
+{{--    </a>--}}
+{{--    </div>--}}
+{{--    <div class="card-footer border-top-0 text-center py-3 mt-auto d-flex align-items-center justify-content-center" style="background-color: transparent;">--}}
+{{--    <a href="http://abakusonline/item/item_index/59/22186/49/18/0/0/text_base_null/null;null;null;null;null/1/0/0/0" class="card-link font-weight-bold text-decoration-none" style="color: #555555; font-size: 0.85rem; line-height: 1.3em;" onmouseover="this.style.color='#111111';" onmouseout="this.style.color='#555555';">--}}
+{{--    Пост 3 - другой с очень длинным текстом, который красиво перенесется--}}
+{{--    </a>--}}
+{{--    </div>--}}
+{{--    </div>--}}
+{{--    </div>--}}
 
 
-    <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4">
-    <div class="card shadow-sm h-100 d-flex flex-column" style="background-color: #f7f5f0; border: 1px solid #eae5dc; border-radius: 12px; overflow: hidden; transition: all 0.3s ease; cursor: pointer;" onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 1rem 3rem rgba(0,0,0,.15)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 .125rem .25rem rgba(0,0,0,.075)';">
-    <div class="card-header border-bottom-0 d-flex justify-content-between align-items-center py-2 px-3" style="background-color: transparent;">
-    <small>
-    <a href="http://abakusonline/item/ext_show/8562/59/49/18/0/null;null;null;null;null/0/1/0/0/0/text_base_null/http:**abakusonline*item*base_index*135*59*49*0" title="Просмотр записи" class="text-decoration-none">
-    <span class="badge badge-pill badge-secondary px-2 py-1">2</span>
-    </a>
-    </small>
-    <small class="text-muted font-weight-bold">
-    18.05.2024
-    </small>
-    </div>
-    <div class="card-body p-2 d-flex align-items-center justify-content-center" style="background-color: transparent; height: 200px; overflow: hidden;">
-    <a href="http://abakusonline/item/item_index/59/8562/49/18/0/0/text_base_null/null;null;null;null;null/1/0/0/0" class="card-link text-center w-100 h-100 d-flex align-items-center justify-content-center" title="Пост - другой 2">
-    <img src="/storage/59/3/kqMUtQWXjUSU5jIyc8zvPjXAOSebifmHfknF7rxA.jpg" class="img-fluid" style="height: 180px; width: 100%; object-fit: cover; object-position: top center;" alt="Пост - другой 2" title="Пост - другой 2">
-    </a>
-    </div>
-    <div class="card-footer border-top-0 text-center py-3 mt-auto d-flex align-items-center justify-content-center" style="background-color: transparent;">
-    <a href="http://abakusonline/item/item_index/59/8562/49/18/0/0/text_base_null/null;null;null;null;null/1/0/0/0" class="card-link font-weight-bold text-decoration-none" style="color: #555555; font-size: 0.85rem; line-height: 1.3em;" onmouseover="this.style.color='#111111';" onmouseout="this.style.color='#555555';">
-    Пост - другой 2
-    </a>
-    </div>
-    </div>
-    </div>
+{{--    <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4">--}}
+{{--    <div class="card shadow-sm h-100 d-flex flex-column" style="background-color: #f7f5f0; border: 1px solid #eae5dc; border-radius: 12px; overflow: hidden; transition: all 0.3s ease; cursor: pointer;" onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 1rem 3rem rgba(0,0,0,.15)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 .125rem .25rem rgba(0,0,0,.075)';">--}}
+{{--    <div class="card-header border-bottom-0 d-flex justify-content-between align-items-center py-2 px-3" style="background-color: transparent;">--}}
+{{--    <small>--}}
+{{--    <a href="http://abakusonline/item/ext_show/8562/59/49/18/0/null;null;null;null;null/0/1/0/0/0/text_base_null/http:**abakusonline*item*base_index*135*59*49*0" title="Просмотр записи" class="text-decoration-none">--}}
+{{--    <span class="badge badge-pill badge-secondary px-2 py-1">2</span>--}}
+{{--    </a>--}}
+{{--    </small>--}}
+{{--    <small class="text-muted font-weight-bold">--}}
+{{--    18.05.2024--}}
+{{--    </small>--}}
+{{--    </div>--}}
+{{--    <div class="card-body p-2 d-flex align-items-center justify-content-center" style="background-color: transparent; height: 200px; overflow: hidden;">--}}
+{{--    <a href="http://abakusonline/item/item_index/59/8562/49/18/0/0/text_base_null/null;null;null;null;null/1/0/0/0" class="card-link text-center w-100 h-100 d-flex align-items-center justify-content-center" title="Пост - другой 2">--}}
+{{--    <img src="/storage/59/3/kqMUtQWXjUSU5jIyc8zvPjXAOSebifmHfknF7rxA.jpg" class="img-fluid" style="height: 180px; width: 100%; object-fit: cover; object-position: top center;" alt="Пост - другой 2" title="Пост - другой 2">--}}
+{{--    </a>--}}
+{{--    </div>--}}
+{{--    <div class="card-footer border-top-0 text-center py-3 mt-auto d-flex align-items-center justify-content-center" style="background-color: transparent;">--}}
+{{--    <a href="http://abakusonline/item/item_index/59/8562/49/18/0/0/text_base_null/null;null;null;null;null/1/0/0/0" class="card-link font-weight-bold text-decoration-none" style="color: #555555; font-size: 0.85rem; line-height: 1.3em;" onmouseover="this.style.color='#111111';" onmouseout="this.style.color='#555555';">--}}
+{{--    Пост - другой 2--}}
+{{--    </a>--}}
+{{--    </div>--}}
+{{--    </div>--}}
+{{--    </div>--}}
 
 
-    <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4">
-    <div class="card shadow-sm h-100 d-flex flex-column" style="background-color: #f7f5f0; border: 1px solid #eae5dc; border-radius: 12px; overflow: hidden; transition: all 0.3s ease; cursor: pointer;" onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 1rem 3rem rgba(0,0,0,.15)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 .125rem .25rem rgba(0,0,0,.075)';">
-    <div class="card-header border-bottom-0 d-flex justify-content-between align-items-center py-2 px-3" style="background-color: transparent;">
-    <small>
-    <a href="http://abakusonline/item/ext_show/8553/59/49/18/0/null;null;null;null;null/0/1/0/0/0/text_base_null/http:**abakusonline*item*base_index*135*59*49*0" title="Просмотр записи" class="text-decoration-none">
-    <span class="badge badge-pill badge-secondary px-2 py-1">3</span>
-    </a>
-    </small>
-    <small class="text-muted font-weight-bold">
-    18.05.2024
-    </small>
-    </div>
-    <div class="card-body p-2 d-flex align-items-center justify-content-center" style="background-color: transparent; height: 200px; overflow: hidden;">
-    <a href="http://abakusonline/item/item_index/59/8553/49/18/0/0/text_base_null/null;null;null;null;null/1/0/0/0" class="card-link text-center w-100 h-100 d-flex align-items-center justify-content-center" title="Описание другой1">
-    <img src="/storage/59/3/mUzU38qz1Q2gdZt3jy5Pg2DEn08J73TkdH6xMhwK.jpg" class="img-fluid" style="height: 180px; width: 100%; object-fit: cover; object-position: top center;" alt="Описание другой1" title="Описание другой1">
-    </a>
-    </div>
-    <div class="card-footer border-top-0 text-center py-3 mt-auto d-flex align-items-center justify-content-center" style="background-color: transparent;">
-    <a href="http://abakusonline/item/item_index/59/8553/49/18/0/0/text_base_null/null;null;null;null;null/1/0/0/0" class="card-link font-weight-bold text-decoration-none" style="color: #555555; font-size: 0.85rem; line-height: 1.3em;" onmouseover="this.style.color='#111111';" onmouseout="this.style.color='#555555';">
-    Описание другой3
-    </a>
-    </div>
-    </div>
-    </div>
+{{--    <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4">--}}
+{{--    <div class="card shadow-sm h-100 d-flex flex-column" style="background-color: #f7f5f0; border: 1px solid #eae5dc; border-radius: 12px; overflow: hidden; transition: all 0.3s ease; cursor: pointer;" onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 1rem 3rem rgba(0,0,0,.15)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 .125rem .25rem rgba(0,0,0,.075)';">--}}
+{{--    <div class="card-header border-bottom-0 d-flex justify-content-between align-items-center py-2 px-3" style="background-color: transparent;">--}}
+{{--    <small>--}}
+{{--    <a href="http://abakusonline/item/ext_show/8553/59/49/18/0/null;null;null;null;null/0/1/0/0/0/text_base_null/http:**abakusonline*item*base_index*135*59*49*0" title="Просмотр записи" class="text-decoration-none">--}}
+{{--    <span class="badge badge-pill badge-secondary px-2 py-1">3</span>--}}
+{{--    </a>--}}
+{{--    </small>--}}
+{{--    <small class="text-muted font-weight-bold">--}}
+{{--    18.05.2024--}}
+{{--    </small>--}}
+{{--    </div>--}}
+{{--    <div class="card-body p-2 d-flex align-items-center justify-content-center" style="background-color: transparent; height: 200px; overflow: hidden;">--}}
+{{--    <a href="http://abakusonline/item/item_index/59/8553/49/18/0/0/text_base_null/null;null;null;null;null/1/0/0/0" class="card-link text-center w-100 h-100 d-flex align-items-center justify-content-center" title="Описание другой1">--}}
+{{--    <img src="/storage/59/3/mUzU38qz1Q2gdZt3jy5Pg2DEn08J73TkdH6xMhwK.jpg" class="img-fluid" style="height: 180px; width: 100%; object-fit: cover; object-position: top center;" alt="Описание другой1" title="Описание другой1">--}}
+{{--    </a>--}}
+{{--    </div>--}}
+{{--    <div class="card-footer border-top-0 text-center py-3 mt-auto d-flex align-items-center justify-content-center" style="background-color: transparent;">--}}
+{{--    <a href="http://abakusonline/item/item_index/59/8553/49/18/0/0/text_base_null/null;null;null;null;null/1/0/0/0" class="card-link font-weight-bold text-decoration-none" style="color: #555555; font-size: 0.85rem; line-height: 1.3em;" onmouseover="this.style.color='#111111';" onmouseout="this.style.color='#555555';">--}}
+{{--    Описание другой3--}}
+{{--    </a>--}}
+{{--    </div>--}}
+{{--    </div>--}}
+{{--    </div>--}}
 
 
-    <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4">
-    <div class="card shadow-sm h-100 d-flex flex-column" style="background-color: #f7f5f0; border: 1px solid #eae5dc; border-radius: 12px; overflow: hidden; transition: all 0.3s ease; cursor: pointer;" onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 1rem 3rem rgba(0,0,0,.15)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 .125rem .25rem rgba(0,0,0,.075)';">
-    <div class="card-header border-bottom-0 d-flex justify-content-between align-items-center py-2 px-3" style="background-color: transparent;">
-    <small>
-    <a href="http://abakusonline/item/ext_show/8553/59/49/18/0/null;null;null;null;null/0/1/0/0/0/text_base_null/http:**abakusonline*item*base_index*135*59*49*0" title="Просмотр записи" class="text-decoration-none">
-    <span class="badge badge-pill badge-secondary px-2 py-1">3</span>
-    </a>
-    </small>
-    <small class="text-muted font-weight-bold">
-    18.05.2024
-    </small>
-    </div>
-    <div class="card-body p-2 d-flex align-items-center justify-content-center" style="background-color: transparent; height: 200px; overflow: hidden;">
-    <a href="http://abakusonline/item/item_index/59/8553/49/18/0/0/text_base_null/null;null;null;null;null/1/0/0/0" class="card-link text-center w-100 h-100 d-flex align-items-center justify-content-center" title="Описание другой1">
-    <img src="/storage/59/3/mUzU38qz1Q2gdZt3jy5Pg2DEn08J73TkdH6xMhwK.jpg" class="img-fluid" style="height: 180px; width: 100%; object-fit: cover; object-position: top center;" alt="Описание другой1" title="Описание другой1">
-    </a>
-    </div>
-    <div class="card-footer border-top-0 text-center py-3 mt-auto d-flex align-items-center justify-content-center" style="background-color: transparent;">
-    <a href="http://abakusonline/item/item_index/59/8553/49/18/0/0/text_base_null/null;null;null;null;null/1/0/0/0" class="card-link font-weight-bold text-decoration-none" style="color: #555555; font-size: 0.85rem; line-height: 1.3em;" onmouseover="this.style.color='#111111';" onmouseout="this.style.color='#555555';">
-    Описание другой4
-    </a>
-    </div>
-    </div>
-    </div>
+{{--    <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4">--}}
+{{--    <div class="card shadow-sm h-100 d-flex flex-column" style="background-color: #f7f5f0; border: 1px solid #eae5dc; border-radius: 12px; overflow: hidden; transition: all 0.3s ease; cursor: pointer;" onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 1rem 3rem rgba(0,0,0,.15)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 .125rem .25rem rgba(0,0,0,.075)';">--}}
+{{--    <div class="card-header border-bottom-0 d-flex justify-content-between align-items-center py-2 px-3" style="background-color: transparent;">--}}
+{{--    <small>--}}
+{{--    <a href="http://abakusonline/item/ext_show/8553/59/49/18/0/null;null;null;null;null/0/1/0/0/0/text_base_null/http:**abakusonline*item*base_index*135*59*49*0" title="Просмотр записи" class="text-decoration-none">--}}
+{{--    <span class="badge badge-pill badge-secondary px-2 py-1">3</span>--}}
+{{--    </a>--}}
+{{--    </small>--}}
+{{--    <small class="text-muted font-weight-bold">--}}
+{{--    18.05.2024--}}
+{{--    </small>--}}
+{{--    </div>--}}
+{{--    <div class="card-body p-2 d-flex align-items-center justify-content-center" style="background-color: transparent; height: 200px; overflow: hidden;">--}}
+{{--    <a href="http://abakusonline/item/item_index/59/8553/49/18/0/0/text_base_null/null;null;null;null;null/1/0/0/0" class="card-link text-center w-100 h-100 d-flex align-items-center justify-content-center" title="Описание другой1">--}}
+{{--    <img src="/storage/59/3/mUzU38qz1Q2gdZt3jy5Pg2DEn08J73TkdH6xMhwK.jpg" class="img-fluid" style="height: 180px; width: 100%; object-fit: cover; object-position: top center;" alt="Описание другой1" title="Описание другой1">--}}
+{{--    </a>--}}
+{{--    </div>--}}
+{{--    <div class="card-footer border-top-0 text-center py-3 mt-auto d-flex align-items-center justify-content-center" style="background-color: transparent;">--}}
+{{--    <a href="http://abakusonline/item/item_index/59/8553/49/18/0/0/text_base_null/null;null;null;null;null/1/0/0/0" class="card-link font-weight-bold text-decoration-none" style="color: #555555; font-size: 0.85rem; line-height: 1.3em;" onmouseover="this.style.color='#111111';" onmouseout="this.style.color='#555555';">--}}
+{{--    Описание другой4--}}
+{{--    </a>--}}
+{{--    </div>--}}
+{{--    </div>--}}
+{{--    </div>--}}
 
 
-    <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4">
-    <div class="card shadow-sm h-100 d-flex flex-column" style="background-color: #f7f5f0; border: 1px solid #eae5dc; border-radius: 12px; overflow: hidden; transition: all 0.3s ease; cursor: pointer;" onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 1rem 3rem rgba(0,0,0,.15)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 .125rem .25rem rgba(0,0,0,.075)';">
-    <div class="card-header border-bottom-0 d-flex justify-content-between align-items-center py-2 px-3" style="background-color: transparent;">
-    <small>
-    <a href="http://abakusonline/item/ext_show/8553/59/49/18/0/null;null;null;null;null/0/1/0/0/0/text_base_null/http:**abakusonline*item*base_index*135*59*49*0" title="Просмотр записи" class="text-decoration-none">
-    <span class="badge badge-pill badge-secondary px-2 py-1">3</span>
-    </a>
-    </small>
-    <small class="text-muted font-weight-bold">
-    18.05.2024
-    </small>
-    </div>
-    <div class="card-body p-2 d-flex align-items-center justify-content-center" style="background-color: transparent; height: 200px; overflow: hidden;">
-    <a href="http://abakusonline/item/item_index/59/8553/49/18/0/0/text_base_null/null;null;null;null;null/1/0/0/0" class="card-link text-center w-100 h-100 d-flex align-items-center justify-content-center" title="Описание другой1">
-    <img src="/storage/59/3/mUzU38qz1Q2gdZt3jy5Pg2DEn08J73TkdH6xMhwK.jpg" class="img-fluid" style="height: 180px; width: 100%; object-fit: cover; object-position: top center;" alt="Описание другой1" title="Описание другой1">
-    </a>
-    </div>
-    <div class="card-footer border-top-0 text-center py-3 mt-auto d-flex align-items-center justify-content-center" style="background-color: transparent;">
-    <a href="http://abakusonline/item/item_index/59/8553/49/18/0/0/text_base_null/null;null;null;null;null/1/0/0/0" class="card-link font-weight-bold text-decoration-none" style="color: #555555; font-size: 0.85rem; line-height: 1.3em;" onmouseover="this.style.color='#111111';" onmouseout="this.style.color='#555555';">
-    Описание другой5
-    </a>
-    </div>
-    </div>
-    </div>
+{{--    <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4">--}}
+{{--    <div class="card shadow-sm h-100 d-flex flex-column" style="background-color: #f7f5f0; border: 1px solid #eae5dc; border-radius: 12px; overflow: hidden; transition: all 0.3s ease; cursor: pointer;" onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 1rem 3rem rgba(0,0,0,.15)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 .125rem .25rem rgba(0,0,0,.075)';">--}}
+{{--    <div class="card-header border-bottom-0 d-flex justify-content-between align-items-center py-2 px-3" style="background-color: transparent;">--}}
+{{--    <small>--}}
+{{--    <a href="http://abakusonline/item/ext_show/8553/59/49/18/0/null;null;null;null;null/0/1/0/0/0/text_base_null/http:**abakusonline*item*base_index*135*59*49*0" title="Просмотр записи" class="text-decoration-none">--}}
+{{--    <span class="badge badge-pill badge-secondary px-2 py-1">3</span>--}}
+{{--    </a>--}}
+{{--    </small>--}}
+{{--    <small class="text-muted font-weight-bold">--}}
+{{--    18.05.2024--}}
+{{--    </small>--}}
+{{--    </div>--}}
+{{--    <div class="card-body p-2 d-flex align-items-center justify-content-center" style="background-color: transparent; height: 200px; overflow: hidden;">--}}
+{{--    <a href="http://abakusonline/item/item_index/59/8553/49/18/0/0/text_base_null/null;null;null;null;null/1/0/0/0" class="card-link text-center w-100 h-100 d-flex align-items-center justify-content-center" title="Описание другой1">--}}
+{{--    <img src="/storage/59/3/mUzU38qz1Q2gdZt3jy5Pg2DEn08J73TkdH6xMhwK.jpg" class="img-fluid" style="height: 180px; width: 100%; object-fit: cover; object-position: top center;" alt="Описание другой1" title="Описание другой1">--}}
+{{--    </a>--}}
+{{--    </div>--}}
+{{--    <div class="card-footer border-top-0 text-center py-3 mt-auto d-flex align-items-center justify-content-center" style="background-color: transparent;">--}}
+{{--    <a href="http://abakusonline/item/item_index/59/8553/49/18/0/0/text_base_null/null;null;null;null;null/1/0/0/0" class="card-link font-weight-bold text-decoration-none" style="color: #555555; font-size: 0.85rem; line-height: 1.3em;" onmouseover="this.style.color='#111111';" onmouseout="this.style.color='#555555';">--}}
+{{--    Описание другой5--}}
+{{--    </a>--}}
+{{--    </div>--}}
+{{--    </div>--}}
+{{--    </div>--}}
 
 
-    <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4">
-    <div class="card shadow-sm h-100 d-flex flex-column" style="background-color: #f7f5f0; border: 1px solid #eae5dc; border-radius: 12px; overflow: hidden; transition: all 0.3s ease; cursor: pointer;" onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 1rem 3rem rgba(0,0,0,.15)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 .125rem .25rem rgba(0,0,0,.075)';">
-    <div class="card-header border-bottom-0 d-flex justify-content-between align-items-center py-2 px-3" style="background-color: transparent;">
-    <small>
-    <a href="http://abakusonline/item/ext_show/8562/59/49/18/0/null;null;null;null;null/0/1/0/0/0/text_base_null/http:**abakusonline*item*base_index*135*59*49*0" title="Просмотр записи" class="text-decoration-none">
-    <span class="badge badge-pill badge-secondary px-2 py-1">2</span>
-    </a>
-    </small>
-    <small class="text-muted font-weight-bold">
-    18.05.2024
-    </small>
-    </div>
-    <div class="card-body p-2 d-flex align-items-center justify-content-center" style="background-color: transparent; height: 200px; overflow: hidden;">
-    <a href="http://abakusonline/item/item_index/59/8562/49/18/0/0/text_base_null/null;null;null;null;null/1/0/0/0" class="card-link text-center w-100 h-100 d-flex align-items-center justify-content-center" title="Пост - другой 2">
-    <img src="/storage/59/3/kqMUtQWXjUSU5jIyc8zvPjXAOSebifmHfknF7rxA.jpg" class="img-fluid" style="height: 180px; width: 100%; object-fit: cover; object-position: top center;" alt="Пост - другой 2" title="Пост - другой 2">
-    </a>
-    </div>
-    <div class="card-footer border-top-0 text-center py-3 mt-auto d-flex align-items-center justify-content-center" style="background-color: transparent;">
-    <a href="http://abakusonline/item/item_index/59/8562/49/18/0/0/text_base_null/null;null;null;null;null/1/0/0/0" class="card-link font-weight-bold text-decoration-none" style="color: #555555; font-size: 0.85rem; line-height: 1.3em;" onmouseover="this.style.color='#111111';" onmouseout="this.style.color='#555555';">
-    Пост - другой 6
-    </a>
-    </div>
-    </div>
-    </div>
+{{--    <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4">--}}
+{{--    <div class="card shadow-sm h-100 d-flex flex-column" style="background-color: #f7f5f0; border: 1px solid #eae5dc; border-radius: 12px; overflow: hidden; transition: all 0.3s ease; cursor: pointer;" onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 1rem 3rem rgba(0,0,0,.15)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 .125rem .25rem rgba(0,0,0,.075)';">--}}
+{{--    <div class="card-header border-bottom-0 d-flex justify-content-between align-items-center py-2 px-3" style="background-color: transparent;">--}}
+{{--    <small>--}}
+{{--    <a href="http://abakusonline/item/ext_show/8562/59/49/18/0/null;null;null;null;null/0/1/0/0/0/text_base_null/http:**abakusonline*item*base_index*135*59*49*0" title="Просмотр записи" class="text-decoration-none">--}}
+{{--    <span class="badge badge-pill badge-secondary px-2 py-1">2</span>--}}
+{{--    </a>--}}
+{{--    </small>--}}
+{{--    <small class="text-muted font-weight-bold">--}}
+{{--    18.05.2024--}}
+{{--    </small>--}}
+{{--    </div>--}}
+{{--    <div class="card-body p-2 d-flex align-items-center justify-content-center" style="background-color: transparent; height: 200px; overflow: hidden;">--}}
+{{--    <a href="http://abakusonline/item/item_index/59/8562/49/18/0/0/text_base_null/null;null;null;null;null/1/0/0/0" class="card-link text-center w-100 h-100 d-flex align-items-center justify-content-center" title="Пост - другой 2">--}}
+{{--    <img src="/storage/59/3/kqMUtQWXjUSU5jIyc8zvPjXAOSebifmHfknF7rxA.jpg" class="img-fluid" style="height: 180px; width: 100%; object-fit: cover; object-position: top center;" alt="Пост - другой 2" title="Пост - другой 2">--}}
+{{--    </a>--}}
+{{--    </div>--}}
+{{--    <div class="card-footer border-top-0 text-center py-3 mt-auto d-flex align-items-center justify-content-center" style="background-color: transparent;">--}}
+{{--    <a href="http://abakusonline/item/item_index/59/8562/49/18/0/0/text_base_null/null;null;null;null;null/1/0/0/0" class="card-link font-weight-bold text-decoration-none" style="color: #555555; font-size: 0.85rem; line-height: 1.3em;" onmouseover="this.style.color='#111111';" onmouseout="this.style.color='#555555';">--}}
+{{--    Пост - другой 6--}}
+{{--    </a>--}}
+{{--    </div>--}}
+{{--    </div>--}}
+{{--    </div>--}}
 
 
-    <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4">
-    <div class="card shadow-sm h-100 d-flex flex-column" style="background-color: #f7f5f0; border: 1px solid #eae5dc; border-radius: 12px; overflow: hidden; transition: all 0.3s ease; cursor: pointer;" onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 1rem 3rem rgba(0,0,0,.15)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 .125rem .25rem rgba(0,0,0,.075)';">
-    <div class="card-header border-bottom-0 d-flex justify-content-between align-items-center py-2 px-3" style="background-color: transparent;">
-    <small>
-    <a href="http://abakusonline/item/ext_show/8562/59/49/18/0/null;null;null;null;null/0/1/0/0/0/text_base_null/http:**abakusonline*item*base_index*135*59*49*0" title="Просмотр записи" class="text-decoration-none">
-    <span class="badge badge-pill badge-secondary px-2 py-1">2</span>
-    </a>
-    </small>
-    <small class="text-muted font-weight-bold">
-    18.05.2024
-    </small>
-    </div>
-    <div class="card-body p-2 d-flex align-items-center justify-content-center" style="background-color: transparent; height: 200px; overflow: hidden;">
-    <a href="http://abakusonline/item/item_index/59/8562/49/18/0/0/text_base_null/null;null;null;null;null/1/0/0/0" class="card-link text-center w-100 h-100 d-flex align-items-center justify-content-center" title="Пост - другой 2">
-    <img src="/storage/59/3/kqMUtQWXjUSU5jIyc8zvPjXAOSebifmHfknF7rxA.jpg" class="img-fluid" style="height: 180px; width: 100%; object-fit: cover; object-position: top center;" alt="Пост - другой 2" title="Пост - другой 2">
-    </a>
-    </div>
-    <div class="card-footer border-top-0 text-center py-3 mt-auto d-flex align-items-center justify-content-center" style="background-color: transparent;">
-    <a href="http://abakusonline/item/item_index/59/8562/49/18/0/0/text_base_null/null;null;null;null;null/1/0/0/0" class="card-link font-weight-bold text-decoration-none" style="color: #555555; font-size: 0.85rem; line-height: 1.3em;" onmouseover="this.style.color='#111111';" onmouseout="this.style.color='#555555';">
-    Пост - другой 7
-    </a>
-    </div>
-    </div>
-    </div>
+{{--    <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4">--}}
+{{--    <div class="card shadow-sm h-100 d-flex flex-column" style="background-color: #f7f5f0; border: 1px solid #eae5dc; border-radius: 12px; overflow: hidden; transition: all 0.3s ease; cursor: pointer;" onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 1rem 3rem rgba(0,0,0,.15)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 .125rem .25rem rgba(0,0,0,.075)';">--}}
+{{--    <div class="card-header border-bottom-0 d-flex justify-content-between align-items-center py-2 px-3" style="background-color: transparent;">--}}
+{{--    <small>--}}
+{{--    <a href="http://abakusonline/item/ext_show/8562/59/49/18/0/null;null;null;null;null/0/1/0/0/0/text_base_null/http:**abakusonline*item*base_index*135*59*49*0" title="Просмотр записи" class="text-decoration-none">--}}
+{{--    <span class="badge badge-pill badge-secondary px-2 py-1">2</span>--}}
+{{--    </a>--}}
+{{--    </small>--}}
+{{--    <small class="text-muted font-weight-bold">--}}
+{{--    18.05.2024--}}
+{{--    </small>--}}
+{{--    </div>--}}
+{{--    <div class="card-body p-2 d-flex align-items-center justify-content-center" style="background-color: transparent; height: 200px; overflow: hidden;">--}}
+{{--    <a href="http://abakusonline/item/item_index/59/8562/49/18/0/0/text_base_null/null;null;null;null;null/1/0/0/0" class="card-link text-center w-100 h-100 d-flex align-items-center justify-content-center" title="Пост - другой 2">--}}
+{{--    <img src="/storage/59/3/kqMUtQWXjUSU5jIyc8zvPjXAOSebifmHfknF7rxA.jpg" class="img-fluid" style="height: 180px; width: 100%; object-fit: cover; object-position: top center;" alt="Пост - другой 2" title="Пост - другой 2">--}}
+{{--    </a>--}}
+{{--    </div>--}}
+{{--    <div class="card-footer border-top-0 text-center py-3 mt-auto d-flex align-items-center justify-content-center" style="background-color: transparent;">--}}
+{{--    <a href="http://abakusonline/item/item_index/59/8562/49/18/0/0/text_base_null/null;null;null;null;null/1/0/0/0" class="card-link font-weight-bold text-decoration-none" style="color: #555555; font-size: 0.85rem; line-height: 1.3em;" onmouseover="this.style.color='#111111';" onmouseout="this.style.color='#555555';">--}}
+{{--    Пост - другой 7--}}
+{{--    </a>--}}
+{{--    </div>--}}
+{{--    </div>--}}
+{{--    </div>--}}
 
-    </div>
+{{--    </div>--}}
 
 @endsection
 
