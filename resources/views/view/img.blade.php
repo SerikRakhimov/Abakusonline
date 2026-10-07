@@ -57,12 +57,12 @@ $in_circle = false;
         <a href="{{Storage::url($url_filename)}}">
             @endif
             @if($is_view_card)
-{{--                <img src="{{Storage::url($url_filename)}}" class="img-fluid" style="height: 180px; width: 100%; object-fit: cover; object-position: top center;"--}}
-{{--                     alt="" title="{{$item->title_img()}}">--}}
-{{--                <img src="{{Storage::url($url_filename)}}" class="img-fluid" style="height: 180px; width: 100%; object-fit: cover; object-position: 50% 30%;"--}}
-{{--                     alt="" title="{{$item->title_img()}}">--}}
-{{--                <img src="{{Storage::url($url_filename)}}" class="img-fluid" style="height: 180px; width: 100%; object-fit: cover;"--}}
-{{--                     alt="" title="{{$item->title_img()}}">--}}
+                {{--                <img src="{{Storage::url($url_filename)}}" class="img-fluid" style="height: 180px; width: 100%; object-fit: cover; object-position: top center;"--}}
+                {{--                     alt="" title="{{$item->title_img()}}">--}}
+                {{--                <img src="{{Storage::url($url_filename)}}" class="img-fluid" style="height: 180px; width: 100%; object-fit: cover; object-position: 50% 30%;"--}}
+                {{--                     alt="" title="{{$item->title_img()}}">--}}
+                {{--                <img src="{{Storage::url($url_filename)}}" class="img-fluid" style="height: 180px; width: 100%; object-fit: cover;"--}}
+                {{--                     alt="" title="{{$item->title_img()}}">--}}
                 <img src="{{Storage::url($url_filename)}}"
                      style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; filter: blur(15px); opacity: 0.1; transform: scale(1.2); pointer-events: none;"
                      alt="">
@@ -70,9 +70,11 @@ $in_circle = false;
                      class="img-fluid"
                      style="max-height: 180px; max-width: 100%; object-fit: contain; box-shadow: 0 4px 10px rgba(0,0,0,0.3);"
                      alt=""
-                     title="{{$item->title_img()}}">
-
-
+                     title="
+                         @if($item)
+                     {{$item->title_img()}}
+                     @endif
+                         ">
             @else
                 <img src="{{Storage::url($url_filename)}}"
                      @if(isset($var_percent))
