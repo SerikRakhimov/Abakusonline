@@ -61,7 +61,7 @@ $in_circle = false;
 {{--                     alt="" title="{{$item->title_img()}}">--}}
 {{--                <img src="{{Storage::url($url_filename)}}" class="img-fluid" style="height: 180px; width: 100%; object-fit: cover; object-position: 50% 30%;"--}}
 {{--                     alt="" title="{{$item->title_img()}}">--}}
-                <img src="{{Storage::url($url_filename)}}" class="img-fluid" style="height: 180px; width: 100%; object-fit: contain;"
+                <img src="{{Storage::url($url_filename)}}" class="img-fluid" style="height: 180px; width: 100%; object-fit: cover;"
                      alt="" title="{{$item->title_img()}}">
             @else
                 <img src="{{Storage::url($url_filename)}}"
