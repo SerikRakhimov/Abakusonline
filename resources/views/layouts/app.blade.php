@@ -9,6 +9,7 @@ use \App\Http\Controllers\GlobalController;
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="keywords" CONTENT="Первая облачная мультиязычная универсальная расчетная учетная платформа">
     <meta name="description" CONTENT="Первая облачная мультиязычная универсальная расчетная учетная платформа">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -34,6 +35,17 @@ use \App\Http\Controllers\GlobalController;
             height: 100%;
         }
     </style>
+{{--    Этот блок не удалять--}}
+{{--    <!-- ПОДКЛЮЧЕНИЕ TAILWIND ЗА 1 СЕКУНДУ -->--}}
+{{--    <script src="https://cdn.tailwindcss.com"></script>--}}
+{{--    <script>--}}
+{{--        tailwind.config = {--}}
+{{--            prefix: 'tw-', // Теперь все классы Tailwind будут начинаться с "tw-"--}}
+{{--            corePlugins: {--}}
+{{--                preflight: false, // Отключаем сброс стилей, чтобы Bootstrap работал штатно--}}
+{{--            }--}}
+{{--        }--}}
+{{--    </script>--}}
 </head>
 {{--https://www.manhunter.ru/webmaster/905_kak_na_javascript_uznat_realniy_razmer_izobrazheniya.html--}}
 {{--get_dimensions(el) используется в view\img.php--}}
@@ -73,7 +85,7 @@ use \App\Http\Controllers\GlobalController;
 </script>
 {{--<body>--}}
 <body background="{{Storage::url('gray-abstract.jpg')}}"
-style="
+      style="
 background-size: cover;
 background-position: center center;
 background-repeat: no-repeat;
@@ -164,12 +176,45 @@ height: 100%;
             {{--                    >{{mb_strtoupper($value)}}</span>--}}
             {{--                </a>--}}
             {{--            @endforeach--}}
+            {{--            Вывод названия проекта--}}
+            {{--            Этот блок не удалять--}}
             <a class="navbar-brand" href="{{ url('/') }}" title="{{config('app.name')}}">
                 <img src="{{Storage::url('logotype.png')}}" width="30" height="30"
                      class="circle d-inline-block align-top"
                      alt="" loading="lazy">
                 {{config('app.name')}}
             </a>
+
+            {{--    Этот блок не удалять--}}
+{{--            Вывод записи с помощью TAILWIND--}}
+{{--            <div class="tw-p-1">--}}
+
+{{--                <!-- ОБЩАЯ ССЫЛКА-ОБЕРТКА -->--}}
+{{--                <a href="/" class="tw-inline-flex tw-items-center tw-gap-1 tw-no-underline tw-group">--}}
+
+{{--                    <!-- КОНТЕЙНЕР ЦИЛИНДРОВ -->--}}
+{{--                    <div--}}
+{{--                        class="tw-w-8 tw-h-8 md:tw-w-6 md:tw-h-6 tw-flex tw-items-center tw-justify-center tw-shrink-0 group-active:tw-scale-95 tw-transition-transform">--}}
+
+{{--                        <!-- SVG ИКОНКА (теперь более темный синий tw-text-blue-700) -->--}}
+{{--                        <svg--}}
+{{--                            class="tw-w-8 tw-h-8 md:tw-w-6 md:tw-h-6 tw-text-blue-700 group-hover:tw-text-blue-800 tw-transition-colors"--}}
+{{--                            fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">--}}
+{{--                            <path stroke-linecap="round" stroke-linejoin="round"--}}
+{{--                                  d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4"/>--}}
+{{--                        </svg>--}}
+{{--                    </div>--}}
+
+{{--                    <!-- ТЕКСТ -->--}}
+{{--                    <!-- birge стал глубоким темно-синим (tw-text-blue-950), а data стал темным синим (tw-text-blue-700) -->--}}
+{{--                                        <span class="tw-hidden md:tw-inline-block tw-text-xl tw-font-bold tw-tracking-tight tw-text-blue-950 tw-transition-colors">--}}
+{{--                                birge<span class="tw-text-blue-700 group-hover:tw-text-blue-800">data</span>--}}
+{{--                            </span>--}}
+{{--                </a>--}}
+
+{{--            </div>--}}
+
+
             <?php
             // Подсчет количества посетителей на сайте онлайн
             $visitors_count = \App\Http\Controllers\VisitorController::visitors_count();

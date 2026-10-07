@@ -1024,14 +1024,13 @@ class ItemController extends Controller
                                             $link = Link::findOrFail($result[$i]['link_id']);
                                             // Не удалять, предыдущий вариант
                                             $info = $link->child_labels();
-//                                            $label_work = $link->child_label();
-                                            $label_work = $link->parent_label() . ' ' . $link->id;
+                                            $label_work = $link->child_label();
                                         }
                                         //$result[$i]['info_name'] = $result[$i]['item_name'] . ' (' . mb_strtolower($info) . ')';
-                                        $result[$i]['info_name'] = '(' . mb_strtolower($info) . ')' . ' info_name';
-                                        $result[$i]['label_work'] = $label_work . ' label_work';
+                                        $result[$i]['info_name'] = '(' . mb_strtolower($info) . ')';
+                                        $result[$i]['label_work'] = $label_work;
                                         if ($i > 0) {
-                                            $result[$i]['label_name'] = $result[$i - 1]['label_work'] . ' label_name';
+                                            $result[$i]['label_name'] = $result[$i - 1]['label_work'];
                                         }
                                         $i = $i + 1;
                                     }
@@ -2279,7 +2278,6 @@ class ItemController extends Controller
 //                ->withErrors($array_mess);
             return view('message', ['message' => $message]);
         }
-
         // Проверка на $base->maxcount_user_id_lst
         // Проверка осуществляется только при добавлении записи
         $message = GlobalController::base_user_id_maxcount_validate($relip_project, $base, true);
@@ -2902,7 +2900,6 @@ class ItemController extends Controller
 // при создании записи "$item->created_user_id" заполняется
         $item->created_user_id = Auth::user()->id;
         $item->updated_user_id = Auth::user()->id;
-
         try {
             // начало транзакции
             DB::transaction(function ($r) use ($relip_project, $item, $role, $relit_id, $it_texts, $keys, $values, $strings_inputs) {
@@ -3110,14 +3107,33 @@ class ItemController extends Controller
                 if ($is_checking_empty['result_entry_empty'] == false) {
                     throw new Exception($is_checking_empty['result_message_empty']);
                 }
-
+// Предыдущий вариант, не удалять
                 $rs = $this->calc_value_func($item, 0, true, null, false, $relit_id, $role);
                 if ($rs != null) {
                     $item->name_lang_0 = $rs['calc_lang_0'];
                     $item->name_lang_1 = $rs['calc_lang_1'];
                     $item->name_lang_2 = $rs['calc_lang_2'];
                     $item->name_lang_3 = $rs['calc_lang_3'];
+                    $item->sort_lang_0 = $rs['sort_lang_0'];
+                    $item->sort_lang_1 = $rs['sort_lang_1'];
+                    $item->sort_lang_2 = $rs['sort_lang_2'];
+                    $item->sort_lang_3 = $rs['sort_lang_3'];
                 }
+
+//                $rs = $this->calc_value_func($item, 0, true, null, false, $relit_id, $role);
+//                if ($rs != null) {
+//                    $item->sort_lang_0 = $rs['calc_lang_0'];
+//                    $item->sort_lang_1 = $rs['calc_lang_1'];
+//                    $item->sort_lang_2 = $rs['calc_lang_2'];
+//                    $item->sort_lang_3 = $rs['calc_lang_3'];
+//                }
+//                $rs = $this->calc_value_func($item, 0, true, null, true, $relit_id, $role);
+//                if ($rs != null) {
+//                    $item->name_lang_0 = $rs['calc_lang_0'];
+//                    $item->name_lang_1 = $rs['calc_lang_1'];
+//                    $item->name_lang_2 = $rs['calc_lang_2'];
+//                    $item->name_lang_3 = $rs['calc_lang_3'];
+//                }
 
                 // Пункт 2. Расчет вычисляемых полей (неэкранное вычисление)
                 // (Например, остатки товаров будут равны значениям без учета введенных корректировок)
@@ -3897,6 +3913,10 @@ class ItemController extends Controller
                         $item_seek->name_lang_1 = $rs['calc_lang_1'];
                         $item_seek->name_lang_2 = $rs['calc_lang_2'];
                         $item_seek->name_lang_3 = $rs['calc_lang_3'];
+                        $item_seek->sort_lang_0 = $rs['sort_lang_0'];
+                        $item_seek->sort_lang_1 = $rs['sort_lang_1'];
+                        $item_seek->sort_lang_2 = $rs['sort_lang_2'];
+                        $item_seek->sort_lang_3 = $rs['sort_lang_3'];
                     }
                     // Нужно
                     // Расчет вычисляемых полей (неэкранное вычисление)
@@ -6038,6 +6058,10 @@ class ItemController extends Controller
                     $item->name_lang_1 = $rs['calc_lang_1'];
                     $item->name_lang_2 = $rs['calc_lang_2'];
                     $item->name_lang_3 = $rs['calc_lang_3'];
+                    $item->sort_lang_0 = $rs['sort_lang_0'];
+                    $item->sort_lang_1 = $rs['sort_lang_1'];
+                    $item->sort_lang_2 = $rs['sort_lang_2'];
+                    $item->sort_lang_3 = $rs['sort_lang_3'];
                 }
                 // Пункт 2. Расчет вычисляемых полей (неэкранное вычисление)
                 // (Например, остатки товаров будут равны значениям без учета введенных корректировок)
@@ -7873,13 +7897,9 @@ class ItemController extends Controller
         $calc_lang_1 = "";
         $calc_lang_2 = "";
         $calc_lang_3 = "";
-        $is_required_second = false;
         // При первой итерации цикла равно "", в последующих итерациях равно " "
         $space = "";
         // по циклу значений mains
-//        if ($item->id == 8856){
-//            dd($array_calc);
-//        }
         foreach ($array_calc as $key => $value) {
             $next = false;
             $link = Link::find($key);
@@ -7990,7 +8010,9 @@ class ItemController extends Controller
                             //}
 
                         } else {
-                            $res_names = $item_result->names($for_view);
+                            // "$res_names = $item_result->names(true);" так используется
+                            //$res_names = $item_result->names($for_view);
+                            $res_names = $item_result->names(true);
                             $dop_name_0 = $res_names[0];
                             $dop_name_1 = $res_names[1];
                             $dop_name_2 = $res_names[2];
@@ -8076,9 +8098,134 @@ class ItemController extends Controller
         $calc_lang_2 = GlobalController::itnm_left($calc_lang_2);
         $calc_lang_3 = GlobalController::itnm_left($calc_lang_3);
 
+        // Расчет строк для сортировки
+        $rs = self::calc_sort_func($item);
+        $sort_lang_0 = $rs['sort_lang_0'];
+        $sort_lang_1 = $rs['sort_lang_1'];
+        $sort_lang_2 = $rs['sort_lang_2'];
+        $sort_lang_3 = $rs['sort_lang_3'];
+
         return ['calc_full_lang_0' => $calc_full_lang_0, 'calc_full_lang_1' => $calc_full_lang_1,
             'calc_full_lang_2' => $calc_full_lang_2, 'calc_full_lang_3' => $calc_full_lang_3,
-            'calc_lang_0' => $calc_lang_0, 'calc_lang_1' => $calc_lang_1, 'calc_lang_2' => $calc_lang_2, 'calc_lang_3' => $calc_lang_3];
+            'calc_lang_0' => $calc_lang_0, 'calc_lang_1' => $calc_lang_1, 'calc_lang_2' => $calc_lang_2, 'calc_lang_3' => $calc_lang_3,
+            'sort_lang_0' => $sort_lang_0, 'sort_lang_1' => $sort_lang_1, 'sort_lang_2' => $sort_lang_2, 'sort_lang_3' => $sort_lang_3
+        ];
+    }
+
+    // Расчет строк для сортировки
+    static function calc_sort_func(Item $item)
+    {
+        // Эта проверка нужна
+        // Эта функция только для base с вычисляемым наименованием
+        if ($item->base->is_calcname_lst == false) {
+            return null;
+        }
+
+        $array_calc = self::get_array_calc_edit($item)['array_calc'];
+        $calc_lang_0 = "";
+        $calc_lang_1 = "";
+        $calc_lang_2 = "";
+        $calc_lang_3 = "";
+        $for_view = false;
+        // по циклу значений mains
+        foreach ($array_calc as $key => $value) {
+            $next = false;
+            $link = Link::find($key);
+            // Эта строка "$item_result = null;" нужна
+            $item_result = null;
+            if ($link) {
+                if ($link->parent_is_sorting == true) {
+                    // если поле входит в состав вычисляемого составного поля / Для вычисляемого наименования
+                    //if ($link->parent_is_calcname == true) {
+                    if ($value) {
+                        $item_result = Item::find($value);
+                    }
+                    //}
+                    // 1111111
+                    // нужно сделать цикл по всем языкам
+                    $name = "";  // нужно, не удалять
+                    $sort = "";
+                    $index = array_search(App::getLocale(), config('app.locales'));
+                    if ($index !== false) {   // '!==' использовать, '!=' не использовать
+                        $name = 'name_lang_' . $index;
+                        $sort = 'sort_lang_' . $index;
+                    }
+                    $str = "";
+                    // 1111111
+                    // нужно брать не name_lang_x, а sort_lang_x
+                    // плюс проверить, для вычисляемых, зависимых полей не надо сортировать
+                    if ($item_result) {
+                        // Формирование вычисляемой строки для сортировки
+                        // Для строковых данных для сортировки берутся первые 50 символов
+                        if ($item_result->base->type_is_string()
+                            || $item_result->base->type_is_text()) {
+                            $str = $str . str_pad(trim($item_result[$name]), 50);
+                        } // '$base_link_right['is_parent_page_sort_asc']' используется
+                        elseif ($item_result->base->type_is_list()) {
+                            $str = $str . str_pad(trim($item_result[$sort ]), 50);
+                        }
+                        elseif ($item_result->base->type_is_date()) {
+                            $str = $str . trim($item_result->dt_desc());
+                        }
+                        else {
+                            // 1111111
+                            // Нужно хранить с нулями для sort_lang_x, без нулей для name_lang_x
+                            // Числовые значения хранятся в items с нулями спереди для правильной сортировки
+                            $str = $str . trim($item_result[$name]);
+                        }
+                    } else {
+                        $str = $str . str_pad(' ', 50);
+                    }
+                    //$str = $str . "|";
+                    if ($item_result) {
+//                        $res_names = $item_result->names($for_view);
+//                        $dop_name_0 = trim($res_names[0]);
+//                        $dop_name_1 = trim($res_names[1]);
+//                        $dop_name_2 = trim($res_names[2]);
+//                        $dop_name_3 = trim($res_names[3]);
+                        $dop_name_0 = $str;
+                        $dop_name_1 = $str;
+                        $dop_name_2 = $str;
+                        $dop_name_3 = $str;
+
+                        if (!($dop_name_0 == "" && $dop_name_1 == "" && $dop_name_2 == "" && $dop_name_3 == "")) {
+                            // $item->base->sepa_calcname - символ разделения для вычисляемых полей
+                            // "\~" - символ перевода каретки (используется также в Item.php: name() nmbr())
+                            // "\~" - символ перевода каретки (используется также в ItemController.php: calc_value_func(), GlobalController: itnm_left)
+                            //$sc = trim($item->base->sepa_calcname) . "\~";
+                            $sc = trim($item->base->sepa_calcname);
+                            $dop_sepa0 = $calc_lang_0 == "" ? "" : $sc;
+                            $dop_sepa1 = $calc_lang_1 == "" ? "" : $sc;
+                            $dop_sepa2 = $calc_lang_2 == "" ? "" : $sc;
+                            $dop_sepa3 = $calc_lang_3 == "" ? "" : $sc;
+
+//                            $calc_lang_0 = $calc_lang_0 . ($dop_name_0 == "" ? "" : $dop_sepa0) . $dop_name_0;
+//                            $calc_lang_1 = $calc_lang_1 . ($dop_name_1 == "" ? "" : $dop_sepa1) . $dop_name_1;
+//                            $calc_lang_2 = $calc_lang_2 . ($dop_name_2 == "" ? "" : $dop_sepa2) . $dop_name_2;
+//                            $calc_lang_3 = $calc_lang_3 . ($dop_name_3 == "" ? "" : $dop_sepa3) . $dop_name_3;
+
+                            $calc_lang_0 = $calc_lang_0 . $dop_name_0;
+                            $calc_lang_1 = $calc_lang_1 . $dop_name_1;
+                            $calc_lang_2 = $calc_lang_2 . $dop_name_2;
+                            $calc_lang_3 = $calc_lang_3 . $dop_name_3;
+                        }
+                    } else {
+//                        $calc_lang_0 = $calc_lang_0 . "AAAAAAAAA";
+//                        $calc_lang_1 = $calc_lang_1 . "AAAAAAAAA";
+//                        $calc_lang_2 = $calc_lang_2 . "AAAAAAAAA";
+//                        $calc_lang_3 = $calc_lang_3 . "AAAAAAAAA";
+                    }
+                }
+            }
+        }
+
+        // 255 - макс.размер строковых полей name_lang_x в items
+        $calc_lang_0 = GlobalController::itnm_left($calc_lang_0);
+        $calc_lang_1 = GlobalController::itnm_left($calc_lang_1);
+        $calc_lang_2 = GlobalController::itnm_left($calc_lang_2);
+        $calc_lang_3 = GlobalController::itnm_left($calc_lang_3);
+
+        return ['sort_lang_0' => $calc_lang_0, 'sort_lang_1' => $calc_lang_1, 'sort_lang_2' => $calc_lang_2, 'sort_lang_3' => $calc_lang_3];
     }
 
 // Перерасчет $items по переданным $base, $project, $relit_id, $role
@@ -8095,6 +8242,12 @@ class ItemController extends Controller
             $item->name_lang_1 = $rs['calc_lang_1'];
             $item->name_lang_2 = $rs['calc_lang_2'];
             $item->name_lang_3 = $rs['calc_lang_3'];
+//          // Расчет вычисляемого наименования
+//          $rs = $this->calc_sort_func($item);
+            $item->sort_lang_0 = $rs['sort_lang_0'];
+            $item->sort_lang_1 = $rs['sort_lang_1'];
+            $item->sort_lang_2 = $rs['sort_lang_2'];
+            $item->sort_lang_3 = $rs['sort_lang_3'];
             $item->save();
             // Расчет вычисляемых полей (неэкранное вычисление)
             GlobalController::item_calc_main($item);
@@ -8137,6 +8290,10 @@ class ItemController extends Controller
             $work_item->name_lang_1 = $rs['calc_lang_1'];
             $work_item->name_lang_2 = $rs['calc_lang_2'];
             $work_item->name_lang_3 = $rs['calc_lang_3'];
+            $work_item->sort_lang_0 = $rs['sort_lang_0'];
+            $work_item->sort_lang_1 = $rs['sort_lang_1'];
+            $work_item->sort_lang_2 = $rs['sort_lang_2'];
+            $work_item->sort_lang_3 = $rs['sort_lang_3'];
             $work_item->save();
             // Рекурсивный вызов для изменения вычисляемого наименования во вложенных записях, нужно
             $this->calc_item_names_start($list, $work_item, $relit_id, $role);
@@ -8897,7 +9054,6 @@ class ItemController extends Controller
                             $items = null;
                         }
                     }
-
                 }
                 // Сортировка не нужна, т.к. мешает сортировке по коду/наименованию в $this->browser()
                 // По умолчанию, сортировка по наименованию
@@ -8906,7 +9062,9 @@ class ItemController extends Controller
                     $index = array_search(App::getLocale(), config('app.locales'));
                     if ($index !== false) {   // '!==' использовать, '!=' не использовать
                         if ($items) {
-                            $items = $items->orderBy('name_lang_' . $index);
+                            //111111111
+                            //$items = $items->orderBy('name_lang_' . $index);
+                            $items = $items->orderBy('sort_lang_' . $index);
                         }
                     }
                 }
@@ -9218,8 +9376,7 @@ class ItemController extends Controller
         return $items;
     }
 
-    public
-    function doc_download(Item $item, $usercode)
+    public function doc_download(Item $item, $usercode)
     {
         $user_id = GlobalController::usercode_uncalc($usercode);
         // Нужно

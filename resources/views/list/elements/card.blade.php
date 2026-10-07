@@ -9,9 +9,103 @@ $my_color = "#FFFFFF";
 $my_bg_color = "#" . $hex_string;
 
 ?>
-<div class="card shadow m-2">
-    <div class="card-header text-center text-title">
-        <div style="float:left;width:40%;" class="text-left">
+{{--Первый вариант, не удалять--}}
+{{--<div class="card shadow m-2">--}}
+{{--    <div class="card-header text-center text-title">--}}
+{{--        <div style="float:left;width:40%;" class="text-left">--}}
+{{--            <small>--}}
+{{--                <a href="{{route('item.ext_show', ['item'=>$item, 'project'=>$project, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id,--}}
+{{--                                                            'heading' => $heading,'base_index_page'=>$base_index_page, 'body_link_page'=>$body_link_page,'body_all_page'=>$body_all_page,--}}
+{{--                                                            'parent_ret_id' => GlobalController::set_relit_id(null),--}}
+{{--                                                            'view_link' => $view_link,--}}
+{{--                                                            'saveurl_show' =>$saveurl_show,--}}
+{{--                                                            'par_link'=>null, 'parent_item'=>null,--}}
+{{--                                                            'string_current' => $string_current,--}}
+{{--                                                            ])}}"--}}
+{{--                   title="{{trans('main.viewing_record')}}">--}}
+{{--                                                            <span class="badge-pill badge-related">--}}
+{{--                                                                {{$i}}--}}
+{{--                                                            </span>--}}
+{{--                </a>--}}
+{{--            </small>--}}
+{{--        </div>--}}
+{{--        --}}{{-- Нужно 'class="text-right"'--}}
+{{--        <div style="float:right;width:60%;" class="text-right">--}}
+{{--            <small class="text-title">--}}
+{{--                {{$item->created_at->Format(trans('main.format_date'))}}--}}
+{{--            </small>--}}
+{{--        </div>--}}
+{{--    </div>--}}
+{{--    --}}{{--                    https://sky.pro/wiki/html/odnorodnaya-vysota-kartochek-v-bootstrap-reshenie-bez-css/--}}
+{{--    <div class="card-body bg-light p-2 d-flex flex-wrap align-items-center">--}}
+{{--        <div class="align-content-center">--}}
+{{--            <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,--}}
+{{--        'usercode' =>GlobalController::usercode_calc(),--}}
+{{--        'relit_id'=>$relit_id,--}}
+{{--        'called_from_button'=>0,--}}
+{{--        'view_link'=>$view_link,--}}
+{{--        'view_ret_id'=>$view_ret_id,--}}
+{{--        'string_current'=>$string_next,--}}
+{{--        'prev_base_index_page'=>$base_index_page,--}}
+{{--        'prev_body_link_page'=>$body_link_page,--}}
+{{--        'prev_body_all_page'=>$body_all_page,--}}
+{{--        ])}}"--}}
+{{--               class="card-link" title="{{$item->name()}}">--}}
+{{--                --}}{{-- Параметр "'noimg_def'=>true" нужно передавать, чтобы выводилось изображение "noimage.png", если изображение не загружено--}}
+{{--                --}}{{-- Проверка "@if($item_find)" не нужна--}}
+{{--                --}}{{-- @if($item_find)--}}
+{{--                --}}{{--                @include('view.img',['item'=>$item_find, 'noimg_def'=>true, 'filenametrue'=>false,'filenametrue'=>false, 'link'=>false, 'img_fluid'=>true, 'card_img_top'=>true, 'title'=>$item->name()])--}}
+{{--                @include('view.img',['item'=>$item_find, 'size'=>"mem", 'noimg_def'=>true, 'filenametrue'=>false,'filenametrue'=>false, 'link'=>false, 'img_fluid'=>true, 'card_img_top'=>true, 'title'=>$item->name()])--}}
+{{--                --}}{{-- @endif--}}
+{{--            </a>--}}
+{{--        </div>--}}
+{{--    </div>--}}
+{{--    <div class="card-footer">--}}
+{{--        <div class="card-text text-center p-2">--}}
+{{--            <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,--}}
+{{--        'usercode' =>GlobalController::usercode_calc(),--}}
+{{--        'relit_id'=>$relit_id,--}}
+{{--        'called_from_button'=>0,--}}
+{{--        'view_link'=>GlobalController::set_par_null($view_link),--}}
+{{--        'view_ret_id'=>$view_ret_id,--}}
+{{--        'string_current'=>$string_next,--}}
+{{--        'prev_base_index_page'=>$base_index_page,--}}
+{{--        'prev_body_link_page'=>$body_link_page,--}}
+{{--        'prev_body_all_page'=>$body_all_page,--}}
+{{--        ])}}"--}}
+{{--               class="card-link" title="{{$item->name()}}">--}}
+{{--                --}}{{--                Не удалять, предыдущий вариант--}}
+{{--                <?php--}}
+{{--                // echo $item->nmbr();--}}
+{{--                // Исключить $view_link при расчете вычисляемого наименования--}}
+{{--                // параметр with_code = true--}}
+{{--                $name = $item->nmbr(true, false, false, false, false, GlobalController::set_un_all_par_link_null($view_link), true, true, $relit_id, $role, true);--}}
+{{--                // Сократить строку при выводе на экран--}}
+{{--                //                echo mb_substr($name, 0, 150);--}}
+{{--                echo GlobalController::itnm_left($name, 50);--}}
+{{--                ?>--}}
+{{--                --}}{{--                                    <span>--}}
+{{--                --}}{{-- Сократить строку при выводе на экран--}}
+{{--                --}}{{--                {{GlobalController::itnm_left($item->name(),50)}}--}}
+{{--                --}}{{--                            </span>--}}
+{{--                --}}{{--                Не удалять--}}
+{{--                <small><i>{{GlobalController::calc_title_name($label_name,true,false)}}</i></small>--}}
+{{--            </a>--}}
+{{--        </div>--}}
+{{--    </div>--}}
+{{--</div>--}}
+
+{{-------------------------------------------------------------------------}}
+<!-- Обертка колонки для сетки (настраивает вывод по 4 колонки на больших экранах) -->
+<div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4">
+    <div class="card shadow-sm h-100 d-flex flex-column"
+         style="background-color: #f7f5f0; border: 1px solid #eae5dc; border-radius: 12px; overflow: hidden; transition: all 0.3s ease; cursor: pointer;"
+         onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 1rem 3rem rgba(0,0,0,.15)';"
+         onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 .125rem .25rem rgba(0,0,0,.075)';">
+
+        <!-- Шапка карточки -->
+        <div class="card-header border-bottom-0 d-flex justify-content-between align-items-center py-2 px-3"
+             style="background-color: transparent;">
             <small>
                 <a href="{{route('item.ext_show', ['item'=>$item, 'project'=>$project, 'role'=>$role, 'usercode' =>GlobalController::usercode_calc(), 'relit_id'=>$relit_id,
                                                             'heading' => $heading,'base_index_page'=>$base_index_page, 'body_link_page'=>$body_link_page,'body_all_page'=>$body_all_page,
@@ -21,23 +115,18 @@ $my_bg_color = "#" . $hex_string;
                                                             'par_link'=>null, 'parent_item'=>null,
                                                             'string_current' => $string_current,
                                                             ])}}"
-                   title="{{trans('main.viewing_record')}}">
-                                                            <span class="badge-pill badge-related">
-                                                                {{$i}}
-                                                            </span>
+                   title="{{trans('main.viewing_record')}}" class="text-decoration-none">
+                    <span class="badge badge-pill badge-secondary px-2 py-1">{{$i}}</span>
                 </a>
             </small>
-        </div>
-        {{-- Нужно 'class="text-right"'--}}
-        <div style="float:right;width:60%;" class="text-right">
-            <small class="text-title">
+            <small class="text-muted font-weight-bold">
                 {{$item->created_at->Format(trans('main.format_date'))}}
             </small>
         </div>
-    </div>
-    {{--                    https://sky.pro/wiki/html/odnorodnaya-vysota-kartochek-v-bootstrap-reshenie-bez-css/--}}
-    <div class="card-body bg-light p-2 d-flex flex-wrap align-items-center">
-        <div class="align-content-center">
+
+        <!-- Тело карточки с изображением -->
+        <div class="card-body p-2 d-flex align-items-center justify-content-center"
+             style="background-color: transparent; height: 200px; overflow: hidden;">
             <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,
         'usercode' =>GlobalController::usercode_calc(),
         'relit_id'=>$relit_id,
@@ -49,18 +138,29 @@ $my_bg_color = "#" . $hex_string;
         'prev_body_link_page'=>$body_link_page,
         'prev_body_all_page'=>$body_all_page,
         ])}}"
-               class="card-link" title="{{$item->name()}}">
-                {{-- Параметр "'noimg_def'=>true" нужно передавать, чтобы выводилось изображение "noimage.png", если изображение не загружено--}}
-                {{-- Проверка "@if($item_find)" не нужна--}}
-                {{-- @if($item_find)--}}
-                {{--                @include('view.img',['item'=>$item_find, 'noimg_def'=>true, 'filenametrue'=>false,'filenametrue'=>false, 'link'=>false, 'img_fluid'=>true, 'card_img_top'=>true, 'title'=>$item->name()])--}}
-                @include('view.img',['item'=>$item_find, 'size'=>"mem", 'noimg_def'=>true, 'filenametrue'=>false,'filenametrue'=>false, 'link'=>false, 'img_fluid'=>true, 'card_img_top'=>true, 'title'=>$item->name()])
-                {{-- @endif--}}
+               class="card-link text-center w-100 h-100 d-flex align-items-center justify-content-center"
+               title="{{$item->name()}}">
+
+                <!-- Контейнер картинки с корректными стилями обрезки -->
+                <div class="w-100 h-100 d-flex align-items-center justify-content-center" style="overflow: hidden;">
+                    @include('view.img', [
+                        'item' => $item_find,
+                        'size' => "mem",
+                        'noimg_def' => true,
+                        'filenametrue' => false,
+                        'link' => false,
+                        'img_fluid' => true,
+                        'card_img_top' => true,
+                        'title' => $item->name(),
+                        'is_view_card'=>true
+                    ])
+                </div>
             </a>
         </div>
-    </div>
-    <div class="card-footer">
-        <div class="card-text text-center p-2">
+
+        <!-- Подвал карточки с текстом -->
+        <div class="card-footer border-top-0 text-center py-3 mt-auto d-flex align-items-center justify-content-center"
+             style="background-color: transparent;">
             <a href="{{route('item.item_index', ['project'=>$project, 'item'=>$item, 'role'=>$role,
         'usercode' =>GlobalController::usercode_calc(),
         'relit_id'=>$relit_id,
@@ -72,25 +172,17 @@ $my_bg_color = "#" . $hex_string;
         'prev_body_link_page'=>$body_link_page,
         'prev_body_all_page'=>$body_all_page,
         ])}}"
-               class="card-link" title="{{$item->name()}}">
-                {{--                Не удалять, предыдущий вариант--}}
+               class="card-link font-weight-bold text-decoration-none"
+               style="color: #555555; font-size: 0.85rem; line-height: 1.3em;" onmouseover="this.style.color='#111111';"
+               onmouseout="this.style.color='#555555';" title="{{$item->name()}}">
+
                 <?php
-                // echo $item->nmbr();
-                // Исключить $view_link при расчете вычисляемого наименования
-                // параметр with_code = true
                 $name = $item->nmbr(true, false, false, false, false, GlobalController::set_un_all_par_link_null($view_link), true, true, $relit_id, $role, true);
-                // Сократить строку при выводе на экран
-                //                echo mb_substr($name, 0, 150);
                 echo GlobalController::itnm_left($name, 50);
                 ?>
-                {{--                                    <span>--}}
-                {{-- Сократить строку при выводе на экран--}}
-                {{--                {{GlobalController::itnm_left($item->name(),50)}}--}}
-                {{--                            </span>--}}
-                {{--                Не удалять--}}
-                <small><i>{{GlobalController::calc_title_name($label_name,true,false)}}</i></small>
+                <small class="d-block mt-1"><i>{{GlobalController::calc_title_name($label_name,true,false)}}</i></small>
             </a>
         </div>
+
     </div>
 </div>
-

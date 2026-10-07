@@ -240,11 +240,11 @@ class Item extends Model
 //          $result = GlobalController::name_and_first_emoji($result, $this->base, $numcat);
             $result = GlobalController::name_and_emoji($result, $this->base, $numcat);
         }
-        if($with_code){
+        if ($with_code) {
             if ($this->base->is_code_needed == true) {
 //                $result = trans('main.code') . " ". $this->code . ', \~' . $result;
 //                $result = "<big>⩨". $this->code . '</big>, ' . $result;
-                $result = "<span class = 'text-code'>". Globalcontroller::const_label_code(). $this->code . '</span>, ' . $result;
+                $result = "<span class = 'text-code'>" . Globalcontroller::const_label_code() . $this->code . '</span>, ' . $result;
             }
         }
         $result = str_replace('\~', '<br>', $result);

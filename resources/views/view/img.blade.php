@@ -42,90 +42,99 @@ if ($item) {
         }
     }
 }
+//Если в модуль не передано переменная - параметр $is_view_card
+if (!isset($is_view_card)) {
+    $is_view_card = false;
+}
 ?>
 <?php
 // Признак вывода картинки в виде круга
 $in_circle = false;
 ?>
 @if($url_filename !="")
+    {{--    Ссылка - ярлык--}}
     @if($link == true)
         <a href="{{Storage::url($url_filename)}}">
             @endif
-            <img src="{{Storage::url($url_filename)}}"
-                 @if(isset($var_percent))
-                 @if($item)
-                 id="img{{$item->id}}_{{$random}}"
-                 @endif
-                 @endif
-                 style="object-fit:cover;
-                 {{--style="object-fit:scale-down;--}}
-                 {{--                                  style="object-fit:contain;--}}
-                 @if(isset($border))
-                 @if($border==true)
-                     border: solid #bfc7f6;
-                 @endif
-                 @endif
-                     "
-                 @if($card_img_top)
-                 {{--                 class="elements-img-top" style="object-fit:contain"--}}
-                 class="card-img-top"
-                 @endif
-                 @if(isset($size))
-                 {{--             @if($size == 'avatar')--}}
-                 @if($size == 'avatar')
-                 class="circle"
-                 <?php
-                 $in_circle = true;
-                 ?>
-                 @endif
-                 @if($in_circle==false)
-                 {{-- Если указано $circle (неважно true или false)--}}
-                 @if(isset($circle))
-                 @if($circle == true)
-                 class="rounded-circle"
-                 <?php
-                 $in_circle = true;
-                 ?>
-                 @else
-                 class="rounded img-thumbnail"
-                 @endif
-                 @endif
-                 @endif
-                 @endif
-                 @if($img_fluid == true)
-                 class="img-fluid"
-                 @endif
-                 @if(!isset($var_percent))
-                 {{--                                   Обязательно так нужно(устанавливать значения ширину и высоту):--}}
-                 {{--                 width="{{$var_percent}}%"--}}
-                 {{--                 height="{{$var_percent}}%"--}}
-                 {{--                 @if(isset($width))--}}
-                 {{--                 width={{$width}}--}}
-                 {{--                 @endif--}}
-                 {{--                 @if(!isset($width) & isset($size))--}}
-                 {{--                     height=@include('types.img.height',['size'=>$size])--}}
-                 {{--                 @endif--}}
-                 @if(isset($width))
-                 @if($in_circle==false)
-                 width={{$width}}
-                 @endif
-                 @else
-                 @if(isset($size))
-                     height=@include('types.img.height',['size'=>$size])
-                 {{-- Если указано $circle (неважно true или false)--}}
-                 @if(isset($circle))
-                 {{-- Для круга длина картинки равна ширине картинки--}}
-                 {{--                 @if($in_circle==true)--}}
-                     width=@include('types.img.height',['size'=>$size])
-                 {{--                 @endif--}}
-                 @endif
-                 @endif
-                 @endif
-                 @endif
-                     alt="" title=
-                 @if($title == "")
-                 @if($item)
-                     "{{$item->title_img()}}"
+            @if($is_view_card)
+                <img src="{{Storage::url($url_filename)}}" class="img-fluid" style="height: 180px; width: 100%; object-fit: cover; object-position: top center;"
+                     alt="" title="{{$item->title_img()}}">
+            @else
+                <img src="{{Storage::url($url_filename)}}"
+                     @if(isset($var_percent))
+                     @if($item)
+                     id="img{{$item->id}}_{{$random}}"
+                     @endif
+                     @endif
+                     style="object-fit:cover;
+                     {{--style="object-fit:scale-down;--}}
+                     {{--                                  style="object-fit:contain;--}}
+                     @if(isset($border))
+                     @if($border==true)
+                         border: solid #bfc7f6;
+                     @endif
+                     @endif
+                         "
+                     @if($card_img_top)
+                     {{--                 class="elements-img-top" style="object-fit:contain"--}}
+                     class="card-img-top"
+                     @endif
+                     @if(isset($size))
+                     {{--             @if($size == 'avatar')--}}
+                     @if($size == 'avatar')
+                     class="circle"
+                     <?php
+                     $in_circle = true;
+                     ?>
+                     @endif
+                     @if($in_circle==false)
+                     {{-- Если указано $circle (неважно true или false)--}}
+                     @if(isset($circle))
+                     @if($circle == true)
+                     class="rounded-circle"
+                     <?php
+                     $in_circle = true;
+                     ?>
+                     @else
+                     class="rounded img-thumbnail"
+                     @endif
+                     @endif
+                     @endif
+                     @endif
+                     @if($img_fluid == true)
+                     class="img-fluid"
+                     @endif
+                     @if(!isset($var_percent))
+                     {{--                                   Обязательно так нужно(устанавливать значения ширину и высоту):--}}
+                     {{--                 width="{{$var_percent}}%"--}}
+                     {{--                 height="{{$var_percent}}%"--}}
+                     {{--                 @if(isset($width))--}}
+                     {{--                 width={{$width}}--}}
+                     {{--                 @endif--}}
+                     {{--                 @if(!isset($width) & isset($size))--}}
+                     {{--                     height=@include('types.img.height',['size'=>$size])--}}
+                     {{--                 @endif--}}
+                     @if(isset($width))
+                     @if($in_circle==false)
+                     width={{$width}}
+                     @endif
+                     @else
+                     @if(isset($size))
+                         height=@include('types.img.height',['size'=>$size])
+                     {{-- Если указано $circle (неважно true или false)--}}
+                     @if(isset($circle))
+                     {{-- Для круга длина картинки равна ширине картинки--}}
+                     {{--                 @if($in_circle==true)--}}
+                         width=@include('types.img.height',['size'=>$size])
+                     {{--                 @endif--}}
+                     @endif
+                     @endif
+                     @endif
+                     @endif
+                         alt="" title=
+                     @if($title == "")
+                     @if($item)
+                         "{{$item->title_img()}}"
             @endif
             @elseif($title == "empty")
                 ""
@@ -177,6 +186,7 @@ $in_circle = false;
                         }
                     </script>
                 @endif
+            @endif
             @endif
             @if($link == true)
         </a>

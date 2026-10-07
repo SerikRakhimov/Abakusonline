@@ -993,6 +993,7 @@ class GlobalController extends Controller
                 //  Похожие строки GlobalController::items_right(), GlobalController::its_page(), Item.php - names()
                 foreach ($items as $item) {
                     $str = "";
+                    // Цикл по $links
                     foreach ($links as $link) {
                         $base_link_right = self::base_link_right($link, $role, $relit_id);
                         // Если 'Показывать Связь в списке' = true (с учетом порядкового номера)
@@ -1384,6 +1385,7 @@ class GlobalController extends Controller
                 $ids = $collection->keys()->toArray();
                 $its_page = Item::whereIn('id', $ids)
                     ->orderBy(\DB::raw("FIELD(id, " . implode(',', $ids) . ")"));
+
 //                $its_page = Item::whereIn('id', $ids);
 //                $its_page = $its_page->latest();
 //                //$its_page = $its_page->oldest();

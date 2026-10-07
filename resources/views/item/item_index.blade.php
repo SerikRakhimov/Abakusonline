@@ -830,11 +830,11 @@
         {{--        <hr>--}}
         {{--        <br>--}}
         {{--        <div class="text-center">&#8595;</div>--}}
-        <!--                --><?php
-        //                $mains = Main::all()->where('parent_item_id', $item->id)->where('link_id', $view_link->id)->sortBy(function ($main) {
-        //                    return $main->link->child_base->name() . $main->child_item->name();
-        //                });
-        //                ?>
+<!--        --><?php
+//        //                $mains = Main::all()->where('parent_item_id', $item->id)->where('link_id', $view_link->id)->sortBy(function ($main) {
+//        //                    return $main->link->child_base->name() . $main->child_item->name();
+//        //                });
+//        //                ?>
         {{--        Не удалять--}}
         {{--        <p>--}}
         {{--        <div class="container-fluid">--}}
