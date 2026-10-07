@@ -311,6 +311,7 @@
                         'nolink_id' =>null
                 ])
     {{--    @endif--}}
+{{--    Не удалять команду {{$items->links()}}--}}
         {{$items->links()}}
     {{--    <blockquote class="text-title pt-2 pl-5 pr-5"><?php echo nl2br($project->dc_ext()); ?></blockquote>--}}
     <blockquote class="text-title pt-1 pl-0 pr-0"><?php echo nl2br($project->dc_int()); ?></blockquote>
