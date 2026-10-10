@@ -227,26 +227,20 @@
         .custom-header-pos {
             font-size: 0.75rem;
             letter-spacing: 0.5px;
-
-            /* Сдвиг правее: 2.8rem идеально выравнивает текст по левой границе цифр ниже */
-            padding-left: 3.5rem !important;
-
-            /* Сдвиг ниже: уменьшаем расстояние до первого пункта меню */
+            padding-left: 2.8rem !important;
             padding-top: 10px !important;
             padding-bottom: 2px !important;
         }
 
         /* СТИЛИЗАЦИЯ ИНТЕРФЕЙСА */
         .menu-row {
-            background-color: transparent;
+            background-color: transparent !important; /* Всегда прозрачный фон */
             padding-top: 12px;
             padding-bottom: 12px;
-            margin-bottom: 6px;
-            border-radius: 10px;
+            margin-bottom: 4px;
             -webkit-tap-highlight-color: transparent;
             cursor: pointer;
             display: flex !important;
-            transition: background-color 0.2s ease-in-out;
         }
 
         /* ЦИФРА */
@@ -254,7 +248,7 @@
             font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, sans-serif;
             font-size: 1.05rem;
             font-weight: 600;
-            color: #8a929a;
+            color: #8a929a; /* Базовый цвет цифры (спокойный серый) */
             background: none;
             display: inline-block;
             text-align: center;
@@ -267,31 +261,31 @@
             font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, sans-serif;
             font-size: 1.05rem;
             font-weight: 500;
-            color: #343a40;
+            color: #343a40; /* Базовый цвет текста (темно-серый) */
             text-align: left !important;
             display: block;
-            transition: color 0.2s ease-in-out;
+            transition: color 0.2s ease-in-out, font-weight 0.2s ease-in-out;
         }
 
-        /* Эффекты при наведении */
+        /* Эффекты при наведении (ПК) — МЕНЯЕТСЯ ТОЛЬКО ТЕКСТ */
         @media (hover: hover) {
-            .menu-row:hover {
-                background-color: rgba(0, 123, 255, 0.05) !important;
+            .menu-row:hover .menu-item-text {
+                color: #007bff;     /* Текст плавно становится синим */
+                font-weight: 600;   /* Становится чуть плотнее, создавая акцент */
             }
-            .menu-row:hover .menu-item-text,
             .menu-row:hover .menu-badge {
-                color: #007bff;
+                color: #007bff;     /* Цифра плавно становится синей */
             }
         }
 
-        /* Тач на устройствах */
+        /* Тач на устройствах (iPhone / iPad) при клике */
         .menu-row:make-active,
         .menu-row:active {
-            background-color: rgba(0, 123, 255, 0.1) !important;
+            background-color: transparent !important; /* Никакого фона на мобильных */
         }
         .menu-row:active .menu-item-text,
         .menu-row:active .menu-badge {
-            color: #0056b3;
+            color: #0056b3; /* Цвет становится глубоким синим в момент нажатия */
         }
     </style>
 
