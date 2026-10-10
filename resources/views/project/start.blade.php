@@ -163,10 +163,9 @@
                     $calc_relip_info = GlobalController::calc_relip_info($project, $role, $relip_project, $relit_id);
                 @endphp
 
-                {{-- Заголовок секции меню с новыми точными отступами --}}
+                {{-- Заголовок секции меню --}}
                 @if($calc_relip_info['proj_relit_total'] != '')
                     <div class="row mx-0 header-row">
-                        <!-- Заменили pl-5 на кастомный класс custom-header-pos, убрали py-2 -->
                         <div class="col-12 custom-header-pos font-weight-bold text-muted small text-uppercase tracking-wider">
                             @include('layouts.project.show_relip_info',['calc_relip_info'=>$calc_relip_info]):
                         </div>
@@ -207,7 +206,7 @@
         </div>
     </div>
 
-    <!-- Стили -->
+    <!-- Стили с анимацией -->
     <style>
         .b4-menu-title {
             font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, sans-serif;
@@ -224,6 +223,10 @@
             background-color: transparent !important;
         }
 
+        .menu-row ~ .header-row {
+            margin-top: 20px !important;
+        }
+
         .custom-header-pos {
             font-size: 0.75rem;
             letter-spacing: 0.5px;
@@ -234,7 +237,7 @@
 
         /* СТИЛИЗАЦИЯ ИНТЕРФЕЙСА */
         .menu-row {
-            background-color: transparent !important; /* Всегда прозрачный фон */
+            background-color: transparent !important;
             padding-top: 12px;
             padding-bottom: 12px;
             margin-bottom: 4px;
@@ -243,51 +246,58 @@
             display: flex !important;
         }
 
-        /* ЦИФРА */
+        /* ЦИФРА (Анимируется только цвет) */
         .menu-badge {
             font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, sans-serif;
             font-size: 1.05rem;
             font-weight: 600;
-            color: #8a929a; /* Базовый цвет цифры (спокойный серый) */
+            color: #8a929a;
             background: none;
             display: inline-block;
             text-align: center;
             width: 35px;
-            transition: color 0.2s ease-in-out;
+            /* Мягкий переход для изменения цвета */
+            transition: color 0.2s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        /* ТЕКСТ ПУНКТА */
+        /* ТЕКСТ ПУНКТА (Анимируется цвет, толщина и положение) */
         .menu-item-text {
             font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, sans-serif;
             font-size: 1.05rem;
             font-weight: 500;
-            color: #343a40; /* Базовый цвет текста (темно-серый) */
+            color: #343a40;
             text-align: left !important;
             display: block;
-            transition: color 0.2s ease-in-out, font-weight 0.2s ease-in-out;
+            transform: translateX(0); /* Исходное положение */
+            /* cubic-bezier делает движение более "живым", как на iOS */
+            transition: color 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+            font-weight 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+            transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        /* Эффекты при наведении (ПК) — МЕНЯЕТСЯ ТОЛЬКО ТЕКСТ */
+        /* Эффекты при наведении (ПК) */
         @media (hover: hover) {
             .menu-row:hover .menu-item-text {
-                color: #007bff;     /* Текст плавно становится синим */
-                font-weight: 600;   /* Становится чуть плотнее, создавая акцент */
+                color: #007bff;
+                font-weight: 600;
+                transform: translateX(1px); /* Текст плавно сдвигается вправо на 1 пикселей */
             }
             .menu-row:hover .menu-badge {
-                color: #007bff;     /* Цифра плавно становится синей */
+                color: #007bff;
             }
         }
 
-        /* Тач на устройствах (iPhone / iPad) при клике */
+        /* Тач на устройствах (iPhone / iPad) — сдвиг не делаем, чтобы текст не прыгал под пальцем */
         .menu-row:make-active,
         .menu-row:active {
-            background-color: transparent !important; /* Никакого фона на мобильных */
+            background-color: transparent !important;
         }
         .menu-row:active .menu-item-text,
         .menu-row:active .menu-badge {
-            color: #0056b3; /* Цвет становится глубоким синим в момент нажатия */
+            color: #0056b3;
         }
     </style>
+
 
 
 
