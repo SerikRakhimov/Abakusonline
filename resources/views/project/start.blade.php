@@ -151,144 +151,154 @@
 {{--    </table>--}}
     {{--        ------------------------------------------------}}
     {{--        Второй вариант--}}
+    <div class="container-fluid px-0">
+        <h3 class="ml-5 b4-menu-title mb-4">{{trans('main.mainmenu')}}</h3>
 
-    <h3 class="ml-5 b4-menu-title">{{trans('main.mainmenu')}}</h3>
-
-    <!-- Вместо таблицы используем единый флекс-контейнер меню -->
-    <div class="b4-custom-grid-menu container-fluid px-0">
-        @foreach($array_relips as $relit_id => $array_relip)
-            @php
-                $relit = ($relit_id == 0) ? null : Relit::findOrFail($relit_id);
-                $relip_project = Project::findOrFail($array_relip['project_id']);
-                $base_ids = $array_relip['base_ids'];
-                $calc_relip_info = GlobalController::calc_relip_info($project, $role, $relip_project, $relit_id);
-            @endphp
-
-            {{-- Заголовок секции меню --}}
-            @if($calc_relip_info['proj_relit_total'] != '')
-                <div class="row mx-0 bg-light border-bottom header-row">
-                    <div class="col-12 pl-5 py-2 menu-section-info font-weight-bold text-muted">
-                        @include('layouts.project.show_relip_info',['calc_relip_info'=>$calc_relip_info]):
-                    </div>
-                </div>
-            @endif
-
-            {{-- Рендеринг пунктов меню --}}
-            @foreach($base_ids as $base_id)
+        <div class="b4-custom-grid-menu">
+            @foreach($array_relips as $relit_id => $array_relip)
                 @php
-                    $base = Base::findOrFail($base_id);
-                    $i++;
-                    $message = GlobalController::base_maxcount_message($base);
-                    if ($message != '') {
-                        $message = ' (' . $message . ')';
-                    }
-                    $base_right = GlobalController::base_right($base, $role, $relit_id);
-                    $base_names = $base->names($base_right, true, true, true);
+                    $relit = ($relit_id == 0) ? null : Relit::findOrFail($relit_id);
+                    $relip_project = Project::findOrFail($array_relip['project_id']);
+                    $base_ids = $array_relip['base_ids'];
+                    $calc_relip_info = GlobalController::calc_relip_info($project, $role, $relip_project, $relit_id);
                 @endphp
 
-            <!-- Полноценная интерактивная строка-ссылка (решает проблему сжатия на iPad) -->
-                <a href="{{route('item.base_index',['base'=>$base, 'project' => $project, 'role' => $role, 'relit_id' => $relit_id])}}"
-                   title="{{$base_names . $message}}"
-                   class="row mx-0 menu-row text-decoration-none align-items-center">
-
-                    {{-- Левая колонка: Жестко выровненный номер --}}
-                    <div class="col-2 pl-4 pr-0 text-center text-nowrap d-flex justify-content-center">
-                    <span class="menu-badge">
-                        {{$i}}
-                    </span>
+                {{-- Заголовок секции меню с новыми точными отступами --}}
+                @if($calc_relip_info['proj_relit_total'] != '')
+                    <div class="row mx-0 header-row">
+                        <!-- Заменили pl-5 на кастомный класс custom-header-pos, убрали py-2 -->
+                        <div class="col-12 custom-header-pos font-weight-bold text-muted small text-uppercase tracking-wider">
+                            @include('layouts.project.show_relip_info',['calc_relip_info'=>$calc_relip_info]):
+                        </div>
                     </div>
+                @endif
 
-                    {{-- Правая колонка: Текст пункта (строго по левому краю) + Стрелочка --}}
-                    <div class="col-10 text-left d-flex align-items-center justify-content-between pr-4">
-                        <span class="menu-item-text text-truncate">{{$base_names}}</span>
-                        <span class="menu-arrow text-muted font-weight-bold">&rsaquo;</span>
-                    </div>
-                </a>
+                {{-- Рендеринг пунктов меню --}}
+                @foreach($base_ids as $base_id)
+                    @php
+                        $base = Base::findOrFail($base_id);
+                        $i++;
+                        $message = GlobalController::base_maxcount_message($base);
+                        if ($message != '') {
+                            $message = ' (' . $message . ')';
+                        }
+                        $base_right = GlobalController::base_right($base, $role, $relit_id);
+                        $base_names = $base->names($base_right, true, true, true);
+                    @endphp
+
+                    <a href="{{route('item.base_index',['base'=>$base, 'project' => $project, 'role' => $role, 'relit_id' => $relit_id])}}"
+                       title="{{$base_names . $message}}"
+                       class="row mx-2 menu-row text-decoration-none align-items-center">
+
+                        {{-- Левая колонка: Номер --}}
+                        <div class="col-2 pl-4 pr-0 text-center text-nowrap d-flex justify-content-center">
+                        <span class="menu-badge">
+                            {{$i}}
+                        </span>
+                        </div>
+
+                        {{-- Правая колонка: Текст пункта --}}
+                        <div class="col-10 text-left d-flex align-items-center pr-4">
+                            <span class="menu-item-text text-truncate">{{$base_names}}</span>
+                        </div>
+                    </a>
+                @endforeach
             @endforeach
-        @endforeach
+        </div>
     </div>
 
-    <!-- Кастомные стили с фиксом для iPad и Safari -->
+    <!-- Стили -->
     <style>
         .b4-menu-title {
             font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, sans-serif;
             font-weight: 700;
+            letter-spacing: -0.5px;
         }
 
         .b4-custom-grid-menu {
-            margin-bottom: 25px;
+            margin-bottom: 35px;
         }
 
-        /* СТИЛИЗАЦИЯ СТРОКИ МЕНЮ */
+        /* --- ТОЧНОЕ ПОЛОЖЕНИЕ ЗАГОЛОВКА СЕКЦИИ --- */
+        .header-row {
+            background-color: transparent !important;
+        }
+
+        .custom-header-pos {
+            font-size: 0.75rem;
+            letter-spacing: 0.5px;
+
+            /* Сдвиг правее: 2.8rem идеально выравнивает текст по левой границе цифр ниже */
+            padding-left: 3.5rem !important;
+
+            /* Сдвиг ниже: уменьшаем расстояние до первого пункта меню */
+            padding-top: 10px !important;
+            padding-bottom: 2px !important;
+        }
+
+        /* СТИЛИЗАЦИЯ ИНТЕРФЕЙСА */
         .menu-row {
-            background-color: #ffffff;
-            padding-top: 14px;
-            padding-bottom: 14px;
-            border-bottom: 1px solid #f1f3f5;
+            background-color: transparent;
+            padding-top: 12px;
+            padding-bottom: 12px;
+            margin-bottom: 6px;
+            border-radius: 10px;
             -webkit-tap-highlight-color: transparent;
             cursor: pointer;
-            display: flex !important; /* Гарантирует правильный Flexbox на iPad */
+            display: flex !important;
+            transition: background-color 0.2s ease-in-out;
         }
 
-        .header-row {
-            border-top: 1px solid #e9ecef;
-        }
-
-        /* ЦИФРА (Строго фиксируем, чтобы iPad не центровал её хаотично) */
+        /* ЦИФРА */
         .menu-badge {
             font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, sans-serif;
-            font-size: 1.1rem;
+            font-size: 1.05rem;
             font-weight: 600;
-            color: #6c757d;
+            color: #8a929a;
             background: none;
-            transition: color 0.15s ease-in-out;
             display: inline-block;
             text-align: center;
-            width: 35px; /* Задали ширину, чтобы цифры 10, 11 и т.д. не прыгали */
+            width: 35px;
+            transition: color 0.2s ease-in-out;
         }
 
-        /* ТЕКСТ (Жесткое выравнивание по левому краю) */
+        /* ТЕКСТ ПУНКТА */
         .menu-item-text {
             font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, sans-serif;
             font-size: 1.05rem;
             font-weight: 500;
-            color: #495057;
-            text-align: left !important; /* Фикс для iPad */
+            color: #343a40;
+            text-align: left !important;
             display: block;
-            transition: color 0.15s ease-in-out;
+            transition: color 0.2s ease-in-out;
         }
 
-        .menu-arrow {
-            font-size: 1.6rem;
-            line-height: 1;
-            transition: transform 0.15s ease-in-out, color 0.15s ease-in-out;
-        }
-
-        /* Ховеры и активные состояния */
+        /* Эффекты при наведении */
         @media (hover: hover) {
             .menu-row:hover {
-                background-color: #f8f9fa;
+                background-color: rgba(0, 123, 255, 0.05) !important;
             }
             .menu-row:hover .menu-item-text,
             .menu-row:hover .menu-badge {
-                color: #007bff; /* Синхронно красим в синий */
-            }
-            .menu-row:hover .menu-arrow {
-                color: #007bff !important;
-                transform: translateX(3px);
+                color: #007bff;
             }
         }
 
-        /* Тач на iPad и iPhone */
-        .menu-row:make-active, /* Фикс Safari */
+        /* Тач на устройствах */
+        .menu-row:make-active,
         .menu-row:active {
-            background-color: #f1f3f5;
+            background-color: rgba(0, 123, 255, 0.1) !important;
         }
         .menu-row:active .menu-item-text,
         .menu-row:active .menu-badge {
             color: #0056b3;
         }
     </style>
+
+
+
+
+
 
 
 
