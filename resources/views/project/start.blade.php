@@ -154,7 +154,8 @@
 
     <h3 class="ml-5 b4-menu-title">{{trans('main.mainmenu')}}</h3>
 
-    <table class="table table-borderless b4-custom-table-menu">
+    <!-- Вместо таблицы используем единый флекс-контейнер меню -->
+    <div class="b4-custom-grid-menu container-fluid px-0">
         @foreach($array_relips as $relit_id => $array_relip)
             @php
                 $relit = ($relit_id == 0) ? null : Relit::findOrFail($relit_id);
@@ -165,11 +166,11 @@
 
             {{-- Заголовок секции меню --}}
             @if($calc_relip_info['proj_relit_total'] != '')
-                <tr class="bg-light">
-                    <td colspan="2" class="pl-5 py-2 menu-section-info font-weight-bold text-muted border-bottom">
+                <div class="row mx-0 bg-light border-bottom header-row">
+                    <div class="col-12 pl-5 py-2 menu-section-info font-weight-bold text-muted">
                         @include('layouts.project.show_relip_info',['calc_relip_info'=>$calc_relip_info]):
-                    </td>
-                </tr>
+                    </div>
+                </div>
             @endif
 
             {{-- Рендеринг пунктов меню --}}
@@ -185,76 +186,76 @@
                     $base_names = $base->names($base_right, true, true, true);
                 @endphp
 
-                <tr class="menu-row position-relative">
-                    {{-- Левая колонка: Номер без фона --}}
-                    <td class="col-2 pl-4 text-center align-middle pr-0">
-                    <span class="menu-badge d-inline-flex align-items-center justify-content-center">
+            <!-- Полноценная интерактивная строка-ссылка (решает проблему сжатия на iPad) -->
+                <a href="{{route('item.base_index',['base'=>$base, 'project' => $project, 'role' => $role, 'relit_id' => $relit_id])}}"
+                   title="{{$base_names . $message}}"
+                   class="row mx-0 menu-row text-decoration-none align-items-center">
+
+                    {{-- Левая колонка: Жестко выровненный номер --}}
+                    <div class="col-2 pl-4 pr-0 text-center text-nowrap d-flex justify-content-center">
+                    <span class="menu-badge">
                         {{$i}}
                     </span>
-                    </td>
+                    </div>
 
-                    {{-- Правая колонка: Текст ссылки + Стрелочка --}}
-                    <td class="col-10 text-left align-middle menu-text-cell">
-                        <a href="{{route('item.base_index',['base'=>$base, 'project' => $project, 'role' => $role, 'relit_id' => $relit_id])}}"
-                           title="{{$base_names . $message}}"
-                           class="menu-link-block text-truncate d-flex align-items-center justify-content-between">
-
-                            <span class="menu-item-text text-truncate">{{$base_names}}</span>
-                            <span class="menu-arrow text-muted font-weight-bold ml-2">&rsaquo;</span>
-                        </a>
-                    </td>
-                </tr>
+                    {{-- Правая колонка: Текст пункта (строго по левому краю) + Стрелочка --}}
+                    <div class="col-10 text-left d-flex align-items-center justify-content-between pr-4">
+                        <span class="menu-item-text text-truncate">{{$base_names}}</span>
+                        <span class="menu-arrow text-muted font-weight-bold">&rsaquo;</span>
+                    </div>
+                </a>
             @endforeach
         @endforeach
-    </table>
+    </div>
 
-    <!-- Кастомные стили -->
+    <!-- Кастомные стили с фиксом для iPad и Safari -->
     <style>
         .b4-menu-title {
             font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, sans-serif;
             font-weight: 700;
         }
 
-        .b4-custom-table-menu {
-            border-collapse: separate;
-            border-spacing: 0 4px;
+        .b4-custom-grid-menu {
+            margin-bottom: 25px;
         }
 
+        /* СТИЛИЗАЦИЯ СТРОКИ МЕНЮ */
         .menu-row {
             background-color: #ffffff;
-            transition: background-color 0.15s ease-in-out;
+            padding-top: 14px;
+            padding-bottom: 14px;
+            border-bottom: 1px solid #f1f3f5;
             -webkit-tap-highlight-color: transparent;
+            cursor: pointer;
+            display: flex !important; /* Гарантирует правильный Flexbox на iPad */
         }
 
-        .menu-row td {
-            padding-top: 14px !important;
-            padding-bottom: 14px !important;
-            border-top: 1px solid #f1f3f5 !important;
-            border-bottom: 1px solid #f1f3f5 !important;
+        .header-row {
+            border-top: 1px solid #e9ecef;
         }
 
-        .menu-link-block {
-            color: #495057;
-            text-decoration: none !important;
-            width: 100%;
+        /* ЦИФРА (Строго фиксируем, чтобы iPad не центровал её хаотично) */
+        .menu-badge {
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, sans-serif;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #6c757d;
+            background: none;
+            transition: color 0.15s ease-in-out;
+            display: inline-block;
+            text-align: center;
+            width: 35px; /* Задали ширину, чтобы цифры 10, 11 и т.д. не прыгали */
         }
 
+        /* ТЕКСТ (Жесткое выравнивание по левому краю) */
         .menu-item-text {
             font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, sans-serif;
             font-size: 1.05rem;
             font-weight: 500;
-        }
-
-        /* --- НАСТРОЙКА ЦИФРЫ БЕЗ ФОНА --- */
-        .menu-badge {
-            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, sans-serif;
-            font-size: 1.1rem;      /* Немного увеличили размер, так как без фона цифра кажется меньше */
-            font-weight: 600;       /* Сделали полужирной для лучшей видимости */
-            color: #6c757d;         /* Исходный цвет цифры (серый) */
-            background: none;       /* Полностью убираем фон */
+            color: #495057;
+            text-align: left !important; /* Фикс для iPad */
+            display: block;
             transition: color 0.15s ease-in-out;
-            width: 28px;
-            height: 28px;
         }
 
         .menu-arrow {
@@ -263,16 +264,14 @@
             transition: transform 0.15s ease-in-out, color 0.15s ease-in-out;
         }
 
-        /* Эффекты при наведении (на ПК) */
+        /* Ховеры и активные состояния */
         @media (hover: hover) {
             .menu-row:hover {
                 background-color: #f8f9fa;
             }
-            .menu-row:hover .menu-link-block {
-                color: #007bff;     /* Цвет названия при наведении (синий) */
-            }
+            .menu-row:hover .menu-item-text,
             .menu-row:hover .menu-badge {
-                color: #007bff;     /* Цвет ЦИФРЫ при наведении также становится синим */
+                color: #007bff; /* Синхронно красим в синий */
             }
             .menu-row:hover .menu-arrow {
                 color: #007bff !important;
@@ -280,18 +279,16 @@
             }
         }
 
-        /* Состояние при тапе (на iPhone) */
+        /* Тач на iPad и iPhone */
+        .menu-row:make-active, /* Фикс Safari */
         .menu-row:active {
             background-color: #f1f3f5;
         }
-        .menu-row:active .menu-link-block {
+        .menu-row:active .menu-item-text,
+        .menu-row:active .menu-badge {
             color: #0056b3;
         }
-        .menu-row:active .menu-badge {
-            color: #0056b3;         /* Цвет цифры при нажатии на экране смартфона */
-        }
     </style>
-
 
 
 
