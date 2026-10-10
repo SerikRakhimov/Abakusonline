@@ -36,7 +36,7 @@ use \App\Http\Controllers\GlobalController;
         }
     </style>
 {{--    Этот блок не удалять--}}
-{{--    <!-- ПОДКЛЮЧЕНИЕ TAILWIND ЗА 1 СЕКУНДУ -->--}}
+    <!-- ПОДКЛЮЧЕНИЕ TAILWIND ЗА 1 СЕКУНДУ -->
 {{--    <script src="https://cdn.tailwindcss.com"></script>--}}
 {{--    <script>--}}
 {{--        tailwind.config = {--}}
